@@ -3,14 +3,678 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thanh Chí</title>
+
+    <title>Thanh Chí | Personal Website</title>
+
+    <meta name="description" content="Website cá nhân của Thanh Chí">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0b1120;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1100px, 90%);
+            margin: 0 auto;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(11, 17, 32, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .navbar {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #60a5fa;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 15px;
+            color: #cbd5e1;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 70px;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .hero-small {
+            color: #60a5fa;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 76px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #60a5fa;
+        }
+
+        .hero-description {
+            max-width: 600px;
+            color: #94a3b8;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 10px;
+            border: 1px solid #60a5fa;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #60a5fa;
+            color: #0b1120;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            color: #60a5fa;
+        }
+
+        .btn-outline:hover {
+            background: rgba(96, 165, 250, 0.1);
+        }
+
+        .avatar-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .avatar {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 2px solid rgba(96, 165, 250, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(
+                circle,
+                rgba(96, 165, 250, 0.25),
+                rgba(96, 165, 250, 0.03)
+            );
+            font-size: 90px;
+        }
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+
+        .section-title h2 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #94a3b8;
+        }
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            padding: 30px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: #60a5fa;
+        }
+
+        .card p {
+            color: #94a3b8;
+        }
+
+        /* =========================
+           SKILLS
+        ========================= */
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .skill-item {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .skill-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .skill-top span:last-child {
+            color: #60a5fa;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: #60a5fa;
+            border-radius: 20px;
+        }
+
+        /* =========================
+           PROJECTS
+        ========================= */
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .project-card {
+            padding: 28px;
+            min-height: 220px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        .project-icon {
+            font-size: 35px;
+            margin-bottom: 18px;
+        }
+
+        .project-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .project-card p {
+            color: #94a3b8;
+        }
+
+        /* =========================
+           CONTACT
+        ========================= */
+
+        .contact {
+            text-align: center;
+        }
+
+        .contact p {
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: #64748b;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .buttons {
+                justify-content: center;
+            }
+
+            .avatar-wrapper {
+                order: -1;
+            }
+
+            .avatar {
+                width: 220px;
+                height: 220px;
+                font-size: 65px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills {
+                grid-template-columns: 1fr;
+            }
+
+            .projects {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Xin chào, tôi là Thanh Chí 👋</h1>
+    <!-- HEADER -->
+    <header>
+        <div class="container navbar">
 
-    <p>Đây là website cá nhân của tôi.</p>
+            <a href="#" class="logo">
+                Thanh<span>Chí</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#home">Trang chủ</a></li>
+                <li><a href="#about">Giới thiệu</a></li>
+                <li><a href="#skills">Kỹ năng</a></li>
+                <li><a href="#projects">Dự án</a></li>
+                <li><a href="#contact">Liên hệ</a></li>
+            </ul>
+
+        </div>
+    </header>
+
+
+    <!-- HERO -->
+    <main>
+
+        <section class="hero" id="home">
+
+            <div class="container hero-content">
+
+                <div>
+
+                    <div class="hero-small">
+                        XIN CHÀO, TÔI LÀ
+                    </div>
+
+                    <h1>
+                        Thanh <span>Chí</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Giáo viên Toán • Công nghệ • AI
+                    </p>
+
+                    <div class="buttons">
+
+                        <a href="#about" class="btn btn-primary">
+                            Khám phá thêm
+                        </a>
+
+                        <a href="#contact" class="btn btn-outline">
+                            Liên hệ
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="avatar-wrapper">
+
+                    <div class="avatar">
+                        👨🏻‍🏫
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ABOUT -->
+        <section id="about">
+
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Giới thiệu</h2>
+                    <p>Một chút về tôi</p>
+                </div>
+
+                <div class="about-grid">
+
+                    <div class="card">
+
+                        <h3>Xin chào! 👋</h3>
+
+                        <p>
+                            Tôi là Thanh Chí. Đây là website cá nhân,
+                            nơi tôi chia sẻ những thông tin về công việc,
+                            các dự án và những điều tôi đang thực hiện.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>Định hướng</h3>
+
+                        <p>
+                            Ứng dụng công nghệ và trí tuệ nhân tạo
+                            để tạo ra những sản phẩm hữu ích
+                            cho việc dạy và học.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SKILLS -->
+        <section id="skills">
+
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Kỹ năng</h2>
+                    <p>Những lĩnh vực tôi quan tâm</p>
+                </div>
+
+                <div class="skills">
+
+                    <div class="skill-item">
+
+                        <div class="skill-top">
+                            <span>Toán học</span>
+                            <span>95%</span>
+                        </div>
+
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%;"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill-item">
+
+                        <div class="skill-top">
+                            <span>AI</span>
+                            <span>90%</span>
+                        </div>
+
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%;"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill-item">
+
+                        <div class="skill-top">
+                            <span>LaTeX</span>
+                            <span>90%</span>
+                        </div>
+
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%;"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill-item">
+
+                        <div class="skill-top">
+                            <span>TikZ</span>
+                            <span>85%</span>
+                        </div>
+
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%;"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROJECTS -->
+        <section id="projects">
+
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Dự án</h2>
+                    <p>Một số dự án tiêu biểu</p>
+                </div>
+
+                <div class="projects">
+
+                    <div class="project-card">
+
+                        <div class="project-icon">🤖</div>
+
+                        <h3>AI Tools</h3>
+
+                        <p>
+                            Các công cụ ứng dụng AI
+                            hỗ trợ công việc và giáo dục.
+                        </p>
+
+                    </div>
+
+
+                    <div class="project-card">
+
+                        <div class="project-icon">📐</div>
+
+                        <h3>Toán học</h3>
+
+                        <p>
+                            Tài liệu, bài tập và các sản phẩm
+                            phục vụ việc dạy và học Toán.
+                        </p>
+
+                    </div>
+
+
+                    <div class="project-card">
+
+                        <div class="project-icon">💻</div>
+
+                        <h3>Công nghệ</h3>
+
+                        <p>
+                            Các dự án cá nhân liên quan đến
+                            công nghệ và tự động hóa.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTACT -->
+        <section id="contact">
+
+            <div class="container contact">
+
+                <div class="section-title">
+                    <h2>Liên hệ</h2>
+                    <p>Hãy kết nối với tôi</p>
+                </div>
+
+                <div class="contact-links">
+
+                    <a href="mailto:your@email.com" class="btn btn-outline">
+                        📧 Email
+                    </a>
+
+                    <a href="#" class="btn btn-outline">
+                        Facebook
+                    </a>
+
+                    <a href="#" class="btn btn-outline">
+                        GitHub
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div class="container">
+
+            © 2026 Thanh Chí. All rights reserved.
+
+        </div>
+
+    </footer>
 
 </body>
 </html>
