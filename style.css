@@ -1684,3 +1684,51 @@ footer {
     }
 
 }
+
+/* =========================================
+   SCROLL REVEAL
+========================================= */
+
+.reveal {
+    opacity: 0;
+
+    transform: translateY(35px);
+
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+}
+
+.reveal.show {
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+/* Stagger cards */
+
+.skill-item.reveal:nth-child(2),
+.project-card.reveal:nth-child(2),
+.achievement-card-large.reveal:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.skill-item.reveal:nth-child(3),
+.project-card.reveal:nth-child(3),
+.achievement-card-large.reveal:nth-child(3) {
+    transition-delay: 0.2s;
+}
+
+.skill-item.reveal:nth-child(4),
+.project-card.reveal:nth-child(4) {
+    transition-delay: 0.3s;
+}
+
+.skill-item.reveal:nth-child(5) {
+    transition-delay: 0.4s;
+}
+
+.skill-item.reveal:nth-child(6) {
+    transition-delay: 0.5s;
+}
