@@ -2132,3 +2132,191 @@ footer {
     }
 
 }
+
+/* =========================================
+   CONTACT
+========================================= */
+
+.contact-wrapper {
+    display: grid;
+
+    grid-template-columns: 0.8fr 1.2fr;
+
+    gap: 50px;
+
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    align-items: center;
+}
+
+
+.contact-intro h3 {
+    margin-bottom: 15px;
+
+    font-size: 28px;
+
+    color: #f1f5f9;
+}
+
+
+.contact-intro p {
+    margin: 0;
+
+    max-width: 320px;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+    line-height: 1.85;
+}
+
+
+/* Contact list */
+
+.contact-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+/* Contact item */
+
+.contact-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 18px 20px;
+
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(255, 255, 255, 0.075);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease;
+}
+
+
+.contact-item:hover {
+    transform: translateX(5px);
+
+    border-color: rgba(96, 165, 250, 0.35);
+
+    background: rgba(255, 255, 255, 0.05);
+}
+
+
+/* Icon */
+
+.contact-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: rgba(96, 165, 250, 0.10);
+
+    border: 1px solid rgba(96, 165, 250, 0.15);
+
+    color: #60a5fa;
+
+    font-size: 19px;
+}
+
+
+/* Contact text */
+
+.contact-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+.contact-info strong {
+    color: #dbeafe;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* Arrow */
+
+.contact-arrow {
+    color: #60a5fa;
+
+    font-size: 14px;
+
+    transition: transform 0.3s ease;
+}
+
+
+.contact-item:hover .contact-arrow {
+    transform: translateX(4px);
+}
+
+
+/* =========================================
+   CONTACT MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+    }
+
+    .contact-intro {
+        text-align: center;
+    }
+
+    .contact-intro p {
+        margin: 0 auto;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .contact-item {
+        padding: 16px;
+    }
+
+    .contact-icon {
+        width: 44px;
+        height: 44px;
+
+        font-size: 17px;
+    }
+
+    .contact-info strong {
+        font-size: 12px;
+    }
+
+}
