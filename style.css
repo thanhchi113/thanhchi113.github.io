@@ -1492,10 +1492,62 @@ footer {
 
     .navbar {
         height: 68px;
+        position: relative;
+    }
+
+    .menu-toggle {
+        display: inline-flex;
+        position: relative;
+        z-index: 1102;
     }
 
     .nav-links {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        width: 100%;
+
         display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+
+        padding: 8px;
+
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+
+        background: rgba(7, 11, 20, 0.97);
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.30);
+
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+
+        z-index: 1101;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links li {
+        width: 100%;
+    }
+
+    .nav-link {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 9px;
+    }
+
+    .nav-link::after {
+        display: none;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        background: rgba(96, 165, 250, 0.08);
+        color: #ffffff;
     }
 
     .hero {
@@ -1685,3 +1737,277 @@ footer {
 
 }
 
+
+/* =========================================
+   EFFECT LAYER
+========================================= */
+
+#particleCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.72;
+}
+
+.cursor-glow {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.16;
+    background: radial-gradient(circle, rgba(96, 165, 250, 0.28), transparent 68%);
+    filter: blur(8px);
+    will-change: transform;
+}
+
+.hero h1 span {
+    background: linear-gradient(
+        100deg,
+        #60a5fa 0%,
+        #a78bfa 45%,
+        #38bdf8 100%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientFlow 6s ease-in-out infinite;
+}
+
+.hero-role {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+}
+
+.typing-caret {
+    width: 2px;
+    height: 18px;
+    margin-left: 6px;
+    border-radius: 2px;
+    background: #60a5fa;
+    animation: caretBlink 0.9s steps(1) infinite;
+}
+
+.hero-socials a,
+.contact-socials a {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-socials a::before,
+.contact-socials a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(96, 165, 250, 0.18), transparent 65%);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.hero-socials a:hover::before,
+.contact-socials a:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.tilt-card {
+    position: relative;
+    overflow: hidden;
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    --spot-x: 50%;
+    --spot-y: 50%;
+    transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.tilt-card:hover {
+    transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(-5px);
+}
+
+.skill-item.tilt-card:hover {
+    transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(-6px);
+}
+
+.project-card.tilt-card:hover {
+    transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(-8px);
+}
+
+.achievement-card-large.tilt-card:hover {
+    transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(-5px);
+}
+
+.tilt-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+        circle at var(--spot-x) var(--spot-y),
+        rgba(96, 165, 250, 0.13),
+        transparent 32%
+    );
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.tilt-card:hover::after {
+    opacity: 1;
+}
+
+.skill-item,
+.project-card,
+.achievement-card-large,
+.highlight-item {
+    transition:
+        transform 0.28s ease,
+        border-color 0.28s ease,
+        background 0.28s ease,
+        box-shadow 0.28s ease;
+}
+
+.tilt-card:hover {
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.16);
+}
+
+.skill-progress {
+    animation: none;
+    transform: scaleX(0);
+}
+
+.skill-item.show .skill-progress {
+    animation: skillGrow 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(34px);
+    transition:
+        opacity 0.75s ease,
+        transform 0.75s ease;
+}
+
+.tilt-card.reveal {
+    transform:
+        translateY(34px)
+        perspective(900px)
+        rotateX(0deg)
+        rotateY(0deg);
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tilt-card.reveal.show {
+    transform:
+        translateY(0)
+        perspective(900px)
+        rotateX(var(--tilt-x))
+        rotateY(var(--tilt-y));
+}
+
+.reveal-delay-1 {
+    transition-delay: 0.10s;
+}
+
+.reveal-delay-2 {
+    transition-delay: 0.20s;
+}
+
+.reveal-delay-3 {
+    transition-delay: 0.30s;
+}
+
+.reveal-delay-4 {
+    transition-delay: 0.40s;
+}
+
+.reveal-delay-5 {
+    transition-delay: 0.50s;
+}
+
+@keyframes gradientFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes caretBlink {
+    0%, 48% { opacity: 1; }
+    49%, 100% { opacity: 0; }
+}
+
+@keyframes skillGrow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+@media (max-width: 800px) {
+
+    #particleCanvas {
+        opacity: 0.48;
+    }
+
+    .cursor-glow {
+        display: none;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    #particleCanvas,
+    .cursor-glow {
+        display: none;
+    }
+
+    .hero h1 span,
+    .typing-caret,
+    .skill-progress {
+        animation: none !important;
+    }
+
+    .reveal,
+    .tilt-card,
+    .tilt-card.reveal,
+    .tilt-card.reveal.show {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+
+}
+
+
+/* =========================================
+   FINAL MOBILE MENU FIX
+========================================= */
+.menu-toggle {
+    display: none;
+}
+
+@media (max-width: 800px) {
+    .menu-toggle {
+        display: inline-flex !important;
+    }
+
+    .nav-links {
+        display: none !important;
+    }
+
+    .nav-links.open {
+        display: flex !important;
+    }
+}
