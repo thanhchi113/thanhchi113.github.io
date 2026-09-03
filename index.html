@@ -297,6 +297,325 @@
 }
 
 </style>
+
+<style id="final-document-fixes">
+/* =========================================================
+   FINAL DOCUMENT LIBRARY FIXES
+========================================================= */
+.document-category-footer{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:16px !important;
+    margin-top:auto !important;
+    padding-top:15px !important;
+    border-top:1px solid rgba(255,255,255,.07) !important;
+}
+.document-category-count{
+    display:inline-flex !important;
+    align-items:center !important;
+    gap:10px !important;
+    flex:0 0 auto !important;
+    min-height:38px !important;
+    padding:0 12px !important;
+    border:1px solid rgba(148,163,184,.12) !important;
+    border-radius:10px !important;
+    background:rgba(255,255,255,.025) !important;
+    color:#a5b5c9 !important;
+    white-space:nowrap !important;
+    font-size:12px !important;
+    font-weight:700 !important;
+}
+.document-category-count i{
+    color:#60a5fa !important;
+    margin-right:2px !important;
+}
+.document-category-card .document-open-label{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:9px !important;
+    min-height:38px !important;
+    padding:0 14px !important;
+    border:1px solid rgba(125,211,252,.32) !important;
+    border-radius:10px !important;
+    background:linear-gradient(135deg,rgba(56,189,248,.10),rgba(124,58,237,.11)) !important;
+    color:#dff4ff !important;
+    box-shadow:0 8px 24px rgba(56,189,248,.05) !important;
+    white-space:nowrap !important;
+    font-size:12px !important;
+    font-weight:850 !important;
+    transition:transform .22s ease,border-color .22s ease,background .22s ease,box-shadow .22s ease !important;
+}
+.document-category-card:hover .document-open-label{
+    transform:translateY(-2px) !important;
+    border-color:rgba(125,211,252,.58) !important;
+    background:linear-gradient(135deg,rgba(56,189,248,.16),rgba(124,58,237,.17)) !important;
+    box-shadow:0 12px 30px rgba(56,189,248,.11) !important;
+    color:#f3fbff !important;
+}
+.document-card-actions{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:8px !important;
+    flex-wrap:nowrap !important;
+    width:100% !important;
+    margin-top:auto !important;
+    padding-top:14px !important;
+    border-top:1px solid rgba(255,255,255,.07) !important;
+}
+.document-card-action{
+    position:static !important;
+    flex:0 0 auto !important;
+    box-sizing:border-box !important;
+}
+.document-card-action.icon-only{
+    width:40px !important;
+    min-width:40px !important;
+    height:38px !important;
+    padding:0 !important;
+}
+.document-card-action.open{
+    min-width:118px !important;
+    height:38px !important;
+}
+.document-copy-toast{
+    position:fixed !important;
+    left:50% !important;
+    bottom:28px !important;
+    z-index:5000 !important;
+    transform:translate(-50%,15px) !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    padding:11px 16px !important;
+    border:1px solid rgba(125,211,252,.28) !important;
+    border-radius:12px !important;
+    background:rgba(7,16,29,.94) !important;
+    color:#effaff !important;
+    box-shadow:0 18px 45px rgba(0,0,0,.35) !important;
+    font-size:12px !important;
+    font-weight:800 !important;
+    transition:opacity .22s ease,transform .22s ease !important;
+}
+.document-copy-toast.show{
+    opacity:1 !important;
+    transform:translate(-50%,0) !important;
+}
+/* Keep PDF viewer scrollable as one internal surface */
+.pdf-modal{
+    align-items:flex-start !important;
+    justify-content:center !important;
+    overflow:auto !important;
+    padding:18px !important;
+    -webkit-overflow-scrolling:touch !important;
+    overscroll-behavior:contain !important;
+}
+.pdf-modal-inner{
+    width:min(1260px,96vw) !important;
+    height:92vh !important;
+    max-height:none !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    display:block !important;
+    margin:0 auto !important;
+    border-radius:18px !important;
+    -webkit-overflow-scrolling:touch !important;
+}
+.pdf-modal-head{
+    position:sticky !important;
+    top:0 !important;
+    z-index:20 !important;
+    min-height:68px !important;
+    background:rgba(8,16,28,.97) !important;
+    backdrop-filter:blur(12px) !important;
+}
+.pdf-modal-actions{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:8px !important;
+    flex-wrap:wrap !important;
+}
+.pdf-frame-wrap{
+    height:62vh !important;
+    min-height:380px !important;
+    flex:none !important;
+}
+.pdf-related-wrap{
+    position:relative !important;
+    padding:16px 18px 20px !important;
+    background:linear-gradient(180deg,rgba(8,16,28,.98),rgba(6,12,23,.98)) !important;
+}
+.pdf-related-title{
+    display:flex !important;
+    align-items:center !important;
+    gap:8px !important;
+    margin-bottom:11px !important;
+    color:#91a7c0 !important;
+}
+.pdf-related-title::before{
+    content:"" !important;
+    width:5px !important;
+    height:18px !important;
+    border-radius:999px !important;
+    background:linear-gradient(180deg,#38bdf8,#8b5cf6) !important;
+}
+.pdf-related-list{
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:10px !important;
+}
+.pdf-related-card{
+    position:relative !important;
+    width:100% !important;
+    min-height:68px !important;
+    display:flex !important;
+    align-items:center !important;
+    gap:10px !important;
+    padding:10px !important;
+    border:1px solid rgba(125,211,252,.12) !important;
+    border-radius:12px !important;
+    background:linear-gradient(145deg,rgba(15,30,48,.72),rgba(10,17,30,.72)) !important;
+    color:#e5f2ff !important;
+    text-align:left !important;
+    cursor:pointer !important;
+    transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,background .22s ease !important;
+}
+.pdf-related-card:hover{
+    transform:translateY(-2px) !important;
+    border-color:rgba(125,211,252,.38) !important;
+    background:linear-gradient(145deg,rgba(24,50,75,.85),rgba(18,25,46,.85)) !important;
+    box-shadow:0 12px 26px rgba(0,0,0,.18) !important;
+}
+.pdf-related-card:focus-visible{
+    outline:2px solid rgba(125,211,252,.55) !important;
+    outline-offset:2px !important;
+}
+.pdf-related-icon{
+    width:36px !important;
+    height:36px !important;
+    flex:0 0 36px !important;
+    border-radius:9px !important;
+    background:rgba(56,189,248,.07) !important;
+    color:#7dd3fc !important;
+}
+.pdf-related-card span:last-child{
+    min-width:0 !important;
+}
+.pdf-related-card b{
+    display:block !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+    font-size:11px !important;
+}
+.pdf-related-card small{
+    display:block !important;
+    margin-top:4px !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+    color:#7f92a9 !important;
+    font-size:9px !important;
+}
+.pdf-related-tags{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    gap:6px !important;
+    margin:0 0 12px !important;
+}
+.pdf-related-tag{
+    display:inline-flex !important;
+    align-items:center !important;
+    min-height:27px !important;
+    padding:0 9px !important;
+    border:1px solid rgba(125,211,252,.16) !important;
+    border-radius:999px !important;
+    background:rgba(56,189,248,.055) !important;
+    color:#9edfff !important;
+    font-size:9px !important;
+    font-weight:800 !important;
+    cursor:pointer !important;
+    transition:.2s ease !important;
+}
+.pdf-related-tag:hover,
+.pdf-related-tag.active{
+    border-color:rgba(125,211,252,.44) !important;
+    background:rgba(56,189,248,.12) !important;
+    color:#effaff !important;
+}
+.pdf-related-empty{
+    padding:8px 0 !important;
+    color:#70839b !important;
+    font-size:11px !important;
+}
+@media(max-width:900px){
+    .pdf-related-list{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    }
+}
+@media(max-width:700px){
+    .pdf-related-filtered{grid-template-columns:1fr !important;}
+    .document-category-footer{
+        align-items:stretch !important;
+        flex-direction:column !important;
+    }
+    .document-category-count,
+    .document-category-card .document-open-label{
+        width:100% !important;
+        justify-content:center !important;
+    }
+    .document-card-actions{
+        display:grid !important;
+        grid-template-columns:40px 40px minmax(0,1fr) !important;
+        width:100% !important;
+    }
+    .document-card-action.open{
+        min-width:0 !important;
+        width:100% !important;
+    }
+    .pdf-modal{
+        padding:8px !important;
+    }
+    .pdf-modal-inner{
+        width:100% !important;
+        height:94vh !important;
+        border-radius:14px !important;
+    }
+    .pdf-modal-head{
+        padding:10px !important;
+        align-items:flex-start !important;
+    }
+    .pdf-modal-actions{
+        flex:0 0 auto !important;
+        max-width:58% !important;
+    }
+    .pdf-modal-actions .document-action.secondary{
+        min-height:34px !important;
+        padding:0 9px !important;
+        font-size:10px !important;
+    }
+    .pdf-frame-wrap{
+        height:58vh !important;
+        min-height:320px !important;
+    }
+    .pdf-related-list{
+        grid-template-columns:1fr !important;
+    }
+}
+@media(max-width:470px){
+    .pdf-modal-head{
+        display:block !important;
+    }
+    .pdf-modal-actions{
+        max-width:none !important;
+        margin-top:9px !important;
+        justify-content:flex-start !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -1753,7 +2072,7 @@
                     <h3>${escapeHtml(category.name)}</h3>
                     <p>${escapeHtml(category.description || "Tài liệu học tập và luyện tập môn Toán.")}</p>
                     <div class="document-category-footer">
-                        <span class="document-category-count"><i class="fa-regular fa-file-lines"></i>${count} tài liệu</span>
+                        <span class="document-category-count"><i class="fa-regular fa-file-lines"></i><span>${count} tài liệu</span></span>
                         <span class="document-open-label">${childCount ? "Mở thư mục" : "Xem tài liệu"} <i class="fa-solid fa-arrow-right"></i></span>
                     </div>
                 </article>`;
@@ -2124,11 +2443,61 @@
         function renderRelatedDocuments(item) {
             const root = document.getElementById("pdfRelatedList");
             if (!root) return;
-            const related = relatedDocuments(item);
-            root.innerHTML = related.length ? related.map(doc => `<button type="button" class="pdf-related-card" data-related-id="${doc.id}"><span class="pdf-related-icon"><i class="fa-solid ${doc.document_type === "exam" ? "fa-file-circle-check" : "fa-file-pdf"}"></i></span><span><b>${escapeHtml(doc.title || doc.file_name || "Tài liệu")}</b><small>${escapeHtml(doc.math_categories?.name || "Tài liệu")}</small></span></button>`).join("") : '<div class="pdf-related-empty">Chưa có tài liệu liên quan.</div>';
-            root.querySelectorAll("[data-related-id]").forEach(btn => btn.addEventListener("click", () => {
+
+            const baseTags = Array.isArray(item?.tags)
+                ? item.tags.filter(Boolean).slice(0, 8)
+                : [];
+
+            const candidates = relatedDocuments(item);
+            const tagHtml = baseTags.length
+                ? `<div class="pdf-related-tags">${baseTags.map(tag => `<button type="button" class="pdf-related-tag" data-related-tag="${escapeHtml(tag)}">#${escapeHtml(tag)}</button>`).join("")}</div>`
+                : "";
+
+            const cardHtml = candidates.length
+                ? candidates.map(doc => `<button type="button" class="pdf-related-card" data-related-id="${doc.id}">
+                        <span class="pdf-related-icon"><i class="fa-solid ${doc.document_type === "exam" ? "fa-file-circle-check" : "fa-file-pdf"}"></i></span>
+                        <span>
+                            <b>${escapeHtml(doc.title || doc.file_name || "Tài liệu")}</b>
+                            <small>${escapeHtml(doc.math_categories?.name || "Tài liệu")} · ${formatNumber(doc.view_count)} lượt xem</small>
+                        </span>
+                    </button>`).join("")
+                : '<div class="pdf-related-empty">Chưa có tài liệu liên quan theo tag hoặc danh mục.</div>';
+
+            root.innerHTML = `${tagHtml}${cardHtml}`;
+
+            root.querySelectorAll("[data-related-id]").forEach(btn => btn.addEventListener("click", event => {
+                event.stopPropagation();
                 const doc = libraryDocuments.find(d => Number(d.id) === Number(btn.dataset.relatedId));
                 if (doc) openPdfViewer(doc);
+            }));
+
+            root.querySelectorAll("[data-related-tag]").forEach(btn => btn.addEventListener("click", event => {
+                event.stopPropagation();
+                const tag = String(btn.dataset.relatedTag || "").toLowerCase();
+                const matched = libraryDocuments.filter(doc => {
+                    if (!Array.isArray(doc.tags)) return false;
+                    return doc.tags.some(x => String(x).toLowerCase() === tag);
+                }).slice(0, 4);
+                const list = document.getElementById("pdfRelatedList");
+                if (!list) return;
+                list.querySelectorAll(".pdf-related-tag").forEach(x => x.classList.toggle("active", x === btn));
+                const existing = list.querySelector(".pdf-related-filtered");
+                if (existing) existing.remove();
+                const wrap = document.createElement("div");
+                wrap.className = "pdf-related-filtered";
+                wrap.style.cssText = "display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;grid-column:1/-1;";
+                wrap.innerHTML = matched.length ? matched.map(doc => `<button type="button" class="pdf-related-card" data-related-filter-id="${doc.id}">
+                        <span class="pdf-related-icon"><i class="fa-solid ${doc.document_type === "exam" ? "fa-file-circle-check" : "fa-file-pdf"}"></i></span>
+                        <span>
+                            <b>${escapeHtml(doc.title || doc.file_name || "Tài liệu")}</b>
+                            <small>${escapeHtml(doc.math_categories?.name || "Tài liệu")} · #${escapeHtml(tag)}</small>
+                        </span>
+                    </button>`).join("") : '<div class="pdf-related-empty">Không có tài liệu khác với tag này.</div>';
+                list.appendChild(wrap);
+                wrap.querySelectorAll("[data-related-filter-id]").forEach(card => card.addEventListener("click", () => {
+                    const doc = libraryDocuments.find(d => Number(d.id) === Number(card.dataset.relatedFilterId));
+                    if (doc) openPdfViewer(doc);
+                }));
             }));
         }
 
