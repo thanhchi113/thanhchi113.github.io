@@ -166,7 +166,48 @@ header {
 /* =========================================
    HERO
 ========================================= */
+/* Hero role */
 
+.hero-role {
+    color: #e2e8f0;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 22px;
+}
+
+
+/* Hero social links */
+
+.hero-socials {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 28px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+.hero-socials a {
+    color: #94a3b8;
+
+    transition: color 0.3s ease;
+}
+
+.hero-socials a:hover {
+    color: #60a5fa;
+}
+
+.hero-socials span {
+    color: #334155;
+}
 .hero {
     min-height: 100vh;
 
@@ -650,7 +691,14 @@ footer {
 ========================================= */
 
 @media (max-width: 800px) {
+.hero-socials {
+    justify-content: center;
+}
 
+.hero-role {
+    font-size: 13px;
+    letter-spacing: 3px;
+}
     header {
         height: 68px;
     }
