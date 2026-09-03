@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Thanh Chí | Personal Website</title>
+    <title>Huỳnh Thanh Chí | Giáo viên Toán</title>
 
     <meta
         name="description"
-        content="Website cá nhân của Huỳnh Thanh Chí - Giáo viên Toán, Công nghệ và AI"
+        content="Website cá nhân của Huỳnh Thanh Chí — Giáo viên Toán, Công nghệ và AI."
     >
+
+    <meta name="theme-color" content="#070b14">
 
     <link rel="stylesheet" href="style.css">
 
@@ -27,23 +29,69 @@
     <!-- =========================
          HEADER
     ========================== -->
-    <header>
+    <header class="site-header" id="siteHeader">
+
         <div class="container navbar">
 
-            <a href="#home" class="logo">
+            <a href="#home" class="logo" aria-label="Về trang chủ">
                 Thanh<span>Chí</span>
             </a>
 
-            <ul class="nav-links">
-                <li><a href="#home">Trang chủ</a></li>
-                <li><a href="#about">Giới thiệu</a></li>
-                <li><a href="#skills">Kỹ năng</a></li>
-                <li><a href="#projects">Dự án</a></li>
-                <li><a href="#achievements">Thành tích</a></li>
-                <li><a href="#contact">Liên hệ</a></li>
-            </ul>
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                type="button"
+                aria-label="Mở menu"
+                aria-expanded="false"
+                aria-controls="mainMenu"
+            >
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <nav>
+                <ul class="nav-links" id="mainMenu">
+
+                    <li>
+                        <a href="#home" class="nav-link active">
+                            Trang chủ
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#about" class="nav-link">
+                            Giới thiệu
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#skills" class="nav-link">
+                            Kỹ năng
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#projects" class="nav-link">
+                            Dự án
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#achievements" class="nav-link">
+                            Thành tích
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#contact" class="nav-link">
+                            Liên hệ
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
 
         </div>
+
     </header>
 
 
@@ -56,8 +104,7 @@
 
             <div class="container hero-content">
 
-                <!-- LEFT: TEXT -->
-                <div class="hero-text">
+                <div class="hero-text reveal">
 
                     <div class="hero-small">
                         XIN CHÀO, TÔI LÀ
@@ -82,6 +129,7 @@
 
                         <a href="#about" class="btn btn-primary">
                             Xem về tôi
+                            <i class="fa-solid fa-arrow-down"></i>
                         </a>
 
                         <a href="#contact" class="btn btn-outline">
@@ -90,7 +138,6 @@
 
                     </div>
 
-                    <!-- SOCIAL ICONS -->
                     <div class="hero-socials">
 
                         <a
@@ -126,8 +173,10 @@
                 </div>
 
 
-                <!-- RIGHT: AVATAR -->
-                <div class="avatar-wrapper">
+                <div class="avatar-wrapper reveal reveal-delay-1">
+
+                    <div class="avatar-ring avatar-ring-outer"></div>
+                    <div class="avatar-ring avatar-ring-inner"></div>
 
                     <div class="avatar">
                         <img
@@ -140,6 +189,14 @@
 
             </div>
 
+            <a
+                href="#about"
+                class="scroll-indicator"
+                aria-label="Cuộn xuống phần giới thiệu"
+            >
+                <span></span>
+            </a>
+
         </section>
 
 
@@ -150,18 +207,15 @@
 
             <div class="container">
 
-                <div class="section-title">
+                <div class="section-title reveal">
+                    <div class="section-kicker">ABOUT ME</div>
                     <h2>Giới thiệu</h2>
                     <p>Một chút về tôi</p>
                 </div>
 
                 <div class="about-main">
 
-                    <div class="about-content">
-
-                        <div class="about-label">
-                            ABOUT ME
-                        </div>
+                    <div class="about-content reveal">
 
                         <h3>
                             Tôi là <span>Huỳnh Thanh Chí</span>
@@ -185,7 +239,8 @@
 
                     <div class="about-highlight">
 
-                        <div class="highlight-item">
+                        <div class="highlight-item reveal reveal-delay-1">
+
                             <div class="highlight-icon">
                                 <i class="fa-solid fa-calculator"></i>
                             </div>
@@ -199,10 +254,12 @@
                                     Mathematics
                                 </div>
                             </div>
+
                         </div>
 
 
-                        <div class="highlight-item">
+                        <div class="highlight-item reveal reveal-delay-2">
+
                             <div class="highlight-icon">
                                 <i class="fa-solid fa-robot"></i>
                             </div>
@@ -216,10 +273,12 @@
                                     Artificial Intelligence
                                 </div>
                             </div>
+
                         </div>
 
 
-                        <div class="highlight-item">
+                        <div class="highlight-item reveal reveal-delay-3">
+
                             <div class="highlight-icon">
                                 <i class="fa-solid fa-laptop-code"></i>
                             </div>
@@ -233,6 +292,7 @@
                                     Technology
                                 </div>
                             </div>
+
                         </div>
 
                     </div>
@@ -251,14 +311,15 @@
 
             <div class="container">
 
-                <div class="section-title">
+                <div class="section-title reveal">
+                    <div class="section-kicker">WHAT I DO</div>
                     <h2>Kỹ năng</h2>
                     <p>Những lĩnh vực tôi quan tâm và sử dụng</p>
                 </div>
 
                 <div class="skills">
 
-                    <div class="skill-item">
+                    <div class="skill-item reveal">
 
                         <div class="skill-header">
 
@@ -280,14 +341,14 @@
                         <div class="skill-bar">
                             <div
                                 class="skill-progress"
-                                style="width: 95%;"
+                                style="--progress: 95%;"
                             ></div>
                         </div>
 
                     </div>
 
 
-                    <div class="skill-item">
+                    <div class="skill-item reveal reveal-delay-1">
 
                         <div class="skill-header">
 
@@ -309,14 +370,14 @@
                         <div class="skill-bar">
                             <div
                                 class="skill-progress"
-                                style="width: 90%;"
+                                style="--progress: 90%;"
                             ></div>
                         </div>
 
                     </div>
 
 
-                    <div class="skill-item">
+                    <div class="skill-item reveal reveal-delay-2">
 
                         <div class="skill-header">
 
@@ -338,14 +399,14 @@
                         <div class="skill-bar">
                             <div
                                 class="skill-progress"
-                                style="width: 90%;"
+                                style="--progress: 90%;"
                             ></div>
                         </div>
 
                     </div>
 
 
-                    <div class="skill-item">
+                    <div class="skill-item reveal reveal-delay-3">
 
                         <div class="skill-header">
 
@@ -367,14 +428,14 @@
                         <div class="skill-bar">
                             <div
                                 class="skill-progress"
-                                style="width: 85%;"
+                                style="--progress: 85%;"
                             ></div>
                         </div>
 
                     </div>
 
 
-                    <div class="skill-item">
+                    <div class="skill-item reveal reveal-delay-4">
 
                         <div class="skill-header">
 
@@ -396,14 +457,14 @@
                         <div class="skill-bar">
                             <div
                                 class="skill-progress"
-                                style="width: 85%;"
+                                style="--progress: 85%;"
                             ></div>
                         </div>
 
                     </div>
 
 
-                    <div class="skill-item">
+                    <div class="skill-item reveal reveal-delay-5">
 
                         <div class="skill-header">
 
@@ -425,7 +486,7 @@
                         <div class="skill-bar">
                             <div
                                 class="skill-progress"
-                                style="width: 80%;"
+                                style="--progress: 80%;"
                             ></div>
                         </div>
 
@@ -445,14 +506,15 @@
 
             <div class="container">
 
-                <div class="section-title">
+                <div class="section-title reveal">
+                    <div class="section-kicker">MY WORK</div>
                     <h2>Dự án</h2>
                     <p>Một số dự án tôi đã và đang thực hiện</p>
                 </div>
 
                 <div class="projects">
 
-                    <div class="project-card">
+                    <article class="project-card reveal">
 
                         <div class="project-top">
 
@@ -486,10 +548,10 @@
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
 
-                    </div>
+                    </article>
 
 
-                    <div class="project-card">
+                    <article class="project-card reveal reveal-delay-1">
 
                         <div class="project-top">
 
@@ -522,10 +584,10 @@
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
 
-                    </div>
+                    </article>
 
 
-                    <div class="project-card">
+                    <article class="project-card reveal reveal-delay-2">
 
                         <div class="project-top">
 
@@ -558,7 +620,7 @@
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
 
-                    </div>
+                    </article>
 
                 </div>
 
@@ -574,7 +636,8 @@
 
             <div class="container">
 
-                <div class="section-title">
+                <div class="section-title reveal">
+                    <div class="section-kicker">RESULTS</div>
                     <h2>Thành tích</h2>
                     <p>Một số kết quả nổi bật trong quá trình giảng dạy</p>
                 </div>
@@ -582,8 +645,7 @@
 
                 <div class="achievement-list">
 
-                    <!-- GRADE 10 -->
-                    <article class="achievement-card-large">
+                    <article class="achievement-card-large reveal">
 
                         <div class="achievement-card-icon">
                             <i class="fa-solid fa-school"></i>
@@ -606,12 +668,10 @@
                             </p>
 
                             <div class="achievement-schools">
-
                                 <span>Lê Quý Đôn</span>
                                 <span>Quốc Học</span>
                                 <span>Trưng Vương</span>
                                 <span>...</span>
-
                             </div>
 
                             <button
@@ -628,8 +688,7 @@
                     </article>
 
 
-                    <!-- GRADE 12 -->
-                    <article class="achievement-card-large">
+                    <article class="achievement-card-large reveal reveal-delay-1">
 
                         <div class="achievement-card-icon">
                             <i class="fa-solid fa-graduation-cap"></i>
@@ -652,11 +711,9 @@
                             </p>
 
                             <div class="achievement-schools">
-
                                 <span>Điểm Toán cao</span>
                                 <span>Đạt NV1</span>
                                 <span>Tốt nghiệp</span>
-
                             </div>
 
                             <button
@@ -673,8 +730,7 @@
                     </article>
 
 
-                    <!-- FEEDBACK -->
-                    <article class="achievement-card-large">
+                    <article class="achievement-card-large reveal reveal-delay-2">
 
                         <div class="achievement-card-icon">
                             <i class="fa-solid fa-comments"></i>
@@ -697,11 +753,9 @@
                             </p>
 
                             <div class="achievement-schools">
-
                                 <span>Học sinh</span>
                                 <span>Phụ huynh</span>
                                 <span>Kết quả thực tế</span>
-
                             </div>
 
                             <button
@@ -722,19 +776,19 @@
             </div>
 
 
-            <!-- GALLERY -->
+            <!-- GALLERY MODAL -->
             <div
                 id="galleryModal"
                 class="gallery-modal"
-                onclick="closeGallery(event)"
                 aria-hidden="true"
+                aria-modal="true"
+                role="dialog"
+                aria-label="Minh chứng thành tích"
+                onclick="closeGallery(event)"
             >
 
                 <div
                     class="gallery-container"
-                    role="dialog"
-                    aria-modal="true"
-                    aria-label="Minh chứng thành tích"
                     onclick="event.stopPropagation()"
                 >
 
@@ -792,18 +846,15 @@
 
             <div class="container">
 
-                <div class="section-title">
+                <div class="section-title reveal">
+                    <div class="section-kicker">GET IN TOUCH</div>
                     <h2>Liên hệ</h2>
                     <p>Hãy kết nối với tôi</p>
                 </div>
 
                 <div class="contact-wrapper">
 
-                    <div class="contact-intro">
-
-                        <div class="contact-label">
-                            GET IN TOUCH
-                        </div>
+                    <div class="contact-intro reveal">
 
                         <h3>
                             Bạn muốn kết nối?
@@ -814,15 +865,43 @@
                             công nghệ, AI và các dự án giáo dục.
                         </p>
 
+                        <div class="contact-socials">
+
+                            <a
+                                href="https://www.facebook.com/mendz1103"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Facebook"
+                            >
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+
+                            <a
+                                href="https://github.com/thanhchi113"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="GitHub"
+                            >
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+
+                            <a
+                                href="mailto:chithanhhuynh11@gmail.com"
+                                aria-label="Email"
+                            >
+                                <i class="fa-solid fa-envelope"></i>
+                            </a>
+
+                        </div>
+
                     </div>
 
 
                     <div class="contact-list">
 
-                        <!-- EMAIL -->
                         <a
                             href="mailto:chithanhhuynh11@gmail.com"
-                            class="contact-item"
+                            class="contact-item reveal"
                         >
 
                             <div class="contact-icon">
@@ -830,7 +909,6 @@
                             </div>
 
                             <div class="contact-info">
-                                <span>Email</span>
                                 <strong>
                                     chithanhhuynh11@gmail.com
                                 </strong>
@@ -843,10 +921,9 @@
                         </a>
 
 
-                        <!-- PHONE -->
                         <a
                             href="tel:0905957716"
-                            class="contact-item"
+                            class="contact-item reveal reveal-delay-1"
                         >
 
                             <div class="contact-icon">
@@ -854,7 +931,6 @@
                             </div>
 
                             <div class="contact-info">
-                                <span>Số điện thoại</span>
                                 <strong>
                                     090.595.7716
                                 </strong>
@@ -867,12 +943,11 @@
                         </a>
 
 
-                        <!-- FACEBOOK -->
                         <a
                             href="https://www.facebook.com/mendz1103"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="contact-item"
+                            class="contact-item reveal reveal-delay-2"
                         >
 
                             <div class="contact-icon">
@@ -880,7 +955,6 @@
                             </div>
 
                             <div class="contact-info">
-                                <span>Facebook</span>
                                 <strong>
                                     facebook.com/mendz1103
                                 </strong>
@@ -893,12 +967,11 @@
                         </a>
 
 
-                        <!-- GITHUB -->
                         <a
                             href="https://github.com/thanhchi113"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="contact-item"
+                            class="contact-item reveal reveal-delay-3"
                         >
 
                             <div class="contact-icon">
@@ -906,7 +979,6 @@
                             </div>
 
                             <div class="contact-info">
-                                <span>GitHub</span>
                                 <strong>
                                     github.com/thanhchi113
                                 </strong>
@@ -934,19 +1006,19 @@
     ========================== -->
     <footer>
 
-        <div class="container">
+        <div class="container footer-content">
 
-            <div class="footer-content">
+            <span>
+                © 2026 Huỳnh Thanh Chí. All rights reserved.
+            </span>
 
-                <span>
-                    © 2026 Thanh Chí. All rights reserved.
-                </span>
-
-                <a href="#home" class="back-to-top" aria-label="Về đầu trang">
-                    <i class="fa-solid fa-arrow-up"></i>
-                </a>
-
-            </div>
+            <a
+                href="#home"
+                class="back-to-top"
+                aria-label="Về đầu trang"
+            >
+                <i class="fa-solid fa-arrow-up"></i>
+            </a>
 
         </div>
 
@@ -954,23 +1026,248 @@
 
 
     <!-- =========================
-         GALLERY SCRIPT
+         JAVASCRIPT
     ========================== -->
     <script>
-        /*
-         * Add your future evidence images here.
-         *
-         * Example:
-         * grade10: [
-         *     "assets/achievements/grade10-1.jpg",
-         *     "assets/achievements/grade10-2.jpg"
-         * ]
-         */
+
+        /* =========================================
+           MOBILE MENU
+        ========================================= */
+
+        const menuToggle = document.getElementById("menuToggle");
+        const mainMenu = document.getElementById("mainMenu");
+
+        function closeMenu() {
+            if (!mainMenu || !menuToggle) return;
+
+            mainMenu.classList.remove("open");
+            menuToggle.setAttribute("aria-expanded", "false");
+
+            const icon = menuToggle.querySelector("i");
+
+            if (icon) {
+                icon.className = "fa-solid fa-bars";
+            }
+        }
+
+        if (menuToggle && mainMenu) {
+
+            menuToggle.addEventListener("click", function () {
+
+                const isOpen =
+                    mainMenu.classList.toggle("open");
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    String(isOpen)
+                );
+
+                const icon =
+                    menuToggle.querySelector("i");
+
+                if (icon) {
+                    icon.className = isOpen
+                        ? "fa-solid fa-xmark"
+                        : "fa-solid fa-bars";
+                }
+
+            });
+
+
+            mainMenu
+                .querySelectorAll("a")
+                .forEach(function (link) {
+
+                    link.addEventListener(
+                        "click",
+                        closeMenu
+                    );
+
+                });
+
+        }
+
+
+        window.addEventListener(
+            "resize",
+            function () {
+
+                if (window.innerWidth > 800) {
+                    closeMenu();
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           HEADER SCROLL STATE
+        ========================================== */
+
+        const siteHeader =
+            document.getElementById("siteHeader");
+
+        function updateHeader() {
+
+            if (!siteHeader) return;
+
+            siteHeader.classList.toggle(
+                "scrolled",
+                window.scrollY > 20
+            );
+
+        }
+
+        window.addEventListener(
+            "scroll",
+            updateHeader,
+            { passive: true }
+        );
+
+        updateHeader();
+
+
+        /* =========================================
+           ACTIVE NAVIGATION
+        ========================================== */
+
+        const sections =
+            document.querySelectorAll("main section[id]");
+
+        const navLinks =
+            document.querySelectorAll(".nav-link");
+
+        const sectionObserver =
+            new IntersectionObserver(
+                function (entries) {
+
+                    entries.forEach(
+                        function (entry) {
+
+                            if (!entry.isIntersecting) {
+                                return;
+                            }
+
+                            navLinks.forEach(
+                                function (link) {
+
+                                    link.classList.remove(
+                                        "active"
+                                    );
+
+                                    if (
+                                        link.getAttribute("href") ===
+                                        `#${entry.target.id}`
+                                    ) {
+                                        link.classList.add(
+                                            "active"
+                                        );
+                                    }
+
+                                }
+                            );
+
+                        }
+                    );
+
+                },
+                {
+                    rootMargin:
+                        "-30% 0px -55% 0px"
+                }
+            );
+
+
+        sections.forEach(
+            function (section) {
+
+                sectionObserver.observe(section);
+
+            }
+        );
+
+
+        /* =========================================
+           SCROLL REVEAL
+        ========================================== */
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+
+        function showAllReveals() {
+
+            revealElements.forEach(
+                function (element) {
+
+                    element.classList.add("show");
+
+                }
+            );
+
+        }
+
+
+        if (
+            "IntersectionObserver" in window
+        ) {
+
+            const revealObserver =
+                new IntersectionObserver(
+                    function (entries, observer) {
+
+                        entries.forEach(
+                            function (entry) {
+
+                                if (
+                                    !entry.isIntersecting
+                                ) {
+                                    return;
+                                }
+
+                                entry.target.classList.add(
+                                    "show"
+                                );
+
+                                observer.unobserve(
+                                    entry.target
+                                );
+
+                            }
+                        );
+
+                    },
+                    {
+                        threshold: 0.12
+                    }
+                );
+
+
+            revealElements.forEach(
+                function (element) {
+
+                    revealObserver.observe(element);
+
+                }
+            );
+
+        } else {
+
+            showAllReveals();
+
+        }
+
+
+        /* =========================================
+           GALLERY
+        ========================================== */
+
         const galleryData = {
             grade10: [],
             grade12: [],
             feedback: []
         };
+
 
         let currentGallery = [];
         let currentImageIndex = 0;
@@ -978,37 +1275,77 @@
 
         function openGallery(type) {
 
-            currentGallery = galleryData[type] || [];
+            currentGallery =
+                galleryData[type] || [];
+
             currentImageIndex = 0;
 
+
             if (!currentGallery.length) {
+
                 alert(
                     "Hiện chưa có ảnh minh chứng cho mục này. " +
-                    "Bạn có thể thêm ảnh vào thư mục assets/achievements sau."
+                    "Bạn có thể thêm ảnh vào thư mục " +
+                    "assets/achievements sau."
                 );
+
                 return;
+
             }
+
 
             updateGallery();
 
-            const modal = document.getElementById("galleryModal");
+
+            const modal =
+                document.getElementById(
+                    "galleryModal"
+                );
+
+
+            if (!modal) return;
+
 
             modal.classList.add("active");
-            modal.setAttribute("aria-hidden", "false");
 
-            document.body.style.overflow = "hidden";
+            modal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+            document.body.style.overflow =
+                "hidden";
+
         }
 
 
         function updateGallery() {
 
-            const image = document.getElementById("galleryImage");
-            const counter = document.getElementById("galleryCounter");
+            const image =
+                document.getElementById(
+                    "galleryImage"
+                );
 
-            image.src = currentGallery[currentImageIndex];
+            const counter =
+                document.getElementById(
+                    "galleryCounter"
+                );
+
+
+            if (!image || !counter) {
+                return;
+            }
+
+
+            image.src =
+                currentGallery[
+                    currentImageIndex
+                ];
+
 
             counter.textContent =
                 `${currentImageIndex + 1} / ${currentGallery.length}`;
+
         }
 
 
@@ -1018,60 +1355,122 @@
                 return;
             }
 
+
             currentImageIndex += direction;
 
-            if (currentImageIndex < 0) {
-                currentImageIndex = currentGallery.length - 1;
+
+            if (
+                currentImageIndex < 0
+            ) {
+
+                currentImageIndex =
+                    currentGallery.length - 1;
+
             }
 
-            if (currentImageIndex >= currentGallery.length) {
+
+            if (
+                currentImageIndex >=
+                currentGallery.length
+            ) {
+
                 currentImageIndex = 0;
+
             }
+
 
             updateGallery();
+
         }
 
 
         function closeGallery(event) {
 
-            const modal = document.getElementById("galleryModal");
+            const modal =
+                document.getElementById(
+                    "galleryModal"
+                );
+
+
+            if (!modal) return;
+
 
             if (
                 event &&
                 event.target !== modal
             ) {
+
                 return;
+
             }
 
-            modal.classList.remove("active");
-            modal.setAttribute("aria-hidden", "true");
 
-            document.body.style.overflow = "";
+            modal.classList.remove(
+                "active"
+            );
+
+            modal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            document.body.style.overflow =
+                "";
+
         }
 
 
-        document.addEventListener("keydown", function (event) {
+        document.addEventListener(
+            "keydown",
+            function (event) {
 
-            const modal =
-                document.getElementById("galleryModal");
+                const modal =
+                    document.getElementById(
+                        "galleryModal"
+                    );
 
-            if (!modal.classList.contains("active")) {
-                return;
+
+                if (
+                    !modal ||
+                    !modal.classList.contains(
+                        "active"
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    closeGallery();
+
+                }
+
+
+                if (
+                    event.key === "ArrowLeft"
+                ) {
+
+                    changeImage(-1);
+
+                }
+
+
+                if (
+                    event.key === "ArrowRight"
+                ) {
+
+                    changeImage(1);
+
+                }
+
             }
+        );
 
-            if (event.key === "Escape") {
-                closeGallery();
-            }
-
-            if (event.key === "ArrowLeft") {
-                changeImage(-1);
-            }
-
-            if (event.key === "ArrowRight") {
-                changeImage(1);
-            }
-
-        });
     </script>
 
 </body>
