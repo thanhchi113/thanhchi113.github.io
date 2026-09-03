@@ -616,6 +616,296 @@
 }
 </style>
 
+
+<style id="pdf-viewer-scroll-fix">
+/* FINAL PDF VIEWER / NAVIGATION FIXES */
+.document-category-footer{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:20px !important;
+}
+.document-category-count{
+    flex:0 0 auto !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    gap:10px !important;
+    min-width:135px !important;
+    justify-content:center !important;
+}
+.document-category-count i{
+    margin-right:3px !important;
+}
+.document-category-card .document-open-label{
+    flex:0 0 auto !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    min-width:124px !important;
+}
+.document-backbar{
+    position:relative !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:15px !important;
+    padding:10px 12px !important;
+    border:1px solid rgba(125,211,252,.16) !important;
+    border-radius:13px !important;
+    background:rgba(7,14,26,.72) !important;
+}
+.document-back-button{
+    appearance:none !important;
+    -webkit-appearance:none !important;
+    border:1px solid rgba(125,211,252,.34) !important;
+    border-radius:10px !important;
+    background:linear-gradient(135deg,rgba(56,189,248,.10),rgba(124,58,237,.10)) !important;
+    color:#e8f7ff !important;
+    min-height:40px !important;
+    padding:0 14px !important;
+    font-family:inherit !important;
+    font-size:12px !important;
+    font-weight:800 !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    gap:8px !important;
+    cursor:pointer !important;
+    box-shadow:0 8px 25px rgba(56,189,248,.05) !important;
+}
+.document-back-button:hover{
+    border-color:rgba(125,211,252,.62) !important;
+    transform:translateY(-1px) !important;
+    box-shadow:0 12px 28px rgba(56,189,248,.10) !important;
+}
+.pdf-modal{
+    position:fixed !important;
+    inset:0 !important;
+    display:none !important;
+    align-items:center !important;
+    justify-content:center !important;
+    overflow:hidden !important;
+    padding:14px !important;
+    background:rgba(2,6,14,.84) !important;
+    overscroll-behavior:none !important;
+}
+.pdf-modal.open{
+    display:flex !important;
+}
+.pdf-modal-inner{
+    width:min(1260px,96vw) !important;
+    height:min(94vh,1000px) !important;
+    max-height:none !important;
+    display:grid !important;
+    grid-template-rows:auto minmax(0,1fr) auto !important;
+    overflow:hidden !important;
+    margin:0 !important;
+    border:1px solid rgba(125,211,252,.15) !important;
+    border-radius:18px !important;
+    background:#08101c !important;
+    box-shadow:0 35px 100px rgba(0,0,0,.58) !important;
+}
+.pdf-modal-head{
+    position:relative !important;
+    top:auto !important;
+    z-index:5 !important;
+    min-height:70px !important;
+    padding:10px 14px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:14px !important;
+    background:rgba(8,16,28,.98) !important;
+    border-bottom:1px solid rgba(255,255,255,.08) !important;
+}
+.pdf-modal-actions{
+    display:flex !important;
+    align-items:center !important;
+    gap:7px !important;
+    flex-wrap:wrap !important;
+}
+.pdf-viewer-scroll{
+    min-height:0 !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    -webkit-overflow-scrolling:touch !important;
+    overscroll-behavior:contain !important;
+    background:#0b111d !important;
+}
+.pdf-viewer-pages{
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+    padding:18px 18px 24px;
+}
+.pdf-page-canvas{
+    display:block !important;
+    width:min(100%,980px) !important;
+    height:auto !important;
+    background:#fff !important;
+    border-radius:3px !important;
+    box-shadow:0 8px 28px rgba(0,0,0,.34) !important;
+}
+.pdf-viewer-loading{
+    min-height:300px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    color:#8fa2ba;
+    font-size:12px;
+}
+.pdf-viewer-loading i{
+    color:#7dd3fc;
+    font-size:24px;
+}
+.pdf-related-wrap{
+    position:relative !important;
+    max-height:260px !important;
+    overflow-y:auto !important;
+    padding:14px 16px 16px !important;
+    border-top:1px solid rgba(255,255,255,.08) !important;
+    background:linear-gradient(180deg,rgba(8,16,28,.99),rgba(6,12,23,.99)) !important;
+    -webkit-overflow-scrolling:touch !important;
+}
+.pdf-related-title{
+    margin-bottom:10px !important;
+    font-size:10px !important;
+    font-weight:900 !important;
+    letter-spacing:1.1px !important;
+    text-transform:uppercase !important;
+    color:#8fa6bf !important;
+}
+.pdf-related-tags{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    gap:7px !important;
+    margin:0 0 11px !important;
+}
+.pdf-related-tag{
+    appearance:none !important;
+    -webkit-appearance:none !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    min-height:29px !important;
+    padding:0 10px !important;
+    border:1px solid rgba(125,211,252,.18) !important;
+    border-radius:999px !important;
+    background:rgba(56,189,248,.05) !important;
+    color:#a3ddf4 !important;
+    font:inherit !important;
+    font-size:9px !important;
+    font-weight:800 !important;
+    cursor:pointer !important;
+    transition:.2s ease !important;
+}
+.pdf-related-tag:hover,.pdf-related-tag.active{
+    color:#f0fbff !important;
+    border-color:rgba(125,211,252,.48) !important;
+    background:rgba(56,189,248,.12) !important;
+    transform:translateY(-1px) !important;
+}
+.pdf-related-list{
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:9px !important;
+}
+.pdf-related-card{
+    min-width:0 !important;
+    min-height:64px !important;
+    padding:9px !important;
+    display:flex !important;
+    align-items:center !important;
+    gap:9px !important;
+    appearance:none !important;
+    -webkit-appearance:none !important;
+    border:1px solid rgba(125,211,252,.12) !important;
+    border-radius:11px !important;
+    background:rgba(255,255,255,.025) !important;
+    color:#e5f3ff !important;
+    cursor:pointer !important;
+    text-align:left !important;
+}
+.pdf-related-card:hover{
+    border-color:rgba(125,211,252,.36) !important;
+    background:rgba(56,189,248,.055) !important;
+    transform:translateY(-1px) !important;
+}
+.pdf-related-card b{
+    display:block !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+    font-size:10px !important;
+}
+.pdf-related-card small{
+    display:block !important;
+    margin-top:3px !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+    color:#778da6 !important;
+    font-size:8px !important;
+}
+.pdf-related-filtered{
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:9px !important;
+    grid-column:1/-1 !important;
+}
+@media(max-width:900px){
+    .pdf-related-list,.pdf-related-filtered{
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    }
+}
+@media(max-width:700px){
+    .document-category-footer{
+        flex-direction:column !important;
+        align-items:stretch !important;
+        gap:8px !important;
+    }
+    .document-category-count,.document-category-card .document-open-label{
+        width:100% !important;
+    }
+    .pdf-modal{
+        padding:6px !important;
+    }
+    .pdf-modal-inner{
+        width:100% !important;
+        height:96vh !important;
+        border-radius:14px !important;
+    }
+    .pdf-modal-head{
+        align-items:flex-start !important;
+    }
+    .pdf-modal-actions{
+        justify-content:flex-end !important;
+    }
+    .pdf-modal-actions .document-action.secondary{
+        min-height:34px !important;
+        padding:0 8px !important;
+        font-size:9px !important;
+    }
+    .pdf-related-wrap{
+        max-height:235px !important;
+    }
+    .pdf-related-list,.pdf-related-filtered{
+        grid-template-columns:1fr !important;
+    }
+}
+@media(max-width:480px){
+    .pdf-modal-head{
+        display:block !important;
+    }
+    .pdf-modal-actions{
+        margin-top:8px !important;
+        justify-content:flex-start !important;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -1771,15 +2061,15 @@
 
 
         <div id="pdfModal" class="pdf-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Xem tài liệu PDF">
-            <div class="pdf-modal-inner" onclick="event.stopPropagation()">
+            <div class="pdf-modal-inner">
                 <div class="pdf-modal-head">
-                    <div>
+                    <div class="pdf-modal-title-wrap">
                         <div class="pdf-modal-kicker">DOCUMENT VIEWER</div>
                         <h3 id="pdfModalTitle">Tài liệu</h3>
                     </div>
                     <div class="pdf-modal-actions">
                         <button id="pdfShare" class="document-action secondary" type="button">
-                            <i class="fa-solid fa-share-nodes"></i>
+                            <i class="fa-solid fa-link"></i>
                             Chia sẻ
                         </button>
                         <button id="pdfQr" class="document-action secondary" type="button">
@@ -1790,12 +2080,24 @@
                             <i class="fa-solid fa-download"></i>
                             Tải xuống
                         </a>
-                        <button id="pdfClose" class="pdf-close" type="button" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
+                        <button id="pdfClose" class="pdf-close" type="button" aria-label="Đóng">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="pdf-frame-wrap"><iframe id="pdfFrame" title="Trình xem PDF" src="about:blank"></iframe></div>
+
+                <div class="pdf-viewer-scroll">
+                    <div id="pdfViewerPages" class="pdf-viewer-pages">
+                        <div class="pdf-viewer-loading">
+                            <i class="fa-solid fa-spinner fa-spin"></i>
+                            <span>Đang tải tài liệu...</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="pdf-related-wrap">
                     <div class="pdf-related-title">Tài liệu liên quan</div>
+                    <div id="pdfRelatedTags" class="pdf-related-tags"></div>
                     <div id="pdfRelatedList" class="pdf-related-list"></div>
                 </div>
             </div>
@@ -2442,98 +2744,173 @@
 
         function renderRelatedDocuments(item) {
             const root = document.getElementById("pdfRelatedList");
-            if (!root) return;
+            const tagRoot = document.getElementById("pdfRelatedTags");
+            if (!root || !tagRoot) return;
 
-            const baseTags = Array.isArray(item?.tags)
-                ? item.tags.filter(Boolean).slice(0, 8)
-                : [];
-
+            const baseTags = Array.isArray(item?.tags) ? item.tags.filter(Boolean).slice(0, 10) : [];
             const candidates = relatedDocuments(item);
-            const tagHtml = baseTags.length
-                ? `<div class="pdf-related-tags">${baseTags.map(tag => `<button type="button" class="pdf-related-tag" data-related-tag="${escapeHtml(tag)}">#${escapeHtml(tag)}</button>`).join("")}</div>`
-                : "";
 
-            const cardHtml = candidates.length
-                ? candidates.map(doc => `<button type="button" class="pdf-related-card" data-related-id="${doc.id}">
-                        <span class="pdf-related-icon"><i class="fa-solid ${doc.document_type === "exam" ? "fa-file-circle-check" : "fa-file-pdf"}"></i></span>
+            tagRoot.innerHTML = baseTags.length
+                ? baseTags.map(tag => `<button type="button" class="pdf-related-tag" data-related-tag="${escapeHtml(tag)}">#${escapeHtml(tag)}</button>`).join("")
+                : `<span class="pdf-related-empty">Chưa có tag cho tài liệu này.</span>`;
+
+            root.innerHTML = candidates.length
+                ? candidates.map(doc => `
+                    <button type="button" class="pdf-related-card" data-related-id="${doc.id}">
+                        <span class="pdf-related-icon">
+                            <i class="fa-solid ${doc.document_type === "exam" ? "fa-file-circle-check" : "fa-file-pdf"}"></i>
+                        </span>
                         <span>
                             <b>${escapeHtml(doc.title || doc.file_name || "Tài liệu")}</b>
                             <small>${escapeHtml(doc.math_categories?.name || "Tài liệu")} · ${formatNumber(doc.view_count)} lượt xem</small>
                         </span>
                     </button>`).join("")
-                : '<div class="pdf-related-empty">Chưa có tài liệu liên quan theo tag hoặc danh mục.</div>';
+                : `<div class="pdf-related-empty">Chưa có tài liệu liên quan.</div>`;
 
-            root.innerHTML = `${tagHtml}${cardHtml}`;
-
-            root.querySelectorAll("[data-related-id]").forEach(btn => btn.addEventListener("click", event => {
-                event.stopPropagation();
-                const doc = libraryDocuments.find(d => Number(d.id) === Number(btn.dataset.relatedId));
-                if (doc) openPdfViewer(doc);
-            }));
-
-            root.querySelectorAll("[data-related-tag]").forEach(btn => btn.addEventListener("click", event => {
-                event.stopPropagation();
-                const tag = String(btn.dataset.relatedTag || "").toLowerCase();
-                const matched = libraryDocuments.filter(doc => {
-                    if (!Array.isArray(doc.tags)) return false;
-                    return doc.tags.some(x => String(x).toLowerCase() === tag);
-                }).slice(0, 4);
-                const list = document.getElementById("pdfRelatedList");
-                if (!list) return;
-                list.querySelectorAll(".pdf-related-tag").forEach(x => x.classList.toggle("active", x === btn));
-                const existing = list.querySelector(".pdf-related-filtered");
-                if (existing) existing.remove();
-                const wrap = document.createElement("div");
-                wrap.className = "pdf-related-filtered";
-                wrap.style.cssText = "display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;grid-column:1/-1;";
-                wrap.innerHTML = matched.length ? matched.map(doc => `<button type="button" class="pdf-related-card" data-related-filter-id="${doc.id}">
-                        <span class="pdf-related-icon"><i class="fa-solid ${doc.document_type === "exam" ? "fa-file-circle-check" : "fa-file-pdf"}"></i></span>
-                        <span>
-                            <b>${escapeHtml(doc.title || doc.file_name || "Tài liệu")}</b>
-                            <small>${escapeHtml(doc.math_categories?.name || "Tài liệu")} · #${escapeHtml(tag)}</small>
-                        </span>
-                    </button>`).join("") : '<div class="pdf-related-empty">Không có tài liệu khác với tag này.</div>';
-                list.appendChild(wrap);
-                wrap.querySelectorAll("[data-related-filter-id]").forEach(card => card.addEventListener("click", () => {
-                    const doc = libraryDocuments.find(d => Number(d.id) === Number(card.dataset.relatedFilterId));
+            root.querySelectorAll("[data-related-id]").forEach(btn => {
+                btn.addEventListener("click", event => {
+                    event.stopPropagation();
+                    const doc = libraryDocuments.find(d => Number(d.id) === Number(btn.dataset.relatedId));
                     if (doc) openPdfViewer(doc);
-                }));
-            }));
+                });
+            });
+
+            tagRoot.querySelectorAll("[data-related-tag]").forEach(tagButton => {
+                tagButton.addEventListener("click", event => {
+                    event.stopPropagation();
+                    const tag = String(tagButton.dataset.relatedTag || "").trim().toLowerCase();
+                    tagRoot.querySelectorAll(".pdf-related-tag").forEach(btn => btn.classList.toggle("active", btn === tagButton));
+
+                    const matches = libraryDocuments.filter(doc => {
+                        if (!Array.isArray(doc.tags)) return false;
+                        return doc.tags.some(value => String(value).trim().toLowerCase() === tag && Number(doc.id) !== Number(item.id));
+                    }).sort((a,b) => (Number(b.view_count) || 0) - (Number(a.view_count) || 0));
+
+                    root.innerHTML = matches.length
+                        ? matches.slice(0, 8).map(doc => `
+                            <button type="button" class="pdf-related-card" data-related-id="${doc.id}">
+                                <span class="pdf-related-icon">
+                                    <i class="fa-solid ${doc.document_type === "exam" ? "fa-file-circle-check" : "fa-file-pdf"}"></i>
+                                </span>
+                                <span>
+                                    <b>${escapeHtml(doc.title || doc.file_name || "Tài liệu")}</b>
+                                    <small>${escapeHtml(doc.math_categories?.name || "Tài liệu")} · #${escapeHtml(tag)}</small>
+                                </span>
+                            </button>`).join("")
+                        : `<div class="pdf-related-empty">Không có tài liệu khác cùng tag “#${escapeHtml(tag)}”.</div>`;
+
+                    root.querySelectorAll("[data-related-id]").forEach(btn => {
+                        btn.addEventListener("click", event => {
+                            event.stopPropagation();
+                            const doc = libraryDocuments.find(d => Number(d.id) === Number(btn.dataset.relatedId));
+                            if (doc) openPdfViewer(doc);
+                        });
+                    });
+                });
+            });
+        }
+
+        async function renderPdfDocument(item) {
+            const container = document.getElementById("pdfViewerPages");
+            if (!container) return;
+            container.innerHTML = `
+                <div class="pdf-viewer-loading">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    <span>Đang tải tài liệu...</span>
+                </div>`;
+
+            if (!window.pdfjsLib) {
+                container.innerHTML = '<div class="pdf-viewer-loading"><i class="fa-solid fa-triangle-exclamation"></i><span>Không tải được trình xem PDF. Hãy tải lại trang.</span></div>';
+                return;
+            }
+
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+            try {
+                const pdf = await window.pdfjsLib.getDocument({
+                    url: getPublicPdfUrl(item.file_path),
+                    disableAutoFetch: false,
+                    disableStream: false
+                }).promise;
+
+                container.innerHTML = "";
+                const targetWidth = Math.min(980, Math.max(320, container.clientWidth - 36));
+
+                for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+                    const page = await pdf.getPage(pageNumber);
+                    const baseViewport = page.getViewport({ scale: 1 });
+                    const scale = targetWidth / baseViewport.width;
+                    const viewport = page.getViewport({ scale });
+                    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+
+                    const canvas = document.createElement("canvas");
+                    canvas.className = "pdf-page-canvas";
+                    canvas.width = Math.ceil(viewport.width * ratio);
+                    canvas.height = Math.ceil(viewport.height * ratio);
+                    canvas.style.width = `${viewport.width}px`;
+                    canvas.style.height = `${viewport.height}px`;
+
+                    const ctx = canvas.getContext("2d", { alpha: false });
+                    container.appendChild(canvas);
+
+                    await page.render({
+                        canvasContext: ctx,
+                        viewport,
+                        transform: ratio !== 1 ? [ratio, 0, 0, ratio, 0, 0] : null
+                    }).promise;
+                }
+            } catch (error) {
+                console.error("PDF render error:", error);
+                container.innerHTML = '<div class="pdf-viewer-loading"><i class="fa-solid fa-triangle-exclamation"></i><span>Không thể hiển thị PDF. Bạn có thể dùng nút Tải xuống.</span></div>';
+            }
         }
 
         function openPdfViewer(item) {
             if (!item?.file_path) return;
             currentDocument = item;
+
             const modal = document.getElementById("pdfModal");
-            const frame = document.getElementById("pdfFrame");
             const modalTitle = document.getElementById("pdfModalTitle");
             const download = document.getElementById("pdfDownload");
-            if (!modal || !frame || !modalTitle || !download) return;
+            const viewer = document.getElementById("pdfViewerPages");
+            if (!modal || !modalTitle || !download || !viewer) return;
+
             modalTitle.textContent = item.title || item.file_name || "Tài liệu";
-            frame.src = getPublicPdfUrl(item.file_path);
             download.href = getPublicPdfUrl(item.file_path);
+            viewer.innerHTML = `
+                <div class="pdf-viewer-loading">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    <span>Đang tải tài liệu...</span>
+                </div>`;
+
             modal.classList.add("open");
             modal.setAttribute("aria-hidden", "false");
             document.body.classList.add("modal-open");
+
             renderRelatedDocuments(item);
             trackView(item.id);
+
             const url = new URL(window.location.href);
             url.searchParams.set("doc", item.id);
+            url.hash = "documents";
             window.history.replaceState({}, "", url.toString());
+
+            requestAnimationFrame(() => renderPdfDocument(item));
         }
 
         function closePdfViewer() {
             const modal = document.getElementById("pdfModal");
-            const frame = document.getElementById("pdfFrame");
+            const viewer = document.getElementById("pdfViewerPages");
             if (!modal) return;
             modal.classList.remove("open");
             modal.setAttribute("aria-hidden", "true");
             document.body.classList.remove("modal-open");
-            if (frame) frame.src = "about:blank";
+            if (viewer) viewer.innerHTML = "";
             currentDocument = null;
+
             const url = new URL(window.location.href);
             url.searchParams.delete("doc");
-            history.replaceState({}, "", `${url.pathname}${url.search}${url.hash || "#documents"}`);
+            window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash || "#documents"}`);
         }
 
         function bindDocumentCards() {
