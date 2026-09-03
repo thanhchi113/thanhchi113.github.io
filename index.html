@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html lang="vi">
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Thanh Chí | Personal Website</title>
 
-    <meta name="description" content="Website cá nhân của Thanh Chí">
+    <meta
+        name="description"
+        content="Website cá nhân của Huỳnh Thanh Chí - Giáo viên Toán, Công nghệ và AI"
+    >
 
-   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    >
 </head>
 
 <body>
 
-    <!-- HEADER -->
+    <!-- =========================
+         HEADER
+    ========================== -->
     <header>
         <div class="container navbar">
 
-            <a href="#" class="logo">
+            <a href="#home" class="logo">
                 Thanh<span>Chí</span>
             </a>
 
@@ -30,6 +39,7 @@
                 <li><a href="#about">Giới thiệu</a></li>
                 <li><a href="#skills">Kỹ năng</a></li>
                 <li><a href="#projects">Dự án</a></li>
+                <li><a href="#achievements">Thành tích</a></li>
                 <li><a href="#contact">Liên hệ</a></li>
             </ul>
 
@@ -37,1006 +47,1032 @@
     </header>
 
 
-    <!-- HERO -->
     <main>
 
-       <section class="hero" id="home">
+        <!-- =========================
+             HERO
+        ========================== -->
+        <section class="hero" id="home">
 
-    <div class="container hero-content">
+            <div class="container hero-content">
 
-        <!-- PHẦN NỘI DUNG BÊN TRÁI -->
-        <div class="hero-text">
+                <!-- LEFT: TEXT -->
+                <div class="hero-text">
 
-            <div class="hero-small">
-                XIN CHÀO, TÔI LÀ
-            </div>
-
-            <h1>
-                HUỲNH<br>
-                <span>THANH CHÍ</span>
-            </h1>
-
-            <div class="hero-role">
-                GIÁO VIÊN TOÁN
-            </div>
-
-            <p class="hero-description">
-                Tôi đam mê Toán học, công nghệ và trí tuệ nhân tạo,
-                đặc biệt là việc ứng dụng công nghệ để tạo ra
-                những trải nghiệm học tập hiệu quả và trực quan hơn.
-            </p>
-
-            <div class="buttons">
-
-                <a href="#about" class="btn btn-primary">
-                    Xem về tôi
-                </a>
-
-                <a href="#contact" class="btn btn-outline">
-                    Liên hệ
-                </a>
-
-            </div>
-
-            <div class="hero-socials">
-
-                <a
-                    href="https://www.facebook.com/mendz1103"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Facebook"
-                >
-                    Facebook
-                </a>
-
-                <span>•</span>
-
-                <a
-                    href="https://github.com/thanhchi113"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="GitHub"
-                >
-                    GitHub
-                </a>
-
-                <span>•</span>
-
-                <a
-                    href="mailto:chithanhhuynh11@gmail.com"
-                    aria-label="Email"
-                >
-                    Email
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- AVATAR BÊN PHẢI -->
-        <div class="avatar-wrapper">
-
-            <div class="avatar">
-                <img
-                    src="assets/avatar.jpg"
-                    alt="Huỳnh Thanh Chí"
-                >
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-        <!-- ABOUT -->
-       <section id="about">
-
-    <div class="container">
-
-        <div class="section-title">
-            <h2>Giới thiệu</h2>
-            <p>Một chút về tôi</p>
-        </div>
-
-        <div class="about-main">
-
-            <div class="about-content">
-
-                <h3>
-                    Tôi là <span>Huỳnh Thanh Chí</span>
-                </h3>
-
-                <p>
-                    Tôi là một giáo viên Toán, yêu thích việc khám phá
-                    công nghệ và trí tuệ nhân tạo. Tôi đặc biệt quan tâm
-                    đến cách AI và các công cụ công nghệ có thể hỗ trợ
-                    giáo viên, học sinh và nâng cao hiệu quả học tập.
-                </p>
-
-                <p>
-                    Bên cạnh giảng dạy, tôi thường xuyên tìm hiểu về
-                    LaTeX, TikZ, AI và các công cụ số để xây dựng tài liệu,
-                    nội dung và những sản phẩm phục vụ giáo dục.
-                </p>
-
-            </div>
-
-
-            <div class="about-highlight">
-
-                <div class="highlight-item">
-
-                    <div class="highlight-number">
-                        Toán
+                    <div class="hero-small">
+                        XIN CHÀO, TÔI LÀ
                     </div>
 
-                    <div class="highlight-text">
-                        Mathematics
+                    <h1>
+                        HUỲNH<br>
+                        <span>THANH CHÍ</span>
+                    </h1>
+
+                    <div class="hero-role">
+                        GIÁO VIÊN TOÁN
+                    </div>
+
+                    <p class="hero-description">
+                        Tôi đam mê Toán học, công nghệ và trí tuệ nhân tạo,
+                        đặc biệt là việc ứng dụng công nghệ để tạo ra
+                        những trải nghiệm học tập hiệu quả và trực quan hơn.
+                    </p>
+
+                    <div class="buttons">
+
+                        <a href="#about" class="btn btn-primary">
+                            Xem về tôi
+                        </a>
+
+                        <a href="#contact" class="btn btn-outline">
+                            Liên hệ
+                        </a>
+
+                    </div>
+
+                    <!-- SOCIAL ICONS -->
+                    <div class="hero-socials">
+
+                        <a
+                            href="https://www.facebook.com/mendz1103"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Facebook"
+                            title="Facebook"
+                        >
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+
+                        <a
+                            href="https://github.com/thanhchi113"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="GitHub"
+                            title="GitHub"
+                        >
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+
+                        <a
+                            href="mailto:chithanhhuynh11@gmail.com"
+                            aria-label="Email"
+                            title="Email"
+                        >
+                            <i class="fa-solid fa-envelope"></i>
+                        </a>
+
                     </div>
 
                 </div>
 
 
-                <div class="highlight-item">
+                <!-- RIGHT: AVATAR -->
+                <div class="avatar-wrapper">
 
-                    <div class="highlight-number">
-                        AI
-                    </div>
-
-                    <div class="highlight-text">
-                        Artificial Intelligence
-                    </div>
-
-                </div>
-
-
-                <div class="highlight-item">
-
-                    <div class="highlight-number">
-                        Tech
-                    </div>
-
-                    <div class="highlight-text">
-                        Technology
+                    <div class="avatar">
+                        <img
+                            src="assets/avatar.jpg"
+                            alt="Ảnh đại diện Huỳnh Thanh Chí"
+                        >
                     </div>
 
                 </div>
 
             </div>
 
-        </div>
-
-    </div>
-
-</section>
+        </section>
 
 
-        <!-- SKILLS -->
+        <!-- =========================
+             ABOUT
+        ========================== -->
+        <section id="about">
+
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Giới thiệu</h2>
+                    <p>Một chút về tôi</p>
+                </div>
+
+                <div class="about-main">
+
+                    <div class="about-content">
+
+                        <div class="about-label">
+                            ABOUT ME
+                        </div>
+
+                        <h3>
+                            Tôi là <span>Huỳnh Thanh Chí</span>
+                        </h3>
+
+                        <p>
+                            Tôi là một giáo viên Toán, yêu thích việc khám phá
+                            công nghệ và trí tuệ nhân tạo. Tôi đặc biệt quan tâm
+                            đến cách AI và các công cụ công nghệ có thể hỗ trợ
+                            giáo viên, học sinh và nâng cao hiệu quả học tập.
+                        </p>
+
+                        <p>
+                            Bên cạnh giảng dạy, tôi thường xuyên tìm hiểu về
+                            LaTeX, TikZ, AI và các công cụ số để xây dựng tài liệu,
+                            nội dung và những sản phẩm phục vụ giáo dục.
+                        </p>
+
+                    </div>
+
+
+                    <div class="about-highlight">
+
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fa-solid fa-calculator"></i>
+                            </div>
+
+                            <div>
+                                <div class="highlight-number">
+                                    Toán
+                                </div>
+
+                                <div class="highlight-text">
+                                    Mathematics
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+
+                            <div>
+                                <div class="highlight-number">
+                                    AI
+                                </div>
+
+                                <div class="highlight-text">
+                                    Artificial Intelligence
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+
+                            <div>
+                                <div class="highlight-number">
+                                    Tech
+                                </div>
+
+                                <div class="highlight-text">
+                                    Technology
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SKILLS
+        ========================== -->
         <section id="skills">
 
-    <div class="container">
+            <div class="container">
 
-        <div class="section-title">
-            <h2>Kỹ năng</h2>
-            <p>Những lĩnh vực tôi quan tâm và sử dụng</p>
-        </div>
-
-        <div class="skills">
-
-            <!-- TOÁN HỌC -->
-            <div class="skill-item">
-
-                <div class="skill-header">
-
-                    <div class="skill-icon">
-                        📐
-                    </div>
-
-                    <div class="skill-info">
-                        <h3>Toán học</h3>
-                        <p>Mathematics</p>
-                    </div>
-
-                    <div class="skill-percent">
-                        95%
-                    </div>
-
+                <div class="section-title">
+                    <h2>Kỹ năng</h2>
+                    <p>Những lĩnh vực tôi quan tâm và sử dụng</p>
                 </div>
 
-                <div class="skill-bar">
-                    <div
-                        class="skill-progress"
-                        style="width: 95%;"
-                    ></div>
+                <div class="skills">
+
+                    <div class="skill-item">
+
+                        <div class="skill-header">
+
+                            <div class="skill-icon">
+                                <i class="fa-solid fa-calculator"></i>
+                            </div>
+
+                            <div class="skill-info">
+                                <h3>Toán học</h3>
+                                <p>Mathematics</p>
+                            </div>
+
+                            <div class="skill-percent">
+                                95%
+                            </div>
+
+                        </div>
+
+                        <div class="skill-bar">
+                            <div
+                                class="skill-progress"
+                                style="width: 95%;"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill-item">
+
+                        <div class="skill-header">
+
+                            <div class="skill-icon">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+
+                            <div class="skill-info">
+                                <h3>AI</h3>
+                                <p>Artificial Intelligence</p>
+                            </div>
+
+                            <div class="skill-percent">
+                                90%
+                            </div>
+
+                        </div>
+
+                        <div class="skill-bar">
+                            <div
+                                class="skill-progress"
+                                style="width: 90%;"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill-item">
+
+                        <div class="skill-header">
+
+                            <div class="skill-icon">
+                                <i class="fa-solid fa-file-code"></i>
+                            </div>
+
+                            <div class="skill-info">
+                                <h3>LaTeX</h3>
+                                <p>Document Typesetting</p>
+                            </div>
+
+                            <div class="skill-percent">
+                                90%
+                            </div>
+
+                        </div>
+
+                        <div class="skill-bar">
+                            <div
+                                class="skill-progress"
+                                style="width: 90%;"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill-item">
+
+                        <div class="skill-header">
+
+                            <div class="skill-icon">
+                                <i class="fa-solid fa-pen-ruler"></i>
+                            </div>
+
+                            <div class="skill-info">
+                                <h3>TikZ</h3>
+                                <p>Mathematical Graphics</p>
+                            </div>
+
+                            <div class="skill-percent">
+                                85%
+                            </div>
+
+                        </div>
+
+                        <div class="skill-bar">
+                            <div
+                                class="skill-progress"
+                                style="width: 85%;"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill-item">
+
+                        <div class="skill-header">
+
+                            <div class="skill-icon">
+                                <i class="fa-solid fa-pen"></i>
+                            </div>
+
+                            <div class="skill-info">
+                                <h3>Content Creation</h3>
+                                <p>Educational Content</p>
+                            </div>
+
+                            <div class="skill-percent">
+                                85%
+                            </div>
+
+                        </div>
+
+                        <div class="skill-bar">
+                            <div
+                                class="skill-progress"
+                                style="width: 85%;"
+                            ></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill-item">
+
+                        <div class="skill-header">
+
+                            <div class="skill-icon">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+
+                            <div class="skill-info">
+                                <h3>Công nghệ</h3>
+                                <p>Technology</p>
+                            </div>
+
+                            <div class="skill-percent">
+                                80%
+                            </div>
+
+                        </div>
+
+                        <div class="skill-bar">
+                            <div
+                                class="skill-progress"
+                                style="width: 80%;"
+                            ></div>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
 
-
-            <!-- AI -->
-            <div class="skill-item">
-
-                <div class="skill-header">
-
-                    <div class="skill-icon">
-                        🤖
-                    </div>
-
-                    <div class="skill-info">
-                        <h3>AI</h3>
-                        <p>Artificial Intelligence</p>
-                    </div>
-
-                    <div class="skill-percent">
-                        90%
-                    </div>
-
-                </div>
-
-                <div class="skill-bar">
-                    <div
-                        class="skill-progress"
-                        style="width: 90%;"
-                    ></div>
-                </div>
-
-            </div>
+        </section>
 
 
-            <!-- LATEX -->
-            <div class="skill-item">
-
-                <div class="skill-header">
-
-                    <div class="skill-icon">
-                        📝
-                    </div>
-
-                    <div class="skill-info">
-                        <h3>LaTeX</h3>
-                        <p>Document Typesetting</p>
-                    </div>
-
-                    <div class="skill-percent">
-                        90%
-                    </div>
-
-                </div>
-
-                <div class="skill-bar">
-                    <div
-                        class="skill-progress"
-                        style="width: 90%;"
-                    ></div>
-                </div>
-
-            </div>
-
-
-            <!-- TIKZ -->
-            <div class="skill-item">
-
-                <div class="skill-header">
-
-                    <div class="skill-icon">
-                        🎨
-                    </div>
-
-                    <div class="skill-info">
-                        <h3>TikZ</h3>
-                        <p>Mathematical Graphics</p>
-                    </div>
-
-                    <div class="skill-percent">
-                        85%
-                    </div>
-
-                </div>
-
-                <div class="skill-bar">
-                    <div
-                        class="skill-progress"
-                        style="width: 85%;"
-                    ></div>
-                </div>
-
-            </div>
-
-
-            <!-- CONTENT -->
-            <div class="skill-item">
-
-                <div class="skill-header">
-
-                    <div class="skill-icon">
-                        ✍️
-                    </div>
-
-                    <div class="skill-info">
-                        <h3>Content Creation</h3>
-                        <p>Educational Content</p>
-                    </div>
-
-                    <div class="skill-percent">
-                        85%
-                    </div>
-
-                </div>
-
-                <div class="skill-bar">
-                    <div
-                        class="skill-progress"
-                        style="width: 85%;"
-                    ></div>
-                </div>
-
-            </div>
-
-
-            <!-- TECHNOLOGY -->
-            <div class="skill-item">
-
-                <div class="skill-header">
-
-                    <div class="skill-icon">
-                        💻
-                    </div>
-
-                    <div class="skill-info">
-                        <h3>Công nghệ</h3>
-                        <p>Technology</p>
-                    </div>
-
-                    <div class="skill-percent">
-                        80%
-                    </div>
-
-                </div>
-
-                <div class="skill-bar">
-                    <div
-                        class="skill-progress"
-                        style="width: 80%;"
-                    ></div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-        <!-- PROJECTS -->
+        <!-- =========================
+             PROJECTS
+        ========================== -->
         <section id="projects">
 
-    <div class="container">
+            <div class="container">
 
-        <div class="section-title">
-            <h2>Dự án</h2>
-            <p>Một số dự án tôi đã và đang thực hiện</p>
-        </div>
-
-
-        <div class="projects">
-
-            <!-- PROJECT 1 -->
-            <div class="project-card">
-
-                <div class="project-top">
-
-                    <div class="project-icon">
-                        🤖
-                    </div>
-
-                    <div class="project-number">
-                        01
-                    </div>
-
+                <div class="section-title">
+                    <h2>Dự án</h2>
+                    <p>Một số dự án tôi đã và đang thực hiện</p>
                 </div>
 
-                <h3>
-                    AI Tools
-                </h3>
+                <div class="projects">
 
-                <p>
-                    Các công cụ ứng dụng trí tuệ nhân tạo
-                    nhằm hỗ trợ giáo viên trong công việc,
-                    soạn giảng và xây dựng nội dung giáo dục.
-                </p>
+                    <div class="project-card">
 
-                <div class="project-tags">
+                        <div class="project-top">
 
-                    <span>AI</span>
-                    <span>Education</span>
+                            <div class="project-icon">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
 
-                </div>
+                            <div class="project-number">
+                                01
+                            </div>
 
-                <a href="#" class="project-link">
-                    Xem dự án →
-                </a>
+                        </div>
 
-            </div>
+                        <h3>
+                            AI Tools
+                        </h3>
 
+                        <p>
+                            Các công cụ ứng dụng trí tuệ nhân tạo
+                            nhằm hỗ trợ giáo viên trong công việc,
+                            soạn giảng và xây dựng nội dung giáo dục.
+                        </p>
 
-            <!-- PROJECT 2 -->
-            <div class="project-card">
+                        <div class="project-tags">
+                            <span>AI</span>
+                            <span>Education</span>
+                        </div>
 
-                <div class="project-top">
-
-                    <div class="project-icon">
-                        📐
-                    </div>
-
-                    <div class="project-number">
-                        02
-                    </div>
-
-                </div>
-
-                <h3>
-                    Toán học
-                </h3>
-
-                <p>
-                    Tài liệu, bài tập và các sản phẩm trực quan
-                    phục vụ việc dạy và học Toán học.
-                </p>
-
-                <div class="project-tags">
-
-                    <span>Mathematics</span>
-                    <span>LaTeX</span>
-
-                </div>
-
-                <a href="#" class="project-link">
-                    Xem dự án →
-                </a>
-
-            </div>
-
-
-            <!-- PROJECT 3 -->
-            <div class="project-card">
-
-                <div class="project-top">
-
-                    <div class="project-icon">
-                        💻
-                    </div>
-
-                    <div class="project-number">
-                        03
-                    </div>
-
-                </div>
-
-                <h3>
-                    Công nghệ
-                </h3>
-
-                <p>
-                    Các dự án cá nhân liên quan đến website,
-                    tự động hóa và những công cụ phục vụ công việc.
-                </p>
-
-                <div class="project-tags">
-
-                    <span>Web</span>
-                    <span>Automation</span>
-
-                </div>
-
-                <a href="#" class="project-link">
-                    Xem dự án →
-                </a>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-<!-- ACHIEVEMENTS -->
-<section id="achievements">
-
-    <div class="container">
-
-        <div class="section-title">
-            <h2>Thành tích</h2>
-            <p>Một số kết quả nổi bật trong quá trình giảng dạy</p>
-        </div>
-
-
-        <div class="achievement-list">
-
-
-            <!-- THÀNH TÍCH 1 -->
-            <div class="achievement-card-large">
-
-                <div class="achievement-card-icon">
-                    🏫
-                </div>
-
-                <div class="achievement-card-content">
-
-                    <div class="achievement-label">
-                        LUYỆN THI VÀO LỚP 10
-                    </div>
-
-                    <h3>
-                        Giáo viên dạy học sinh thi vào lớp 10 đạt kết quả cao
-                    </h3>
-
-                    <p>
-                        Học sinh được ôn luyện và đồng hành trong quá trình
-                        chuẩn bị kỳ thi tuyển sinh vào lớp 10, đạt kết quả tốt
-                        và trúng tuyển vào nhiều trường THPT chất lượng.
-                    </p>
-
-                    <div class="achievement-schools">
-
-                        <span>Lê Quý Đôn</span>
-                        <span>Quốc Học</span>
-                        <span>Trưng Vương</span>
-                        <span>...</span>
+                        <a href="#contact" class="project-link">
+                            Xem dự án
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
 
                     </div>
 
-                    <button
-                        class="evidence-button"
-                        onclick="openGallery('grade10')"
-                    >
-                        📷 Xem minh chứng
-                    </button>
+
+                    <div class="project-card">
+
+                        <div class="project-top">
+
+                            <div class="project-icon">
+                                <i class="fa-solid fa-shapes"></i>
+                            </div>
+
+                            <div class="project-number">
+                                02
+                            </div>
+
+                        </div>
+
+                        <h3>
+                            Toán học
+                        </h3>
+
+                        <p>
+                            Tài liệu, bài tập và các sản phẩm trực quan
+                            phục vụ việc dạy và học Toán học.
+                        </p>
+
+                        <div class="project-tags">
+                            <span>Mathematics</span>
+                            <span>LaTeX</span>
+                        </div>
+
+                        <a href="#contact" class="project-link">
+                            Xem dự án
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+
+                    <div class="project-card">
+
+                        <div class="project-top">
+
+                            <div class="project-icon">
+                                <i class="fa-solid fa-code"></i>
+                            </div>
+
+                            <div class="project-number">
+                                03
+                            </div>
+
+                        </div>
+
+                        <h3>
+                            Công nghệ
+                        </h3>
+
+                        <p>
+                            Các dự án cá nhân liên quan đến website,
+                            tự động hóa và những công cụ phục vụ công việc.
+                        </p>
+
+                        <div class="project-tags">
+                            <span>Web</span>
+                            <span>Automation</span>
+                        </div>
+
+                        <a href="#contact" class="project-link">
+                            Xem dự án
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </div>
 
                 </div>
 
             </div>
 
+        </section>
 
-            <!-- THÀNH TÍCH 2 -->
-            <div class="achievement-card-large">
 
-                <div class="achievement-card-icon">
-                    🎓
+        <!-- =========================
+             ACHIEVEMENTS
+        ========================== -->
+        <section id="achievements">
+
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Thành tích</h2>
+                    <p>Một số kết quả nổi bật trong quá trình giảng dạy</p>
                 </div>
 
-                <div class="achievement-card-content">
 
-                    <div class="achievement-label">
-                        LUYỆN THI TỐT NGHIỆP THPT
-                    </div>
+                <div class="achievement-list">
 
-                    <h3>
-                        Học sinh lớp 12 đạt điểm Toán cao và đạt nguyện vọng 1
-                    </h3>
+                    <!-- GRADE 10 -->
+                    <article class="achievement-card-large">
 
-                    <p>
-                        Đồng hành cùng học sinh lớp 12 trong quá trình ôn thi
-                        tốt nghiệp THPT, giúp học sinh cải thiện kết quả môn Toán,
-                        đạt điểm số cao và trúng tuyển vào nguyện vọng 1.
-                    </p>
+                        <div class="achievement-card-icon">
+                            <i class="fa-solid fa-school"></i>
+                        </div>
 
-                    <div class="achievement-schools">
+                        <div class="achievement-card-content">
 
-                        <span>Điểm Toán cao</span>
-                        <span>Đạt NV1</span>
-                        <span>Tốt nghiệp</span>
+                            <div class="achievement-label">
+                                LUYỆN THI VÀO LỚP 10
+                            </div>
 
-                    </div>
+                            <h3>
+                                Giáo viên dạy học sinh thi vào lớp 10 đạt kết quả cao
+                            </h3>
 
-                    <button
-                        class="evidence-button"
-                        onclick="openGallery('grade12')"
-                    >
-                        📷 Xem minh chứng
-                    </button>
+                            <p>
+                                Học sinh được ôn luyện và đồng hành trong quá trình
+                                chuẩn bị kỳ thi tuyển sinh vào lớp 10, đạt kết quả tốt
+                                và trúng tuyển vào nhiều trường THPT chất lượng.
+                            </p>
+
+                            <div class="achievement-schools">
+
+                                <span>Lê Quý Đôn</span>
+                                <span>Quốc Học</span>
+                                <span>Trưng Vương</span>
+                                <span>...</span>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                class="evidence-button"
+                                onclick="openGallery('grade10')"
+                            >
+                                <i class="fa-solid fa-images"></i>
+                                Xem minh chứng
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- GRADE 12 -->
+                    <article class="achievement-card-large">
+
+                        <div class="achievement-card-icon">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+
+                        <div class="achievement-card-content">
+
+                            <div class="achievement-label">
+                                LUYỆN THI TỐT NGHIỆP THPT
+                            </div>
+
+                            <h3>
+                                Học sinh lớp 12 đạt điểm Toán cao và đạt nguyện vọng 1
+                            </h3>
+
+                            <p>
+                                Đồng hành cùng học sinh lớp 12 trong quá trình ôn thi
+                                tốt nghiệp THPT, giúp học sinh cải thiện kết quả môn Toán,
+                                đạt điểm số cao và trúng tuyển vào nguyện vọng 1.
+                            </p>
+
+                            <div class="achievement-schools">
+
+                                <span>Điểm Toán cao</span>
+                                <span>Đạt NV1</span>
+                                <span>Tốt nghiệp</span>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                class="evidence-button"
+                                onclick="openGallery('grade12')"
+                            >
+                                <i class="fa-solid fa-images"></i>
+                                Xem minh chứng
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- FEEDBACK -->
+                    <article class="achievement-card-large">
+
+                        <div class="achievement-card-icon">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+
+                        <div class="achievement-card-content">
+
+                            <div class="achievement-label">
+                                PHẢN HỒI TỪ HỌC SINH
+                            </div>
+
+                            <h3>
+                                Những phản hồi thực tế sau khi đạt kết quả
+                            </h3>
+
+                            <p>
+                                Một số tin nhắn và phản hồi từ học sinh, phụ huynh
+                                sau khi có kết quả thi nhằm ghi lại những dấu mốc
+                                đáng nhớ trong quá trình học tập.
+                            </p>
+
+                            <div class="achievement-schools">
+
+                                <span>Học sinh</span>
+                                <span>Phụ huynh</span>
+                                <span>Kết quả thực tế</span>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                class="evidence-button"
+                                onclick="openGallery('feedback')"
+                            >
+                                <i class="fa-solid fa-images"></i>
+                                Xem phản hồi
+                            </button>
+
+                        </div>
+
+                    </article>
 
                 </div>
 
             </div>
 
 
-            <!-- THÀNH TÍCH 3 -->
-            <div class="achievement-card-large">
-
-                <div class="achievement-card-icon">
-                    ⭐
-                </div>
-
-                <div class="achievement-card-content">
-
-                    <div class="achievement-label">
-                        PHẢN HỒI TỪ HỌC SINH
-                    </div>
-
-                    <h3>
-                        Những phản hồi thực tế sau khi đạt kết quả
-                    </h3>
-
-                    <p>
-                        Một số tin nhắn và phản hồi từ học sinh, phụ huynh
-                        sau khi có kết quả thi nhằm ghi lại những dấu mốc
-                        đáng nhớ trong quá trình học tập.
-                    </p>
-
-                    <div class="achievement-schools">
-
-                        <span>Học sinh</span>
-                        <span>Phụ huynh</span>
-                        <span>Kết quả thực tế</span>
-
-                    </div>
-
-                    <button
-                        class="evidence-button"
-                        onclick="openGallery('feedback')"
-                    >
-                        📷 Xem phản hồi
-                    </button>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- GALLERY -->
-    <div
-        id="galleryModal"
-        class="gallery-modal"
-        onclick="closeGallery(event)"
-    >
-
-        <div
-            class="gallery-container"
-            onclick="event.stopPropagation()"
-        >
-
-            <button
-                class="gallery-close"
-                onclick="closeGallery()"
-            >
-                ×
-            </button>
-
-            <button
-                class="gallery-prev"
-                onclick="changeImage(-1)"
-            >
-                ‹
-            </button>
-
-            <img
-                id="galleryImage"
-                src=""
-                alt="Minh chứng thành tích"
-            >
-
-            <button
-                class="gallery-next"
-                onclick="changeImage(1)"
-            >
-                ›
-            </button>
-
+            <!-- GALLERY -->
             <div
-                id="galleryCounter"
-                class="gallery-counter"
+                id="galleryModal"
+                class="gallery-modal"
+                onclick="closeGallery(event)"
+                aria-hidden="true"
             >
-                1 / 1
-            </div>
 
-        </div>
-
-    </div>
-
-</section>
-
-        <!-- CONTACT -->
-        <!-- CONTACT -->
-<section id="contact">
-
-    <div class="container">
-
-        <div class="section-title">
-            <h2>Liên hệ</h2>
-            <p>Hãy kết nối với tôi</p>
-        </div>
-
-
-        <div class="contact-wrapper">
-
-            <div class="contact-intro">
-
-                <h3>
-                    Bạn muốn kết nối?
-                </h3>
-
-                <p>
-                    Tôi luôn sẵn sàng trao đổi về Toán học,
-                    công nghệ, AI và các dự án giáo dục.
-                </p>
-
-            </div>
-
-
-            <div class="contact-list">
-
-                <!-- EMAIL -->
-                <a
-                    href="mailto:chithanhhuynh11@gmail.com"
-                    class="contact-item"
+                <div
+                    class="gallery-container"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Minh chứng thành tích"
+                    onclick="event.stopPropagation()"
                 >
 
-                    <div class="contact-icon">
-                        <i class="fa-solid fa-envelope"></i>
+                    <button
+                        type="button"
+                        class="gallery-close"
+                        onclick="closeGallery()"
+                        aria-label="Đóng"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="gallery-prev"
+                        onclick="changeImage(-1)"
+                        aria-label="Ảnh trước"
+                    >
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+
+                    <img
+                        id="galleryImage"
+                        src=""
+                        alt="Minh chứng thành tích"
+                    >
+
+                    <button
+                        type="button"
+                        class="gallery-next"
+                        onclick="changeImage(1)"
+                        aria-label="Ảnh tiếp theo"
+                    >
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+
+                    <div
+                        id="galleryCounter"
+                        class="gallery-counter"
+                    >
+                        0 / 0
                     </div>
 
-                    <div class="contact-info">
-                        <strong>
-                            chithanhhuynh11@gmail.com
-                        </strong>
-                    </div>
-
-                    <div class="contact-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-
-                </a>
-
-
-                <!-- PHONE -->
-                <a
-                    href="tel:0905957716"
-                    class="contact-item"
-                >
-
-                    <div class="contact-icon">
-                        <i class="fa-solid fa-phone"></i>
-                    </div>
-
-                    <div class="contact-info">
-                        <strong>
-                            090.595.7716
-                        </strong>
-                    </div>
-
-                    <div class="contact-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-
-                </a>
-
-
-                <!-- FACEBOOK -->
-                <a
-                    href="https://www.facebook.com/mendz1103"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="contact-item"
-                >
-
-                    <div class="contact-icon">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </div>
-
-                    <div class="contact-info">
-                        <strong>
-                            facebook.com/mendz1103
-                        </strong>
-                    </div>
-
-                    <div class="contact-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-
-                </a>
-
-
-                <!-- GITHUB -->
-                <a
-                    href="https://github.com/thanhchi113"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="contact-item"
-                >
-
-                    <div class="contact-icon">
-                        <i class="fa-brands fa-github"></i>
-                    </div>
-
-                    <div class="contact-info">
-                        <strong>
-                            github.com/thanhchi113
-                        </strong>
-                    </div>
-
-                    <div class="contact-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-
-                </a>
+                </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </div>
 
-</section>
+        <!-- =========================
+             CONTACT
+        ========================== -->
+        <section id="contact">
+
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Liên hệ</h2>
+                    <p>Hãy kết nối với tôi</p>
+                </div>
+
+                <div class="contact-wrapper">
+
+                    <div class="contact-intro">
+
+                        <div class="contact-label">
+                            GET IN TOUCH
+                        </div>
+
+                        <h3>
+                            Bạn muốn kết nối?
+                        </h3>
+
+                        <p>
+                            Tôi luôn sẵn sàng trao đổi về Toán học,
+                            công nghệ, AI và các dự án giáo dục.
+                        </p>
+
+                    </div>
+
+
+                    <div class="contact-list">
+
+                        <!-- EMAIL -->
+                        <a
+                            href="mailto:chithanhhuynh11@gmail.com"
+                            class="contact-item"
+                        >
+
+                            <div class="contact-icon">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+
+                            <div class="contact-info">
+                                <span>Email</span>
+                                <strong>
+                                    chithanhhuynh11@gmail.com
+                                </strong>
+                            </div>
+
+                            <div class="contact-arrow">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+
+                        </a>
+
+
+                        <!-- PHONE -->
+                        <a
+                            href="tel:0905957716"
+                            class="contact-item"
+                        >
+
+                            <div class="contact-icon">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+
+                            <div class="contact-info">
+                                <span>Số điện thoại</span>
+                                <strong>
+                                    090.595.7716
+                                </strong>
+                            </div>
+
+                            <div class="contact-arrow">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+
+                        </a>
+
+
+                        <!-- FACEBOOK -->
+                        <a
+                            href="https://www.facebook.com/mendz1103"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="contact-item"
+                        >
+
+                            <div class="contact-icon">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </div>
+
+                            <div class="contact-info">
+                                <span>Facebook</span>
+                                <strong>
+                                    facebook.com/mendz1103
+                                </strong>
+                            </div>
+
+                            <div class="contact-arrow">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+
+                        </a>
+
+
+                        <!-- GITHUB -->
+                        <a
+                            href="https://github.com/thanhchi113"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="contact-item"
+                        >
+
+                            <div class="contact-icon">
+                                <i class="fa-brands fa-github"></i>
+                            </div>
+
+                            <div class="contact-info">
+                                <span>GitHub</span>
+                                <strong>
+                                    github.com/thanhchi113
+                                </strong>
+                            </div>
+
+                            <div class="contact-arrow">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
 
     </main>
 
 
-    <!-- FOOTER -->
+    <!-- =========================
+         FOOTER
+    ========================== -->
     <footer>
 
         <div class="container">
 
-            © 2026 Thanh Chí. All rights reserved.
+            <div class="footer-content">
+
+                <span>
+                    © 2026 Thanh Chí. All rights reserved.
+                </span>
+
+                <a href="#home" class="back-to-top" aria-label="Về đầu trang">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </a>
+
+            </div>
 
         </div>
 
     </footer>
-<script>
-
-/* =========================================
-   ACHIEVEMENT GALLERY
-========================================= */
-
-const galleryData = {
-
-    grade10: [
-        "assets/achievements/grade10-1.jpg",
-        "assets/achievements/grade10-2.jpg",
-        "assets/achievements/grade10-3.jpg"
-    ],
-
-    grade12: [
-        "assets/achievements/grade12-1.jpg",
-        "assets/achievements/grade12-2.jpg",
-        "assets/achievements/grade12-3.jpg"
-    ],
-
-    feedback: [
-        "assets/achievements/feedback-1.jpg",
-        "assets/achievements/feedback-2.jpg",
-        "assets/achievements/feedback-3.jpg"
-    ]
-
-};
 
 
-let currentGallery = [];
+    <!-- =========================
+         GALLERY SCRIPT
+    ========================== -->
+    <script>
+        /*
+         * Add your future evidence images here.
+         *
+         * Example:
+         * grade10: [
+         *     "assets/achievements/grade10-1.jpg",
+         *     "assets/achievements/grade10-2.jpg"
+         * ]
+         */
+        const galleryData = {
+            grade10: [],
+            grade12: [],
+            feedback: []
+        };
 
-let currentImageIndex = 0;
-
-
-function openGallery(type) {
-
-    currentGallery = galleryData[type] || [];
-
-    currentImageIndex = 0;
-
-    if (currentGallery.length === 0) {
-        return;
-    }
-
-    updateGallery();
-
-    document
-        .getElementById("galleryModal")
-        .classList
-        .add("active");
-
-    document.body.style.overflow = "hidden";
-}
+        let currentGallery = [];
+        let currentImageIndex = 0;
 
 
-function updateGallery() {
+        function openGallery(type) {
 
-    const image =
-        document.getElementById("galleryImage");
+            currentGallery = galleryData[type] || [];
+            currentImageIndex = 0;
 
-    const counter =
-        document.getElementById("galleryCounter");
+            if (!currentGallery.length) {
+                alert(
+                    "Hiện chưa có ảnh minh chứng cho mục này. " +
+                    "Bạn có thể thêm ảnh vào thư mục assets/achievements sau."
+                );
+                return;
+            }
 
-    image.src =
-        currentGallery[currentImageIndex];
+            updateGallery();
 
-    counter.textContent =
-        `${currentImageIndex + 1} / ${currentGallery.length}`;
-}
+            const modal = document.getElementById("galleryModal");
 
+            modal.classList.add("active");
+            modal.setAttribute("aria-hidden", "false");
 
-function changeImage(direction) {
-
-    if (!currentGallery.length) {
-        return;
-    }
-
-    currentImageIndex += direction;
-
-    if (currentImageIndex < 0) {
-
-        currentImageIndex =
-            currentGallery.length - 1;
-
-    }
-
-    if (currentImageIndex >= currentGallery.length) {
-
-        currentImageIndex = 0;
-
-    }
-
-    updateGallery();
-}
-
-
-function closeGallery(event) {
-
-    if (
-        event &&
-        event.target !==
-        document.getElementById("galleryModal")
-    ) {
-        return;
-    }
-
-    document
-        .getElementById("galleryModal")
-        .classList
-        .remove("active");
-
-    document.body.style.overflow = "";
-}
-
-
-/* ESC để đóng ảnh */
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        const modal =
-            document.getElementById("galleryModal");
-
-        if (
-            !modal.classList.contains("active")
-        ) {
-            return;
+            document.body.style.overflow = "hidden";
         }
 
-        if (event.key === "Escape") {
-            closeGallery();
+
+        function updateGallery() {
+
+            const image = document.getElementById("galleryImage");
+            const counter = document.getElementById("galleryCounter");
+
+            image.src = currentGallery[currentImageIndex];
+
+            counter.textContent =
+                `${currentImageIndex + 1} / ${currentGallery.length}`;
         }
 
-        if (event.key === "ArrowLeft") {
-            changeImage(-1);
+
+        function changeImage(direction) {
+
+            if (!currentGallery.length) {
+                return;
+            }
+
+            currentImageIndex += direction;
+
+            if (currentImageIndex < 0) {
+                currentImageIndex = currentGallery.length - 1;
+            }
+
+            if (currentImageIndex >= currentGallery.length) {
+                currentImageIndex = 0;
+            }
+
+            updateGallery();
         }
 
-        if (event.key === "ArrowRight") {
-            changeImage(1);
+
+        function closeGallery(event) {
+
+            const modal = document.getElementById("galleryModal");
+
+            if (
+                event &&
+                event.target !== modal
+            ) {
+                return;
+            }
+
+            modal.classList.remove("active");
+            modal.setAttribute("aria-hidden", "true");
+
+            document.body.style.overflow = "";
         }
 
-    }
-);
 
-</script>
+        document.addEventListener("keydown", function (event) {
+
+            const modal =
+                document.getElementById("galleryModal");
+
+            if (!modal.classList.contains("active")) {
+                return;
+            }
+
+            if (event.key === "Escape") {
+                closeGallery();
+            }
+
+            if (event.key === "ArrowLeft") {
+                changeImage(-1);
+            }
+
+            if (event.key === "ArrowRight") {
+                changeImage(1);
+            }
+
+        });
+    </script>
+
 </body>
 </html>
