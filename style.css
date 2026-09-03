@@ -900,50 +900,74 @@ footer {
 }
 
 /* =========================================
-   FINAL HERO POSITION
-   Avatar nằm cố định bên phải
+   HERO - FINAL LAYOUT
 ========================================= */
 
-.hero {
-    position: relative;
+.hero-content {
+    display: grid !important;
+
+    grid-template-columns: minmax(0, 1fr) 420px !important;
+
+    align-items: center !important;
+
+    gap: 80px !important;
+
+    min-height: 620px !important;
+
+    position: relative !important;
 }
 
-.hero-content {
-    position: relative !important;
-    display: block !important;
-    min-height: 620px;
-}
+
+/* Phần chữ bên trái */
 
 .hero-text {
-    width: 58% !important;
+    width: auto !important;
+
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+
     position: relative !important;
+
     z-index: 2;
 }
 
+
+/* Avatar bên phải */
+
 .avatar-wrapper {
-    position: absolute !important;
+    width: 100% !important;
+    height: auto !important;
 
-    right: 2% !important;
-    top: 50% !important;
+    grid-column: 2 !important;
+    grid-row: 1 !important;
 
-    width: 360px !important;
-    height: 360px !important;
+    position: relative !important;
 
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    top: auto !important;
+    right: auto !important;
 
     margin: 0 !important;
 
-    transform: translateY(-50%) !important;
+    transform: none !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
 
     z-index: 1;
 }
+
+
+/* Kích thước avatar */
 
 .avatar {
     width: 230px !important;
     height: 230px !important;
 }
+
+
+/* Vòng sáng */
 
 .avatar-wrapper::before {
     width: 270px !important;
@@ -958,7 +982,6 @@ footer {
 @media (max-width: 800px) {
 
     .hero-content {
-        min-height: auto !important;
         display: flex !important;
 
         flex-direction: column !important;
@@ -967,25 +990,28 @@ footer {
 
         gap: 50px !important;
 
+        min-height: auto !important;
+
         text-align: center !important;
     }
 
     .hero-text {
         width: 100% !important;
+
+        order: 1 !important;
     }
 
     .avatar-wrapper {
-        position: relative !important;
-
-        right: auto !important;
-        top: auto !important;
-
         width: 100% !important;
-        height: 260px !important;
-
-        transform: none !important;
 
         order: 2 !important;
+
+        position: relative !important;
+
+        top: auto !important;
+        right: auto !important;
+
+        transform: none !important;
     }
 
     .avatar {
