@@ -1904,12 +1904,7 @@ body:has(.pdf-modal.open){
     object-position:center center !important;
     transform:none !important;
 }
-.document-card-preview.uploaded-thumbnail .uploaded-thumbnail-badge{
-    position:absolute !important;
-    left:9px !important;
-    top:9px !important;
-    z-index:4 !important;
-}
+.document-card-preview.uploaded-thumbnail .uploaded-thumbnail-badge{display:none !important;}
 
 .document-card-actions{
     display:grid !important;
@@ -2326,6 +2321,218 @@ body:has(.pdf-modal.open){overflow:auto !important;}
     #documents .document-card-clickable:hover,
     #documents .document-card-clickable:focus-visible{
         transform:translateY(-5px) !important;
+    }
+}
+</style>
+
+
+<style id="final-hover-and-button-fit-v4">
+/* =========================================================
+   FINAL HOVER + ACTION BUTTON FIT — v4
+   - Remove every old horizontal light sweep.
+   - Replace it with a subtle, border-following light trace.
+   - Make document action buttons fit completely inside cards.
+   - Keep category cards on the same hover style.
+========================================================= */
+
+/* Never show the old horizontal shine/sweep inside cards. */
+#documents .document-card-clickable::after,
+#documents .document-category-card::after,
+#documents .document-category-card .document-open-label::after{
+    content:none !important;
+    display:none !important;
+    animation:none !important;
+    transform:none !important;
+    opacity:0 !important;
+}
+
+/* Base card setup. */
+#documents .document-card-clickable,
+#documents .document-category-card{
+    position:relative !important;
+    isolation:isolate !important;
+    overflow:hidden !important;
+    transform:translateY(0) !important;
+    transition:
+        transform .28s cubic-bezier(.2,.75,.25,1),
+        box-shadow .28s ease,
+        border-color .28s ease,
+        background .28s ease !important;
+    will-change:transform,box-shadow !important;
+}
+
+/* A thin moving light trace follows the border, without creating
+   a broad LED strip over the card. */
+#documents .document-card-clickable::before,
+#documents .document-category-card::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    z-index:12 !important;
+    padding:1px !important;
+    border-radius:inherit !important;
+    background:conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 300deg,
+        rgba(125,211,252,.00) 314deg,
+        rgba(125,211,252,.22) 326deg,
+        rgba(125,211,252,.78) 336deg,
+        rgba(167,139,250,.40) 346deg,
+        rgba(125,211,252,.00) 356deg,
+        transparent 360deg
+    ) !important;
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0) !important;
+    -webkit-mask-composite:xor !important;
+    mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0) !important;
+    mask-composite:exclude !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    animation:none !important;
+    filter:drop-shadow(0 0 2px rgba(125,211,252,.28)) !important;
+}
+
+#documents .document-card-clickable:hover,
+#documents .document-card-clickable:focus-visible,
+#documents .document-category-card:hover,
+#documents .document-category-card:focus-visible{
+    transform:translateY(-7px) !important;
+    border-color:rgba(125,211,252,.38) !important;
+    box-shadow:
+        0 18px 38px rgba(0,0,0,.30),
+        0 0 0 1px rgba(125,211,252,.045),
+        0 0 24px rgba(56,189,248,.08) !important;
+}
+
+#documents .document-card-clickable:hover::before,
+#documents .document-card-clickable:focus-visible::before,
+#documents .document-category-card:hover::before,
+#documents .document-category-card:focus-visible::before{
+    opacity:1 !important;
+    animation:cardBorderLightTrace 2.8s linear infinite !important;
+}
+
+@keyframes cardBorderLightTrace{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+}
+
+/* Keep the content above the animated border layer. */
+#documents .document-card-clickable > *,
+#documents .document-category-card > *{
+    position:relative !important;
+    z-index:14 !important;
+}
+
+/* Compact action row — all three controls always stay inside the card. */
+#documents .document-card-actions{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,.82fr) minmax(0,1.25fr) !important;
+    align-items:stretch !important;
+    gap:7px !important;
+    width:100% !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+}
+
+#documents .document-card-action,
+#documents .document-card-action.icon-only,
+#documents .document-card-action.open{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    height:38px !important;
+    min-height:38px !important;
+    box-sizing:border-box !important;
+    padding:0 8px !important;
+    margin:0 !important;
+    gap:6px !important;
+    font-family:"Segoe UI","Noto Sans","Arial Unicode MS",Arial,sans-serif !important;
+    font-size:11px !important;
+    font-weight:800 !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+}
+
+#documents .document-card-action span{
+    min-width:0 !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+}
+
+#documents .document-card-action i{
+    flex:0 0 auto !important;
+}
+
+#documents .document-card-action.open{
+    min-width:0 !important;
+}
+
+/* Category action is also compact and never gets a horizontal shine. */
+#documents .document-category-footer{
+    gap:10px !important;
+    width:100% !important;
+    min-width:0 !important;
+    box-sizing:border-box !important;
+}
+
+#documents .document-category-count,
+#documents .document-category-card .document-open-label{
+    min-width:0 !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+}
+
+#documents .document-category-card .document-open-label{
+    flex:1 1 auto !important;
+    min-height:38px !important;
+    padding:0 12px !important;
+    font-family:"Segoe UI","Noto Sans","Arial Unicode MS",Arial,sans-serif !important;
+    font-size:12px !important;
+}
+
+@media(max-width:700px){
+    #documents .document-card-actions{
+        grid-template-columns:minmax(0,1fr) minmax(0,.82fr) minmax(0,1.18fr) !important;
+        gap:6px !important;
+    }
+    #documents .document-card-action,
+    #documents .document-card-action.icon-only,
+    #documents .document-card-action.open{
+        height:37px !important;
+        min-height:37px !important;
+        padding:0 7px !important;
+        font-size:10px !important;
+    }
+    #documents .document-category-footer{
+        gap:8px !important;
+    }
+}
+
+@media(max-width:480px){
+    #documents .document-card-actions{
+        grid-template-columns:minmax(0,1fr) minmax(0,.82fr) minmax(0,1.2fr) !important;
+        gap:5px !important;
+    }
+    #documents .document-card-action,
+    #documents .document-card-action.icon-only,
+    #documents .document-card-action.open{
+        padding:0 6px !important;
+        font-size:9.5px !important;
+    }
+    #documents .document-category-footer{
+        gap:7px !important;
+    }
+    #documents .document-category-card .document-open-label{
+        padding:0 10px !important;
+        font-size:11px !important;
     }
 }
 </style>
