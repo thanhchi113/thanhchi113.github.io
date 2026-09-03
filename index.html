@@ -86,6 +86,12 @@
                     </li>
 
                     <li>
+                        <a href="#documents" class="nav-link">
+                            Tài liệu
+                        </a>
+                    </li>
+
+                    <li>
                         <a href="#contact" class="nav-link">
                             Liên hệ
                         </a>
@@ -663,6 +669,47 @@
         </section>
 
 
+
+        <!-- =========================
+             DOCUMENT LIBRARY
+        ========================== -->
+        <section id="documents" class="documents-section">
+
+            <div class="container">
+
+                <div class="section-title reveal">
+                    <div class="section-kicker">MATH LIBRARY</div>
+                    <h2>Tài liệu Toán học</h2>
+                    <p>Kho tài liệu được cập nhật trực tiếp từ khu vực quản trị</p>
+                </div>
+
+                <div class="document-toolbar reveal">
+                    <div class="document-search-wrap">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input id="documentSearch" type="search" placeholder="Tìm kiếm tài liệu..." autocomplete="off">
+                    </div>
+                    <select id="documentCategory" aria-label="Lọc theo danh mục">
+                        <option value="all">Tất cả danh mục</option>
+                    </select>
+                    <a class="document-admin-link" href="admin.html">
+                        <i class="fa-solid fa-lock"></i>
+                        Quản trị
+                    </a>
+                </div>
+
+                <div id="documentStatus" class="document-status reveal">Đang tải thư viện...</div>
+                <div id="documentList" class="document-grid"></div>
+
+                <div id="documentEmpty" class="document-empty" hidden>
+                    <i class="fa-regular fa-folder-open"></i>
+                    <h3>Chưa có tài liệu phù hợp</h3>
+                    <p>Hãy thử từ khóa hoặc danh mục khác.</p>
+                </div>
+
+            </div>
+
+        </section>
+
         <!-- =========================
              ACHIEVEMENTS
         ========================== -->
@@ -1010,6 +1057,26 @@
             </div>
 
         </section>
+
+
+        <div id="pdfModal" class="pdf-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Xem tài liệu PDF">
+            <div class="pdf-modal-inner" onclick="event.stopPropagation()">
+                <div class="pdf-modal-head">
+                    <div>
+                        <div class="pdf-modal-kicker">DOCUMENT VIEWER</div>
+                        <h3 id="pdfModalTitle">Tài liệu</h3>
+                    </div>
+                    <div class="pdf-modal-actions">
+                        <a id="pdfDownload" class="document-action secondary" href="#" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-solid fa-download"></i>
+                            Tải xuống
+                        </a>
+                        <button id="pdfClose" class="pdf-close" type="button" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+                <div class="pdf-frame-wrap"><iframe id="pdfFrame" title="Trình xem PDF" src="about:blank"></iframe></div>
+            </div>
+        </div>
 
     </main>
 
@@ -1837,4 +1904,3 @@
 
 </body>
 </html>
-
