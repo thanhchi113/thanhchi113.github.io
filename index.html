@@ -26,6 +26,9 @@
 
 <body>
 
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
     <!-- =========================
          HEADER
     ========================== -->
@@ -116,7 +119,7 @@
                     </h1>
 
                     <div class="hero-role">
-                        GIÁO VIÊN TOÁN
+                        <span id="typingRole">GIÁO VIÊN TOÁN</span><span class="typing-caret" aria-hidden="true"></span>
                     </div>
 
                     <p class="hero-description">
@@ -239,7 +242,7 @@
 
                     <div class="about-highlight">
 
-                        <div class="highlight-item reveal reveal-delay-1">
+                        <div class="highlight-item reveal reveal-delay-1 tilt-card">
 
                             <div class="highlight-icon">
                                 <i class="fa-solid fa-calculator"></i>
@@ -258,7 +261,7 @@
                         </div>
 
 
-                        <div class="highlight-item reveal reveal-delay-2">
+                        <div class="highlight-item reveal reveal-delay-2 tilt-card">
 
                             <div class="highlight-icon">
                                 <i class="fa-solid fa-robot"></i>
@@ -277,7 +280,7 @@
                         </div>
 
 
-                        <div class="highlight-item reveal reveal-delay-3">
+                        <div class="highlight-item reveal reveal-delay-3 tilt-card">
 
                             <div class="highlight-icon">
                                 <i class="fa-solid fa-laptop-code"></i>
@@ -514,7 +517,7 @@
 
                 <div class="projects">
 
-                    <article class="project-card reveal">
+                    <article class="project-card reveal tilt-card">
 
                         <div class="project-top">
 
@@ -551,7 +554,7 @@
                     </article>
 
 
-                    <article class="project-card reveal reveal-delay-1">
+                    <article class="project-card reveal reveal-delay-1 tilt-card">
 
                         <div class="project-top">
 
@@ -587,7 +590,7 @@
                     </article>
 
 
-                    <article class="project-card reveal reveal-delay-2">
+                    <article class="project-card reveal reveal-delay-2 tilt-card">
 
                         <div class="project-top">
 
@@ -645,7 +648,7 @@
 
                 <div class="achievement-list">
 
-                    <article class="achievement-card-large reveal">
+                    <article class="achievement-card-large reveal tilt-card">
 
                         <div class="achievement-card-icon">
                             <i class="fa-solid fa-school"></i>
@@ -688,7 +691,7 @@
                     </article>
 
 
-                    <article class="achievement-card-large reveal reveal-delay-1">
+                    <article class="achievement-card-large reveal reveal-delay-1 tilt-card">
 
                         <div class="achievement-card-icon">
                             <i class="fa-solid fa-graduation-cap"></i>
@@ -730,7 +733,7 @@
                     </article>
 
 
-                    <article class="achievement-card-large reveal reveal-delay-2">
+                    <article class="achievement-card-large reveal reveal-delay-2 tilt-card">
 
                         <div class="achievement-card-icon">
                             <i class="fa-solid fa-comments"></i>
@@ -1471,7 +1474,340 @@
             }
         );
 
-    </script>
+    
+
+        /* =========================================
+           TYPING EFFECT
+        ========================================== */
+
+        const typingRole =
+            document.getElementById("typingRole");
+
+        const typingPhrases = [
+            "GIÁO VIÊN TOÁN",
+            "GIÁO VIÊN TOÁN • AI",
+            "GIÁO VIÊN TOÁN • CÔNG NGHỆ"
+        ];
+
+        let typingPhraseIndex = 0;
+        let typingCharIndex = typingPhrases[0].length;
+        let typingDeleting = false;
+
+        function runTypingEffect() {
+
+            if (!typingRole) {
+                return;
+            }
+
+            const currentPhrase =
+                typingPhrases[typingPhraseIndex];
+
+            if (!typingDeleting) {
+                typingCharIndex++;
+
+                typingRole.textContent =
+                    currentPhrase.slice(0, typingCharIndex);
+
+                if (typingCharIndex >= currentPhrase.length) {
+                    typingDeleting = true;
+                    setTimeout(runTypingEffect, 1700);
+                    return;
+                }
+
+                setTimeout(runTypingEffect, 75);
+                return;
+            }
+
+            typingCharIndex--;
+
+            typingRole.textContent =
+                currentPhrase.slice(0, typingCharIndex);
+
+            if (typingCharIndex <= 0) {
+                typingDeleting = false;
+                typingPhraseIndex =
+                    (typingPhraseIndex + 1) % typingPhrases.length;
+
+                setTimeout(runTypingEffect, 350);
+                return;
+            }
+
+            setTimeout(runTypingEffect, 45);
+        }
+
+        setTimeout(function () {
+            typingCharIndex = 0;
+            typingDeleting = false;
+            runTypingEffect();
+        }, 1400);
+
+
+        /* =========================================
+           MOUSE GLOW
+        ========================================== */
+
+        const cursorGlow =
+            document.getElementById("cursorGlow");
+
+        const finePointer =
+            window.matchMedia("(pointer: fine)").matches;
+
+        if (cursorGlow && finePointer) {
+
+            window.addEventListener(
+                "pointermove",
+                function (event) {
+
+                    cursorGlow.style.transform =
+                        `translate3d(${event.clientX - 180}px, ${event.clientY - 180}px, 0)`;
+
+                },
+                { passive: true }
+            );
+
+        }
+
+
+        /* =========================================
+           TILT CARDS
+        ========================================== */
+
+        const tiltCards =
+            document.querySelectorAll(".tilt-card");
+
+        if (finePointer) {
+
+            tiltCards.forEach(function (card) {
+
+                card.addEventListener("pointermove", function (event) {
+
+                    const rect = card.getBoundingClientRect();
+
+                    const x =
+                        (event.clientX - rect.left) / rect.width - 0.5;
+
+                    const y =
+                        (event.clientY - rect.top) / rect.height - 0.5;
+
+                    const rotateY = x * 4;
+                    const rotateX = y * -4;
+
+                    card.style.setProperty(
+                        "--tilt-x",
+                        `${rotateX}deg`
+                    );
+
+                    card.style.setProperty(
+                        "--tilt-y",
+                        `${rotateY}deg`
+                    );
+
+                    card.style.setProperty(
+                        "--spot-x",
+                        `${(x + 0.5) * 100}%`
+                    );
+
+                    card.style.setProperty(
+                        "--spot-y",
+                        `${(y + 0.5) * 100}%`
+                    );
+
+                });
+
+                card.addEventListener("pointerleave", function () {
+
+                    card.style.setProperty(
+                        "--tilt-x",
+                        "0deg"
+                    );
+
+                    card.style.setProperty(
+                        "--tilt-y",
+                        "0deg"
+                    );
+
+                    card.style.setProperty(
+                        "--spot-x",
+                        "50%"
+                    );
+
+                    card.style.setProperty(
+                        "--spot-y",
+                        "50%"
+                    );
+
+                });
+
+            });
+        }
+
+
+        /* =========================================
+           PARTICLE BACKGROUND
+        ========================================== */
+
+        const particleCanvas =
+            document.getElementById("particleCanvas");
+
+        const prefersReducedMotion =
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (particleCanvas && !prefersReducedMotion) {
+
+            const particleContext =
+                particleCanvas.getContext("2d");
+
+            const particles = [];
+
+            let canvasWidth = 0;
+            let canvasHeight = 0;
+            let animationFrame = 0;
+
+            function resizeParticleCanvas() {
+
+                const ratio =
+                    Math.min(window.devicePixelRatio || 1, 2);
+
+                canvasWidth = window.innerWidth;
+                canvasHeight = window.innerHeight;
+
+                particleCanvas.width =
+                    canvasWidth * ratio;
+
+                particleCanvas.height =
+                    canvasHeight * ratio;
+
+                particleCanvas.style.width =
+                    `${canvasWidth}px`;
+
+                particleCanvas.style.height =
+                    `${canvasHeight}px`;
+
+                particleContext.setTransform(
+                    ratio,
+                    0,
+                    0,
+                    ratio,
+                    0,
+                    0
+                );
+
+                createParticles();
+            }
+
+            function createParticles() {
+
+                particles.length = 0;
+
+                const count =
+                    Math.min(
+                        85,
+                        Math.max(
+                            28,
+                            Math.floor(
+                                (canvasWidth * canvasHeight) / 22000
+                            )
+                        )
+                    );
+
+                for (let i = 0; i < count; i++) {
+
+                    particles.push({
+                        x: Math.random() * canvasWidth,
+                        y: Math.random() * canvasHeight,
+                        radius: Math.random() * 1.6 + 0.35,
+                        speedX: (Math.random() - 0.5) * 0.18,
+                        speedY: (Math.random() - 0.5) * 0.18,
+                        opacity: Math.random() * 0.50 + 0.18,
+                        phase: Math.random() * Math.PI * 2,
+                        pulse: Math.random() * 0.02 + 0.005
+                    });
+                }
+            }
+
+            function animateParticles(time) {
+
+                particleContext.clearRect(
+                    0,
+                    0,
+                    canvasWidth,
+                    canvasHeight
+                );
+
+                for (const particle of particles) {
+
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+                    particle.phase += particle.pulse;
+
+                    if (particle.x < -10) {
+                        particle.x = canvasWidth + 10;
+                    }
+
+                    if (particle.x > canvasWidth + 10) {
+                        particle.x = -10;
+                    }
+
+                    if (particle.y < -10) {
+                        particle.y = canvasHeight + 10;
+                    }
+
+                    if (particle.y > canvasHeight + 10) {
+                        particle.y = -10;
+                    }
+
+                    const twinkle =
+                        particle.opacity +
+                        Math.sin(particle.phase) * 0.12;
+
+                    particleContext.beginPath();
+
+                    particleContext.arc(
+                        particle.x,
+                        particle.y,
+                        particle.radius,
+                        0,
+                        Math.PI * 2
+                    );
+
+                    particleContext.fillStyle =
+                        `rgba(96, 165, 250, ${Math.max(0.05, twinkle)})`;
+
+                    particleContext.shadowBlur =
+                        particle.radius > 1.15 ? 8 : 4;
+
+                    particleContext.shadowColor =
+                        "rgba(96, 165, 250, 0.7)";
+
+                    particleContext.fill();
+                }
+
+                particleContext.shadowBlur = 0;
+
+                animationFrame =
+                    requestAnimationFrame(animateParticles);
+            }
+
+            window.addEventListener(
+                "resize",
+                resizeParticleCanvas,
+                { passive: true }
+            );
+
+            resizeParticleCanvas();
+            animationFrame =
+                requestAnimationFrame(animateParticles);
+
+            window.addEventListener(
+                "pagehide",
+                function () {
+                    cancelAnimationFrame(animationFrame);
+                },
+                { once: true }
+            );
+
+        }
+</script>
 
 </body>
 </html>
