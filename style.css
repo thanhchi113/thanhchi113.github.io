@@ -3218,8 +3218,8 @@ footer {
     opacity: 0;
 
     transform:
-        rotate(135deg)
-        translate3d(0, 0, 0);
+        translate3d(0, 0, 0)
+        rotate(135deg);
 
     transform-origin: right center;
 
@@ -3309,8 +3309,8 @@ footer {
         opacity: 0;
 
         transform:
-            rotate(135deg)
-            translate3d(0, 0, 0);
+            translate3d(0, 0, 0)
+            rotate(135deg);
     }
 
     8% {
@@ -3325,8 +3325,8 @@ footer {
         opacity: 0;
 
         transform:
-            rotate(135deg)
-            translate3d(-520px, 520px, 0);
+            translate3d(-520px, 520px, 0)
+            rotate(135deg);
     }
 
 }
@@ -3495,6 +3495,235 @@ footer {
     .hero-planet-small,
     .hero-planet-ringed,
     .meteor {
+        animation: none !important;
+    }
+
+}
+
+
+/* =========================================================
+   CINEMATIC SECTION TRANSITION
+   Smoothly blends the hero into the next section instead of
+   leaving a hard horizontal boundary.
+========================================================= */
+
+.hero {
+    overflow: hidden;
+    background:
+        radial-gradient(
+            ellipse at 20% 88%,
+            rgba(56, 189, 248, 0.075) 0%,
+            rgba(96, 165, 250, 0.035) 18%,
+            transparent 42%
+        );
+}
+
+/* Soft luminous horizon at the bottom of Hero */
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    left: -8%;
+    right: -8%;
+    bottom: -95px;
+
+    height: 250px;
+
+    background:
+        radial-gradient(
+            ellipse at 12% 52%,
+            rgba(56, 189, 248, 0.15) 0%,
+            rgba(56, 189, 248, 0.07) 18%,
+            rgba(139, 92, 246, 0.045) 32%,
+            transparent 58%
+        ),
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(7, 11, 20, 0.12) 52%,
+            rgba(7, 11, 20, 0.92) 100%
+        );
+
+    filter: blur(12px);
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+/* The next section starts with a soft fade, visually continuing
+   the same space environment. */
+#about {
+    position: relative;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(7, 11, 20, 0.94) 0%,
+            rgba(7, 11, 20, 0.98) 90px,
+            #070b14 180px
+        );
+}
+
+#about::before {
+    content: "";
+
+    position: absolute;
+
+    top: -70px;
+    left: 0;
+    right: 0;
+
+    height: 150px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(7, 11, 20, 0.54) 52%,
+            #070b14 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* Keep the transition decoration behind the content. */
+.hero-space-scene {
+    z-index: 1;
+}
+
+.hero-content {
+    z-index: 8;
+}
+
+.scroll-indicator {
+    z-index: 9;
+}
+
+
+/* =========================================================
+   PLANETARY HORIZON / PLANET SPACING
+========================================================= */
+
+.hero-planet-horizon {
+    z-index: 2;
+}
+
+.planet-small-1 {
+    z-index: 3;
+}
+
+.planet-small-2 {
+    z-index: 3;
+}
+
+.planet-small-3 {
+    z-index: 3;
+}
+
+.hero-planet-ringed {
+    z-index: 3;
+}
+
+/* Add subtle depth glows between the planets */
+.planet-small-1::after,
+.planet-small-2::after,
+.planet-small-3::after {
+    content: "";
+
+    position: absolute;
+
+    inset: -40%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(56, 189, 248, 0.08),
+            transparent 68%
+        );
+
+    filter: blur(8px);
+
+    z-index: -1;
+}
+
+
+/* =========================================================
+   METEOR TRAIL — CRISP SHORT STREAK
+========================================================= */
+
+.meteor {
+    width: 72px;
+    height: 2px;
+
+    transform-origin: right center;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(56, 189, 248, 0.02) 18%,
+            rgba(125, 211, 252, 0.44) 62%,
+            rgba(224, 242, 254, 0.96) 100%
+        );
+
+    filter: blur(0.15px);
+
+    box-shadow:
+        0 0 6px rgba(125, 211, 252, 0.42),
+        0 0 14px rgba(56, 189, 248, 0.16);
+}
+
+.meteor::after {
+    width: 5px;
+    height: 5px;
+
+    right: -1px;
+
+    box-shadow:
+        0 0 7px #ffffff,
+        0 0 14px #67e8f9,
+        0 0 24px rgba(96, 165, 250, 0.52);
+}
+
+
+/* =========================================================
+   MOBILE TRANSITION
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .hero::after {
+        bottom: -75px;
+        height: 190px;
+    }
+
+    #about::before {
+        top: -52px;
+        height: 120px;
+    }
+
+    .hero-planet-horizon {
+        left: -235px;
+        bottom: -295px;
+    }
+
+    .meteor {
+        width: 60px;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .meteor,
+    .hero-planet-horizon,
+    .hero-planet-small,
+    .hero-planet-ringed {
         animation: none !important;
     }
 
