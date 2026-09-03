@@ -1003,123 +1003,240 @@ revealElements.forEach(function (element) {
     revealObserver.observe(element);
 
 });
-    <script>
-        /*
-         * Add your future evidence images here.
-         *
-         * Example:
-         * grade10: [
-         *     "assets/achievements/grade10-1.jpg",
-         *     "assets/achievements/grade10-2.jpg"
-         * ]
-         */
-        const galleryData = {
-            grade10: [],
-            grade12: [],
-            feedback: []
-        };
+   <script>
 
-        let currentGallery = [];
-        let currentImageIndex = 0;
+/* =========================================
+   ACHIEVEMENT GALLERY
+========================================= */
+
+const galleryData = {
+    grade10: [],
+    grade12: [],
+    feedback: []
+};
+
+let currentGallery = [];
+let currentImageIndex = 0;
 
 
-        function openGallery(type) {
+function openGallery(type) {
 
-            currentGallery = galleryData[type] || [];
-            currentImageIndex = 0;
+    currentGallery = galleryData[type] || [];
+    currentImageIndex = 0;
 
-            if (!currentGallery.length) {
-                alert(
-                    "Hiện chưa có ảnh minh chứng cho mục này. " +
-                    "Bạn có thể thêm ảnh vào thư mục assets/achievements sau."
-                );
-                return;
-            }
+    if (!currentGallery.length) {
 
-            updateGallery();
+        alert(
+            "Hiện chưa có ảnh minh chứng cho mục này. " +
+            "Bạn có thể thêm ảnh vào thư mục assets/achievements sau."
+        );
 
-            const modal = document.getElementById("galleryModal");
+        return;
+    }
 
-            modal.classList.add("active");
-            modal.setAttribute("aria-hidden", "false");
+    updateGallery();
 
-            document.body.style.overflow = "hidden";
+    const modal =
+        document.getElementById("galleryModal");
+
+    modal.classList.add("active");
+
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.style.overflow = "hidden";
+}
+
+
+function updateGallery() {
+
+    const image =
+        document.getElementById("galleryImage");
+
+    const counter =
+        document.getElementById("galleryCounter");
+
+    image.src =
+        currentGallery[currentImageIndex];
+
+    counter.textContent =
+        `${currentImageIndex + 1} / ${currentGallery.length}`;
+}
+
+
+function changeImage(direction) {
+
+    if (!currentGallery.length) {
+        return;
+    }
+
+    currentImageIndex += direction;
+
+
+    if (currentImageIndex < 0) {
+
+        currentImageIndex =
+            currentGallery.length - 1;
+    }
+
+
+    if (
+        currentImageIndex >=
+        currentGallery.length
+    ) {
+
+        currentImageIndex = 0;
+    }
+
+
+    updateGallery();
+}
+
+
+function closeGallery(event) {
+
+    const modal =
+        document.getElementById("galleryModal");
+
+
+    if (
+        event &&
+        event.target !== modal
+    ) {
+
+        return;
+    }
+
+
+    modal.classList.remove("active");
+
+    modal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    document.body.style.overflow = "";
+}
+
+
+/* =========================================
+   KEYBOARD GALLERY
+========================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        const modal =
+            document.getElementById("galleryModal");
+
+
+        if (
+            !modal ||
+            !modal.classList.contains("active")
+        ) {
+
+            return;
         }
 
 
-        function updateGallery() {
+        if (event.key === "Escape") {
 
-            const image = document.getElementById("galleryImage");
-            const counter = document.getElementById("galleryCounter");
+            closeGallery();
 
-            image.src = currentGallery[currentImageIndex];
-
-            counter.textContent =
-                `${currentImageIndex + 1} / ${currentGallery.length}`;
         }
 
 
-        function changeImage(direction) {
+        if (event.key === "ArrowLeft") {
 
-            if (!currentGallery.length) {
-                return;
-            }
+            changeImage(-1);
 
-            currentImageIndex += direction;
-
-            if (currentImageIndex < 0) {
-                currentImageIndex = currentGallery.length - 1;
-            }
-
-            if (currentImageIndex >= currentGallery.length) {
-                currentImageIndex = 0;
-            }
-
-            updateGallery();
         }
 
 
-        function closeGallery(event) {
+        if (event.key === "ArrowRight") {
 
-            const modal = document.getElementById("galleryModal");
+            changeImage(1);
 
-            if (
-                event &&
-                event.target !== modal
-            ) {
-                return;
-            }
-
-            modal.classList.remove("active");
-            modal.setAttribute("aria-hidden", "true");
-
-            document.body.style.overflow = "";
         }
 
+    }
+);
 
-        document.addEventListener("keydown", function (event) {
 
-            const modal =
-                document.getElementById("galleryModal");
+/* =========================================
+   SCROLL REVEAL
+========================================= */
 
-            if (!modal.classList.contains("active")) {
-                return;
-            }
+const revealElements =
+    document.querySelectorAll(
+        ".section-title, " +
+        ".about-content, " +
+        ".highlight-item, " +
+        ".skill-item, " +
+        ".project-card, " +
+        ".achievement-card-large, " +
+        ".contact-intro, " +
+        ".contact-item"
+    );
 
-            if (event.key === "Escape") {
-                closeGallery();
-            }
 
-            if (event.key === "ArrowLeft") {
-                changeImage(-1);
-            }
+revealElements.forEach(
+    function(element) {
 
-            if (event.key === "ArrowRight") {
-                changeImage(1);
-            }
+        element.classList.add("reveal");
 
-        });
-    </script>
+    }
+);
 
+
+const revealObserver =
+    new IntersectionObserver(
+
+        function(entries, observer) {
+
+            entries.forEach(
+                function(entry) {
+
+                    if (
+                        !entry.isIntersecting
+                    ) {
+
+                        return;
+                    }
+
+
+                    entry.target.classList.add(
+                        "show"
+                    );
+
+
+                    observer.unobserve(
+                        entry.target
+                    );
+
+                }
+            );
+
+        },
+
+        {
+            threshold: 0.12
+        }
+
+    );
+
+
+revealElements.forEach(
+    function(element) {
+
+        revealObserver.observe(element);
+
+    }
+);
+
+</script>
 </body>
 </html>
