@@ -2143,6 +2143,82 @@ body:has(.pdf-modal.open){overflow:auto !important;}
 }
 </style>
 
+
+
+<style id="document-single-view-mode-fix">
+/* =========================================================
+   DOCUMENT SINGLE-VIEW MODE
+   Open a PDF as a separate view inside the Documents section.
+   The document list is hidden while viewing, so the viewer
+   never appears underneath 100+ PDF cards.
+========================================================= */
+#documents.document-viewer-mode .document-toolbar,
+#documents.document-viewer-mode .document-library-heading,
+#documents.document-viewer-mode #documentStats,
+#documents.document-viewer-mode #documentBreadcrumb,
+#documents.document-viewer-mode #documentBackbar,
+#documents.document-viewer-mode #documentList,
+#documents.document-viewer-mode #documentPagination,
+#documents.document-viewer-mode #documentEmpty{
+    display:none !important;
+}
+
+#documents.document-viewer-mode .section-title{
+    display:none !important;
+}
+
+#documents.document-viewer-mode .pdf-modal{
+    margin-top:0 !important;
+    margin-bottom:10px !important;
+}
+
+/* Show one page at a time inside a dedicated scroll viewport. */
+#documents.document-viewer-mode .pdf-viewer-scroll{
+    height:min(72vh,860px) !important;
+    min-height:520px !important;
+    max-height:860px !important;
+    overflow-y:auto !important;
+    overflow-x:auto !important;
+    scroll-snap-type:y proximity !important;
+    scrollbar-width:thin !important;
+    scrollbar-color:rgba(125,211,252,.42) rgba(255,255,255,.035) !important;
+}
+
+#documents.document-viewer-mode .pdf-viewer-scroll::-webkit-scrollbar{
+    width:11px !important;
+    height:11px !important;
+}
+
+#documents.document-viewer-mode .pdf-viewer-scroll::-webkit-scrollbar-track{
+    background:rgba(255,255,255,.035) !important;
+}
+
+#documents.document-viewer-mode .pdf-viewer-scroll::-webkit-scrollbar-thumb{
+    background:rgba(125,211,252,.36) !important;
+    border-radius:999px !important;
+}
+
+#documents.document-viewer-mode .pdf-page-wrap{
+    scroll-snap-align:start !important;
+}
+
+@media(max-width:900px){
+    #documents.document-viewer-mode .pdf-viewer-scroll{
+        height:68vh !important;
+        min-height:440px !important;
+        max-height:760px !important;
+    }
+}
+
+@media(max-width:700px){
+    #documents.document-viewer-mode .pdf-viewer-scroll{
+        height:60vh !important;
+        min-height:340px !important;
+        max-height:none !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -4353,6 +4429,12 @@ body:has(.pdf-modal.open){overflow:auto !important;}
             }
         }
 
+        function setDocumentViewerMode(enabled) {
+            const section = document.getElementById("documents");
+            if (!section) return;
+            section.classList.toggle("document-viewer-mode", Boolean(enabled));
+        }
+
         function openPdfViewer(item) {
             if (!item?.file_path) return;
             currentDocument = item;
@@ -4361,6 +4443,8 @@ body:has(.pdf-modal.open){overflow:auto !important;}
             currentPdfPage = 1;
             currentPdfZoom = 1;
             currentPdfRenderToken++;
+
+            setDocumentViewerMode(true);
 
             const modal = document.getElementById("pdfModal");
             const modalTitle = document.getElementById("pdfModalTitle");
@@ -4407,6 +4491,7 @@ body:has(.pdf-modal.open){overflow:auto !important;}
             currentPdfPage = 1;
             currentPdfZoom = 1;
             updatePdfControls();
+            setDocumentViewerMode(false);
 
             const url = new URL(window.location.href);
             url.searchParams.delete("doc");
