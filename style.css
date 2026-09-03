@@ -709,16 +709,14 @@ footer {
     }
 
     .avatar {
-        width: 220px;
-        height: 220px;
-
-        font-size: 65px;
-    }
+    width: 190px;
+    height: 190px;
+}
 
     .avatar-wrapper::before {
-     width: 270px;
-height: 270px;
-    }
+    width: 225px;
+    height: 225px;
+}
 
     section {
         padding: 85px 0;
