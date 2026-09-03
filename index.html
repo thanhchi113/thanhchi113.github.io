@@ -2707,6 +2707,111 @@ body:has(.pdf-modal.open){overflow:auto !important;}
 }
 </style>
 
+
+<style id="document-card-preview-layout-v9">
+/* =========================================================
+   DOCUMENT CARD PREVIEW — V9
+   Desktop + mobile keep the same two-column relationship:
+   information LEFT, preview RIGHT.
+   The PDF preview frame follows the actual PDF page ratio.
+========================================================= */
+#documents .document-card-content-wrap{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) 150px !important;
+    grid-template-rows:auto auto !important;
+    column-gap:18px !important;
+    row-gap:10px !important;
+    align-items:start !important;
+}
+
+#documents .document-card-content-wrap > .document-card-info{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    min-width:0 !important;
+}
+
+#documents .document-card-content-wrap > .document-card-preview{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    width:100% !important;
+    height:auto !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+}
+
+#documents .document-card-content-wrap > .document-card-preview[data-preview-kind="pdf"] .document-preview-canvas{
+    display:block !important;
+    width:auto !important;
+    height:auto !important;
+    max-width:100% !important;
+    max-height:100% !important;
+    margin:0 !important;
+    object-fit:contain !important;
+    object-position:center !important;
+    background:#fff !important;
+}
+
+#documents .document-card-content-wrap > .document-card-preview[data-preview-kind="thumbnail"] img{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    max-width:100% !important;
+    max-height:100% !important;
+    object-fit:cover !important;
+    object-position:center !important;
+}
+
+#documents .document-card-content-wrap > .document-card-actions{
+    grid-column:1 / -1 !important;
+    grid-row:2 !important;
+    width:100% !important;
+}
+
+/* Override older mobile rules that moved the preview above the info. */
+@media(max-width:760px){
+    #documents .document-card-content-wrap{
+        display:grid !important;
+        grid-template-columns:minmax(0,1fr) minmax(100px,38%) !important;
+        grid-template-rows:auto auto !important;
+        column-gap:12px !important;
+        row-gap:10px !important;
+        align-items:start !important;
+    }
+
+    #documents .document-card-content-wrap > .document-card-info{
+        grid-column:1 !important;
+        grid-row:1 !important;
+    }
+
+    #documents .document-card-content-wrap > .document-card-preview{
+        grid-column:2 !important;
+        grid-row:1 !important;
+        order:initial !important;
+        width:100% !important;
+        height:auto !important;
+    }
+
+    #documents .document-card-content-wrap > .document-card-actions{
+        grid-column:1 / -1 !important;
+        grid-row:2 !important;
+    }
+}
+
+@media(max-width:420px){
+    #documents .document-card-content-wrap{
+        grid-template-columns:minmax(0,1fr) minmax(90px,36%) !important;
+        column-gap:10px !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -5181,19 +5286,30 @@ body:has(.pdf-modal.open){overflow:auto !important;}
                     const pdf = await task.promise;
                     const page = await pdf.getPage(1);
                     const baseViewport = page.getViewport({ scale: 1 });
-                    const targetWidth = Math.max(120, (preview.clientWidth || 220) - 2);
-                    const targetHeight = Math.max(90, (preview.clientHeight || 174) - 2);
+
+                    /* Fit the preview frame to the real PDF page ratio. */
+                    preview.style.aspectRatio = `${baseViewport.width} / ${baseViewport.height}`;
+                    preview.style.height = "auto";
+
+                    /* Read the frame after setting its aspect ratio so the page
+                       can be fitted to the actual available area. */
+                    const frameWidth = Math.max(1, preview.clientWidth || 220);
+                    const frameHeight = Math.max(1, preview.clientHeight || (
+                        frameWidth * baseViewport.height / baseViewport.width
+                    ));
                     const fitScale = Math.min(
-                        targetWidth / baseViewport.width,
-                        targetHeight / baseViewport.height
+                        frameWidth / baseViewport.width,
+                        frameHeight / baseViewport.height
                     );
-                    const scale = Math.min(1.9, Math.max(0.55, fitScale));
+                    const scale = Math.max(0.1, fitScale);
                     const viewport = page.getViewport({ scale });
                     const ratio = Math.min(window.devicePixelRatio || 1, 2);
                     canvas.width = Math.ceil(viewport.width * ratio);
                     canvas.height = Math.ceil(viewport.height * ratio);
                     canvas.style.width = `${viewport.width}px`;
                     canvas.style.height = `${viewport.height}px`;
+                    canvas.style.maxWidth = "100%";
+                    canvas.style.maxHeight = "100%";
                     const ctx = canvas.getContext("2d", { alpha: false });
                     await page.render({
                         canvasContext: ctx,
