@@ -956,6 +956,53 @@
     <!-- =========================
          GALLERY SCRIPT
     ========================== -->
+    /* =========================================
+   SCROLL REVEAL
+========================================= */
+
+const revealElements = document.querySelectorAll(
+    ".section-title, " +
+    ".about-content, " +
+    ".highlight-item, " +
+    ".skill-item, " +
+    ".project-card, " +
+    ".achievement-card-large, " +
+    ".contact-intro, " +
+    ".contact-item"
+);
+
+revealElements.forEach(function (element) {
+    element.classList.add("reveal");
+});
+
+
+const revealObserver = new IntersectionObserver(
+    function (entries, observer) {
+
+        entries.forEach(function (entry) {
+
+            if (!entry.isIntersecting) {
+                return;
+            }
+
+            entry.target.classList.add("show");
+
+            observer.unobserve(entry.target);
+
+        });
+
+    },
+    {
+        threshold: 0.12
+    }
+);
+
+
+revealElements.forEach(function (element) {
+
+    revealObserver.observe(element);
+
+});
     <script>
         /*
          * Add your future evidence images here.
