@@ -97,6 +97,9 @@
     position:relative !important;
 }
 
+.document-card-preview.uploaded-thumbnail::after{content:"" !important;}
+.document-card-preview.uploaded-thumbnail img{width:100% !important;height:100% !important;display:block !important;object-fit:contain !important;background:#f8fafc !important;}
+.uploaded-thumbnail-badge{position:absolute !important;left:9px !important;top:9px !important;z-index:3 !important;padding:4px 7px !important;border-radius:999px !important;background:rgba(7,13,24,.78) !important;border:1px solid rgba(125,211,252,.18) !important;color:#a7e6ff !important;font-size:8px !important;font-weight:900 !important;letter-spacing:.6px !important;}
 .document-card-preview::after{
     content:"TRANG 1";
     position:absolute !important;
@@ -1643,229 +1646,6 @@
 }
 </style>
 
-
-<style id="floating-document-workspace-fix">
-/* =========================================================
-   FLOATING DOCUMENT WORKSPACE - FINAL
-   PDF LEFT / REFERENCES RIGHT / MAIN PAGE REMAINS SCROLLABLE
-========================================================= */
-.pdf-modal{
-    position:fixed !important;
-    inset:0 !important;
-    z-index:5000 !important;
-    display:none !important;
-    align-items:flex-start !important;
-    justify-content:center !important;
-    padding:0 !important;
-    margin:0 !important;
-    overflow:visible !important;
-    background:transparent !important;
-    pointer-events:none !important;
-}
-.pdf-modal.open{display:block !important;}
-.pdf-modal::before{display:none !important;}
-
-.pdf-modal-inner{
-    position:fixed !important;
-    top:88px !important;
-    left:50% !important;
-    transform:translateX(-50%) !important;
-    width:min(1320px,calc(100vw - 36px)) !important;
-    height:min(78vh,calc(100vh - 112px)) !important;
-    max-height:none !important;
-    min-height:0 !important;
-    margin:0 !important;
-    padding:0 !important;
-    display:grid !important;
-    grid-template-columns:minmax(0,1fr) !important;
-    grid-template-rows:62px minmax(0,1fr) !important;
-    overflow:hidden !important;
-    pointer-events:auto !important;
-    border:1px solid rgba(125,211,252,.22) !important;
-    border-radius:16px !important;
-    background:rgba(7,14,26,.98) !important;
-    box-shadow:0 28px 90px rgba(0,0,0,.55),0 0 0 1px rgba(56,189,248,.04) !important;
-    isolation:isolate !important;
-}
-
-.pdf-modal-head{
-    grid-column:1 !important;
-    grid-row:1 !important;
-    position:relative !important;
-    top:auto !important;
-    min-height:62px !important;
-    height:62px !important;
-    z-index:10 !important;
-    padding:9px 12px !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:space-between !important;
-    gap:10px !important;
-    background:rgba(8,16,28,.985) !important;
-    border-bottom:1px solid rgba(255,255,255,.08) !important;
-}
-
-.pdf-modal-body-scroll{
-    grid-column:1 !important;
-    grid-row:2 !important;
-    width:100% !important;
-    height:100% !important;
-    min-height:0 !important;
-    display:grid !important;
-    grid-template-columns:minmax(0,1fr) 330px !important;
-    overflow:hidden !important;
-    background:#09111d !important;
-}
-
-.pdf-viewer-scroll{
-    grid-column:1 !important;
-    grid-row:1 !important;
-    width:100% !important;
-    height:100% !important;
-    max-height:none !important;
-    min-width:0 !important;
-    min-height:0 !important;
-    overflow:auto !important;
-    overflow-x:auto !important;
-    overflow-y:auto !important;
-    padding:0 !important;
-    background:#0a111c !important;
-    -webkit-overflow-scrolling:touch !important;
-    overscroll-behavior:contain !important;
-}
-
-.pdf-viewer-pages{
-    width:100% !important;
-    min-height:100% !important;
-    padding:18px 18px 26px !important;
-}
-
-.pdf-related-wrap{
-    grid-column:2 !important;
-    grid-row:1 !important;
-    width:100% !important;
-    height:100% !important;
-    min-width:0 !important;
-    min-height:0 !important;
-    max-height:none !important;
-    overflow:auto !important;
-    padding:16px 15px 18px !important;
-    border-top:0 !important;
-    border-left:1px solid rgba(255,255,255,.08) !important;
-    background:linear-gradient(180deg,rgba(8,16,28,.99),rgba(6,12,22,.99)) !important;
-    -webkit-overflow-scrolling:touch !important;
-}
-
-.pdf-related-title{
-    position:sticky !important;
-    top:-16px !important;
-    z-index:3 !important;
-    margin:-16px -15px 12px !important;
-    padding:15px 15px 11px !important;
-    background:rgba(8,16,28,.985) !important;
-    border-bottom:1px solid rgba(255,255,255,.06) !important;
-}
-
-.pdf-related-tags{
-    display:flex !important;
-    flex-wrap:wrap !important;
-    gap:7px !important;
-    margin:0 0 12px !important;
-}
-
-.pdf-related-tag{
-    min-height:34px !important;
-    padding:0 10px !important;
-    border-radius:999px !important;
-    white-space:nowrap !important;
-}
-
-.pdf-related-choice-label{
-    margin:0 0 9px !important;
-    color:#8da1b9 !important;
-    font-size:10px !important;
-    font-weight:800 !important;
-}
-
-.pdf-related-list{
-    display:grid !important;
-    grid-template-columns:1fr !important;
-    gap:8px !important;
-}
-
-.pdf-related-card{
-    width:100% !important;
-    min-height:68px !important;
-    padding:10px !important;
-    display:grid !important;
-    grid-template-columns:34px minmax(0,1fr) !important;
-    align-items:center !important;
-    gap:9px !important;
-    border-radius:11px !important;
-}
-
-.pdf-related-card b{font-size:10px !important;}
-.pdf-related-card small{font-size:8px !important;}
-
-/* Never lock the main website when viewer is opened. */
-body.modal-open{
-    overflow:auto !important;
-}
-html:has(.pdf-modal.open),
-body:has(.pdf-modal.open){
-    overflow:auto !important;
-}
-
-@media(max-width:900px){
-    .pdf-modal-inner{
-        width:calc(100vw - 24px) !important;
-        height:min(82vh,calc(100vh - 104px)) !important;
-        top:82px !important;
-    }
-    .pdf-modal-body-scroll{
-        grid-template-columns:minmax(0,1fr) 290px !important;
-    }
-}
-
-@media(max-width:700px){
-    .pdf-modal-inner{
-        width:calc(100vw - 14px) !important;
-        height:min(84vh,calc(100vh - 92px)) !important;
-        top:76px !important;
-        grid-template-rows:60px minmax(0,1fr) !important;
-    }
-    .pdf-modal-head{
-        height:60px !important;
-        min-height:60px !important;
-        padding:8px 9px !important;
-    }
-    .pdf-modal-actions{
-        gap:4px !important;
-    }
-    .pdf-modal-actions .document-action.secondary{
-        min-height:32px !important;
-        padding:0 7px !important;
-        font-size:9px !important;
-    }
-    .pdf-modal-body-scroll{
-        display:grid !important;
-        grid-template-columns:1fr !important;
-        grid-template-rows:minmax(0,1fr) 250px !important;
-        overflow:hidden !important;
-    }
-    .pdf-viewer-scroll{
-        grid-column:1 !important;
-        grid-row:1 !important;
-    }
-    .pdf-related-wrap{
-        grid-column:1 !important;
-        grid-row:2 !important;
-        border-left:0 !important;
-        border-top:1px solid rgba(255,255,255,.08) !important;
-    }
-}
-</style>
-
 </head>
 
 <body>
@@ -3397,6 +3177,10 @@ body:has(.pdf-modal.open){
             ].filter(Boolean).join(" · ");
             const title = item.title || item.file_name || "Tài liệu không có tiêu đề";
             const previewId = `pdf-preview-${item.id}`;
+            const thumbnailUrl = item.thumbnail_path ? getPublicStorageUrl(item.thumbnail_path) : "";
+            const previewMarkup = thumbnailUrl
+                ? `<div class="document-card-preview uploaded-thumbnail"><img src="${escapeHtml(thumbnailUrl)}" alt="Ảnh xem trước ${escapeHtml(title)}" loading="lazy"><span class="uploaded-thumbnail-badge">ẢNH XEM TRƯỚC</span></div>`
+                : `<div class="document-card-preview" data-pdf-preview="${escapeHtml(url)}"><div class="document-preview-loading" id="${previewId}-loading"><i class="fa-regular fa-file-pdf"></i><span>Đang tạo xem trước...</span></div><canvas id="${previewId}" class="document-preview-canvas" aria-label="Trang đầu của PDF"></canvas></div>`;
             return `<article class="document-card document-card-clickable reveal show" tabindex="0" role="button" data-document-id="${item.id}" data-url="${escapeHtml(url)}" data-title="${escapeHtml(title)}">
                 <div class="document-card-glow"></div>
                 <div class="document-card-content-wrap">
@@ -3426,13 +3210,7 @@ body:has(.pdf-modal.open){
                             </button>
                         </div>
                     </div>
-                    <div class="document-card-preview" data-pdf-preview="${escapeHtml(url)}">
-                        <div class="document-preview-loading" id="${previewId}-loading">
-                            <i class="fa-regular fa-file-pdf"></i>
-                            <span>Đang tạo xem trước...</span>
-                        </div>
-                        <canvas id="${previewId}" class="document-preview-canvas" aria-label="Trang đầu của PDF"></canvas>
-                    </div>
+                    ${previewMarkup}
                 </div>
             </article>`;
         }
@@ -3732,174 +3510,97 @@ body:has(.pdf-modal.open){
             const tagRoot = document.getElementById("pdfRelatedTags");
             if (!root || !tagRoot || !item) return;
 
-            const currentId = Number(item.id);
-            const currentTags = Array.isArray(item.tags)
-                ? item.tags.map(v => String(v || "").trim()).filter(Boolean)
-                : [];
+            const related = relatedDocuments(item);
 
-            const normalizeTag = value => String(value || "").trim().toLowerCase();
-            const sameCategory = doc => String(doc.category_id) === String(item.category_id);
-            const sameType = doc => String(doc.document_type || "document") === String(item.document_type || "document");
-            const hasTag = (doc, selected) => Array.isArray(doc.tags) && doc.tags.some(v => normalizeTag(v) === selected);
-
-            const smartRelated = libraryDocuments
-                .filter(doc => Number(doc.id) !== currentId)
-                .map(doc => {
-                    let score = 0;
-                    if (sameCategory(doc)) score += 6;
-                    if (sameType(doc)) score += 2;
-                    currentTags.forEach(tag => {
-                        if (hasTag(doc, normalizeTag(tag))) score += 3;
-                    });
-                    return { doc, score };
-                })
-                .filter(x => x.score > 0)
-                .sort((a, b) =>
-                    b.score - a.score ||
-                    (Number(b.doc.view_count) || 0) - (Number(a.doc.view_count) || 0)
-                )
-                .map(x => x.doc);
-
-            const allRelated = smartRelated.length
-                ? smartRelated
-                : libraryDocuments
-                    .filter(doc => Number(doc.id) !== currentId)
-                    .sort((a, b) => (Number(b.view_count) || 0) - (Number(a.view_count) || 0))
-                    .slice(0, 8);
-
-            const categoryDocs = libraryDocuments
-                .filter(doc => Number(doc.id) !== currentId && sameCategory(doc))
-                .sort((a, b) => (Number(b.view_count) || 0) - (Number(a.view_count) || 0));
-
-            const typeDocs = libraryDocuments
-                .filter(doc => Number(doc.id) !== currentId && sameType(doc))
-                .sort((a, b) => (Number(b.view_count) || 0) - (Number(a.view_count) || 0));
-
-            const tagMap = new Map();
-            const collectTags = docs => {
-                docs.forEach(doc => {
-                    if (!Array.isArray(doc.tags)) return;
-                    doc.tags.forEach(value => {
-                        const raw = String(value || "").trim();
-                        if (!raw) return;
-                        const key = normalizeTag(raw);
-                        if (!tagMap.has(key)) tagMap.set(key, raw);
-                    });
+            /* Build selectable tags from the current document AND the suggested documents.
+               This means the filter is still useful even if the opened PDF has no tags. */
+            const tagSet = new Map();
+            const collectTags = (doc) => {
+                if (!Array.isArray(doc?.tags)) return;
+                doc.tags.forEach(value => {
+                    const raw = String(value || "").trim();
+                    const key = raw.toLowerCase();
+                    if (raw && !tagSet.has(key)) tagSet.set(key, raw);
                 });
             };
-            collectTags([item]);
-            collectTags(allRelated);
+            collectTags(item);
+            related.forEach(collectTags);
 
-            const tags = [...tagMap.values()].slice(0, 12);
+            const tags = [...tagSet.values()].slice(0, 16);
 
-            const optionButtons = [
-                { key: "all", label: "Tất cả" },
-                { key: "category", label: "Cùng danh mục" },
-                { key: "type", label: item.document_type === "exam" ? "Cùng loại đề" : "Cùng loại tài liệu" }
-            ];
-
-            tags.forEach(tag => optionButtons.push({
-                key: `tag:${normalizeTag(tag)}`,
-                label: `#${tag}`
-            }));
-
-            tagRoot.innerHTML = optionButtons.map((option, index) => `
-                <button
-                    type="button"
-                    class="pdf-related-tag ${index === 0 ? "active" : ""}"
-                    data-related-option="${escapeHtml(option.key)}"
-                >
-                    ${escapeHtml(option.label)}
+            tagRoot.innerHTML = `
+                <button type="button" class="pdf-related-tag active" data-related-tag-all="1">
+                    Tất cả
                 </button>
-            `).join("");
+                ${tags.map(tag => `
+                    <button type="button" class="pdf-related-tag" data-related-tag="${escapeHtml(tag)}">
+                        #${escapeHtml(tag)}
+                    </button>
+                `).join("")}
+            `;
 
-            const renderCards = (documents, label) => {
-                if (!documents.length) {
-                    root.innerHTML = `
-                        <div class="pdf-related-choice-label">${escapeHtml(label)}</div>
-                        <div class="pdf-related-empty">
-                            Không có tài liệu phù hợp với lựa chọn này.
-                        </div>
-                    `;
-                    return;
-                }
-
+            const renderCards = (documents, headingText, tagText = "") => {
                 root.innerHTML = `
                     <div class="pdf-related-choice-label">
-                        ${escapeHtml(label)} · ${documents.length} tài liệu
+                        ${escapeHtml(headingText)}
+                        ${tagText ? ` · ${escapeHtml(tagText)}` : ""}
                     </div>
-                    <div class="pdf-related-list">
-                        ${documents.map(doc => `
-                            <button
-                                type="button"
-                                class="pdf-related-card"
-                                data-related-id="${escapeHtml(doc.id)}"
-                            >
-                                <span class="pdf-related-icon">
-                                    <i class="fa-solid ${doc.document_type === "exam" ? "fa-file-circle-check" : "fa-file-pdf"}"></i>
-                                </span>
-                                <span>
-                                    <b>${escapeHtml(doc.title || doc.file_name || "Tài liệu")}</b>
-                                    <small>
-                                        ${escapeHtml(doc.math_categories?.name || "Tài liệu")}
-                                        · ${formatNumber(doc.view_count)} lượt xem
-                                    </small>
-                                </span>
-                            </button>
-                        `).join("")}
-                    </div>
+                    ${documents.length
+                        ? `
+                            <div class="pdf-related-list">
+                                ${documents.map(doc => `
+                                    <button type="button" class="pdf-related-card" data-related-id="${escapeHtml(doc.id)}">
+                                        <span class="pdf-related-icon">
+                                            <i class="fa-solid ${doc.document_type === "exam" ? "fa-file-circle-check" : "fa-file-pdf"}"></i>
+                                        </span>
+                                        <span>
+                                            <b>${escapeHtml(doc.title || doc.file_name || "Tài liệu")}</b>
+                                            <small>
+                                                ${escapeHtml(doc.math_categories?.name || "Tài liệu")}
+                                                · ${formatNumber(doc.view_count)} lượt xem
+                                            </small>
+                                        </span>
+                                    </button>
+                                `).join("")}
+                            </div>
+                        `
+                        : `<div class="pdf-related-empty">Không có tài liệu phù hợp với lựa chọn này.</div>`}
                 `;
 
                 root.querySelectorAll("[data-related-id]").forEach(button => {
                     button.addEventListener("click", event => {
                         event.stopPropagation();
                         const next = libraryDocuments.find(doc => Number(doc.id) === Number(button.dataset.relatedId));
-                        if (next) {
-                            openPdfViewer(next);
-                        }
+                        if (next) openPdfViewer(next);
                     });
                 });
             };
 
-            renderCards(allRelated, "Tài liệu đề xuất");
+            renderCards(related, "Tài liệu đề xuất");
 
-            tagRoot.querySelectorAll("[data-related-option]").forEach(button => {
+            tagRoot.querySelectorAll(".pdf-related-tag").forEach(button => {
                 button.addEventListener("click", event => {
                     event.stopPropagation();
-                    tagRoot.querySelectorAll("[data-related-option]").forEach(btn => btn.classList.remove("active"));
+                    tagRoot.querySelectorAll(".pdf-related-tag").forEach(btn => btn.classList.remove("active"));
                     button.classList.add("active");
 
-                    const key = button.dataset.relatedOption || "all";
-
-                    if (key === "all") {
-                        renderCards(allRelated, "Tài liệu đề xuất");
+                    if (button.dataset.relatedTagAll === "1") {
+                        renderCards(related, "Tài liệu đề xuất");
                         return;
                     }
 
-                    if (key === "category") {
-                        renderCards(categoryDocs, "Tài liệu cùng danh mục");
-                        return;
-                    }
+                    const selected = String(button.dataset.relatedTag || "").trim().toLowerCase();
+                    const matches = libraryDocuments
+                        .filter(doc => Number(doc.id) !== Number(item.id))
+                        .filter(doc => Array.isArray(doc.tags) && doc.tags.some(value => String(value || "").trim().toLowerCase() === selected))
+                        .sort((a, b) => {
+                            const aRelated = related.some(x => Number(x.id) === Number(a.id));
+                            const bRelated = related.some(x => Number(x.id) === Number(b.id));
+                            return Number(bRelated) - Number(aRelated)
+                                || (Number(b.view_count) || 0) - (Number(a.view_count) || 0);
+                        });
 
-                    if (key === "type") {
-                        renderCards(typeDocs, "Tài liệu cùng loại");
-                        return;
-                    }
-
-                    if (key.startsWith("tag:")) {
-                        const selected = key.slice(4);
-                        const matches = libraryDocuments
-                            .filter(doc => Number(doc.id) !== currentId)
-                            .filter(doc => hasTag(doc, selected))
-                            .sort((a, b) =>
-                                (Number(b.view_count) || 0) - (Number(a.view_count) || 0)
-                            );
-
-                        renderCards(
-                            matches,
-                            `Tài liệu theo #${button.textContent.trim().replace(/^#/, "")}`
-                        );
-                    }
+                    renderCards(matches, "Tài liệu theo lựa chọn", `#${button.dataset.relatedTag}`);
                 });
             });
         }
