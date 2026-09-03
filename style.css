@@ -20,13 +20,27 @@ body {
     overflow-x: hidden;
 }
 
+body::selection {
+    background: rgba(96, 165, 250, 0.30);
+    color: #ffffff;
+}
+
 a {
     color: inherit;
     text-decoration: none;
 }
 
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
 ul {
     list-style: none;
+}
+
+img {
+    max-width: 100%;
 }
 
 .container {
@@ -44,8 +58,8 @@ body::before {
     position: fixed;
     width: 500px;
     height: 500px;
-    top: -200px;
-    left: -200px;
+    top: -220px;
+    left: -220px;
     background: rgba(59, 130, 246, 0.12);
     filter: blur(100px);
     border-radius: 50%;
@@ -59,7 +73,7 @@ body::after {
     width: 500px;
     height: 500px;
     right: -250px;
-    bottom: -200px;
+    bottom: -220px;
     background: rgba(139, 92, 246, 0.10);
     filter: blur(100px);
     border-radius: 50%;
@@ -78,7 +92,6 @@ header {
     left: 0;
     width: 100%;
     height: 76px;
-
     z-index: 1000;
 
     background: rgba(7, 11, 20, 0.72);
@@ -96,15 +109,12 @@ header {
     justify-content: space-between;
 }
 
-
-/* Logo */
-
 .logo {
     font-size: 23px;
     font-weight: 800;
     letter-spacing: -0.5px;
 
-    transition: 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .logo:hover {
@@ -115,13 +125,10 @@ header {
     color: #60a5fa;
 }
 
-
-/* Navigation */
-
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 28px;
 }
 
 .nav-links a {
@@ -166,48 +173,7 @@ header {
 /* =========================================
    HERO
 ========================================= */
-/* Hero role */
 
-.hero-role {
-    color: #e2e8f0;
-
-    font-size: 15px;
-    font-weight: 700;
-
-    letter-spacing: 4px;
-
-    margin-bottom: 22px;
-}
-
-
-/* Hero social links */
-
-.hero-socials {
-    display: flex;
-    align-items: center;
-
-    gap: 12px;
-
-    margin-top: 28px;
-
-    color: #64748b;
-
-    font-size: 13px;
-}
-
-.hero-socials a {
-    color: #94a3b8;
-
-    transition: color 0.3s ease;
-}
-
-.hero-socials a:hover {
-    color: #60a5fa;
-}
-
-.hero-socials span {
-    color: #334155;
-}
 .hero {
     min-height: 100vh;
 
@@ -222,28 +188,16 @@ header {
 .hero-content {
     display: grid;
 
-    grid-template-columns: minmax(0, 1fr) 360px;
+    grid-template-columns: minmax(0, 1fr) 380px;
 
     align-items: center;
 
-    gap: 70px;
+    gap: 80px;
 }
 
 .hero-text {
-    grid-column: 1;
+    min-width: 0;
 }
-
-.avatar-wrapper {
-    grid-column: 2;
-    grid-row: 1;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-/* Small title */
 
 .hero-small {
     display: inline-flex;
@@ -272,9 +226,6 @@ header {
     border-radius: 10px;
 }
 
-
-/* Main title */
-
 .hero h1 {
     font-size: clamp(52px, 8vw, 86px);
 
@@ -289,8 +240,16 @@ header {
     color: #60a5fa;
 }
 
+.hero-role {
+    color: #e2e8f0;
 
-/* Description */
+    font-size: 15px;
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 22px;
+}
 
 .hero-description {
     max-width: 580px;
@@ -312,9 +271,7 @@ header {
 .buttons {
     display: flex;
     align-items: center;
-
     gap: 14px;
-
     flex-wrap: wrap;
 }
 
@@ -368,15 +325,68 @@ header {
 
 
 /* =========================================
+   HERO SOCIALS
+========================================= */
+
+.hero-socials {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-top: 28px;
+}
+
+.hero-socials a {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    color: #94a3b8;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(255, 255, 255, 0.075);
+
+    transition:
+        color 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+.hero-socials a:hover {
+    color: #60a5fa;
+
+    border-color: rgba(96, 165, 250, 0.35);
+
+    background: rgba(96, 165, 250, 0.08);
+
+    transform: translateY(-3px);
+}
+
+.hero-socials i {
+    font-size: 15px;
+}
+
+
+/* =========================================
    AVATAR
 ========================================= */
 
 .avatar-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
     position: relative;
+
+    width: 100%;
+    min-height: 360px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .avatar-wrapper::before {
@@ -384,8 +394,8 @@ header {
 
     position: absolute;
 
-    width: 330px;
-    height: 330px;
+    width: 300px;
+    height: 300px;
 
     border-radius: 50%;
 
@@ -425,29 +435,29 @@ header {
 
     z-index: 1;
 }
+
 .avatar img {
     width: 100%;
     height: 100%;
 
+    display: block;
+
     object-fit: cover;
     object-position: center;
-
-    display: block;
 }
 
+
 /* =========================================
-   SECTION
+   SECTIONS
 ========================================= */
 
 section {
     padding: 120px 0;
-
     position: relative;
 }
 
 .section-title {
     text-align: center;
-
     margin-bottom: 55px;
 }
 
@@ -463,567 +473,9 @@ section {
 
 .section-title p {
     color: #64748b;
-
     font-size: 15px;
 }
 
-
-/* =========================================
-   ABOUT
-========================================= */
-
-.about-grid {
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 24px;
-}
-
-.card {
-    padding: 32px;
-
-    border-radius: 18px;
-
-    background: rgba(255, 255, 255, 0.035);
-
-    border: 1px solid rgba(255, 255, 255, 0.075);
-
-    transition:
-        transform 0.3s ease,
-        border-color 0.3s ease,
-        background 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-
-    border-color: rgba(96, 165, 250, 0.35);
-
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.card h3 {
-    color: #dbeafe;
-
-    font-size: 20px;
-
-    margin-bottom: 14px;
-}
-
-.card p {
-    color: #94a3b8;
-
-    font-size: 15px;
-
-    line-height: 1.8;
-}
-
-
-/* =========================================
-   SKILLS
-========================================= */
-
-.skills {
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 18px;
-}
-
-.skill-item {
-    padding: 22px;
-
-    border-radius: 15px;
-
-    background: rgba(255, 255, 255, 0.035);
-
-    border: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.skill-top {
-    display: flex;
-
-    align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: 12px;
-
-    font-size: 14px;
-}
-
-.skill-top span:last-child {
-    color: #60a5fa;
-
-    font-weight: 600;
-}
-
-.skill-bar {
-    width: 100%;
-
-    height: 6px;
-
-    background: rgba(255, 255, 255, 0.07);
-
-    border-radius: 20px;
-
-    overflow: hidden;
-}
-
-.skill-progress {
-    height: 100%;
-
-    background: #60a5fa;
-
-    border-radius: 20px;
-}
-
-
-/* =========================================
-   PROJECTS
-========================================= */
-
-.projects {
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 22px;
-}
-
-.project-card {
-    min-height: 235px;
-
-    padding: 30px;
-
-    border-radius: 18px;
-
-    background: rgba(255, 255, 255, 0.035);
-
-    border: 1px solid rgba(255, 255, 255, 0.075);
-
-    transition:
-        transform 0.3s ease,
-        border-color 0.3s ease,
-        background 0.3s ease;
-}
-
-.project-card:hover {
-    transform: translateY(-8px);
-
-    border-color: rgba(96, 165, 250, 0.35);
-
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.project-icon {
-    font-size: 35px;
-
-    margin-bottom: 20px;
-}
-
-.project-card h3 {
-    font-size: 20px;
-
-    margin-bottom: 10px;
-}
-
-.project-card p {
-    color: #94a3b8;
-
-    font-size: 14px;
-
-    line-height: 1.8;
-}
-
-
-/* =========================================
-   CONTACT
-========================================= */
-
-.contact {
-    text-align: center;
-}
-
-.contact p {
-    color: #94a3b8;
-
-    margin-bottom: 28px;
-}
-
-.contact-links {
-    display: flex;
-
-    justify-content: center;
-
-    gap: 12px;
-
-    flex-wrap: wrap;
-}
-
-
-/* =========================================
-   FOOTER
-========================================= */
-
-footer {
-    padding: 30px 0;
-
-    text-align: center;
-
-    color: #475569;
-
-    font-size: 13px;
-
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-
-/* =========================================
-   ANIMATION
-========================================= */
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 0.8;
-    }
-
-    50% {
-        transform: scale(1.05);
-        opacity: 0.4;
-    }
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 650px) {
-.hero-socials {
-    justify-content: center;
-}
-
-.hero-role {
-    font-size: 13px;
-    letter-spacing: 3px;
-}
-    header {
-        height: 68px;
-    }
-
-    .navbar {
-        height: 68px;
-    }
-
-    .nav-links {
-        display: none;
-    }
-
-    .hero {
-        padding-top: 68px;
-
-        min-height: auto;
-
-        padding-bottom: 90px;
-    }
-
-    .hero-content {
-    grid-template-columns: 1fr;
-
-    gap: 50px;
-
-    text-align: center;
-}
-
-.hero-text {
-    grid-column: 1;
-}
-
-.avatar-wrapper {
-    grid-column: 1;
-    grid-row: 2;
-
-    justify-content: center;
-}
-
-    .hero-small {
-        justify-content: center;
-    }
-
-    .hero-small::before {
-        display: none;
-    }
-
-    .hero h1 {
-        font-size: clamp(48px, 15vw, 70px);
-
-        letter-spacing: -3px;
-    }
-
-    .hero-description {
-        margin-left: auto;
-        margin-right: auto;
-
-        font-size: 16px;
-    }
-
-    .buttons {
-        justify-content: center;
-    }
-
-    .avatar {
-    width: 190px;
-    height: 190px;
-}
-
-    .avatar-wrapper::before {
-    width: 270px;
-    height: 270px;
-}
-
-    section {
-        padding: 85px 0;
-    }
-
-    .about-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .skills {
-        grid-template-columns: 1fr;
-    }
-
-    .projects {
-        grid-template-columns: 1fr;
-    }
-
-    .card,
-    .project-card {
-        padding: 25px;
-    }
-}
-
-
-/* =========================================
-   SMALL MOBILE
-========================================= */
-
-@media (max-width: 420px) {
-
-    .container {
-        width: 88%;
-    }
-
-    .hero h1 {
-        font-size: 48px;
-    }
-
-    .btn {
-        width: 100%;
-    }
-
-    .buttons {
-        width: 100%;
-    }
-
-    .contact-links .btn {
-        width: auto;
-    }
-}
-/* =========================================
-   HERO LAYOUT FIX
-   Avatar luôn nằm bên phải trên desktop
-========================================= */
-
-.hero-content {
-    display: grid !important;
-
-    grid-template-columns: minmax(0, 1fr) 360px !important;
-
-    align-items: center !important;
-
-    column-gap: 70px !important;
-    row-gap: 40px !important;
-}
-
-.hero-text {
-    grid-column: 1 !important;
-    grid-row: 1 !important;
-}
-
-.avatar-wrapper {
-    grid-column: 2 !important;
-    grid-row: 1 !important;
-
-    display: flex !important;
-
-    justify-content: center !important;
-    align-items: center !important;
-
-    width: 100% !important;
-    height: auto !important;
-
-    margin: 0 !important;
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 650px) {
-
-    .hero-content {
-        grid-template-columns: 1fr !important;
-
-        row-gap: 50px !important;
-
-        text-align: center !important;
-    }
-
-    .hero-text {
-        grid-column: 1 !important;
-        grid-row: 1 !important;
-    }
-
-    .avatar-wrapper {
-        grid-column: 1 !important;
-        grid-row: 2 !important;
-
-        justify-content: center !important;
-    }
-}
-
-/* =========================================
-   HERO - FINAL LAYOUT
-========================================= */
-
-.hero-content {
-    display: grid !important;
-
-    grid-template-columns: minmax(0, 1fr) 420px !important;
-
-    align-items: center !important;
-
-    gap: 80px !important;
-
-    min-height: 620px !important;
-
-    position: relative !important;
-}
-
-
-/* Phần chữ bên trái */
-
-.hero-text {
-    width: auto !important;
-
-    grid-column: 1 !important;
-    grid-row: 1 !important;
-
-    position: relative !important;
-
-    z-index: 2;
-}
-
-
-/* Avatar bên phải */
-
-.avatar-wrapper {
-    width: 100% !important;
-    height: auto !important;
-
-    grid-column: 2 !important;
-    grid-row: 1 !important;
-
-    position: relative !important;
-
-    top: auto !important;
-    right: auto !important;
-
-    margin: 0 !important;
-
-    transform: none !important;
-
-    display: flex !important;
-
-    align-items: center !important;
-    justify-content: center !important;
-
-    z-index: 1;
-}
-
-
-/* Kích thước avatar */
-
-.avatar {
-    width: 230px !important;
-    height: 230px !important;
-}
-
-
-/* Vòng sáng */
-
-.avatar-wrapper::before {
-    width: 270px !important;
-    height: 270px !important;
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 800px) {
-
-    .hero-content {
-        display: flex !important;
-
-        flex-direction: column !important;
-
-        align-items: center !important;
-
-        gap: 50px !important;
-
-        min-height: auto !important;
-
-        text-align: center !important;
-    }
-
-    .hero-text {
-        width: 100% !important;
-
-        order: 1 !important;
-    }
-
-    .avatar-wrapper {
-        width: 100% !important;
-
-        order: 2 !important;
-
-        position: relative !important;
-
-        top: auto !important;
-        right: auto !important;
-
-        transform: none !important;
-    }
-
-    .avatar {
-        width: 190px !important;
-        height: 190px !important;
-    }
-
-    .avatar-wrapper::before {
-        width: 225px !important;
-        height: 225px !important;
-    }
-}
 
 /* =========================================
    ABOUT
@@ -1047,11 +499,35 @@ footer {
     background: rgba(255, 255, 255, 0.035);
 
     border: 1px solid rgba(255, 255, 255, 0.075);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease;
+}
+
+.about-content:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(96, 165, 250, 0.35);
+
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.about-label,
+.contact-label {
+    margin-bottom: 12px;
+
+    color: #60a5fa;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
 }
 
 .about-content h3 {
     font-size: 28px;
-
     margin-bottom: 22px;
 }
 
@@ -1078,9 +554,7 @@ footer {
 
 .about-highlight {
     display: grid;
-
     grid-template-columns: 1fr;
-
     gap: 16px;
 }
 
@@ -1088,14 +562,9 @@ footer {
     min-height: 120px;
 
     display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
     align-items: center;
 
-    text-align: center;
+    gap: 16px;
 
     padding: 25px;
 
@@ -1119,14 +588,35 @@ footer {
     background: rgba(255, 255, 255, 0.05);
 }
 
+.highlight-icon {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: rgba(96, 165, 250, 0.10);
+
+    border: 1px solid rgba(96, 165, 250, 0.15);
+
+    color: #60a5fa;
+
+    font-size: 18px;
+}
+
 .highlight-number {
     color: #60a5fa;
 
-    font-size: 22px;
+    font-size: 21px;
 
     font-weight: 800;
 
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 }
 
 .highlight-text {
@@ -1137,29 +627,7 @@ footer {
 
 
 /* =========================================
-   ABOUT MOBILE
-========================================= */
-
-@media (max-width: 800px) {
-
-    .about-main {
-        grid-template-columns: 1fr;
-
-        gap: 20px;
-    }
-
-    .about-content {
-        padding: 25px;
-    }
-
-    .about-content h3 {
-        font-size: 24px;
-    }
-
-}
-
-/* =========================================
-   SKILLS - NEW DESIGN
+   SKILLS
 ========================================= */
 
 .skills {
@@ -1193,12 +661,8 @@ footer {
     background: rgba(255, 255, 255, 0.055);
 }
 
-
-/* Header */
-
 .skill-header {
     display: flex;
-
     align-items: center;
 
     gap: 15px;
@@ -1206,15 +670,11 @@ footer {
     margin-bottom: 20px;
 }
 
-
-/* Icon */
-
 .skill-icon {
     width: 50px;
     height: 50px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -1226,14 +686,14 @@ footer {
 
     border: 1px solid rgba(96, 165, 250, 0.15);
 
-    font-size: 23px;
+    color: #60a5fa;
+
+    font-size: 20px;
 }
-
-
-/* Text */
 
 .skill-info {
     flex: 1;
+    min-width: 0;
 }
 
 .skill-info h3 {
@@ -1252,9 +712,6 @@ footer {
     font-size: 12px;
 }
 
-
-/* Percentage */
-
 .skill-percent {
     color: #60a5fa;
 
@@ -1262,9 +719,6 @@ footer {
 
     font-weight: 700;
 }
-
-
-/* Progress bar */
 
 .skill-bar {
     width: 100%;
@@ -1294,23 +748,7 @@ footer {
 
 
 /* =========================================
-   SKILLS MOBILE
-========================================= */
-
-@media (max-width: 800px) {
-
-    .skills {
-        grid-template-columns: 1fr;
-    }
-
-    .skill-item {
-        padding: 22px;
-    }
-
-}
-
-/* =========================================
-   PROJECTS - NEW DESIGN
+   PROJECTS
 ========================================= */
 
 .projects {
@@ -1320,7 +758,6 @@ footer {
 
     gap: 22px;
 }
-
 
 .project-card {
     position: relative;
@@ -1346,7 +783,6 @@ footer {
         background 0.35s ease;
 }
 
-
 .project-card::before {
     content: "";
 
@@ -1367,7 +803,6 @@ footer {
     transition: transform 0.4s ease;
 }
 
-
 .project-card:hover {
     transform: translateY(-8px);
 
@@ -1376,32 +811,23 @@ footer {
     background: rgba(255, 255, 255, 0.05);
 }
 
-
 .project-card:hover::before {
     transform: scale(1.5);
 }
 
-
-/* Project top */
-
 .project-top {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
 
     margin-bottom: 25px;
 }
 
-
-/* Icon */
-
 .project-icon {
     width: 56px;
     height: 56px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -1411,18 +837,16 @@ footer {
 
     border: 1px solid rgba(96, 165, 250, 0.15);
 
-    font-size: 26px;
+    color: #60a5fa;
+
+    font-size: 23px;
 
     transition: transform 0.3s ease;
 }
 
-
 .project-card:hover .project-icon {
     transform: scale(1.08) rotate(-3deg);
 }
-
-
-/* Number */
 
 .project-number {
     color: #334155;
@@ -1434,9 +858,6 @@ footer {
     letter-spacing: 1px;
 }
 
-
-/* Title */
-
 .project-card h3 {
     position: relative;
 
@@ -1444,9 +865,6 @@ footer {
 
     margin-bottom: 14px;
 }
-
-
-/* Description */
 
 .project-card p {
     position: relative;
@@ -1460,21 +878,16 @@ footer {
     margin-bottom: 22px;
 }
 
-
-/* Tags */
-
 .project-tags {
     position: relative;
 
     display: flex;
-
     flex-wrap: wrap;
 
     gap: 8px;
 
     margin-bottom: 25px;
 }
-
 
 .project-tags span {
     padding: 5px 10px;
@@ -1490,13 +903,17 @@ footer {
     font-size: 11px;
 }
 
-
-/* Link */
-
 .project-link {
     position: relative;
 
     margin-top: auto;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 8px;
+
+    width: fit-content;
 
     color: #60a5fa;
 
@@ -1509,249 +926,14 @@ footer {
         transform 0.3s ease;
 }
 
-
 .project-link:hover {
     color: #93c5fd;
-
     transform: translateX(4px);
 }
 
 
 /* =========================================
-   PROJECTS MOBILE
-========================================= */
-
-@media (max-width: 900px) {
-
-    .projects {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-}
-
-
-@media (max-width: 650px) {
-
-    .projects {
-        grid-template-columns: 1fr;
-    }
-
-    .project-card {
-        min-height: 290px;
-    }
-
-}
-/* =========================================
    ACHIEVEMENTS
-========================================= */
-
-.achievements {
-    position: relative;
-
-    max-width: 850px;
-
-    margin: 0 auto;
-}
-
-
-.achievement-item {
-    display: grid;
-
-    grid-template-columns: 90px 35px 1fr;
-
-    gap: 20px;
-
-    min-height: 170px;
-}
-
-
-/* Year */
-
-.achievement-year {
-    padding-top: 28px;
-
-    text-align: right;
-
-    color: #60a5fa;
-
-    font-size: 14px;
-
-    font-weight: 700;
-}
-
-
-/* Timeline */
-
-.achievement-line {
-    position: relative;
-
-    display: flex;
-
-    justify-content: center;
-}
-
-
-.achievement-line::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    bottom: 0;
-
-    width: 1px;
-
-    background: rgba(96, 165, 250, 0.20);
-}
-
-
-.achievement-item:last-child .achievement-line::before {
-    bottom: 50%;
-}
-
-
-/* Dot */
-
-.achievement-dot {
-    position: relative;
-
-    z-index: 2;
-
-    width: 12px;
-    height: 12px;
-
-    margin-top: 30px;
-
-    border-radius: 50%;
-
-    background: #60a5fa;
-
-    box-shadow:
-        0 0 0 5px rgba(96, 165, 250, 0.10),
-        0 0 25px rgba(96, 165, 250, 0.25);
-}
-
-
-/* Card */
-
-.achievement-card {
-    display: flex;
-
-    align-items: flex-start;
-
-    gap: 20px;
-
-    padding: 25px;
-
-    margin-bottom: 20px;
-
-    border-radius: 18px;
-
-    background: rgba(255, 255, 255, 0.035);
-
-    border: 1px solid rgba(255, 255, 255, 0.075);
-
-    transition:
-        transform 0.3s ease,
-        border-color 0.3s ease,
-        background 0.3s ease;
-}
-
-
-.achievement-card:hover {
-    transform: translateX(6px);
-
-    border-color: rgba(96, 165, 250, 0.35);
-
-    background: rgba(255, 255, 255, 0.05);
-}
-
-
-/* Icon */
-
-.achievement-icon {
-    width: 50px;
-    height: 50px;
-
-    flex-shrink: 0;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 12px;
-
-    background: rgba(96, 165, 250, 0.10);
-
-    border: 1px solid rgba(96, 165, 250, 0.15);
-
-    font-size: 23px;
-}
-
-
-/* Content */
-
-.achievement-content h3 {
-    margin-bottom: 8px;
-
-    font-size: 18px;
-
-    color: #e2e8f0;
-}
-
-
-.achievement-content p {
-    color: #94a3b8;
-
-    font-size: 14px;
-
-    line-height: 1.8;
-}
-
-
-/* =========================================
-   ACHIEVEMENTS MOBILE
-========================================= */
-
-@media (max-width: 650px) {
-
-    .achievement-item {
-        grid-template-columns: 55px 20px 1fr;
-
-        gap: 10px;
-    }
-
-    .achievement-year {
-        padding-top: 27px;
-
-        font-size: 12px;
-    }
-
-    .achievement-card {
-        padding: 20px;
-
-        gap: 15px;
-    }
-
-    .achievement-icon {
-        width: 44px;
-        height: 44px;
-
-        font-size: 20px;
-    }
-
-    .achievement-content h3 {
-        font-size: 16px;
-    }
-
-    .achievement-content p {
-        font-size: 13px;
-    }
-
-}
-/* =========================================
-   ACHIEVEMENTS - NEW DESIGN
 ========================================= */
 
 .achievement-list {
@@ -1765,7 +947,6 @@ footer {
 
     margin: 0 auto;
 }
-
 
 .achievement-card-large {
     display: grid;
@@ -1788,7 +969,6 @@ footer {
         background 0.3s ease;
 }
 
-
 .achievement-card-large:hover {
     transform: translateY(-5px);
 
@@ -1797,15 +977,11 @@ footer {
     background: rgba(255, 255, 255, 0.05);
 }
 
-
-/* Icon */
-
 .achievement-card-icon {
     width: 60px;
     height: 60px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -1815,11 +991,10 @@ footer {
 
     border: 1px solid rgba(96, 165, 250, 0.15);
 
-    font-size: 28px;
+    color: #60a5fa;
+
+    font-size: 24px;
 }
-
-
-/* Label */
 
 .achievement-label {
     margin-bottom: 10px;
@@ -1833,9 +1008,6 @@ footer {
     letter-spacing: 2px;
 }
 
-
-/* Title */
-
 .achievement-card-content h3 {
     margin-bottom: 13px;
 
@@ -1845,9 +1017,6 @@ footer {
 
     line-height: 1.4;
 }
-
-
-/* Description */
 
 .achievement-card-content p {
     max-width: 780px;
@@ -1861,9 +1030,6 @@ footer {
     line-height: 1.85;
 }
 
-
-/* Schools / tags */
-
 .achievement-schools {
     display: flex;
 
@@ -1873,7 +1039,6 @@ footer {
 
     margin-bottom: 20px;
 }
-
 
 .achievement-schools span {
     padding: 6px 11px;
@@ -1889,10 +1054,12 @@ footer {
     font-size: 11px;
 }
 
-
-/* Evidence button */
-
 .evidence-button {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 7px;
+
     padding: 10px 16px;
 
     border: 1px solid rgba(96, 165, 250, 0.25);
@@ -1917,7 +1084,6 @@ footer {
         transform 0.3s ease;
 }
 
-
 .evidence-button:hover {
     background: rgba(96, 165, 250, 0.14);
 
@@ -1928,7 +1094,7 @@ footer {
 
 
 /* =========================================
-   GALLERY MODAL
+   GALLERY
 ========================================= */
 
 .gallery-modal {
@@ -1950,11 +1116,9 @@ footer {
     backdrop-filter: blur(10px);
 }
 
-
 .gallery-modal.active {
     display: flex;
 }
-
 
 .gallery-container {
     position: relative;
@@ -1967,7 +1131,6 @@ footer {
     align-items: center;
     justify-content: center;
 }
-
 
 .gallery-container img {
     display: block;
@@ -1987,17 +1150,18 @@ footer {
         0 30px 80px rgba(0, 0, 0, 0.5);
 }
 
-
-/* Close */
-
 .gallery-close {
     position: absolute;
 
-    top: -45px;
-    right: -5px;
+    top: -48px;
+    right: 0;
 
     width: 38px;
     height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     border: none;
 
@@ -2005,17 +1169,12 @@ footer {
 
     background: rgba(255, 255, 255, 0.10);
 
-    color: white;
+    color: #ffffff;
 
-    font-size: 28px;
-
-    line-height: 1;
+    font-size: 17px;
 
     cursor: pointer;
 }
-
-
-/* Previous / Next */
 
 .gallery-prev,
 .gallery-next {
@@ -2028,17 +1187,19 @@ footer {
     width: 45px;
     height: 45px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border: 1px solid rgba(255, 255, 255, 0.15);
 
     border-radius: 50%;
 
     background: rgba(0, 0, 0, 0.45);
 
-    color: white;
+    color: #ffffff;
 
-    font-size: 32px;
-
-    line-height: 1;
+    font-size: 16px;
 
     cursor: pointer;
 
@@ -2047,16 +1208,13 @@ footer {
         transform 0.3s ease;
 }
 
-
 .gallery-prev {
     left: -65px;
 }
 
-
 .gallery-next {
     right: -65px;
 }
-
 
 .gallery-prev:hover,
 .gallery-next:hover {
@@ -2064,9 +1222,6 @@ footer {
 
     transform: translateY(-50%) scale(1.08);
 }
-
-
-/* Counter */
 
 .gallery-counter {
     position: absolute;
@@ -2084,10 +1239,400 @@ footer {
 
 
 /* =========================================
-   ACHIEVEMENTS MOBILE
+   CONTACT
 ========================================= */
 
-@media (max-width: 650px) {
+.contact-wrapper {
+    display: grid;
+
+    grid-template-columns: 0.8fr 1.2fr;
+
+    gap: 50px;
+
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    align-items: center;
+}
+
+.contact-intro h3 {
+    margin-bottom: 15px;
+
+    font-size: 28px;
+
+    color: #f1f5f9;
+}
+
+.contact-intro p {
+    margin: 0;
+
+    max-width: 320px;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+    line-height: 1.85;
+}
+
+.contact-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+.contact-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 18px 20px;
+
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(255, 255, 255, 0.075);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease;
+}
+
+.contact-item:hover {
+    transform: translateX(5px);
+
+    border-color: rgba(96, 165, 250, 0.35);
+
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.contact-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: rgba(96, 165, 250, 0.10);
+
+    border: 1px solid rgba(96, 165, 250, 0.15);
+
+    color: #60a5fa;
+
+    font-size: 18px;
+}
+
+.contact-info {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.contact-info span {
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+.contact-info strong {
+    color: #dbeafe;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+.contact-arrow {
+    color: #60a5fa;
+
+    font-size: 13px;
+
+    transition: transform 0.3s ease;
+}
+
+.contact-item:hover .contact-arrow {
+    transform: translateX(4px);
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    padding: 30px 0;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.footer-content {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    color: #475569;
+
+    font-size: 13px;
+}
+
+.back-to-top {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    color: #60a5fa;
+
+    background: rgba(96, 165, 250, 0.08);
+
+    border: 1px solid rgba(96, 165, 250, 0.15);
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+.back-to-top:hover {
+    transform: translateY(-3px);
+
+    background: rgba(96, 165, 250, 0.14);
+}
+
+
+/* =========================================
+   ANIMATION
+========================================= */
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.4;
+    }
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .nav-links {
+        gap: 20px;
+    }
+
+    .hero-content {
+        grid-template-columns: minmax(0, 1fr) 320px;
+
+        gap: 45px;
+    }
+
+    .avatar-wrapper {
+        min-height: 320px;
+    }
+
+    .avatar-wrapper::before {
+        width: 275px;
+        height: 275px;
+    }
+
+    .avatar {
+        width: 215px;
+        height: 215px;
+    }
+
+    .projects {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    header {
+        height: 68px;
+    }
+
+    .navbar {
+        height: 68px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero {
+        min-height: auto;
+
+        padding-top: 68px;
+
+        padding-bottom: 90px;
+    }
+
+    .hero-content {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 50px;
+
+        text-align: center;
+    }
+
+    .hero-text {
+        width: 100%;
+    }
+
+    .hero-small {
+        justify-content: center;
+    }
+
+    .hero-small::before {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: clamp(48px, 15vw, 70px);
+
+        letter-spacing: -3px;
+    }
+
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+
+        font-size: 16px;
+    }
+
+    .buttons {
+        justify-content: center;
+    }
+
+    .hero-socials {
+        justify-content: center;
+    }
+
+    .avatar-wrapper {
+        width: 100%;
+
+        min-height: 260px;
+
+        order: 2;
+    }
+
+    .avatar-wrapper::before {
+        width: 225px;
+        height: 225px;
+    }
+
+    .avatar {
+        width: 190px;
+        height: 190px;
+    }
+
+    section {
+        padding: 85px 0;
+    }
+
+    .about-main {
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+    }
+
+    .about-content {
+        padding: 25px;
+    }
+
+    .about-content h3 {
+        font-size: 24px;
+    }
+
+    .skills {
+        grid-template-columns: 1fr;
+    }
+
+    .projects {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+    }
+
+    .contact-intro {
+        text-align: center;
+    }
+
+    .contact-intro p {
+        margin: 0 auto;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .container {
+        width: 88%;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+    }
+
+    .buttons {
+        width: 100%;
+    }
+
+    .buttons .btn {
+        flex: 1;
+    }
 
     .achievement-card-large {
         grid-template-columns: 1fr;
@@ -2101,7 +1646,7 @@ footer {
         width: 52px;
         height: 52px;
 
-        font-size: 24px;
+        font-size: 22px;
     }
 
     .achievement-card-content h3 {
@@ -2131,192 +1676,11 @@ footer {
         right: 0;
     }
 
-}
+    .footer-content {
+        flex-direction: column;
+        justify-content: center;
 
-/* =========================================
-   CONTACT
-========================================= */
-
-.contact-wrapper {
-    display: grid;
-
-    grid-template-columns: 0.8fr 1.2fr;
-
-    gap: 50px;
-
-    max-width: 900px;
-
-    margin: 0 auto;
-
-    align-items: center;
-}
-
-
-.contact-intro h3 {
-    margin-bottom: 15px;
-
-    font-size: 28px;
-
-    color: #f1f5f9;
-}
-
-
-.contact-intro p {
-    margin: 0;
-
-    max-width: 320px;
-
-    color: #94a3b8;
-
-    font-size: 14px;
-
-    line-height: 1.85;
-}
-
-
-/* Contact list */
-
-.contact-list {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 14px;
-}
-
-
-/* Contact item */
-
-.contact-item {
-    display: flex;
-
-    align-items: center;
-
-    gap: 16px;
-
-    padding: 18px 20px;
-
-    border-radius: 15px;
-
-    background: rgba(255, 255, 255, 0.035);
-
-    border: 1px solid rgba(255, 255, 255, 0.075);
-
-    transition:
-        transform 0.3s ease,
-        border-color 0.3s ease,
-        background 0.3s ease;
-}
-
-
-.contact-item:hover {
-    transform: translateX(5px);
-
-    border-color: rgba(96, 165, 250, 0.35);
-
-    background: rgba(255, 255, 255, 0.05);
-}
-
-
-/* Icon */
-
-.contact-icon {
-    width: 48px;
-    height: 48px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-shrink: 0;
-
-    border-radius: 12px;
-
-    background: rgba(96, 165, 250, 0.10);
-
-    border: 1px solid rgba(96, 165, 250, 0.15);
-
-    color: #60a5fa;
-
-    font-size: 19px;
-}
-
-
-/* Contact text */
-
-.contact-info {
-    flex: 1;
-
-    min-width: 0;
-}
-
-
-.contact-info strong {
-    color: #dbeafe;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    overflow-wrap: anywhere;
-}
-
-
-/* Arrow */
-
-.contact-arrow {
-    color: #60a5fa;
-
-    font-size: 14px;
-
-    transition: transform 0.3s ease;
-}
-
-
-.contact-item:hover .contact-arrow {
-    transform: translateX(4px);
-}
-
-
-/* =========================================
-   CONTACT MOBILE
-========================================= */
-
-@media (max-width: 800px) {
-
-    .contact-wrapper {
-        grid-template-columns: 1fr;
-
-        gap: 30px;
-    }
-
-    .contact-intro {
         text-align: center;
-    }
-
-    .contact-intro p {
-        margin: 0 auto;
-    }
-
-}
-
-
-@media (max-width: 480px) {
-
-    .contact-item {
-        padding: 16px;
-    }
-
-    .contact-icon {
-        width: 44px;
-        height: 44px;
-
-        font-size: 17px;
-    }
-
-    .contact-info strong {
-        font-size: 12px;
     }
 
 }
