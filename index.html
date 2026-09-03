@@ -2537,6 +2537,172 @@ body:has(.pdf-modal.open){overflow:auto !important;}
 }
 </style>
 
+
+<style id="user-five-requirements-final-overrides">
+/* =========================================================
+   ONLY THE 5 REQUESTED UPDATES
+   - 9 PDF cards per page
+   - Previous / next / numbered pages / direct page jump
+   - Reduce oversized cards
+   - Remove ALL LED / moving border effects
+   - Keep PDF at 100% inside its viewer container
+========================================================= */
+
+/* CARD HEIGHT: reduce excess vertical space without changing layout. */
+#documents .document-card-content-wrap{
+    grid-template-rows:minmax(145px,auto) auto !important;
+    row-gap:10px !important;
+}
+
+#documents .document-card-preview{
+    height:145px !important;
+}
+
+#documents .document-card-content-wrap > .document-card-preview{
+    height:145px !important;
+}
+
+#documents .document-card-actions{
+    min-height:38px !important;
+    padding-top:10px !important;
+    gap:7px !important;
+}
+
+#documents .document-card-content-wrap > .document-card-actions .document-card-action{
+    height:38px !important;
+    min-height:38px !important;
+}
+
+/* Remove the LED / moving light trace completely. */
+#documents .document-card-clickable::before,
+#documents .document-card-clickable::after,
+#documents .document-category-card::before,
+#documents .document-category-card::after,
+#documents .document-category-card .document-open-label::before,
+#documents .document-category-card .document-open-label::after,
+#documents .document-card-glow{
+    content:none !important;
+    display:none !important;
+    opacity:0 !important;
+    animation:none !important;
+    transform:none !important;
+    background:none !important;
+    box-shadow:none !important;
+    filter:none !important;
+}
+
+/* Keep hover as a simple, subtle lift only. */
+#documents .document-card-clickable,
+#documents .document-category-card{
+    transition:transform .24s ease, box-shadow .24s ease !important;
+}
+
+#documents .document-card-clickable:hover,
+#documents .document-card-clickable:focus-visible,
+#documents .document-category-card:hover,
+#documents .document-category-card:focus-visible{
+    transform:translateY(-4px) !important;
+    box-shadow:0 14px 30px rgba(0,0,0,.24) !important;
+}
+
+/* Pagination controls. */
+#documents .document-pagination{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:6px !important;
+    flex-wrap:wrap !important;
+    width:100% !important;
+}
+
+#documents .document-page-btn{
+    width:36px !important;
+    min-width:36px !important;
+    height:36px !important;
+    padding:0 !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+}
+
+#documents .document-page-jump{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:7px !important;
+    min-height:36px !important;
+    margin-left:7px !important;
+    padding:0 10px !important;
+    border:1px solid rgba(148,163,184,.13) !important;
+    border-radius:9px !important;
+    background:rgba(255,255,255,.025) !important;
+    color:#9fb0c7 !important;
+    font-size:11px !important;
+    box-sizing:border-box !important;
+}
+
+#documents .document-page-jump input{
+    width:52px !important;
+    height:28px !important;
+    padding:0 6px !important;
+    border:1px solid rgba(125,211,252,.20) !important;
+    border-radius:7px !important;
+    outline:none !important;
+    background:rgba(3,9,18,.72) !important;
+    color:#effaff !important;
+    text-align:center !important;
+    font:inherit !important;
+    box-sizing:border-box !important;
+}
+
+#documents .document-page-jump input:focus{
+    border-color:rgba(125,211,252,.5) !important;
+}
+
+/* PDF 100%: never let the canvas exceed the viewer width. */
+#documents.document-viewer-mode .pdf-viewer-scroll{
+    width:100% !important;
+    max-width:100% !important;
+    overflow-x:hidden !important;
+    box-sizing:border-box !important;
+}
+
+#documents.document-viewer-mode .pdf-viewer-pages{
+    width:100% !important;
+    max-width:100% !important;
+    padding-left:18px !important;
+    padding-right:18px !important;
+    box-sizing:border-box !important;
+    overflow-x:hidden !important;
+}
+
+#documents.document-viewer-mode .pdf-page-wrap{
+    width:100% !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+}
+
+#documents.document-viewer-mode .pdf-page-canvas{
+    display:block !important;
+    max-width:100% !important;
+    height:auto !important;
+    box-sizing:border-box !important;
+}
+
+@media(max-width:760px){
+    #documents .document-card-preview,
+    #documents .document-card-content-wrap > .document-card-preview{
+        height:135px !important;
+    }
+
+    #documents .document-card-actions{
+        gap:6px !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -3839,7 +4005,7 @@ body:has(.pdf-modal.open){overflow:auto !important;}
         let documentSortMode = "newest";
         let documentTypeMode = "all";
         let documentCurrentPage = 1;
-        let documentPageSize = 12;
+        let documentPageSize = 9;
         let currentDocument = null;
 
         const documentIconMap = {
@@ -3983,30 +4149,148 @@ body:has(.pdf-modal.open){overflow:auto !important;}
         function renderPagination(total) {
             const root = document.getElementById("documentPagination");
             if (!root) return;
+
             const pages = Math.max(1, Math.ceil(total / documentPageSize));
+
+            documentCurrentPage = Math.max(
+                1,
+                Math.min(Number(documentCurrentPage) || 1, pages)
+            );
+
             if (pages <= 1) {
                 root.hidden = true;
                 root.innerHTML = "";
                 return;
             }
+
             root.hidden = false;
+
             const buttons = [];
-            buttons.push(`<button type="button" class="document-page-btn" data-page="${Math.max(1, documentCurrentPage - 1)}" ${documentCurrentPage === 1 ? "disabled" : ""}><i class="fa-solid fa-chevron-left"></i></button>`);
-            for (let p = 1; p <= pages; p++) {
-                if (pages > 8 && p > 3 && p < pages - 2 && Math.abs(p - documentCurrentPage) > 1) {
-                    if (!buttons.some(x => x.includes('ellipsis'))) buttons.push('<span class="document-page-ellipsis">…</span>');
-                    continue;
+
+            /* Trang trước */
+            buttons.push(`
+                <button
+                    type="button"
+                    class="document-page-btn"
+                    data-page="${Math.max(1, documentCurrentPage - 1)}"
+                    ${documentCurrentPage === 1 ? "disabled" : ""}
+                    aria-label="Trang trước"
+                    title="Trang trước"
+                >
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            `);
+
+            /* Các số trang */
+            const visiblePages = [];
+            const addPage = page => {
+                if (page >= 1 && page <= pages && !visiblePages.includes(page)) {
+                    visiblePages.push(page);
                 }
-                buttons.push(`<button type="button" class="document-page-btn ${p === documentCurrentPage ? "active" : ""}" data-page="${p}">${p}</button>`);
+            };
+
+            if (pages <= 9) {
+                for (let page = 1; page <= pages; page++) addPage(page);
+            } else {
+                addPage(1);
+                addPage(2);
+                addPage(documentCurrentPage - 1);
+                addPage(documentCurrentPage);
+                addPage(documentCurrentPage + 1);
+                addPage(pages - 1);
+                addPage(pages);
             }
-            buttons.push(`<button type="button" class="document-page-btn" data-page="${Math.min(pages, documentCurrentPage + 1)}" ${documentCurrentPage === pages ? "disabled" : ""}><i class="fa-solid fa-chevron-right"></i></button>`);
+
+            visiblePages.sort((a, b) => a - b);
+
+            let previous = null;
+            visiblePages.forEach(page => {
+                if (previous !== null && page - previous > 1) {
+                    buttons.push('<span class="document-page-ellipsis" aria-hidden="true">…</span>');
+                }
+
+                buttons.push(`
+                    <button
+                        type="button"
+                        class="document-page-btn ${page === documentCurrentPage ? "active" : ""}"
+                        data-page="${page}"
+                        ${page === documentCurrentPage ? 'aria-current="page"' : ""}
+                        aria-label="Trang ${page}"
+                    >
+                        ${page}
+                    </button>
+                `);
+
+                previous = page;
+            });
+
+            /* Trang sau */
+            buttons.push(`
+                <button
+                    type="button"
+                    class="document-page-btn"
+                    data-page="${Math.min(pages, documentCurrentPage + 1)}"
+                    ${documentCurrentPage === pages ? "disabled" : ""}
+                    aria-label="Trang sau"
+                    title="Trang sau"
+                >
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            `);
+
+            /* Đi tới trang X / tổng số trang */
+            buttons.push(`
+                <label class="document-page-jump">
+                    <span>Tới trang:</span>
+                    <input
+                        id="documentPageJumpInput"
+                        type="number"
+                        min="1"
+                        max="${pages}"
+                        value="${documentCurrentPage}"
+                        inputmode="numeric"
+                        aria-label="Nhập số trang"
+                    >
+                    <b>/ ${pages}</b>
+                </label>
+            `);
+
             root.innerHTML = buttons.join("");
-            root.querySelectorAll("[data-page]").forEach(btn => btn.addEventListener("click", () => {
-                if (btn.disabled) return;
-                documentCurrentPage = Number(btn.dataset.page);
+
+            const goToPage = page => {
+                const nextPage = Math.max(
+                    1,
+                    Math.min(pages, Number(page) || 1)
+                );
+
+                documentCurrentPage = nextPage;
                 renderDocumentLibrary();
-                document.getElementById("documentList")?.scrollIntoView({ behavior: "smooth", block: "start" });
-            }));
+
+                document.getElementById("documentList")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            };
+
+            root.querySelectorAll("[data-page]").forEach(button => {
+                button.addEventListener("click", () => {
+                    if (button.disabled) return;
+                    goToPage(button.dataset.page);
+                });
+            });
+
+            const jumpInput = root.querySelector("#documentPageJumpInput");
+
+            jumpInput?.addEventListener("change", () => {
+                goToPage(jumpInput.value);
+            });
+
+            jumpInput?.addEventListener("keydown", event => {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    goToPage(jumpInput.value);
+                }
+            });
         }
 
         function renderCategoryCards(categories) {
@@ -4669,7 +4953,7 @@ body:has(.pdf-modal.open){overflow:auto !important;}
             const firstPage = await pdf.getPage(1);
             const firstBaseViewport = firstPage.getViewport({ scale: 1 });
             currentPdfFitScale = baseWidth / firstBaseViewport.width;
-            const actualScale = currentPdfFitScale * currentPdfZoom;
+            const actualScale = Math.max(0.1, currentPdfFitScale * currentPdfZoom);
             const ratio = Math.min(window.devicePixelRatio || 1, 2);
 
             container.innerHTML = "";
