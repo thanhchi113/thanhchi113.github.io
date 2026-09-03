@@ -1,405 +1,331 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Huỳnh Thanh Chí | Giáo viên Toán</title>
-<meta name="description" content="Website cá nhân của Huỳnh Thanh Chí — Giáo viên Toán, Công nghệ và AI.">
-<meta name="theme-color" content="#070b14">
-<link rel="stylesheet" href="style.css?v=20260903-3">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-/* =========================================================
-   DOCUMENT CATEGORY-FIRST
-   Chỉ cần ghi đè index.html là đủ cho phần thay đổi này.
-========================================================= */
+    <title>Huỳnh Thanh Chí | Giáo viên Toán</title>
 
-.document-library-heading{
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-    gap:24px;
-    margin:30px 0 18px
-}
+    <meta
+        name="description"
+        content="Website cá nhân của Huỳnh Thanh Chí — Giáo viên Toán, Công nghệ và AI."
+    >
 
-.document-library-kicker{
-    display:block;
-    margin-bottom:6px;
-    color:#60a5fa;
-    font-size:11px;
-    font-weight:800;
-    letter-spacing:2px
-}
+    <meta name="theme-color" content="#070b14">
 
-.document-library-heading h3{
-    margin:0;
-    color:#f8fbff;
-    font-size:clamp(22px,3vw,30px);
-    line-height:1.15
-}
+    <link
+        rel="stylesheet"
+        href="style.css?v=20260903-3"
+    >
 
-.document-library-heading .document-status{
-    margin:0;
-    white-space:nowrap
-}
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    >
 
-.document-backbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    margin:0 0 18px;
-    padding:12px 14px;
-    border:1px solid rgba(148,163,184,.12);
-    border-radius:14px;
-    background:rgba(7,13,24,.48)
-}
+    <style>
 
-.document-back-button{
-    display:inline-flex;
-    align-items:center;
-    gap:9px;
-    min-height:40px;
-    padding:0 14px;
-    border:1px solid rgba(96,165,250,.22);
-    border-radius:10px;
-    color:#dceeff;
-    background:rgba(56,189,248,.06);
-    font:inherit;
-    font-size:13px;
-    font-weight:700;
-    cursor:pointer;
-    transition:.25s ease
-}
+        /* =========================================
+           DOCUMENT LIBRARY - CATEGORY FIRST
+        ========================================== */
 
-.document-back-button:hover{
-    transform:translateX(-2px);
-    border-color:rgba(125,211,252,.52);
-    background:rgba(56,189,248,.11)
-}
+        .document-library-heading{
+            display:flex;
+            align-items:flex-end;
+            justify-content:space-between;
+            gap:24px;
+            margin:30px 0 18px;
+        }
 
-.document-selected-category{
-    color:#7dd3fc;
-    font-size:12px;
-    font-weight:800;
-    letter-spacing:.8px;
-    text-transform:uppercase
-}
+        .document-library-kicker{
+            display:block;
+            margin-bottom:6px;
+            color:#60a5fa;
+            font-size:11px;
+            font-weight:800;
+            letter-spacing:2px;
+        }
 
-.document-category-grid{
-    grid-template-columns:repeat(3,minmax(0,1fr))
-}
+        .document-library-heading h3{
+            margin:0;
+            color:#f8fbff;
+            font-size:clamp(22px,3vw,30px);
+            line-height:1.15;
+        }
 
-.document-category-card{
-    min-height:260px;
-    position:relative;
-    overflow:hidden;
-    cursor:pointer
-}
+        .document-library-heading .document-status{
+            margin:0;
+            white-space:nowrap;
+        }
 
-.document-category-icon{
-    width:62px;
-    height:62px;
-    display:grid;
-    place-items:center;
-    border-radius:17px;
-    margin-bottom:18px;
-    color:#8ddcff;
-    background:
-        linear-gradient(
-            145deg,
-            rgba(56,189,248,.13),
-            rgba(124,58,237,.12)
-        );
-    border:1px solid rgba(125,211,252,.19);
-    box-shadow:0 16px 34px rgba(56,189,248,.07);
-    font-size:24px;
-    transition:
-        transform .3s ease,
-        border-color .3s ease
-}
+        .document-toolbar-right{
+            display:flex;
+            align-items:center;
+            gap:10px;
+        }
 
-.document-category-card .document-card-category{
-    margin-top:0
-}
+        .document-sort-wrap{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            min-height:42px;
+            padding:0 12px;
+            border:1px solid rgba(148,163,184,.14);
+            border-radius:11px;
+            background:rgba(5,10,19,.56);
+            color:#8ea0b8;
+        }
 
-.document-category-card h3{
-    margin-top:7px;
-    margin-bottom:10px;
-    font-size:23px
-}
+        .document-sort-wrap select{
+            border:0;
+            outline:0;
+            background:transparent;
+            color:#dcecff;
+            font:inherit;
+            font-size:13px;
+            cursor:pointer;
+        }
 
-.document-category-card p{
-    min-height:70px;
-    margin-bottom:20px
-}
+        .document-sort-wrap option{
+            background:#0b1220;
+            color:#f8fbff;
+        }
 
-.document-category-footer{
-    margin-top:auto;
-    padding-top:15px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:14px;
-    border-top:1px solid rgba(255,255,255,.07)
-}
+        .document-backbar{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:16px;
+            margin:0 0 18px;
+            padding:12px 14px;
+            border:1px solid rgba(148,163,184,.12);
+            border-radius:14px;
+            background:rgba(7,13,24,.48);
+        }
 
-.document-category-count{
-    display:inline-flex;
-    align-items:center;
-    gap:7px;
-    color:#93a4bb;
-    font-size:12px;
-    font-weight:600
-}
+        .document-back-button{
+            display:inline-flex;
+            align-items:center;
+            gap:9px;
+            min-height:40px;
+            padding:0 14px;
+            border:1px solid rgba(96,165,250,.22);
+            border-radius:10px;
+            color:#dceeff;
+            background:rgba(56,189,248,.06);
+            font:inherit;
+            font-size:13px;
+            font-weight:700;
+            cursor:pointer;
+            transition:.25s ease;
+        }
 
-.document-category-count i{
-    color:#60a5fa
-}
+        .document-back-button:hover{
+            transform:translateX(-2px);
+            border-color:rgba(125,211,252,.52);
+            background:rgba(56,189,248,.11);
+        }
 
-.document-category-card:hover .document-category-icon{
-    transform:translateY(-2px) scale(1.03);
-    border-color:rgba(125,211,252,.4)
-}
+        .document-selected-category{
+            color:#7dd3fc;
+            font-size:12px;
+            font-weight:800;
+            letter-spacing:.8px;
+            text-transform:uppercase;
+        }
 
-.document-card-clickable{
-    position:relative;
-    isolation:isolate;
-    overflow:hidden;
-    min-height:270px;
-    display:flex;
-    flex-direction:column;
-    cursor:pointer;
-    outline:none
-}
+        .document-category-grid{
+            grid-template-columns:repeat(3,minmax(0,1fr));
+        }
 
-.document-card-clickable:focus-visible{
-    border-color:rgba(125,211,252,.65);
-    box-shadow:
-        0 0 0 3px rgba(56,189,248,.10),
-        0 26px 60px rgba(15,23,42,.32)
-}
+        .document-category-card{
+            min-height:260px;
+            position:relative;
+            overflow:hidden;
+            cursor:pointer;
+        }
 
-.document-card-glow{
-    position:absolute;
-    width:180px;
-    height:180px;
-    top:-95px;
-    right:-70px;
-    border-radius:50%;
-    background:rgba(59,130,246,.15);
-    filter:blur(35px);
-    pointer-events:none;
-    z-index:-1
-}
+        .document-category-icon{
+            width:62px;
+            height:62px;
+            display:grid;
+            place-items:center;
+            border-radius:17px;
+            margin-bottom:18px;
+            color:#8ddcff;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(56,189,248,.13),
+                    rgba(124,58,237,.12)
+                );
+            border:1px solid rgba(125,211,252,.19);
+            box-shadow:
+                0 16px 34px rgba(56,189,248,.07);
+            font-size:24px;
+            transition:
+                transform .3s ease,
+                border-color .3s ease;
+        }
 
-.document-icon-pdf{
-    width:54px;
-    height:54px;
-    border-radius:15px;
-    color:#fca5a5;
-    background:
-        linear-gradient(
-            145deg,
-            rgba(239,68,68,.16),
-            rgba(124,58,237,.10)
-        );
-    border:1px solid rgba(248,113,113,.24);
-    box-shadow:0 12px 30px rgba(239,68,68,.08);
-    font-size:21px
-}
+        .document-category-card h3{
+            margin-top:7px;
+            margin-bottom:10px;
+            font-size:23px;
+        }
 
-.document-card p{
-    display:-webkit-box;
-    -webkit-line-clamp:3;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
-    margin-bottom:22px
-}
+        .document-category-card p{
+            min-height:70px;
+            margin-bottom:20px;
+        }
 
-.document-card-footer{
-    margin-top:auto;
-    padding-top:16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:14px;
-    border-top:1px solid rgba(255,255,255,.07);
-    color:#70809a;
-    font-size:12px
-}
+        .document-category-footer{
+            margin-top:auto;
+            padding-top:15px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:14px;
+            border-top:1px solid rgba(255,255,255,.07);
+        }
 
-.document-open-label{
-    color:#cfe8ff;
-    font-weight:700;
-    transition:
-        transform .25s ease,
-        color .25s ease
-}
+        .document-category-count{
+            display:inline-flex;
+            align-items:center;
+            gap:7px;
+            color:#93a4bb;
+            font-size:12px;
+            font-weight:600;
+        }
 
-.document-card-clickable:hover .document-open-label,
-.document-category-card:hover .document-open-label,
-.document-card-clickable:focus-visible .document-open-label{
-    color:#7dd3fc;
-    transform:translateX(3px)
-}
+        .document-category-count i{
+            color:#60a5fa;
+        }
 
-.document-open-label i{
-    margin-left:5px
-}
+        .document-category-card:hover .document-category-icon{
+            transform:translateY(-2px) scale(1.03);
+            border-color:rgba(125,211,252,.4);
+        }
 
-.pdf-modal{
-    position:fixed;
-    inset:0;
-    z-index:2500;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:22px;
-    background:rgba(2,6,14,.82);
-    backdrop-filter:blur(10px)
-}
+        .document-card-glow{
+            position:absolute;
+            width:180px;
+            height:180px;
+            top:-95px;
+            right:-70px;
+            border-radius:50%;
+            background:rgba(59,130,246,.15);
+            filter:blur(35px);
+            pointer-events:none;
+            z-index:-1;
+        }
 
-.pdf-modal.open{
-    display:flex
-}
+        .document-card-top-badges{
+            display:flex;
+            align-items:center;
+            gap:6px;
+        }
 
-body.modal-open{
-    overflow:hidden
-}
+        .document-new-badge{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            min-height:24px;
+            padding:0 8px;
+            border-radius:999px;
+            background:rgba(34,197,94,.1);
+            border:1px solid rgba(74,222,128,.22);
+            color:#86efac;
+            font-size:10px;
+            font-weight:900;
+            letter-spacing:.7px;
+        }
 
-.pdf-modal-inner{
-    width:min(1220px,96vw);
-    height:min(88vh,900px);
-    background:#08101c;
-    border:1px solid rgba(148,163,184,.18);
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 30px 100px rgba(0,0,0,.55);
-    display:flex;
-    flex-direction:column
-}
+        @media(max-width:980px){
 
-.pdf-modal-head{
-    min-height:72px;
-    padding:14px 16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:18px;
-    border-bottom:1px solid rgba(255,255,255,.08)
-}
+            .document-category-grid{
+                grid-template-columns:
+                    repeat(2,minmax(0,1fr));
+            }
 
-.pdf-modal-kicker{
-    color:#7dd3fc;
-    font-size:10px;
-    font-weight:800;
-    letter-spacing:2px;
-    margin-bottom:3px
-}
+            .document-backbar{
+                align-items:flex-start;
+                flex-direction:column;
+            }
 
-.pdf-modal-head h3{
-    margin:0;
-    font-size:18px
-}
+        }
 
-.pdf-modal-actions{
-    display:flex;
-    align-items:center;
-    gap:10px
-}
+        @media(max-width:700px){
 
-.pdf-close{
-    width:40px;
-    height:40px;
-    border-radius:10px;
-    border:1px solid rgba(255,255,255,.12);
-    color:#e7eef8;
-    background:rgba(255,255,255,.04);
-    cursor:pointer;
-    font-size:16px
-}
+            .document-toolbar-right{
+                width:100%;
+            }
 
-.pdf-frame-wrap{
-    flex:1;
-    min-height:0;
-    background:#111827
-}
+            .document-sort-wrap{
+                flex:1;
+            }
 
-.pdf-frame-wrap iframe{
-    width:100%;
-    height:100%;
-    border:0;
-    display:block
-}
+            .document-sort-wrap select{
+                width:100%;
+            }
 
-@media(max-width:980px){
+            .document-admin-link{
+                white-space:nowrap;
+            }
 
-    .document-category-grid{
-        grid-template-columns:
-            repeat(2,minmax(0,1fr))
-    }
+        }
 
-    .document-backbar{
-        align-items:flex-start;
-        flex-direction:column
-    }
-}
+        @media(max-width:640px){
 
-@media(max-width:640px){
+            .document-library-heading{
+                align-items:flex-start;
+                flex-direction:column;
+            }
 
-    .document-library-heading{
-        align-items:flex-start;
-        flex-direction:column;
-        margin-top:24px
-    }
+            .document-category-grid{
+                grid-template-columns:1fr;
+            }
 
-    .document-library-heading .document-status{
-        white-space:normal
-    }
+            .document-back-button{
+                width:100%;
+                justify-content:center;
+            }
 
-    .document-category-grid{
-        grid-template-columns:1fr
-    }
+        }
 
-    .document-back-button{
-        width:100%;
-        justify-content:center
-    }
-
-    .document-category-card{
-        min-height:230px
-    }
-
-    .document-category-card p{
-        min-height:auto
-    }
-
-    .pdf-modal{
-        padding:8px
-    }
-
-    .pdf-modal-inner{
-        width:100%;
-        height:94vh;
-        border-radius:14px
-    }
-}
-</style>
+    </style>
 </head>
 
 <body>
 
-<canvas id="particleCanvas" aria-hidden="true"></canvas>
-<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+<canvas
+    id="particleCanvas"
+    aria-hidden="true"
+></canvas>
 
-<header class="site-header" id="siteHeader">
+<div
+    class="cursor-glow"
+    id="cursorGlow"
+    aria-hidden="true"
+></div>
+
+
+<header
+    class="site-header"
+    id="siteHeader"
+>
+
     <div class="container navbar">
 
-        <a href="#home" class="logo" aria-label="Về trang chủ">
+        <a
+            href="#home"
+            class="logo"
+        >
             Thanh<span>Chí</span>
         </a>
+
 
         <button
             class="menu-toggle"
@@ -408,65 +334,103 @@ body.modal-open{
             aria-label="Mở menu"
             aria-expanded="false"
             aria-controls="mainMenu"
-            onclick="toggleMobileMenu(event)"
         >
+
             <i class="fa-solid fa-bars"></i>
+
         </button>
 
+
         <nav>
-            <ul class="nav-links" id="mainMenu">
+
+            <ul
+                class="nav-links"
+                id="mainMenu"
+            >
 
                 <li>
-                    <a href="#home" class="nav-link active">
+                    <a
+                        href="#home"
+                        class="nav-link active"
+                    >
                         Trang chủ
                     </a>
                 </li>
 
                 <li>
-                    <a href="#about" class="nav-link">
+                    <a
+                        href="#about"
+                        class="nav-link"
+                    >
                         Giới thiệu
                     </a>
                 </li>
 
                 <li>
-                    <a href="#skills" class="nav-link">
+                    <a
+                        href="#skills"
+                        class="nav-link"
+                    >
                         Kỹ năng
                     </a>
                 </li>
 
                 <li>
-                    <a href="#projects" class="nav-link">
+                    <a
+                        href="#projects"
+                        class="nav-link"
+                    >
                         Dự án
                     </a>
                 </li>
 
                 <li>
-                    <a href="#achievements" class="nav-link">
+                    <a
+                        href="#achievements"
+                        class="nav-link"
+                    >
                         Thành tích
                     </a>
                 </li>
 
                 <li>
-                    <a href="#documents" class="nav-link">
+                    <a
+                        href="#documents"
+                        class="nav-link"
+                    >
                         Tài liệu
                     </a>
                 </li>
 
                 <li>
-                    <a href="#contact" class="nav-link">
+                    <a
+                        href="#contact"
+                        class="nav-link"
+                    >
                         Liên hệ
                     </a>
                 </li>
 
             </ul>
+
         </nav>
 
     </div>
+
 </header>
+
 
 <main>
 
-<section class="hero" id="home">
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section
+    class="hero"
+    id="home"
+>
 
     <div class="container hero-content">
 
@@ -482,8 +446,13 @@ body.modal-open{
             </h1>
 
             <div class="hero-role">
-                <span id="typingRole">GIÁO VIÊN TOÁN</span>
+
+                <span id="typingRole">
+                    GIÁO VIÊN TOÁN
+                </span>
+
                 <span class="typing-caret"></span>
+
             </div>
 
             <p class="hero-description">
@@ -492,18 +461,26 @@ body.modal-open{
                 trải nghiệm học tập hiệu quả và trực quan hơn.
             </p>
 
+
             <div class="buttons">
 
-                <a href="#about" class="btn btn-primary">
+                <a
+                    href="#about"
+                    class="btn btn-primary"
+                >
                     <span>Xem về tôi</span>
                     <i class="fa-solid fa-arrow-down btn-arrow"></i>
                 </a>
 
-                <a href="#contact" class="btn btn-outline">
+                <a
+                    href="#contact"
+                    class="btn btn-outline"
+                >
                     Liên hệ
                 </a>
 
             </div>
+
 
             <div class="hero-socials">
 
@@ -536,26 +513,36 @@ body.modal-open{
 
         </div>
 
+
         <div class="avatar-wrapper reveal reveal-delay-1">
 
-            <div class="avatar-ring avatar-ring-outer"></div>
-            <div class="avatar-ring avatar-ring-inner"></div>
+            <div
+                class="avatar-ring avatar-ring-outer"
+            ></div>
+
+            <div
+                class="avatar-ring avatar-ring-inner"
+            ></div>
 
             <span class="orbit-particle orbit-particle-outer"></span>
             <span class="orbit-particle orbit-particle-inner"></span>
             <span class="orbit-particle orbit-particle-small"></span>
             <span class="orbit-particle orbit-particle-tiny"></span>
 
+
             <div class="avatar">
+
                 <img
                     src="assets/avatar.jpg"
                     alt="Ảnh đại diện Huỳnh Thanh Chí"
                 >
+
             </div>
 
         </div>
 
     </div>
+
 
     <a
         href="#about"
@@ -565,15 +552,31 @@ body.modal-open{
         <span></span>
     </a>
 
-    <div class="hero-space-scene" aria-hidden="true">
 
-        <div class="hero-planet hero-planet-horizon"></div>
+    <div
+        class="hero-space-scene"
+        aria-hidden="true"
+    >
 
-        <div class="hero-planet hero-planet-small planet-small-1"></div>
-        <div class="hero-planet hero-planet-small planet-small-2"></div>
-        <div class="hero-planet hero-planet-small planet-small-3"></div>
+        <div
+            class="hero-planet hero-planet-horizon"
+        ></div>
 
-        <div class="hero-planet hero-planet-ringed">
+        <div
+            class="hero-planet hero-planet-small planet-small-1"
+        ></div>
+
+        <div
+            class="hero-planet hero-planet-small planet-small-2"
+        ></div>
+
+        <div
+            class="hero-planet hero-planet-small planet-small-3"
+        ></div>
+
+        <div
+            class="hero-planet hero-planet-ringed"
+        >
             <span></span>
         </div>
 
@@ -587,15 +590,31 @@ body.modal-open{
 
 </section>
 
+
+<!-- =========================================================
+     ABOUT
+========================================================= -->
+
 <section id="about">
 
     <div class="container">
 
         <div class="section-title reveal">
-            <div class="section-kicker">ABOUT ME</div>
-            <h2>Giới thiệu</h2>
-            <p>Một chút về tôi</p>
+
+            <div class="section-kicker">
+                ABOUT ME
+            </div>
+
+            <h2>
+                Giới thiệu
+            </h2>
+
+            <p>
+                Một chút về tôi
+            </p>
+
         </div>
+
 
         <div class="about-main">
 
@@ -620,15 +639,19 @@ body.modal-open{
 
             </div>
 
+
             <div class="about-highlight">
 
-                <div class="highlight-item reveal reveal-delay-1 tilt-card">
+                <div
+                    class="highlight-item reveal reveal-delay-1 tilt-card"
+                >
 
                     <div class="highlight-icon">
                         <i class="fa-solid fa-calculator"></i>
                     </div>
 
                     <div>
+
                         <div class="highlight-number">
                             Toán
                         </div>
@@ -636,17 +659,22 @@ body.modal-open{
                         <div class="highlight-text">
                             Mathematics
                         </div>
+
                     </div>
 
                 </div>
 
-                <div class="highlight-item reveal reveal-delay-2 tilt-card">
+
+                <div
+                    class="highlight-item reveal reveal-delay-2 tilt-card"
+                >
 
                     <div class="highlight-icon">
                         <i class="fa-solid fa-robot"></i>
                     </div>
 
                     <div>
+
                         <div class="highlight-number">
                             AI
                         </div>
@@ -654,17 +682,22 @@ body.modal-open{
                         <div class="highlight-text">
                             Artificial Intelligence
                         </div>
+
                     </div>
 
                 </div>
 
-                <div class="highlight-item reveal reveal-delay-3 tilt-card">
+
+                <div
+                    class="highlight-item reveal reveal-delay-3 tilt-card"
+                >
 
                     <div class="highlight-icon">
                         <i class="fa-solid fa-laptop-code"></i>
                     </div>
 
                     <div>
+
                         <div class="highlight-number">
                             Tech
                         </div>
@@ -672,6 +705,7 @@ body.modal-open{
                         <div class="highlight-text">
                             Technology
                         </div>
+
                     </div>
 
                 </div>
@@ -684,17 +718,34 @@ body.modal-open{
 
 </section>
 
+
+<!-- =========================================================
+     SKILLS
+========================================================= -->
+
 <section id="skills">
 
     <div class="container">
 
         <div class="section-title reveal">
-            <div class="section-kicker">WHAT I DO</div>
-            <h2>Kỹ năng</h2>
-            <p>Những lĩnh vực tôi quan tâm và sử dụng</p>
+
+            <div class="section-kicker">
+                WHAT I DO
+            </div>
+
+            <h2>
+                Kỹ năng
+            </h2>
+
+            <p>
+                Những lĩnh vực tôi quan tâm và sử dụng
+            </p>
+
         </div>
 
+
         <div class="skills">
+
 
             <div class="skill-item reveal">
 
@@ -705,8 +756,15 @@ body.modal-open{
                     </div>
 
                     <div class="skill-info">
-                        <h3>Toán học</h3>
-                        <p>Mathematics</p>
+
+                        <h3>
+                            Toán học
+                        </h3>
+
+                        <p>
+                            Mathematics
+                        </p>
+
                     </div>
 
                     <div class="skill-percent">
@@ -715,14 +773,18 @@ body.modal-open{
 
                 </div>
 
+
                 <div class="skill-bar">
+
                     <div
                         class="skill-progress"
                         style="--progress:95%"
                     ></div>
+
                 </div>
 
             </div>
+
 
             <div class="skill-item reveal reveal-delay-1">
 
@@ -733,8 +795,15 @@ body.modal-open{
                     </div>
 
                     <div class="skill-info">
-                        <h3>AI</h3>
-                        <p>Artificial Intelligence</p>
+
+                        <h3>
+                            AI
+                        </h3>
+
+                        <p>
+                            Artificial Intelligence
+                        </p>
+
                     </div>
 
                     <div class="skill-percent">
@@ -743,14 +812,18 @@ body.modal-open{
 
                 </div>
 
+
                 <div class="skill-bar">
+
                     <div
                         class="skill-progress"
                         style="--progress:90%"
                     ></div>
+
                 </div>
 
             </div>
+
 
             <div class="skill-item reveal reveal-delay-2">
 
@@ -761,8 +834,15 @@ body.modal-open{
                     </div>
 
                     <div class="skill-info">
-                        <h3>LaTeX</h3>
-                        <p>Document Typesetting</p>
+
+                        <h3>
+                            LaTeX
+                        </h3>
+
+                        <p>
+                            Document Typesetting
+                        </p>
+
                     </div>
 
                     <div class="skill-percent">
@@ -771,14 +851,18 @@ body.modal-open{
 
                 </div>
 
+
                 <div class="skill-bar">
+
                     <div
                         class="skill-progress"
                         style="--progress:90%"
                     ></div>
+
                 </div>
 
             </div>
+
 
             <div class="skill-item reveal reveal-delay-3">
 
@@ -789,8 +873,15 @@ body.modal-open{
                     </div>
 
                     <div class="skill-info">
-                        <h3>TikZ</h3>
-                        <p>Mathematical Graphics</p>
+
+                        <h3>
+                            TikZ
+                        </h3>
+
+                        <p>
+                            Mathematical Graphics
+                        </p>
+
                     </div>
 
                     <div class="skill-percent">
@@ -799,14 +890,18 @@ body.modal-open{
 
                 </div>
 
+
                 <div class="skill-bar">
+
                     <div
                         class="skill-progress"
                         style="--progress:85%"
                     ></div>
+
                 </div>
 
             </div>
+
 
             <div class="skill-item reveal reveal-delay-4">
 
@@ -817,8 +912,15 @@ body.modal-open{
                     </div>
 
                     <div class="skill-info">
-                        <h3>Content Creation</h3>
-                        <p>Educational Content</p>
+
+                        <h3>
+                            Content Creation
+                        </h3>
+
+                        <p>
+                            Educational Content
+                        </p>
+
                     </div>
 
                     <div class="skill-percent">
@@ -827,14 +929,18 @@ body.modal-open{
 
                 </div>
 
+
                 <div class="skill-bar">
+
                     <div
                         class="skill-progress"
                         style="--progress:85%"
                     ></div>
+
                 </div>
 
             </div>
+
 
             <div class="skill-item reveal reveal-delay-5">
 
@@ -845,8 +951,15 @@ body.modal-open{
                     </div>
 
                     <div class="skill-info">
-                        <h3>Công nghệ</h3>
-                        <p>Technology</p>
+
+                        <h3>
+                            Công nghệ
+                        </h3>
+
+                        <p>
+                            Technology
+                        </p>
+
                     </div>
 
                     <div class="skill-percent">
@@ -855,11 +968,14 @@ body.modal-open{
 
                 </div>
 
+
                 <div class="skill-bar">
+
                     <div
                         class="skill-progress"
                         style="--progress:80%"
                     ></div>
+
                 </div>
 
             </div>
@@ -870,19 +986,38 @@ body.modal-open{
 
 </section>
 
+
+<!-- =========================================================
+     PROJECTS
+========================================================= -->
+
 <section id="projects">
 
     <div class="container">
 
         <div class="section-title reveal">
-            <div class="section-kicker">MY WORK</div>
-            <h2>Dự án</h2>
-            <p>Một số dự án tôi đã và đang thực hiện</p>
+
+            <div class="section-kicker">
+                MY WORK
+            </div>
+
+            <h2>
+                Dự án
+            </h2>
+
+            <p>
+                Một số dự án tôi đã và đang thực hiện
+            </p>
+
         </div>
+
 
         <div class="projects">
 
-            <article class="project-card reveal tilt-card">
+
+            <article
+                class="project-card reveal tilt-card"
+            >
 
                 <div class="project-top">
 
@@ -896,29 +1031,38 @@ body.modal-open{
 
                 </div>
 
+
                 <h3>
                     AI Tools
                 </h3>
 
                 <p>
-                    Các công cụ ứng dụng trí tuệ nhân tạo
-                    nhằm hỗ trợ giáo viên trong công việc,
-                    soạn giảng và xây dựng nội dung giáo dục.
+                    Các công cụ ứng dụng trí tuệ nhân tạo nhằm hỗ trợ
+                    giáo viên trong công việc, soạn giảng và xây dựng
+                    nội dung giáo dục.
                 </p>
+
 
                 <div class="project-tags">
                     <span>AI</span>
                     <span>Education</span>
                 </div>
 
-                <a href="#contact" class="project-link">
+
+                <a
+                    href="#contact"
+                    class="project-link"
+                >
                     Xem dự án
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
 
             </article>
 
-            <article class="project-card reveal reveal-delay-1 tilt-card">
+
+            <article
+                class="project-card reveal reveal-delay-1 tilt-card"
+            >
 
                 <div class="project-top">
 
@@ -932,28 +1076,37 @@ body.modal-open{
 
                 </div>
 
+
                 <h3>
                     Toán học
                 </h3>
 
                 <p>
-                    Tài liệu, bài tập và các sản phẩm trực quan
-                    phục vụ việc dạy và học Toán học.
+                    Tài liệu, bài tập và các sản phẩm trực quan phục vụ
+                    việc dạy và học Toán học.
                 </p>
+
 
                 <div class="project-tags">
                     <span>Mathematics</span>
                     <span>LaTeX</span>
                 </div>
 
-                <a href="#contact" class="project-link">
+
+                <a
+                    href="#contact"
+                    class="project-link"
+                >
                     Xem dự án
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
 
             </article>
 
-            <article class="project-card reveal reveal-delay-2 tilt-card">
+
+            <article
+                class="project-card reveal reveal-delay-2 tilt-card"
+            >
 
                 <div class="project-top">
 
@@ -967,21 +1120,27 @@ body.modal-open{
 
                 </div>
 
+
                 <h3>
                     Công nghệ
                 </h3>
 
                 <p>
-                    Các dự án cá nhân liên quan đến website,
-                    tự động hóa và những công cụ phục vụ công việc.
+                    Các dự án cá nhân liên quan đến website, tự động hóa
+                    và những công cụ phục vụ công việc.
                 </p>
+
 
                 <div class="project-tags">
                     <span>Web</span>
                     <span>Automation</span>
                 </div>
 
-                <a href="#contact" class="project-link">
+
+                <a
+                    href="#contact"
+                    class="project-link"
+                >
                     Xem dự án
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
@@ -994,15 +1153,21 @@ body.modal-open{
 
 </section>
 
+
 <!-- =========================================================
-     DOCUMENT LIBRARY
+     DOCUMENTS
 ========================================================= -->
 
-<section id="documents" class="documents-section">
+<section
+    id="documents"
+    class="documents-section"
+>
 
     <div class="container">
 
+
         <div class="section-title reveal">
+
             <div class="section-kicker">
                 MATH LIBRARY
             </div>
@@ -1014,7 +1179,9 @@ body.modal-open{
             <p>
                 Chọn một danh mục để xem các tài liệu PDF bên trong
             </p>
+
         </div>
+
 
         <div class="document-toolbar reveal">
 
@@ -1031,15 +1198,58 @@ body.modal-open{
 
             </div>
 
-            <a
-                class="document-admin-link"
-                href="admin.html"
-            >
-                <i class="fa-solid fa-lock"></i>
-                Quản trị
-            </a>
+
+            <div class="document-toolbar-right">
+
+
+                <label
+                    class="document-sort-wrap"
+                    id="documentSortWrap"
+                    hidden
+                >
+
+                    <i class="fa-solid fa-arrow-down-wide-short"></i>
+
+                    <select
+                        id="documentSort"
+                        aria-label="Sắp xếp tài liệu"
+                    >
+
+                        <option value="newest">
+                            Mới nhất
+                        </option>
+
+                        <option value="oldest">
+                            Cũ nhất
+                        </option>
+
+                        <option value="az">
+                            A → Z
+                        </option>
+
+                        <option value="za">
+                            Z → A
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <a
+                    class="document-admin-link"
+                    href="admin.html"
+                >
+
+                    <i class="fa-solid fa-lock"></i>
+                    Quản trị
+
+                </a>
+
+            </div>
 
         </div>
+
 
         <div class="document-library-heading reveal">
 
@@ -1055,6 +1265,7 @@ body.modal-open{
 
             </div>
 
+
             <div
                 id="documentStatus"
                 class="document-status"
@@ -1063,6 +1274,7 @@ body.modal-open{
             </div>
 
         </div>
+
 
         <div
             id="documentBackbar"
@@ -1075,9 +1287,13 @@ body.modal-open{
                 class="document-back-button"
                 type="button"
             >
+
                 <i class="fa-solid fa-arrow-left"></i>
+
                 Danh mục tài liệu
+
             </button>
+
 
             <span
                 id="documentSelectedCategory"
@@ -1086,10 +1302,12 @@ body.modal-open{
 
         </div>
 
+
         <div
             id="documentList"
             class="document-grid document-category-grid"
         ></div>
+
 
         <div
             id="documentEmpty"
@@ -1113,6 +1331,7 @@ body.modal-open{
 
 </section>
 
+
 <!-- =========================================================
      ACHIEVEMENTS
 ========================================================= -->
@@ -1120,6 +1339,7 @@ body.modal-open{
 <section id="achievements">
 
     <div class="container">
+
 
         <div class="section-title reveal">
 
@@ -1137,7 +1357,9 @@ body.modal-open{
 
         </div>
 
+
         <div class="achievement-list">
+
 
             <article
                 class="achievement-card-large reveal tilt-card"
@@ -1146,6 +1368,7 @@ body.modal-open{
                 <div class="achievement-card-icon">
                     <i class="fa-solid fa-school"></i>
                 </div>
+
 
                 <div class="achievement-card-content">
 
@@ -1163,25 +1386,44 @@ body.modal-open{
                         và trúng tuyển vào nhiều trường THPT chất lượng.
                     </p>
 
+
                     <div class="achievement-schools">
-                        <span>Lê Quý Đôn</span>
-                        <span>Quốc Học</span>
-                        <span>Trưng Vương</span>
-                        <span>...</span>
+
+                        <span>
+                            Lê Quý Đôn
+                        </span>
+
+                        <span>
+                            Quốc Học
+                        </span>
+
+                        <span>
+                            Trưng Vương
+                        </span>
+
+                        <span>
+                            ...
+                        </span>
+
                     </div>
+
 
                     <button
                         type="button"
                         class="evidence-button"
                         onclick="openGallery('grade10')"
                     >
+
                         <i class="fa-solid fa-images"></i>
+
                         Xem minh chứng
+
                     </button>
 
                 </div>
 
             </article>
+
 
             <article
                 class="achievement-card-large reveal reveal-delay-1 tilt-card"
@@ -1191,15 +1433,18 @@ body.modal-open{
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
 
+
                 <div class="achievement-card-content">
 
                     <div class="achievement-label">
                         LUYỆN THI TỐT NGHIỆP THPT
                     </div>
 
+
                     <h3>
                         Học sinh lớp 12 đạt điểm Toán cao và đạt nguyện vọng 1
                     </h3>
+
 
                     <p>
                         Đồng hành cùng học sinh lớp 12 trong quá trình ôn thi
@@ -1207,24 +1452,40 @@ body.modal-open{
                         đạt điểm số cao và trúng tuyển vào nguyện vọng 1.
                     </p>
 
+
                     <div class="achievement-schools">
-                        <span>Điểm Toán cao</span>
-                        <span>Đạt NV1</span>
-                        <span>Tốt nghiệp</span>
+
+                        <span>
+                            Điểm Toán cao
+                        </span>
+
+                        <span>
+                            Đạt NV1
+                        </span>
+
+                        <span>
+                            Tốt nghiệp
+                        </span>
+
                     </div>
+
 
                     <button
                         type="button"
                         class="evidence-button"
                         onclick="openGallery('grade12')"
                     >
+
                         <i class="fa-solid fa-images"></i>
+
                         Xem minh chứng
+
                     </button>
 
                 </div>
 
             </article>
+
 
             <article
                 class="achievement-card-large reveal reveal-delay-2 tilt-card"
@@ -1234,15 +1495,18 @@ body.modal-open{
                     <i class="fa-solid fa-comments"></i>
                 </div>
 
+
                 <div class="achievement-card-content">
 
                     <div class="achievement-label">
                         PHẢN HỒI TỪ HỌC SINH
                     </div>
 
+
                     <h3>
                         Những phản hồi thực tế sau khi đạt kết quả
                     </h3>
+
 
                     <p>
                         Một số tin nhắn và phản hồi từ học sinh, phụ huynh
@@ -1250,19 +1514,34 @@ body.modal-open{
                         đáng nhớ trong quá trình học tập.
                     </p>
 
+
                     <div class="achievement-schools">
-                        <span>Học sinh</span>
-                        <span>Phụ huynh</span>
-                        <span>Kết quả thực tế</span>
+
+                        <span>
+                            Học sinh
+                        </span>
+
+                        <span>
+                            Phụ huynh
+                        </span>
+
+                        <span>
+                            Kết quả thực tế
+                        </span>
+
                     </div>
+
 
                     <button
                         type="button"
                         class="evidence-button"
                         onclick="openGallery('feedback')"
                     >
+
                         <i class="fa-solid fa-images"></i>
+
                         Xem phản hồi
+
                     </button>
 
                 </div>
@@ -1273,19 +1552,16 @@ body.modal-open{
 
     </div>
 
+
     <div
         id="galleryModal"
         class="gallery-modal"
         aria-hidden="true"
         aria-modal="true"
         role="dialog"
-        onclick="closeGallery(event)"
     >
 
-        <div
-            class="gallery-container"
-            onclick="event.stopPropagation()"
-        >
+        <div class="gallery-container">
 
             <button
                 type="button"
@@ -1296,6 +1572,7 @@ body.modal-open{
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
+
             <button
                 type="button"
                 class="gallery-prev"
@@ -1305,11 +1582,13 @@ body.modal-open{
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
 
+
             <img
                 id="galleryImage"
                 src=""
                 alt="Minh chứng thành tích"
             >
+
 
             <button
                 type="button"
@@ -1319,6 +1598,7 @@ body.modal-open{
             >
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
+
 
             <div
                 id="galleryCounter"
@@ -1333,6 +1613,7 @@ body.modal-open{
 
 </section>
 
+
 <!-- =========================================================
      CONTACT
 ========================================================= -->
@@ -1340,6 +1621,7 @@ body.modal-open{
 <section id="contact">
 
     <div class="container">
+
 
         <div class="section-title reveal">
 
@@ -1357,7 +1639,9 @@ body.modal-open{
 
         </div>
 
+
         <div class="contact-wrapper">
+
 
             <div class="contact-intro reveal">
 
@@ -1369,6 +1653,7 @@ body.modal-open{
                     Tôi luôn sẵn sàng trao đổi về Toán học,
                     công nghệ, AI và các dự án giáo dục.
                 </p>
+
 
                 <div class="contact-direction">
 
@@ -1382,7 +1667,9 @@ body.modal-open{
 
             </div>
 
+
             <div class="contact-list">
+
 
                 <a
                     href="mailto:chithanhhuynh11@gmail.com"
@@ -1394,9 +1681,11 @@ body.modal-open{
                     </div>
 
                     <div class="contact-info">
+
                         <strong>
                             chithanhhuynh11@gmail.com
                         </strong>
+
                     </div>
 
                     <div class="contact-arrow">
@@ -1404,6 +1693,7 @@ body.modal-open{
                     </div>
 
                 </a>
+
 
                 <a
                     href="tel:0905957716"
@@ -1415,9 +1705,11 @@ body.modal-open{
                     </div>
 
                     <div class="contact-info">
+
                         <strong>
                             090.595.7716
                         </strong>
+
                     </div>
 
                     <div class="contact-arrow">
@@ -1425,6 +1717,7 @@ body.modal-open{
                     </div>
 
                 </a>
+
 
                 <a
                     href="https://www.facebook.com/mendz1103"
@@ -1438,9 +1731,11 @@ body.modal-open{
                     </div>
 
                     <div class="contact-info">
+
                         <strong>
                             facebook.com/mendz1103
                         </strong>
+
                     </div>
 
                     <div class="contact-arrow">
@@ -1448,6 +1743,7 @@ body.modal-open{
                     </div>
 
                 </a>
+
 
                 <a
                     href="https://github.com/thanhchi113"
@@ -1461,9 +1757,11 @@ body.modal-open{
                     </div>
 
                     <div class="contact-info">
+
                         <strong>
                             github.com/thanhchi113
                         </strong>
+
                     </div>
 
                     <div class="contact-arrow">
@@ -1480,8 +1778,12 @@ body.modal-open{
 
 </section>
 
+
+</main>
+
+
 <!-- =========================================================
-     PDF MODAL
+     PDF VIEWER
 ========================================================= -->
 
 <div
@@ -1490,7 +1792,6 @@ body.modal-open{
     aria-hidden="true"
     role="dialog"
     aria-modal="true"
-    aria-label="Xem tài liệu PDF"
 >
 
     <div class="pdf-modal-inner">
@@ -1509,6 +1810,7 @@ body.modal-open{
 
             </div>
 
+
             <div class="pdf-modal-actions">
 
                 <a
@@ -1518,9 +1820,13 @@ body.modal-open{
                     target="_blank"
                     rel="noopener noreferrer"
                 >
+
                     <i class="fa-solid fa-download"></i>
+
                     Tải xuống
+
                 </a>
+
 
                 <button
                     id="pdfClose"
@@ -1528,12 +1834,15 @@ body.modal-open{
                     type="button"
                     aria-label="Đóng"
                 >
+
                     <i class="fa-solid fa-xmark"></i>
+
                 </button>
 
             </div>
 
         </div>
+
 
         <div class="pdf-frame-wrap">
 
@@ -1549,7 +1858,6 @@ body.modal-open{
 
 </div>
 
-</main>
 
 <footer>
 
@@ -1558,6 +1866,7 @@ body.modal-open{
         <span>
             © 2026 Huỳnh Thanh Chí. All rights reserved.
         </span>
+
 
         <a
             href="#home"
@@ -1570,6 +1879,7 @@ body.modal-open{
     </div>
 
 </footer>
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1596,9 +1906,14 @@ const supabaseClient =
    DOCUMENT LIBRARY
 ========================================================= */
 
-let libraryCategories = [];
 let libraryDocuments = [];
-let activeDocumentCategoryId = null;
+let libraryCategories = [];
+
+let activeDocumentCategoryId =
+    null;
+
+let documentSortMode =
+    "newest";
 
 
 const documentIconMap = {
@@ -1621,75 +1936,123 @@ const documentIconMap = {
     "Chuyên đề":
         "fa-book-open",
 
-    default:
+    "default":
         "fa-folder-open"
 
 };
 
 
-function escapeHtml(value) {
-
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-function getCategoryIcon(categoryName) {
+function getCategoryIcon(
+    categoryName
+){
 
     return (
-        documentIconMap[categoryName] ||
+        documentIconMap[
+            categoryName
+        ] ||
         documentIconMap.default
     );
 
 }
 
 
-function formatDocumentDate(value) {
+function escapeHtml(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+function formatDocumentDate(
+    value
+){
 
     if (!value) {
         return "";
     }
 
+
     const date =
         new Date(value);
+
 
     if (
         Number.isNaN(
             date.getTime()
         )
     ) {
+
         return "";
+
     }
 
+
     return new Intl.DateTimeFormat(
-        "vi-VN"
+        "vi-VN",
+        {
+            day:
+                "2-digit",
+
+            month:
+                "2-digit",
+
+            year:
+                "numeric"
+        }
     ).format(date);
 
 }
 
 
-function getPublicPdfUrl(filePath) {
+function getPublicPdfUrl(
+    filePath
+){
+
+    if (!filePath) {
+        return "";
+    }
+
 
     return supabaseClient
         .storage
         .from("math-pdfs")
-        .getPublicUrl(filePath)
+        .getPublicUrl(
+            filePath
+        )
         .data
         .publicUrl;
 
 }
 
 
-function openPdfViewer(title, url) {
-
-    if (!url) {
-        return;
-    }
+function openPdfViewer(
+    title,
+    url
+){
 
     const modal =
         document.getElementById(
@@ -1711,32 +2074,43 @@ function openPdfViewer(title, url) {
             "pdfDownload"
         );
 
+
     if (
         !modal ||
         !frame ||
         !modalTitle ||
-        !download
+        !download ||
+        !url
     ) {
+
         return;
+
     }
+
 
     modalTitle.textContent =
         title ||
         "Tài liệu";
 
-    frame.src = url;
+
+    frame.src =
+        url;
+
 
     download.href =
         url;
+
 
     modal.classList.add(
         "open"
     );
 
+
     modal.setAttribute(
         "aria-hidden",
         "false"
     );
+
 
     document.body.classList.add(
         "modal-open"
@@ -1745,7 +2119,7 @@ function openPdfViewer(title, url) {
 }
 
 
-function closePdfViewer() {
+function closePdfViewer(){
 
     const modal =
         document.getElementById(
@@ -1757,24 +2131,29 @@ function closePdfViewer() {
             "pdfFrame"
         );
 
+
     if (!modal) {
         return;
     }
 
+
     modal.classList.remove(
         "open"
     );
+
 
     modal.setAttribute(
         "aria-hidden",
         "true"
     );
 
+
     document.body.classList.remove(
         "modal-open"
     );
 
-    if (frame) {
+
+    if (frame){
 
         frame.src =
             "about:blank";
@@ -1784,11 +2163,13 @@ function closePdfViewer() {
 }
 
 
-function getActiveCategory() {
+function getActiveCategory(){
 
     return (
         libraryCategories.find(
-            function (category) {
+            function(
+                category
+            ){
 
                 return String(
                     category.id
@@ -1803,22 +2184,35 @@ function getActiveCategory() {
 }
 
 
-function setCategoryView(categoryId) {
+function setCategoryView(
+    categoryId
+){
 
     activeDocumentCategoryId =
         categoryId == null
             ? null
-            : String(categoryId);
+            : String(
+                categoryId
+            );
+
 
     const searchInput =
         document.getElementById(
             "documentSearch"
         );
 
-    if (searchInput) {
+
+    const sortWrap =
+        document.getElementById(
+            "documentSortWrap"
+        );
+
+
+    if (searchInput){
 
         searchInput.value =
             "";
+
 
         searchInput.placeholder =
             activeDocumentCategoryId
@@ -1827,12 +2221,22 @@ function setCategoryView(categoryId) {
 
     }
 
+
+    if (sortWrap){
+
+        sortWrap.hidden =
+            activeDocumentCategoryId ==
+            null;
+
+    }
+
+
     renderDocumentLibrary();
 
 }
 
 
-function renderCategoryMenu() {
+function renderCategoryMenu(){
 
     const list =
         document.getElementById(
@@ -1864,15 +2268,19 @@ function renderCategoryMenu() {
             "documentSearch"
         );
 
+
     if (
         !list ||
         !empty ||
         !status ||
         !title ||
         !backbar
-    ) {
+    ){
+
         return;
+
     }
+
 
     const keyword =
         (
@@ -1882,18 +2290,24 @@ function renderCategoryMenu() {
         .trim()
         .toLowerCase();
 
+
     const categories =
         libraryCategories.filter(
-            function (category) {
+            function(category){
 
                 const haystack = [
+
                     category.name,
+
                     category.description,
+
                     category.slug
+
                 ]
                 .filter(Boolean)
                 .join(" ")
                 .toLowerCase();
+
 
                 return (
                     !keyword ||
@@ -1905,22 +2319,28 @@ function renderCategoryMenu() {
             }
         );
 
+
     title.textContent =
         "Danh mục tài liệu";
+
 
     backbar.hidden =
         true;
 
+
     status.textContent =
         `${categories.length} danh mục`;
 
-    if (!categories.length) {
+
+    if (!categories.length){
 
         list.innerHTML =
             "";
 
+
         empty.hidden =
             false;
+
 
         empty.innerHTML =
             `
@@ -1936,21 +2356,26 @@ function renderCategoryMenu() {
             `;
 
         return;
+
     }
+
 
     empty.hidden =
         true;
 
+
     list.className =
         "document-grid document-category-grid";
 
+
     list.innerHTML =
-        categories.map(
-            function (category) {
+        categories
+        .map(
+            function(category){
 
                 const count =
                     libraryDocuments.filter(
-                        function (item) {
+                        function(item){
 
                             return String(
                                 item.category_id
@@ -1961,14 +2386,17 @@ function renderCategoryMenu() {
                         }
                     ).length;
 
+
                 const icon =
                     getCategoryIcon(
                         category.name
                     );
 
+
                 const description =
                     category.description ||
                     "Tài liệu học tập và luyện tập môn Toán.";
+
 
                 return `
                     <article
@@ -1978,34 +2406,71 @@ function renderCategoryMenu() {
                         data-category-id="${escapeHtml(category.id)}"
                     >
 
-                        <div class="document-card-glow"></div>
+                        <div
+                            class="document-card-glow"
+                        ></div>
 
-                        <div class="document-category-icon">
-                            <i class="fa-solid ${escapeHtml(icon)}"></i>
+
+                        <div
+                            class="document-category-icon"
+                        >
+
+                            <i
+                                class="fa-solid ${escapeHtml(icon)}"
+                            ></i>
+
                         </div>
 
-                        <div class="document-card-category">
+
+                        <div
+                            class="document-card-category"
+                        >
                             CATEGORY
                         </div>
 
+
                         <h3>
-                            ${escapeHtml(category.name)}
+                            ${escapeHtml(
+                                category.name
+                            )}
                         </h3>
 
+
                         <p>
-                            ${escapeHtml(description)}
+                            ${escapeHtml(
+                                description
+                            )}
                         </p>
 
-                        <div class="document-category-footer">
 
-                            <span class="document-category-count">
-                                <i class="fa-regular fa-file-lines"></i>
-                                ${count} tài liệu
+                        <div
+                            class="document-category-footer"
+                        >
+
+                            <span
+                                class="document-category-count"
+                            >
+
+                                <i
+                                    class="fa-regular fa-file-lines"
+                                ></i>
+
+                                ${count}
+                                tài liệu
+
                             </span>
 
-                            <span class="document-open-label">
+
+                            <span
+                                class="document-open-label"
+                            >
+
                                 Xem tài liệu
-                                <i class="fa-solid fa-arrow-right"></i>
+
+                                <i
+                                    class="fa-solid fa-arrow-right"
+                                ></i>
+
                             </span>
 
                         </div>
@@ -2014,7 +2479,8 @@ function renderCategoryMenu() {
                 `;
 
             }
-        ).join("");
+        )
+        .join("");
 
 
     list
@@ -2022,10 +2488,10 @@ function renderCategoryMenu() {
             ".document-category-card"
         )
         .forEach(
-            function (card) {
+            function(card){
 
                 const open =
-                    function () {
+                    function(){
 
                         setCategoryView(
                             card.dataset.categoryId
@@ -2033,19 +2499,23 @@ function renderCategoryMenu() {
 
                     };
 
+
                 card.addEventListener(
                     "click",
                     open
                 );
 
+
                 card.addEventListener(
                     "keydown",
-                    function (event) {
+                    function(event){
 
                         if (
-                            event.key === "Enter" ||
-                            event.key === " "
-                        ) {
+                            event.key ===
+                            "Enter" ||
+                            event.key ===
+                            " "
+                        ){
 
                             event.preventDefault();
 
@@ -2062,7 +2532,176 @@ function renderCategoryMenu() {
 }
 
 
-function renderPdfDocuments() {
+function sortDocuments(
+    documents
+){
+
+    const items =
+        [
+            ...documents
+        ];
+
+
+    if (
+        documentSortMode ===
+        "oldest"
+    ){
+
+        items.sort(
+            function(a,b){
+
+                return (
+                    new Date(
+                        a.created_at ||
+                        0
+                    ) -
+                    new Date(
+                        b.created_at ||
+                        0
+                    )
+                );
+
+            }
+        );
+
+    }
+
+
+    else if (
+        documentSortMode ===
+        "az"
+    ){
+
+        items.sort(
+            function(a,b){
+
+                return String(
+                    a.title ||
+                    ""
+                ).localeCompare(
+                    String(
+                        b.title ||
+                        ""
+                    ),
+                    "vi",
+                    {
+                        sensitivity:
+                            "base"
+                    }
+                );
+
+            }
+        );
+
+    }
+
+
+    else if (
+        documentSortMode ===
+        "za"
+    ){
+
+        items.sort(
+            function(a,b){
+
+                return String(
+                    b.title ||
+                    ""
+                ).localeCompare(
+                    String(
+                        a.title ||
+                        ""
+                    ),
+                    "vi",
+                    {
+                        sensitivity:
+                            "base"
+                    }
+                );
+
+            }
+        );
+
+    }
+
+
+    else {
+
+        items.sort(
+            function(a,b){
+
+                const byCreated =
+                    new Date(
+                        b.created_at ||
+                        0
+                    ) -
+                    new Date(
+                        a.created_at ||
+                        0
+                    );
+
+
+                if (
+                    byCreated !== 0
+                ){
+
+                    return byCreated;
+
+                }
+
+
+                return (
+                    Number(
+                        a.sort_order
+                    ) || 0
+                ) -
+                (
+                    Number(
+                        b.sort_order
+                    ) || 0
+                );
+
+            }
+        );
+
+    }
+
+
+    return items;
+
+}
+
+
+function isNewDocument(
+    createdAt
+){
+
+    if (!createdAt){
+        return false;
+    }
+
+
+    const age =
+        Date.now() -
+        new Date(
+            createdAt
+        ).getTime();
+
+
+    return (
+        age >= 0 &&
+        age <=
+            1000 *
+            60 *
+            60 *
+            24 *
+            14
+    );
+
+}
+
+
+function renderPdfDocuments(){
 
     const list =
         document.getElementById(
@@ -2099,8 +2738,6 @@ function renderPdfDocuments() {
             "documentSearch"
         );
 
-    const category =
-        getActiveCategory();
 
     if (
         !list ||
@@ -2108,9 +2745,16 @@ function renderPdfDocuments() {
         !status ||
         !title ||
         !backbar
-    ) {
+    ){
+
         return;
+
     }
+
+
+    const category =
+        getActiveCategory();
+
 
     const keyword =
         (
@@ -2120,35 +2764,46 @@ function renderPdfDocuments() {
         .trim()
         .toLowerCase();
 
+
     const categoryId =
         String(
             activeDocumentCategoryId
         );
 
+
     const categoryName =
         category?.name ||
         "Tài liệu";
 
-    const filtered =
+
+    let filtered =
         libraryDocuments.filter(
-            function (item) {
+            function(item){
 
                 if (
                     String(
                         item.category_id
                     ) !== categoryId
-                ) {
+                ){
+
                     return false;
+
                 }
 
+
                 const haystack = [
+
                     item.title,
+
                     item.description,
+
                     item.file_name
+
                 ]
                 .filter(Boolean)
                 .join(" ")
                 .toLowerCase();
+
 
                 return (
                     !keyword ||
@@ -2160,32 +2815,48 @@ function renderPdfDocuments() {
             }
         );
 
+
+    filtered =
+        sortDocuments(
+            filtered
+        );
+
+
     title.textContent =
         categoryName;
+
 
     backbar.hidden =
         false;
 
-    if (selectedCategory) {
+
+    if (
+        selectedCategory
+    ){
 
         selectedCategory.textContent =
             `${filtered.length} tài liệu`;
 
     }
 
+
     status.textContent =
         `${filtered.length} tài liệu`;
 
-    if (!filtered.length) {
+
+    if (!filtered.length){
 
         list.innerHTML =
             "";
 
+
         list.className =
             "document-grid document-pdf-grid";
 
+
         empty.hidden =
             false;
+
 
         empty.innerHTML =
             `
@@ -2202,94 +2873,162 @@ function renderPdfDocuments() {
             `;
 
         return;
+
     }
+
 
     empty.hidden =
         true;
 
+
     list.className =
         "document-grid document-pdf-grid";
 
+
     list.innerHTML =
         filtered
-            .map(
-                function (item) {
+        .map(
+            function(item){
 
-                    const description =
-                        item.description ||
-                        "Tài liệu học tập và luyện tập môn Toán.";
+                const description =
+                    item.description ||
+                    "Tài liệu học tập và luyện tập môn Toán.";
 
-                    const url =
-                        getPublicPdfUrl(
-                            item.file_path
-                        );
 
-                    const date =
-                        formatDocumentDate(
-                            item.created_at
-                        );
+                const url =
+                    getPublicPdfUrl(
+                        item.file_path
+                    );
 
-                    const titleText =
-                        item.title ||
-                        "Tài liệu không có tiêu đề";
 
-                    return `
-                        <article
-                            class="document-card document-card-clickable reveal show"
-                            tabindex="0"
-                            role="button"
-                            data-url="${escapeHtml(url)}"
-                            data-title="${escapeHtml(titleText)}"
+                const date =
+                    formatDocumentDate(
+                        item.created_at
+                    );
+
+
+                const titleText =
+                    item.title ||
+                    "Tài liệu không có tiêu đề";
+
+
+                const newBadge =
+                    isNewDocument(
+                        item.created_at
+                    )
+                    ? `
+                        <span
+                            class="document-new-badge"
+                        >
+                            MỚI
+                        </span>
+                    `
+                    : "";
+
+
+                return `
+                    <article
+                        class="document-card document-card-clickable reveal show"
+                        tabindex="0"
+                        role="button"
+                        data-url="${escapeHtml(url)}"
+                        data-title="${escapeHtml(titleText)}"
+                    >
+
+                        <div
+                            class="document-card-glow"
+                        ></div>
+
+
+                        <div
+                            class="document-card-top"
                         >
 
-                            <div class="document-card-glow"></div>
+                            <div
+                                class="document-icon document-icon-pdf"
+                            >
 
-                            <div class="document-card-top">
+                                <i
+                                    class="fa-solid fa-file-pdf"
+                                ></i>
 
-                                <div class="document-icon document-icon-pdf">
-                                    <i class="fa-solid fa-file-pdf"></i>
-                                </div>
+                            </div>
 
-                                <span class="document-badge">
+
+                            <div
+                                class="document-card-top-badges"
+                            >
+
+                                <span
+                                    class="document-badge"
+                                >
                                     PDF
                                 </span>
 
-                            </div>
-
-                            <div class="document-card-category">
-                                ${escapeHtml(categoryName)}
-                            </div>
-
-                            <h3>
-                                ${escapeHtml(titleText)}
-                            </h3>
-
-                            <p>
-                                ${escapeHtml(description)}
-                            </p>
-
-                            <div class="document-card-footer">
-
-                                <span>
-                                    ${escapeHtml(
-                                        date ||
-                                        "Tài liệu học tập"
-                                    )}
-                                </span>
-
-                                <span class="document-open-label">
-                                    Mở tài liệu
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                </span>
+                                ${newBadge}
 
                             </div>
 
-                        </article>
-                    `;
+                        </div>
 
-                }
-            )
-            .join("");
+
+                        <div
+                            class="document-card-category"
+                        >
+
+                            ${escapeHtml(
+                                categoryName
+                            )}
+
+                        </div>
+
+
+                        <h3>
+                            ${escapeHtml(
+                                titleText
+                            )}
+                        </h3>
+
+
+                        <p>
+                            ${escapeHtml(
+                                description
+                            )}
+                        </p>
+
+
+                        <div
+                            class="document-card-footer"
+                        >
+
+                            <span>
+                                ${escapeHtml(
+                                    date ||
+                                    "Tài liệu học tập"
+                                )}
+                            </span>
+
+
+                            <span
+                                class="document-open-label"
+                            >
+
+                                Mở tài liệu
+
+                                <i
+                                    class="fa-solid fa-arrow-right"
+                                ></i>
+
+                            </span>
+
+                        </div>
+
+                    </article>
+                `;
+
+            }
+        )
+        .join("");
 
 
     list
@@ -2297,10 +3036,10 @@ function renderPdfDocuments() {
             ".document-card-clickable"
         )
         .forEach(
-            function (card) {
+            function(card){
 
                 const open =
-                    function () {
+                    function(){
 
                         openPdfViewer(
                             card.dataset.title ||
@@ -2310,19 +3049,23 @@ function renderPdfDocuments() {
 
                     };
 
+
                 card.addEventListener(
                     "click",
                     open
                 );
 
+
                 card.addEventListener(
                     "keydown",
-                    function (event) {
+                    function(event){
 
                         if (
-                            event.key === "Enter" ||
-                            event.key === " "
-                        ) {
+                            event.key ===
+                            "Enter" ||
+                            event.key ===
+                            " "
+                        ){
 
                             event.preventDefault();
 
@@ -2339,15 +3082,18 @@ function renderPdfDocuments() {
 }
 
 
-function renderDocumentLibrary() {
+function renderDocumentLibrary(){
 
     if (
-        activeDocumentCategoryId == null
-    ) {
+        activeDocumentCategoryId ==
+        null
+    ){
 
         renderCategoryMenu();
 
-    } else {
+    }
+
+    else {
 
         renderPdfDocuments();
 
@@ -2356,7 +3102,16 @@ function renderDocumentLibrary() {
 }
 
 
-async function loadDocumentLibrary() {
+function goBackToCategories(){
+
+    setCategoryView(
+        null
+    );
+
+}
+
+
+async function loadDocumentLibrary(){
 
     const status =
         document.getElementById(
@@ -2368,6 +3123,7 @@ async function loadDocumentLibrary() {
             "documentEmpty"
         );
 
+
     try {
 
         const [
@@ -2378,7 +3134,9 @@ async function loadDocumentLibrary() {
                 [
 
                     supabaseClient
-                        .from("math_categories")
+                        .from(
+                            "math_categories"
+                        )
                         .select(
                             "id,name,slug,description,sort_order,parent_id"
                         )
@@ -2397,10 +3155,13 @@ async function loadDocumentLibrary() {
                             }
                         ),
 
+
                     supabaseClient
-                        .from("math_documents")
+                        .from(
+                            "math_documents"
+                        )
                         .select(
-                            "id,title,description,category_id,file_path,file_name,published,sort_order,created_at,math_categories(name,slug)"
+                            "id,title,description,category_id,file_path,file_name,published,sort_order,created_at,updated_at,math_categories(name,slug)"
                         )
                         .eq(
                             "published",
@@ -2427,7 +3188,7 @@ async function loadDocumentLibrary() {
 
         if (
             categoriesResponse.error
-        ) {
+        ){
 
             throw categoriesResponse.error;
 
@@ -2436,7 +3197,7 @@ async function loadDocumentLibrary() {
 
         if (
             documentsResponse.error
-        ) {
+        ){
 
             throw documentsResponse.error;
 
@@ -2447,6 +3208,7 @@ async function loadDocumentLibrary() {
             categoriesResponse.data ||
             [];
 
+
         libraryDocuments =
             documentsResponse.data ||
             [];
@@ -2454,24 +3216,29 @@ async function loadDocumentLibrary() {
 
         renderDocumentLibrary();
 
-    } catch (error) {
+    }
+
+    catch(error){
 
         console.error(
             "Document library error:",
             error
         );
 
-        if (status) {
+
+        if (status){
 
             status.textContent =
                 "Không thể tải thư viện";
 
         }
 
-        if (empty) {
+
+        if (empty){
 
             empty.hidden =
                 false;
+
 
             empty.innerHTML =
                 `
@@ -2497,14 +3264,17 @@ async function loadDocumentLibrary() {
    MOBILE MENU
 ========================================================= */
 
-function toggleMobileMenu(event) {
+function toggleMobileMenu(
+    event
+){
 
-    if (event) {
+    if (event){
 
         event.preventDefault();
         event.stopPropagation();
 
     }
+
 
     const button =
         document.getElementById(
@@ -2516,22 +3286,30 @@ function toggleMobileMenu(event) {
             "mainMenu"
         );
 
+
     if (
         !button ||
         !menu
-    ) {
+    ){
+
         return;
+
     }
+
 
     const isOpen =
         menu.classList.toggle(
             "open"
         );
 
+
     button.setAttribute(
         "aria-expanded",
-        String(isOpen)
+        String(
+            isOpen
+        )
     );
+
 
     button.setAttribute(
         "aria-label",
@@ -2540,12 +3318,14 @@ function toggleMobileMenu(event) {
             : "Mở menu"
     );
 
+
     const icon =
         button.querySelector(
             "i"
         );
 
-    if (icon) {
+
+    if (icon){
 
         icon.className =
             isOpen
@@ -2557,7 +3337,7 @@ function toggleMobileMenu(event) {
 }
 
 
-function closeMenu() {
+function closeMenu(){
 
     const button =
         document.getElementById(
@@ -2569,28 +3349,35 @@ function closeMenu() {
             "mainMenu"
         );
 
+
     if (
         !button ||
         !menu
-    ) {
+    ){
+
         return;
+
     }
+
 
     menu.classList.remove(
         "open"
     );
+
 
     button.setAttribute(
         "aria-expanded",
         "false"
     );
 
+
     const icon =
         button.querySelector(
             "i"
         );
 
-    if (icon) {
+
+    if (icon){
 
         icon.className =
             "fa-solid fa-bars";
@@ -2607,27 +3394,36 @@ function closeMenu() {
 const galleryData = {
 
     grade10: [],
+
     grade12: [],
+
     feedback: []
 
 };
 
+
 let currentGallery = [];
-let currentImageIndex = 0;
+
+let currentImageIndex =
+    0;
 
 
-function openGallery(type) {
+function openGallery(
+    type
+){
 
     currentGallery =
         galleryData[type] ||
         [];
 
+
     currentImageIndex =
         0;
 
+
     if (
         !currentGallery.length
-    ) {
+    ){
 
         alert(
             "Hiện chưa có ảnh minh chứng cho mục này. " +
@@ -2638,25 +3434,31 @@ function openGallery(type) {
 
     }
 
+
     updateGallery();
+
 
     const modal =
         document.getElementById(
             "galleryModal"
         );
 
-    if (!modal) {
+
+    if (!modal){
         return;
     }
+
 
     modal.classList.add(
         "active"
     );
 
+
     modal.setAttribute(
         "aria-hidden",
         "false"
     );
+
 
     document.body.style.overflow =
         "hidden";
@@ -2664,7 +3466,7 @@ function openGallery(type) {
 }
 
 
-function updateGallery() {
+function updateGallery(){
 
     const image =
         document.getElementById(
@@ -2676,18 +3478,23 @@ function updateGallery() {
             "galleryCounter"
         );
 
+
     if (
         !currentGallery.length ||
         !image ||
         !counter
-    ) {
+    ){
+
         return;
+
     }
+
 
     image.src =
         currentGallery[
             currentImageIndex
         ];
+
 
     counter.textContent =
         `${currentImageIndex + 1} / ${currentGallery.length}`;
@@ -2695,13 +3502,18 @@ function updateGallery() {
 }
 
 
-function changeImage(step) {
+function changeImage(
+    step
+){
 
     if (
         !currentGallery.length
-    ) {
+    ){
+
         return;
+
     }
+
 
     currentImageIndex =
         (
@@ -2712,23 +3524,26 @@ function changeImage(step) {
         %
         currentGallery.length;
 
+
     updateGallery();
 
 }
 
 
-function closeGallery() {
+function closeGallery(){
 
     const modal =
         document.getElementById(
             "galleryModal"
         );
 
-    if (modal) {
+
+    if (modal){
 
         modal.classList.remove(
             "active"
         );
+
 
         modal.setAttribute(
             "aria-hidden",
@@ -2736,6 +3551,7 @@ function closeGallery() {
         );
 
     }
+
 
     document.body.style.overflow =
         "";
@@ -2749,18 +3565,15 @@ function closeGallery() {
 
 document.addEventListener(
     "DOMContentLoaded",
-    function () {
-
-        /* ---------------------------------------------
-           Search
-        ---------------------------------------------- */
+    function(){
 
         const documentSearch =
             document.getElementById(
                 "documentSearch"
             );
 
-        if (documentSearch) {
+
+        if (documentSearch){
 
             documentSearch.addEventListener(
                 "input",
@@ -2770,24 +3583,22 @@ document.addEventListener(
         }
 
 
-        /* ---------------------------------------------
-           Back button
-        ---------------------------------------------- */
-
-        const backButton =
+        const documentSort =
             document.getElementById(
-                "documentBackButton"
+                "documentSort"
             );
 
-        if (backButton) {
 
-            backButton.addEventListener(
-                "click",
-                function () {
+        if (documentSort){
 
-                    setCategoryView(
-                        null
-                    );
+            documentSort.addEventListener(
+                "change",
+                function(event){
+
+                    documentSortMode =
+                        event.target.value;
+
+                    renderDocumentLibrary();
 
                 }
             );
@@ -2795,40 +3606,38 @@ document.addEventListener(
         }
 
 
-        /* ---------------------------------------------
-           PDF modal
-        ---------------------------------------------- */
-
-        const pdfClose =
-            document.getElementById(
-                "pdfClose"
+        document
+            .getElementById(
+                "documentBackButton"
+            )
+            ?.addEventListener(
+                "click",
+                goBackToCategories
             );
 
-        if (pdfClose) {
 
-            pdfClose.addEventListener(
+        document
+            .getElementById(
+                "pdfClose"
+            )
+            ?.addEventListener(
                 "click",
                 closePdfViewer
             );
 
-        }
 
-
-        const pdfModal =
-            document.getElementById(
+        document
+            .getElementById(
                 "pdfModal"
-            );
-
-        if (pdfModal) {
-
-            pdfModal.addEventListener(
+            )
+            ?.addEventListener(
                 "click",
-                function (event) {
+                function(event){
 
                     if (
                         event.target ===
                         event.currentTarget
-                    ) {
+                    ){
 
                         closePdfViewer();
 
@@ -2837,46 +3646,18 @@ document.addEventListener(
                 }
             );
 
-        }
-
-
-        /* ---------------------------------------------
-           Keyboard
-        ---------------------------------------------- */
 
         document.addEventListener(
             "keydown",
-            function (event) {
+            function(event){
 
                 if (
                     event.key ===
                     "Escape"
-                ) {
+                ){
 
                     closePdfViewer();
                     closeGallery();
-
-                }
-
-                if (
-                    event.key ===
-                    "ArrowLeft"
-                ) {
-
-                    changeImage(
-                        -1
-                    );
-
-                }
-
-                if (
-                    event.key ===
-                    "ArrowRight"
-                ) {
-
-                    changeImage(
-                        1
-                    );
 
                 }
 
@@ -2884,16 +3665,12 @@ document.addEventListener(
         );
 
 
-        /* ---------------------------------------------
-           Menu
-        ---------------------------------------------- */
-
         document
             .querySelectorAll(
                 "#mainMenu a"
             )
             .forEach(
-                function (link) {
+                function(link){
 
                     link.addEventListener(
                         "click",
@@ -2906,12 +3683,12 @@ document.addEventListener(
 
         window.addEventListener(
             "resize",
-            function () {
+            function(){
 
                 if (
                     window.innerWidth >
                     800
-                ) {
+                ){
 
                     closeMenu();
 
@@ -2921,48 +3698,11 @@ document.addEventListener(
         );
 
 
-        /* ---------------------------------------------
-           Header
-        ---------------------------------------------- */
-
-        const header =
-            document.getElementById(
-                "siteHeader"
-            );
-
-        function updateHeader() {
-
-            if (!header) {
-                return;
-            }
-
-            header.classList.toggle(
-                "scrolled",
-                window.scrollY > 20
-            );
-
-        }
-
-        window.addEventListener(
-            "scroll",
-            updateHeader,
-            {
-                passive:
-                    true
-            }
-        );
-
-        updateHeader();
-
-
-        /* ---------------------------------------------
-           Active navigation
-        ---------------------------------------------- */
-
         const sections =
             document.querySelectorAll(
                 "main section[id]"
             );
+
 
         const navLinks =
             document.querySelectorAll(
@@ -2973,23 +3713,26 @@ document.addEventListener(
         if (
             "IntersectionObserver"
             in window
-        ) {
+        ){
 
             const sectionObserver =
                 new IntersectionObserver(
-                    function (entries) {
+                    function(entries){
 
                         entries.forEach(
-                            function (entry) {
+                            function(entry){
 
                                 if (
                                     !entry.isIntersecting
-                                ) {
+                                ){
+
                                     return;
+
                                 }
 
+
                                 navLinks.forEach(
-                                    function (link) {
+                                    function(link){
 
                                         link.classList.toggle(
 
@@ -3017,7 +3760,7 @@ document.addEventListener(
 
 
             sections.forEach(
-                function (section) {
+                function(section){
 
                     sectionObserver.observe(
                         section
@@ -3027,29 +3770,29 @@ document.addEventListener(
             );
 
 
-            /* -----------------------------------------
-               Reveal
-            ------------------------------------------ */
-
             const revealObserver =
                 new IntersectionObserver(
-                    function (
+                    function(
                         entries,
                         observer
-                    ) {
+                    ){
 
                         entries.forEach(
-                            function (entry) {
+                            function(entry){
 
                                 if (
                                     !entry.isIntersecting
-                                ) {
+                                ){
+
                                     return;
+
                                 }
+
 
                                 entry.target.classList.add(
                                     "show"
                                 );
+
 
                                 observer.unobserve(
                                     entry.target
@@ -3071,7 +3814,7 @@ document.addEventListener(
                     ".reveal"
                 )
                 .forEach(
-                    function (element) {
+                    function(element){
 
                         revealObserver.observe(
                             element
@@ -3080,14 +3823,16 @@ document.addEventListener(
                     }
                 );
 
-        } else {
+        }
+
+        else {
 
             document
                 .querySelectorAll(
                     ".reveal"
                 )
                 .forEach(
-                    function (element) {
+                    function(element){
 
                         element.classList.add(
                             "show"
@@ -3099,14 +3844,11 @@ document.addEventListener(
         }
 
 
-        /* ---------------------------------------------
-           Typing effect
-        ---------------------------------------------- */
-
         const typing =
             document.getElementById(
                 "typingRole"
             );
+
 
         const phrases = [
 
@@ -3118,21 +3860,25 @@ document.addEventListener(
 
         ];
 
+
         let phraseIndex =
             0;
 
+
         let charIndex =
             phrases[0].length;
+
 
         let deleting =
             false;
 
 
-        function runTyping() {
+        function runTyping(){
 
-            if (!typing) {
+            if (!typing){
                 return;
             }
+
 
             const current =
                 phrases[
@@ -3140,9 +3886,10 @@ document.addEventListener(
                 ];
 
 
-            if (!deleting) {
+            if (!deleting){
 
                 charIndex++;
+
 
                 typing.textContent =
                     current.slice(
@@ -3150,27 +3897,32 @@ document.addEventListener(
                         charIndex
                     );
 
+
                 if (
                     charIndex >=
                     current.length
-                ) {
+                ){
 
                     deleting =
                         true;
+
 
                     setTimeout(
                         runTyping,
                         1700
                     );
 
+
                     return;
 
                 }
+
 
                 setTimeout(
                     runTyping,
                     75
                 );
+
 
                 return;
 
@@ -3178,6 +3930,7 @@ document.addEventListener(
 
 
             charIndex--;
+
 
             typing.textContent =
                 current.slice(
@@ -3189,10 +3942,11 @@ document.addEventListener(
             if (
                 charIndex <=
                 0
-            ) {
+            ){
 
                 deleting =
                     false;
+
 
                 phraseIndex =
                     (
@@ -3201,14 +3955,17 @@ document.addEventListener(
                     ) %
                     phrases.length;
 
+
                 setTimeout(
                     runTyping,
                     350
                 );
 
+
                 return;
 
             }
+
 
             setTimeout(
                 runTyping,
@@ -3219,10 +3976,11 @@ document.addEventListener(
 
 
         setTimeout(
-            function () {
+            function(){
 
                 charIndex =
                     0;
+
 
                 runTyping();
 
@@ -3230,10 +3988,6 @@ document.addEventListener(
             1400
         );
 
-
-        /* ---------------------------------------------
-           Cursor glow
-        ---------------------------------------------- */
 
         const cursorGlow =
             document.getElementById(
@@ -3246,11 +4000,11 @@ document.addEventListener(
             window.matchMedia(
                 "(pointer:fine)"
             ).matches
-        ) {
+        ){
 
             window.addEventListener(
                 "pointermove",
-                function (event) {
+                function(event){
 
                     cursorGlow.style.transform =
                         `translate3d(
@@ -3269,29 +4023,26 @@ document.addEventListener(
         }
 
 
-        /* ---------------------------------------------
-           Tilt cards
-        ---------------------------------------------- */
-
         if (
             window.matchMedia(
                 "(pointer:fine)"
             ).matches
-        ) {
+        ){
 
             document
                 .querySelectorAll(
                     ".tilt-card"
                 )
                 .forEach(
-                    function (card) {
+                    function(card){
 
                         card.addEventListener(
                             "pointermove",
-                            function (event) {
+                            function(event){
 
                                 const rect =
                                     card.getBoundingClientRect();
+
 
                                 const x =
                                     (
@@ -3302,6 +4053,7 @@ document.addEventListener(
                                     rect.width
                                     -
                                     0.5;
+
 
                                 const y =
                                     (
@@ -3319,19 +4071,10 @@ document.addEventListener(
                                     `${y * -4}deg`
                                 );
 
+
                                 card.style.setProperty(
                                     "--tilt-y",
                                     `${x * 4}deg`
-                                );
-
-                                card.style.setProperty(
-                                    "--spot-x",
-                                    `${(x + 0.5) * 100}%`
-                                );
-
-                                card.style.setProperty(
-                                    "--spot-y",
-                                    `${(y + 0.5) * 100}%`
                                 );
 
                             }
@@ -3340,26 +4083,17 @@ document.addEventListener(
 
                         card.addEventListener(
                             "pointerleave",
-                            function () {
+                            function(){
 
                                 card.style.setProperty(
                                     "--tilt-x",
                                     "0deg"
                                 );
 
+
                                 card.style.setProperty(
                                     "--tilt-y",
                                     "0deg"
-                                );
-
-                                card.style.setProperty(
-                                    "--spot-x",
-                                    "50%"
-                                );
-
-                                card.style.setProperty(
-                                    "--spot-y",
-                                    "50%"
                                 );
 
                             }
@@ -3370,10 +4104,6 @@ document.addEventListener(
 
         }
 
-
-        /* ---------------------------------------------
-           Particle background
-        ---------------------------------------------- */
 
         const canvas =
             document.getElementById(
@@ -3390,15 +4120,15 @@ document.addEventListener(
         if (
             canvas &&
             !reducedMotion
-        ) {
+        ){
 
             const ctx =
                 canvas.getContext(
                     "2d"
                 );
 
-            const particles =
-                [];
+
+            const particles = [];
 
 
             let width =
@@ -3411,7 +4141,7 @@ document.addEventListener(
                 0;
 
 
-            function resizeCanvas() {
+            function resizeCanvas(){
 
                 const ratio =
                     Math.min(
@@ -3431,12 +4161,14 @@ document.addEventListener(
                 canvas.width =
                     width * ratio;
 
+
                 canvas.height =
                     height * ratio;
 
 
                 canvas.style.width =
                     width + "px";
+
 
                 canvas.style.height =
                     height + "px";
@@ -3462,10 +4194,8 @@ document.addEventListener(
                         Math.max(
                             28,
                             Math.floor(
-                                (
-                                    width *
-                                    height
-                                ) /
+                                width *
+                                height /
                                 22000
                             )
                         )
@@ -3476,7 +4206,7 @@ document.addEventListener(
                     let i = 0;
                     i < count;
                     i++
-                ) {
+                ){
 
                     particles.push({
 
@@ -3529,7 +4259,7 @@ document.addEventListener(
             }
 
 
-            function animateParticles() {
+            function animateParticles(){
 
                 ctx.clearRect(
                     0,
@@ -3539,117 +4269,116 @@ document.addEventListener(
                 );
 
 
-                for (
-                    const particle
-                    of particles
-                ) {
+                particles.forEach(
+                    function(particle){
 
-                    particle.x +=
-                        particle.sx;
-
-                    particle.y +=
-                        particle.sy;
-
-                    particle.phase +=
-                        particle.pulse;
+                        particle.x +=
+                            particle.sx;
 
 
-                    if (
-                        particle.x <
-                        -10
-                    ) {
+                        particle.y +=
+                            particle.sy;
 
-                        particle.x =
+
+                        particle.phase +=
+                            particle.pulse;
+
+
+                        if (
+                            particle.x <
+                            -10
+                        ){
+
+                            particle.x =
+                                width +
+                                10;
+
+                        }
+
+
+                        if (
+                            particle.x >
                             width +
-                            10;
+                            10
+                        ){
 
-                    }
+                            particle.x =
+                                -10;
 
-
-                    if (
-                        particle.x >
-                        width +
-                        10
-                    ) {
-
-                        particle.x =
-                            -10;
-
-                    }
+                        }
 
 
-                    if (
-                        particle.y <
-                        -10
-                    ) {
+                        if (
+                            particle.y <
+                            -10
+                        ){
 
-                        particle.y =
+                            particle.y =
+                                height +
+                                10;
+
+                        }
+
+
+                        if (
+                            particle.y >
                             height +
-                            10;
+                            10
+                        ){
 
-                    }
+                            particle.y =
+                                -10;
 
-
-                    if (
-                        particle.y >
-                        height +
-                        10
-                    ) {
-
-                        particle.y =
-                            -10;
-
-                    }
+                        }
 
 
-                    const alpha =
-                        Math.max(
+                        const alpha =
+                            Math.max(
+                                0.05,
+                                particle.opacity +
+                                Math.sin(
+                                    particle.phase
+                                ) *
+                                0.12
+                            );
 
-                            0.05,
 
-                            particle.opacity +
-                            Math.sin(
-                                particle.phase
-                            ) *
-                            0.12
+                        ctx.beginPath();
 
+
+                        ctx.arc(
+                            particle.x,
+                            particle.y,
+                            particle.r,
+                            0,
+                            Math.PI * 2
                         );
 
 
-                    ctx.beginPath();
-
-                    ctx.arc(
-                        particle.x,
-                        particle.y,
-                        particle.r,
-                        0,
-                        Math.PI * 2
-                    );
+                        ctx.fillStyle =
+                            `rgba(
+                                96,
+                                165,
+                                250,
+                                ${alpha}
+                            )`;
 
 
-                    ctx.fillStyle =
-                        `rgba(
-                            96,
-                            165,
-                            250,
-                            ${alpha}
-                        )`;
+                        ctx.shadowBlur =
+                            particle.r >
+                            1.15
+                                ? 8
+                                : 4;
 
 
-                    ctx.shadowBlur =
-                        particle.r >
-                        1.15
-                            ? 8
-                            : 4;
+                        ctx.shadowColor =
+                            "rgba(96,165,250,.7)";
 
 
-                    ctx.shadowColor =
-                        "rgba(96,165,250,.7)";
+                        ctx.fill();
 
-
-                    ctx.fill();
-
-                }
+                    }
+                );
 
 
                 ctx.shadowBlur =
@@ -3685,7 +4414,7 @@ document.addEventListener(
 
             window.addEventListener(
                 "pagehide",
-                function () {
+                function(){
 
                     cancelAnimationFrame(
                         animationFrame
@@ -3700,10 +4429,6 @@ document.addEventListener(
 
         }
 
-
-        /* ---------------------------------------------
-           Load documents
-        ---------------------------------------------- */
 
         loadDocumentLibrary();
 
