@@ -785,6 +785,151 @@
         </div>
 
     </footer>
+<script>
 
+/* =========================================
+   ACHIEVEMENT GALLERY
+========================================= */
+
+const galleryData = {
+
+    grade10: [
+        "assets/achievements/grade10-1.jpg",
+        "assets/achievements/grade10-2.jpg",
+        "assets/achievements/grade10-3.jpg"
+    ],
+
+    grade12: [
+        "assets/achievements/grade12-1.jpg",
+        "assets/achievements/grade12-2.jpg",
+        "assets/achievements/grade12-3.jpg"
+    ],
+
+    feedback: [
+        "assets/achievements/feedback-1.jpg",
+        "assets/achievements/feedback-2.jpg",
+        "assets/achievements/feedback-3.jpg"
+    ]
+
+};
+
+
+let currentGallery = [];
+
+let currentImageIndex = 0;
+
+
+function openGallery(type) {
+
+    currentGallery = galleryData[type] || [];
+
+    currentImageIndex = 0;
+
+    if (currentGallery.length === 0) {
+        return;
+    }
+
+    updateGallery();
+
+    document
+        .getElementById("galleryModal")
+        .classList
+        .add("active");
+
+    document.body.style.overflow = "hidden";
+}
+
+
+function updateGallery() {
+
+    const image =
+        document.getElementById("galleryImage");
+
+    const counter =
+        document.getElementById("galleryCounter");
+
+    image.src =
+        currentGallery[currentImageIndex];
+
+    counter.textContent =
+        `${currentImageIndex + 1} / ${currentGallery.length}`;
+}
+
+
+function changeImage(direction) {
+
+    if (!currentGallery.length) {
+        return;
+    }
+
+    currentImageIndex += direction;
+
+    if (currentImageIndex < 0) {
+
+        currentImageIndex =
+            currentGallery.length - 1;
+
+    }
+
+    if (currentImageIndex >= currentGallery.length) {
+
+        currentImageIndex = 0;
+
+    }
+
+    updateGallery();
+}
+
+
+function closeGallery(event) {
+
+    if (
+        event &&
+        event.target !==
+        document.getElementById("galleryModal")
+    ) {
+        return;
+    }
+
+    document
+        .getElementById("galleryModal")
+        .classList
+        .remove("active");
+
+    document.body.style.overflow = "";
+}
+
+
+/* ESC để đóng ảnh */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        const modal =
+            document.getElementById("galleryModal");
+
+        if (
+            !modal.classList.contains("active")
+        ) {
+            return;
+        }
+
+        if (event.key === "Escape") {
+            closeGallery();
+        }
+
+        if (event.key === "ArrowLeft") {
+            changeImage(-1);
+        }
+
+        if (event.key === "ArrowRight") {
+            changeImage(1);
+        }
+
+    }
+);
+
+</script>
 </body>
 </html>
