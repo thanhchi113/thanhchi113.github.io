@@ -2,20 +2,29 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Huỳnh Thanh Chí | Giáo viên Toán</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Huỳnh Thanh Chí | Giáo viên Toán
+    </title>
 
     <meta
         name="description"
         content="Website cá nhân của Huỳnh Thanh Chí — Giáo viên Toán, Công nghệ và AI."
     >
 
-    <meta name="theme-color" content="#070b14">
+    <meta
+        name="theme-color"
+        content="#070b14"
+    >
 
     <link
         rel="stylesheet"
-        href="style.css?v=20260903-3"
+        href="style.css?v=20260903-4"
     >
 
     <link
@@ -27,16 +36,62 @@
 
     <style>
 
-        /* =========================================
-           DOCUMENT LIBRARY - CATEGORY FIRST
-        ========================================== */
+        /* =====================================================
+           DOCUMENT LIBRARY
+        ===================================================== */
+
+        .document-toolbar-right{
+            display:flex;
+            align-items:center;
+            gap:9px;
+            flex-wrap:wrap;
+        }
+
+        .document-sort-wrap,
+        .document-type-filter{
+            min-height:42px;
+            padding:0 11px;
+            border:
+                1px solid
+                rgba(148,163,184,.14);
+            border-radius:11px;
+            background:
+                rgba(5,10,19,.56);
+            color:#8ea0b8;
+            font:inherit;
+        }
+
+        .document-sort-wrap{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+        }
+
+        .document-sort-wrap select,
+        .document-type-filter{
+            border:0;
+            outline:0;
+            background:transparent;
+            color:#dcecff;
+            font:inherit;
+            font-size:13px;
+            cursor:pointer;
+        }
+
+        .document-sort-wrap option,
+        .document-type-filter option{
+            background:#0b1220;
+            color:#fff;
+        }
 
         .document-library-heading{
             display:flex;
             align-items:flex-end;
             justify-content:space-between;
             gap:24px;
-            margin:30px 0 18px;
+            margin:
+                30px 0
+                15px;
         }
 
         .document-library-kicker{
@@ -51,162 +106,138 @@
         .document-library-heading h3{
             margin:0;
             color:#f8fbff;
-            font-size:clamp(22px,3vw,30px);
+            font-size:
+                clamp(
+                    23px,
+                    3vw,
+                    32px
+                );
             line-height:1.15;
         }
 
-        .document-library-heading .document-status{
-            margin:0;
-            white-space:nowrap;
-        }
-
-        .document-toolbar-right{
+        .document-public-stats{
             display:flex;
-            align-items:center;
-            gap:10px;
+            flex-wrap:wrap;
+            gap:9px;
+            margin:
+                12px 0
+                15px;
         }
 
-        .document-sort-wrap{
+        .document-public-stats span{
             display:inline-flex;
             align-items:center;
+            gap:7px;
+            padding:
+                7px 10px;
+            border:
+                1px solid
+                rgba(148,163,184,.11);
+            border-radius:999px;
+            background:
+                rgba(255,255,255,.025);
+            color:#8192aa;
+            font-size:11px;
+        }
+
+        .document-public-stats i{
+            color:#60a5fa;
+        }
+
+        .document-breadcrumb{
+            display:flex;
+            align-items:center;
+            flex-wrap:wrap;
             gap:8px;
-            min-height:42px;
-            padding:0 12px;
-            border:1px solid rgba(148,163,184,.14);
-            border-radius:11px;
-            background:rgba(5,10,19,.56);
-            color:#8ea0b8;
+            margin-bottom:15px;
+            color:#70829a;
+            font-size:12px;
         }
 
-        .document-sort-wrap select{
+        .document-crumb{
             border:0;
-            outline:0;
             background:transparent;
-            color:#dcecff;
-            font:inherit;
-            font-size:13px;
+            color:#8092aa;
             cursor:pointer;
+            padding:0;
+            font:inherit;
         }
 
-        .document-sort-wrap option{
-            background:#0b1220;
-            color:#f8fbff;
+        .document-crumb.active{
+            color:#e6f6ff;
+            font-weight:800;
+        }
+
+        .document-crumb-sep{
+            opacity:.35;
         }
 
         .document-backbar{
             display:flex;
             align-items:center;
             justify-content:space-between;
-            gap:16px;
-            margin:0 0 18px;
-            padding:12px 14px;
-            border:1px solid rgba(148,163,184,.12);
-            border-radius:14px;
-            background:rgba(7,13,24,.48);
+            gap:14px;
+            margin-bottom:17px;
+            padding:
+                11px 13px;
+            border:
+                1px solid
+                rgba(148,163,184,.11);
+            border-radius:13px;
+            background:
+                rgba(7,13,24,.5);
         }
 
         .document-back-button{
             display:inline-flex;
             align-items:center;
-            gap:9px;
-            min-height:40px;
-            padding:0 14px;
-            border:1px solid rgba(96,165,250,.22);
+            gap:8px;
+            min-height:39px;
+            padding:
+                0 13px;
+            border:
+                1px solid
+                rgba(96,165,250,.22);
             border-radius:10px;
             color:#dceeff;
-            background:rgba(56,189,248,.06);
+            background:
+                rgba(56,189,248,.06);
             font:inherit;
-            font-size:13px;
+            font-size:12px;
             font-weight:700;
             cursor:pointer;
-            transition:.25s ease;
+            transition:.22s ease;
         }
 
         .document-back-button:hover{
             transform:translateX(-2px);
-            border-color:rgba(125,211,252,.52);
-            background:rgba(56,189,248,.11);
+            border-color:
+                rgba(125,211,252,.5);
+            background:
+                rgba(56,189,248,.1);
         }
 
         .document-selected-category{
             color:#7dd3fc;
-            font-size:12px;
+            font-size:10px;
             font-weight:800;
-            letter-spacing:.8px;
+            letter-spacing:.7px;
             text-transform:uppercase;
         }
 
         .document-category-grid{
-            grid-template-columns:repeat(3,minmax(0,1fr));
+            grid-template-columns:
+                repeat(
+                    3,
+                    minmax(0,1fr)
+                );
         }
 
         .document-category-card{
-            min-height:260px;
+            min-height:250px;
             position:relative;
             overflow:hidden;
             cursor:pointer;
-        }
-
-        .document-category-icon{
-            width:62px;
-            height:62px;
-            display:grid;
-            place-items:center;
-            border-radius:17px;
-            margin-bottom:18px;
-            color:#8ddcff;
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(56,189,248,.13),
-                    rgba(124,58,237,.12)
-                );
-            border:1px solid rgba(125,211,252,.19);
-            box-shadow:
-                0 16px 34px rgba(56,189,248,.07);
-            font-size:24px;
-            transition:
-                transform .3s ease,
-                border-color .3s ease;
-        }
-
-        .document-category-card h3{
-            margin-top:7px;
-            margin-bottom:10px;
-            font-size:23px;
-        }
-
-        .document-category-card p{
-            min-height:70px;
-            margin-bottom:20px;
-        }
-
-        .document-category-footer{
-            margin-top:auto;
-            padding-top:15px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:14px;
-            border-top:1px solid rgba(255,255,255,.07);
-        }
-
-        .document-category-count{
-            display:inline-flex;
-            align-items:center;
-            gap:7px;
-            color:#93a4bb;
-            font-size:12px;
-            font-weight:600;
-        }
-
-        .document-category-count i{
-            color:#60a5fa;
-        }
-
-        .document-category-card:hover .document-category-icon{
-            transform:translateY(-2px) scale(1.03);
-            border-color:rgba(125,211,252,.4);
         }
 
         .document-card-glow{
@@ -216,43 +247,600 @@
             top:-95px;
             right:-70px;
             border-radius:50%;
-            background:rgba(59,130,246,.15);
+            background:
+                rgba(59,130,246,.15);
             filter:blur(35px);
             pointer-events:none;
             z-index:-1;
+        }
+
+        .document-category-icon{
+            width:62px;
+            height:62px;
+            display:grid;
+            place-items:center;
+            margin-bottom:17px;
+            border-radius:17px;
+            color:#8ddcff;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(56,189,248,.13),
+                    rgba(124,58,237,.12)
+                );
+            border:
+                1px solid
+                rgba(125,211,252,.19);
+            box-shadow:
+                0 16px 34px
+                rgba(56,189,248,.07);
+            font-size:23px;
+            transition:.3s ease;
+        }
+
+        .document-category-card:hover
+        .document-category-icon{
+            transform:
+                translateY(-2px)
+                scale(1.03);
+            border-color:
+                rgba(125,211,252,.4);
+        }
+
+        .document-category-card h3{
+            margin:
+                7px 0
+                10px;
+            font-size:23px;
+        }
+
+        .document-category-card p{
+            min-height:62px;
+            margin-bottom:19px;
+            color:#95a6bb;
+        }
+
+        .document-category-footer{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            margin-top:auto;
+            padding-top:14px;
+            border-top:
+                1px solid
+                rgba(255,255,255,.07);
+        }
+
+        .document-category-count{
+            display:inline-flex;
+            align-items:center;
+            gap:7px;
+            color:#8c9db2;
+            font-size:11px;
+            font-weight:700;
+        }
+
+        .document-category-count i{
+            color:#60a5fa;
         }
 
         .document-card-top-badges{
             display:flex;
             align-items:center;
             gap:6px;
+            margin-bottom:10px;
         }
 
+        .document-type-badge,
         .document-new-badge{
             display:inline-flex;
             align-items:center;
             justify-content:center;
-            min-height:24px;
-            padding:0 8px;
+            min-height:23px;
+            padding:
+                0 8px;
             border-radius:999px;
-            background:rgba(34,197,94,.1);
-            border:1px solid rgba(74,222,128,.22);
-            color:#86efac;
-            font-size:10px;
+            font-size:9px;
             font-weight:900;
-            letter-spacing:.7px;
+            letter-spacing:.65px;
         }
+
+        .document-type-badge{
+            color:#bfdbfe;
+            background:
+                rgba(96,165,250,.09);
+            border:
+                1px solid
+                rgba(96,165,250,.18);
+        }
+
+        .document-type-badge.exam{
+            color:#ddd6fe;
+            background:
+                rgba(167,139,250,.09);
+            border-color:
+                rgba(167,139,250,.18);
+        }
+
+        .document-new-badge{
+            color:#86efac;
+            background:
+                rgba(34,197,94,.1);
+            border:
+                1px solid
+                rgba(74,222,128,.22);
+        }
+
+        .document-thumb{
+            height:145px;
+            margin:
+                -22px
+                -22px
+                17px;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(56,189,248,.06),
+                    rgba(124,58,237,.08)
+                );
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.07);
+        }
+
+        .document-thumb img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        .document-thumb-placeholder i{
+            color:#7dd3fc;
+            font-size:45px;
+            opacity:.72;
+        }
+
+        .document-tags{
+            display:flex;
+            flex-wrap:wrap;
+            gap:5px;
+            margin:
+                8px 0
+                13px;
+        }
+
+        .document-tags span{
+            padding:
+                4px 7px;
+            border-radius:999px;
+            background:
+                rgba(148,163,184,.06);
+            border:
+                1px solid
+                rgba(148,163,184,.1);
+            color:#91a3ba;
+            font-size:9px;
+        }
+
+        .document-quick-actions{
+            position:absolute;
+            right:14px;
+            bottom:14px;
+            display:flex;
+            gap:5px;
+            opacity:0;
+            transform:
+                translateY(4px);
+            transition:.2s ease;
+        }
+
+        .document-card:hover
+        .document-quick-actions,
+        .document-card:focus-within
+        .document-quick-actions{
+            opacity:1;
+            transform:
+                translateY(0);
+        }
+
+        .document-quick-btn{
+            width:32px;
+            height:32px;
+            border-radius:9px;
+            border:
+                1px solid
+                rgba(148,163,184,.16);
+            background:
+                rgba(5,10,19,.72);
+            color:#dcecff;
+            cursor:pointer;
+        }
+
+        .document-quick-btn:hover{
+            border-color:
+                rgba(125,211,252,.45);
+            color:#7dd3fc;
+        }
+
+        .document-card-footer{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:10px;
+            margin-top:auto;
+            padding-top:13px;
+            border-top:
+                1px solid
+                rgba(255,255,255,.07);
+            color:#718199;
+            font-size:10px;
+        }
+
+        .document-open-label{
+            color:#cee9ff;
+            font-weight:800;
+            white-space:nowrap;
+            transition:.2s ease;
+        }
+
+        .document-card:hover
+        .document-open-label{
+            color:#7dd3fc;
+            transform:
+                translateX(2px);
+        }
+
+        .document-pagination{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-wrap:wrap;
+            gap:6px;
+            margin:
+                25px 0
+                3px;
+        }
+
+        .document-page-btn{
+            width:36px;
+            height:36px;
+            border-radius:9px;
+            border:
+                1px solid
+                rgba(148,163,184,.13);
+            background:
+                rgba(255,255,255,.025);
+            color:#9fb0c7;
+            cursor:pointer;
+        }
+
+        .document-page-btn:hover:not(:disabled),
+        .document-page-btn.active{
+            color:#eef9ff;
+            background:
+                rgba(56,189,248,.08);
+            border-color:
+                rgba(125,211,252,.45);
+        }
+
+        .document-page-btn:disabled{
+            opacity:.33;
+            cursor:not-allowed;
+        }
+
+        .document-page-ellipsis{
+            color:#64748b;
+            padding:
+                0 3px;
+        }
+
+        .document-subsection-title{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            margin:
+                20px 0
+                11px;
+            color:#8ca1b9;
+            font-size:11px;
+        }
+
+        .document-subsection-title
+        span:last-child{
+            color:#60a5fa;
+        }
+
+
+        /* =====================================================
+           REQUEST FORM
+        ===================================================== */
+
+        .material-request-section{
+            padding-bottom:70px;
+        }
+
+        .material-request-card{
+            max-width:920px;
+            margin:0 auto;
+            padding:24px;
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+            border-radius:18px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(14,23,42,.72),
+                    rgba(7,12,24,.64)
+                );
+        }
+
+        .material-request-form{
+            display:grid;
+            gap:14px;
+        }
+
+        .material-request-form label{
+            display:block;
+            margin-bottom:6px;
+            color:#a8b6c9;
+            font-size:10px;
+            font-weight:800;
+            letter-spacing:.55px;
+            text-transform:uppercase;
+        }
+
+        .material-request-form input,
+        .material-request-form textarea,
+        .material-request-form select{
+            width:100%;
+            padding:
+                12px 13px;
+            border:
+                1px solid
+                rgba(148,163,184,.16);
+            border-radius:10px;
+            outline:0;
+            background:
+                rgba(5,10,19,.66);
+            color:#f4f8ff;
+            font:inherit;
+        }
+
+        .material-request-form textarea{
+            min-height:120px;
+            resize:vertical;
+        }
+
+        .request-grid{
+            display:grid;
+            grid-template-columns:
+                1fr
+                1fr;
+            gap:12px;
+        }
+
+        .request-submit-row{
+            display:flex;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:13px;
+        }
+
+        .request-status{
+            color:#8ea0b8;
+            font-size:11px;
+        }
+
+
+        /* =====================================================
+           PDF MODAL
+        ===================================================== */
+
+        .pdf-modal-inner{
+            max-height:92vh;
+        }
+
+        .pdf-related-wrap{
+            padding:
+                14px
+                18px
+                18px;
+            border-top:
+                1px solid
+                rgba(255,255,255,.07);
+        }
+
+        .pdf-related-title{
+            margin-bottom:10px;
+            color:#71849b;
+            font-size:10px;
+            font-weight:800;
+            letter-spacing:1px;
+            text-transform:uppercase;
+        }
+
+        .pdf-related-list{
+            display:grid;
+            grid-template-columns:
+                repeat(
+                    4,
+                    minmax(0,1fr)
+                );
+            gap:8px;
+        }
+
+        .pdf-related-card{
+            display:flex;
+            align-items:center;
+            min-width:0;
+            gap:8px;
+            padding:9px;
+            border:
+                1px solid
+                rgba(148,163,184,.1);
+            border-radius:10px;
+            background:
+                rgba(255,255,255,.025);
+            color:#d8e7f6;
+            text-align:left;
+            cursor:pointer;
+        }
+
+        .pdf-related-card:hover{
+            border-color:
+                rgba(125,211,252,.3);
+            background:
+                rgba(56,189,248,.05);
+        }
+
+        .pdf-related-icon{
+            width:32px;
+            height:32px;
+            flex:0 0 32px;
+            display:grid;
+            place-items:center;
+            border-radius:8px;
+            background:
+                rgba(56,189,248,.07);
+            color:#7dd3fc;
+        }
+
+        .pdf-related-card b{
+            display:block;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            font-size:10px;
+        }
+
+        .pdf-related-card small{
+            display:block;
+            margin-top:3px;
+            overflow:hidden;
+            color:#73849a;
+            font-size:8px;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+
+        .pdf-related-empty{
+            color:#708199;
+            font-size:11px;
+        }
+
+
+        /* =====================================================
+           QR
+        ===================================================== */
+
+        .qr-modal{
+            position:fixed;
+            inset:0;
+            z-index:2800;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+            background:
+                rgba(2,6,14,.82);
+            backdrop-filter:blur(10px);
+        }
+
+        .qr-modal.open{
+            display:flex;
+        }
+
+        .qr-card{
+            width:
+                min(
+                    430px,
+                    94vw
+                );
+            padding:22px;
+            border:
+                1px solid
+                rgba(255,255,255,.1);
+            border-radius:18px;
+            background:#08101c;
+            box-shadow:
+                0 30px 100px
+                rgba(0,0,0,.55);
+        }
+
+        .qr-head{
+            display:flex;
+            align-items:flex-start;
+            justify-content:space-between;
+            gap:13px;
+        }
+
+        .qr-code{
+            width:240px;
+            height:240px;
+            margin:
+                19px auto
+                14px;
+            padding:8px;
+            display:grid;
+            place-items:center;
+            border-radius:12px;
+            background:#fff;
+        }
+
+        .qr-code canvas,
+        .qr-code img{
+            width:
+                224px !important;
+            height:
+                224px !important;
+        }
+
+        .qr-url{
+            color:#7f90a7;
+            font-size:9px;
+            line-height:1.5;
+            text-align:center;
+            word-break:break-all;
+        }
+
+        .qr-download{
+            width:100%;
+            margin-top:8px;
+        }
+
+        .qr-fallback{
+            color:#253247;
+            font-size:12px;
+            text-align:center;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
 
         @media(max-width:980px){
 
             .document-category-grid{
                 grid-template-columns:
-                    repeat(2,minmax(0,1fr));
+                    repeat(
+                        2,
+                        minmax(0,1fr)
+                    );
             }
 
-            .document-backbar{
-                align-items:flex-start;
-                flex-direction:column;
+            .pdf-related-list{
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0,1fr)
+                    );
             }
 
         }
@@ -263,29 +851,19 @@
                 width:100%;
             }
 
-            .document-sort-wrap{
+            .document-sort-wrap,
+            .document-type-filter{
                 flex:1;
             }
-
-            .document-sort-wrap select{
-                width:100%;
-            }
-
-            .document-admin-link{
-                white-space:nowrap;
-            }
-
-        }
-
-        @media(max-width:640px){
 
             .document-library-heading{
                 align-items:flex-start;
                 flex-direction:column;
             }
 
-            .document-category-grid{
-                grid-template-columns:1fr;
+            .document-backbar{
+                align-items:flex-start;
+                flex-direction:column;
             }
 
             .document-back-button{
@@ -293,10 +871,35 @@
                 justify-content:center;
             }
 
+            .request-grid{
+                grid-template-columns:1fr;
+            }
+
+            .document-quick-actions{
+                opacity:1;
+                transform:none;
+            }
+
+        }
+
+        @media(max-width:580px){
+
+            .document-category-grid,
+            .document-pdf-grid,
+            .pdf-related-list{
+                grid-template-columns:1fr;
+            }
+
+            .material-request-card{
+                padding:17px;
+            }
+
         }
 
     </style>
+
 </head>
+
 
 <body>
 
@@ -312,6 +915,10 @@
 ></div>
 
 
+<!-- =========================================================
+     HEADER
+========================================================== -->
+
 <header
     class="site-header"
     id="siteHeader"
@@ -322,6 +929,7 @@
         <a
             href="#home"
             class="logo"
+            aria-label="Về trang chủ"
         >
             Thanh<span>Chí</span>
         </a>
@@ -334,10 +942,9 @@
             aria-label="Mở menu"
             aria-expanded="false"
             aria-controls="mainMenu"
+            onclick="toggleMobileMenu(event)"
         >
-
             <i class="fa-solid fa-bars"></i>
-
         </button>
 
 
@@ -404,6 +1011,15 @@
 
                 <li>
                     <a
+                        href="#material-request"
+                        class="nav-link"
+                    >
+                        Yêu cầu
+                    </a>
+                </li>
+
+                <li>
+                    <a
                         href="#contact"
                         class="nav-link"
                     >
@@ -425,7 +1041,7 @@
 
 <!-- =========================================================
      HERO
-========================================================= -->
+========================================================== -->
 
 <section
     class="hero"
@@ -468,9 +1084,15 @@
                     href="#about"
                     class="btn btn-primary"
                 >
-                    <span>Xem về tôi</span>
-                    <i class="fa-solid fa-arrow-down btn-arrow"></i>
+                    <span>
+                        Xem về tôi
+                    </span>
+
+                    <i
+                        class="fa-solid fa-arrow-down btn-arrow"
+                    ></i>
                 </a>
+
 
                 <a
                     href="#contact"
@@ -490,8 +1112,11 @@
                     rel="noopener noreferrer"
                     aria-label="Facebook"
                 >
-                    <i class="fa-brands fa-facebook-f"></i>
+                    <i
+                        class="fa-brands fa-facebook-f"
+                    ></i>
                 </a>
+
 
                 <a
                     href="https://github.com/thanhchi113"
@@ -499,14 +1124,19 @@
                     rel="noopener noreferrer"
                     aria-label="GitHub"
                 >
-                    <i class="fa-brands fa-github"></i>
+                    <i
+                        class="fa-brands fa-github"
+                    ></i>
                 </a>
+
 
                 <a
                     href="mailto:chithanhhuynh11@gmail.com"
                     aria-label="Email"
                 >
-                    <i class="fa-solid fa-envelope"></i>
+                    <i
+                        class="fa-solid fa-envelope"
+                    ></i>
                 </a>
 
             </div>
@@ -514,7 +1144,9 @@
         </div>
 
 
-        <div class="avatar-wrapper reveal reveal-delay-1">
+        <div
+            class="avatar-wrapper reveal reveal-delay-1"
+        >
 
             <div
                 class="avatar-ring avatar-ring-outer"
@@ -547,7 +1179,7 @@
     <a
         href="#about"
         class="scroll-indicator"
-        aria-label="Cuộn xuống phần giới thiệu"
+        aria-label="Cuộn xuống"
     >
         <span></span>
     </a>
@@ -593,7 +1225,7 @@
 
 <!-- =========================================================
      ABOUT
-========================================================= -->
+========================================================== -->
 
 <section id="about">
 
@@ -621,8 +1253,12 @@
             <div class="about-content reveal">
 
                 <h3>
-                    Tôi là <span>Huỳnh Thanh Chí</span>
+                    Tôi là
+                    <span>
+                        Huỳnh Thanh Chí
+                    </span>
                 </h3>
+
 
                 <p>
                     Tôi là một giáo viên Toán, yêu thích việc khám phá
@@ -630,6 +1266,7 @@
                     đến cách AI và các công cụ công nghệ có thể hỗ trợ
                     giáo viên, học sinh và nâng cao hiệu quả học tập.
                 </p>
+
 
                 <p>
                     Bên cạnh giảng dạy, tôi thường xuyên tìm hiểu về
@@ -647,7 +1284,9 @@
                 >
 
                     <div class="highlight-icon">
-                        <i class="fa-solid fa-calculator"></i>
+                        <i
+                            class="fa-solid fa-calculator"
+                        ></i>
                     </div>
 
                     <div>
@@ -670,7 +1309,9 @@
                 >
 
                     <div class="highlight-icon">
-                        <i class="fa-solid fa-robot"></i>
+                        <i
+                            class="fa-solid fa-robot"
+                        ></i>
                     </div>
 
                     <div>
@@ -693,7 +1334,9 @@
                 >
 
                     <div class="highlight-icon">
-                        <i class="fa-solid fa-laptop-code"></i>
+                        <i
+                            class="fa-solid fa-laptop-code"
+                        ></i>
                     </div>
 
                     <div>
@@ -721,7 +1364,7 @@
 
 <!-- =========================================================
      SKILLS
-========================================================= -->
+========================================================== -->
 
 <section id="skills">
 
@@ -746,13 +1389,14 @@
 
         <div class="skills">
 
-
             <div class="skill-item reveal">
 
                 <div class="skill-header">
 
                     <div class="skill-icon">
-                        <i class="fa-solid fa-calculator"></i>
+                        <i
+                            class="fa-solid fa-calculator"
+                        ></i>
                     </div>
 
                     <div class="skill-info">
@@ -791,7 +1435,9 @@
                 <div class="skill-header">
 
                     <div class="skill-icon">
-                        <i class="fa-solid fa-robot"></i>
+                        <i
+                            class="fa-solid fa-robot"
+                        ></i>
                     </div>
 
                     <div class="skill-info">
@@ -830,7 +1476,9 @@
                 <div class="skill-header">
 
                     <div class="skill-icon">
-                        <i class="fa-solid fa-file-code"></i>
+                        <i
+                            class="fa-solid fa-file-code"
+                        ></i>
                     </div>
 
                     <div class="skill-info">
@@ -869,7 +1517,9 @@
                 <div class="skill-header">
 
                     <div class="skill-icon">
-                        <i class="fa-solid fa-pen-ruler"></i>
+                        <i
+                            class="fa-solid fa-pen-ruler"
+                        ></i>
                     </div>
 
                     <div class="skill-info">
@@ -908,7 +1558,9 @@
                 <div class="skill-header">
 
                     <div class="skill-icon">
-                        <i class="fa-solid fa-pen"></i>
+                        <i
+                            class="fa-solid fa-pen"
+                        ></i>
                     </div>
 
                     <div class="skill-info">
@@ -947,7 +1599,9 @@
                 <div class="skill-header">
 
                     <div class="skill-icon">
-                        <i class="fa-solid fa-laptop-code"></i>
+                        <i
+                            class="fa-solid fa-laptop-code"
+                        ></i>
                     </div>
 
                     <div class="skill-info">
@@ -989,7 +1643,7 @@
 
 <!-- =========================================================
      PROJECTS
-========================================================= -->
+========================================================== -->
 
 <section id="projects">
 
@@ -1022,7 +1676,9 @@
                 <div class="project-top">
 
                     <div class="project-icon">
-                        <i class="fa-solid fa-robot"></i>
+                        <i
+                            class="fa-solid fa-robot"
+                        ></i>
                     </div>
 
                     <div class="project-number">
@@ -1036,6 +1692,7 @@
                     AI Tools
                 </h3>
 
+
                 <p>
                     Các công cụ ứng dụng trí tuệ nhân tạo nhằm hỗ trợ
                     giáo viên trong công việc, soạn giảng và xây dựng
@@ -1044,8 +1701,15 @@
 
 
                 <div class="project-tags">
-                    <span>AI</span>
-                    <span>Education</span>
+
+                    <span>
+                        AI
+                    </span>
+
+                    <span>
+                        Education
+                    </span>
+
                 </div>
 
 
@@ -1054,7 +1718,9 @@
                     class="project-link"
                 >
                     Xem dự án
-                    <i class="fa-solid fa-arrow-right"></i>
+                    <i
+                        class="fa-solid fa-arrow-right"
+                    ></i>
                 </a>
 
             </article>
@@ -1067,7 +1733,9 @@
                 <div class="project-top">
 
                     <div class="project-icon">
-                        <i class="fa-solid fa-shapes"></i>
+                        <i
+                            class="fa-solid fa-shapes"
+                        ></i>
                     </div>
 
                     <div class="project-number">
@@ -1081,6 +1749,7 @@
                     Toán học
                 </h3>
 
+
                 <p>
                     Tài liệu, bài tập và các sản phẩm trực quan phục vụ
                     việc dạy và học Toán học.
@@ -1088,8 +1757,15 @@
 
 
                 <div class="project-tags">
-                    <span>Mathematics</span>
-                    <span>LaTeX</span>
+
+                    <span>
+                        Mathematics
+                    </span>
+
+                    <span>
+                        LaTeX
+                    </span>
+
                 </div>
 
 
@@ -1098,7 +1774,9 @@
                     class="project-link"
                 >
                     Xem dự án
-                    <i class="fa-solid fa-arrow-right"></i>
+                    <i
+                        class="fa-solid fa-arrow-right"
+                    ></i>
                 </a>
 
             </article>
@@ -1111,7 +1789,9 @@
                 <div class="project-top">
 
                     <div class="project-icon">
-                        <i class="fa-solid fa-code"></i>
+                        <i
+                            class="fa-solid fa-code"
+                        ></i>
                     </div>
 
                     <div class="project-number">
@@ -1125,6 +1805,7 @@
                     Công nghệ
                 </h3>
 
+
                 <p>
                     Các dự án cá nhân liên quan đến website, tự động hóa
                     và những công cụ phục vụ công việc.
@@ -1132,8 +1813,15 @@
 
 
                 <div class="project-tags">
-                    <span>Web</span>
-                    <span>Automation</span>
+
+                    <span>
+                        Web
+                    </span>
+
+                    <span>
+                        Automation
+                    </span>
+
                 </div>
 
 
@@ -1142,7 +1830,9 @@
                     class="project-link"
                 >
                     Xem dự án
-                    <i class="fa-solid fa-arrow-right"></i>
+                    <i
+                        class="fa-solid fa-arrow-right"
+                    ></i>
                 </a>
 
             </article>
@@ -1156,7 +1846,7 @@
 
 <!-- =========================================================
      DOCUMENTS
-========================================================= -->
+========================================================== -->
 
 <section
     id="documents"
@@ -1177,7 +1867,7 @@
             </h2>
 
             <p>
-                Chọn một danh mục để xem các tài liệu PDF bên trong
+                Kho tài liệu, đề thi và chuyên đề được sắp xếp theo danh mục.
             </p>
 
         </div>
@@ -1187,12 +1877,14 @@
 
             <div class="document-search-wrap">
 
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <i
+                    class="fa-solid fa-magnifying-glass"
+                ></i>
 
                 <input
                     id="documentSearch"
                     type="search"
-                    placeholder="Tìm danh mục..."
+                    placeholder="Tìm danh mục hoặc tài liệu..."
                     autocomplete="off"
                 >
 
@@ -1201,18 +1893,19 @@
 
             <div class="document-toolbar-right">
 
-
                 <label
-                    class="document-sort-wrap"
                     id="documentSortWrap"
+                    class="document-sort-wrap"
                     hidden
                 >
 
-                    <i class="fa-solid fa-arrow-down-wide-short"></i>
+                    <i
+                        class="fa-solid fa-arrow-down-wide-short"
+                    ></i>
 
                     <select
                         id="documentSort"
-                        aria-label="Sắp xếp tài liệu"
+                        aria-label="Sắp xếp"
                     >
 
                         <option value="newest">
@@ -1231,9 +1924,35 @@
                             Z → A
                         </option>
 
+                        <option value="views">
+                            Xem nhiều nhất
+                        </option>
+
                     </select>
 
                 </label>
+
+
+                <select
+                    id="documentTypeFilter"
+                    class="document-type-filter"
+                    hidden
+                    aria-label="Loại tài liệu"
+                >
+
+                    <option value="all">
+                        Tất cả loại
+                    </option>
+
+                    <option value="document">
+                        Tài liệu
+                    </option>
+
+                    <option value="exam">
+                        Đề thi
+                    </option>
+
+                </select>
 
 
                 <a
@@ -1242,6 +1961,7 @@
                 >
 
                     <i class="fa-solid fa-lock"></i>
+
                     Quản trị
 
                 </a>
@@ -1251,7 +1971,59 @@
         </div>
 
 
-        <div class="document-library-heading reveal">
+        <div
+            id="documentStats"
+            class="document-public-stats reveal"
+        >
+
+            <span>
+                <i
+                    class="fa-regular fa-file-lines"
+                ></i>
+
+                <b id="publicDocCount">
+                    0
+                </b>
+
+                tài liệu
+
+            </span>
+
+
+            <span>
+                <i
+                    class="fa-regular fa-folder-open"
+                ></i>
+
+                <b id="publicCategoryCount">
+                    0
+                </b>
+
+                danh mục
+
+            </span>
+
+
+            <span>
+                <i
+                    class="fa-solid fa-chart-line"
+                ></i>
+
+                <b id="publicViewCount">
+                    0
+                </b>
+
+                lượt xem
+
+            </span>
+
+        </div>
+
+
+        <div
+            id="documentLibraryHeading"
+            class="document-library-heading reveal"
+        >
 
             <div>
 
@@ -1277,6 +2049,12 @@
 
 
         <div
+            id="documentBreadcrumb"
+            class="document-breadcrumb reveal"
+        ></div>
+
+
+        <div
             id="documentBackbar"
             class="document-backbar"
             hidden
@@ -1288,9 +2066,11 @@
                 type="button"
             >
 
-                <i class="fa-solid fa-arrow-left"></i>
+                <i
+                    class="fa-solid fa-arrow-left"
+                ></i>
 
-                Danh mục tài liệu
+                Quay lại
 
             </button>
 
@@ -1310,12 +2090,21 @@
 
 
         <div
+            id="documentPagination"
+            class="document-pagination"
+            hidden
+        ></div>
+
+
+        <div
             id="documentEmpty"
             class="document-empty"
             hidden
         >
 
-            <i class="fa-regular fa-folder-open"></i>
+            <i
+                class="fa-regular fa-folder-open"
+            ></i>
 
             <h3>
                 Chưa có tài liệu phù hợp
@@ -1333,13 +2122,160 @@
 
 
 <!-- =========================================================
+     REQUEST
+========================================================== -->
+
+<section
+    id="material-request"
+    class="material-request-section"
+>
+
+    <div class="container">
+
+        <div class="section-title reveal">
+
+            <div class="section-kicker">
+                REQUEST A MATERIAL
+            </div>
+
+            <h2>
+                Không tìm thấy tài liệu?
+            </h2>
+
+            <p>
+                Gửi yêu cầu để tôi xem xét bổ sung tài liệu phù hợp.
+            </p>
+
+        </div>
+
+
+        <div class="material-request-card reveal">
+
+            <form
+                id="materialRequestForm"
+                class="material-request-form"
+            >
+
+                <div class="request-grid">
+
+                    <div>
+
+                        <label
+                            for="requestName"
+                        >
+                            Tên của bạn
+                        </label>
+
+                        <input
+                            id="requestName"
+                            type="text"
+                            maxlength="100"
+                            placeholder="Không bắt buộc"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label
+                            for="requestEmail"
+                        >
+                            Email
+                        </label>
+
+                        <input
+                            id="requestEmail"
+                            type="email"
+                            maxlength="160"
+                            placeholder="Không bắt buộc"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label
+                        for="requestCategory"
+                    >
+                        Danh mục
+                    </label>
+
+                    <select
+                        id="requestCategory"
+                    >
+
+                        <option value="">
+                            -- Chọn danh mục --
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label
+                        for="requestText"
+                    >
+                        Bạn đang cần tài liệu gì?
+                    </label>
+
+                    <textarea
+                        id="requestText"
+                        maxlength="1000"
+                        required
+                        placeholder="Ví dụ: Em cần bộ đề ôn thi THPT chuyên đề Hàm số..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="request-submit-row">
+
+                    <button
+                        class="btn btn-primary"
+                        type="submit"
+                    >
+
+                        <span>
+                            Gửi yêu cầu
+                        </span>
+
+                        <i
+                            class="fa-solid fa-paper-plane"
+                        ></i>
+
+                    </button>
+
+
+                    <span
+                        id="requestStatus"
+                        class="request-status"
+                    ></span>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
      ACHIEVEMENTS
-========================================================= -->
+========================================================== -->
 
 <section id="achievements">
 
     <div class="container">
-
 
         <div class="section-title reveal">
 
@@ -1366,7 +2302,9 @@
             >
 
                 <div class="achievement-card-icon">
-                    <i class="fa-solid fa-school"></i>
+                    <i
+                        class="fa-solid fa-school"
+                    ></i>
                 </div>
 
 
@@ -1376,9 +2314,11 @@
                         LUYỆN THI VÀO LỚP 10
                     </div>
 
+
                     <h3>
                         Giáo viên dạy học sinh thi vào lớp 10 đạt kết quả cao
                     </h3>
+
 
                     <p>
                         Học sinh được ôn luyện và đồng hành trong quá trình
@@ -1414,7 +2354,9 @@
                         onclick="openGallery('grade10')"
                     >
 
-                        <i class="fa-solid fa-images"></i>
+                        <i
+                            class="fa-solid fa-images"
+                        ></i>
 
                         Xem minh chứng
 
@@ -1430,7 +2372,9 @@
             >
 
                 <div class="achievement-card-icon">
-                    <i class="fa-solid fa-graduation-cap"></i>
+                    <i
+                        class="fa-solid fa-graduation-cap"
+                    ></i>
                 </div>
 
 
@@ -1476,7 +2420,9 @@
                         onclick="openGallery('grade12')"
                     >
 
-                        <i class="fa-solid fa-images"></i>
+                        <i
+                            class="fa-solid fa-images"
+                        ></i>
 
                         Xem minh chứng
 
@@ -1492,7 +2438,9 @@
             >
 
                 <div class="achievement-card-icon">
-                    <i class="fa-solid fa-comments"></i>
+                    <i
+                        class="fa-solid fa-comments"
+                    ></i>
                 </div>
 
 
@@ -1538,7 +2486,9 @@
                         onclick="openGallery('feedback')"
                     >
 
-                        <i class="fa-solid fa-images"></i>
+                        <i
+                            class="fa-solid fa-images"
+                        ></i>
 
                         Xem phản hồi
 
@@ -1569,7 +2519,9 @@
                 onclick="closeGallery()"
                 aria-label="Đóng"
             >
-                <i class="fa-solid fa-xmark"></i>
+                <i
+                    class="fa-solid fa-xmark"
+                ></i>
             </button>
 
 
@@ -1579,7 +2531,9 @@
                 onclick="changeImage(-1)"
                 aria-label="Ảnh trước"
             >
-                <i class="fa-solid fa-chevron-left"></i>
+                <i
+                    class="fa-solid fa-chevron-left"
+                ></i>
             </button>
 
 
@@ -1596,7 +2550,9 @@
                 onclick="changeImage(1)"
                 aria-label="Ảnh tiếp theo"
             >
-                <i class="fa-solid fa-chevron-right"></i>
+                <i
+                    class="fa-solid fa-chevron-right"
+                ></i>
             </button>
 
 
@@ -1616,7 +2572,7 @@
 
 <!-- =========================================================
      CONTACT
-========================================================= -->
+========================================================== -->
 
 <section id="contact">
 
@@ -1649,6 +2605,7 @@
                     Bạn muốn kết nối?
                 </h3>
 
+
                 <p>
                     Tôi luôn sẵn sàng trao đổi về Toán học,
                     công nghệ, AI và các dự án giáo dục.
@@ -1661,7 +2618,9 @@
                         Chọn một phương thức bên cạnh
                     </span>
 
-                    <i class="fa-solid fa-arrow-right-long"></i>
+                    <i
+                        class="fa-solid fa-arrow-right-long"
+                    ></i>
 
                 </div>
 
@@ -1677,8 +2636,11 @@
                 >
 
                     <div class="contact-icon">
-                        <i class="fa-solid fa-envelope"></i>
+                        <i
+                            class="fa-solid fa-envelope"
+                        ></i>
                     </div>
+
 
                     <div class="contact-info">
 
@@ -1688,8 +2650,11 @@
 
                     </div>
 
+
                     <div class="contact-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
+                        <i
+                            class="fa-solid fa-arrow-right"
+                        ></i>
                     </div>
 
                 </a>
@@ -1701,8 +2666,11 @@
                 >
 
                     <div class="contact-icon">
-                        <i class="fa-solid fa-phone"></i>
+                        <i
+                            class="fa-solid fa-phone"
+                        ></i>
                     </div>
+
 
                     <div class="contact-info">
 
@@ -1712,8 +2680,11 @@
 
                     </div>
 
+
                     <div class="contact-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
+                        <i
+                            class="fa-solid fa-arrow-right"
+                        ></i>
                     </div>
 
                 </a>
@@ -1727,8 +2698,11 @@
                 >
 
                     <div class="contact-icon">
-                        <i class="fa-brands fa-facebook-f"></i>
+                        <i
+                            class="fa-brands fa-facebook-f"
+                        ></i>
                     </div>
+
 
                     <div class="contact-info">
 
@@ -1738,8 +2712,11 @@
 
                     </div>
 
+
                     <div class="contact-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
+                        <i
+                            class="fa-solid fa-arrow-right"
+                        ></i>
                     </div>
 
                 </a>
@@ -1753,8 +2730,11 @@
                 >
 
                     <div class="contact-icon">
-                        <i class="fa-brands fa-github"></i>
+                        <i
+                            class="fa-brands fa-github"
+                        ></i>
                     </div>
+
 
                     <div class="contact-info">
 
@@ -1764,8 +2744,11 @@
 
                     </div>
 
+
                     <div class="contact-arrow">
-                        <i class="fa-solid fa-arrow-right"></i>
+                        <i
+                            class="fa-solid fa-arrow-right"
+                        ></i>
                     </div>
 
                 </a>
@@ -1784,7 +2767,7 @@
 
 <!-- =========================================================
      PDF VIEWER
-========================================================= -->
+========================================================== -->
 
 <div
     id="pdfModal"
@@ -1792,9 +2775,13 @@
     aria-hidden="true"
     role="dialog"
     aria-modal="true"
+    aria-label="Xem tài liệu PDF"
 >
 
-    <div class="pdf-modal-inner">
+    <div
+        class="pdf-modal-inner"
+        onclick="event.stopPropagation()"
+    >
 
         <div class="pdf-modal-head">
 
@@ -1804,7 +2791,9 @@
                     DOCUMENT VIEWER
                 </div>
 
-                <h3 id="pdfModalTitle">
+                <h3
+                    id="pdfModalTitle"
+                >
                     Tài liệu
                 </h3>
 
@@ -1812,6 +2801,36 @@
 
 
             <div class="pdf-modal-actions">
+
+                <button
+                    id="pdfShare"
+                    class="document-action secondary"
+                    type="button"
+                >
+
+                    <i
+                        class="fa-solid fa-share-nodes"
+                    ></i>
+
+                    Chia sẻ
+
+                </button>
+
+
+                <button
+                    id="pdfQr"
+                    class="document-action secondary"
+                    type="button"
+                >
+
+                    <i
+                        class="fa-solid fa-qrcode"
+                    ></i>
+
+                    QR
+
+                </button>
+
 
                 <a
                     id="pdfDownload"
@@ -1821,7 +2840,9 @@
                     rel="noopener noreferrer"
                 >
 
-                    <i class="fa-solid fa-download"></i>
+                    <i
+                        class="fa-solid fa-download"
+                    ></i>
 
                     Tải xuống
 
@@ -1835,7 +2856,9 @@
                     aria-label="Đóng"
                 >
 
-                    <i class="fa-solid fa-xmark"></i>
+                    <i
+                        class="fa-solid fa-xmark"
+                    ></i>
 
                 </button>
 
@@ -1854,10 +2877,107 @@
 
         </div>
 
+
+        <div class="pdf-related-wrap">
+
+            <div class="pdf-related-title">
+                Tài liệu liên quan
+            </div>
+
+            <div
+                id="pdfRelatedList"
+                class="pdf-related-list"
+            ></div>
+
+        </div>
+
     </div>
 
 </div>
 
+
+<!-- =========================================================
+     QR MODAL
+========================================================== -->
+
+<div
+    id="qrModal"
+    class="qr-modal"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+>
+
+    <div
+        class="qr-card"
+        onclick="event.stopPropagation()"
+    >
+
+        <div class="qr-head">
+
+            <div>
+
+                <div class="pdf-modal-kicker">
+                    SCAN TO OPEN
+                </div>
+
+                <h3 id="qrTitle">
+                    Tài liệu
+                </h3>
+
+            </div>
+
+
+            <button
+                id="qrClose"
+                class="pdf-close"
+                type="button"
+                aria-label="Đóng"
+            >
+
+                <i
+                    class="fa-solid fa-xmark"
+                ></i>
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="qrCode"
+            class="qr-code"
+        ></div>
+
+
+        <p
+            id="qrUrl"
+            class="qr-url"
+        ></p>
+
+
+        <button
+            id="qrDownload"
+            class="admin-btn qr-download"
+            type="button"
+        >
+
+            <i
+                class="fa-solid fa-download"
+            ></i>
+
+            Tải QR
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================== -->
 
 <footer>
 
@@ -1873,7 +2993,11 @@
             class="back-to-top"
             aria-label="Về đầu trang"
         >
-            <i class="fa-solid fa-arrow-up"></i>
+
+            <i
+                class="fa-solid fa-arrow-up"
+            ></i>
+
         </a>
 
     </div>
@@ -1881,9 +3005,20 @@
 </footer>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- =========================================================
+     SCRIPTS
+========================================================== -->
+
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+></script>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
 
 <script>
+
 
 /* =========================================================
    SUPABASE
@@ -1903,11 +3038,14 @@ const supabaseClient =
 
 
 /* =========================================================
-   DOCUMENT LIBRARY
+   DOCUMENT STATE
 ========================================================= */
 
-let libraryDocuments = [];
-let libraryCategories = [];
+let libraryDocuments =
+    [];
+
+let libraryCategories =
+    [];
 
 let activeDocumentCategoryId =
     null;
@@ -1915,46 +3053,25 @@ let activeDocumentCategoryId =
 let documentSortMode =
     "newest";
 
+let documentTypeMode =
+    "all";
 
-const documentIconMap = {
+let documentCurrentPage =
+    1;
 
-    "Lớp 10":
-        "fa-calculator",
+const documentPageSize =
+    12;
 
-    "Lớp 11":
-        "fa-chart-line",
+let currentDocument =
+    null;
 
-    "Lớp 12":
-        "fa-square-root-variable",
-
-    "Ôn thi vào 10":
-        "fa-graduation-cap",
-
-    "Ôn thi THPT":
-        "fa-award",
-
-    "Chuyên đề":
-        "fa-book-open",
-
-    "default":
-        "fa-folder-open"
-
-};
+let qrTarget =
+    null;
 
 
-function getCategoryIcon(
-    categoryName
-){
-
-    return (
-        documentIconMap[
-            categoryName
-        ] ||
-        documentIconMap.default
-    );
-
-}
-
+/* =========================================================
+   UTILS
+========================================================= */
 
 function escapeHtml(
     value
@@ -1987,24 +3104,41 @@ function escapeHtml(
 }
 
 
+function formatNumber(
+    value
+){
+
+    return new Intl.NumberFormat(
+        "vi-VN"
+    ).format(
+        Number(value) || 0
+    );
+
+}
+
+
 function formatDocumentDate(
     value
 ){
 
-    if (!value) {
+    if (!value){
+
         return "";
+
     }
 
 
     const date =
-        new Date(value);
+        new Date(
+            value
+        );
 
 
     if (
         Number.isNaN(
             date.getTime()
         )
-    ) {
+    ){
 
         return "";
 
@@ -2023,25 +3157,31 @@ function formatDocumentDate(
             year:
                 "numeric"
         }
-    ).format(date);
+    ).format(
+        date
+    );
 
 }
 
 
-function getPublicPdfUrl(
-    filePath
+function getPublicStorageUrl(
+    path
 ){
 
-    if (!filePath) {
+    if (!path){
+
         return "";
+
     }
 
 
     return supabaseClient
         .storage
-        .from("math-pdfs")
+        .from(
+            "math-pdfs"
+        )
         .getPublicUrl(
-            filePath
+            path
         )
         .data
         .publicUrl;
@@ -2049,25 +3189,2253 @@ function getPublicPdfUrl(
 }
 
 
-function openPdfViewer(
-    title,
-    url
+function getPublicPdfUrl(
+    path
 ){
+
+    return getPublicStorageUrl(
+        path
+    );
+
+}
+
+
+/* =========================================================
+   CATEGORY HELPERS
+========================================================= */
+
+const documentIconMap = {
+
+    "Lớp 10":
+        "fa-calculator",
+
+    "Lớp 11":
+        "fa-chart-line",
+
+    "Lớp 12":
+        "fa-square-root-variable",
+
+    "Ôn thi vào 10":
+        "fa-graduation-cap",
+
+    "Ôn thi THPT":
+        "fa-award",
+
+    "Chuyên đề":
+        "fa-book-open"
+
+};
+
+
+function getCategoryIcon(
+    name
+){
+
+    return (
+        documentIconMap[
+            name
+        ] ||
+        "fa-folder-open"
+    );
+
+}
+
+
+function getChildren(
+    categoryId
+){
+
+    return libraryCategories.filter(
+        category =>
+            String(
+                category.parent_id ||
+                ""
+            ) ===
+            String(
+                categoryId ||
+                ""
+            )
+    );
+
+}
+
+
+function getDescendantCategoryIds(
+    categoryId
+){
+
+    const ids = [
+        String(
+            categoryId
+        )
+    ];
+
+
+    function walk(
+        id
+    ){
+
+        getChildren(
+            id
+        ).forEach(
+            child => {
+
+                ids.push(
+                    String(
+                        child.id
+                    )
+                );
+
+                walk(
+                    child.id
+                );
+
+            }
+        );
+
+    }
+
+
+    walk(
+        categoryId
+    );
+
+
+    return ids;
+
+}
+
+
+function getCategoryPath(
+    categoryId
+){
+
+    const path =
+        [];
+
+
+    let current =
+        libraryCategories.find(
+            category =>
+                String(
+                    category.id
+                ) ===
+                String(
+                    categoryId
+                )
+        );
+
+
+    while (
+        current
+    ){
+
+        path.unshift(
+            current
+        );
+
+
+        current =
+            libraryCategories.find(
+                category =>
+                    String(
+                        category.id
+                    ) ===
+                    String(
+                        current.parent_id ||
+                        ""
+                    )
+            );
+
+    }
+
+
+    return path;
+
+}
+
+
+function countDocsForCategory(
+    categoryId
+){
+
+    const ids =
+        new Set(
+            getDescendantCategoryIds(
+                categoryId
+            )
+        );
+
+
+    return libraryDocuments.filter(
+        doc =>
+            ids.has(
+                String(
+                    doc.category_id
+                )
+            )
+    ).length;
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function matchesDocumentSearch(
+    item,
+    keyword
+){
+
+    if (!keyword){
+
+        return true;
+
+    }
+
+
+    const haystack = [
+
+        item.title,
+
+        item.description,
+
+        item.file_name,
+
+        item.math_categories?.name,
+
+        ...(Array.isArray(
+            item.tags
+        )
+            ? item.tags
+            : [])
+
+    ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+
+    return haystack.includes(
+        keyword
+    );
+
+}
+
+
+/* =========================================================
+   SORT
+========================================================= */
+
+function sortDocuments(
+    documents
+){
+
+    const items =
+        [
+            ...documents
+        ];
+
+
+    items.sort(
+        (
+            a,
+            b
+        ) => {
+
+            if (
+                documentSortMode ===
+                "oldest"
+            ){
+
+                return (
+                    new Date(
+                        a.created_at ||
+                        0
+                    ) -
+                    new Date(
+                        b.created_at ||
+                        0
+                    )
+                );
+
+            }
+
+
+            if (
+                documentSortMode ===
+                "az"
+            ){
+
+                return String(
+                    a.title ||
+                    ""
+                ).localeCompare(
+                    String(
+                        b.title ||
+                        ""
+                    ),
+                    "vi",
+                    {
+                        sensitivity:
+                            "base"
+                    }
+                );
+
+            }
+
+
+            if (
+                documentSortMode ===
+                "za"
+            ){
+
+                return String(
+                    b.title ||
+                    ""
+                ).localeCompare(
+                    String(
+                        a.title ||
+                        ""
+                    ),
+                    "vi",
+                    {
+                        sensitivity:
+                            "base"
+                    }
+                );
+
+            }
+
+
+            if (
+                documentSortMode ===
+                "views"
+            ){
+
+                return (
+                    Number(
+                        b.view_count
+                    ) ||
+                    0
+                ) -
+                (
+                    Number(
+                        a.view_count
+                    ) ||
+                    0
+                );
+
+            }
+
+
+            const created =
+                new Date(
+                    b.created_at ||
+                    0
+                ) -
+                new Date(
+                    a.created_at ||
+                    0
+                );
+
+
+            if (
+                created !== 0
+            ){
+
+                return created;
+
+            }
+
+
+            return (
+                Number(
+                    a.sort_order
+                ) ||
+                0
+            ) -
+            (
+                Number(
+                    b.sort_order
+                ) ||
+                0
+            );
+
+        }
+    );
+
+
+    return items;
+
+}
+
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+function renderPagination(
+    total
+){
+
+    const root =
+        document.getElementById(
+            "documentPagination"
+        );
+
+
+    if (!root){
+
+        return;
+
+    }
+
+
+    const pages =
+        Math.max(
+            1,
+            Math.ceil(
+                total /
+                documentPageSize
+            )
+        );
+
+
+    if (
+        pages <= 1
+    ){
+
+        root.hidden =
+            true;
+
+        root.innerHTML =
+            "";
+
+        return;
+
+    }
+
+
+    root.hidden =
+        false;
+
+
+    const buttons =
+        [];
+
+
+    buttons.push(
+        `
+        <button
+            type="button"
+            class="document-page-btn"
+            data-page="${
+                Math.max(
+                    1,
+                    documentCurrentPage - 1
+                )
+            }"
+            ${
+                documentCurrentPage ===
+                1
+                    ? "disabled"
+                    : ""
+            }
+        >
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        `
+    );
+
+
+    for (
+        let page = 1;
+        page <= pages;
+        page++
+    ){
+
+        const shouldShow =
+            pages <= 8 ||
+            page <= 2 ||
+            page >= pages - 1 ||
+            Math.abs(
+                page -
+                documentCurrentPage
+            ) <= 1;
+
+
+        if (
+            !shouldShow
+        ){
+
+            if (
+                !buttons.some(
+                    item =>
+                        item.includes(
+                            "document-page-ellipsis"
+                        )
+                )
+            ){
+
+                buttons.push(
+                    `
+                    <span
+                        class="document-page-ellipsis"
+                    >
+                        …
+                    </span>
+                    `
+                );
+
+            }
+
+
+            continue;
+
+        }
+
+
+        buttons.push(
+            `
+            <button
+                type="button"
+                class="
+                    document-page-btn
+                    ${
+                        page ===
+                        documentCurrentPage
+                            ? "active"
+                            : ""
+                    }
+                "
+                data-page="${page}"
+            >
+                ${page}
+            </button>
+            `
+        );
+
+    }
+
+
+    buttons.push(
+        `
+        <button
+            type="button"
+            class="document-page-btn"
+            data-page="${
+                Math.min(
+                    pages,
+                    documentCurrentPage + 1
+                )
+            }"
+            ${
+                documentCurrentPage ===
+                pages
+                    ? "disabled"
+                    : ""
+            }
+        >
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        `
+    );
+
+
+    root.innerHTML =
+        buttons.join(
+            ""
+        );
+
+
+    root.querySelectorAll(
+        "[data-page]"
+    ).forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    if (
+                        button.disabled
+                    ){
+
+                        return;
+
+                    }
+
+
+                    documentCurrentPage =
+                        Number(
+                            button.dataset.page
+                        );
+
+
+                    renderDocumentLibrary();
+
+
+                    document
+                        .getElementById(
+                            "documentList"
+                        )
+                        ?.scrollIntoView(
+                            {
+                                behavior:
+                                    "smooth",
+                                block:
+                                    "start"
+                            }
+                        );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+function renderBreadcrumb(){
+
+    const root =
+        document.getElementById(
+            "documentBreadcrumb"
+        );
+
+
+    if (!root){
+
+        return;
+
+    }
+
+
+    const path =
+        activeDocumentCategoryId
+            ? getCategoryPath(
+                activeDocumentCategoryId
+            )
+            : [];
+
+
+    if (
+        !path.length
+    ){
+
+        root.innerHTML =
+            `
+            <button
+                type="button"
+                class="
+                    document-crumb
+                    active
+                "
+            >
+
+                <i
+                    class="fa-solid fa-house"
+                ></i>
+
+                Danh mục
+
+            </button>
+            `;
+
+        return;
+
+    }
+
+
+    root.innerHTML =
+        `
+        <button
+            type="button"
+            class="document-crumb"
+            data-breadcrumb-id="root"
+        >
+            Danh mục
+        </button>
+        ` +
+        path
+            .map(
+                (
+                    category,
+                    index
+                ) => {
+
+                    const active =
+                        index ===
+                        path.length - 1
+                            ? "active"
+                            : "";
+
+
+                    return `
+                        <span
+                            class="
+                                document-crumb-sep
+                            "
+                        >
+                            /
+                        </span>
+
+                        <button
+                            type="button"
+                            class="
+                                document-crumb
+                                ${active}
+                            "
+                            data-breadcrumb-id="${
+                                escapeHtml(
+                                    category.id
+                                )
+                            }"
+                        >
+                            ${escapeHtml(
+                                category.name
+                            )}
+                        </button>
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    root.querySelectorAll(
+        "[data-breadcrumb-id]"
+    ).forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const id =
+                        button.dataset
+                            .breadcrumbId;
+
+
+                    if (
+                        id ===
+                        "root"
+                    ){
+
+                        setCategoryView(
+                            null
+                        );
+
+                    }
+                    else {
+
+                        setCategoryView(
+                            id
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FILTER VISIBILITY
+========================================================= */
+
+function setDocumentFiltersVisible(
+    visible
+){
+
+    const sortWrap =
+        document.getElementById(
+            "documentSortWrap"
+        );
+
+
+    const typeFilter =
+        document.getElementById(
+            "documentTypeFilter"
+        );
+
+
+    if (sortWrap){
+
+        sortWrap.hidden =
+            !visible;
+
+    }
+
+
+    if (typeFilter){
+
+        typeFilter.hidden =
+            !visible;
+
+    }
+
+}
+
+
+/* =========================================================
+   CATEGORY CARD
+========================================================= */
+
+function renderCategoryCard(
+    category
+){
+
+    const count =
+        countDocsForCategory(
+            category.id
+        );
+
+
+    const children =
+        getChildren(
+            category.id
+        );
+
+
+    const icon =
+        getCategoryIcon(
+            category.name
+        );
+
+
+    return `
+        <article
+            class="
+                document-card
+                document-category-card
+                reveal
+                show
+            "
+            tabindex="0"
+            role="button"
+            data-category-id="${
+                escapeHtml(
+                    category.id
+                )
+            "
+        >
+
+            <div
+                class="document-card-glow"
+            ></div>
+
+
+            <div
+                class="document-category-icon"
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        ${
+                            escapeHtml(
+                                icon
+                            )
+                        }
+                    "
+                ></i>
+
+            </div>
+
+
+            <div
+                class="
+                    document-card-category
+                "
+            >
+                ${
+                    children.length
+                        ? "FOLDER"
+                        : "CATEGORY"
+                }
+            </div>
+
+
+            <h3>
+                ${escapeHtml(
+                    category.name
+                )}
+            </h3>
+
+
+            <p>
+                ${escapeHtml(
+                    category.description ||
+                    "Tài liệu học tập và luyện tập môn Toán."
+                )}
+            </p>
+
+
+            <div
+                class="
+                    document-category-footer
+                "
+            >
+
+                <span
+                    class="
+                        document-category-count
+                    "
+                >
+
+                    <i
+                        class="
+                            fa-regular
+                            fa-file-lines
+                        "
+                    ></i>
+
+                    ${formatNumber(
+                        count
+                    )}
+
+                    tài liệu
+
+                </span>
+
+
+                <span
+                    class="
+                        document-open-label
+                    "
+                >
+
+                    ${
+                        children.length
+                            ? "Mở thư mục"
+                            : "Xem tài liệu"
+                    }
+
+                    <i
+                        class="
+                            fa-solid
+                            fa-arrow-right
+                        "
+                    ></i>
+
+                </span>
+
+            </div>
+
+        </article>
+    `;
+
+}
+
+
+function renderCategoryCards(
+    categories
+){
+
+    const list =
+        document.getElementById(
+            "documentList"
+        );
+
+
+    const empty =
+        document.getElementById(
+            "documentEmpty"
+        );
+
+
+    const status =
+        document.getElementById(
+            "documentStatus"
+        );
+
+
+    const title =
+        document.getElementById(
+            "documentViewTitle"
+        );
+
+
+    const backbar =
+        document.getElementById(
+            "documentBackbar"
+        );
+
+
+    if (
+        !list ||
+        !empty ||
+        !status ||
+        !title ||
+        !backbar
+    ){
+
+        return;
+
+    }
+
+
+    const category =
+        activeDocumentCategoryId
+            ? libraryCategories.find(
+                c =>
+                    String(
+                        c.id
+                    ) ===
+                    String(
+                        activeDocumentCategoryId
+                    )
+            )
+            : null;
+
+
+    title.textContent =
+        category?.name ||
+        "Danh mục tài liệu";
+
+
+    backbar.hidden =
+        !activeDocumentCategoryId;
+
+
+    setDocumentFiltersVisible(
+        false
+    );
+
+
+    renderBreadcrumb();
+
+
+    status.textContent =
+        `${categories.length} danh mục`;
+
+
+    renderPagination(
+        0
+    );
+
+
+    if (
+        !categories.length
+    ){
+
+        list.innerHTML =
+            "";
+
+        empty.hidden =
+            false;
+
+        empty.innerHTML =
+            `
+            <i
+                class="
+                    fa-solid
+                    fa-magnifying-glass
+                "
+            ></i>
+
+            <h3>
+                Không tìm thấy danh mục
+            </h3>
+
+            <p>
+                Hãy thử với từ khóa khác.
+            </p>
+            `;
+
+        return;
+
+    }
+
+
+    empty.hidden =
+        true;
+
+
+    list.className =
+        "document-grid document-category-grid";
+
+
+    list.innerHTML =
+        categories
+            .map(
+                renderCategoryCard
+            )
+            .join("");
+
+
+    list
+        .querySelectorAll(
+            "[data-category-id]"
+        )
+        .forEach(
+            card => {
+
+                const open =
+                    () => {
+
+                        setCategoryView(
+                            card.dataset.categoryId
+                        );
+
+                    };
+
+
+                card.addEventListener(
+                    "click",
+                    open
+                );
+
+
+                card.addEventListener(
+                    "keydown",
+                    event => {
+
+                        if (
+                            event.key ===
+                            "Enter" ||
+                            event.key ===
+                            " "
+                        ){
+
+                            event.preventDefault();
+
+                            open();
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   DOCUMENT CARD
+========================================================= */
+
+function documentCardHtml(
+    item
+){
+
+    const title =
+        item.title ||
+        item.file_name ||
+        "Tài liệu";
+
+
+    const categoryName =
+        item.math_categories?.name ||
+        "Tài liệu";
+
+
+    const url =
+        getPublicPdfUrl(
+            item.file_path
+        );
+
+
+    const thumbnail =
+        getPublicStorageUrl(
+            item.thumbnail_path
+        );
+
+
+    const isExam =
+        item.document_type ===
+        "exam";
+
+
+    const isNew =
+        Date.now() -
+        new Date(
+            item.created_at ||
+            0
+        ).getTime() <=
+        1000 *
+        60 *
+        60 *
+        24 *
+        14;
+
+
+    const typeBadge =
+        `
+        <span
+            class="
+                document-type-badge
+                ${isExam ? "exam" : ""}
+            "
+        >
+            ${
+                isExam
+                    ? "ĐỀ THI"
+                    : "PDF"
+            }
+        </span>
+        `;
+
+
+    const newBadge =
+        isNew
+            ? `
+                <span
+                    class="
+                        document-new-badge
+                    "
+                >
+                    MỚI
+                </span>
+            `
+            : "";
+
+
+    const thumbnailHtml =
+        thumbnail
+            ? `
+                <div
+                    class="document-thumb"
+                >
+
+                    <img
+                        src="${escapeHtml(
+                            thumbnail
+                        )}"
+                        alt=""
+                        loading="lazy"
+                    >
+
+                </div>
+            `
+            : `
+                <div
+                    class="
+                        document-thumb
+                        document-thumb-placeholder
+                    "
+                >
+
+                    <i
+                        class="
+                            fa-solid
+                            ${
+                                isExam
+                                    ? "fa-file-circle-check"
+                                    : "fa-file-pdf"
+                            }
+                        "
+                    ></i>
+
+                </div>
+            `;
+
+
+    const tags =
+        Array.isArray(
+            item.tags
+        )
+            ? item.tags
+                .filter(Boolean)
+                .slice(0,5)
+            : [];
+
+
+    const tagHtml =
+        tags.length
+            ? `
+                <div
+                    class="document-tags"
+                >
+
+                    ${
+                        tags
+                            .map(
+                                tag =>
+                                    `
+                                    <span>
+                                        ${escapeHtml(
+                                            tag
+                                        )}
+                                    </span>
+                                    `
+                            )
+                            .join("")
+                    }
+
+                </div>
+            `
+            : "";
+
+
+    const meta = [
+
+        formatDocumentDate(
+            item.created_at
+        ),
+
+        isExam &&
+        item.exam_year
+            ? `Năm ${item.exam_year}`
+            : "",
+
+        isExam &&
+        item.duration_minutes
+            ? `${item.duration_minutes} phút`
+            : "",
+
+        `${formatNumber(
+            item.view_count
+        )} lượt xem`
+
+    ]
+    .filter(Boolean)
+    .join(
+        " · "
+    );
+
+
+    return `
+        <article
+            class="
+                document-card
+                document-card-clickable
+                reveal
+                show
+            "
+            tabindex="0"
+            role="button"
+            data-document-id="${
+                escapeHtml(
+                    item.id
+                )
+            }"
+        >
+
+            <div
+                class="document-card-glow"
+            ></div>
+
+
+            ${thumbnailHtml}
+
+
+            <div
+                class="
+                    document-card-top-badges
+                "
+            >
+
+                ${typeBadge}
+
+                ${newBadge}
+
+            </div>
+
+
+            <div
+                class="document-card-category"
+            >
+                ${escapeHtml(
+                    categoryName
+                )}
+            </div>
+
+
+            <h3>
+                ${escapeHtml(
+                    title
+                )}
+            </h3>
+
+
+            <p>
+                ${escapeHtml(
+                    item.description ||
+                    "Tài liệu học tập và luyện tập môn Toán."
+                )}
+            </p>
+
+
+            ${tagHtml}
+
+
+            <div
+                class="
+                    document-card-footer
+                "
+            >
+
+                <span>
+                    ${escapeHtml(
+                        meta
+                    )}
+                </span>
+
+
+                <span
+                    class="
+                        document-open-label
+                    "
+                >
+
+                    Mở
+
+                    <i
+                        class="
+                            fa-solid
+                            fa-arrow-right
+                        "
+                    ></i>
+
+                </span>
+
+            </div>
+
+
+            <div
+                class="
+                    document-quick-actions
+                "
+            >
+
+                <button
+                    type="button"
+                    class="
+                        document-quick-btn
+                    "
+                    data-share-id="${
+                        escapeHtml(
+                            item.id
+                        )
+                    }"
+                    aria-label="Chia sẻ"
+                >
+
+                    <i
+                        class="
+                            fa-solid
+                            fa-share-nodes
+                        "
+                    ></i>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="
+                        document-quick-btn
+                    "
+                    data-qr-id="${
+                        escapeHtml(
+                            item.id
+                        )
+                    }"
+                    aria-label="QR"
+                >
+
+                    <i
+                        class="
+                            fa-solid
+                            fa-qrcode
+                        "
+                    ></i>
+
+                </button>
+
+            </div>
+
+        </article>
+    `;
+
+}
+
+
+/* =========================================================
+   RENDER DOCUMENTS
+========================================================= */
+
+function renderDocumentList(
+    items,
+    title
+){
+
+    const list =
+        document.getElementById(
+            "documentList"
+        );
+
+
+    const empty =
+        document.getElementById(
+            "documentEmpty"
+        );
+
+
+    const status =
+        document.getElementById(
+            "documentStatus"
+        );
+
+
+    const heading =
+        document.getElementById(
+            "documentViewTitle"
+        );
+
+
+    const backbar =
+        document.getElementById(
+            "documentBackbar"
+        );
+
+
+    const selected =
+        document.getElementById(
+            "documentSelectedCategory"
+        );
+
+
+    if (
+        !list ||
+        !empty ||
+        !status ||
+        !heading ||
+        !backbar
+    ){
+
+        return;
+
+    }
+
+
+    heading.textContent =
+        title;
+
+
+    backbar.hidden =
+        !activeDocumentCategoryId;
+
+
+    renderBreadcrumb();
+
+
+    setDocumentFiltersVisible(
+        true
+    );
+
+
+    let filtered =
+        [
+            ...items
+        ];
+
+
+    const searchInput =
+        document.getElementById(
+            "documentSearch"
+        );
+
+
+    const keyword =
+        (
+            searchInput?.value ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    filtered =
+        filtered.filter(
+            item => {
+
+                if (
+                    documentTypeMode !==
+                    "all" &&
+                    item.document_type !==
+                    documentTypeMode
+                ){
+
+                    return false;
+
+                }
+
+
+                return matchesDocumentSearch(
+                    item,
+                    keyword
+                );
+
+            }
+        );
+
+
+    filtered =
+        sortDocuments(
+            filtered
+        );
+
+
+    status.textContent =
+        `${filtered.length} tài liệu`;
+
+
+    if (selected){
+
+        const category =
+            getActiveCategory();
+
+
+        selected.textContent =
+            `${category?.name || ""}`;
+
+    }
+
+
+    if (
+        !filtered.length
+    ){
+
+        list.innerHTML =
+            "";
+
+        empty.hidden =
+            false;
+
+        empty.innerHTML =
+            `
+            <i
+                class="
+                    fa-regular
+                    fa-folder-open
+                "
+            ></i>
+
+            <h3>
+                Chưa có tài liệu phù hợp
+            </h3>
+
+            <p>
+                Danh mục này chưa có PDF
+                hoặc không có kết quả theo từ khóa.
+            </p>
+            `;
+
+        renderPagination(
+            0
+        );
+
+        return;
+
+    }
+
+
+    empty.hidden =
+        true;
+
+
+    const totalPages =
+        Math.max(
+            1,
+            Math.ceil(
+                filtered.length /
+                documentPageSize
+            )
+        );
+
+
+    if (
+        documentCurrentPage >
+        totalPages
+    ){
+
+        documentCurrentPage =
+            totalPages;
+
+    }
+
+
+    const start =
+        (
+            documentCurrentPage -
+            1
+        ) *
+        documentPageSize;
+
+
+    const pageItems =
+        filtered.slice(
+            start,
+            start +
+            documentPageSize
+        );
+
+
+    list.className =
+        "document-grid document-pdf-grid";
+
+
+    list.innerHTML =
+        pageItems
+            .map(
+                documentCardHtml
+            )
+            .join("");
+
+
+    renderPagination(
+        filtered.length
+    );
+
+
+    bindDocumentCards();
+
+}
+
+
+function getActiveCategory(){
+
+    return libraryCategories.find(
+        category =>
+            String(
+                category.id
+            ) ===
+            String(
+                activeDocumentCategoryId
+            )
+    ) || null;
+
+}
+
+
+function renderGlobalSearch(){
+
+    const searchInput =
+        document.getElementById(
+            "documentSearch"
+        );
+
+
+    const keyword =
+        (
+            searchInput?.value ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (
+        !keyword
+    ){
+
+        renderCategoryMenu();
+
+        return;
+
+    }
+
+
+    activeDocumentCategoryId =
+        null;
+
+
+    const matches =
+        libraryDocuments.filter(
+            item => {
+
+                if (
+                    documentTypeMode !==
+                    "all" &&
+                    item.document_type !==
+                    documentTypeMode
+                ){
+
+                    return false;
+
+                }
+
+
+                return matchesDocumentSearch(
+                    item,
+                    keyword
+                );
+
+            }
+        );
+
+
+    const list =
+        document.getElementById(
+            "documentList"
+        );
+
+
+    const empty =
+        document.getElementById(
+            "documentEmpty"
+        );
+
+
+    const status =
+        document.getElementById(
+            "documentStatus"
+        );
+
+
+    const heading =
+        document.getElementById(
+            "documentViewTitle"
+        );
+
+
+    const backbar =
+        document.getElementById(
+            "documentBackbar"
+        );
+
+
+    backbar.hidden =
+        true;
+
+
+    setDocumentFiltersVisible(
+        true
+    );
+
+
+    renderBreadcrumb();
+
+
+    heading.textContent =
+        "Kết quả tìm kiếm toàn thư viện";
+
+
+    status.textContent =
+        `${matches.length} tài liệu`;
+
+
+    if (
+        !matches.length
+    ){
+
+        list.innerHTML =
+            "";
+
+        empty.hidden =
+            false;
+
+        empty.innerHTML =
+            `
+            <i
+                class="
+                    fa-solid
+                    fa-magnifying-glass
+                "
+            ></i>
+
+            <h3>
+                Không tìm thấy tài liệu
+            </h3>
+
+            <p>
+                Hãy thử từ khóa khác.
+            </p>
+            `;
+
+        renderPagination(
+            0
+        );
+
+        return;
+
+    }
+
+
+    empty.hidden =
+        true;
+
+
+    const sorted =
+        sortDocuments(
+            matches
+        );
+
+
+    const totalPages =
+        Math.max(
+            1,
+            Math.ceil(
+                sorted.length /
+                documentPageSize
+            )
+        );
+
+
+    if (
+        documentCurrentPage >
+        totalPages
+    ){
+
+        documentCurrentPage =
+            totalPages;
+
+    }
+
+
+    const start =
+        (
+            documentCurrentPage -
+            1
+        ) *
+        documentPageSize;
+
+
+    list.className =
+        "document-grid document-pdf-grid";
+
+
+    list.innerHTML =
+        sorted
+            .slice(
+                start,
+                start +
+                documentPageSize
+            )
+            .map(
+                documentCardHtml
+            )
+            .join("");
+
+
+    renderPagination(
+        sorted.length
+    );
+
+
+    bindDocumentCards();
+
+}
+
+
+/* =========================================================
+   CATEGORY MENU
+========================================================= */
+
+function renderCategoryMenu(){
+
+    const searchInput =
+        document.getElementById(
+            "documentSearch"
+        );
+
+
+    const keyword =
+        (
+            searchInput?.value ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (
+        keyword
+    ){
+
+        renderGlobalSearch();
+
+        return;
+
+    }
+
+
+    const rootCategories =
+        libraryCategories.filter(
+            category =>
+                !category.parent_id
+        );
+
+
+    documentCurrentPage =
+        1;
+
+
+    renderCategoryCards(
+        rootCategories
+    );
+
+}
+
+
+/* =========================================================
+   ACTIVE CATEGORY
+========================================================= */
+
+function renderActiveCategory(){
+
+    const category =
+        getActiveCategory();
+
+
+    if (!category){
+
+        activeDocumentCategoryId =
+            null;
+
+        renderCategoryMenu();
+
+        return;
+
+    }
+
+
+    const children =
+        getChildren(
+            category.id
+        );
+
+
+    const descendantIds =
+        new Set(
+            getDescendantCategoryIds(
+                category.id
+            )
+        );
+
+
+    const documents =
+        libraryDocuments.filter(
+            document =>
+                descendantIds.has(
+                    String(
+                        document.category_id
+                    )
+                )
+        );
+
+
+    if (
+        children.length
+    ){
+
+        renderCategoryCards(
+            children
+        );
+
+
+        const directDocs =
+            libraryDocuments.filter(
+                document =>
+                    String(
+                        document.category_id
+                    ) ===
+                    String(
+                        category.id
+                    )
+            );
+
+
+        if (
+            directDocs.length
+        ){
+
+            const list =
+                document.getElementById(
+                    "documentList"
+                );
+
+
+            const sectionTitle =
+                document.createElement(
+                    "div"
+                );
+
+
+            sectionTitle.className =
+                "document-subsection-title";
+
+
+            sectionTitle.innerHTML =
+                `
+                <span>
+                    Tài liệu trực tiếp
+                </span>
+
+                <span>
+                    ${
+                        directDocs.length
+                    }
+                </span>
+                `;
+
+
+            list.parentNode.insertBefore(
+                sectionTitle,
+                list
+            );
+
+        }
+
+
+        return;
+
+    }
+
+
+    renderDocumentList(
+        documents,
+        category.name
+    );
+
+}
+
+
+/* =========================================================
+   MAIN RENDER
+========================================================= */
+
+function renderDocumentLibrary(){
+
+    if (
+        activeDocumentCategoryId ==
+        null
+    ){
+
+        renderCategoryMenu();
+
+    }
+    else {
+
+        renderActiveCategory();
+
+    }
+
+}
+
+
+/* =========================================================
+   CATEGORY NAVIGATION
+========================================================= */
+
+function setCategoryView(
+    categoryId
+){
+
+    activeDocumentCategoryId =
+        categoryId == null
+            ? null
+            : String(
+                categoryId
+            );
+
+
+    documentCurrentPage =
+        1;
+
+
+    const input =
+        document.getElementById(
+            "documentSearch"
+        );
+
+
+    if (input){
+
+        input.value =
+            "";
+
+        input.placeholder =
+            activeDocumentCategoryId
+                ? "Tìm tài liệu trong danh mục..."
+                : "Tìm danh mục hoặc tài liệu...";
+
+    }
+
+
+    renderDocumentLibrary();
+
+}
+
+
+function goBackToParent(){
+
+    if (
+        !activeDocumentCategoryId
+    ){
+
+        return;
+
+    }
+
+
+    const current =
+        getActiveCategory();
+
+
+    setCategoryView(
+        current?.parent_id ||
+        null
+    );
+
+}
+
+
+/* =========================================================
+   PDF VIEWER
+========================================================= */
+
+function openPdfViewer(
+    item
+){
+
+    if (
+        !item ||
+        !item.file_path
+    ){
+
+        return;
+
+    }
+
+
+    currentDocument =
+        item;
+
 
     const modal =
         document.getElementById(
             "pdfModal"
         );
 
+
     const frame =
         document.getElementById(
             "pdfFrame"
         );
 
-    const modalTitle =
+
+    const title =
         document.getElementById(
             "pdfModalTitle"
         );
+
 
     const download =
         document.getElementById(
@@ -2078,18 +5446,24 @@ function openPdfViewer(
     if (
         !modal ||
         !frame ||
-        !modalTitle ||
-        !download ||
-        !url
-    ) {
+        !title ||
+        !download
+    ){
 
         return;
 
     }
 
 
-    modalTitle.textContent =
-        title ||
+    const url =
+        getPublicPdfUrl(
+            item.file_path
+        );
+
+
+    title.textContent =
+        item.title ||
+        item.file_name ||
         "Tài liệu";
 
 
@@ -2116,6 +5490,39 @@ function openPdfViewer(
         "modal-open"
     );
 
+
+    renderRelatedDocuments(
+        item
+    );
+
+
+    trackDocumentView(
+        item.id
+    );
+
+
+    const shareUrl =
+        new URL(
+            window.location.href
+        );
+
+
+    shareUrl.searchParams.set(
+        "doc",
+        item.id
+    );
+
+
+    shareUrl.hash =
+        "documents";
+
+
+    history.replaceState(
+        {},
+        "",
+        shareUrl.toString()
+    );
+
 }
 
 
@@ -2126,14 +5533,17 @@ function closePdfViewer(){
             "pdfModal"
         );
 
+
     const frame =
         document.getElementById(
             "pdfFrame"
         );
 
 
-    if (!modal) {
+    if (!modal){
+
         return;
+
     }
 
 
@@ -2160,716 +5570,215 @@ function closePdfViewer(){
 
     }
 
-}
+
+    currentDocument =
+        null;
 
 
-function getActiveCategory(){
+    const url =
+        new URL(
+            window.location.href
+        );
 
-    return (
-        libraryCategories.find(
-            function(
-                category
-            ){
 
-                return String(
-                    category.id
-                ) === String(
-                    activeDocumentCategoryId
-                );
+    url.searchParams.delete(
+        "doc"
+    );
 
-            }
-        ) || null
+
+    history.replaceState(
+        {},
+        "",
+        `${url.pathname}${url.search}${url.hash || "#documents"}`
     );
 
 }
 
 
-function setCategoryView(
-    categoryId
+/* =========================================================
+   RELATED DOCUMENTS
+========================================================= */
+
+function getRelatedDocuments(
+    item
 ){
 
-    activeDocumentCategoryId =
-        categoryId == null
-            ? null
-            : String(
-                categoryId
-            );
+    if (!item){
 
-
-    const searchInput =
-        document.getElementById(
-            "documentSearch"
-        );
-
-
-    const sortWrap =
-        document.getElementById(
-            "documentSortWrap"
-        );
-
-
-    if (searchInput){
-
-        searchInput.value =
-            "";
-
-
-        searchInput.placeholder =
-            activeDocumentCategoryId
-                ? "Tìm tài liệu trong danh mục..."
-                : "Tìm danh mục...";
+        return [];
 
     }
 
 
-    if (sortWrap){
-
-        sortWrap.hidden =
-            activeDocumentCategoryId ==
-            null;
-
-    }
-
-
-    renderDocumentLibrary();
-
-}
-
-
-function renderCategoryMenu(){
-
-    const list =
-        document.getElementById(
-            "documentList"
-        );
-
-    const empty =
-        document.getElementById(
-            "documentEmpty"
-        );
-
-    const status =
-        document.getElementById(
-            "documentStatus"
-        );
-
-    const title =
-        document.getElementById(
-            "documentViewTitle"
-        );
-
-    const backbar =
-        document.getElementById(
-            "documentBackbar"
-        );
-
-    const searchInput =
-        document.getElementById(
-            "documentSearch"
+    const targetTags =
+        new Set(
+            Array.isArray(
+                item.tags
+            )
+                ? item.tags.map(
+                    tag =>
+                        String(
+                            tag
+                        ).toLowerCase()
+                )
+                : []
         );
 
 
-    if (
-        !list ||
-        !empty ||
-        !status ||
-        !title ||
-        !backbar
-    ){
-
-        return;
-
-    }
-
-
-    const keyword =
-        (
-            searchInput?.value ||
-            ""
+    return libraryDocuments
+        .filter(
+            document =>
+                Number(
+                    document.id
+                ) !==
+                Number(
+                    item.id
+                )
         )
-        .trim()
-        .toLowerCase();
-
-
-    const categories =
-        libraryCategories.filter(
-            function(category){
-
-                const haystack = [
-
-                    category.name,
-
-                    category.description,
-
-                    category.slug
-
-                ]
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase();
-
-
-                return (
-                    !keyword ||
-                    haystack.includes(
-                        keyword
-                    )
-                );
-
-            }
-        );
-
-
-    title.textContent =
-        "Danh mục tài liệu";
-
-
-    backbar.hidden =
-        true;
-
-
-    status.textContent =
-        `${categories.length} danh mục`;
-
-
-    if (!categories.length){
-
-        list.innerHTML =
-            "";
-
-
-        empty.hidden =
-            false;
-
-
-        empty.innerHTML =
-            `
-            <i class="fa-solid fa-magnifying-glass"></i>
-
-            <h3>
-                Không tìm thấy danh mục
-            </h3>
-
-            <p>
-                Hãy thử với từ khóa khác.
-            </p>
-            `;
-
-        return;
-
-    }
-
-
-    empty.hidden =
-        true;
-
-
-    list.className =
-        "document-grid document-category-grid";
-
-
-    list.innerHTML =
-        categories
         .map(
-            function(category){
+            document => {
 
-                const count =
-                    libraryDocuments.filter(
-                        function(item){
-
-                            return String(
-                                item.category_id
-                            ) === String(
-                                category.id
-                            );
-
-                        }
-                    ).length;
-
-
-                const icon =
-                    getCategoryIcon(
-                        category.name
-                    );
-
-
-                const description =
-                    category.description ||
-                    "Tài liệu học tập và luyện tập môn Toán.";
-
-
-                return `
-                    <article
-                        class="document-card document-category-card reveal show"
-                        tabindex="0"
-                        role="button"
-                        data-category-id="${escapeHtml(category.id)}"
-                    >
-
-                        <div
-                            class="document-card-glow"
-                        ></div>
-
-
-                        <div
-                            class="document-category-icon"
-                        >
-
-                            <i
-                                class="fa-solid ${escapeHtml(icon)}"
-                            ></i>
-
-                        </div>
-
-
-                        <div
-                            class="document-card-category"
-                        >
-                            CATEGORY
-                        </div>
-
-
-                        <h3>
-                            ${escapeHtml(
-                                category.name
-                            )}
-                        </h3>
-
-
-                        <p>
-                            ${escapeHtml(
-                                description
-                            )}
-                        </p>
-
-
-                        <div
-                            class="document-category-footer"
-                        >
-
-                            <span
-                                class="document-category-count"
-                            >
-
-                                <i
-                                    class="fa-regular fa-file-lines"
-                                ></i>
-
-                                ${count}
-                                tài liệu
-
-                            </span>
-
-
-                            <span
-                                class="document-open-label"
-                            >
-
-                                Xem tài liệu
-
-                                <i
-                                    class="fa-solid fa-arrow-right"
-                                ></i>
-
-                            </span>
-
-                        </div>
-
-                    </article>
-                `;
-
-            }
-        )
-        .join("");
-
-
-    list
-        .querySelectorAll(
-            ".document-category-card"
-        )
-        .forEach(
-            function(card){
-
-                const open =
-                    function(){
-
-                        setCategoryView(
-                            card.dataset.categoryId
-                        );
-
-                    };
-
-
-                card.addEventListener(
-                    "click",
-                    open
-                );
-
-
-                card.addEventListener(
-                    "keydown",
-                    function(event){
-
-                        if (
-                            event.key ===
-                            "Enter" ||
-                            event.key ===
-                            " "
-                        ){
-
-                            event.preventDefault();
-
-                            open();
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-}
-
-
-function sortDocuments(
-    documents
-){
-
-    const items =
-        [
-            ...documents
-        ];
-
-
-    if (
-        documentSortMode ===
-        "oldest"
-    ){
-
-        items.sort(
-            function(a,b){
-
-                return (
-                    new Date(
-                        a.created_at ||
-                        0
-                    ) -
-                    new Date(
-                        b.created_at ||
-                        0
-                    )
-                );
-
-            }
-        );
-
-    }
-
-
-    else if (
-        documentSortMode ===
-        "az"
-    ){
-
-        items.sort(
-            function(a,b){
-
-                return String(
-                    a.title ||
-                    ""
-                ).localeCompare(
-                    String(
-                        b.title ||
-                        ""
-                    ),
-                    "vi",
-                    {
-                        sensitivity:
-                            "base"
-                    }
-                );
-
-            }
-        );
-
-    }
-
-
-    else if (
-        documentSortMode ===
-        "za"
-    ){
-
-        items.sort(
-            function(a,b){
-
-                return String(
-                    b.title ||
-                    ""
-                ).localeCompare(
-                    String(
-                        a.title ||
-                        ""
-                    ),
-                    "vi",
-                    {
-                        sensitivity:
-                            "base"
-                    }
-                );
-
-            }
-        );
-
-    }
-
-
-    else {
-
-        items.sort(
-            function(a,b){
-
-                const byCreated =
-                    new Date(
-                        b.created_at ||
-                        0
-                    ) -
-                    new Date(
-                        a.created_at ||
-                        0
-                    );
+                let score =
+                    0;
 
 
                 if (
-                    byCreated !== 0
+                    String(
+                        document.category_id
+                    ) ===
+                    String(
+                        item.category_id
+                    )
                 ){
 
-                    return byCreated;
+                    score +=
+                        5;
 
                 }
 
 
-                return (
+                const tags =
+                    Array.isArray(
+                        document.tags
+                    )
+                        ? document.tags
+                        : [];
+
+
+                tags.forEach(
+                    tag => {
+
+                        if (
+                            targetTags.has(
+                                String(
+                                    tag
+                                )
+                                .toLowerCase()
+                            )
+                        ){
+
+                            score +=
+                                2;
+
+                        }
+
+                    }
+                );
+
+
+                if (
+                    document.document_type ===
+                    item.document_type
+                ){
+
+                    score +=
+                        1;
+
+                }
+
+
+                return {
+
+                    document,
+
+                    score
+
+                };
+
+            }
+        )
+        .filter(
+            item =>
+                item.score >
+                0
+        )
+        .sort(
+            (
+                a,
+                b
+            ) =>
+                b.score -
+                a.score
+                ||
+                (
                     Number(
-                        a.sort_order
-                    ) || 0
+                        b.document.view_count
+                    ) ||
+                    0
                 ) -
                 (
                     Number(
-                        b.sort_order
-                    ) || 0
-                );
-
-            }
+                        a.document.view_count
+                    ) ||
+                    0
+                )
+        )
+        .slice(
+            0,
+            4
+        )
+        .map(
+            item =>
+                item.document
         );
-
-    }
-
-
-    return items;
 
 }
 
 
-function isNewDocument(
-    createdAt
+function renderRelatedDocuments(
+    item
 ){
 
-    if (!createdAt){
-        return false;
-    }
-
-
-    const age =
-        Date.now() -
-        new Date(
-            createdAt
-        ).getTime();
-
-
-    return (
-        age >= 0 &&
-        age <=
-            1000 *
-            60 *
-            60 *
-            24 *
-            14
-    );
-
-}
-
-
-function renderPdfDocuments(){
-
-    const list =
+    const root =
         document.getElementById(
-            "documentList"
-        );
-
-    const empty =
-        document.getElementById(
-            "documentEmpty"
-        );
-
-    const status =
-        document.getElementById(
-            "documentStatus"
-        );
-
-    const title =
-        document.getElementById(
-            "documentViewTitle"
-        );
-
-    const backbar =
-        document.getElementById(
-            "documentBackbar"
-        );
-
-    const selectedCategory =
-        document.getElementById(
-            "documentSelectedCategory"
-        );
-
-    const searchInput =
-        document.getElementById(
-            "documentSearch"
+            "pdfRelatedList"
         );
 
 
-    if (
-        !list ||
-        !empty ||
-        !status ||
-        !title ||
-        !backbar
-    ){
+    if (!root){
 
         return;
 
     }
 
 
-    const category =
-        getActiveCategory();
-
-
-    const keyword =
-        (
-            searchInput?.value ||
-            ""
-        )
-        .trim()
-        .toLowerCase();
-
-
-    const categoryId =
-        String(
-            activeDocumentCategoryId
+    const related =
+        getRelatedDocuments(
+            item
         );
-
-
-    const categoryName =
-        category?.name ||
-        "Tài liệu";
-
-
-    let filtered =
-        libraryDocuments.filter(
-            function(item){
-
-                if (
-                    String(
-                        item.category_id
-                    ) !== categoryId
-                ){
-
-                    return false;
-
-                }
-
-
-                const haystack = [
-
-                    item.title,
-
-                    item.description,
-
-                    item.file_name
-
-                ]
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase();
-
-
-                return (
-                    !keyword ||
-                    haystack.includes(
-                        keyword
-                    )
-                );
-
-            }
-        );
-
-
-    filtered =
-        sortDocuments(
-            filtered
-        );
-
-
-    title.textContent =
-        categoryName;
-
-
-    backbar.hidden =
-        false;
 
 
     if (
-        selectedCategory
+        !related.length
     ){
 
-        selectedCategory.textContent =
-            `${filtered.length} tài liệu`;
-
-    }
-
-
-    status.textContent =
-        `${filtered.length} tài liệu`;
-
-
-    if (!filtered.length){
-
-        list.innerHTML =
-            "";
-
-
-        list.className =
-            "document-grid document-pdf-grid";
-
-
-        empty.hidden =
-            false;
-
-
-        empty.innerHTML =
+        root.innerHTML =
             `
-            <i class="fa-regular fa-folder-open"></i>
-
-            <h3>
-                Chưa có tài liệu phù hợp
-            </h3>
-
-            <p>
-                Danh mục này chưa có PDF
-                hoặc không có kết quả theo từ khóa.
-            </p>
+            <div
+                class="pdf-related-empty"
+            >
+                Chưa có tài liệu liên quan.
+            </div>
             `;
 
         return;
@@ -2877,188 +5786,666 @@ function renderPdfDocuments(){
     }
 
 
-    empty.hidden =
-        true;
+    root.innerHTML =
+        related
+            .map(
+                document => {
+
+                    const icon =
+                        document.document_type ===
+                        "exam"
+                            ? "fa-file-circle-check"
+                            : "fa-file-pdf";
 
 
-    list.className =
-        "document-grid document-pdf-grid";
-
-
-    list.innerHTML =
-        filtered
-        .map(
-            function(item){
-
-                const description =
-                    item.description ||
-                    "Tài liệu học tập và luyện tập môn Toán.";
-
-
-                const url =
-                    getPublicPdfUrl(
-                        item.file_path
-                    );
-
-
-                const date =
-                    formatDocumentDate(
-                        item.created_at
-                    );
-
-
-                const titleText =
-                    item.title ||
-                    "Tài liệu không có tiêu đề";
-
-
-                const newBadge =
-                    isNewDocument(
-                        item.created_at
-                    )
-                    ? `
-                        <span
-                            class="document-new-badge"
+                    return `
+                        <button
+                            type="button"
+                            class="
+                                pdf-related-card
+                            "
+                            data-related-id="${
+                                escapeHtml(
+                                    document.id
+                                )
+                            }"
                         >
-                            MỚI
-                        </span>
-                    `
-                    : "";
-
-
-                return `
-                    <article
-                        class="document-card document-card-clickable reveal show"
-                        tabindex="0"
-                        role="button"
-                        data-url="${escapeHtml(url)}"
-                        data-title="${escapeHtml(titleText)}"
-                    >
-
-                        <div
-                            class="document-card-glow"
-                        ></div>
-
-
-                        <div
-                            class="document-card-top"
-                        >
-
-                            <div
-                                class="document-icon document-icon-pdf"
-                            >
-
-                                <i
-                                    class="fa-solid fa-file-pdf"
-                                ></i>
-
-                            </div>
-
-
-                            <div
-                                class="document-card-top-badges"
-                            >
-
-                                <span
-                                    class="document-badge"
-                                >
-                                    PDF
-                                </span>
-
-                                ${newBadge}
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="document-card-category"
-                        >
-
-                            ${escapeHtml(
-                                categoryName
-                            )}
-
-                        </div>
-
-
-                        <h3>
-                            ${escapeHtml(
-                                titleText
-                            )}
-                        </h3>
-
-
-                        <p>
-                            ${escapeHtml(
-                                description
-                            )}
-                        </p>
-
-
-                        <div
-                            class="document-card-footer"
-                        >
-
-                            <span>
-                                ${escapeHtml(
-                                    date ||
-                                    "Tài liệu học tập"
-                                )}
-                            </span>
-
 
                             <span
-                                class="document-open-label"
+                                class="
+                                    pdf-related-icon
+                                "
                             >
 
-                                Mở tài liệu
-
                                 <i
-                                    class="fa-solid fa-arrow-right"
+                                    class="
+                                        fa-solid
+                                        ${icon}
+                                    "
                                 ></i>
 
                             </span>
 
-                        </div>
 
-                    </article>
-                `;
+                            <span>
+
+                                <b>
+                                    ${escapeHtml(
+                                        document.title ||
+                                        document.file_name ||
+                                        "Tài liệu"
+                                    )}
+                                </b>
+
+
+                                <small>
+                                    ${escapeHtml(
+                                        document.math_categories?.name ||
+                                        "Tài liệu"
+                                    )}
+                                </small>
+
+                            </span>
+
+                        </button>
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    root
+        .querySelectorAll(
+            "[data-related-id]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const related =
+                            libraryDocuments.find(
+                                document =>
+                                    Number(
+                                        document.id
+                                    ) ===
+                                    Number(
+                                        button.dataset
+                                            .relatedId
+                                    )
+                            );
+
+
+                        if (
+                            related
+                        ){
+
+                            openPdfViewer(
+                                related
+                            );
+
+                        }
+
+                    }
+                );
 
             }
+        );
+
+}
+
+
+/* =========================================================
+   VIEW COUNT
+========================================================= */
+
+async function trackDocumentView(
+    documentId
+){
+
+    try {
+
+        const {
+            data
+        } =
+            await supabaseClient.rpc(
+                "increment_document_view",
+                {
+                    p_document_id:
+                        documentId
+                }
+            );
+
+
+        const item =
+            libraryDocuments.find(
+                document =>
+                    Number(
+                        document.id
+                    ) ===
+                    Number(
+                        documentId
+                    )
+            );
+
+
+        if (
+            item &&
+            data !=
+            null
+        ){
+
+            item.view_count =
+                Number(
+                    data
+                );
+
+        }
+
+
+        updatePublicStats();
+
+    }
+    catch (
+        error
+    ){
+
+        console.warn(
+            "View tracking failed:",
+            error
+        );
+
+    }
+
+}
+
+
+function updatePublicStats(){
+
+    const documents =
+        document.getElementById(
+            "publicDocCount"
+        );
+
+
+    const categories =
+        document.getElementById(
+            "publicCategoryCount"
+        );
+
+
+    const views =
+        document.getElementById(
+            "publicViewCount"
+        );
+
+
+    if (
+        documents
+    ){
+
+        documents.textContent =
+            formatNumber(
+                libraryDocuments.length
+            );
+
+    }
+
+
+    if (
+        categories
+    ){
+
+        categories.textContent =
+            formatNumber(
+                libraryCategories.length
+            );
+
+    }
+
+
+    if (
+        views
+    ){
+
+        const total =
+            libraryDocuments.reduce(
+                (
+                    sum,
+                    item
+                ) =>
+                    sum +
+                    (
+                        Number(
+                            item.view_count
+                        ) ||
+                        0
+                    ),
+                0
+            );
+
+
+        views.textContent =
+            formatNumber(
+                total
+            );
+
+    }
+
+}
+
+
+/* =========================================================
+   SHARE
+========================================================= */
+
+function getDocumentShareUrl(
+    item
+){
+
+    const url =
+        new URL(
+            window.location.href
+        );
+
+
+    url.searchParams.set(
+        "doc",
+        item.id
+    );
+
+
+    url.hash =
+        "documents";
+
+
+    return url.toString();
+
+}
+
+
+async function shareDocument(
+    item
+){
+
+    if (!item){
+
+        return;
+
+    }
+
+
+    const url =
+        getDocumentShareUrl(
+            item
+        );
+
+
+    const title =
+        item.title ||
+        item.file_name ||
+        "Tài liệu Toán học";
+
+
+    try {
+
+        if (
+            navigator.share
+        ){
+
+            await navigator.share(
+                {
+                    title,
+
+                    text:
+                        `Tài liệu Toán học: ${title}`,
+
+                    url
+
+                }
+            );
+
+        }
+        else {
+
+            await navigator.clipboard
+                .writeText(
+                    url
+                );
+
+
+            alert(
+                "Đã sao chép liên kết tài liệu."
+            );
+
+        }
+
+    }
+    catch (
+        error
+    ){
+
+        if (
+            error?.name ===
+            "AbortError"
+        ){
+
+            return;
+
+        }
+
+
+        try {
+
+            await navigator.clipboard
+                .writeText(
+                    url
+                );
+
+
+            alert(
+                "Đã sao chép liên kết tài liệu."
+            );
+
+        }
+        catch (
+            _
+        ){
+
+            alert(
+                url
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   QR
+========================================================= */
+
+function openQr(
+    item
+){
+
+    if (!item){
+
+        return;
+
+    }
+
+
+    qrTarget =
+        item;
+
+
+    const modal =
+        document.getElementById(
+            "qrModal"
+        );
+
+
+    const title =
+        document.getElementById(
+            "qrTitle"
+        );
+
+
+    const code =
+        document.getElementById(
+            "qrCode"
+        );
+
+
+    const urlElement =
+        document.getElementById(
+            "qrUrl"
+        );
+
+
+    if (
+        !modal ||
+        !code
+    ){
+
+        return;
+
+    }
+
+
+    const url =
+        getDocumentShareUrl(
+            item
+        );
+
+
+    title.textContent =
+        item.title ||
+        item.file_name ||
+        "Tài liệu";
+
+
+    urlElement.textContent =
+        url;
+
+
+    code.innerHTML =
+        "";
+
+
+    if (
+        window.QRCode
+    ){
+
+        new QRCode(
+            code,
+            {
+                text:
+                    url,
+
+                width:
+                    224,
+
+                height:
+                    224,
+
+                correctLevel:
+                    QRCode.CorrectLevel.M
+            }
+        );
+
+    }
+    else {
+
+        code.innerHTML =
+            `
+            <div
+                class="qr-fallback"
+            >
+                Không tải được thư viện QR.
+                Hãy tải lại trang.
+            </div>
+            `;
+
+    }
+
+
+    modal.classList.add(
+        "open"
+    );
+
+
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+}
+
+
+function closeQr(){
+
+    const modal =
+        document.getElementById(
+            "qrModal"
+        );
+
+
+    if (!modal){
+
+        return;
+
+    }
+
+
+    modal.classList.remove(
+        "open"
+    );
+
+
+    modal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+}
+
+
+function downloadQr(){
+
+    const canvas =
+        document.querySelector(
+            "#qrCode canvas"
+        );
+
+
+    if (
+        !canvas ||
+        !qrTarget
+    ){
+
+        return;
+
+    }
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    const name =
+        (
+            qrTarget.title ||
+            "tai-lieu"
         )
-        .join("");
+        .replace(
+            /[^a-zA-Z0-9\-_]+/g,
+            "-"
+        );
 
 
-    list
+    link.href =
+        canvas.toDataURL(
+            "image/png"
+        );
+
+
+    link.download =
+        `${name}-QR.png`;
+
+
+    link.click();
+
+}
+
+
+/* =========================================================
+   CARD EVENTS
+========================================================= */
+
+function bindDocumentCards(){
+
+    const root =
+        document.getElementById(
+            "documentList"
+        );
+
+
+    if (!root){
+
+        return;
+
+    }
+
+
+    root
         .querySelectorAll(
             ".document-card-clickable"
         )
         .forEach(
-            function(card){
+            card => {
 
                 const open =
-                    function(){
+                    () => {
 
-                        openPdfViewer(
-                            card.dataset.title ||
-                                "Tài liệu",
-                            card.dataset.url
-                        );
+                        const item =
+                            libraryDocuments.find(
+                                document =>
+                                    Number(
+                                        document.id
+                                    ) ===
+                                    Number(
+                                        card.dataset
+                                            .documentId
+                                    )
+                            );
+
+
+                        if (
+                            item
+                        ){
+
+                            openPdfViewer(
+                                item
+                            );
+
+                        }
 
                     };
 
 
                 card.addEventListener(
                     "click",
-                    open
+                    event => {
+
+                        if (
+                            event.target.closest(
+                                ".document-quick-btn"
+                            )
+                        ){
+
+                            return;
+
+                        }
+
+
+                        open();
+
+                    }
                 );
 
 
                 card.addEventListener(
                     "keydown",
-                    function(event){
+                    event => {
 
                         if (
                             event.key ===
@@ -3079,37 +6466,88 @@ function renderPdfDocuments(){
             }
         );
 
+
+    root
+        .querySelectorAll(
+            "[data-share-id]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    event => {
+
+                        event.stopPropagation();
+
+
+                        const item =
+                            libraryDocuments.find(
+                                document =>
+                                    Number(
+                                        document.id
+                                    ) ===
+                                    Number(
+                                        button.dataset
+                                            .shareId
+                                    )
+                            );
+
+
+                        shareDocument(
+                            item
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    root
+        .querySelectorAll(
+            "[data-qr-id]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    event => {
+
+                        event.stopPropagation();
+
+
+                        const item =
+                            libraryDocuments.find(
+                                document =>
+                                    Number(
+                                        document.id
+                                    ) ===
+                                    Number(
+                                        button.dataset
+                                            .qrId
+                                    )
+                            );
+
+
+                        openQr(
+                            item
+                        );
+
+                    }
+                );
+
+            }
+        );
+
 }
 
 
-function renderDocumentLibrary(){
-
-    if (
-        activeDocumentCategoryId ==
-        null
-    ){
-
-        renderCategoryMenu();
-
-    }
-
-    else {
-
-        renderPdfDocuments();
-
-    }
-
-}
-
-
-function goBackToCategories(){
-
-    setCategoryView(
-        null
-    );
-
-}
-
+/* =========================================================
+   LOAD LIBRARY
+========================================================= */
 
 async function loadDocumentLibrary(){
 
@@ -3117,6 +6555,7 @@ async function loadDocumentLibrary(){
         document.getElementById(
             "documentStatus"
         );
+
 
     const empty =
         document.getElementById(
@@ -3138,7 +6577,7 @@ async function loadDocumentLibrary(){
                             "math_categories"
                         )
                         .select(
-                            "id,name,slug,description,sort_order,parent_id"
+                            "id,name,slug,description,sort_order,parent_id,created_at"
                         )
                         .order(
                             "sort_order",
@@ -3161,7 +6600,7 @@ async function loadDocumentLibrary(){
                             "math_documents"
                         )
                         .select(
-                            "id,title,description,category_id,file_path,file_name,published,sort_order,created_at,updated_at,math_categories(name,slug)"
+                            "id,title,description,category_id,file_path,file_name,published,sort_order,created_at,updated_at,tags,thumbnail_path,document_type,exam_year,duration_minutes,view_count,math_categories(name,slug)"
                         )
                         .eq(
                             "published",
@@ -3214,11 +6653,90 @@ async function loadDocumentLibrary(){
             [];
 
 
+        updatePublicStats();
+
+
+        const requestCategory =
+            document.getElementById(
+                "requestCategory"
+            );
+
+
+        if (
+            requestCategory
+        ){
+
+            requestCategory.innerHTML =
+                `
+                <option value="">
+                    -- Chọn danh mục --
+                </option>
+                ` +
+                libraryCategories
+                    .map(
+                        category =>
+                            `
+                            <option
+                                value="${escapeHtml(
+                                    category.id
+                                )}"
+                            >
+                                ${escapeHtml(
+                                    category.name
+                                )}
+                            </option>
+                            `
+                    )
+                    .join("");
+
+        }
+
+
         renderDocumentLibrary();
 
-    }
 
-    catch(error){
+        const requestedDocId =
+            new URL(
+                window.location.href
+            )
+            .searchParams
+            .get(
+                "doc"
+            );
+
+
+        if (
+            requestedDocId
+        ){
+
+            const requestedDocument =
+                libraryDocuments.find(
+                    item =>
+                        String(
+                            item.id
+                        ) ===
+                        String(
+                            requestedDocId
+                        )
+                );
+
+
+            if (
+                requestedDocument
+            ){
+
+                openPdfViewer(
+                    requestedDocument
+                );
+
+            }
+
+        }
+
+    }
+    catch (
+        error
+    ){
 
         console.error(
             "Document library error:",
@@ -3226,7 +6744,9 @@ async function loadDocumentLibrary(){
         );
 
 
-        if (status){
+        if (
+            status
+        ){
 
             status.textContent =
                 "Không thể tải thư viện";
@@ -3234,7 +6754,9 @@ async function loadDocumentLibrary(){
         }
 
 
-        if (empty){
+        if (
+            empty
+        ){
 
             empty.hidden =
                 false;
@@ -3242,7 +6764,12 @@ async function loadDocumentLibrary(){
 
             empty.innerHTML =
                 `
-                <i class="fa-solid fa-triangle-exclamation"></i>
+                <i
+                    class="
+                        fa-solid
+                        fa-triangle-exclamation
+                    "
+                ></i>
 
                 <h3>
                     Không thể tải tài liệu
@@ -3261,14 +6788,340 @@ async function loadDocumentLibrary(){
 
 
 /* =========================================================
+   REQUEST SUBMIT
+========================================================= */
+
+const materialRequestForm =
+    document.getElementById(
+        "materialRequestForm"
+    );
+
+
+if (
+    materialRequestForm
+){
+
+    materialRequestForm.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            const status =
+                document.getElementById(
+                    "requestStatus"
+                );
+
+
+            const requestText =
+                document.getElementById(
+                    "requestText"
+                )
+                .value
+                .trim();
+
+
+            if (
+                !requestText
+            ){
+
+                return;
+
+            }
+
+
+            status.textContent =
+                "Đang gửi yêu cầu...";
+
+
+            const {
+                error
+            } =
+                await supabaseClient
+                .from(
+                    "math_requests"
+                )
+                .insert(
+                    {
+
+                        name:
+                            document.getElementById(
+                                "requestName"
+                            ).value.trim() ||
+                            null,
+
+                        email:
+                            document.getElementById(
+                                "requestEmail"
+                            ).value.trim() ||
+                            null,
+
+                        category_id:
+                            document.getElementById(
+                                "requestCategory"
+                            ).value
+                                ? Number(
+                                    document.getElementById(
+                                        "requestCategory"
+                                    ).value
+                                )
+                                : null,
+
+                        request_text:
+                            requestText,
+
+                        status:
+                            "pending"
+
+                    }
+                );
+
+
+            if (
+                error
+            ){
+
+                console.error(
+                    error
+                );
+
+
+                status.textContent =
+                    "Không thể gửi yêu cầu. Vui lòng thử lại.";
+
+                return;
+
+            }
+
+
+            materialRequestForm.reset();
+
+
+            status.textContent =
+                "Đã gửi yêu cầu. Cảm ơn bạn!";
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DOCUMENT CONTROLS
+========================================================= */
+
+document
+    .getElementById(
+        "documentSearch"
+    )
+    ?.addEventListener(
+        "input",
+        () => {
+
+            documentCurrentPage =
+                1;
+
+            renderDocumentLibrary();
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "documentSort"
+    )
+    ?.addEventListener(
+        "change",
+        event => {
+
+            documentSortMode =
+                event.target.value;
+
+
+            documentCurrentPage =
+                1;
+
+
+            renderDocumentLibrary();
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "documentTypeFilter"
+    )
+    ?.addEventListener(
+        "change",
+        event => {
+
+            documentTypeMode =
+                event.target.value;
+
+
+            documentCurrentPage =
+                1;
+
+
+            renderDocumentLibrary();
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "documentBackButton"
+    )
+    ?.addEventListener(
+        "click",
+        goBackToParent
+    );
+
+
+document
+    .getElementById(
+        "pdfClose"
+    )
+    ?.addEventListener(
+        "click",
+        closePdfViewer
+    );
+
+
+document
+    .getElementById(
+        "pdfShare"
+    )
+    ?.addEventListener(
+        "click",
+        () =>
+            shareDocument(
+                currentDocument
+            )
+    );
+
+
+document
+    .getElementById(
+        "pdfQr"
+    )
+    ?.addEventListener(
+        "click",
+        () =>
+            openQr(
+                currentDocument
+            )
+    );
+
+
+document
+    .getElementById(
+        "qrClose"
+    )
+    ?.addEventListener(
+        "click",
+        closeQr
+    );
+
+
+document
+    .getElementById(
+        "qrDownload"
+    )
+    ?.addEventListener(
+        "click",
+        downloadQr
+    );
+
+
+document
+    .getElementById(
+        "pdfModal"
+    )
+    ?.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                event.currentTarget
+            ){
+
+                closePdfViewer();
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "qrModal"
+    )
+    ?.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                event.currentTarget
+            ){
+
+                closeQr();
+
+            }
+
+        }
+    );
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key ===
+            "Escape"
+        ){
+
+            closePdfViewer();
+            closeQr();
+            closeGallery();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
    MOBILE MENU
 ========================================================= */
+
+const menuToggle =
+    document.getElementById(
+        "menuToggle"
+    );
+
+
+const mainMenu =
+    document.getElementById(
+        "mainMenu"
+    );
+
 
 function toggleMobileMenu(
     event
 ){
 
-    if (event){
+    if (
+        event
+    ){
 
         event.preventDefault();
         event.stopPropagation();
@@ -3276,20 +7129,9 @@ function toggleMobileMenu(
     }
 
 
-    const button =
-        document.getElementById(
-            "menuToggle"
-        );
-
-    const menu =
-        document.getElementById(
-            "mainMenu"
-        );
-
-
     if (
-        !button ||
-        !menu
+        !menuToggle ||
+        !mainMenu
     ){
 
         return;
@@ -3298,12 +7140,12 @@ function toggleMobileMenu(
 
 
     const isOpen =
-        menu.classList.toggle(
+        mainMenu.classList.toggle(
             "open"
         );
 
 
-    button.setAttribute(
+    menuToggle.setAttribute(
         "aria-expanded",
         String(
             isOpen
@@ -3311,7 +7153,7 @@ function toggleMobileMenu(
     );
 
 
-    button.setAttribute(
+    menuToggle.setAttribute(
         "aria-label",
         isOpen
             ? "Đóng menu"
@@ -3320,12 +7162,14 @@ function toggleMobileMenu(
 
 
     const icon =
-        button.querySelector(
+        menuToggle.querySelector(
             "i"
         );
 
 
-    if (icon){
+    if (
+        icon
+    ){
 
         icon.className =
             isOpen
@@ -3339,20 +7183,9 @@ function toggleMobileMenu(
 
 function closeMenu(){
 
-    const button =
-        document.getElementById(
-            "menuToggle"
-        );
-
-    const menu =
-        document.getElementById(
-            "mainMenu"
-        );
-
-
     if (
-        !button ||
-        !menu
+        !menuToggle ||
+        !mainMenu
     ){
 
         return;
@@ -3360,29 +7193,259 @@ function closeMenu(){
     }
 
 
-    menu.classList.remove(
+    mainMenu.classList.remove(
         "open"
     );
 
 
-    button.setAttribute(
+    menuToggle.setAttribute(
         "aria-expanded",
         "false"
     );
 
 
     const icon =
-        button.querySelector(
+        menuToggle.querySelector(
             "i"
         );
 
 
-    if (icon){
+    if (
+        icon
+    ){
 
         icon.className =
             "fa-solid fa-bars";
 
     }
+
+}
+
+
+if (
+    mainMenu
+){
+
+    mainMenu
+        .querySelectorAll(
+            "a"
+        )
+        .forEach(
+            link => {
+
+                link.addEventListener(
+                    "click",
+                    closeMenu
+                );
+
+            }
+        );
+
+}
+
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        if (
+            window.innerWidth >
+            800
+        ){
+
+            closeMenu();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+const siteHeader =
+    document.getElementById(
+        "siteHeader"
+    );
+
+
+function updateHeader(){
+
+    if (
+        !siteHeader
+    ){
+
+        return;
+
+    }
+
+
+    siteHeader.classList.toggle(
+        "scrolled",
+        window.scrollY >
+        20
+    );
+
+}
+
+
+window.addEventListener(
+    "scroll",
+    updateHeader,
+    {
+        passive:
+            true
+    }
+);
+
+
+updateHeader();
+
+
+/* =========================================================
+   ACTIVE NAVIGATION
+========================================================= */
+
+const sections =
+    document.querySelectorAll(
+        "main section[id]"
+    );
+
+
+const navLinks =
+    document.querySelectorAll(
+        ".nav-link"
+    );
+
+
+if (
+    "IntersectionObserver"
+    in window
+){
+
+    const sectionObserver =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(
+                    entry => {
+
+                        if (
+                            !entry.isIntersecting
+                        ){
+
+                            return;
+
+                        }
+
+
+                        navLinks.forEach(
+                            link => {
+
+                                link.classList.toggle(
+                                    "active",
+                                    link.getAttribute(
+                                        "href"
+                                    ) ===
+                                    `#${entry.target.id}`
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+            },
+            {
+                rootMargin:
+                    "-30% 0px -55% 0px"
+            }
+        );
+
+
+    sections.forEach(
+        section =>
+            sectionObserver.observe(
+                section
+            )
+    );
+
+}
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+const revealElements =
+    document.querySelectorAll(
+        ".reveal"
+    );
+
+
+if (
+    "IntersectionObserver"
+    in window
+){
+
+    const revealObserver =
+        new IntersectionObserver(
+            (
+                entries,
+                observer
+            ) => {
+
+                entries.forEach(
+                    entry => {
+
+                        if (
+                            !entry.isIntersecting
+                        ){
+
+                            return;
+
+                        }
+
+
+                        entry.target.classList.add(
+                            "show"
+                        );
+
+
+                        observer.unobserve(
+                            entry.target
+                        );
+
+                    }
+                );
+
+            },
+            {
+                threshold:
+                    0.12
+            }
+        );
+
+
+    revealElements.forEach(
+        element =>
+            revealObserver.observe(
+                element
+            )
+    );
+
+}
+else {
+
+    revealElements.forEach(
+        element =>
+            element.classList.add(
+                "show"
+            )
+    );
 
 }
 
@@ -3393,16 +7456,21 @@ function closeMenu(){
 
 const galleryData = {
 
-    grade10: [],
+    grade10:
+        [],
 
-    grade12: [],
+    grade12:
+        [],
 
-    feedback: []
+    feedback:
+        []
 
 };
 
 
-let currentGallery = [];
+let currentGallery =
+    [];
+
 
 let currentImageIndex =
     0;
@@ -3413,7 +7481,9 @@ function openGallery(
 ){
 
     currentGallery =
-        galleryData[type] ||
+        galleryData[
+            type
+        ] ||
         [];
 
 
@@ -3430,6 +7500,7 @@ function openGallery(
             "Bạn có thể thêm ảnh vào thư mục assets/achievements."
         );
 
+
         return;
 
     }
@@ -3444,8 +7515,12 @@ function openGallery(
         );
 
 
-    if (!modal){
+    if (
+        !modal
+    ){
+
         return;
+
     }
 
 
@@ -3473,6 +7548,7 @@ function updateGallery(){
             "galleryImage"
         );
 
+
     const counter =
         document.getElementById(
             "galleryCounter"
@@ -3480,9 +7556,9 @@ function updateGallery(){
 
 
     if (
-        !currentGallery.length ||
         !image ||
-        !counter
+        !counter ||
+        !currentGallery.length
     ){
 
         return;
@@ -3497,7 +7573,12 @@ function updateGallery(){
 
 
     counter.textContent =
-        `${currentImageIndex + 1} / ${currentGallery.length}`;
+        `${
+            currentImageIndex +
+            1
+        } / ${
+            currentGallery.length
+        }`;
 
 }
 
@@ -3538,7 +7619,9 @@ function closeGallery(){
         );
 
 
-    if (modal){
+    if (
+        modal
+    ){
 
         modal.classList.remove(
             "active"
@@ -3560,880 +7643,664 @@ function closeGallery(){
 
 
 /* =========================================================
-   DOM READY
+   TYPING EFFECT
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
-
-        const documentSearch =
-            document.getElementById(
-                "documentSearch"
-            );
+const typingRole =
+    document.getElementById(
+        "typingRole"
+    );
 
 
-        if (documentSearch){
+const typingPhrases = [
 
-            documentSearch.addEventListener(
-                "input",
-                renderDocumentLibrary
-            );
+    "GIÁO VIÊN TOÁN",
 
-        }
+    "GIÁO VIÊN TOÁN • AI",
 
+    "GIÁO VIÊN TOÁN • CÔNG NGHỆ"
 
-        const documentSort =
-            document.getElementById(
-                "documentSort"
-            );
+];
 
 
-        if (documentSort){
-
-            documentSort.addEventListener(
-                "change",
-                function(event){
-
-                    documentSortMode =
-                        event.target.value;
-
-                    renderDocumentLibrary();
-
-                }
-            );
-
-        }
+let typingPhraseIndex =
+    0;
 
 
-        document
-            .getElementById(
-                "documentBackButton"
-            )
-            ?.addEventListener(
-                "click",
-                goBackToCategories
-            );
+let typingCharIndex =
+    typingPhrases[0].length;
 
 
-        document
-            .getElementById(
-                "pdfClose"
-            )
-            ?.addEventListener(
-                "click",
-                closePdfViewer
-            );
+let typingDeleting =
+    false;
 
 
-        document
-            .getElementById(
-                "pdfModal"
-            )
-            ?.addEventListener(
-                "click",
-                function(event){
+function runTypingEffect(){
 
-                    if (
-                        event.target ===
-                        event.currentTarget
-                    ){
+    if (
+        !typingRole
+    ){
 
-                        closePdfViewer();
+        return;
 
-                    }
-
-                }
-            );
+    }
 
 
-        document.addEventListener(
-            "keydown",
-            function(event){
-
-                if (
-                    event.key ===
-                    "Escape"
-                ){
-
-                    closePdfViewer();
-                    closeGallery();
-
-                }
-
-            }
-        );
+    const phrase =
+        typingPhrases[
+            typingPhraseIndex
+        ];
 
 
-        document
-            .querySelectorAll(
-                "#mainMenu a"
-            )
-            .forEach(
-                function(link){
+    if (
+        !typingDeleting
+    ){
 
-                    link.addEventListener(
-                        "click",
-                        closeMenu
-                    );
-
-                }
-            );
+        typingCharIndex++;
 
 
-        window.addEventListener(
-            "resize",
-            function(){
-
-                if (
-                    window.innerWidth >
-                    800
-                ){
-
-                    closeMenu();
-
-                }
-
-            }
-        );
-
-
-        const sections =
-            document.querySelectorAll(
-                "main section[id]"
-            );
-
-
-        const navLinks =
-            document.querySelectorAll(
-                ".nav-link"
+        typingRole.textContent =
+            phrase.slice(
+                0,
+                typingCharIndex
             );
 
 
         if (
-            "IntersectionObserver"
-            in window
+            typingCharIndex >=
+            phrase.length
         ){
 
-            const sectionObserver =
-                new IntersectionObserver(
-                    function(entries){
-
-                        entries.forEach(
-                            function(entry){
-
-                                if (
-                                    !entry.isIntersecting
-                                ){
-
-                                    return;
-
-                                }
-
-
-                                navLinks.forEach(
-                                    function(link){
-
-                                        link.classList.toggle(
-
-                                            "active",
-
-                                            link.getAttribute(
-                                                "href"
-                                            ) ===
-                                            `#${entry.target.id}`
-
-                                        );
-
-                                    }
-                                );
-
-                            }
-                        );
-
-                    },
-                    {
-                        rootMargin:
-                            "-30% 0px -55% 0px"
-                    }
-                );
-
-
-            sections.forEach(
-                function(section){
-
-                    sectionObserver.observe(
-                        section
-                    );
-
-                }
-            );
-
-
-            const revealObserver =
-                new IntersectionObserver(
-                    function(
-                        entries,
-                        observer
-                    ){
-
-                        entries.forEach(
-                            function(entry){
-
-                                if (
-                                    !entry.isIntersecting
-                                ){
-
-                                    return;
-
-                                }
-
-
-                                entry.target.classList.add(
-                                    "show"
-                                );
-
-
-                                observer.unobserve(
-                                    entry.target
-                                );
-
-                            }
-                        );
-
-                    },
-                    {
-                        threshold:
-                            0.12
-                    }
-                );
-
-
-            document
-                .querySelectorAll(
-                    ".reveal"
-                )
-                .forEach(
-                    function(element){
-
-                        revealObserver.observe(
-                            element
-                        );
-
-                    }
-                );
-
-        }
-
-        else {
-
-            document
-                .querySelectorAll(
-                    ".reveal"
-                )
-                .forEach(
-                    function(element){
-
-                        element.classList.add(
-                            "show"
-                        );
-
-                    }
-                );
-
-        }
-
-
-        const typing =
-            document.getElementById(
-                "typingRole"
-            );
-
-
-        const phrases = [
-
-            "GIÁO VIÊN TOÁN",
-
-            "GIÁO VIÊN TOÁN • AI",
-
-            "GIÁO VIÊN TOÁN • CÔNG NGHỆ"
-
-        ];
-
-
-        let phraseIndex =
-            0;
-
-
-        let charIndex =
-            phrases[0].length;
-
-
-        let deleting =
-            false;
-
-
-        function runTyping(){
-
-            if (!typing){
-                return;
-            }
-
-
-            const current =
-                phrases[
-                    phraseIndex
-                ];
-
-
-            if (!deleting){
-
-                charIndex++;
-
-
-                typing.textContent =
-                    current.slice(
-                        0,
-                        charIndex
-                    );
-
-
-                if (
-                    charIndex >=
-                    current.length
-                ){
-
-                    deleting =
-                        true;
-
-
-                    setTimeout(
-                        runTyping,
-                        1700
-                    );
-
-
-                    return;
-
-                }
-
-
-                setTimeout(
-                    runTyping,
-                    75
-                );
-
-
-                return;
-
-            }
-
-
-            charIndex--;
-
-
-            typing.textContent =
-                current.slice(
-                    0,
-                    charIndex
-                );
-
-
-            if (
-                charIndex <=
-                0
-            ){
-
-                deleting =
-                    false;
-
-
-                phraseIndex =
-                    (
-                        phraseIndex +
-                        1
-                    ) %
-                    phrases.length;
-
-
-                setTimeout(
-                    runTyping,
-                    350
-                );
-
-
-                return;
-
-            }
+            typingDeleting =
+                true;
 
 
             setTimeout(
-                runTyping,
-                45
+                runTypingEffect,
+                1700
             );
+
+
+            return;
 
         }
 
 
         setTimeout(
-            function(){
-
-                charIndex =
-                    0;
-
-
-                runTyping();
-
-            },
-            1400
+            runTypingEffect,
+            75
         );
 
 
-        const cursorGlow =
-            document.getElementById(
-                "cursorGlow"
-            );
-
-
-        if (
-            cursorGlow &&
-            window.matchMedia(
-                "(pointer:fine)"
-            ).matches
-        ){
-
-            window.addEventListener(
-                "pointermove",
-                function(event){
-
-                    cursorGlow.style.transform =
-                        `translate3d(
-                            ${event.clientX - 180}px,
-                            ${event.clientY - 180}px,
-                            0
-                        )`;
-
-                },
-                {
-                    passive:
-                        true
-                }
-            );
-
-        }
-
-
-        if (
-            window.matchMedia(
-                "(pointer:fine)"
-            ).matches
-        ){
-
-            document
-                .querySelectorAll(
-                    ".tilt-card"
-                )
-                .forEach(
-                    function(card){
-
-                        card.addEventListener(
-                            "pointermove",
-                            function(event){
-
-                                const rect =
-                                    card.getBoundingClientRect();
-
-
-                                const x =
-                                    (
-                                        event.clientX -
-                                        rect.left
-                                    )
-                                    /
-                                    rect.width
-                                    -
-                                    0.5;
-
-
-                                const y =
-                                    (
-                                        event.clientY -
-                                        rect.top
-                                    )
-                                    /
-                                    rect.height
-                                    -
-                                    0.5;
-
-
-                                card.style.setProperty(
-                                    "--tilt-x",
-                                    `${y * -4}deg`
-                                );
-
-
-                                card.style.setProperty(
-                                    "--tilt-y",
-                                    `${x * 4}deg`
-                                );
-
-                            }
-                        );
-
-
-                        card.addEventListener(
-                            "pointerleave",
-                            function(){
-
-                                card.style.setProperty(
-                                    "--tilt-x",
-                                    "0deg"
-                                );
-
-
-                                card.style.setProperty(
-                                    "--tilt-y",
-                                    "0deg"
-                                );
-
-                            }
-                        );
-
-                    }
-                );
-
-        }
-
-
-        const canvas =
-            document.getElementById(
-                "particleCanvas"
-            );
-
-
-        const reducedMotion =
-            window.matchMedia(
-                "(prefers-reduced-motion: reduce)"
-            ).matches;
-
-
-        if (
-            canvas &&
-            !reducedMotion
-        ){
-
-            const ctx =
-                canvas.getContext(
-                    "2d"
-                );
-
-
-            const particles = [];
-
-
-            let width =
-                0;
-
-            let height =
-                0;
-
-            let animationFrame =
-                0;
-
-
-            function resizeCanvas(){
-
-                const ratio =
-                    Math.min(
-                        window.devicePixelRatio ||
-                        1,
-                        2
-                    );
-
-
-                width =
-                    window.innerWidth;
-
-                height =
-                    window.innerHeight;
-
-
-                canvas.width =
-                    width * ratio;
-
-
-                canvas.height =
-                    height * ratio;
-
-
-                canvas.style.width =
-                    width + "px";
-
-
-                canvas.style.height =
-                    height + "px";
-
-
-                ctx.setTransform(
-                    ratio,
-                    0,
-                    0,
-                    ratio,
-                    0,
-                    0
-                );
-
-
-                particles.length =
-                    0;
-
-
-                const count =
-                    Math.min(
-                        85,
-                        Math.max(
-                            28,
-                            Math.floor(
-                                width *
-                                height /
-                                22000
-                            )
-                        )
-                    );
-
-
-                for (
-                    let i = 0;
-                    i < count;
-                    i++
-                ){
-
-                    particles.push({
-
-                        x:
-                            Math.random() *
-                            width,
-
-                        y:
-                            Math.random() *
-                            height,
-
-                        r:
-                            Math.random() *
-                            1.6 +
-                            0.35,
-
-                        sx:
-                            (
-                                Math.random() -
-                                0.5
-                            ) *
-                            0.18,
-
-                        sy:
-                            (
-                                Math.random() -
-                                0.5
-                            ) *
-                            0.18,
-
-                        opacity:
-                            Math.random() *
-                            0.5 +
-                            0.18,
-
-                        phase:
-                            Math.random() *
-                            Math.PI *
-                            2,
-
-                        pulse:
-                            Math.random() *
-                            0.02 +
-                            0.005
-
-                    });
-
-                }
-
-            }
-
-
-            function animateParticles(){
-
-                ctx.clearRect(
-                    0,
-                    0,
-                    width,
-                    height
-                );
-
-
-                particles.forEach(
-                    function(particle){
-
-                        particle.x +=
-                            particle.sx;
-
-
-                        particle.y +=
-                            particle.sy;
-
-
-                        particle.phase +=
-                            particle.pulse;
-
-
-                        if (
-                            particle.x <
-                            -10
-                        ){
-
-                            particle.x =
-                                width +
-                                10;
-
-                        }
-
-
-                        if (
-                            particle.x >
-                            width +
-                            10
-                        ){
-
-                            particle.x =
-                                -10;
-
-                        }
-
-
-                        if (
-                            particle.y <
-                            -10
-                        ){
-
-                            particle.y =
-                                height +
-                                10;
-
-                        }
-
-
-                        if (
-                            particle.y >
-                            height +
-                            10
-                        ){
-
-                            particle.y =
-                                -10;
-
-                        }
-
-
-                        const alpha =
-                            Math.max(
-                                0.05,
-                                particle.opacity +
-                                Math.sin(
-                                    particle.phase
-                                ) *
-                                0.12
-                            );
-
-
-                        ctx.beginPath();
-
-
-                        ctx.arc(
-                            particle.x,
-                            particle.y,
-                            particle.r,
-                            0,
-                            Math.PI * 2
-                        );
-
-
-                        ctx.fillStyle =
-                            `rgba(
-                                96,
-                                165,
-                                250,
-                                ${alpha}
-                            )`;
-
-
-                        ctx.shadowBlur =
-                            particle.r >
-                            1.15
-                                ? 8
-                                : 4;
-
-
-                        ctx.shadowColor =
-                            "rgba(96,165,250,.7)";
-
-
-                        ctx.fill();
-
-                    }
-                );
-
-
-                ctx.shadowBlur =
-                    0;
-
-
-                animationFrame =
-                    requestAnimationFrame(
-                        animateParticles
-                    );
-
-            }
-
-
-            window.addEventListener(
-                "resize",
-                resizeCanvas,
-                {
-                    passive:
-                        true
-                }
-            );
-
-
-            resizeCanvas();
-
-
-            animationFrame =
-                requestAnimationFrame(
-                    animateParticles
-                );
-
-
-            window.addEventListener(
-                "pagehide",
-                function(){
-
-                    cancelAnimationFrame(
-                        animationFrame
-                    );
-
-                },
-                {
-                    once:
-                        true
-                }
-            );
-
-        }
-
-
-        loadDocumentLibrary();
+        return;
 
     }
+
+
+    typingCharIndex--;
+
+
+    typingRole.textContent =
+        phrase.slice(
+            0,
+            typingCharIndex
+        );
+
+
+    if (
+        typingCharIndex <=
+        0
+    ){
+
+        typingDeleting =
+            false;
+
+
+        typingPhraseIndex =
+            (
+                typingPhraseIndex +
+                1
+            ) %
+            typingPhrases.length;
+
+
+        setTimeout(
+            runTypingEffect,
+            350
+        );
+
+
+        return;
+
+    }
+
+
+    setTimeout(
+        runTypingEffect,
+        45
+    );
+
+}
+
+
+setTimeout(
+    () => {
+
+        typingCharIndex =
+            0;
+
+        typingDeleting =
+            false;
+
+        runTypingEffect();
+
+    },
+    1400
 );
+
+
+/* =========================================================
+   MOUSE GLOW
+========================================================= */
+
+const cursorGlow =
+    document.getElementById(
+        "cursorGlow"
+    );
+
+
+if (
+    cursorGlow &&
+    window.matchMedia(
+        "(pointer:fine)"
+    ).matches
+){
+
+    window.addEventListener(
+        "pointermove",
+        event => {
+
+            cursorGlow.style.transform =
+                `translate3d(
+                    ${
+                        event.clientX -
+                        180
+                    }px,
+                    ${
+                        event.clientY -
+                        180
+                    }px,
+                    0
+                )`;
+
+        },
+        {
+            passive:
+                true
+        }
+    );
+
+}
+
+
+/* =========================================================
+   TILT
+========================================================= */
+
+if (
+    window.matchMedia(
+        "(pointer:fine)"
+    ).matches
+){
+
+    document
+        .querySelectorAll(
+            ".tilt-card"
+        )
+        .forEach(
+            card => {
+
+                card.addEventListener(
+                    "pointermove",
+                    event => {
+
+                        const rect =
+                            card.getBoundingClientRect();
+
+
+                        const x =
+                            (
+                                event.clientX -
+                                rect.left
+                            ) /
+                            rect.width -
+                            0.5;
+
+
+                        const y =
+                            (
+                                event.clientY -
+                                rect.top
+                            ) /
+                            rect.height -
+                            0.5;
+
+
+                        card.style.setProperty(
+                            "--tilt-x",
+                            `${y * -4}deg`
+                        );
+
+
+                        card.style.setProperty(
+                            "--tilt-y",
+                            `${x * 4}deg`
+                        );
+
+
+                        card.style.setProperty(
+                            "--spot-x",
+                            `${(
+                                x +
+                                0.5
+                            ) * 100}%`
+                        );
+
+
+                        card.style.setProperty(
+                            "--spot-y",
+                            `${(
+                                y +
+                                0.5
+                            ) * 100}%`
+                        );
+
+                    }
+                );
+
+
+                card.addEventListener(
+                    "pointerleave",
+                    () => {
+
+                        card.style.setProperty(
+                            "--tilt-x",
+                            "0deg"
+                        );
+
+
+                        card.style.setProperty(
+                            "--tilt-y",
+                            "0deg"
+                        );
+
+
+                        card.style.setProperty(
+                            "--spot-x",
+                            "50%"
+                        );
+
+
+                        card.style.setProperty(
+                            "--spot-y",
+                            "50%"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   PARTICLE BACKGROUND
+========================================================= */
+
+const particleCanvas =
+    document.getElementById(
+        "particleCanvas"
+    );
+
+
+const prefersReducedMotion =
+    window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+
+if (
+    particleCanvas &&
+    !prefersReducedMotion
+){
+
+    const particleContext =
+        particleCanvas.getContext(
+            "2d"
+        );
+
+
+    const particles =
+        [];
+
+
+    let canvasWidth =
+        0;
+
+
+    let canvasHeight =
+        0;
+
+
+    let animationFrame =
+        0;
+
+
+    function createParticles(){
+
+        particles.length =
+            0;
+
+
+        const count =
+            Math.min(
+                85,
+                Math.max(
+                    28,
+                    Math.floor(
+                        canvasWidth *
+                        canvasHeight /
+                        22000
+                    )
+                )
+            );
+
+
+        for (
+            let i = 0;
+            i < count;
+            i++
+        ){
+
+            particles.push(
+                {
+
+                    x:
+                        Math.random() *
+                        canvasWidth,
+
+                    y:
+                        Math.random() *
+                        canvasHeight,
+
+                    radius:
+                        Math.random() *
+                        1.6 +
+                        .35,
+
+                    speedX:
+                        (
+                            Math.random() -
+                            .5
+                        ) *
+                        .18,
+
+                    speedY:
+                        (
+                            Math.random() -
+                            .5
+                        ) *
+                        .18,
+
+                    opacity:
+                        Math.random() *
+                        .5 +
+                        .18,
+
+                    phase:
+                        Math.random() *
+                        Math.PI *
+                        2,
+
+                    pulse:
+                        Math.random() *
+                        .02 +
+                        .005
+
+                }
+            );
+
+        }
+
+    }
+
+
+    function resizeParticleCanvas(){
+
+        const ratio =
+            Math.min(
+                window.devicePixelRatio ||
+                1,
+                2
+            );
+
+
+        canvasWidth =
+            window.innerWidth;
+
+
+        canvasHeight =
+            window.innerHeight;
+
+
+        particleCanvas.width =
+            canvasWidth *
+            ratio;
+
+
+        particleCanvas.height =
+            canvasHeight *
+            ratio;
+
+
+        particleCanvas.style.width =
+            `${canvasWidth}px`;
+
+
+        particleCanvas.style.height =
+            `${canvasHeight}px`;
+
+
+        particleContext.setTransform(
+            ratio,
+            0,
+            0,
+            ratio,
+            0,
+            0
+        );
+
+
+        createParticles();
+
+    }
+
+
+    function animateParticles(){
+
+        particleContext.clearRect(
+            0,
+            0,
+            canvasWidth,
+            canvasHeight
+        );
+
+
+        particles.forEach(
+            particle => {
+
+                particle.x +=
+                    particle.speedX;
+
+
+                particle.y +=
+                    particle.speedY;
+
+
+                particle.phase +=
+                    particle.pulse;
+
+
+                if (
+                    particle.x <
+                    -10
+                ){
+
+                    particle.x =
+                        canvasWidth +
+                        10;
+
+                }
+
+
+                if (
+                    particle.x >
+                    canvasWidth +
+                    10
+                ){
+
+                    particle.x =
+                        -10;
+
+                }
+
+
+                if (
+                    particle.y <
+                    -10
+                ){
+
+                    particle.y =
+                        canvasHeight +
+                        10;
+
+                }
+
+
+                if (
+                    particle.y >
+                    canvasHeight +
+                    10
+                ){
+
+                    particle.y =
+                        -10;
+
+                }
+
+
+                const alpha =
+                    Math.max(
+                        .05,
+                        particle.opacity +
+                        Math.sin(
+                            particle.phase
+                        ) *
+                        .12
+                    );
+
+
+                particleContext.beginPath();
+
+
+                particleContext.arc(
+                    particle.x,
+                    particle.y,
+                    particle.radius,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                particleContext.fillStyle =
+                    `rgba(
+                        96,
+                        165,
+                        250,
+                        ${alpha}
+                    )`;
+
+
+                particleContext.shadowBlur =
+                    particle.radius >
+                    1.15
+                        ? 8
+                        : 4;
+
+
+                particleContext.shadowColor =
+                    "rgba(96,165,250,.7)";
+
+
+                particleContext.fill();
+
+            }
+        );
+
+
+        particleContext.shadowBlur =
+            0;
+
+
+        animationFrame =
+            requestAnimationFrame(
+                animateParticles
+            );
+
+    }
+
+
+    window.addEventListener(
+        "resize",
+        resizeParticleCanvas,
+        {
+            passive:
+                true
+        }
+    );
+
+
+    resizeParticleCanvas();
+
+
+    animationFrame =
+        requestAnimationFrame(
+            animateParticles
+        );
+
+
+    window.addEventListener(
+        "pagehide",
+        () =>
+            cancelAnimationFrame(
+                animationFrame
+            ),
+        {
+            once:
+                true
+        }
+    );
+
+}
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+loadDocumentLibrary();
 
 </script>
 
