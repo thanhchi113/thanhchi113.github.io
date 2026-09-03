@@ -11,12 +11,12 @@
 >
 
 <title>
-    Quản trị tài liệu | Huỳnh Thanh Chí
+    Quản trị | Thanh Chí Math
 </title>
 
 <link
     rel="stylesheet"
-    href="style.css?v=20260903-3"
+    href="style.css?v=20260903-4"
 >
 
 <link
@@ -29,208 +29,143 @@
 <style>
 
 :root{
+    --admin-bg:#07101d;
+    --admin-card:#0c1524;
+    --admin-line:rgba(148,163,184,.14);
+    --admin-muted:#8192aa;
+    --admin-text:#edf6ff;
+    --admin-accent:#7dd3fc;
+}
 
-    --admin-bg:
-        rgba(8,15,28,.78);
 
-    --admin-border:
-        rgba(148,163,184,.14);
+*{
+    box-sizing:border-box;
+}
 
-    --admin-muted:
-        #8292a9;
 
-    --admin-text:
-        #eaf3ff;
-
-    --admin-accent:
-        #7dd3fc;
-
+.hidden{
+    display:none !important;
 }
 
 
 .admin-page{
-
     min-height:100vh;
-
     padding:
-        108px
+        105px
         0
         70px;
-
-    position:relative;
-
-    z-index:2;
-
 }
 
 
 .admin-nav{
-
     position:fixed;
-
-    top:0;
-    left:0;
-
-    width:100%;
-
-    z-index:1500;
-
+    inset:0 0 auto;
+    z-index:2000;
     height:76px;
-
     background:
-        rgba(7,11,20,.86);
-
+        rgba(6,11,20,.88);
     backdrop-filter:
         blur(18px);
-
     border-bottom:
         1px solid
         rgba(255,255,255,.07);
-
 }
 
 
-.admin-nav .container{
-
-    height:76px;
-
+.admin-nav
+.container{
+    height:100%;
     display:flex;
-
     align-items:center;
-
-    justify-content:
-        space-between;
-
+    justify-content:space-between;
 }
 
 
 .admin-nav a{
-
     color:#dcecff;
-
 }
 
 
 .admin-nav .back{
-
-    font-size:14px;
-
-    color:#9fb0c8;
-
+    color:#91a3ba;
+    font-size:13px;
 }
 
 
 .admin-card{
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(14,23,42,.85),
-            rgba(7,12,24,.78)
-        );
-
+    padding:20px;
     border:
         1px solid
         rgba(255,255,255,.09);
-
     border-radius:18px;
-
-    padding:22px;
-
+    background:
+        linear-gradient(
+            145deg,
+            rgba(14,23,42,.84),
+            rgba(7,12,24,.78)
+        );
     box-shadow:
-        0 25px 70px
-        rgba(0,0,0,.22);
-
-}
-
-
-.admin-shell{
-
-    display:grid;
-
-    grid-template-columns:
-        minmax(330px,380px)
-        1fr;
-
-    gap:22px;
-
+        0 25px 80px
+        rgba(0,0,0,.2);
 }
 
 
 .admin-login{
-
     max-width:460px;
-
     margin:
         50px auto;
+}
 
+
+.admin-shell{
+    display:grid;
+    grid-template-columns:
+        minmax(350px,410px)
+        1fr;
+    gap:20px;
 }
 
 
 .admin-title{
-
     display:flex;
-
     align-items:flex-start;
-
-    justify-content:
-        space-between;
-
+    justify-content:space-between;
     gap:15px;
-
-    margin-bottom:20px;
-
+    margin-bottom:18px;
 }
 
 
 .admin-title h1{
-
-    font-size:28px;
-
-    line-height:1.1;
-
+    margin:0;
+    font-size:26px;
 }
 
 
 .admin-title p{
-
-    margin-top:7px;
-
-    color:
-        var(--admin-muted);
-
-    font-size:13px;
-
+    margin:
+        7px 0
+        0;
+    color:var(--admin-muted);
+    font-size:12px;
+    line-height:1.5;
 }
 
 
 .admin-form{
-
     display:grid;
-
     gap:12px;
-
 }
 
 
 .admin-form label,
 .field-label{
-
     display:block;
-
-    margin-bottom:7px;
-
-    font-size:11px;
-
-    color:#a8b6c9;
-
+    margin-bottom:6px;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    font-size:10px;
     font-weight:800;
-
-    letter-spacing:.65px;
-
-    text-transform:
-        uppercase;
-
+    color:#a8b6c9;
 }
 
 
@@ -239,37 +174,26 @@
 .admin-form select,
 .admin-search,
 .admin-filter{
-
     width:100%;
-
+    padding:
+        11px
+        12px;
     background:
-        rgba(5,10,19,.7);
-
+        rgba(4,9,18,.74);
     border:
         1px solid
-        rgba(148,163,184,.18);
-
-    color:#f1f7ff;
-
+        rgba(148,163,184,.17);
     border-radius:10px;
-
-    padding:
-        12px
-        13px;
-
-    font:inherit;
-
+    color:#eff7ff;
     outline:none;
-
+    font:inherit;
+    font-size:13px;
 }
 
 
 .admin-form textarea{
-
-    min-height:92px;
-
+    min-height:100px;
     resize:vertical;
-
 }
 
 
@@ -278,967 +202,793 @@
 .admin-form select:focus,
 .admin-search:focus,
 .admin-filter:focus{
-
     border-color:
-        rgba(125,211,252,.5);
-
+        rgba(125,211,252,.48);
 }
 
 
-.admin-actions{
-
-    display:flex;
-
-    gap:9px;
-
-    flex-wrap:wrap;
-
-    margin-top:4px;
-
-}
-
-
-.admin-btn{
-
-    border:
-        1px solid
-        rgba(96,165,250,.26);
-
-    background:
-        rgba(56,189,248,.09);
-
-    color:#eaf7ff;
-
-    border-radius:10px;
-
-    padding:
-        11px
-        14px;
-
-    cursor:pointer;
-
-    font:inherit;
-
-    display:inline-flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:8px;
-
-    text-decoration:none;
-
-    transition:.2s ease;
-
-}
-
-
-.admin-btn:hover{
-
-    transform:
-        translateY(-1px);
-
-    border-color:
-        rgba(125,211,252,.55);
-
-}
-
-
-.admin-btn.danger{
-
-    color:#fecaca;
-
-    background:
-        rgba(239,68,68,.08);
-
-    border-color:
-        rgba(248,113,113,.16);
-
-}
-
-
-.admin-btn.ghost{
-
-    background:
-        rgba(255,255,255,.03);
-
-    color:#cbd5e1;
-
-    border-color:
-        rgba(255,255,255,.09);
-
-}
-
-
-.admin-btn.success{
-
-    color:#bbf7d0;
-
-    background:
-        rgba(34,197,94,.08);
-
-    border-color:
-        rgba(74,222,128,.16);
-
-}
-
-
-.admin-status{
-
-    margin-top:8px;
-
-    min-height:20px;
-
-    color:#8ea0b8;
-
-    font-size:12px;
-
-    line-height:1.5;
-
-}
-
-
-.hidden{
-
-    display:none!important;
-
-}
-
-
-.admin-authbar{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:
-        space-between;
-
-    gap:10px;
-
-    margin-bottom:18px;
-
-    padding:
-        11px
-        13px;
-
-    border-radius:12px;
-
-    background:
-        rgba(56,189,248,.05);
-
-    border:
-        1px solid
-        rgba(125,211,252,.12);
-
-    color:#b9c8da;
-
-    font-size:13px;
-
-}
-
-
-.admin-user{
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-
-    white-space:nowrap;
-
+.admin-form option,
+.admin-filter option{
+    background:#0b1320;
+    color:#fff;
 }
 
 
 .field-grid{
-
     display:grid;
-
     grid-template-columns:
         1fr
         1fr;
-
-    gap:11px;
-
+    gap:10px;
 }
 
 
-.admin-drop{
+.field-grid.three{
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+}
 
+
+.admin-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+
+.admin-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:
+        10px
+        13px;
     border:
-        1px dashed
-        rgba(125,211,252,.25);
-
-    padding:15px;
-
-    border-radius:12px;
-
+        1px solid
+        rgba(96,165,250,.25);
+    border-radius:10px;
     background:
-        rgba(56,189,248,.03);
-
-}
-
-
-.admin-drop input[type=file]{
-
+        rgba(56,189,248,.08);
+    color:#ecf8ff;
+    font:inherit;
     cursor:pointer;
-
+    text-decoration:none;
+    transition:.2s ease;
 }
 
 
-.file-name{
+.admin-btn:hover{
+    transform:
+        translateY(-1px);
+    border-color:
+        rgba(125,211,252,.52);
+}
 
-    color:#7dd3fc;
 
-    font-size:12px;
+.admin-btn.ghost{
+    background:
+        rgba(255,255,255,.025);
+    border-color:
+        rgba(255,255,255,.09);
+    color:#cbd5e1;
+}
 
-    word-break:
-        break-word;
 
+.admin-btn.danger{
+    background:
+        rgba(239,68,68,.07);
+    border-color:
+        rgba(248,113,113,.17);
+    color:#fecaca;
+}
+
+
+.admin-btn.success{
+    background:
+        rgba(34,197,94,.07);
+    border-color:
+        rgba(74,222,128,.17);
+    color:#bbf7d0;
+}
+
+
+.admin-status{
+    min-height:18px;
+    margin-top:4px;
+    color:#8ea0b8;
+    font-size:11px;
+    line-height:1.5;
 }
 
 
 .muted{
-
-    color:#73839a;
-
+    color:#74859c;
     font-size:11px;
-
     line-height:1.5;
-
 }
 
 
-.check-row{
-
+.admin-authbar{
     display:flex;
-
     align-items:center;
-
-    gap:8px;
-
-    color:#b8c6d8;
-
-    font-size:13px;
-
-}
-
-
-.check-row input{
-
-    width:auto;
-
-}
-
-
-.admin-section-title{
-
-    margin:
-        25px
-        0
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:16px;
+    padding:
+        10px
         12px;
+    border:
+        1px solid
+        rgba(125,211,252,.12);
+    border-radius:12px;
+    background:
+        rgba(56,189,248,.04);
+    color:#bfd0e2;
+}
 
-    font-size:15px;
 
-    color:#dbeafe;
-
+.user-email{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 
 
 .stats-grid{
-
     display:grid;
-
     grid-template-columns:
         repeat(
-            4,
+            5,
             1fr
         );
-
-    gap:12px;
-
+    gap:10px;
     margin-bottom:18px;
-
 }
 
 
-.stat-box{
-
-    padding:15px;
-
+.stat{
+    padding:14px;
     border:
         1px solid
-        var(--admin-border);
-
+        var(--admin-line);
     border-radius:14px;
-
     background:
-        rgba(255,255,255,.025);
-
+        rgba(255,255,255,.02);
 }
 
 
 .stat-value{
-
-    font-size:26px;
-
+    color:#f7fbff;
+    font-size:25px;
     font-weight:900;
-
-    color:#f5faff;
-
 }
 
 
 .stat-label{
-
     margin-top:3px;
-
-    color:#7f91aa;
-
-    font-size:11px;
-
+    color:#7d8ea6;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.5px;
 }
 
 
-.admin-list-toolbar{
-
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        190px
-        190px;
-
-    gap:10px;
-
+.tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
     margin-bottom:14px;
-
 }
 
 
-.admin-list{
-
-    display:grid;
-
-    gap:10px;
-
-}
-
-
-.admin-doc{
-
-    display:grid;
-
-    grid-template-columns:
-        26px
-        minmax(0,1fr)
-        auto;
-
-    gap:12px;
-
-    align-items:center;
-
-    padding:14px;
-
+.tab{
+    padding:
+        8px
+        11px;
     border:
         1px solid
         rgba(255,255,255,.08);
-
-    border-radius:14px;
-
-    background:
-        rgba(255,255,255,.025);
-
-    transition:.2s ease;
-
-}
-
-
-.admin-doc.dragging{
-
-    opacity:.45;
-
-    transform:
-        scale(.995);
-
-}
-
-
-.admin-doc:hover{
-
-    border-color:
-        rgba(125,211,252,.18);
-
-    background:
-        rgba(255,255,255,.035);
-
-}
-
-
-.drag-handle{
-
-    color:#64748b;
-
-    cursor:grab;
-
-}
-
-
-.drag-handle:active{
-
-    cursor:grabbing;
-
-}
-
-
-.admin-doc h3{
-
-    font-size:16px;
-
-    margin-bottom:4px;
-
-}
-
-
-.admin-doc p{
-
-    color:#8393aa;
-
-    font-size:12px;
-
-    display:
-        -webkit-box;
-
-    -webkit-line-clamp:2;
-
-    -webkit-box-orient:
-        vertical;
-
-    overflow:hidden;
-
-}
-
-
-.admin-doc-meta{
-
-    font-size:11px;
-
-    color:#6f8097;
-
-    margin-top:6px;
-
-}
-
-
-.status-pill{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    gap:5px;
-
-    min-height:24px;
-
-    padding:
-        0
-        8px;
-
-    border-radius:999px;
-
-    font-size:10px;
-
-    font-weight:800;
-
-}
-
-
-.status-pill.on{
-
-    color:#bbf7d0;
-
-    background:
-        rgba(34,197,94,.08);
-
-    border:
-        1px solid
-        rgba(74,222,128,.16);
-
-}
-
-
-.status-pill.off{
-
-    color:#cbd5e1;
-
-    background:
-        rgba(148,163,184,.07);
-
-    border:
-        1px solid
-        rgba(148,163,184,.13);
-
-}
-
-
-.doc-actions{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:7px;
-
-    flex-wrap:wrap;
-
-    justify-content:flex-end;
-
-}
-
-
-.icon-btn{
-
-    min-width:38px;
-
-    height:38px;
-
-    padding:
-        0
-        10px;
-
-}
-
-
-.category-manager{
-
-    display:grid;
-
-    gap:9px;
-
-}
-
-
-.category-line{
-
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        auto;
-
-    gap:8px;
-
-}
-
-
-.category-list{
-
-    display:grid;
-
-    gap:8px;
-
-    margin-top:10px;
-
-}
-
-
-.category-item{
-
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        auto;
-
-    gap:8px;
-
-    align-items:center;
-
-    padding:10px;
-
     border-radius:10px;
-
     background:
         rgba(255,255,255,.025);
+    color:#96a7bb;
+    font-size:11px;
+    font-weight:700;
+    cursor:pointer;
+}
 
+
+.tab.active{
+    color:#e7f6ff;
+    border-color:
+        rgba(125,211,252,.36);
+    background:
+        rgba(56,189,248,.08);
+}
+
+
+.panel{
+    display:none;
+}
+
+
+.panel.active{
+    display:block;
+}
+
+
+.upload-zone{
+    padding:15px;
     border:
-        1px solid
-        rgba(255,255,255,.06);
-
+        1px dashed
+        rgba(125,211,252,.25);
+    border-radius:12px;
+    background:
+        rgba(56,189,248,.025);
 }
 
 
-.category-item-name{
-
-    min-width:0;
-
-}
-
-
-.category-count{
-
-    color:#74849b;
-
-    font-size:10px;
-
-}
-
-
-.bulk-preview{
-
+.file-list{
     display:grid;
-
-    gap:7px;
-
+    gap:6px;
+    max-height:180px;
     margin-top:9px;
-
+    overflow:auto;
 }
 
 
-.bulk-file{
-
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        auto;
-
-    gap:8px;
-
+.file-row{
+    display:flex;
     align-items:center;
-
+    justify-content:space-between;
+    gap:10px;
     padding:
         8px
         10px;
-
-    border-radius:9px;
-
-    background:
-        rgba(255,255,255,.025);
-
     border:
         1px solid
         rgba(255,255,255,.06);
-
-    font-size:11px;
-
-}
-
-
-.progress-box{
-
-    display:none;
-
-    margin-top:10px;
-
-}
-
-
-.progress-box.show{
-
-    display:block;
-
-}
-
-
-.progress-track{
-
-    height:7px;
-
-    border-radius:99px;
-
+    border-radius:9px;
     background:
-        rgba(148,163,184,.12);
-
-    overflow:hidden;
-
+        rgba(255,255,255,.025);
+    font-size:11px;
 }
 
 
-.progress-bar{
+.file-row
+span:first-child{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
 
-    height:100%;
 
+.progress{
+    display:none;
+    margin-top:10px;
+}
+
+
+.progress.show{
+    display:block;
+}
+
+
+.track{
+    height:7px;
+    overflow:hidden;
+    border-radius:999px;
+    background:
+        rgba(148,163,184,.1);
+}
+
+
+.bar{
     width:0;
-
+    height:100%;
     background:
         linear-gradient(
             90deg,
             #38bdf8,
             #8b5cf6
         );
-
     transition:
-        width .2s ease;
-
+        width .2s;
 }
 
 
 .progress-text{
-
     margin-top:5px;
-
-    color:#8ea0b8;
-
-    font-size:11px;
-
+    color:#7e90a7;
+    font-size:10px;
 }
 
 
-.empty-admin{
-
-    padding:30px;
-
-    text-align:center;
-
-    color:#71819a;
-
-    border:
-        1px dashed
-        rgba(148,163,184,.12);
-
-    border-radius:14px;
-
+.toolbar{
+    display:grid;
+    grid-template-columns:
+        1fr
+        180px
+        160px
+        140px;
+    gap:8px;
+    margin-bottom:12px;
 }
 
 
-.edit-note{
+.list{
+    display:grid;
+    gap:9px;
+}
 
-    padding:10px;
 
+.doc{
+    display:grid;
+    grid-template-columns:
+        78px
+        minmax(0,1fr)
+        auto;
+    gap:12px;
+    align-items:center;
+    padding:12px;
     border:
         1px solid
-        rgba(125,211,252,.12);
-
-    border-radius:10px;
-
+        rgba(255,255,255,.075);
+    border-radius:14px;
     background:
-        rgba(56,189,248,.04);
+        rgba(255,255,255,.02);
+}
 
-    color:#8ca0ba;
 
+.doc.dragging{
+    opacity:.45;
+}
+
+
+.doc-thumb{
+    width:78px;
+    height:96px;
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+    border-radius:10px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(56,189,248,.08),
+            rgba(124,58,237,.08)
+        );
+}
+
+
+.doc-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+
+.doc-thumb i{
+    color:#7dd3fc;
+    font-size:29px;
+}
+
+
+.doc h3{
+    margin:
+        0 0
+        4px;
+    font-size:15px;
+}
+
+
+.doc p{
+    margin:0;
+    color:#8192aa;
     font-size:11px;
+    line-height:1.45;
+    display:
+        -webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
 
+
+.meta{
+    margin-top:6px;
+    color:#65778f;
+    font-size:9px;
+    line-height:1.55;
+}
+
+
+.pill{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    padding:
+        4px
+        7px;
+    border-radius:999px;
+    font-size:9px;
+    font-weight:900;
+}
+
+
+.pill.on{
+    color:#86efac;
+    background:
+        rgba(34,197,94,.08);
+    border:
+        1px solid
+        rgba(74,222,128,.15);
+}
+
+
+.pill.off{
+    color:#9aa9bb;
+    background:
+        rgba(148,163,184,.06);
+    border:
+        1px solid
+        rgba(148,163,184,.11);
+}
+
+
+.pill.exam{
+    color:#ddd6fe;
+    background:
+        rgba(167,139,250,.08);
+    border:
+        1px solid
+        rgba(167,139,250,.18);
+}
+
+
+.actions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    flex-wrap:wrap;
+    gap:6px;
+}
+
+
+.icon{
+    min-width:36px;
+    height:36px;
+    padding:
+        0
+        9px;
+}
+
+
+.drag{
+    color:#66798f;
+    cursor:grab;
+}
+
+
+.category-tree{
+    display:grid;
+    gap:7px;
+}
+
+
+.cat{
+    display:grid;
+    grid-template-columns:
+        minmax(0,1fr)
+        auto;
+    gap:8px;
+    align-items:center;
+    padding:
+        9px
+        10px;
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+    border-radius:10px;
+    background:
+        rgba(255,255,255,.02);
+}
+
+
+.cat-main{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    min-width:0;
+}
+
+
+.cat-indent{
+    flex:0 0 12px;
+}
+
+
+.cat-name{
+    min-width:0;
+    flex:1;
+}
+
+
+.cat-name input{
+    margin:0;
+}
+
+
+.cat-meta{
+    color:#71829b;
+    font-size:9px;
+}
+
+
+.request{
+    padding:13px;
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+    border-radius:13px;
+    background:
+        rgba(255,255,255,.02);
+}
+
+
+.request-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+}
+
+
+.request-title{
+    color:#eff7ff;
+    font-size:14px;
+    font-weight:800;
+}
+
+
+.request-body{
+    margin-top:7px;
+    color:#96a6ba;
+    font-size:11px;
     line-height:1.5;
+}
 
+
+.request-footer{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:10px;
+}
+
+
+.request-footer select,
+.request-footer input{
+    padding:
+        7px
+        8px;
+    border:
+        1px solid
+        rgba(148,163,184,.15);
+    border-radius:8px;
+    outline:0;
+    background:
+        rgba(4,9,18,.7);
+    color:#eaf3ff;
+    font-size:10px;
+}
+
+
+.top-docs{
+    display:grid;
+    gap:7px;
+    margin-top:10px;
+}
+
+
+.top-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:
+        8px
+        9px;
+    border-radius:9px;
+    background:
+        rgba(255,255,255,.02);
+    font-size:10px;
+}
+
+
+.top-row
+span:first-child{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 
 
 .modal{
-
     position:fixed;
-
     inset:0;
-
-    z-index:2600;
-
+    z-index:3000;
     display:none;
-
     align-items:center;
-
     justify-content:center;
-
-    padding:20px;
-
+    padding:18px;
     background:
-        rgba(2,6,14,.82);
-
+        rgba(2,6,14,.83);
     backdrop-filter:
         blur(10px);
-
 }
 
 
 .modal.open{
-
     display:flex;
-
 }
 
 
 .modal-card{
-
     width:
         min(
-            860px,
+            1150px,
             96vw
         );
-
-    max-height:92vh;
-
+    max-height:94vh;
     overflow:auto;
-
-    border-radius:18px;
-
+    padding:20px;
     border:
         1px solid
         rgba(255,255,255,.1);
-
+    border-radius:18px;
     background:#08101c;
-
     box-shadow:
         0 30px 100px
-        rgba(0,0,0,.55);
-
-    padding:22px;
-
+        rgba(0,0,0,.5);
 }
 
 
 .modal-head{
-
     display:flex;
-
     align-items:flex-start;
-
-    justify-content:
-        space-between;
-
+    justify-content:space-between;
     gap:12px;
-
-    margin-bottom:18px;
-
+    margin-bottom:14px;
 }
 
 
 .modal-head h2{
-
-    font-size:22px;
-
+    margin:0;
+    font-size:20px;
 }
 
 
-.modal-close{
-
-    width:38px;
-
-    height:38px;
-
-    border-radius:10px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.09);
-
-    background:
-        rgba(255,255,255,.03);
-
-    color:#e8f2ff;
-
-    cursor:pointer;
-
-}
-
-
-.preview-frame{
-
+.preview{
     width:100%;
-
-    height:68vh;
-
+    height:70vh;
     border:0;
-
     border-radius:12px;
-
     background:#111827;
+}
 
+
+.empty{
+    padding:30px;
+    text-align:center;
+    color:#71829a;
+    border:
+        1px dashed
+        rgba(148,163,184,.11);
+    border-radius:14px;
 }
 
 
 .toast{
-
     position:fixed;
-
-    right:20px;
-
-    bottom:20px;
-
-    z-index:4000;
-
+    right:18px;
+    bottom:18px;
+    z-index:5000;
+    display:none;
     max-width:380px;
-
     padding:
-        12px
-        14px;
-
-    border-radius:12px;
-
-    background:#091322;
-
+        11px
+        13px;
     border:
         1px solid
         rgba(125,211,252,.18);
-
-    color:#dceeff;
-
+    border-radius:11px;
+    background:#0a1524;
+    color:#eaf5ff;
     box-shadow:
         0 20px 50px
         rgba(0,0,0,.3);
-
-    display:none;
-
+    font-size:12px;
 }
 
 
 .toast.show{
-
     display:block;
-
 }
 
 
 .toast.ok{
-
     border-color:
-        rgba(74,222,128,.22);
-
+        rgba(74,222,128,.2);
 }
 
 
 .toast.error{
-
     border-color:
-        rgba(248,113,113,.22);
-
+        rgba(248,113,113,.2);
 }
 
 
-@media(max-width:1100px){
+@media(max-width:1150px){
 
     .admin-shell{
-
         grid-template-columns:
             1fr;
-
     }
 
 
     .stats-grid{
-
         grid-template-columns:
             repeat(
-                2,
+                3,
                 1fr
             );
-
     }
 
+}
 
-    .admin-list-toolbar{
 
+@media(max-width:850px){
+
+    .toolbar{
         grid-template-columns:
-            1fr
-            1fr;
-
+            1fr 1fr;
     }
 
 
-    .admin-list-toolbar
-    .admin-search{
-
+    .toolbar
+    input{
         grid-column:
             1 / -1;
+    }
 
+
+    .doc{
+        grid-template-columns:
+            70px
+            minmax(0,1fr);
+    }
+
+
+    .doc-thumb{
+        width:70px;
+        height:88px;
+    }
+
+
+    .doc
+    .actions{
+        grid-column:
+            2;
+        justify-content:
+            flex-start;
     }
 
 }
@@ -1246,78 +996,56 @@
 
 @media(max-width:650px){
 
-    .admin-page{
-
-        padding-top:
-            95px;
-
-    }
-
-
     .admin-card{
-
-        padding:16px;
-
-    }
-
-
-    .field-grid{
-
-        grid-template-columns:
-            1fr;
-
+        padding:15px;
     }
 
 
     .stats-grid{
-
         grid-template-columns:
-            1fr
-            1fr;
-
+            1fr 1fr;
     }
 
 
-    .admin-doc{
-
-        grid-template-columns:
-            20px
-            minmax(0,1fr);
-
-    }
-
-
-    .doc-actions{
-
-        grid-column:
-            2;
-
-        justify-content:
-            flex-start;
-
-    }
-
-
-    .admin-list-toolbar{
-
+    .field-grid,
+    .field-grid.three{
         grid-template-columns:
             1fr;
-
     }
 
 
-    .admin-list-toolbar
-    .admin-search{
+    .toolbar{
+        grid-template-columns:
+            1fr;
+    }
 
+
+    .toolbar
+    input{
         grid-column:auto;
-
     }
 
 
-    .preview-frame{
+    .doc{
+        grid-template-columns:
+            1fr;
+    }
 
-        height:72vh;
 
+    .doc-thumb{
+        width:100%;
+        height:140px;
+    }
+
+
+    .doc
+    .actions{
+        grid-column:auto;
+    }
+
+
+    .admin-nav .back{
+        font-size:11px;
     }
 
 }
@@ -1335,16 +1063,16 @@
     <div class="container">
 
         <a
-            class="logo"
             href="index.html"
+            class="logo"
         >
             Thanh<span>Chí</span>
         </a>
 
 
         <a
-            class="back"
             href="index.html"
+            class="back"
         >
 
             <i
@@ -1367,7 +1095,7 @@
 
 <!-- =========================================================
      LOGIN
-========================================================= -->
+========================================================== -->
 
 <section
     id="loginPanel"
@@ -1381,20 +1109,24 @@
             <div>
 
                 <h1>
-                    Đăng nhập
+                    Đăng nhập quản trị
                 </h1>
 
                 <p>
-                    Khu vực quản trị thư viện tài liệu
+                    Quản lý tài liệu, đề thi, danh mục
+                    và yêu cầu tài liệu.
                 </p>
 
             </div>
 
 
             <i
-                class="fa-solid fa-shield-halved"
+                class="
+                    fa-solid
+                    fa-shield-halved
+                "
                 style="
-                    font-size:30px;
+                    font-size:29px;
                     color:#7dd3fc
                 "
             ></i>
@@ -1445,7 +1177,10 @@
             >
 
                 <i
-                    class="fa-solid fa-right-to-bracket"
+                    class="
+                        fa-solid
+                        fa-right-to-bracket
+                    "
                 ></i>
 
                 Đăng nhập
@@ -1466,8 +1201,8 @@
 
 
 <!-- =========================================================
-     ADMIN PANEL
-========================================================= -->
+     ADMIN
+========================================================== -->
 
 <section
     id="adminPanel"
@@ -1477,27 +1212,34 @@
 
 <div class="admin-authbar">
 
-    <div class="admin-user">
+    <div class="user-email">
 
         <i
-            class="fa-solid fa-user-shield"
+            class="
+                fa-solid
+                fa-user-shield
+            "
         ></i>
 
-        <span id="userEmail">
-            Đã đăng nhập
-        </span>
+        <span id="userEmail"></span>
 
     </div>
 
 
     <button
-        class="admin-btn ghost"
         id="logoutBtn"
+        class="
+            admin-btn
+            ghost
+        "
         type="button"
     >
 
         <i
-            class="fa-solid fa-right-from-bracket"
+            class="
+                fa-solid
+                fa-right-from-bracket
+            "
         ></i>
 
         Đăng xuất
@@ -1509,15 +1251,15 @@
 
 <!-- =========================================================
      STATS
-========================================================= -->
+========================================================== -->
 
 <div class="stats-grid">
 
-    <div class="stat-box">
+    <div class="stat">
 
         <div
-            class="stat-value"
             id="statDocs"
+            class="stat-value"
         >
             0
         </div>
@@ -1529,11 +1271,11 @@
     </div>
 
 
-    <div class="stat-box">
+    <div class="stat">
 
         <div
-            class="stat-value"
             id="statPublished"
+            class="stat-value"
         >
             0
         </div>
@@ -1545,11 +1287,11 @@
     </div>
 
 
-    <div class="stat-box">
+    <div class="stat">
 
         <div
-            class="stat-value"
             id="statHidden"
+            class="stat-value"
         >
             0
         </div>
@@ -1561,11 +1303,11 @@
     </div>
 
 
-    <div class="stat-box">
+    <div class="stat">
 
         <div
-            class="stat-value"
             id="statCategories"
+            class="stat-value"
         >
             0
         </div>
@@ -1576,307 +1318,778 @@
 
     </div>
 
+
+    <div class="stat">
+
+        <div
+            id="statViews"
+            class="stat-value"
+        >
+            0
+        </div>
+
+        <div class="stat-label">
+            LƯỢT XEM
+        </div>
+
+    </div>
+
 </div>
 
+
+<!-- =========================================================
+     TABS
+========================================================== -->
+
+<div class="tabs">
+
+    <button
+        class="tab active"
+        data-tab="documents"
+        type="button"
+    >
+        Tài liệu
+    </button>
+
+
+    <button
+        class="tab"
+        data-tab="categories"
+        type="button"
+    >
+        Danh mục
+    </button>
+
+
+    <button
+        class="tab"
+        data-tab="requests"
+        type="button"
+    >
+        Yêu cầu tài liệu
+    </button>
+
+
+    <button
+        class="tab"
+        data-tab="stats"
+        type="button"
+    >
+        Thống kê
+    </button>
+
+</div>
+
+
+<!-- =========================================================
+     DOCUMENT TAB
+========================================================== -->
+
+<section
+    id="panel-documents"
+    class="panel active"
+>
 
 <div class="admin-shell">
 
 
-<!-- =========================================================
-     LEFT
-========================================================= -->
+<!-- UPLOAD -->
 
 <section class="admin-card">
 
+    <div class="admin-title">
 
-<div class="admin-title">
+        <div>
 
-    <div>
+            <h1 id="formTitle">
+                Thêm tài liệu
+            </h1>
 
-        <h1 id="formTitle">
-            Thêm tài liệu
-        </h1>
+            <p>
+                Upload PDF, ảnh bìa, gắn tag
+                hoặc tạo đề thi.
+            </p>
 
-        <p>
-            Upload một hoặc nhiều PDF,
-            chỉnh sửa thông tin và xuất bản trực tiếp.
-        </p>
+        </div>
+
+
+        <i
+            class="
+                fa-solid
+                fa-file-circle-plus
+            "
+            style="
+                color:#7dd3fc;
+                font-size:28px
+            "
+        ></i>
 
     </div>
 
-</div>
 
-
-<form
-    id="docForm"
-    class="admin-form"
->
-
-
-<input
-    type="hidden"
-    id="docId"
->
-
-<input
-    type="hidden"
-    id="oldFilePath"
->
-
-<input
-    type="hidden"
-    id="editingFileName"
->
-
-
-<div>
-
-    <label>
-        Tiêu đề
-    </label>
-
-    <input
-        id="title"
-        placeholder="Ví dụ: Chuyên đề Đạo hàm"
+    <form
+        id="docForm"
+        class="admin-form"
     >
 
-</div>
-
-
-<div>
-
-    <label>
-        Mô tả
-    </label>
-
-    <textarea
-        id="description"
-        placeholder="Mô tả ngắn về tài liệu..."
-    ></textarea>
-
-</div>
-
-
-<div class="field-grid">
-
-
-    <div>
-
-        <label>
-            Danh mục
-        </label>
-
-        <select
-            id="categoryId"
-            required
-        ></select>
-
-    </div>
-
-
-    <div>
-
-        <label>
-            Thứ tự
-        </label>
-
         <input
-            id="sortOrder"
-            type="number"
-            value="0"
-            min="0"
+            type="hidden"
+            id="docId"
         >
 
-    </div>
-
-</div>
-
-
-<div>
-
-    <label>
-        Tệp PDF
-    </label>
-
-
-    <div class="admin-drop">
+        <input
+            type="hidden"
+            id="oldPdfPath"
+        >
 
         <input
-            id="fileInput"
-            type="file"
-            accept="application/pdf"
-            multiple
+            type="hidden"
+            id="oldThumbPath"
         >
 
 
-        <div
-            id="selectedFile"
-            class="file-name"
-        ></div>
+        <div>
+
+            <label>
+                Tiêu đề
+            </label>
+
+            <input
+                id="title"
+                placeholder="Ví dụ: Chuyên đề Hàm số 2026"
+            >
+
+        </div>
 
 
-        <div
-            class="muted"
+        <div>
+
+            <label>
+                Mô tả
+            </label>
+
+            <textarea
+                id="description"
+                maxlength="1200"
+                placeholder="Mô tả ngắn về tài liệu..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="field-grid">
+
+            <div>
+
+                <label>
+                    Danh mục
+                </label>
+
+                <select
+                    id="categoryId"
+                    required
+                ></select>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Loại
+                </label>
+
+                <select
+                    id="documentType"
+                >
+
+                    <option value="document">
+                        Tài liệu
+                    </option>
+
+                    <option value="exam">
+                        Đề thi
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="field-grid three">
+
+            <div>
+
+                <label>
+                    Năm đề
+                </label>
+
+                <input
+                    id="examYear"
+                    type="number"
+                    min="2000"
+                    max="2100"
+                    placeholder="2026"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Thời gian (phút)
+                </label>
+
+                <input
+                    id="durationMinutes"
+                    type="number"
+                    min="1"
+                    placeholder="90"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Thứ tự
+                </label>
+
+                <input
+                    id="sortOrder"
+                    type="number"
+                    min="0"
+                    value="0"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <label>
+                Tags
+            </label>
+
+            <input
+                id="tags"
+                placeholder="hàm số, lớp 12, ôn thi, trắc nghiệm"
+            >
+
+            <div class="muted">
+
+                Mỗi tag cách nhau bằng dấu phẩy.
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <label>
+                PDF
+            </label>
+
+
+            <div class="upload-zone">
+
+                <input
+                    id="pdfInput"
+                    type="file"
+                    accept="application/pdf"
+                    multiple
+                >
+
+
+                <div
+                    id="pdfSelected"
+                    class="muted"
+                    style="
+                        margin-top:7px
+                    "
+                >
+                    Chưa chọn PDF
+                </div>
+
+
+                <div
+                    id="pdfFileList"
+                    class="file-list"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <label>
+                Ảnh bìa / Thumbnail
+            </label>
+
+
+            <div class="upload-zone">
+
+                <input
+                    id="thumbnailInput"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                >
+
+
+                <div
+                    id="thumbSelected"
+                    class="muted"
+                    style="
+                        margin-top:7px
+                    "
+                >
+                    Không bắt buộc.
+                    Với upload nhiều PDF, có thể thêm
+                    thumbnail khi sửa từng tài liệu.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <label
             style="
-                margin-top:7px
+                display:flex;
+                align-items:center;
+                gap:8px;
+                color:#b8c6d8;
+                font-size:12px
             "
         >
 
-            Bạn có thể chọn nhiều PDF cùng lúc
-            khi thêm tài liệu.
+            <input
+                id="published"
+                type="checkbox"
+                checked
+            >
 
-            Khi sửa, chọn file mới nếu muốn
-            thay file cũ.
+            Hiển thị trên website
+
+        </label>
+
+
+        <div
+            id="editNote"
+            class="
+                muted
+                hidden
+            "
+        >
+
+            Đang sửa tài liệu.
+            Không chọn PDF mới thì giữ nguyên PDF cũ.
+
+        </div>
+
+
+        <div class="admin-actions">
+
+            <button
+                class="admin-btn"
+                type="submit"
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-cloud-arrow-up
+                    "
+                ></i>
+
+                <span id="saveLabel">
+                    Lưu tài liệu
+                </span>
+
+            </button>
+
+
+            <button
+                class="
+                    admin-btn
+                    ghost
+                "
+                id="resetBtn"
+                type="button"
+            >
+                Làm mới
+            </button>
 
         </div>
 
 
         <div
-            id="bulkPreview"
-            class="bulk-preview"
+            id="formStatus"
+            class="admin-status"
         ></div>
+
+
+        <div
+            id="progress"
+            class="progress"
+        >
+
+            <div class="track">
+
+                <div
+                    id="progressBar"
+                    class="bar"
+                ></div>
+
+            </div>
+
+
+            <div
+                id="progressText"
+                class="progress-text"
+            ></div>
+
+        </div>
+
+    </form>
+
+</section>
+
+
+<!-- LIST -->
+
+<section class="admin-card">
+
+    <div class="admin-title">
+
+        <div>
+
+            <h1>
+                Danh sách tài liệu
+            </h1>
+
+            <p id="docCountText">
+                Đang tải...
+            </p>
+
+        </div>
+
+
+        <button
+            class="
+                admin-btn
+                ghost
+                icon
+            "
+            id="refreshDocs"
+            type="button"
+        >
+
+            <i
+                class="
+                    fa-solid
+                    fa-rotate
+                "
+            ></i>
+
+        </button>
 
     </div>
 
-</div>
+
+    <div class="toolbar">
 
 
-<label class="check-row">
-
-    <input
-        id="published"
-        type="checkbox"
-        checked
-    >
-
-    Hiển thị trên website
-
-</label>
+        <input
+            id="docSearch"
+            class="admin-search"
+            placeholder="Tìm tên, mô tả, file, tag..."
+        >
 
 
-<div
-    id="editNote"
-    class="edit-note hidden"
->
+        <select
+            id="docCategoryFilter"
+            class="admin-filter"
+        >
 
-    Đang chỉnh sửa một tài liệu.
-    Chọn file mới nếu cần thay PDF.
-    Nếu không chọn, file hiện tại sẽ được giữ nguyên.
+            <option value="all">
+                Tất cả danh mục
+            </option>
 
-</div>
-
-
-<div class="admin-actions">
+        </select>
 
 
-    <button
-        class="admin-btn"
-        type="submit"
-    >
+        <select
+            id="docStatusFilter"
+            class="admin-filter"
+        >
 
-        <i
-            class="fa-solid fa-cloud-arrow-up"
-        ></i>
+            <option value="all">
+                Tất cả trạng thái
+            </option>
 
-        <span id="saveLabel">
-            Lưu tài liệu
-        </span>
+            <option value="published">
+                Đang hiển thị
+            </option>
 
-    </button>
+            <option value="hidden">
+                Đang ẩn
+            </option>
 
-
-    <button
-        class="admin-btn ghost"
-        type="button"
-        id="resetBtn"
-    >
-
-        Làm mới
-
-    </button>
-
-</div>
+        </select>
 
 
-<div
-    id="formStatus"
-    class="admin-status"
-></div>
+        <select
+            id="docTypeFilter"
+            class="admin-filter"
+        >
 
+            <option value="all">
+                Tất cả loại
+            </option>
 
-<div
-    id="uploadProgress"
-    class="progress-box"
->
+            <option value="document">
+                Tài liệu
+            </option>
 
-    <div class="progress-track">
+            <option value="exam">
+                Đề thi
+            </option>
 
-        <div
-            id="progressBar"
-            class="progress-bar"
-        ></div>
+        </select>
 
     </div>
 
 
     <div
-        id="progressText"
-        class="progress-text"
+        class="muted"
+        style="
+            margin-bottom:9px
+        "
     >
-        Đang xử lý...
+
+        <i
+            class="
+                fa-solid
+                fa-grip-vertical
+            "
+        ></i>
+
+        Kéo thả để đổi thứ tự
+        trong cùng danh mục.
+
     </div>
+
+
+    <div
+        id="documentList"
+        class="list"
+    ></div>
+
+</section>
 
 </div>
 
-
-</form>
+</section>
 
 
 <!-- =========================================================
-     CATEGORY MANAGER
-========================================================= -->
+     CATEGORIES
+========================================================== -->
 
-<div class="admin-section-title">
-    Quản lý danh mục
-</div>
-
-
-<div class="muted">
-
-    Thêm, đổi tên danh mục.
-    Chỉ xóa được danh mục đang không có tài liệu.
-
-</div>
-
-
-<div
-    class="category-manager"
-    style="
-        margin-top:9px
-    "
+<section
+    id="panel-categories"
+    class="panel"
 >
 
+<div class="admin-shell">
 
-    <div class="category-line">
 
-        <input
-            id="newCategoryName"
-            class="admin-search"
-            placeholder="Tên danh mục mới"
-        >
+<section class="admin-card">
+
+    <div class="admin-title">
+
+        <div>
+
+            <h1>
+                Thêm danh mục
+            </h1>
+
+            <p>
+                Hỗ trợ danh mục nhiều cấp.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <form
+        id="categoryForm"
+        class="admin-form"
+    >
+
+        <div>
+
+            <label>
+                Tên danh mục
+            </label>
+
+            <input
+                id="categoryName"
+                required
+                placeholder="Ví dụ: Đại số"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label>
+                Danh mục cha
+            </label>
+
+            <select
+                id="categoryParent"
+            >
+
+                <option value="">
+                    Không có — danh mục gốc
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div>
+
+            <label>
+                Mô tả
+            </label>
+
+            <textarea
+                id="categoryDescription"
+                placeholder="Mô tả ngắn..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="admin-actions">
+
+            <button
+                class="admin-btn"
+                type="submit"
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-folder-plus
+                    "
+                ></i>
+
+                Thêm danh mục
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="categoryStatus"
+            class="admin-status"
+        ></div>
+
+    </form>
+
+</section>
+
+
+<section class="admin-card">
+
+    <div class="admin-title">
+
+        <div>
+
+            <h1>
+                Cây danh mục
+            </h1>
+
+            <p>
+                Đổi tên hoặc xóa danh mục rỗng.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="categoryTree"
+        class="category-tree"
+    ></div>
+
+</section>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     REQUESTS
+========================================================== -->
+
+<section
+    id="panel-requests"
+    class="panel"
+>
+
+<section class="admin-card">
+
+    <div class="admin-title">
+
+        <div>
+
+            <h1>
+                Yêu cầu tài liệu
+            </h1>
+
+            <p>
+                Yêu cầu được gửi từ website.
+            </p>
+
+        </div>
 
 
         <button
-            class="admin-btn"
-            id="addCategoryBtn"
+            class="
+                admin-btn
+                ghost
+                icon
+            "
+            id="refreshRequests"
             type="button"
         >
 
             <i
-                class="fa-solid fa-plus"
+                class="
+                    fa-solid
+                    fa-rotate
+                "
             ></i>
-
-            Thêm
 
         </button>
 
@@ -1884,136 +2097,181 @@
 
 
     <div
-        id="categoryStatus"
-        class="admin-status"
+        class="toolbar"
+        style="
+            grid-template-columns:
+                1fr
+                180px
+        "
+    >
+
+        <input
+            id="requestSearch"
+            class="admin-search"
+            placeholder="Tìm tên, email, nội dung..."
+        >
+
+
+        <select
+            id="requestStatusFilter"
+            class="admin-filter"
+        >
+
+            <option value="all">
+                Tất cả trạng thái
+            </option>
+
+            <option value="pending">
+                Chờ xử lý
+            </option>
+
+            <option value="processing">
+                Đang xử lý
+            </option>
+
+            <option value="completed">
+                Đã hoàn thành
+            </option>
+
+            <option value="rejected">
+                Đã từ chối
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div
+        id="requestList"
+        class="list"
     ></div>
 
-
-</div>
-
-
-<div
-    id="categoryList"
-    class="category-list"
-></div>
-
+</section>
 
 </section>
 
 
 <!-- =========================================================
-     RIGHT
-========================================================= -->
+     STATS
+========================================================== -->
+
+<section
+    id="panel-stats"
+    class="panel"
+>
+
+<div class="admin-shell">
+
 
 <section class="admin-card">
 
+    <div class="admin-title">
 
-<div class="admin-title">
+        <div>
 
-    <div>
+            <h1>
+                Tài liệu được xem nhiều
+            </h1>
 
-        <h1>
-            Tài liệu
-        </h1>
+            <p>
+                Top tài liệu theo lượt xem.
+            </p>
 
-        <p id="countText">
-            Đang tải...
-        </p>
+        </div>
 
     </div>
 
 
-    <button
-        class="admin-btn ghost"
-        id="refreshBtn"
-        type="button"
-    >
-
-        <i
-            class="fa-solid fa-rotate"
-        ></i>
-
-    </button>
-
-</div>
-
-
-<div class="admin-list-toolbar">
-
-
-    <input
-        id="docSearch"
-        class="admin-search"
-        type="search"
-        placeholder="Tìm theo tên, file hoặc mô tả..."
-    >
-
-
-    <select
-        id="docFilterCategory"
-        class="admin-filter"
-    >
-
-        <option value="all">
-            Tất cả danh mục
-        </option>
-
-    </select>
-
-
-    <select
-        id="docFilterStatus"
-        class="admin-filter"
-    >
-
-        <option value="all">
-            Tất cả trạng thái
-        </option>
-
-        <option value="published">
-            Đang hiển thị
-        </option>
-
-        <option value="hidden">
-            Đang ẩn
-        </option>
-
-    </select>
-
-</div>
-
-
-<div
-    class="muted"
-    style="
-        margin-bottom:10px
-    "
->
-
-    <i
-        class="fa-solid fa-grip-vertical"
-    ></i>
-
-    Kéo thả tài liệu để sắp xếp.
-    Thứ tự sẽ được lưu theo danh mục.
-
-</div>
-
-
-<div
-    id="adminList"
-    class="admin-list"
-></div>
-
+    <div
+        id="topDocs"
+        class="top-docs"
+    ></div>
 
 </section>
 
 
-</div>
+<section class="admin-card">
 
+    <div class="admin-title">
+
+        <div>
+
+            <h1>
+                Tính năng
+            </h1>
+
+            <p>
+                Các chức năng đang được bật.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="muted"
+        style="
+            display:grid;
+            gap:8px
+        "
+    >
+
+        <div>
+            ✓ Phân trang 12 tài liệu / trang
+        </div>
+
+        <div>
+            ✓ Tìm kiếm toàn thư viện
+        </div>
+
+        <div>
+            ✓ Đề thi + năm thi + thời lượng
+        </div>
+
+        <div>
+            ✓ Thumbnail PDF
+        </div>
+
+        <div>
+            ✓ Tags
+        </div>
+
+        <div>
+            ✓ Danh mục nhiều cấp
+        </div>
+
+        <div>
+            ✓ Lượt xem
+        </div>
+
+        <div>
+            ✓ Chia sẻ link
+        </div>
+
+        <div>
+            ✓ QR Code
+        </div>
+
+        <div>
+            ✓ Tài liệu liên quan
+        </div>
+
+        <div>
+            ✓ Yêu cầu tài liệu
+        </div>
+
+    </div>
 
 </section>
 
+</div>
+
+</section>
+
+
+</section>
 
 </div>
 
@@ -2021,8 +2279,8 @@
 
 
 <!-- =========================================================
-     PREVIEW MODAL
-========================================================= -->
+     PREVIEW
+========================================================== -->
 
 <div
     id="previewModal"
@@ -2030,50 +2288,55 @@
     aria-hidden="true"
 >
 
+    <div class="modal-card">
 
-<div class="modal-card">
+        <div class="modal-head">
+
+            <div>
+
+                <div class="muted">
+                    PDF PREVIEW
+                </div>
+
+                <h2
+                    id="previewTitle"
+                >
+                    Tài liệu
+                </h2>
+
+            </div>
 
 
-<div class="modal-head">
+            <button
+                id="previewClose"
+                class="
+                    admin-btn
+                    ghost
+                    icon
+                "
+                type="button"
+            >
 
-    <div>
+                <i
+                    class="
+                        fa-solid
+                        fa-xmark
+                    "
+                ></i>
 
-        <div class="muted">
-            PDF PREVIEW
+            </button>
+
         </div>
 
-        <h2 id="previewTitle">
-            Tài liệu
-        </h2>
+
+        <iframe
+            id="previewFrame"
+            class="preview"
+            src="about:blank"
+            title="PDF preview"
+        ></iframe>
 
     </div>
-
-
-    <button
-        id="previewClose"
-        class="modal-close"
-        type="button"
-        aria-label="Đóng"
-    >
-
-        <i
-            class="fa-solid fa-xmark"
-        ></i>
-
-    </button>
-
-</div>
-
-
-<iframe
-    id="previewFrame"
-    class="preview-frame"
-    src="about:blank"
-    title="Xem trước PDF"
-></iframe>
-
-
-</div>
 
 </div>
 
@@ -2107,13 +2370,20 @@ const supabaseClient =
 
 const state = {
 
-    categories: [],
+    categories:
+        [],
 
-    documents: [],
+    documents:
+        [],
 
-    editingId: null,
+    requests:
+        [],
 
-    draggingId: null
+    editingId:
+        null,
+
+    draggingId:
+        null
 
 };
 
@@ -2125,52 +2395,45 @@ const $ =
         );
 
 
-function esc(
-    value = ""
+function escapeHtml(
+    value
 ){
 
     return String(
-        value
+        value ?? ""
     )
     .replace(
         /[&<>"']/g,
-        function(
-            char
-        ){
-
-            return {
-
+        char =>
+            ({
                 "&":
                     "&amp;",
-
                 "<":
                     "&lt;",
-
                 ">":
                     "&gt;",
-
                 '"':
                     "&quot;",
-
                 "'":
                     "&#039;"
-
             }[
                 char
-            ];
-
-        }
+            ])
     );
 
 }
 
 
-function fileUrl(
+function storageUrl(
     path
 ){
 
-    if (!path){
+    if (
+        !path
+    ){
+
         return "";
+
     }
 
 
@@ -2203,11 +2466,11 @@ function slugify(
         /[\u0300-\u036f]/g,
         ""
     )
-    .toLowerCase()
     .replace(
         /đ/g,
         "d"
     )
+    .toLowerCase()
     .replace(
         /[^a-z0-9]+/g,
         "-"
@@ -2220,1082 +2483,51 @@ function slugify(
 }
 
 
-function setStatus(
-    id,
-    message,
-    ok = false
+function bytes(
+    value
 ){
 
-    const element =
-        $(id);
-
-
     if (
-        !element
+        !value
     ){
 
-        return;
+        return "0 B";
 
     }
 
 
-    element.textContent =
-        message ||
-        "";
-
-
-    element.style.color =
-        ok
-            ? "#86efac"
-            : "#8ea0b8";
-
-}
-
-
-function toast(
-    message,
-    type = ""
-){
-
-    const element =
-        $("toast");
-
-
-    element.textContent =
-        message;
-
-
-    element.className =
-        `toast show ${type}`;
-
-
-    clearTimeout(
-        window.__toastTimer
-    );
-
-
-    window.__toastTimer =
-        setTimeout(
-            function(){
-
-                element.classList.remove(
-                    "show"
-                );
-
-            },
-            3200
-        );
-
-}
-
-
-function updateStats(){
-
-    const total =
-        state.documents.length;
-
-
-    const published =
-        state.documents.filter(
-            function(doc){
-
-                return doc.published;
-
-            }
-        ).length;
-
-
-    $("statDocs").textContent =
-        total;
-
-
-    $("statPublished").textContent =
-        published;
-
-
-    $("statHidden").textContent =
-        total -
-        published;
-
-
-    $("statCategories").textContent =
-        state.categories.length;
-
-
-    $("countText").textContent =
-        `${total} tài liệu · ${published} đang hiển thị`;
-
-}
-
-
-async function checkAdmin(){
-
-    const {
-        data:
-        {
-            user
-        }
-    } =
-        await supabaseClient
-        .auth
-        .getUser();
-
-
-    if (!user){
-
-        $("loginPanel")
-            .classList
-            .remove(
-                "hidden"
-            );
-
-
-        $("adminPanel")
-            .classList
-            .add(
-                "hidden"
-            );
-
-
-        return false;
-
-    }
-
-
-    const {
-        data:
-        isAdmin,
-        error
-    } =
-        await supabaseClient
-        .rpc(
-            "current_user_is_admin"
-        );
-
-
-    if (
-        error ||
-        isAdmin !== true
-    ){
-
-        setStatus(
-            "loginStatus",
-            error?.message ||
-            "Tài khoản này chưa được cấp quyền quản trị."
-        );
-
-
-        await supabaseClient
-            .auth
-            .signOut();
-
-
-        return false;
-
-    }
-
-
-    $("loginPanel")
-        .classList
-        .add(
-            "hidden"
-        );
-
-
-    $("adminPanel")
-        .classList
-        .remove(
-            "hidden"
-        );
-
-
-    $("userEmail")
-        .textContent =
-        user.email ||
-        "Đã đăng nhập";
-
-
-    await loadAll();
-
-
-    return true;
-
-}
-
-
-async function loadCategories(){
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-        .from(
-            "math_categories"
-        )
-        .select(
-            "id,name,slug,description,sort_order,parent_id"
-        )
-        .order(
-            "sort_order",
-            {
-                ascending:
-                    true
-            }
-        )
-        .order(
-            "created_at",
-            {
-                ascending:
-                    true
-            }
-        );
-
-
-    if (error){
-
-        throw error;
-
-    }
-
-
-    state.categories =
-        data ||
-        [];
-
-
-    populateCategorySelects();
-
-    renderCategoryManager();
-
-}
-
-
-function populateCategorySelects(){
-
-    const select =
-        $("categoryId");
-
-
-    const filter =
-        $("docFilterCategory");
-
-
-    const current =
-        select.value;
-
-
-    select.innerHTML =
-        state.categories
-        .map(
-            function(category){
-
-                return `
-                    <option value="${esc(category.id)}">
-                        ${esc(category.name)}
-                    </option>
-                `;
-
-            }
-        )
-        .join("");
-
-
-    if (current){
-
-        select.value =
-            current;
-
-    }
-
-
-    filter.innerHTML =
-        `
-        <option value="all">
-            Tất cả danh mục
-        </option>
-        ` +
-        state.categories
-        .map(
-            function(category){
-
-                return `
-                    <option value="${esc(category.id)}">
-                        ${esc(category.name)}
-                    </option>
-                `;
-
-            }
-        )
-        .join("");
-
-}
-
-
-async function loadDocs(){
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-        .from(
-            "math_documents"
-        )
-        .select(
-            "id,title,description,category_id,file_path,file_name,sort_order,published,created_at,updated_at,math_categories(name,slug)"
-        )
-        .order(
-            "sort_order",
-            {
-                ascending:
-                    true
-            }
-        )
-        .order(
-            "created_at",
-            {
-                ascending:
-                    false
-            }
-        );
-
-
-    if (error){
-
-        throw error;
-
-    }
-
-
-    state.documents =
-        data ||
-        [];
-
-
-    renderDocs();
-
-    updateStats();
-
-}
-
-
-async function loadAll(){
-
-    try {
-
-        await loadCategories();
-
-        await loadDocs();
-
-    }
-
-    catch(error){
-
-        setStatus(
-            "formStatus",
-            error.message ||
-            "Không tải được dữ liệu."
-        );
-
-
-        toast(
-            error.message ||
-            "Không tải được dữ liệu.",
-            "error"
-        );
-
-    }
-
-}
-
-
-function renderCategoryManager(){
-
-    const root =
-        $("categoryList");
-
-
-    if (!root){
-        return;
-    }
-
-
-    const counts =
-        {};
-
-
-    state.documents.forEach(
-        function(doc){
-
-            counts[
-                doc.category_id
-            ] =
-                (
-                    counts[
-                        doc.category_id
-                    ] ||
-                    0
-                ) +
-                1;
-
-        }
-    );
-
-
-    root.innerHTML =
-        state.categories
-        .map(
-            function(category){
-
-                return `
-                    <div class="category-item">
-
-                        <div class="category-item-name">
-
-                            <input
-                                class="admin-search category-name-input"
-                                data-category-id="${category.id}"
-                                value="${esc(category.name)}"
-                            >
-
-                            <div class="category-count">
-                                ${counts[category.id] || 0}
-                                tài liệu
-                                · slug:
-                                ${esc(category.slug || "")}
-                            </div>
-
-                        </div>
-
-
-                        <div class="doc-actions">
-
-                            <button
-                                class="admin-btn ghost icon-btn"
-                                data-category-save="${category.id}"
-                                title="Lưu tên"
-                            >
-                                <i class="fa-solid fa-check"></i>
-                            </button>
-
-
-                            <button
-                                class="admin-btn danger icon-btn"
-                                data-category-delete="${category.id}"
-                                title="Xóa"
-                            >
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-
-                        </div>
-
-                    </div>
-                `;
-
-            }
-        )
-        .join("");
-
-
-    root
-        .querySelectorAll(
-            "[data-category-save]"
-        )
-        .forEach(
-            function(button){
-
-                button.addEventListener(
-                    "click",
-                    function(){
-
-                        renameCategory(
-                            Number(
-                                button.dataset
-                                .categorySave
-                            )
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    root
-        .querySelectorAll(
-            "[data-category-delete]"
-        )
-        .forEach(
-            function(button){
-
-                button.addEventListener(
-                    "click",
-                    function(){
-
-                        deleteCategory(
-                            Number(
-                                button.dataset
-                                .categoryDelete
-                            )
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-}
-
-
-function getFilteredDocs(){
-
-    const query =
-        $("docSearch")
-        .value
-        .trim()
-        .toLowerCase();
-
-
-    const category =
-        $("docFilterCategory")
-        .value;
-
-
-    const status =
-        $("docFilterStatus")
-        .value;
-
-
-    return state.documents
-        .filter(
-            function(doc){
-
-                const haystack = [
-
-                    doc.title,
-
-                    doc.description,
-
-                    doc.file_name,
-
-                    doc.math_categories?.name
-
-                ]
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase();
-
-
-                if (
-                    query &&
-                    !haystack.includes(
-                        query
-                    )
-                ){
-
-                    return false;
-
-                }
-
-
-                if (
-                    category !==
-                    "all" &&
-                    String(
-                        doc.category_id
-                    ) !==
-                    String(
-                        category
-                    )
-                ){
-
-                    return false;
-
-                }
-
-
-                if (
-                    status ===
-                    "published" &&
-                    !doc.published
-                ){
-
-                    return false;
-
-                }
-
-
-                if (
-                    status ===
-                    "hidden" &&
-                    doc.published
-                ){
-
-                    return false;
-
-                }
-
-
-                return true;
-
-            }
-        )
-        .sort(
-            function(a,b){
-
-                return (
-                    Number(
-                        a.sort_order
-                    ) || 0
+    const units =
+        [
+            "B",
+            "KB",
+            "MB",
+            "GB"
+        ];
+
+
+    const index =
+        Math.min(
+            Math.floor(
+                Math.log(
+                    value
+                ) /
+                Math.log(
+                    1024
                 )
-                -
-                (
-                    Number(
-                        b.sort_order
-                    ) || 0
-                );
-
-            }
-        );
-
-}
-
-
-function renderDocs(){
-
-    const root =
-        $("adminList");
-
-
-    const docs =
-        getFilteredDocs();
-
-
-    if (!docs.length){
-
-        root.innerHTML =
-            `
-            <div class="empty-admin">
-
-                <i
-                    class="fa-regular fa-folder-open"
-                    style="
-                        font-size:26px;
-                        margin-bottom:8px
-                    "
-                ></i>
-
-                <div>
-                    Không có tài liệu phù hợp.
-                </div>
-
-            </div>
-            `;
-
-        return;
-
-    }
-
-
-    root.innerHTML =
-        docs
-        .map(
-            function(doc){
-
-                const categoryName =
-                    doc.math_categories?.name ||
-                    state.categories.find(
-                        function(category){
-
-                            return String(
-                                category.id
-                            ) ===
-                            String(
-                                doc.category_id
-                            );
-
-                        }
-                    )?.name ||
-                    "Chưa phân loại";
-
-
-                return `
-                    <article
-                        class="admin-doc"
-                        draggable="true"
-                        data-doc-id="${doc.id}"
-                    >
-
-                        <div
-                            class="drag-handle"
-                            title="Kéo để sắp xếp"
-                        >
-
-                            <i
-                                class="fa-solid fa-grip-vertical"
-                            ></i>
-
-                        </div>
-
-
-                        <div>
-
-                            <h3>
-                                ${esc(
-                                    doc.title ||
-                                    doc.file_name ||
-                                    "Không có tiêu đề"
-                                )}
-                            </h3>
-
-
-                            <p>
-                                ${esc(
-                                    doc.description ||
-                                    doc.file_name ||
-                                    "Không có mô tả."
-                                )}
-                            </p>
-
-
-                            <div
-                                class="admin-doc-meta"
-                            >
-
-                                <strong>
-                                    ${esc(categoryName)}
-                                </strong>
-
-                                ·
-
-                                ${esc(
-                                    doc.file_name ||
-                                    ""
-                                )}
-
-                                · thứ tự
-                                ${Number(
-                                    doc.sort_order
-                                ) || 0}
-
-                                ·
-                                ${formatDate(
-                                    doc.created_at
-                                )}
-
-                                ·
-
-                                <span
-                                    class="
-                                        status-pill
-                                        ${
-                                            doc.published
-                                                ? "on"
-                                                : "off"
-                                        }
-                                    "
-                                >
-
-                                    ${
-                                        doc.published
-                                            ? "● Đang hiển thị"
-                                            : "○ Đang ẩn"
-                                    }
-
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="doc-actions">
-
-
-                            <button
-                                class="admin-btn ghost icon-btn"
-                                data-preview="${doc.id}"
-                                title="Xem PDF"
-                            >
-
-                                <i
-                                    class="fa-solid fa-eye"
-                                ></i>
-
-                            </button>
-
-
-                            <button
-                                class="admin-btn ghost icon-btn"
-                                data-edit="${doc.id}"
-                                title="Sửa"
-                            >
-
-                                <i
-                                    class="fa-solid fa-pen"
-                                ></i>
-
-                            </button>
-
-
-                            <button
-                                class="
-                                    admin-btn
-                                    ${
-                                        doc.published
-                                            ? "danger"
-                                            : "success"
-                                    }
-                                    icon-btn
-                                "
-                                data-toggle="${doc.id}"
-                                title="${
-                                    doc.published
-                                        ? "Ẩn"
-                                        : "Hiển thị"
-                                }"
-                            >
-
-                                <i
-                                    class="
-                                        fa-solid
-                                        ${
-                                            doc.published
-                                                ? "fa-eye-slash"
-                                                : "fa-eye"
-                                        }
-                                    "
-                                ></i>
-
-                            </button>
-
-
-                            <button
-                                class="admin-btn danger icon-btn"
-                                data-delete="${doc.id}"
-                                title="Xóa"
-                            >
-
-                                <i
-                                    class="fa-solid fa-trash"
-                                ></i>
-
-                            </button>
-
-                        </div>
-
-                    </article>
-                `;
-
-            }
-        )
-        .join("");
-
-
-    bindDocActions();
-
-}
-
-
-function bindDocActions(){
-
-    const root =
-        $("adminList");
-
-
-    root
-        .querySelectorAll(
-            "[data-preview]"
-        )
-        .forEach(
-            function(button){
-
-                button.addEventListener(
-                    "click",
-                    function(){
-
-                        previewDoc(
-                            Number(
-                                button.dataset
-                                .preview
-                            )
-                        );
-
-                    }
-                );
-
-            }
+            ),
+            units.length -
+                1
         );
 
 
-    root
-        .querySelectorAll(
-            "[data-edit]"
-        )
-        .forEach(
-            function(button){
-
-                button.addEventListener(
-                    "click",
-                    function(){
-
-                        startEdit(
-                            Number(
-                                button.dataset
-                                .edit
-                            )
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    root
-        .querySelectorAll(
-            "[data-toggle]"
-        )
-        .forEach(
-            function(button){
-
-                button.addEventListener(
-                    "click",
-                    function(){
-
-                        togglePublished(
-                            Number(
-                                button.dataset
-                                .toggle
-                            )
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    root
-        .querySelectorAll(
-            "[data-delete]"
-        )
-        .forEach(
-            function(button){
-
-                button.addEventListener(
-                    "click",
-                    function(){
-
-                        deleteDoc(
-                            Number(
-                                button.dataset
-                                .delete
-                            )
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    root
-        .querySelectorAll(
-            "[draggable='true']"
-        )
-        .forEach(
-            function(row){
-
-                row.addEventListener(
-                    "dragstart",
-                    function(event){
-
-                        state.draggingId =
-                            Number(
-                                row.dataset
-                                .docId
-                            );
-
-
-                        row.classList.add(
-                            "dragging"
-                        );
-
-
-                        event.dataTransfer.effectAllowed =
-                            "move";
-
-                    }
-                );
-
-
-                row.addEventListener(
-                    "dragend",
-                    function(){
-
-                        row.classList.remove(
-                            "dragging"
-                        );
-
-
-                        state.draggingId =
-                            null;
-
-                    }
-                );
-
-
-                row.addEventListener(
-                    "dragover",
-                    function(event){
-
-                        event.preventDefault();
-
-                    }
-                );
-
-
-                row.addEventListener(
-                    "drop",
-                    async function(event){
-
-                        event.preventDefault();
-
-
-                        const targetId =
-                            Number(
-                                row.dataset.docId
-                            );
-
-
-                        if (
-                            !state.draggingId ||
-                            state.draggingId ===
-                            targetId
-                        ){
-
-                            return;
-
-                        }
-
-
-                        await reorderDocuments(
-                            state.draggingId,
-                            targetId
-                        );
-
-                    }
-                );
-
-            }
-        );
+    return `${(
+        value /
+        1024 ** index
+    ).toFixed(
+        index
+            ? 1
+            : 0
+    )} ${units[index]}`;
 
 }
 
@@ -3304,8 +2536,12 @@ function formatDate(
     value
 ){
 
-    if (!value){
+    if (
+        !value
+    ){
+
         return "";
+
     }
 
 
@@ -3338,10 +2574,1735 @@ function formatDate(
             year:
                 "numeric"
         }
-    ).format(date);
+    ).format(
+        date
+    );
 
 }
 
+
+function status(
+    id,
+    message,
+    success = false
+){
+
+    const element =
+        $(id);
+
+
+    if (
+        !element
+    ){
+
+        return;
+
+    }
+
+
+    element.textContent =
+        message ||
+        "";
+
+
+    element.style.color =
+        success
+            ? "#86efac"
+            : "";
+
+}
+
+
+function toast(
+    message,
+    type = ""
+){
+
+    const element =
+        $("toast");
+
+
+    if (
+        !element
+    ){
+
+        return;
+
+    }
+
+
+    element.textContent =
+        message;
+
+
+    element.className =
+        `toast show ${type}`;
+
+
+    clearTimeout(
+        window.__toastTimer
+    );
+
+
+    window.__toastTimer =
+        setTimeout(
+            () =>
+                element.classList.remove(
+                    "show"
+                ),
+            3200
+        );
+
+}
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+async function isAdmin(){
+
+    const {
+        data:
+        {
+            user
+        }
+    } =
+        await supabaseClient.auth.getUser();
+
+
+    if (
+        !user
+    ){
+
+        return false;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.rpc(
+            "current_user_is_admin"
+        );
+
+
+    if (
+        error ||
+        data !== true
+    ){
+
+        await supabaseClient
+            .auth
+            .signOut();
+
+
+        status(
+            "loginStatus",
+            error?.message ||
+            "Tài khoản chưa được cấp quyền quản trị."
+        );
+
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+async function boot(){
+
+    const {
+        data:
+        {
+            user
+        }
+    } =
+        await supabaseClient.auth.getUser();
+
+
+    if (
+        !user
+    ){
+
+        $("loginPanel")
+            .classList
+            .remove(
+                "hidden"
+            );
+
+
+        $("adminPanel")
+            .classList
+            .add(
+                "hidden"
+            );
+
+
+        return;
+
+    }
+
+
+    if (
+        !(await isAdmin())
+    ){
+
+        return;
+
+    }
+
+
+    $("loginPanel")
+        .classList
+        .add(
+            "hidden"
+        );
+
+
+    $("adminPanel")
+        .classList
+        .remove(
+            "hidden"
+        );
+
+
+    $("userEmail")
+        .textContent =
+        user.email ||
+        "";
+
+
+    await loadAll();
+
+}
+
+
+/* =========================================================
+   LOAD
+========================================================= */
+
+async function loadAll(){
+
+    try {
+
+        await Promise.all(
+            [
+                loadCategories(),
+                loadDocuments(),
+                loadRequests()
+            ]
+        );
+
+
+        updateStats();
+
+        renderTopDocs();
+
+    }
+    catch (
+        error
+    ){
+
+        console.error(
+            error
+        );
+
+
+        toast(
+            error.message ||
+            "Không tải được dữ liệu.",
+            "error"
+        );
+
+    }
+
+}
+
+
+async function loadCategories(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from(
+            "math_categories"
+        )
+        .select(
+            "id,name,slug,description,sort_order,parent_id,created_at"
+        )
+        .order(
+            "sort_order",
+            {
+                ascending:
+                    true
+            }
+        )
+        .order(
+            "created_at",
+            {
+                ascending:
+                    true
+            }
+        );
+
+
+    if (
+        error
+    ){
+
+        throw error;
+
+    }
+
+
+    state.categories =
+        data ||
+        [];
+
+
+    populateCategorySelectors();
+
+    renderCategories();
+
+}
+
+
+async function loadDocuments(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from(
+            "math_documents"
+        )
+        .select(
+            "id,title,description,category_id,file_path,file_name,sort_order,published,created_at,updated_at,tags,thumbnail_path,document_type,exam_year,duration_minutes,view_count,math_categories(name)"
+        )
+        .order(
+            "sort_order",
+            {
+                ascending:
+                    true
+            }
+        )
+        .order(
+            "created_at",
+            {
+                ascending:
+                    false
+            }
+        );
+
+
+    if (
+        error
+    ){
+
+        throw error;
+
+    }
+
+
+    state.documents =
+        data ||
+        [];
+
+
+    renderDocuments();
+
+    updateStats();
+
+    renderTopDocs();
+
+}
+
+
+async function loadRequests(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+        .from(
+            "math_requests"
+        )
+        .select(
+            "id,name,email,category_id,request_text,status,admin_note,created_at,updated_at,math_categories(name)"
+        )
+        .order(
+            "created_at",
+            {
+                ascending:
+                    false
+            }
+        );
+
+
+    if (
+        error
+    ){
+
+        throw error;
+
+    }
+
+
+    state.requests =
+        data ||
+        [];
+
+
+    renderRequests();
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+    const total =
+        state.documents.length;
+
+
+    const published =
+        state.documents.filter(
+            doc =>
+                doc.published
+        ).length;
+
+
+    const views =
+        state.documents.reduce(
+            (
+                sum,
+                doc
+            ) =>
+                sum +
+                (
+                    Number(
+                        doc.view_count
+                    ) ||
+                    0
+                ),
+            0
+        );
+
+
+    $("statDocs")
+        .textContent =
+        total.toLocaleString(
+            "vi-VN"
+        );
+
+
+    $("statPublished")
+        .textContent =
+        published.toLocaleString(
+            "vi-VN"
+        );
+
+
+    $("statHidden")
+        .textContent =
+        (
+            total -
+            published
+        )
+        .toLocaleString(
+            "vi-VN"
+        );
+
+
+    $("statCategories")
+        .textContent =
+        state.categories.length
+            .toLocaleString(
+                "vi-VN"
+            );
+
+
+    $("statViews")
+        .textContent =
+        views.toLocaleString(
+            "vi-VN"
+        );
+
+
+    $("docCountText")
+        .textContent =
+        `${total} tài liệu · ${published} đang hiển thị · ${views.toLocaleString("vi-VN")} lượt xem`;
+
+}
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+function flattenCategories(
+    parent = null,
+    depth = 0,
+    output = []
+){
+
+    state.categories
+        .filter(
+            category =>
+                String(
+                    category.parent_id ||
+                    ""
+                ) ===
+                String(
+                    parent ||
+                    ""
+                )
+        )
+        .forEach(
+            category => {
+
+                output.push(
+                    {
+                        id:
+                            category.id,
+
+                        label:
+                            `${"— ".repeat(depth)}${category.name}`
+                    }
+                );
+
+
+                flattenCategories(
+                    category.id,
+                    depth + 1,
+                    output
+                );
+
+            }
+        );
+
+
+    return output;
+
+}
+
+
+function populateCategorySelectors(){
+
+    const options =
+        flattenCategories()
+            .map(
+                category =>
+                    `
+                    <option
+                        value="${category.id}"
+                    >
+                        ${escapeHtml(
+                            category.label
+                        )}
+                    </option>
+                    `
+            )
+            .join("");
+
+
+    $("categoryId")
+        .innerHTML =
+        options;
+
+
+    $("categoryParent")
+        .innerHTML =
+        `
+        <option value="">
+            Không có — danh mục gốc
+        </option>
+        ` +
+        options;
+
+
+    $("docCategoryFilter")
+        .innerHTML =
+        `
+        <option value="all">
+            Tất cả danh mục
+        </option>
+        ` +
+        options;
+
+}
+
+
+function renderCategories(){
+
+    const root =
+        $("categoryTree");
+
+
+    if (
+        !root
+    ){
+
+        return;
+
+    }
+
+
+    const counts =
+        {};
+
+
+    state.documents.forEach(
+        document => {
+
+            counts[
+                document.category_id
+            ] =
+                (
+                    counts[
+                        document.category_id
+                    ] ||
+                    0
+                ) +
+                1;
+
+        }
+    );
+
+
+    function renderLevel(
+        parent = null,
+        depth = 0
+    ){
+
+        return state.categories
+            .filter(
+                category =>
+                    String(
+                        category.parent_id ||
+                        ""
+                    ) ===
+                    String(
+                        parent ||
+                        ""
+                    )
+            )
+            .map(
+                category =>
+                    `
+                    <div
+                        class="cat"
+                    >
+
+                        <div
+                            class="cat-main"
+                        >
+
+                            <span
+                                class="cat-indent"
+                                style="
+                                    width:${depth * 16}px
+                                "
+                            ></span>
+
+
+                            <i
+                                class="
+                                    fa-solid
+                                    ${
+                                        depth
+                                            ? "fa-folder"
+                                            : "fa-folder-tree"
+                                    }
+                                "
+                                style="
+                                    color:#7dd3fc
+                                "
+                            ></i>
+
+
+                            <div
+                                class="cat-name"
+                            >
+
+                                <input
+                                    class="
+                                        admin-search
+                                        category-input
+                                    "
+                                    data-id="${
+                                        category.id
+                                    }"
+                                    value="${escapeHtml(
+                                        category.name
+                                    )}"
+                                >
+
+
+                                <div
+                                    class="cat-meta"
+                                >
+
+                                    ${
+                                        counts[
+                                            category.id
+                                        ] ||
+                                        0
+                                    }
+                                    tài liệu
+
+                                    ·
+
+                                    slug:
+                                    ${
+                                        escapeHtml(
+                                            category.slug ||
+                                            ""
+                                        )
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="actions"
+                        >
+
+                            <button
+                                class="
+                                    admin-btn
+                                    ghost
+                                    icon
+                                "
+                                data-save-cat="${
+                                    category.id
+                                }"
+                                title="Lưu"
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-check
+                                    "
+                                ></i>
+
+                            </button>
+
+
+                            <button
+                                class="
+                                    admin-btn
+                                    danger
+                                    icon
+                                "
+                                data-del-cat="${
+                                    category.id
+                                }"
+                                title="Xóa"
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-trash
+                                    "
+                                ></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    ${renderLevel(
+                        category.id,
+                        depth + 1
+                    )}
+                    `
+            )
+            .join("");
+
+    }
+
+
+    root.innerHTML =
+        renderLevel() ||
+        `
+        <div class="empty">
+            Chưa có danh mục.
+        </div>
+        `;
+
+
+    root
+        .querySelectorAll(
+            "[data-save-cat]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () =>
+                        renameCategory(
+                            Number(
+                                button.dataset.saveCat
+                            )
+                        )
+                );
+
+            }
+        );
+
+
+    root
+        .querySelectorAll(
+            "[data-del-cat]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () =>
+                        deleteCategory(
+                            Number(
+                                button.dataset.delCat
+                            )
+                        )
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   DOCUMENT LIST
+========================================================= */
+
+function descendantIds(
+    categoryId
+){
+
+    const ids =
+        [
+            String(
+                categoryId
+            )
+        ];
+
+
+    function walk(
+        id
+    ){
+
+        state.categories
+            .filter(
+                category =>
+                    String(
+                        category.parent_id ||
+                        ""
+                    ) ===
+                    String(
+                        id
+                    )
+            )
+            .forEach(
+                child => {
+
+                    ids.push(
+                        String(
+                            child.id
+                        )
+                    );
+
+
+                    walk(
+                        child.id
+                    );
+
+                }
+            );
+
+    }
+
+
+    walk(
+        categoryId
+    );
+
+
+    return ids;
+
+}
+
+
+function getFilteredDocs(){
+
+    const query =
+        $("docSearch")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const category =
+        $("docCategoryFilter")
+            .value;
+
+
+    const status =
+        $("docStatusFilter")
+            .value;
+
+
+    const type =
+        $("docTypeFilter")
+            .value;
+
+
+    return state.documents
+        .filter(
+            document => {
+
+                const haystack = [
+
+                    document.title,
+
+                    document.description,
+
+                    document.file_name,
+
+                    document.math_categories?.name,
+
+                    ...(Array.isArray(
+                        document.tags
+                    )
+                        ? document.tags
+                        : [])
+
+                ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
+
+                if (
+                    query &&
+                    !haystack.includes(
+                        query
+                    )
+                ){
+
+                    return false;
+
+                }
+
+
+                if (
+                    category !==
+                    "all"
+                ){
+
+                    if (
+                        !descendantIds(
+                            Number(
+                                category
+                            )
+                        )
+                        .includes(
+                            String(
+                                document.category_id
+                            )
+                        )
+                    ){
+
+                        return false;
+
+                    }
+
+                }
+
+
+                if (
+                    status ===
+                    "published" &&
+                    !document.published
+                ){
+
+                    return false;
+
+                }
+
+
+                if (
+                    status ===
+                    "hidden" &&
+                    document.published
+                ){
+
+                    return false;
+
+                }
+
+
+                if (
+                    type !==
+                    "all" &&
+                    document.document_type !==
+                    type
+                ){
+
+                    return false;
+
+                }
+
+
+                return true;
+
+            }
+        )
+        .sort(
+            (
+                a,
+                b
+            ) =>
+                (
+                    Number(
+                        a.sort_order
+                    ) ||
+                    0
+                ) -
+                (
+                    Number(
+                        b.sort_order
+                    ) ||
+                    0
+                )
+        );
+
+}
+
+
+function renderDocuments(){
+
+    const root =
+        $("documentList");
+
+
+    const documents =
+        getFilteredDocs();
+
+
+    if (
+        !documents.length
+    ){
+
+        root.innerHTML =
+            `
+            <div
+                class="empty"
+            >
+
+                <i
+                    class="
+                        fa-regular
+                        fa-folder-open
+                    "
+                ></i>
+
+                <div
+                    style="
+                        margin-top:7px
+                    "
+                >
+                    Không có tài liệu phù hợp.
+                </div>
+
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    root.innerHTML =
+        documents
+            .map(
+                document => {
+
+                    const thumbnail =
+                        document.thumbnail_path
+                            ? `
+                                <img
+                                    src="${escapeHtml(
+                                        storageUrl(
+                                            document.thumbnail_path
+                                        )
+                                    )}"
+                                    alt=""
+                                    loading="lazy"
+                                >
+                            `
+                            : `
+                                <i
+                                    class="
+                                        fa-solid
+                                        ${
+                                            document.document_type ===
+                                            "exam"
+                                                ? "fa-file-circle-check"
+                                                : "fa-file-pdf"
+                                        }
+                                    "
+                                ></i>
+                            `;
+
+
+                    const tags =
+                        Array.isArray(
+                            document.tags
+                        )
+                            ? document.tags
+                                .slice(
+                                    0,
+                                    6
+                                )
+                                .map(
+                                    tag =>
+                                        `#${escapeHtml(
+                                            tag
+                                        )}`
+                                )
+                                .join(
+                                    " · "
+                                )
+                            : "";
+
+
+                    return `
+                        <article
+                            class="doc"
+                            draggable="true"
+                            data-doc-id="${
+                                document.id
+                            }"
+                        >
+
+                            <div
+                                class="doc-thumb"
+                            >
+                                ${thumbnail}
+                            </div>
+
+
+                            <div>
+
+                                <h3>
+                                    ${escapeHtml(
+                                        document.title ||
+                                        document.file_name ||
+                                        "Không có tiêu đề"
+                                    )}
+                                </h3>
+
+
+                                <p>
+                                    ${escapeHtml(
+                                        document.description ||
+                                        document.file_name ||
+                                        ""
+                                    )}
+                                </p>
+
+
+                                <div
+                                    class="meta"
+                                >
+
+                                    <b>
+                                        ${escapeHtml(
+                                            document.math_categories?.name ||
+                                            "Chưa phân loại"
+                                        )}
+                                    </b>
+
+                                    ·
+
+                                    ${escapeHtml(
+                                        document.file_name ||
+                                        ""
+                                    )}
+
+                                    ·
+
+                                    ${
+                                        document.document_type ===
+                                        "exam"
+                                            ? `
+                                                <span
+                                                    class="
+                                                        pill
+                                                        exam
+                                                    "
+                                                >
+                                                    ĐỀ THI
+                                                </span>
+                                            `
+                                            : `
+                                                <span
+                                                    class="
+                                                        pill
+                                                    "
+                                                >
+                                                    TÀI LIỆU
+                                                </span>
+                                            `
+                                    }
+
+                                    ·
+
+                                    <span
+                                        class="
+                                            pill
+                                            ${
+                                                document.published
+                                                    ? "on"
+                                                    : "off"
+                                            }
+                                    >
+                                        ${
+                                            document.published
+                                                ? "● Hiển thị"
+                                                : "○ Ẩn"
+                                        }
+                                    </span>
+
+                                    ·
+
+                                    ${
+                                        Number(
+                                            document.view_count
+                                        ) ||
+                                        0
+                                    }
+                                    lượt xem
+
+                                    ·
+
+                                    ${
+                                        formatDate(
+                                            document.created_at
+                                        )
+                                    }
+
+                                    ${
+                                        tags
+                                            ? ` · ${tags}`
+                                            : ""
+                                    }
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="actions"
+                            >
+
+                                <span
+                                    class="drag"
+                                    title="Kéo để sắp xếp"
+                                >
+                                    <i
+                                        class="
+                                            fa-solid
+                                            fa-grip-vertical
+                                        "
+                                    ></i>
+                                </span>
+
+
+                                <button
+                                    class="
+                                        admin-btn
+                                        ghost
+                                        icon
+                                    "
+                                    data-preview="${
+                                        document.id
+                                    }"
+                                    title="Xem"
+                                >
+                                    <i
+                                        class="
+                                            fa-solid
+                                            fa-eye
+                                        "
+                                    ></i>
+                                </button>
+
+
+                                <button
+                                    class="
+                                        admin-btn
+                                        ghost
+                                        icon
+                                    "
+                                    data-edit="${
+                                        document.id
+                                    }"
+                                    title="Sửa"
+                                >
+                                    <i
+                                        class="
+                                            fa-solid
+                                            fa-pen
+                                        "
+                                    ></i>
+                                </button>
+
+
+                                <button
+                                    class="
+                                        admin-btn
+                                        ${
+                                            document.published
+                                                ? "danger"
+                                                : "success"
+                                        }
+                                        icon
+                                    "
+                                    data-toggle="${
+                                        document.id
+                                    }"
+                                    title="Ẩn/Hiện"
+                                >
+
+                                    <i
+                                        class="
+                                            fa-solid
+                                            ${
+                                                document.published
+                                                    ? "fa-eye-slash"
+                                                    : "fa-eye"
+                                            }
+                                        "
+                                    ></i>
+
+                                </button>
+
+
+                                <button
+                                    class="
+                                        admin-btn
+                                        danger
+                                        icon
+                                    "
+                                    data-delete="${
+                                        document.id
+                                    }"
+                                    title="Xóa"
+                                >
+
+                                    <i
+                                        class="
+                                            fa-solid
+                                            fa-trash
+                                        "
+                                    ></i>
+
+                                </button>
+
+                            </div>
+
+                        </article>
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    bindDocumentActions();
+
+}
+
+
+/* =========================================================
+   DOCUMENT ACTIONS
+========================================================= */
+
+function bindDocumentActions(){
+
+    const root =
+        $("documentList");
+
+
+    root
+        .querySelectorAll(
+            "[data-preview]"
+        )
+        .forEach(
+            button =>
+                button.onclick =
+                    () =>
+                        previewDoc(
+                            Number(
+                                button.dataset.preview
+                            )
+                        )
+        );
+
+
+    root
+        .querySelectorAll(
+            "[data-edit]"
+        )
+        .forEach(
+            button =>
+                button.onclick =
+                    () =>
+                        startEdit(
+                            Number(
+                                button.dataset.edit
+                            )
+                        )
+        );
+
+
+    root
+        .querySelectorAll(
+            "[data-toggle]"
+        )
+        .forEach(
+            button =>
+                button.onclick =
+                    () =>
+                        togglePublished(
+                            Number(
+                                button.dataset.toggle
+                            )
+                        )
+        );
+
+
+    root
+        .querySelectorAll(
+            "[data-delete]"
+        )
+        .forEach(
+            button =>
+                button.onclick =
+                    () =>
+                        deleteDocument(
+                            Number(
+                                button.dataset.delete
+                            )
+                        )
+        );
+
+
+    bindDrag();
+
+}
+
+
+function bindDrag(){
+
+    document
+        .querySelectorAll(
+            "#documentList .doc"
+        )
+        .forEach(
+            row => {
+
+                row.addEventListener(
+                    "dragstart",
+                    event => {
+
+                        state.draggingId =
+                            Number(
+                                row.dataset.docId
+                            );
+
+
+                        row.classList.add(
+                            "dragging"
+                        );
+
+
+                        event.dataTransfer.effectAllowed =
+                            "move";
+
+                    }
+                );
+
+
+                row.addEventListener(
+                    "dragend",
+                    () => {
+
+                        state.draggingId =
+                            null;
+
+
+                        row.classList.remove(
+                            "dragging"
+                        );
+
+                    }
+                );
+
+
+                row.addEventListener(
+                    "dragover",
+                    event =>
+                        event.preventDefault()
+                );
+
+
+                row.addEventListener(
+                    "drop",
+                    event => {
+
+                        event.preventDefault();
+
+
+                        const targetId =
+                            Number(
+                                row.dataset.docId
+                            );
+
+
+                        if (
+                            state.draggingId &&
+                            state.draggingId !==
+                            targetId
+                        ){
+
+                            reorderDocuments(
+                                state.draggingId,
+                                targetId
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   REORDER
+========================================================= */
+
+async function reorderDocuments(
+    dragId,
+    targetId
+){
+
+    const drag =
+        state.documents.find(
+            document =>
+                document.id ===
+                dragId
+        );
+
+
+    const target =
+        state.documents.find(
+            document =>
+                document.id ===
+                targetId
+        );
+
+
+    if (
+        !drag ||
+        !target
+    ){
+
+        return;
+
+    }
+
+
+    if (
+        String(
+            drag.category_id
+        ) !==
+        String(
+            target.category_id
+        )
+    ){
+
+        toast(
+            "Chỉ sắp xếp trong cùng một danh mục.",
+            "error"
+        );
+
+
+        return;
+
+    }
+
+
+    const sameCategory =
+        state.documents
+            .filter(
+                document =>
+                    String(
+                        document.category_id
+                    ) ===
+                    String(
+                        drag.category_id
+                    )
+            )
+            .sort(
+                (
+                    a,
+                    b
+                ) =>
+                    (
+                        Number(
+                            a.sort_order
+                        ) ||
+                        0
+                    ) -
+                    (
+                        Number(
+                            b.sort_order
+                        ) ||
+                        0
+                    )
+            );
+
+
+    const from =
+        sameCategory.findIndex(
+            document =>
+                document.id ===
+                dragId
+        );
+
+
+    const to =
+        sameCategory.findIndex(
+            document =>
+                document.id ===
+                targetId
+        );
+
+
+    if (
+        from < 0 ||
+        to < 0
+    ){
+
+        return;
+
+    }
+
+
+    const moved =
+        sameCategory.splice(
+            from,
+            1
+        )[0];
+
+
+    sameCategory.splice(
+        to,
+        0,
+        moved
+    );
+
+
+    try {
+
+        await Promise.all(
+            sameCategory.map(
+                (
+                    document,
+                    index
+                ) =>
+                    supabaseClient
+                        .from(
+                            "math_documents"
+                        )
+                        .update(
+                            {
+                                sort_order:
+                                    index,
+
+                                updated_at:
+                                    new Date()
+                                        .toISOString()
+                            }
+                        )
+                        .eq(
+                            "id",
+                            document.id
+                        )
+            )
+        );
+
+
+        toast(
+            "Đã lưu thứ tự.",
+            "ok"
+        );
+
+
+        await loadDocuments();
+
+    }
+    catch (
+        error
+    ){
+
+        toast(
+            error.message ||
+            "Không lưu được thứ tự.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
 
 function resetForm(){
 
@@ -3349,33 +4310,13 @@ function resetForm(){
         null;
 
 
-    $("docId")
-        .value =
-        "";
-
-
-    $("oldFilePath")
-        .value =
-        "";
-
-
-    $("editingFileName")
-        .value =
-        "";
-
-
-    $("formTitle")
-        .textContent =
-        "Thêm tài liệu";
-
-
-    $("saveLabel")
-        .textContent =
-        "Lưu tài liệu";
-
-
     $("docForm")
         .reset();
+
+
+    $("documentType")
+        .value =
+        "document";
 
 
     $("sortOrder")
@@ -3388,14 +4329,44 @@ function resetForm(){
         true;
 
 
-    $("selectedFile")
+    $("formTitle")
         .textContent =
+        "Thêm tài liệu";
+
+
+    $("saveLabel")
+        .textContent =
+        "Lưu tài liệu";
+
+
+    $("oldPdfPath")
+        .value =
         "";
 
 
-    $("bulkPreview")
+    $("oldThumbPath")
+        .value =
+        "";
+
+
+    $("pdfInput")
+        .multiple =
+        true;
+
+
+    $("pdfSelected")
+        .textContent =
+        "Chưa chọn PDF";
+
+
+    $("pdfFileList")
         .innerHTML =
         "";
+
+
+    $("thumbSelected")
+        .textContent =
+        "Không bắt buộc. Với upload nhiều PDF, có thể thêm thumbnail khi sửa từng tài liệu.";
 
 
     $("editNote")
@@ -3405,15 +4376,17 @@ function resetForm(){
         );
 
 
-    setStatus(
+    $("progress")
+        .classList
+        .remove(
+            "show"
+        );
+
+
+    status(
         "formStatus",
         ""
     );
-
-
-    $("fileInput")
-        .multiple =
-        true;
 
 }
 
@@ -3422,18 +4395,20 @@ function startEdit(
     id
 ){
 
-    const doc =
+    const document =
         state.documents.find(
-            function(item){
-
-                return item.id === id;
-
-            }
+            item =>
+                item.id ===
+                id
         );
 
 
-    if (!doc){
+    if (
+        !document
+    ){
+
         return;
+
     }
 
 
@@ -3443,48 +4418,77 @@ function startEdit(
 
     $("docId")
         .value =
-        doc.id;
+        id;
 
 
-    $("oldFilePath")
+    $("oldPdfPath")
         .value =
-        doc.file_path ||
+        document.file_path ||
         "";
 
 
-    $("editingFileName")
+    $("oldThumbPath")
         .value =
-        doc.file_name ||
+        document.thumbnail_path ||
         "";
 
 
     $("title")
         .value =
-        doc.title ||
+        document.title ||
         "";
 
 
     $("description")
         .value =
-        doc.description ||
+        document.description ||
         "";
 
 
     $("categoryId")
         .value =
-        doc.category_id ||
+        document.category_id ||
+        "";
+
+
+    $("documentType")
+        .value =
+        document.document_type ||
+        "document";
+
+
+    $("examYear")
+        .value =
+        document.exam_year ||
+        "";
+
+
+    $("durationMinutes")
+        .value =
+        document.duration_minutes ||
         "";
 
 
     $("sortOrder")
         .value =
-        doc.sort_order ??
+        document.sort_order ??
         0;
+
+
+    $("tags")
+        .value =
+        Array.isArray(
+            document.tags
+        )
+            ? document.tags.join(
+                ", "
+            )
+            : "";
 
 
     $("published")
         .checked =
-        !!doc.published;
+        !!document.published;
 
 
     $("formTitle")
@@ -3497,12 +4501,31 @@ function startEdit(
         "Cập nhật";
 
 
-    $("selectedFile")
+    $("pdfInput")
+        .value =
+        "";
+
+
+    $("pdfInput")
+        .multiple =
+        false;
+
+
+    $("thumbnailInput")
+        .value =
+        "";
+
+
+    $("pdfSelected")
         .textContent =
-        `Tệp hiện tại: ${
-            doc.file_name ||
-            ""
-        }`;
+        `PDF hiện tại: ${document.file_name || ""}`;
+
+
+    $("thumbSelected")
+        .textContent =
+        document.thumbnail_path
+            ? "Đang có thumbnail. Chọn ảnh mới nếu muốn thay."
+            : "Chưa có thumbnail.";
 
 
     $("editNote")
@@ -3512,32 +4535,38 @@ function startEdit(
         );
 
 
-    $("fileInput")
-        .value =
-        "";
-
-
-    $("fileInput")
-        .multiple =
-        false;
-
-
-    $("bulkPreview")
-        .innerHTML =
-        "";
-
-
     window.scrollTo(
         {
-            top:0,
-            behavior:"smooth"
+            top:
+                0,
+
+            behavior:
+                "smooth"
         }
     );
 
 }
 
 
-function filenameToTitle(
+function parseTags(){
+
+    return $("tags")
+        .value
+        .split(",")
+        .map(
+            tag =>
+                tag.trim()
+        )
+        .filter(Boolean)
+        .slice(
+            0,
+            20
+        );
+
+}
+
+
+function fileNameToTitle(
     name
 ){
 
@@ -3562,192 +4591,150 @@ function filenameToTitle(
 }
 
 
-function renderSelectedFiles(){
+function safeFileBase(
+    name
+){
 
-    const files =
-        [
-            ...$("fileInput").files
-        ];
+    return fileNameToTitle(
+        name
+    )
+    .toLowerCase()
+    .normalize(
+        "NFD"
+    )
+    .replace(
+        /[\u0300-\u036f]/g,
+        ""
+    )
+    .replace(
+        /đ/g,
+        "d"
+    )
+    .replace(
+        /[^a-z0-9]+/g,
+        "-"
+    )
+    .replace(
+        /^-+|-+$/g,
+        ""
+    ) ||
+    "document";
+
+}
 
 
-    $("selectedFile")
-        .textContent =
-        files.length
-            ? `${files.length} file PDF được chọn`
-            : "";
+/* =========================================================
+   STORAGE
+========================================================= */
 
-
-    $("bulkPreview")
-        .innerHTML =
-        files
-        .map(
-            function(file){
-
-                return `
-                    <div class="bulk-file">
-
-                        <span>
-
-                            <i
-                                class="fa-solid fa-file-pdf"
-                                style="color:#fca5a5"
-                            ></i>
-
-                            ${esc(
-                                file.name
-                            )}
-
-                        </span>
-
-                        <span>
-                            ${formatBytes(
-                                file.size
-                            )}
-                        </span>
-
-                    </div>
-                `;
-
-            }
-        )
-        .join("");
-
+async function uploadStorageFile(
+    file,
+    type
+){
 
     if (
-        !state.editingId &&
-        files.length &&
-        !$("title")
-            .value
-            .trim()
+        !file
     ){
 
-        $("title")
-            .value =
-            filenameToTitle(
-                files[0].name
-            );
+        return null;
 
     }
 
-}
-
-
-function formatBytes(
-    bytes
-){
-
-    if (!bytes){
-        return "0 B";
-    }
-
-
-    const units = [
-
-        "B",
-
-        "KB",
-
-        "MB",
-
-        "GB"
-
-    ];
-
-
-    const index =
-        Math.min(
-            Math.floor(
-                Math.log(
-                    bytes
-                )
-                /
-                Math.log(
-                    1024
-                )
-            ),
-            units.length - 1
-        );
-
-
-    return (
-        `${(
-            bytes /
-            1024 ** index
-        ).toFixed(
-            index
-                ? 1
-                : 0
-        )} ${units[index]}`
-    );
-
-}
-
-
-async function uploadOne(
-    file
-){
 
     if (
+        type ===
+        "pdf" &&
         file.type !==
         "application/pdf"
     ){
 
         throw new Error(
-            `File ${file.name} không phải PDF.`
+            `${file.name} không phải PDF.`
         );
 
     }
 
 
-    const safe =
-        filenameToTitle(
+    let extension =
+        "bin";
+
+
+    if (
+        type ===
+        "pdf"
+    ){
+
+        extension =
+            "pdf";
+
+    }
+    else {
+
+        extension =
+            (
+                file.name
+                    .split(
+                        "."
+                    )
+                    .pop() ||
+                "jpg"
+            )
+            .toLowerCase();
+
+    }
+
+
+    const base =
+        safeFileBase(
             file.name
-        )
-        .toLowerCase()
-        .replace(
-            /[^a-z0-9]+/g,
-            "-"
-        )
-        .replace(
-            /^-+|-+$/g,
-            ""
-        ) ||
-        "document";
+        );
+
+
+    const folder =
+        type ===
+        "pdf"
+            ? "pdfs"
+            : "thumbs";
 
 
     const path =
-        `uploads/${
+        `uploads/${folder}/${
             Date.now()
         }-${
             crypto.randomUUID()
         }-${
-            safe
-        }.pdf`;
+            base
+        }.${extension}`;
 
 
     const {
         error
     } =
         await supabaseClient
-        .storage
-        .from(
-            "math-pdfs"
-        )
-        .upload(
-            path,
-            file,
-            {
-                contentType:
-                    "application/pdf",
+            .storage
+            .from(
+                "math-pdfs"
+            )
+            .upload(
+                path,
+                file,
+                {
+                    contentType:
+                        file.type ||
+                        undefined,
 
-                upsert:
-                    false
-            }
-        );
+                    upsert:
+                        false
+                }
+            );
 
 
-    if (error){
+    if (
+        error
+    ){
+
         throw error;
+
     }
 
 
@@ -3756,12 +4743,16 @@ async function uploadOne(
 }
 
 
-async function deleteStorage(
+async function deleteStorageFile(
     path
 ){
 
-    if (!path){
+    if (
+        !path
+    ){
+
         return;
+
     }
 
 
@@ -3777,56 +4768,81 @@ async function deleteStorage(
 }
 
 
-function setProgress(
-    done,
-    total,
-    label
-){
+/* =========================================================
+   FILE PREVIEW
+========================================================= */
 
-    const box =
-        $("uploadProgress");
+function renderPdfFiles(){
 
-
-    const bar =
-        $("progressBar");
-
-
-    const text =
-        $("progressText");
+    const files =
+        [
+            ...$("pdfInput")
+                .files
+        ];
 
 
-    box.classList.add(
-        "show"
-    );
+    $("pdfSelected")
+        .textContent =
+        files.length
+            ? `${files.length} PDF được chọn`
+            : "Chưa chọn PDF";
 
 
-    bar.style.width =
-        `${
-            total
-                ? Math.round(
-                    done /
-                    total *
-                    100
-                )
-                : 0
-        }%`;
+    $("pdfFileList")
+        .innerHTML =
+        files
+            .map(
+                file =>
+                    `
+                    <div
+                        class="file-row"
+                    >
+
+                        <span>
+
+                            <i
+                                class="
+                                    fa-solid
+                                    fa-file-pdf
+                                "
+                                style="
+                                    color:#fca5a5
+                                "
+                            ></i>
+
+                            ${escapeHtml(
+                                file.name
+                            )}
+
+                        </span>
 
 
-    text.textContent =
-        label ||
-        `${done}/${total}`;
+                        <span>
+                            ${bytes(
+                                file.size
+                            )}
+                        </span>
+
+                    </div>
+                    `
+            )
+            .join("");
 
 }
 
 
-async function saveDoc(
+/* =========================================================
+   SAVE DOCUMENT
+========================================================= */
+
+async function saveDocument(
     event
 ){
 
     event.preventDefault();
 
 
-    setStatus(
+    status(
         "formStatus",
         "Đang xử lý..."
     );
@@ -3836,19 +4852,27 @@ async function saveDoc(
 
         const files =
             [
-                ...$("fileInput").files
+                ...$("pdfInput")
+                    .files
             ];
+
+
+        const thumbnail =
+            $("thumbnailInput")
+                .files[0] ||
+            null;
 
 
         const categoryId =
             Number(
                 $("categoryId")
-                .value
-            ) ||
-            null;
+                    .value
+            );
 
 
-        if (!categoryId){
+        if (
+            !categoryId
+        ){
 
             throw new Error(
                 "Hãy chọn danh mục."
@@ -3857,24 +4881,79 @@ async function saveDoc(
         }
 
 
+        const basePayload = {
+
+            description:
+                $("description")
+                    .value
+                    .trim() ||
+                null,
+
+            category_id:
+                categoryId,
+
+            document_type:
+                $("documentType")
+                    .value,
+
+            exam_year:
+                $("examYear")
+                    .value
+                    ? Number(
+                        $("examYear")
+                            .value
+                    )
+                    : null,
+
+            duration_minutes:
+                $("durationMinutes")
+                    .value
+                    ? Number(
+                        $("durationMinutes")
+                            .value
+                    )
+                    : null,
+
+            sort_order:
+                Number(
+                    $("sortOrder")
+                        .value
+                ) ||
+                0,
+
+            published:
+                $("published")
+                    .checked,
+
+            tags:
+                parseTags(),
+
+            updated_at:
+                new Date()
+                    .toISOString()
+
+        };
+
+
+        /* ================================================
+           EDIT
+        ================================================= */
+
         if (
             state.editingId
         ){
 
             const current =
                 state.documents.find(
-                    function(doc){
-
-                        return (
-                            doc.id ===
-                            state.editingId
-                        );
-
-                    }
+                    document =>
+                        document.id ===
+                        state.editingId
                 );
 
 
-            if (!current){
+            if (
+                !current
+            ){
 
                 throw new Error(
                     "Không tìm thấy tài liệu."
@@ -3883,7 +4962,7 @@ async function saveDoc(
             }
 
 
-            let path =
+            let pdfPath =
                 current.file_path;
 
 
@@ -3891,11 +4970,18 @@ async function saveDoc(
                 current.file_name;
 
 
-            if (files[0]){
+            let thumbPath =
+                current.thumbnail_path;
 
-                path =
-                    await uploadOne(
-                        files[0]
+
+            if (
+                files[0]
+            ){
+
+                pdfPath =
+                    await uploadStorageFile(
+                        files[0],
+                        "pdf"
                     );
 
 
@@ -3905,45 +4991,39 @@ async function saveDoc(
             }
 
 
+            if (
+                thumbnail
+            ){
+
+                thumbPath =
+                    await uploadStorageFile(
+                        thumbnail,
+                        "thumb"
+                    );
+
+            }
+
+
             const payload = {
+
+                ...basePayload,
 
                 title:
                     $("title")
-                    .value
-                    .trim() ||
-                    filenameToTitle(
+                        .value
+                        .trim() ||
+                    fileNameToTitle(
                         fileName
                     ),
 
-                description:
-                    $("description")
-                    .value
-                    .trim() ||
-                    null,
-
-                category_id:
-                    categoryId,
-
-                sort_order:
-                    Number(
-                        $("sortOrder")
-                        .value
-                    ) ||
-                    0,
-
-                published:
-                    $("published")
-                    .checked,
-
-                updated_at:
-                    new Date()
-                    .toISOString(),
-
                 file_path:
-                    path,
+                    pdfPath,
 
                 file_name:
-                    fileName
+                    fileName,
+
+                thumbnail_path:
+                    thumbPath
 
             };
 
@@ -3952,31 +5032,43 @@ async function saveDoc(
                 error
             } =
                 await supabaseClient
-                .from(
-                    "math_documents"
-                )
-                .update(
-                    payload
-                )
-                .eq(
-                    "id",
-                    state.editingId
-                );
+                    .from(
+                        "math_documents"
+                    )
+                    .update(
+                        payload
+                    )
+                    .eq(
+                        "id",
+                        state.editingId
+                    );
 
 
-            if (error){
+            if (
+                error
+            ){
 
                 if (
-                    files[0] &&
-                    path !==
-                    current.file_path
+                    files[0]
                 ){
 
-                    await deleteStorage(
-                        path
+                    await deleteStorageFile(
+                        pdfPath
                     );
 
                 }
+
+
+                if (
+                    thumbnail
+                ){
+
+                    await deleteStorageFile(
+                        thumbPath
+                    );
+
+                }
+
 
                 throw error;
 
@@ -3986,11 +5078,25 @@ async function saveDoc(
             if (
                 files[0] &&
                 current.file_path !==
-                path
+                pdfPath
             ){
 
-                await deleteStorage(
+                await deleteStorageFile(
                     current.file_path
+                );
+
+            }
+
+
+            if (
+                thumbnail &&
+                current.thumbnail_path &&
+                current.thumbnail_path !==
+                thumbPath
+            ){
+
+                await deleteStorageFile(
+                    current.thumbnail_path
                 );
 
             }
@@ -4004,52 +5110,32 @@ async function saveDoc(
         }
 
 
+        /* ================================================
+           NEW
+        ================================================= */
+
         else {
 
-            if (!files.length){
+            if (
+                !files.length
+            ){
 
                 throw new Error(
-                    "Hãy chọn ít nhất một file PDF."
+                    "Hãy chọn ít nhất một PDF."
                 );
 
             }
-
-
-            const baseTitle =
-                $("title")
-                .value
-                .trim();
-
-
-            const description =
-                $("description")
-                .value
-                .trim() ||
-                null;
-
-
-            const published =
-                $("published")
-                .checked;
-
-
-            const baseSort =
-                Number(
-                    $("sortOrder")
-                    .value
-                ) ||
-                0;
 
 
             let done =
                 0;
 
 
-            setProgress(
-                0,
-                files.length,
-                `Đang upload 0/${files.length}`
-            );
+            $("progress")
+                .classList
+                .add(
+                    "show"
+                );
 
 
             for (
@@ -4057,48 +5143,41 @@ async function saveDoc(
                 of files
             ){
 
-                const path =
-                    await uploadOne(
-                        file
+                const pdfPath =
+                    await uploadStorageFile(
+                        file,
+                        "pdf"
                     );
 
 
                 const payload = {
 
+                    ...basePayload,
+
                     title:
-                        baseTitle &&
-                        files.length === 1
-                            ? baseTitle
-                            : filenameToTitle(
+                        files.length === 1 &&
+                        $("title")
+                            .value
+                            .trim()
+                            ? $("title")
+                                .value
+                                .trim()
+                            : fileNameToTitle(
                                 file.name
                             ),
 
-                    description:
-                        description,
-
-                    category_id:
-                        categoryId,
-
                     file_path:
-                        path,
+                        pdfPath,
 
                     file_name:
                         file.name,
 
-                    sort_order:
-                        baseSort +
-                        done,
-
-                    published:
-                        published,
+                    thumbnail_path:
+                        null,
 
                     created_at:
                         new Date()
-                        .toISOString(),
-
-                    updated_at:
-                        new Date()
-                        .toISOString()
+                            .toISOString()
 
                 };
 
@@ -4107,19 +5186,22 @@ async function saveDoc(
                     error
                 } =
                     await supabaseClient
-                    .from(
-                        "math_documents"
-                    )
-                    .insert(
-                        payload
+                        .from(
+                            "math_documents"
+                        )
+                        .insert(
+                            payload
+                        );
+
+
+                if (
+                    error
+                ){
+
+                    await deleteStorageFile(
+                        pdfPath
                     );
 
-
-                if (error){
-
-                    await deleteStorage(
-                        path
-                    );
 
                     throw error;
 
@@ -4129,11 +5211,21 @@ async function saveDoc(
                 done++;
 
 
-                setProgress(
-                    done,
-                    files.length,
-                    `Đã upload ${done}/${files.length}`
-                );
+                $("progressBar")
+                    .style
+                    .width =
+                    `${
+                        Math.round(
+                            done /
+                            files.length *
+                            100
+                        )
+                    }%`;
+
+
+                $("progressText")
+                    .textContent =
+                    `Đã upload ${done}/${files.length}`;
 
             }
 
@@ -4146,46 +5238,49 @@ async function saveDoc(
         }
 
 
-        await loadAll();
+        await loadCategories();
+
+        await loadDocuments();
 
 
         resetForm();
 
 
-        $("uploadProgress")
+        $("progress")
             .classList
             .remove(
                 "show"
             );
 
 
-        setStatus(
+        status(
             "formStatus",
             "Hoàn tất.",
             true
         );
 
     }
-
-    catch(error){
+    catch (
+        error
+    ){
 
         console.error(
             error
         );
 
 
-        setStatus(
-            "formStatus",
-            error.message ||
-            "Có lỗi xảy ra."
-        );
-
-
-        $("uploadProgress")
+        $("progress")
             .classList
             .remove(
                 "show"
             );
+
+
+        status(
+            "formStatus",
+            error.message ||
+            "Có lỗi xảy ra."
+        );
 
 
         toast(
@@ -4199,22 +5294,28 @@ async function saveDoc(
 }
 
 
+/* =========================================================
+   TOGGLE
+========================================================= */
+
 async function togglePublished(
     id
 ){
 
-    const doc =
+    const document =
         state.documents.find(
-            function(item){
-
-                return item.id === id;
-
-            }
+            item =>
+                item.id ===
+                id
         );
 
 
-    if (!doc){
+    if (
+        !document
+    ){
+
         return;
+
     }
 
 
@@ -4222,26 +5323,30 @@ async function togglePublished(
         error
     } =
         await supabaseClient
-        .from(
-            "math_documents"
-        )
-        .update(
-            {
-                published:
-                    !doc.published,
+            .from(
+                "math_documents"
+            )
+            .update(
+                {
 
-                updated_at:
-                    new Date()
-                    .toISOString()
-            }
-        )
-        .eq(
-            "id",
-            id
-        );
+                    published:
+                        !document.published,
+
+                    updated_at:
+                        new Date()
+                            .toISOString()
+
+                }
+            )
+            .eq(
+                "id",
+                id
+            );
 
 
-    if (error){
+    if (
+        error
+    ){
 
         toast(
             error.message,
@@ -4255,44 +5360,52 @@ async function togglePublished(
 
 
     toast(
-        doc.published
+        document.published
             ? "Đã ẩn tài liệu."
             : "Đã hiển thị tài liệu.",
         "ok"
     );
 
 
-    await loadDocs();
+    await loadDocuments();
 
 }
 
 
-async function deleteDoc(
+/* =========================================================
+   DELETE
+========================================================= */
+
+async function deleteDocument(
     id
 ){
 
-    const doc =
+    const document =
         state.documents.find(
-            function(item){
-
-                return item.id === id;
-
-            }
+            item =>
+                item.id ===
+                id
         );
 
 
-    if (!doc){
+    if (
+        !document
+    ){
+
         return;
+
     }
+
+
+    const title =
+        document.title ||
+        document.file_name ||
+        "Tài liệu";
 
 
     if (
         !confirm(
-            `Xóa tài liệu “${
-                doc.title ||
-                doc.file_name
-            }”?\n\n` +
-            `File PDF trong Storage cũng sẽ bị xóa.`
+            `Xóa “${title}” và các file liên quan?`
         )
     ){
 
@@ -4305,17 +5418,19 @@ async function deleteDoc(
         error
     } =
         await supabaseClient
-        .from(
-            "math_documents"
-        )
-        .delete()
-        .eq(
-            "id",
-            id
-        );
+            .from(
+                "math_documents"
+            )
+            .delete()
+            .eq(
+                "id",
+                id
+            );
 
 
-    if (error){
+    if (
+        error
+    ){
 
         toast(
             error.message,
@@ -4328,8 +5443,13 @@ async function deleteDoc(
     }
 
 
-    await deleteStorage(
-        doc.file_path
+    await deleteStorageFile(
+        document.file_path
+    );
+
+
+    await deleteStorageFile(
+        document.thumbnail_path
     );
 
 
@@ -4354,53 +5474,59 @@ async function deleteDoc(
 }
 
 
-async function addCategory(){
+/* =========================================================
+   CATEGORY CRUD
+========================================================= */
+
+async function addCategory(
+    event
+){
+
+    event.preventDefault();
+
 
     const name =
-        $("newCategoryName")
-        .value
-        .trim();
+        $("categoryName")
+            .value
+            .trim();
 
 
-    if (!name){
-
-        setStatus(
-            "categoryStatus",
-            "Nhập tên danh mục."
-        );
-
+    if (
+        !name
+    ){
 
         return;
 
     }
 
 
-    const slugBase =
+    const parentId =
+        $("categoryParent")
+            .value
+            ? Number(
+                $("categoryParent")
+                    .value
+            )
+            : null;
+
+
+    let slug =
         slugify(
             name
         ) ||
         `category-${Date.now()}`;
 
 
-    let slug =
-        slugBase;
-
-
     if (
         state.categories.some(
-            function(category){
-
-                return (
-                    category.slug ===
-                    slug
-                );
-
-            }
+            category =>
+                category.slug ===
+                slug
         )
     ){
 
         slug =
-            `${slugBase}-${Date.now()}`;
+            `${slug}-${Date.now()}`;
 
     }
 
@@ -4409,15 +5535,11 @@ async function addCategory(){
         Math.max(
             0,
             ...state.categories.map(
-                function(category){
-
-                    return (
-                        Number(
-                            category.sort_order
-                        ) || 0
-                    );
-
-                }
+                category =>
+                    Number(
+                        category.sort_order
+                    ) ||
+                    0
             )
         );
 
@@ -4426,27 +5548,38 @@ async function addCategory(){
         error
     } =
         await supabaseClient
-        .from(
-            "math_categories"
-        )
-        .insert(
-            {
-                name:
+            .from(
+                "math_categories"
+            )
+            .insert(
+                {
+
                     name,
 
-                slug:
                     slug,
 
-                sort_order:
-                    maxSort +
-                    10
-            }
-        );
+                    description:
+                        $("categoryDescription")
+                            .value
+                            .trim() ||
+                        null,
+
+                    parent_id:
+                        parentId,
+
+                    sort_order:
+                        maxSort +
+                        10
+
+                }
+            );
 
 
-    if (error){
+    if (
+        error
+    ){
 
-        setStatus(
+        status(
             "categoryStatus",
             error.message
         );
@@ -4457,12 +5590,11 @@ async function addCategory(){
     }
 
 
-    $("newCategoryName")
-        .value =
-        "";
+    $("categoryForm")
+        .reset();
 
 
-    setStatus(
+    status(
         "categoryStatus",
         "Đã thêm danh mục.",
         true
@@ -4486,38 +5618,16 @@ async function renameCategory(
 
     const input =
         document.querySelector(
-            `.category-name-input[data-category-id="${id}"]`
+            `.category-input[data-id="${id}"]`
         );
 
 
     const name =
-        input?.value
-        .trim();
-
-
-    if (!name){
-        return;
-    }
-
-
-    const category =
-        state.categories.find(
-            function(item){
-
-                return item.id === id;
-
-            }
-        );
-
-
-    if (!category){
-        return;
-    }
+        input?.value.trim();
 
 
     if (
-        name ===
-        category.name
+        !name
     ){
 
         return;
@@ -4525,37 +5635,54 @@ async function renameCategory(
     }
 
 
-    const slugBase =
-        slugify(
-            name
-        ) ||
-        category.slug ||
-        `category-${id}`;
+    const old =
+        state.categories.find(
+            category =>
+                category.id ===
+                id
+        );
+
+
+    if (
+        !old ||
+        name ===
+        old.name
+    ){
+
+        return;
+
+    }
 
 
     const {
         error
     } =
         await supabaseClient
-        .from(
-            "math_categories"
-        )
-        .update(
-            {
-                name:
+            .from(
+                "math_categories"
+            )
+            .update(
+                {
+
                     name,
 
-                slug:
-                    slugBase
-            }
-        )
-        .eq(
-            "id",
-            id
-        );
+                    slug:
+                        slugify(
+                            name
+                        ) ||
+                        old.slug
+
+                }
+            )
+            .eq(
+                "id",
+                id
+            );
 
 
-    if (error){
+    if (
+        error
+    ){
 
         toast(
             error.message,
@@ -4574,10 +5701,7 @@ async function renameCategory(
     );
 
 
-    await loadCategories();
-
-
-    await loadDocs();
+    await loadAll();
 
 }
 
@@ -4586,40 +5710,37 @@ async function deleteCategory(
     id
 ){
 
-    const category =
-        state.categories.find(
-            function(item){
-
-                return item.id === id;
-
-            }
+    const hasChildren =
+        state.categories.some(
+            category =>
+                Number(
+                    category.parent_id
+                ) ===
+                Number(
+                    id
+                )
         );
 
 
-    if (!category){
-        return;
-    }
-
-
-    const count =
+    const documentCount =
         state.documents.filter(
-            function(doc){
-
-                return (
-                    Number(
-                        doc.category_id
-                    ) ===
-                    Number(id)
-                );
-
-            }
+            document =>
+                Number(
+                    document.category_id
+                ) ===
+                Number(
+                    id
+                )
         ).length;
 
 
-    if (count > 0){
+    if (
+        hasChildren ||
+        documentCount
+    ){
 
         toast(
-            `Không thể xóa “${category.name}” vì đang có ${count} tài liệu. Hãy chuyển hoặc xóa tài liệu trước.`,
+            "Không thể xóa: danh mục còn thư mục con hoặc tài liệu.",
             "error"
         );
 
@@ -4631,7 +5752,7 @@ async function deleteCategory(
 
     if (
         !confirm(
-            `Xóa danh mục “${category.name}”?`
+            "Xóa danh mục này?"
         )
     ){
 
@@ -4644,17 +5765,19 @@ async function deleteCategory(
         error
     } =
         await supabaseClient
-        .from(
-            "math_categories"
-        )
-        .delete()
-        .eq(
-            "id",
-            id
-        );
+            .from(
+                "math_categories"
+            )
+            .delete()
+            .eq(
+                "id",
+                id
+            );
 
 
-    if (error){
+    if (
+        error
+    ){
 
         toast(
             error.message,
@@ -4678,243 +5801,57 @@ async function deleteCategory(
 }
 
 
-async function reorderDocuments(
-    dragId,
-    targetId
-){
-
-    const drag =
-        state.documents.find(
-            function(doc){
-
-                return doc.id ===
-                    dragId;
-
-            }
-        );
-
-
-    const target =
-        state.documents.find(
-            function(doc){
-
-                return doc.id ===
-                    targetId;
-
-            }
-        );
-
-
-    if (
-        !drag ||
-        !target ||
-        String(
-            drag.category_id
-        ) !==
-        String(
-            target.category_id
-        )
-    ){
-
-        toast(
-            "Chỉ sắp xếp tài liệu trong cùng một danh mục.",
-            "error"
-        );
-
-
-        return;
-
-    }
-
-
-    const same =
-        state.documents
-        .filter(
-            function(doc){
-
-                return (
-                    String(
-                        doc.category_id
-                    ) ===
-                    String(
-                        drag.category_id
-                    )
-                );
-
-            }
-        )
-        .sort(
-            function(a,b){
-
-                return (
-                    Number(
-                        a.sort_order
-                    ) || 0
-                )
-                -
-                (
-                    Number(
-                        b.sort_order
-                    ) || 0
-                );
-
-            }
-        );
-
-
-    const from =
-        same.findIndex(
-            function(doc){
-
-                return (
-                    doc.id ===
-                    dragId
-                );
-
-            }
-        );
-
-
-    const to =
-        same.findIndex(
-            function(doc){
-
-                return (
-                    doc.id ===
-                    targetId
-                );
-
-            }
-        );
-
-
-    if (
-        from < 0 ||
-        to < 0
-    ){
-
-        return;
-
-    }
-
-
-    const moved =
-        same.splice(
-            from,
-            1
-        )[0];
-
-
-    same.splice(
-        to,
-        0,
-        moved
-    );
-
-
-    try {
-
-        const updates =
-            same.map(
-                function(doc,index){
-
-                    return supabaseClient
-                        .from(
-                            "math_documents"
-                        )
-                        .update(
-                            {
-                                sort_order:
-                                    index,
-
-                                updated_at:
-                                    new Date()
-                                    .toISOString()
-                            }
-                        )
-                        .eq(
-                            "id",
-                            doc.id
-                        );
-
-                }
-            );
-
-
-        await Promise.all(
-            updates
-        );
-
-
-        toast(
-            "Đã lưu thứ tự.",
-            "ok"
-        );
-
-
-        await loadDocs();
-
-    }
-
-    catch(error){
-
-        toast(
-            error.message ||
-            "Không lưu được thứ tự.",
-            "error"
-        );
-
-    }
-
-}
-
+/* =========================================================
+   PREVIEW
+========================================================= */
 
 function previewDoc(
     id
 ){
 
-    const doc =
+    const document =
         state.documents.find(
-            function(item){
-
-                return item.id === id;
-
-            }
+            item =>
+                item.id ===
+                id
         );
 
 
-    if (!doc){
+    if (
+        !document
+    ){
+
         return;
+
     }
-
-
-    const modal =
-        $("previewModal");
 
 
     $("previewTitle")
         .textContent =
-        doc.title ||
-        doc.file_name ||
+        document.title ||
+        document.file_name ||
         "Tài liệu";
 
 
     $("previewFrame")
         .src =
-        fileUrl(
-            doc.file_path
+        storageUrl(
+            document.file_path
         );
 
 
-    modal.classList.add(
-        "open"
-    );
+    $("previewModal")
+        .classList
+        .add(
+            "open"
+        );
 
 
-    modal.setAttribute(
-        "aria-hidden",
-        "false"
-    );
+    $("previewModal")
+        .setAttribute(
+            "aria-hidden",
+            "false"
+        );
 
 
     document.body.style.overflow =
@@ -4925,19 +5862,18 @@ function previewDoc(
 
 function closePreview(){
 
-    const modal =
-        $("previewModal");
+    $("previewModal")
+        .classList
+        .remove(
+            "open"
+        );
 
 
-    modal.classList.remove(
-        "open"
-    );
-
-
-    modal.setAttribute(
-        "aria-hidden",
-        "true"
-    );
+    $("previewModal")
+        .setAttribute(
+            "aria-hidden",
+            "true"
+        );
 
 
     $("previewFrame")
@@ -4952,18 +5888,588 @@ function closePreview(){
 
 
 /* =========================================================
+   REQUESTS
+========================================================= */
+
+const requestStatusLabels = {
+
+    pending:
+        "Chờ xử lý",
+
+    processing:
+        "Đang xử lý",
+
+    completed:
+        "Đã hoàn thành",
+
+    rejected:
+        "Đã từ chối"
+
+};
+
+
+function renderRequests(){
+
+    const query =
+        $("requestSearch")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const filter =
+        $("requestStatusFilter")
+            .value;
+
+
+    const rows =
+        state.requests.filter(
+            request => {
+
+                const haystack = [
+
+                    request.name,
+
+                    request.email,
+
+                    request.request_text,
+
+                    request.math_categories?.name
+
+                ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
+
+                return (
+                    (
+                        !query ||
+                        haystack.includes(
+                            query
+                        )
+                    ) &&
+                    (
+                        filter ===
+                        "all" ||
+                        request.status ===
+                        filter
+                    )
+                );
+
+            }
+        );
+
+
+    const root =
+        $("requestList");
+
+
+    if (
+        !rows.length
+    ){
+
+        root.innerHTML =
+            `
+            <div class="empty">
+                Chưa có yêu cầu phù hợp.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    root.innerHTML =
+        rows
+            .map(
+                request =>
+                    `
+                    <article
+                        class="request"
+                    >
+
+                        <div
+                            class="
+                                request-head
+                            "
+                        >
+
+                            <div>
+
+                                <div
+                                    class="
+                                        request-title
+                                    "
+                                >
+                                    ${escapeHtml(
+                                        request.name ||
+                                        "Người dùng ẩn danh"
+                                    )}
+                                </div>
+
+
+                                <div
+                                    class="muted"
+                                >
+
+                                    ${escapeHtml(
+                                        request.email ||
+                                        "Không cung cấp email"
+                                    )}
+
+                                    ·
+
+                                    ${escapeHtml(
+                                        request.math_categories?.name ||
+                                        "Chưa chọn danh mục"
+                                    )}
+
+                                    ·
+
+                                    ${formatDate(
+                                        request.created_at
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                            <span
+                                class="
+                                    pill
+                                    ${
+                                        request.status ===
+                                        "completed"
+                                            ? "on"
+                                            : request.status ===
+                                                "rejected"
+                                                    ? "off"
+                                                    : ""
+                                    }
+                                "
+                            >
+
+                                ${
+                                    requestStatusLabels[
+                                        request.status
+                                    ] ||
+                                    request.status
+                                }
+
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="
+                                request-body
+                            "
+                        >
+
+                            ${escapeHtml(
+                                request.request_text
+                            )}
+
+                        </div>
+
+
+                        <div
+                            class="
+                                request-footer
+                            "
+                        >
+
+                            <select
+                                data-request-status="${
+                                    request.id
+                                }"
+                            >
+
+                                ${
+                                    Object
+                                        .entries(
+                                            requestStatusLabels
+                                        )
+                                        .map(
+                                            (
+                                                [
+                                                    key,
+                                                    label
+                                                ]
+                                            ) =>
+                                                `
+                                                <option
+                                                    value="${key}"
+                                                    ${
+                                                        key ===
+                                                        request.status
+                                                            ? "selected"
+                                                            : ""
+                                                    }
+                                                >
+                                                    ${label}
+                                                </option>
+                                                `
+                                        )
+                                        .join("")
+                                }
+
+                            </select>
+
+
+                            <input
+                                data-request-note="${
+                                    request.id
+                                }"
+                                value="${escapeHtml(
+                                    request.admin_note ||
+                                    ""
+                                )}"
+                                placeholder="Ghi chú admin"
+                            >
+
+
+                            <button
+                                class="
+                                    admin-btn
+                                    ghost
+                                "
+                                data-request-save="${
+                                    request.id
+                                }"
+                                type="button"
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-check
+                                    "
+                                ></i>
+
+                                Lưu
+
+                            </button>
+
+
+                            <button
+                                class="
+                                    admin-btn
+                                    danger
+                                "
+                                data-request-delete="${
+                                    request.id
+                                }"
+                                type="button"
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-trash
+                                    "
+                                ></i>
+
+                            </button>
+
+                        </div>
+
+                    </article>
+                    `
+            )
+            .join("");
+
+
+    root
+        .querySelectorAll(
+            "[data-request-save]"
+        )
+        .forEach(
+            button =>
+                button.onclick =
+                    () =>
+                        saveRequest(
+                            Number(
+                                button.dataset.requestSave
+                            )
+                        )
+        );
+
+
+    root
+        .querySelectorAll(
+            "[data-request-delete]"
+        )
+        .forEach(
+            button =>
+                button.onclick =
+                    () =>
+                        deleteRequest(
+                            Number(
+                                button.dataset.requestDelete
+                            )
+                        )
+        );
+
+}
+
+
+async function saveRequest(
+    id
+){
+
+    const statusValue =
+        document.querySelector(
+            `[data-request-status="${id}"]`
+        )
+        ?.value;
+
+
+    const note =
+        document.querySelector(
+            `[data-request-note="${id}"]`
+        )
+        ?.value
+        .trim() ||
+        null;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from(
+                "math_requests"
+            )
+            .update(
+                {
+
+                    status:
+                        statusValue,
+
+                    admin_note:
+                        note,
+
+                    updated_at:
+                        new Date()
+                            .toISOString()
+
+                }
+            )
+            .eq(
+                "id",
+                id
+            );
+
+
+    if (
+        error
+    ){
+
+        toast(
+            error.message,
+            "error"
+        );
+
+
+        return;
+
+    }
+
+
+    toast(
+        "Đã cập nhật yêu cầu.",
+        "ok"
+    );
+
+
+    await loadRequests();
+
+}
+
+
+async function deleteRequest(
+    id
+){
+
+    if (
+        !confirm(
+            "Xóa yêu cầu này?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from(
+                "math_requests"
+            )
+            .delete()
+            .eq(
+                "id",
+                id
+            );
+
+
+    if (
+        error
+    ){
+
+        toast(
+            error.message,
+            "error"
+        );
+
+
+        return;
+
+    }
+
+
+    toast(
+        "Đã xóa yêu cầu.",
+        "ok"
+    );
+
+
+    await loadRequests();
+
+}
+
+
+/* =========================================================
+   TOP DOCS
+========================================================= */
+
+function renderTopDocs(){
+
+    const root =
+        $("topDocs");
+
+
+    if (
+        !root
+    ){
+
+        return;
+
+    }
+
+
+    const documents =
+        [
+            ...state.documents
+        ]
+        .sort(
+            (
+                a,
+                b
+            ) =>
+                (
+                    Number(
+                        b.view_count
+                    ) ||
+                    0
+                ) -
+                (
+                    Number(
+                        a.view_count
+                    ) ||
+                    0
+                )
+        )
+        .slice(
+            0,
+            10
+        );
+
+
+    if (
+        !documents.length
+    ){
+
+        root.innerHTML =
+            `
+            <div class="empty">
+                Chưa có lượt xem.
+            </div>
+            `;
+
+        return;
+
+    }
+
+
+    root.innerHTML =
+        documents
+            .map(
+                (
+                    document,
+                    index
+                ) =>
+                    `
+                    <div
+                        class="
+                            top-row
+                        "
+                    >
+
+                        <span>
+
+                            ${
+                                index +
+                                1
+                            }.
+
+                            ${escapeHtml(
+                                document.title ||
+                                document.file_name ||
+                                "Tài liệu"
+                            )}
+
+                        </span>
+
+
+                        <b>
+                            ${
+                                Number(
+                                    document.view_count
+                                ) ||
+                                0
+                            }
+                        </b>
+
+                    </div>
+                    `
+            )
+            .join("");
+
+}
+
+
+/* =========================================================
    EVENTS
 ========================================================= */
 
 $("loginForm")
     .addEventListener(
         "submit",
-        async function(event){
+        async event => {
 
             event.preventDefault();
 
 
-            setStatus(
+            status(
                 "loginStatus",
                 "Đang đăng nhập..."
             );
@@ -4973,23 +6479,27 @@ $("loginForm")
                 error
             } =
                 await supabaseClient
-                .auth
-                .signInWithPassword(
-                    {
-                        email:
-                            $("loginEmail")
-                            .value,
+                    .auth
+                    .signInWithPassword(
+                        {
 
-                        password:
-                            $("loginPassword")
-                            .value
-                    }
-                );
+                            email:
+                                $("loginEmail")
+                                    .value,
+
+                            password:
+                                $("loginPassword")
+                                    .value
+
+                        }
+                    );
 
 
-            if (error){
+            if (
+                error
+            ){
 
-                setStatus(
+                status(
                     "loginStatus",
                     error.message
                 );
@@ -5000,7 +6510,7 @@ $("loginForm")
             }
 
 
-            await checkAdmin();
+            await boot();
 
         }
     );
@@ -5009,7 +6519,7 @@ $("loginForm")
 $("logoutBtn")
     .addEventListener(
         "click",
-        async function(){
+        async () => {
 
             await supabaseClient
                 .auth
@@ -5025,7 +6535,7 @@ $("logoutBtn")
 $("docForm")
     .addEventListener(
         "submit",
-        saveDoc
+        saveDocument
     );
 
 
@@ -5036,45 +6546,93 @@ $("resetBtn")
     );
 
 
-$("fileInput")
+$("pdfInput")
     .addEventListener(
         "change",
-        renderSelectedFiles
+        renderPdfFiles
     );
 
 
-$("addCategoryBtn")
+$("thumbnailInput")
     .addEventListener(
-        "click",
-        addCategory
+        "change",
+        () => {
+
+            const file =
+                $("thumbnailInput")
+                    .files[0];
+
+
+            $("thumbSelected")
+                .textContent =
+                file
+                    ? `Ảnh: ${file.name} · ${bytes(file.size)}`
+                    : "Chưa chọn ảnh.";
+
+        }
     );
 
 
-$("refreshBtn")
+$("refreshDocs")
     .addEventListener(
         "click",
-        loadAll
+        loadDocuments
     );
 
 
 $("docSearch")
     .addEventListener(
         "input",
-        renderDocs
+        renderDocuments
     );
 
 
-$("docFilterCategory")
+$("docCategoryFilter")
     .addEventListener(
         "change",
-        renderDocs
+        renderDocuments
     );
 
 
-$("docFilterStatus")
+$("docStatusFilter")
     .addEventListener(
         "change",
-        renderDocs
+        renderDocuments
+    );
+
+
+$("docTypeFilter")
+    .addEventListener(
+        "change",
+        renderDocuments
+    );
+
+
+$("categoryForm")
+    .addEventListener(
+        "submit",
+        addCategory
+    );
+
+
+$("refreshRequests")
+    .addEventListener(
+        "click",
+        loadRequests
+    );
+
+
+$("requestSearch")
+    .addEventListener(
+        "input",
+        renderRequests
+    );
+
+
+$("requestStatusFilter")
+    .addEventListener(
+        "change",
+        renderRequests
     );
 
 
@@ -5088,7 +6646,7 @@ $("previewClose")
 $("previewModal")
     .addEventListener(
         "click",
-        function(event){
+        event => {
 
             if (
                 event.target ===
@@ -5103,9 +6661,64 @@ $("previewModal")
     );
 
 
+document
+    .querySelectorAll(
+        ".tab"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .querySelectorAll(
+                            ".tab"
+                        )
+                        .forEach(
+                            item =>
+                                item.classList.remove(
+                                    "active"
+                                )
+                        );
+
+
+                    document
+                        .querySelectorAll(
+                            ".panel"
+                        )
+                        .forEach(
+                            panel =>
+                                panel.classList.remove(
+                                    "active"
+                                )
+                        );
+
+
+                    button.classList.add(
+                        "active"
+                    );
+
+
+                    $("panel-" +
+                        button.dataset.tab
+                    )
+                    .classList
+                    .add(
+                        "active"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
 document.addEventListener(
     "keydown",
-    function(event){
+    event => {
 
         if (
             event.key ===
@@ -5121,23 +6734,25 @@ document.addEventListener(
 
 
 /* =========================================================
-   AUTH
+   AUTH STATE
 ========================================================= */
 
 supabaseClient
     .auth
     .onAuthStateChange(
-        function(){
-
-            checkAdmin();
-
-        }
+        () =>
+            boot()
     );
 
 
-checkAdmin();
+/* =========================================================
+   START
+========================================================= */
+
+boot();
 
 </script>
 
 </body>
+
 </html>
