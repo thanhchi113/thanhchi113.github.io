@@ -1878,6 +1878,271 @@ body:has(.pdf-modal.open){
 .qr-modal.open{display:flex !important;}
 </style>
 
+
+<style id="final-pdf-and-card-layout-fix">
+/* =========================================================
+   FINAL PDF + CARD LAYOUT
+   Continue the document as a normal page section.
+========================================================= */
+.document-card-preview.uploaded-thumbnail{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    position:relative !important;
+    overflow:hidden !important;
+    padding:0 !important;
+    background:#f8fafc !important;
+}
+.document-card-preview.uploaded-thumbnail img{
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    max-width:100% !important;
+    max-height:100% !important;
+    margin:auto !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    transform:none !important;
+}
+.document-card-preview.uploaded-thumbnail .uploaded-thumbnail-badge{
+    position:absolute !important;
+    left:9px !important;
+    top:9px !important;
+    z-index:4 !important;
+}
+
+.document-card-actions{
+    display:grid !important;
+    grid-template-columns:minmax(88px,0.95fr) minmax(70px,0.75fr) minmax(140px,1.55fr) !important;
+    align-items:stretch !important;
+    gap:8px !important;
+    width:100% !important;
+}
+.document-card-action,
+.document-card-action.icon-only{
+    width:100% !important;
+    min-width:0 !important;
+    height:40px !important;
+    padding:0 10px !important;
+    gap:7px !important;
+    justify-content:center !important;
+    white-space:nowrap !important;
+}
+.document-card-action span{
+    display:inline !important;
+}
+.document-card-action.open{
+    min-width:0 !important;
+}
+
+/* PDF viewer is part of normal document flow. */
+.pdf-modal{
+    position:relative !important;
+    inset:auto !important;
+    z-index:1 !important;
+    display:none !important;
+    width:100% !important;
+    margin:34px 0 40px !important;
+    padding:0 !important;
+    overflow:visible !important;
+    background:transparent !important;
+    pointer-events:auto !important;
+}
+.pdf-modal.open{display:block !important;}
+.pdf-modal-inner{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    transform:none !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) 330px !important;
+    grid-template-rows:auto auto auto !important;
+    overflow:visible !important;
+    pointer-events:auto !important;
+    border:1px solid rgba(125,211,252,.18) !important;
+    border-radius:18px !important;
+    background:rgba(7,14,26,.98) !important;
+    box-shadow:0 24px 70px rgba(0,0,0,.34) !important;
+}
+.pdf-modal-head{
+    grid-column:1 / -1 !important;
+    grid-row:1 !important;
+    position:relative !important;
+    top:auto !important;
+    min-height:68px !important;
+    height:auto !important;
+    padding:10px 14px !important;
+}
+.pdf-viewer-toolbar{
+    grid-column:1 / -1 !important;
+    grid-row:2 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:12px !important;
+    flex-wrap:wrap !important;
+    padding:9px 12px !important;
+    border-bottom:1px solid rgba(255,255,255,.07) !important;
+    background:rgba(9,18,31,.96) !important;
+}
+.pdf-viewer-toolbar-group{
+    display:flex !important;
+    align-items:center !important;
+    gap:7px !important;
+}
+.pdf-viewer-control,
+.pdf-viewer-zoom-select,
+.pdf-page-input-wrap{
+    min-height:36px !important;
+    border:1px solid rgba(125,211,252,.18) !important;
+    border-radius:9px !important;
+    background:rgba(255,255,255,.025) !important;
+    color:#dcecff !important;
+    font:inherit !important;
+    font-size:11px !important;
+}
+.pdf-viewer-control{
+    width:36px !important;
+    padding:0 !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    cursor:pointer !important;
+}
+.pdf-viewer-control:hover:not(:disabled){
+    border-color:rgba(125,211,252,.5) !important;
+    color:#9be7ff !important;
+    background:rgba(56,189,248,.08) !important;
+}
+.pdf-viewer-control:disabled{opacity:.35 !important;cursor:not-allowed !important;}
+.pdf-viewer-zoom-select{
+    min-width:78px !important;
+    padding:0 9px !important;
+    outline:none !important;
+    cursor:pointer !important;
+}
+.pdf-viewer-zoom-select option{background:#0b1220 !important;color:#fff !important;}
+.pdf-page-input-wrap{
+    display:inline-flex !important;
+    align-items:center !important;
+    gap:6px !important;
+    padding:0 8px !important;
+    color:#8fa5bd !important;
+}
+.pdf-page-input-wrap input{
+    width:56px !important;
+    min-height:28px !important;
+    padding:0 6px !important;
+    border:1px solid rgba(125,211,252,.17) !important;
+    border-radius:7px !important;
+    outline:none !important;
+    background:rgba(3,9,18,.72) !important;
+    color:#effaff !important;
+    text-align:center !important;
+    font:inherit !important;
+    font-size:11px !important;
+}
+.pdf-page-input-wrap input:focus{border-color:rgba(125,211,252,.5) !important;}
+.pdf-page-input-wrap b{color:#dcecff !important;}
+
+.pdf-modal-body-scroll{
+    grid-column:1 / -1 !important;
+    grid-row:3 !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) 330px !important;
+    overflow:visible !important;
+    background:#09111d !important;
+}
+.pdf-viewer-scroll{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    overflow:visible !important;
+    background:#0a111c !important;
+    padding:0 !important;
+}
+.pdf-viewer-pages{
+    width:100% !important;
+    min-height:0 !important;
+    padding:18px 18px 28px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    gap:12px !important;
+    overflow:visible !important;
+}
+.pdf-page-wrap{
+    width:100% !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    gap:6px !important;
+    scroll-margin-top:20px !important;
+}
+.pdf-page-canvas{
+    width:auto !important;
+    height:auto !important;
+    max-width:none !important;
+    display:block !important;
+    background:#fff !important;
+    border-radius:3px !important;
+    box-shadow:0 8px 30px rgba(0,0,0,.36) !important;
+}
+.pdf-related-wrap{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    overflow:visible !important;
+    padding:16px 15px 18px !important;
+    border-left:1px solid rgba(255,255,255,.08) !important;
+    border-top:0 !important;
+    background:linear-gradient(180deg,rgba(8,16,28,.99),rgba(6,12,22,.99)) !important;
+}
+.pdf-related-title{position:relative !important;top:auto !important;margin:0 0 12px !important;}
+
+/* Keep the entire page scrollable while the viewer is open. */
+body.modal-open,
+html:has(.pdf-modal.open),
+body:has(.pdf-modal.open){overflow:auto !important;}
+
+@media(max-width:900px){
+    .document-card-actions{grid-template-columns:minmax(85px,0.95fr) minmax(65px,0.75fr) minmax(130px,1.55fr) !important;}
+    .pdf-modal-inner{grid-template-columns:1fr !important;grid-template-rows:auto auto auto !important;}
+    .pdf-modal-body-scroll{grid-template-columns:1fr !important;grid-template-rows:auto auto !important;}
+    .pdf-viewer-scroll{grid-column:1 !important;grid-row:1 !important;}
+    .pdf-related-wrap{grid-column:1 !important;grid-row:2 !important;border-left:0 !important;border-top:1px solid rgba(255,255,255,.08) !important;}
+}
+@media(max-width:700px){
+    .document-card-actions{grid-template-columns:minmax(78px,0.95fr) minmax(58px,0.7fr) minmax(0,1.5fr) !important;gap:6px !important;}
+    .document-card-action{font-size:10px !important;padding:0 7px !important;}
+    .document-card-action span{display:inline !important;}
+    .pdf-viewer-toolbar{justify-content:flex-start !important;}
+    .pdf-page-input-wrap input{width:50px !important;}
+}
+@media(max-width:480px){
+    .document-card-actions{grid-template-columns:1fr 1fr !important;}
+    .document-card-action.open{grid-column:1 / -1 !important;}
+    .pdf-viewer-toolbar{gap:8px !important;}
+    .pdf-viewer-toolbar-group{width:100% !important;}
+    .pdf-page-jump{justify-content:center !important;}
+}
+</style>
+
 </head>
 
 <body>
@@ -2654,6 +2919,40 @@ body:has(.pdf-modal.open){
                         </a>
                         <button id="pdfClose" class="pdf-close" type="button" aria-label="Đóng">
                             <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pdf-viewer-toolbar" aria-label="Điều khiển PDF">
+                    <div class="pdf-viewer-toolbar-group">
+                        <button id="pdfZoomOut" class="pdf-viewer-control" type="button" aria-label="Thu nhỏ PDF" title="Thu nhỏ">
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <select id="pdfZoomSelect" class="pdf-viewer-zoom-select" aria-label="Mức thu phóng PDF">
+                            <option value="0.5">50%</option>
+                            <option value="0.75">75%</option>
+                            <option value="1" selected>100%</option>
+                            <option value="1.25">125%</option>
+                            <option value="1.5">150%</option>
+                            <option value="1.75">175%</option>
+                            <option value="2">200%</option>
+                        </select>
+                        <button id="pdfZoomIn" class="pdf-viewer-control" type="button" aria-label="Phóng to PDF" title="Phóng to">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="pdf-viewer-toolbar-group pdf-page-jump">
+                        <button id="pdfPrevPage" class="pdf-viewer-control" type="button" aria-label="Trang trước" title="Trang trước">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <label class="pdf-page-input-wrap" for="pdfPageInput">
+                            <span>Trang</span>
+                            <input id="pdfPageInput" type="number" min="1" value="1" inputmode="numeric" aria-label="Số trang">
+                            <span>/ <b id="pdfPageTotal">0</b></span>
+                        </label>
+                        <button id="pdfNextPage" class="pdf-viewer-control" type="button" aria-label="Trang sau" title="Trang sau">
+                            <i class="fa-solid fa-chevron-right"></i>
                         </button>
                     </div>
                 </div>
@@ -3440,11 +3739,13 @@ body:has(.pdf-modal.open){
                             ${escapeHtml(meta)}
                         </div>
                         <div class="document-card-actions">
-                            <button type="button" class="document-card-action icon-only" data-share-id="${item.id}" aria-label="Sao chép liên kết" title="Sao chép liên kết">
+                            <button type="button" class="document-card-action compact-share" data-share-id="${item.id}" aria-label="Sao chép liên kết" title="Sao chép liên kết">
                                 <i class="fa-solid fa-link"></i>
+                                <span>Chia sẻ</span>
                             </button>
-                            <button type="button" class="document-card-action icon-only" data-qr-id="${item.id}" aria-label="Tạo QR" title="Tạo QR">
+                            <button type="button" class="document-card-action compact-qr" data-qr-id="${item.id}" aria-label="Tạo QR" title="Tạo QR">
                                 <i class="fa-solid fa-qrcode"></i>
+                                <span>QR</span>
                             </button>
                             <button type="button" class="document-card-action open" data-open-id="${item.id}" aria-label="Mở tài liệu">
                                 Mở tài liệu
@@ -3924,6 +4225,99 @@ body:has(.pdf-modal.open){
             });
         }
 
+        let currentPdfDocument = null;
+        let currentPdfInstance = null;
+        let currentPdfFitScale = 1;
+        let currentPdfZoom = 1;
+        let currentPdfPage = 1;
+        let currentPdfRenderToken = 0;
+
+        function updatePdfControls() {
+            const select = document.getElementById("pdfZoomSelect");
+            const input = document.getElementById("pdfPageInput");
+            const total = document.getElementById("pdfPageTotal");
+            const prev = document.getElementById("pdfPrevPage");
+            const next = document.getElementById("pdfNextPage");
+            if (select) select.value = String(currentPdfZoom);
+            if (input) input.value = String(currentPdfPage);
+            if (total) total.textContent = String(currentPdfInstance?.numPages || 0);
+            if (prev) prev.disabled = !currentPdfInstance || currentPdfPage <= 1;
+            if (next) next.disabled = !currentPdfInstance || currentPdfPage >= (currentPdfInstance?.numPages || 0);
+        }
+
+        function getPdfTargetWidth(container) {
+            return Math.min(980, Math.max(320, (container?.clientWidth || 980) - 36));
+        }
+
+        function scrollToPdfPage(pageNumber, behavior = "smooth") {
+            if (!currentPdfInstance) return;
+            const page = Math.max(1, Math.min(Number(pageNumber) || 1, currentPdfInstance.numPages));
+            currentPdfPage = page;
+            updatePdfControls();
+            const target = document.querySelector(`[data-pdf-page-wrap="${page}"]`);
+            if (target) target.scrollIntoView({ behavior, block: "start" });
+        }
+
+        async function renderAllPdfPages() {
+            const container = document.getElementById("pdfViewerPages");
+            const pdf = currentPdfInstance;
+            if (!container || !pdf) return;
+
+            const token = ++currentPdfRenderToken;
+            const keepPage = currentPdfPage;
+            container.innerHTML = `
+                <div class="pdf-viewer-loading">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    <span>Đang dựng PDF...</span>
+                </div>`;
+
+            const baseWidth = getPdfTargetWidth(document.querySelector(".pdf-viewer-scroll"));
+            const firstPage = await pdf.getPage(1);
+            const firstBaseViewport = firstPage.getViewport({ scale: 1 });
+            currentPdfFitScale = baseWidth / firstBaseViewport.width;
+            const actualScale = currentPdfFitScale * currentPdfZoom;
+            const ratio = Math.min(window.devicePixelRatio || 1, 2);
+
+            container.innerHTML = "";
+
+            for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+                if (token !== currentPdfRenderToken) return;
+
+                const page = pageNumber === 1 ? firstPage : await pdf.getPage(pageNumber);
+                const viewport = page.getViewport({ scale: actualScale });
+                const wrap = document.createElement("div");
+                wrap.className = "pdf-page-wrap";
+                wrap.dataset.pdfPageWrap = String(pageNumber);
+
+                const canvas = document.createElement("canvas");
+                canvas.className = "pdf-page-canvas";
+                canvas.dataset.page = String(pageNumber);
+                canvas.width = Math.ceil(viewport.width * ratio);
+                canvas.height = Math.ceil(viewport.height * ratio);
+                canvas.style.width = `${viewport.width}px`;
+                canvas.style.height = `${viewport.height}px`;
+
+                const pageLabel = document.createElement("div");
+                pageLabel.className = "pdf-page-number";
+                pageLabel.textContent = `Trang ${pageNumber} / ${pdf.numPages}`;
+
+                wrap.appendChild(canvas);
+                wrap.appendChild(pageLabel);
+                container.appendChild(wrap);
+
+                const ctx = canvas.getContext("2d", { alpha: false });
+                await page.render({
+                    canvasContext: ctx,
+                    viewport,
+                    transform: ratio !== 1 ? [ratio, 0, 0, ratio, 0, 0] : null
+                }).promise;
+            }
+
+            currentPdfPage = Math.max(1, Math.min(keepPage, pdf.numPages));
+            updatePdfControls();
+            requestAnimationFrame(() => scrollToPdfPage(currentPdfPage, "auto"));
+        }
+
         async function renderPdfDocument(item) {
             const container = document.getElementById("pdfViewerPages");
             if (!container) return;
@@ -3941,51 +4335,32 @@ body:has(.pdf-modal.open){
             window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
             try {
-                const pdf = await window.pdfjsLib.getDocument({
+                currentPdfInstance = await window.pdfjsLib.getDocument({
                     url: getPublicPdfUrl(item.file_path),
                     disableAutoFetch: false,
                     disableStream: false
                 }).promise;
-
-                container.innerHTML = "";
-                const targetWidth = Math.min(980, Math.max(320, container.clientWidth - 36));
-
-                for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-                    const page = await pdf.getPage(pageNumber);
-                    const baseViewport = page.getViewport({ scale: 1 });
-                    const scale = targetWidth / baseViewport.width;
-                    const viewport = page.getViewport({ scale });
-                    const ratio = Math.min(window.devicePixelRatio || 1, 2);
-
-                    const canvas = document.createElement("canvas");
-                    canvas.className = "pdf-page-canvas";
-                    canvas.width = Math.ceil(viewport.width * ratio);
-                    canvas.height = Math.ceil(viewport.height * ratio);
-                    canvas.style.width = `${viewport.width}px`;
-                    canvas.style.height = `${viewport.height}px`;
-
-                    const ctx = canvas.getContext("2d", { alpha: false });
-                    const pageLabel = document.createElement("div");
-                    pageLabel.className = "pdf-page-number";
-                    pageLabel.textContent = `Trang ${pageNumber} / ${pdf.numPages}`;
-                    container.appendChild(canvas);
-                    container.appendChild(pageLabel);
-
-                    await page.render({
-                        canvasContext: ctx,
-                        viewport,
-                        transform: ratio !== 1 ? [ratio, 0, 0, ratio, 0, 0] : null
-                    }).promise;
-                }
+                currentPdfDocument = item;
+                currentPdfPage = 1;
+                currentPdfZoom = 1;
+                updatePdfControls();
+                await renderAllPdfPages();
             } catch (error) {
                 console.error("PDF render error:", error);
+                currentPdfInstance = null;
                 container.innerHTML = '<div class="pdf-viewer-loading"><i class="fa-solid fa-triangle-exclamation"></i><span>Không thể hiển thị PDF. Bạn có thể dùng nút Tải xuống.</span></div>';
+                updatePdfControls();
             }
         }
 
         function openPdfViewer(item) {
             if (!item?.file_path) return;
             currentDocument = item;
+            currentPdfDocument = item;
+            currentPdfInstance = null;
+            currentPdfPage = 1;
+            currentPdfZoom = 1;
+            currentPdfRenderToken++;
 
             const modal = document.getElementById("pdfModal");
             const modalTitle = document.getElementById("pdfModalTitle");
@@ -4003,12 +4378,7 @@ body:has(.pdf-modal.open){
 
             modal.classList.add("open");
             modal.setAttribute("aria-hidden", "false");
-
-            const bodyScroll = document.querySelector(".pdf-modal-body-scroll");
-            if (bodyScroll) bodyScroll.scrollTop = 0;
-            document.querySelector(".pdf-viewer-scroll")?.scrollTo({ top: 0, behavior: "auto" });
-            document.querySelector(".pdf-related-wrap")?.scrollTo({ top: 0, behavior: "auto" });
-
+            updatePdfControls();
             renderRelatedDocuments(item);
             trackView(item.id);
 
@@ -4027,14 +4397,16 @@ body:has(.pdf-modal.open){
             const modal = document.getElementById("pdfModal");
             const viewer = document.getElementById("pdfViewerPages");
             if (!modal) return;
+            currentPdfRenderToken++;
             modal.classList.remove("open");
             modal.setAttribute("aria-hidden", "true");
             if (viewer) viewer.innerHTML = "";
-            const bodyScroll = document.querySelector(".pdf-modal-body-scroll");
-            if (bodyScroll) bodyScroll.scrollTop = 0;
-            document.querySelector(".pdf-viewer-scroll")?.scrollTo({ top: 0, behavior: "auto" });
-            document.querySelector(".pdf-related-wrap")?.scrollTo({ top: 0, behavior: "auto" });
+            currentPdfInstance = null;
+            currentPdfDocument = null;
             currentDocument = null;
+            currentPdfPage = 1;
+            currentPdfZoom = 1;
+            updatePdfControls();
 
             const url = new URL(window.location.href);
             url.searchParams.delete("doc");
@@ -4210,11 +4582,67 @@ body:has(.pdf-modal.open){
         document.getElementById("documentBackButton")?.addEventListener("click", goBackToParent);
         document.getElementById("pdfClose")?.addEventListener("click", closePdfViewer);
         document.getElementById("pdfShare")?.addEventListener("click", () => shareDocument(currentDocument));
+        document.getElementById("pdfZoomOut")?.addEventListener("click", async () => {
+            if (!currentPdfInstance) return;
+            const levels = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+            const index = Math.max(0, levels.indexOf(currentPdfZoom) - 1);
+            currentPdfZoom = levels[index];
+            await renderAllPdfPages();
+        });
+        document.getElementById("pdfZoomIn")?.addEventListener("click", async () => {
+            if (!currentPdfInstance) return;
+            const levels = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+            const index = Math.min(levels.length - 1, Math.max(0, levels.indexOf(currentPdfZoom) + 1));
+            currentPdfZoom = levels[index];
+            await renderAllPdfPages();
+        });
+        document.getElementById("pdfZoomSelect")?.addEventListener("change", async event => {
+            if (!currentPdfInstance) return;
+            currentPdfZoom = Number(event.target.value) || 1;
+            await renderAllPdfPages();
+        });
+        document.getElementById("pdfPageInput")?.addEventListener("change", event => {
+            scrollToPdfPage(event.target.value);
+        });
+        document.getElementById("pdfPageInput")?.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                scrollToPdfPage(event.target.value);
+            }
+        });
+        document.getElementById("pdfPrevPage")?.addEventListener("click", () => scrollToPdfPage(currentPdfPage - 1));
+        document.getElementById("pdfNextPage")?.addEventListener("click", () => scrollToPdfPage(currentPdfPage + 1));
         document.getElementById("pdfQr")?.addEventListener("click", () => openQr(currentDocument));
         document.getElementById("qrClose")?.addEventListener("click", closeQr);
         document.getElementById("qrDownload")?.addEventListener("click", downloadQr);
         document.getElementById("pdfModal")?.addEventListener("click", event => { if (event.target === event.currentTarget) closePdfViewer(); });
         document.getElementById("qrModal")?.addEventListener("click", event => { if (event.target === event.currentTarget) closeQr(); });
+
+        const pdfViewerPagesRoot = document.getElementById("pdfViewerPages");
+        const pdfPageObserver = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
+            if (!currentPdfInstance) return;
+            const visible = entries
+                .filter(entry => entry.isIntersecting)
+                .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+            if (visible?.target?.dataset?.pdfPageWrap) {
+                currentPdfPage = Number(visible.target.dataset.pdfPageWrap) || currentPdfPage;
+                updatePdfControls();
+            }
+        }, { threshold: [0.4, 0.6, 0.8] }) : null;
+        if (pdfViewerPagesRoot && pdfPageObserver) {
+            const observePdfPages = () => {
+                pdfPageObserver.disconnect();
+                pdfViewerPagesRoot.querySelectorAll("[data-pdf-page-wrap]").forEach(el => pdfPageObserver.observe(el));
+            };
+            const pdfObserverMutation = new MutationObserver(observePdfPages);
+            pdfObserverMutation.observe(pdfViewerPagesRoot, { childList: true });
+        }
+
+        document.addEventListener("keydown", event => {
+            if (!currentPdfInstance) return;
+            if (event.key === "ArrowLeft") { event.preventDefault(); scrollToPdfPage(currentPdfPage - 1); }
+            if (event.key === "ArrowRight") { event.preventDefault(); scrollToPdfPage(currentPdfPage + 1); }
+        });
 
         document.getElementById("materialRequestForm")?.addEventListener("submit", async event => {
             event.preventDefault();
