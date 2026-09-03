@@ -13,7 +13,7 @@
 
     <meta name="theme-color" content="#070b14">
 
-    <link rel="stylesheet" href="style.css?v=20260903-6">
+    <link rel="stylesheet" href="style.css?v=20260903-7">
 
     <!-- Font Awesome -->
     <link
@@ -52,7 +52,7 @@
         .document-subsection-title{display:flex;justify-content:space-between;margin:22px 0 12px;color:#89a0ba;font-size:12px}.document-subsection-title span:last-child{color:#60a5fa}
         .material-request-section{padding-bottom:70px}.material-request-card{max-width:920px;margin:0 auto;padding:24px;border-radius:18px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(145deg,rgba(14,23,42,.72),rgba(7,12,24,.64))}.material-request-form{display:grid;gap:14px}.material-request-form label{display:block;margin-bottom:6px;font-size:11px;font-weight:800;letter-spacing:.55px;text-transform:uppercase;color:#a8b6c9}.material-request-form input,.material-request-form textarea,.material-request-form select{width:100%;padding:12px 13px;border-radius:10px;border:1px solid rgba(148,163,184,.16);background:rgba(5,10,19,.66);color:#f4f8ff;outline:none;font:inherit}.material-request-form textarea{min-height:120px;resize:vertical}.request-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.request-submit-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.request-status{color:#8ea0b8;font-size:12px}
         .pdf-modal-inner{max-height:92vh}.pdf-related-wrap{padding:15px 18px 18px;border-top:1px solid rgba(255,255,255,.07)}.pdf-related-title{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#71849b;margin-bottom:10px}.pdf-related-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.pdf-related-card{min-width:0;display:flex;align-items:center;gap:9px;padding:9px;border:1px solid rgba(148,163,184,.1);border-radius:10px;background:rgba(255,255,255,.025);color:#d8e7f6;text-align:left;cursor:pointer}.pdf-related-card:hover{border-color:rgba(125,211,252,.3);background:rgba(56,189,248,.05)}.pdf-related-icon{width:32px;height:32px;flex:0 0 32px;display:grid;place-items:center;border-radius:8px;background:rgba(56,189,248,.07);color:#7dd3fc}.pdf-related-card span:last-child{min-width:0}.pdf-related-card b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}.pdf-related-card small{display:block;margin-top:3px;color:#73849a;font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pdf-related-empty{color:#708199;font-size:12px}
-        .qr-modal{position:fixed;inset:0;z-index:2800;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,6,14,.82);backdrop-filter:blur(10px)}.qr-modal.open{display:flex}.qr-card{width:min(430px,94vw);padding:22px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:#08101c;box-shadow:0 30px 100px rgba(0,0,0,.55)}.qr-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.qr-code{width:240px;height:240px;margin:20px auto 15px;padding:8px;background:#fff;border-radius:12px;display:grid;place-items:center}.qr-code canvas,.qr-code img{width:224px!important;height:224px!important}.qr-url{font-size:10px;color:#7f90a7;word-break:break-all;text-align:center}.qr-download{width:100%;margin-top:9px}.qr-fallback{color:#253247;font-size:12px;text-align:center}
+        .qr-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,6,14,.82);backdrop-filter:blur(10px)}.qr-modal.open{display:flex}.qr-card{width:min(430px,94vw);padding:22px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:#08101c;box-shadow:0 30px 100px rgba(0,0,0,.55)}.qr-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.qr-code{width:240px;height:240px;margin:20px auto 15px;padding:8px;background:#fff;border-radius:12px;display:grid;place-items:center}.qr-code canvas,.qr-code img{width:224px!important;height:224px!important}.qr-url{font-size:10px;color:#7f90a7;word-break:break-all;text-align:center}.qr-download{width:100%;margin-top:9px}.qr-fallback{color:#253247;font-size:12px;text-align:center}
         @media(max-width:900px){.pdf-related-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
         @media(max-width:700px){.document-stat-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.document-category-actions{width:100%;justify-content:flex-end}.document-category-footer{align-items:flex-start;flex-wrap:wrap}}
 
@@ -200,33 +200,6 @@
     box-shadow:0 8px 22px rgba(56,189,248,.08) !important;
 }
 
-
-.document-card-action.icon-only{
-    width:46px !important;
-    min-width:46px !important;
-    padding:0 !important;
-}
-
-.document-card-action.icon-only i{
-    font-size:15px !important;
-}
-
-.document-card-action[data-share-id]{
-    border-color:rgba(96,165,250,.24) !important;
-}
-
-.document-card-action[data-qr-id]{
-    border-color:rgba(167,139,250,.24) !important;
-}
-
-.document-card-action[data-share-id]:hover{
-    background:rgba(96,165,250,.10) !important;
-}
-
-.document-card-action[data-qr-id]:hover{
-    background:rgba(167,139,250,.10) !important;
-}
-
 .document-card-action.open{
     min-width:118px !important;
     background:linear-gradient(135deg,rgba(38,106,154,.28),rgba(91,63,164,.22)) !important;
@@ -290,7 +263,7 @@
 @media(max-width:420px){
     .document-card-actions{
         display:grid !important;
-        grid-template-columns:44px 44px 1fr !important;
+        grid-template-columns:84px 64px minmax(118px,1fr) !important;
     }
     .document-card-action{
         width:100% !important;
@@ -326,115 +299,6 @@
     transform:translate(-50%,0) !important;
 }
 
-<style id="qr-overlay-final-fix">
-/* =========================================================
-   QR OVERLAY - ALWAYS ABOVE PDF VIEWER
-========================================================= */
-#qrModal{
-    position:fixed !important;
-    inset:0 !important;
-    z-index:2147483647 !important;
-    isolation:isolate !important;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px !important;
-    background:rgba(2,6,14,.88) !important;
-    backdrop-filter:blur(12px) !important;
-    -webkit-backdrop-filter:blur(12px) !important;
-}
-
-#qrModal.open{
-    display:flex !important;
-}
-
-#qrModal .qr-card{
-    position:relative !important;
-    z-index:1 !important;
-    width:min(430px,94vw) !important;
-    max-height:90vh !important;
-    overflow:auto !important;
-    padding:22px !important;
-    border:1px solid rgba(125,211,252,.28) !important;
-    border-radius:18px !important;
-    background:#08101c !important;
-    box-shadow:0 35px 120px rgba(0,0,0,.7),0 0 55px rgba(56,189,248,.12) !important;
-}
-
-#qrModal .qr-head{
-    display:flex !important;
-    align-items:flex-start !important;
-    justify-content:space-between !important;
-    gap:14px !important;
-}
-
-#qrModal #qrClose{
-    position:relative !important;
-    z-index:2 !important;
-    flex:0 0 38px !important;
-}
-
-#qrModal .qr-code{
-    position:relative !important;
-    z-index:1 !important;
-    width:248px !important;
-    height:248px !important;
-    margin:20px auto 15px !important;
-    padding:10px !important;
-    background:#fff !important;
-    border-radius:12px !important;
-    display:grid !important;
-    place-items:center !important;
-}
-
-#qrModal .qr-code canvas,
-#qrModal .qr-code img{
-    width:228px !important;
-    height:228px !important;
-}
-
-#qrModal .qr-url{
-    margin:0 !important;
-    font-size:10px !important;
-    line-height:1.5 !important;
-    color:#8fa1b8 !important;
-    word-break:break-all !important;
-    text-align:center !important;
-}
-
-#qrModal .qr-download{
-    position:relative !important;
-    z-index:2 !important;
-    width:100% !important;
-    margin-top:10px !important;
-}
-
-body.qr-is-open #pdfModal{
-    pointer-events:none !important;
-}
-
-body.qr-is-open #qrModal{
-    pointer-events:auto !important;
-}
-
-@media(max-width:520px){
-    #qrModal{
-        padding:12px !important;
-    }
-    #qrModal .qr-card{
-        width:min(420px,96vw) !important;
-        padding:17px !important;
-    }
-    #qrModal .qr-code{
-        width:226px !important;
-        height:226px !important;
-    }
-    #qrModal .qr-code canvas,
-    #qrModal .qr-code img{
-        width:208px !important;
-        height:208px !important;
-    }
-}
 </style>
 
 <style id="final-document-fixes">
@@ -514,6 +378,22 @@ body.qr-is-open #qrModal{
     min-width:40px !important;
     height:38px !important;
     padding:0 !important;
+}
+.document-card-action.share,.document-card-action.qr{
+    min-width:84px !important;
+    height:38px !important;
+    padding:0 13px !important;
+}
+.document-card-action.share span,.document-card-action.qr span{
+    display:inline !important;
+}
+.document-card-action.share,.document-card-action.qr{
+    min-width:84px !important;
+    height:38px !important;
+    padding:0 13px !important;
+}
+.document-card-action.share span,.document-card-action.qr span{
+    display:inline !important;
 }
 .document-card-action.open{
     min-width:118px !important;
@@ -707,7 +587,7 @@ body.qr-is-open #qrModal{
     }
     .document-card-actions{
         display:grid !important;
-        grid-template-columns:46px 46px minmax(0,1fr) !important;
+        grid-template-columns:40px 40px minmax(0,1fr) !important;
         width:100% !important;
     }
     .document-card-action.open{
@@ -1531,11 +1411,11 @@ body.qr-is-open #qrModal{
 /* Card action row: share -> QR -> open, never overlay. */
 .document-card-actions{
     position:relative !important;
-    z-index:10 !important;
+    z-index:4 !important;
     display:grid !important;
-    grid-template-columns:46px 46px minmax(135px,1fr) !important;
+    grid-template-columns:40px 40px minmax(120px,1fr) !important;
     align-items:center !important;
-    gap:9px !important;
+    gap:8px !important;
     width:100% !important;
     margin-top:auto !important;
     padding-top:14px !important;
@@ -1543,24 +1423,20 @@ body.qr-is-open #qrModal{
 }
 
 .document-card-action{
-    position:relative !important;
-    z-index:11 !important;
+    position:static !important;
     width:100% !important;
     min-width:0 !important;
-    height:42px !important;
+    height:40px !important;
     margin:0 !important;
     display:inline-flex !important;
     align-items:center !important;
     justify-content:center !important;
-    gap:8px !important;
-    border:1px solid rgba(125,211,252,.18) !important;
-    border-radius:11px !important;
-    background:rgba(255,255,255,.035) !important;
+    border:1px solid rgba(125,211,252,.15) !important;
+    border-radius:10px !important;
+    background:rgba(255,255,255,.025) !important;
     color:#dcecff !important;
     cursor:pointer !important;
     box-sizing:border-box !important;
-    text-decoration:none !important;
-    flex:none !important;
 }
 
 .document-card-action.open{
@@ -1781,92 +1657,9 @@ body.qr-is-open #qrModal{
 @media(max-width:520px){
     .pdf-related-list{grid-template-columns:1fr !important;}
     .document-card-actions{
-        grid-template-columns:46px 46px minmax(0,1fr) !important;
+        grid-template-columns:40px 40px minmax(0,1fr) !important;
     }
 }
-</style>
-
-<style id="user-share-alignment-fix">
-
-/* =========================================================
-   USER REQUEST: SHARE BUTTON + ACTION ALIGNMENT
-   Only changes the PDF card action row.
-========================================================= */
-.document-card-actions{
-    position:relative !important;
-    z-index:20 !important;
-    display:grid !important;
-    grid-template-columns:48px 48px minmax(0, 1fr) !important;
-    align-items:center !important;
-    gap:10px !important;
-    width:100% !important;
-    margin-top:auto !important;
-    padding-top:14px !important;
-    border-top:1px solid rgba(255,255,255,.07) !important;
-}
-.document-card-action,
-.document-card-action.icon-only,
-.document-card-action.open{
-    position:relative !important;
-    inset:auto !important;
-    transform:none !important;
-    float:none !important;
-    margin:0 !important;
-    box-sizing:border-box !important;
-    width:100% !important;
-    min-width:0 !important;
-    height:42px !important;
-    display:inline-flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    gap:8px !important;
-    border-radius:11px !important;
-    white-space:nowrap !important;
-}
-.document-card-action.icon-only{
-    padding:0 !important;
-}
-.document-card-action.icon-only i{
-    display:block !important;
-    font-size:15px !important;
-    line-height:1 !important;
-}
-.document-card-action.open{
-    padding:0 14px !important;
-    font-weight:800 !important;
-}
-.document-card-action[data-share-id]{
-    border:1px solid rgba(96,165,250,.24) !important;
-    background:rgba(96,165,250,.055) !important;
-    color:#dcecff !important;
-}
-.document-card-action[data-qr-id]{
-    border:1px solid rgba(167,139,250,.24) !important;
-    background:rgba(167,139,250,.055) !important;
-    color:#e8e0ff !important;
-}
-.document-card-action.open{
-    border:1px solid rgba(125,211,252,.34) !important;
-    background:linear-gradient(135deg,rgba(56,189,248,.12),rgba(124,58,237,.13)) !important;
-    color:#effaff !important;
-}
-.document-card-action[data-share-id]:hover,
-.document-card-action[data-qr-id]:hover,
-.document-card-action.open:hover{
-    transform:translateY(-2px) !important;
-}
-@media(max-width:760px){
-    .document-card-actions{
-        grid-template-columns:48px 48px minmax(0,1fr) !important;
-    }
-}
-@media(max-width:420px){
-    .document-card-actions{
-        grid-template-columns:48px 48px minmax(0,1fr) !important;
-        gap:7px !important;
-    }
-}
-
 </style>
 
 </head>
@@ -3032,7 +2825,7 @@ body.qr-is-open #qrModal{
                     </div>
                     <div class="pdf-modal-actions">
                         <button id="pdfShare" class="document-action secondary" type="button">
-                            <i class="fa-solid fa-share-nodes"></i>
+                            <i class="fa-solid fa-link"></i>
                             Chia sẻ
                         </button>
                         <button id="pdfQr" class="document-action secondary" type="button">
@@ -3421,11 +3214,13 @@ body.qr-is-open #qrModal{
                             ${escapeHtml(meta)}
                         </div>
                         <div class="document-card-actions">
-                            <button type="button" class="document-card-action icon-only" data-share-id="${item.id}" aria-label="Sao chép liên kết" title="Sao chép liên kết">
-                                <i class="fa-solid fa-share-nodes"></i>
+                            <button type="button" class="document-card-action share" data-share-id="${item.id}" aria-label="Chia sẻ" title="Chia sẻ">
+                                <i class="fa-solid fa-link"></i>
+                                <span>Chia sẻ</span>
                             </button>
-                            <button type="button" class="document-card-action icon-only" data-qr-id="${item.id}" aria-label="Tạo QR" title="Tạo QR">
+                            <button type="button" class="document-card-action qr" data-qr-id="${item.id}" aria-label="QR" title="QR">
                                 <i class="fa-solid fa-qrcode"></i>
+                                <span>QR</span>
                             </button>
                             <button type="button" class="document-card-action open" data-open-id="${item.id}" aria-label="Mở tài liệu">
                                 Mở tài liệu
@@ -3691,7 +3486,6 @@ body.qr-is-open #qrModal{
             }
             modal.classList.add("open");
             modal.setAttribute("aria-hidden", "false");
-            document.body.classList.add("qr-is-open");
         }
 
         function closeQr() {
@@ -3699,7 +3493,6 @@ body.qr-is-open #qrModal{
             if (!modal) return;
             modal.classList.remove("open");
             modal.setAttribute("aria-hidden", "true");
-            document.body.classList.remove("qr-is-open");
         }
 
         function downloadQr() {
@@ -4114,6 +3907,7 @@ body.qr-is-open #qrModal{
         document.getElementById("qrDownload")?.addEventListener("click", downloadQr);
         document.getElementById("pdfModal")?.addEventListener("click", event => { if (event.target === event.currentTarget) closePdfViewer(); });
         document.getElementById("qrModal")?.addEventListener("click", event => { if (event.target === event.currentTarget) closeQr(); });
+        document.addEventListener("keydown", event => { if (event.key === "Escape") { closeQr(); } });
 
         document.getElementById("materialRequestForm")?.addEventListener("submit", async event => {
             event.preventDefault();
