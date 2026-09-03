@@ -2219,6 +2219,117 @@ body:has(.pdf-modal.open){overflow:auto !important;}
 }
 </style>
 
+
+<style id="document-category-and-hover-final-fix">
+/* =========================================================
+   CATEGORY HEADER + DOCUMENT CARD HOVER FINAL FIX
+   1) Hide the redundant category backbar row.
+   2) Remove the old horizontal light-sweep effect.
+   3) Add a lift + animated glowing border around PDF cards.
+========================================================= */
+
+/* The category screen should not show the redundant
+   "Quay lại / category name" row. */
+#documents #documentBackbar{
+    display:none !important;
+}
+
+/* PDF document cards: replace the old horizontal sweep with
+   a subtle lift and an animated border that travels around
+   the entire card. */
+#documents .document-card-clickable{
+    position:relative !important;
+    isolation:isolate !important;
+    transform:translateY(0) !important;
+    transition:
+        transform .28s cubic-bezier(.2,.75,.25,1),
+        box-shadow .28s ease,
+        border-color .28s ease,
+        background .28s ease !important;
+    will-change:transform,box-shadow !important;
+}
+
+/* Disable any older pseudo-element shine/sweep on PDF cards. */
+#documents .document-card-clickable::after{
+    content:none !important;
+    display:none !important;
+    animation:none !important;
+    transform:none !important;
+}
+
+/* Animated border runner. */
+#documents .document-card-clickable::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    z-index:8 !important;
+    padding:1.5px !important;
+    border-radius:inherit !important;
+    background:conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 42deg,
+        rgba(56,189,248,.04) 62deg,
+        rgba(56,189,248,.95) 88deg,
+        rgba(167,139,250,.95) 112deg,
+        rgba(125,211,252,.08) 145deg,
+        transparent 180deg,
+        transparent 360deg
+    ) !important;
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0) !important;
+    -webkit-mask-composite:xor !important;
+    mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0) !important;
+    mask-composite:exclude !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    animation:none !important;
+}
+
+#documents .document-card-clickable:hover,
+#documents .document-card-clickable:focus-visible{
+    transform:translateY(-8px) !important;
+    border-color:rgba(125,211,252,.34) !important;
+    box-shadow:
+        0 18px 38px rgba(0,0,0,.30),
+        0 0 0 1px rgba(125,211,252,.05),
+        0 0 28px rgba(56,189,248,.10) !important;
+}
+
+#documents .document-card-clickable:hover::before,
+#documents .document-card-clickable:focus-visible::before{
+    opacity:1 !important;
+    animation:documentCardBorderRun 2.2s linear infinite !important;
+}
+
+@keyframes documentCardBorderRun{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+}
+
+/* Prevent older child layers from creating another horizontal
+   sweep when the PDF card itself is hovered. */
+#documents .document-card-clickable .document-card-glow{
+    animation:none !important;
+    transform:none !important;
+}
+
+/* Keep buttons crisp while the whole card lifts. */
+#documents .document-card-clickable .document-card-action:hover{
+    transform:translateY(-2px) !important;
+}
+
+@media(max-width:760px){
+    #documents .document-card-clickable:hover,
+    #documents .document-card-clickable:focus-visible{
+        transform:translateY(-5px) !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -2993,8 +3104,9 @@ body:has(.pdf-modal.open){overflow:auto !important;}
                             <i class="fa-solid fa-download"></i>
                             Tải xuống
                         </a>
-                        <button id="pdfClose" class="pdf-close" type="button" aria-label="Đóng">
-                            <i class="fa-solid fa-xmark"></i>
+                        <button id="pdfClose" class="pdf-close pdf-back-button" type="button" aria-label="Quay lại danh sách tài liệu">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Quay lại</span>
                         </button>
                     </div>
                 </div>
@@ -3788,7 +3900,6 @@ body:has(.pdf-modal.open){overflow:auto !important;}
             const previewId = `pdf-preview-${item.id}`;
             const previewHtml = thumbnailUrl
                 ? `<div class="document-card-preview uploaded-thumbnail" data-preview-kind="thumbnail">
-                        <span class="uploaded-thumbnail-badge">THUMBNAIL</span>
                         <img src="${escapeHtml(thumbnailUrl)}" alt="Ảnh xem trước ${escapeHtml(title)}" loading="lazy" decoding="async">
                    </div>`
                 : `<div class="document-card-preview" data-pdf-preview="${escapeHtml(url)}" data-preview-kind="pdf">
@@ -3814,22 +3925,22 @@ body:has(.pdf-modal.open){overflow:auto !important;}
                         <div class="document-card-footer-inline">
                             ${escapeHtml(meta)}
                         </div>
-                        <div class="document-card-actions">
-                            <button type="button" class="document-card-action compact-share" data-share-id="${item.id}" aria-label="Sao chép liên kết" title="Sao chép liên kết">
-                                <i class="fa-solid fa-link"></i>
-                                <span>Chia sẻ</span>
-                            </button>
-                            <button type="button" class="document-card-action compact-qr" data-qr-id="${item.id}" aria-label="Tạo QR" title="Tạo QR">
-                                <i class="fa-solid fa-qrcode"></i>
-                                <span>QR</span>
-                            </button>
-                            <button type="button" class="document-card-action open" data-open-id="${item.id}" aria-label="Mở tài liệu">
-                                Mở tài liệu
-                                <i class="fa-solid fa-arrow-right"></i>
-                            </button>
-                        </div>
                     </div>
                     ${previewHtml}
+                    <div class="document-card-actions">
+                        <button type="button" class="document-card-action compact-share" data-share-id="${item.id}" aria-label="Sao chép liên kết" title="Sao chép liên kết">
+                            <i class="fa-solid fa-link"></i>
+                            <span>Chia sẻ</span>
+                        </button>
+                        <button type="button" class="document-card-action compact-qr" data-qr-id="${item.id}" aria-label="Tạo QR" title="Tạo QR">
+                            <i class="fa-solid fa-qrcode"></i>
+                            <span>QR</span>
+                        </button>
+                        <button type="button" class="document-card-action open" data-open-id="${item.id}" aria-label="Mở tài liệu">
+                            <span>Mở tài liệu</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
                 </div>
             </article>`;
         }
@@ -5545,5 +5656,179 @@ body:has(.pdf-modal.open){overflow:auto !important;}
         }
 </script>
 
+
+<style id="document-card-thumbnail-actions-final-fix">
+/* Uploaded thumbnail: show only the image, with no THUMBNAIL label. */
+.document-card-preview.uploaded-thumbnail::after,
+.document-card-preview.uploaded-thumbnail .uploaded-thumbnail-badge{
+    display:none !important;
+    content:none !important;
+}
+
+/* Keep the three document actions in a dedicated full-width row below the card content. */
+.document-card-content-wrap{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) 150px !important;
+    grid-template-rows:minmax(174px,auto) auto !important;
+    column-gap:18px !important;
+    row-gap:14px !important;
+    align-items:stretch !important;
+}
+.document-card-content-wrap > .document-card-info{
+    grid-column:1 !important;
+    grid-row:1 !important;
+}
+.document-card-content-wrap > .document-card-preview{
+    grid-column:2 !important;
+    grid-row:1 !important;
+}
+.document-card-content-wrap > .document-card-actions{
+    grid-column:1 / -1 !important;
+    grid-row:2 !important;
+    width:100% !important;
+    margin:0 !important;
+    padding-top:12px !important;
+    display:grid !important;
+    grid-template-columns:minmax(100px,1fr) minmax(85px,.8fr) minmax(150px,1.45fr) !important;
+    gap:8px !important;
+    align-items:stretch !important;
+    justify-content:stretch !important;
+}
+.document-card-content-wrap > .document-card-actions .document-card-action{
+    width:100% !important;
+    min-width:0 !important;
+    height:42px !important;
+    margin:0 !important;
+    font-family:"Segoe UI","Noto Sans","Arial Unicode MS",Arial,sans-serif !important;
+    font-size:13px !important;
+    font-weight:800 !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+}
+.document-card-content-wrap > .document-card-actions .document-card-action.open{
+    padding:0 14px !important;
+}
+
+@media(max-width:760px){
+    .document-card-content-wrap{
+        grid-template-columns:1fr !important;
+        grid-template-rows:auto auto auto !important;
+        gap:14px !important;
+    }
+    .document-card-content-wrap > .document-card-info{
+        grid-column:1 !important;
+        grid-row:2 !important;
+    }
+    .document-card-content-wrap > .document-card-preview{
+        grid-column:1 !important;
+        grid-row:1 !important;
+        order:initial !important;
+        height:190px !important;
+    }
+    .document-card-content-wrap > .document-card-actions{
+        grid-column:1 !important;
+        grid-row:3 !important;
+        grid-template-columns:minmax(100px,1fr) minmax(76px,.75fr) minmax(135px,1.3fr) !important;
+    }
+}
+
+@media(max-width:480px){
+    .document-card-content-wrap > .document-card-actions{
+        grid-template-columns:1fr 1fr !important;
+    }
+    .document-card-content-wrap > .document-card-actions .document-card-action.open{
+        grid-column:1 / -1 !important;
+    }
+}
+</style>
+
+<style id="pdf-back-button-final-fix">
+/* Top-left back button: returns to the previous document list/category screen. */
+.pdf-modal-head{
+    position:relative !important;
+    justify-content:flex-start !important;
+}
+.pdf-modal-title-wrap{
+    order:2 !important;
+    flex:1 1 auto !important;
+    min-width:0 !important;
+    margin-left:2px !important;
+}
+.pdf-modal-actions{
+    order:3 !important;
+}
+.pdf-modal-head > .pdf-back-button{
+    order:1 !important;
+}
+.pdf-modal-head .pdf-back-button{
+    position:relative !important;
+    inset:auto !important;
+    width:auto !important;
+    min-width:116px !important;
+    height:42px !important;
+    margin:0 !important;
+    padding:0 14px !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:8px !important;
+    border-radius:11px !important;
+    border:1px solid rgba(125,211,252,.24) !important;
+    background:rgba(255,255,255,.035) !important;
+    color:#dcecff !important;
+    font-family:"Segoe UI","Noto Sans","Arial Unicode MS",Arial,sans-serif !important;
+    font-size:13px !important;
+    font-weight:800 !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+    cursor:pointer !important;
+    box-sizing:border-box !important;
+}
+.pdf-modal-head .pdf-back-button:hover{
+    transform:translateY(-2px) !important;
+    border-color:rgba(125,211,252,.52) !important;
+    background:linear-gradient(135deg,rgba(56,189,248,.11),rgba(124,58,237,.13)) !important;
+    color:#f2fbff !important;
+    box-shadow:0 9px 24px rgba(56,189,248,.09) !important;
+}
+.pdf-modal-head .pdf-modal-actions .document-action.secondary,
+.pdf-modal-head #pdfDownload{
+    min-height:42px !important;
+    padding:0 12px !important;
+    font-family:"Segoe UI","Noto Sans","Arial Unicode MS",Arial,sans-serif !important;
+    font-size:13px !important;
+    font-weight:800 !important;
+    line-height:1 !important;
+}
+
+@media(max-width:900px){
+    .pdf-modal-head{
+        flex-wrap:wrap !important;
+    }
+    .pdf-modal-title-wrap{
+        order:2 !important;
+        flex:1 1 220px !important;
+    }
+    .pdf-modal-actions{
+        order:3 !important;
+        width:100% !important;
+        justify-content:flex-start !important;
+    }
+}
+
+@media(max-width:540px){
+    .pdf-modal-head > .pdf-back-button{
+        min-width:110px !important;
+        height:40px !important;
+        padding:0 12px !important;
+        font-size:12px !important;
+    }
+    .pdf-modal-head .pdf-modal-actions .document-action.secondary,
+    .pdf-modal-head #pdfDownload{
+        min-height:40px !important;
+        font-size:12px !important;
+    }
+}
+</style>
 </body>
 </html>
