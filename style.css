@@ -835,3 +835,66 @@ footer {
         width: auto;
     }
 }
+/* =========================================
+   HERO LAYOUT FIX
+   Avatar luôn nằm bên phải trên desktop
+========================================= */
+
+.hero-content {
+    display: grid !important;
+
+    grid-template-columns: minmax(0, 1fr) 360px !important;
+
+    align-items: center !important;
+
+    column-gap: 70px !important;
+    row-gap: 40px !important;
+}
+
+.hero-text {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+}
+
+.avatar-wrapper {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+
+    display: flex !important;
+
+    justify-content: center !important;
+    align-items: center !important;
+
+    width: 100% !important;
+    height: auto !important;
+
+    margin: 0 !important;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .hero-content {
+        grid-template-columns: 1fr !important;
+
+        row-gap: 50px !important;
+
+        text-align: center !important;
+    }
+
+    .hero-text {
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+    }
+
+    .avatar-wrapper {
+        grid-column: 1 !important;
+        grid-row: 2 !important;
+
+        justify-content: center !important;
+    }
+}
