@@ -47,6 +47,7 @@
                 aria-label="Mở menu"
                 aria-expanded="false"
                 aria-controls="mainMenu"
+                onclick="toggleMobileMenu(event)"
             >
                 <i class="fa-solid fa-bars"></i>
             </button>
@@ -180,6 +181,11 @@
 
                     <div class="avatar-ring avatar-ring-outer"></div>
                     <div class="avatar-ring avatar-ring-inner"></div>
+
+                    <span class="orbit-particle orbit-particle-outer"></span>
+                    <span class="orbit-particle orbit-particle-inner"></span>
+                    <span class="orbit-particle orbit-particle-small"></span>
+                    <span class="orbit-particle orbit-particle-tiny"></span>
 
                     <div class="avatar">
                         <img
@@ -1040,6 +1046,41 @@
         const menuToggle = document.getElementById("menuToggle");
         const mainMenu = document.getElementById("mainMenu");
 
+        function toggleMobileMenu(event) {
+
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            if (!mainMenu || !menuToggle) {
+                return;
+            }
+
+            const isOpen =
+                mainMenu.classList.toggle("open");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen ? "Đóng menu" : "Mở menu"
+            );
+
+            const icon =
+                menuToggle.querySelector("i");
+
+            if (icon) {
+                icon.className =
+                    isOpen
+                        ? "fa-solid fa-xmark"
+                        : "fa-solid fa-bars";
+            }
+        }
+
         function closeMenu() {
             if (!mainMenu || !menuToggle) return;
 
@@ -1055,26 +1096,7 @@
 
         if (menuToggle && mainMenu) {
 
-            menuToggle.addEventListener("click", function () {
-
-                const isOpen =
-                    mainMenu.classList.toggle("open");
-
-                menuToggle.setAttribute(
-                    "aria-expanded",
-                    String(isOpen)
-                );
-
-                const icon =
-                    menuToggle.querySelector("i");
-
-                if (icon) {
-                    icon.className = isOpen
-                        ? "fa-solid fa-xmark"
-                        : "fa-solid fa-bars";
-                }
-
-            });
+            /* The button uses the inline toggleMobileMenu handler above. */
 
 
             mainMenu
