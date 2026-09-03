@@ -688,16 +688,25 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input id="documentSearch" type="search" placeholder="Tìm kiếm tài liệu..." autocomplete="off">
                     </div>
+
                     <select id="documentCategory" aria-label="Lọc theo danh mục">
                         <option value="all">Tất cả danh mục</option>
                     </select>
+
                     <a class="document-admin-link" href="admin.html">
                         <i class="fa-solid fa-lock"></i>
                         Quản trị
                     </a>
                 </div>
 
-                <div id="documentStatus" class="document-status reveal">Đang tải thư viện...</div>
+                <div class="document-library-heading reveal">
+                    <div>
+                        <span class="document-library-kicker">DOCUMENTS</span>
+                        <h3>Tài liệu có sẵn</h3>
+                    </div>
+                    <div id="documentStatus" class="document-status">Đang tải...</div>
+                </div>
+
                 <div id="documentList" class="document-grid"></div>
 
                 <div id="documentEmpty" class="document-empty" hidden>
@@ -1108,6 +1117,234 @@
     <!-- =========================
          JAVASCRIPT
     ========================== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+
+        /* =========================================
+           SUPABASE DOCUMENT LIBRARY
+        ========================================== */
+
+        const SUPABASE_URL = "https://uiyqdqucqplifcvukwul.supabase.co";
+        const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_eVPODZoNRLiGD8Ldl2VjAg_eC_KTKDg";
+        const supabaseClient = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+        let libraryDocuments = [];
+        let libraryCategories = [];
+
+        const documentIconMap = {
+            "Lớp 10": "fa-calculator",
+            "Lớp 11": "fa-chart-line",
+            "Lớp 12": "fa-square-root-variable",
+            "Ôn thi vào 10": "fa-graduation-cap",
+            "Ôn thi THPT": "fa-award",
+            "Chuyên đề": "fa-book-open",
+            "default": "fa-file-pdf"
+        };
+
+        function getCategoryIcon(categoryName) {
+            return documentIconMap[categoryName] || documentIconMap.default;
+        }
+
+        function formatDocumentDate(value) {
+            if (!value) return "";
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return "";
+            return new Intl.DateTimeFormat("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            }).format(date);
+        }
+
+        function getPublicPdfUrl(filePath) {
+            return supabaseClient.storage
+                .from("math-pdfs")
+                .getPublicUrl(filePath).data.publicUrl;
+        }
+
+        function openPdfViewer(title, url) {
+            const modal = document.getElementById("pdfModal");
+            const frame = document.getElementById("pdfFrame");
+            const modalTitle = document.getElementById("pdfModalTitle");
+            const download = document.getElementById("pdfDownload");
+
+            if (!modal || !frame || !modalTitle || !download) return;
+
+            modalTitle.textContent = title || "Tài liệu";
+            frame.src = url;
+            download.href = url;
+            modal.classList.add("open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("modal-open");
+        }
+
+        function closePdfViewer() {
+            const modal = document.getElementById("pdfModal");
+            const frame = document.getElementById("pdfFrame");
+
+            if (!modal) return;
+            modal.classList.remove("open");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("modal-open");
+            if (frame) frame.src = "about:blank";
+        }
+
+        function renderDocumentCards() {
+            const list = document.getElementById("documentList");
+            const empty = document.getElementById("documentEmpty");
+            const status = document.getElementById("documentStatus");
+            const searchInput = document.getElementById("documentSearch");
+            const categorySelect = document.getElementById("documentCategory");
+
+            if (!list || !empty || !status) return;
+
+            const keyword = (searchInput?.value || "").trim().toLowerCase();
+            const selectedCategory = categorySelect?.value || "all";
+
+            const filtered = libraryDocuments.filter(function (item) {
+                const categoryName = item.math_categories?.name || "Chưa phân loại";
+                const haystack = [item.title, item.description, categoryName]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+                const matchKeyword = !keyword || haystack.includes(keyword);
+                const matchCategory = selectedCategory === "all" || String(item.category_id) === selectedCategory;
+                return matchKeyword && matchCategory;
+            });
+
+            status.textContent = filtered.length
+                ? `${filtered.length} tài liệu`
+                : "Không có tài liệu";
+
+            if (!filtered.length) {
+                list.innerHTML = "";
+                empty.hidden = false;
+                return;
+            }
+
+            empty.hidden = true;
+
+            list.innerHTML = filtered.map(function (item) {
+                const categoryName = item.math_categories?.name || "Tài liệu Toán học";
+                const description = item.description || "Tài liệu học tập và luyện tập môn Toán.";
+                const url = getPublicPdfUrl(item.file_path);
+                const date = formatDocumentDate(item.created_at);
+                const icon = getCategoryIcon(categoryName);
+
+                return `
+                    <article class="document-card document-card-clickable reveal show"
+                        tabindex="0"
+                        role="button"
+                        data-url="${url.replace(/"/g, '&quot;')}"
+                        data-title="${(item.title || "Tài liệu").replace(/"/g, '&quot;')}">
+                        <div class="document-card-glow"></div>
+                        <div class="document-card-top">
+                            <div class="document-icon document-icon-pdf">
+                                <i class="fa-solid ${icon}"></i>
+                            </div>
+                            <span class="document-badge">PDF</span>
+                        </div>
+
+                        <div class="document-card-category">${categoryName}</div>
+                        <h3>${item.title || "Tài liệu không có tiêu đề"}</h3>
+                        <p>${description}</p>
+
+                        <div class="document-card-footer">
+                            <span>${date || "Tài liệu học tập"}</span>
+                            <span class="document-open-label">Mở tài liệu <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </article>
+                `;
+            }).join("");
+
+            list.querySelectorAll(".document-card-clickable").forEach(function (card) {
+                const open = function () {
+                    openPdfViewer(card.dataset.title || "Tài liệu", card.dataset.url);
+                };
+
+                card.addEventListener("click", open);
+                card.addEventListener("keydown", function (event) {
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        open();
+                    }
+                });
+            });
+        }
+
+        function fillDocumentCategories() {
+            const select = document.getElementById("documentCategory");
+            if (!select) return;
+
+            select.innerHTML = '<option value="all">Tất cả danh mục</option>';
+            libraryCategories.forEach(function (category) {
+                const option = document.createElement("option");
+                option.value = String(category.id);
+                option.textContent = category.name;
+                select.appendChild(option);
+            });
+        }
+
+        async function loadDocumentLibrary() {
+            const status = document.getElementById("documentStatus");
+            const empty = document.getElementById("documentEmpty");
+
+            try {
+                const [categoriesResponse, documentsResponse] = await Promise.all([
+                    supabaseClient
+                        .from("math_categories")
+                        .select("id,name,slug,description,sort_order")
+                        .order("sort_order", { ascending: true })
+                        .order("created_at", { ascending: true }),
+                    supabaseClient
+                        .from("math_documents")
+                        .select("id,title,description,category_id,file_path,file_name,published,sort_order,created_at,math_categories(name,slug)")
+                        .eq("published", true)
+                        .order("sort_order", { ascending: true })
+                        .order("created_at", { ascending: false })
+                ]);
+
+                if (categoriesResponse.error) throw categoriesResponse.error;
+                if (documentsResponse.error) throw documentsResponse.error;
+
+                libraryCategories = categoriesResponse.data || [];
+                libraryDocuments = documentsResponse.data || [];
+
+                fillDocumentCategories();
+                renderDocumentCards();
+            } catch (error) {
+                console.error("Document library error:", error);
+                if (status) status.textContent = "Không thể tải thư viện";
+                if (empty) {
+                    empty.hidden = false;
+                    empty.innerHTML = `
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <h3>Không thể tải tài liệu</h3>
+                        <p>Vui lòng tải lại trang sau ít phút.</p>
+                    `;
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("documentSearch")?.addEventListener("input", renderDocumentCards);
+            document.getElementById("documentCategory")?.addEventListener("change", renderDocumentCards);
+            document.getElementById("pdfClose")?.addEventListener("click", closePdfViewer);
+            document.getElementById("pdfModal")?.addEventListener("click", function (event) {
+                if (event.target === event.currentTarget) closePdfViewer();
+            });
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape") closePdfViewer();
+            });
+            loadDocumentLibrary();
+        });
+
+    </script>
+
     <script>
 
         /* =========================================
