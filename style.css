@@ -222,11 +222,24 @@ header {
 .hero-content {
     display: grid;
 
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: minmax(0, 1fr) 360px;
 
     align-items: center;
 
-    gap: 80px;
+    gap: 70px;
+}
+
+.hero-text {
+    grid-column: 1;
+}
+
+.avatar-wrapper {
+    grid-column: 2;
+    grid-row: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -690,7 +703,7 @@ footer {
    MOBILE
 ========================================= */
 
-@media (max-width: 800px) {
+@media (max-width: 650px) {
 .hero-socials {
     justify-content: center;
 }
@@ -720,12 +733,23 @@ footer {
     }
 
     .hero-content {
-        grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
 
-        gap: 55px;
+    gap: 50px;
 
-        text-align: center;
-    }
+    text-align: center;
+}
+
+.hero-text {
+    grid-column: 1;
+}
+
+.avatar-wrapper {
+    grid-column: 1;
+    grid-row: 2;
+
+    justify-content: center;
+}
 
     .hero-small {
         justify-content: center;
@@ -750,10 +774,6 @@ footer {
 
     .buttons {
         justify-content: center;
-    }
-
-    .avatar-wrapper {
-        order: -1;
     }
 
     .avatar {
