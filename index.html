@@ -541,7 +541,206 @@
     </div>
 
 </section>
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
 
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Thành tích</h2>
+            <p>Một số kết quả nổi bật trong quá trình giảng dạy</p>
+        </div>
+
+
+        <div class="achievement-list">
+
+
+            <!-- THÀNH TÍCH 1 -->
+            <div class="achievement-card-large">
+
+                <div class="achievement-card-icon">
+                    🏫
+                </div>
+
+                <div class="achievement-card-content">
+
+                    <div class="achievement-label">
+                        LUYỆN THI VÀO LỚP 10
+                    </div>
+
+                    <h3>
+                        Giáo viên dạy học sinh thi vào lớp 10 đạt kết quả cao
+                    </h3>
+
+                    <p>
+                        Học sinh được ôn luyện và đồng hành trong quá trình
+                        chuẩn bị kỳ thi tuyển sinh vào lớp 10, đạt kết quả tốt
+                        và trúng tuyển vào nhiều trường THPT chất lượng.
+                    </p>
+
+                    <div class="achievement-schools">
+
+                        <span>Lê Quý Đôn</span>
+                        <span>Quốc Học</span>
+                        <span>Trưng Vương</span>
+                        <span>...</span>
+
+                    </div>
+
+                    <button
+                        class="evidence-button"
+                        onclick="openGallery('grade10')"
+                    >
+                        📷 Xem minh chứng
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- THÀNH TÍCH 2 -->
+            <div class="achievement-card-large">
+
+                <div class="achievement-card-icon">
+                    🎓
+                </div>
+
+                <div class="achievement-card-content">
+
+                    <div class="achievement-label">
+                        LUYỆN THI TỐT NGHIỆP THPT
+                    </div>
+
+                    <h3>
+                        Học sinh lớp 12 đạt điểm Toán cao và đạt nguyện vọng 1
+                    </h3>
+
+                    <p>
+                        Đồng hành cùng học sinh lớp 12 trong quá trình ôn thi
+                        tốt nghiệp THPT, giúp học sinh cải thiện kết quả môn Toán,
+                        đạt điểm số cao và trúng tuyển vào nguyện vọng 1.
+                    </p>
+
+                    <div class="achievement-schools">
+
+                        <span>Điểm Toán cao</span>
+                        <span>Đạt NV1</span>
+                        <span>Tốt nghiệp</span>
+
+                    </div>
+
+                    <button
+                        class="evidence-button"
+                        onclick="openGallery('grade12')"
+                    >
+                        📷 Xem minh chứng
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- THÀNH TÍCH 3 -->
+            <div class="achievement-card-large">
+
+                <div class="achievement-card-icon">
+                    ⭐
+                </div>
+
+                <div class="achievement-card-content">
+
+                    <div class="achievement-label">
+                        PHẢN HỒI TỪ HỌC SINH
+                    </div>
+
+                    <h3>
+                        Những phản hồi thực tế sau khi đạt kết quả
+                    </h3>
+
+                    <p>
+                        Một số tin nhắn và phản hồi từ học sinh, phụ huynh
+                        sau khi có kết quả thi nhằm ghi lại những dấu mốc
+                        đáng nhớ trong quá trình học tập.
+                    </p>
+
+                    <div class="achievement-schools">
+
+                        <span>Học sinh</span>
+                        <span>Phụ huynh</span>
+                        <span>Kết quả thực tế</span>
+
+                    </div>
+
+                    <button
+                        class="evidence-button"
+                        onclick="openGallery('feedback')"
+                    >
+                        📷 Xem phản hồi
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- GALLERY -->
+    <div
+        id="galleryModal"
+        class="gallery-modal"
+        onclick="closeGallery(event)"
+    >
+
+        <div
+            class="gallery-container"
+            onclick="event.stopPropagation()"
+        >
+
+            <button
+                class="gallery-close"
+                onclick="closeGallery()"
+            >
+                ×
+            </button>
+
+            <button
+                class="gallery-prev"
+                onclick="changeImage(-1)"
+            >
+                ‹
+            </button>
+
+            <img
+                id="galleryImage"
+                src=""
+                alt="Minh chứng thành tích"
+            >
+
+            <button
+                class="gallery-next"
+                onclick="changeImage(1)"
+            >
+                ›
+            </button>
+
+            <div
+                id="galleryCounter"
+                class="gallery-counter"
+            >
+                1 / 1
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
         <!-- CONTACT -->
         <section id="contact">
