@@ -52,7 +52,7 @@
         .document-subsection-title{display:flex;justify-content:space-between;margin:22px 0 12px;color:#89a0ba;font-size:12px}.document-subsection-title span:last-child{color:#60a5fa}
         .material-request-section{padding-bottom:70px}.material-request-card{max-width:920px;margin:0 auto;padding:24px;border-radius:18px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(145deg,rgba(14,23,42,.72),rgba(7,12,24,.64))}.material-request-form{display:grid;gap:14px}.material-request-form label{display:block;margin-bottom:6px;font-size:11px;font-weight:800;letter-spacing:.55px;text-transform:uppercase;color:#a8b6c9}.material-request-form input,.material-request-form textarea,.material-request-form select{width:100%;padding:12px 13px;border-radius:10px;border:1px solid rgba(148,163,184,.16);background:rgba(5,10,19,.66);color:#f4f8ff;outline:none;font:inherit}.material-request-form textarea{min-height:120px;resize:vertical}.request-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.request-submit-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.request-status{color:#8ea0b8;font-size:12px}
         .pdf-modal-inner{max-height:92vh}.pdf-related-wrap{padding:15px 18px 18px;border-top:1px solid rgba(255,255,255,.07)}.pdf-related-title{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#71849b;margin-bottom:10px}.pdf-related-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.pdf-related-card{min-width:0;display:flex;align-items:center;gap:9px;padding:9px;border:1px solid rgba(148,163,184,.1);border-radius:10px;background:rgba(255,255,255,.025);color:#d8e7f6;text-align:left;cursor:pointer}.pdf-related-card:hover{border-color:rgba(125,211,252,.3);background:rgba(56,189,248,.05)}.pdf-related-icon{width:32px;height:32px;flex:0 0 32px;display:grid;place-items:center;border-radius:8px;background:rgba(56,189,248,.07);color:#7dd3fc}.pdf-related-card span:last-child{min-width:0}.pdf-related-card b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}.pdf-related-card small{display:block;margin-top:3px;color:#73849a;font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pdf-related-empty{color:#708199;font-size:12px}
-        .qr-modal{position:fixed;inset:0;z-index:2800;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,6,14,.82);backdrop-filter:blur(10px)}.qr-modal.open{display:flex}.qr-card{width:min(430px,94vw);padding:22px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:#08101c;box-shadow:0 30px 100px rgba(0,0,0,.55)}.qr-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.qr-code{width:240px;height:240px;margin:20px auto 15px;padding:8px;background:#fff;border-radius:12px;display:grid;place-items:center}.qr-code canvas,.qr-code img{width:224px!important;height:224px!important}.qr-url{font-size:10px;color:#7f90a7;word-break:break-all;text-align:center}.qr-download{width:100%;margin-top:9px}.qr-fallback{color:#253247;font-size:12px;text-align:center}
+        .qr-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,6,14,.82);backdrop-filter:blur(10px)}.qr-modal.open{display:flex}.qr-card{width:min(430px,94vw);padding:22px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:#08101c;box-shadow:0 30px 100px rgba(0,0,0,.55)}.qr-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.qr-code{width:240px;height:240px;margin:20px auto 15px;padding:8px;background:#fff;border-radius:12px;display:grid;place-items:center}.qr-code canvas,.qr-code img{width:224px!important;height:224px!important}.qr-url{font-size:10px;color:#7f90a7;word-break:break-all;text-align:center}.qr-download{width:100%;margin-top:9px}.qr-fallback{color:#253247;font-size:12px;text-align:center}
         @media(max-width:900px){.pdf-related-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
         @media(max-width:700px){.document-stat-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.document-category-actions{width:100%;justify-content:flex-end}.document-category-footer{align-items:flex-start;flex-wrap:wrap}}
 
@@ -1644,76 +1644,78 @@
 </style>
 
 
-<style id="floating-document-workspace-fix">
+<style id="document-viewer-normal-flow-fix">
 /* =========================================================
-   FLOATING DOCUMENT WORKSPACE - FINAL
-   PDF LEFT / REFERENCES RIGHT / MAIN PAGE REMAINS SCROLLABLE
+   PDF VIEWER - NORMAL PAGE FLOW
+   No fixed overlay. Viewer behaves like a normal section.
+   PDF left / References right on desktop.
 ========================================================= */
 .pdf-modal{
-    position:fixed !important;
-    inset:0 !important;
-    z-index:5000 !important;
+    position:relative !important;
+    inset:auto !important;
+    z-index:1 !important;
     display:none !important;
-    align-items:flex-start !important;
-    justify-content:center !important;
+    width:100% !important;
+    margin:34px 0 18px !important;
     padding:0 !important;
-    margin:0 !important;
     overflow:visible !important;
     background:transparent !important;
-    pointer-events:none !important;
+    pointer-events:auto !important;
 }
-.pdf-modal.open{display:block !important;}
+.pdf-modal.open{
+    display:block !important;
+}
 .pdf-modal::before{display:none !important;}
 
 .pdf-modal-inner{
-    position:fixed !important;
-    top:88px !important;
-    left:50% !important;
-    transform:translateX(-50%) !important;
-    width:min(1320px,calc(100vw - 36px)) !important;
-    height:min(78vh,calc(100vh - 112px)) !important;
-    max-height:none !important;
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    transform:none !important;
+    width:100% !important;
+    height:auto !important;
     min-height:0 !important;
+    max-height:none !important;
     margin:0 !important;
     padding:0 !important;
     display:grid !important;
-    grid-template-columns:minmax(0,1fr) !important;
-    grid-template-rows:62px minmax(0,1fr) !important;
+    grid-template-columns:minmax(0,1fr) 330px !important;
+    grid-template-rows:auto minmax(520px,1fr) !important;
     overflow:hidden !important;
     pointer-events:auto !important;
-    border:1px solid rgba(125,211,252,.22) !important;
-    border-radius:16px !important;
+    border:1px solid rgba(125,211,252,.18) !important;
+    border-radius:18px !important;
     background:rgba(7,14,26,.98) !important;
-    box-shadow:0 28px 90px rgba(0,0,0,.55),0 0 0 1px rgba(56,189,248,.04) !important;
+    box-shadow:0 24px 70px rgba(0,0,0,.34) !important;
     isolation:isolate !important;
 }
 
 .pdf-modal-head{
-    grid-column:1 !important;
+    grid-column:1 / -1 !important;
     grid-row:1 !important;
     position:relative !important;
     top:auto !important;
-    min-height:62px !important;
-    height:62px !important;
-    z-index:10 !important;
-    padding:9px 12px !important;
+    z-index:5 !important;
+    min-height:68px !important;
+    height:auto !important;
+    padding:10px 14px !important;
     display:flex !important;
     align-items:center !important;
     justify-content:space-between !important;
-    gap:10px !important;
+    gap:14px !important;
     background:rgba(8,16,28,.985) !important;
     border-bottom:1px solid rgba(255,255,255,.08) !important;
 }
 
 .pdf-modal-body-scroll{
-    grid-column:1 !important;
+    grid-column:1 / -1 !important;
     grid-row:2 !important;
     width:100% !important;
-    height:100% !important;
+    height:auto !important;
     min-height:0 !important;
     display:grid !important;
     grid-template-columns:minmax(0,1fr) 330px !important;
-    overflow:hidden !important;
+    overflow:visible !important;
     background:#09111d !important;
 }
 
@@ -1721,10 +1723,9 @@
     grid-column:1 !important;
     grid-row:1 !important;
     width:100% !important;
-    height:100% !important;
-    max-height:none !important;
-    min-width:0 !important;
-    min-height:0 !important;
+    height:calc(100vh - 270px) !important;
+    min-height:520px !important;
+    max-height:900px !important;
     overflow:auto !important;
     overflow-x:auto !important;
     overflow-y:auto !important;
@@ -1738,16 +1739,20 @@
     width:100% !important;
     min-height:100% !important;
     padding:18px 18px 26px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    gap:16px !important;
 }
 
 .pdf-related-wrap{
     grid-column:2 !important;
     grid-row:1 !important;
     width:100% !important;
-    height:100% !important;
     min-width:0 !important;
-    min-height:0 !important;
-    max-height:none !important;
+    height:calc(100vh - 270px) !important;
+    min-height:520px !important;
+    max-height:900px !important;
     overflow:auto !important;
     padding:16px 15px 18px !important;
     border-top:0 !important;
@@ -1772,27 +1777,17 @@
     gap:7px !important;
     margin:0 0 12px !important;
 }
-
 .pdf-related-tag{
     min-height:34px !important;
     padding:0 10px !important;
     border-radius:999px !important;
     white-space:nowrap !important;
 }
-
-.pdf-related-choice-label{
-    margin:0 0 9px !important;
-    color:#8da1b9 !important;
-    font-size:10px !important;
-    font-weight:800 !important;
-}
-
 .pdf-related-list{
     display:grid !important;
     grid-template-columns:1fr !important;
     gap:8px !important;
 }
-
 .pdf-related-card{
     width:100% !important;
     min-height:68px !important;
@@ -1804,13 +1799,23 @@
     border-radius:11px !important;
 }
 
-.pdf-related-card b{font-size:10px !important;}
-.pdf-related-card small{font-size:8px !important;}
-
-/* Never lock the main website when viewer is opened. */
-body.modal-open{
-    overflow:auto !important;
+/* Thumbnail uploaded from admin */
+.document-card-preview.uploaded-thumbnail{
+    background:#f8fafc !important;
 }
+.document-card-preview.uploaded-thumbnail img{
+    width:100% !important;
+    height:100% !important;
+    display:block !important;
+    object-fit:contain !important;
+    background:#f8fafc !important;
+}
+.document-card-preview.uploaded-thumbnail::after{
+    content:"THUMBNAIL" !important;
+}
+
+/* Keep the main website freely scrollable. */
+body.modal-open,
 html:has(.pdf-modal.open),
 body:has(.pdf-modal.open){
     overflow:auto !important;
@@ -1818,52 +1823,59 @@ body:has(.pdf-modal.open){
 
 @media(max-width:900px){
     .pdf-modal-inner{
-        width:calc(100vw - 24px) !important;
-        height:min(82vh,calc(100vh - 104px)) !important;
-        top:82px !important;
-    }
-    .pdf-modal-body-scroll{
-        grid-template-columns:minmax(0,1fr) 290px !important;
-    }
-}
-
-@media(max-width:700px){
-    .pdf-modal-inner{
-        width:calc(100vw - 14px) !important;
-        height:min(84vh,calc(100vh - 92px)) !important;
-        top:76px !important;
-        grid-template-rows:60px minmax(0,1fr) !important;
-    }
-    .pdf-modal-head{
-        height:60px !important;
-        min-height:60px !important;
-        padding:8px 9px !important;
-    }
-    .pdf-modal-actions{
-        gap:4px !important;
-    }
-    .pdf-modal-actions .document-action.secondary{
-        min-height:32px !important;
-        padding:0 7px !important;
-        font-size:9px !important;
-    }
-    .pdf-modal-body-scroll{
-        display:grid !important;
         grid-template-columns:1fr !important;
-        grid-template-rows:minmax(0,1fr) 250px !important;
-        overflow:hidden !important;
+        grid-template-rows:auto auto auto !important;
+    }
+    .pdf-modal-body-scroll{
+        grid-template-columns:1fr !important;
+        grid-template-rows:auto auto !important;
     }
     .pdf-viewer-scroll{
         grid-column:1 !important;
         grid-row:1 !important;
+        height:65vh !important;
+        min-height:420px !important;
+        max-height:none !important;
     }
     .pdf-related-wrap{
         grid-column:1 !important;
         grid-row:2 !important;
+        height:auto !important;
+        min-height:0 !important;
+        max-height:420px !important;
         border-left:0 !important;
         border-top:1px solid rgba(255,255,255,.08) !important;
     }
 }
+
+@media(max-width:700px){
+    .pdf-modal{
+        margin-top:24px !important;
+    }
+    .pdf-modal-inner{
+        border-radius:14px !important;
+    }
+    .pdf-modal-head{
+        align-items:flex-start !important;
+        padding:10px !important;
+    }
+    .pdf-modal-actions{
+        flex-wrap:wrap !important;
+        justify-content:flex-start !important;
+    }
+    .pdf-viewer-scroll{
+        height:58vh !important;
+        min-height:340px !important;
+    }
+    .pdf-related-wrap{
+        max-height:360px !important;
+    }
+}
+</style>
+
+<style id="qr-overlay-priority-fix">
+.qr-modal{z-index:10000 !important;}
+.qr-modal.open{display:flex !important;}
 </style>
 
 </head>
@@ -2620,6 +2632,70 @@ body:has(.pdf-modal.open){
                     <p>Hãy thử từ khóa khác hoặc quay lại danh mục.</p>
                 </div>
 
+        <div id="pdfModal" class="pdf-modal" aria-hidden="true" role="region" aria-label="Trình xem tài liệu PDF">
+            <div class="pdf-modal-inner">
+                <div class="pdf-modal-head">
+                    <div class="pdf-modal-title-wrap">
+                        <div class="pdf-modal-kicker">DOCUMENT VIEWER</div>
+                        <h3 id="pdfModalTitle">Tài liệu</h3>
+                    </div>
+                    <div class="pdf-modal-actions">
+                        <button id="pdfShare" class="document-action secondary" type="button">
+                            <i class="fa-solid fa-link"></i>
+                            Chia sẻ
+                        </button>
+                        <button id="pdfQr" class="document-action secondary" type="button">
+                            <i class="fa-solid fa-qrcode"></i>
+                            QR
+                        </button>
+                        <a id="pdfDownload" class="document-action secondary" href="#" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-solid fa-download"></i>
+                            Tải xuống
+                        </a>
+                        <button id="pdfClose" class="pdf-close" type="button" aria-label="Đóng">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pdf-modal-body-scroll" tabindex="0">
+                    <div class="pdf-viewer-scroll">
+                        <div id="pdfViewerPages" class="pdf-viewer-pages">
+                            <div class="pdf-viewer-loading">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                <span>Đang tải tài liệu...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pdf-related-wrap">
+                        <div class="pdf-related-title">Tài liệu liên quan</div>
+                        <div id="pdfRelatedTags" class="pdf-related-tags"></div>
+                        <div id="pdfRelatedList" class="pdf-related-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="qrModal" class="qr-modal" aria-hidden="true" role="dialog" aria-modal="true">
+            <div class="qr-card" onclick="event.stopPropagation()">
+                <div class="qr-head">
+                    <div>
+                        <div class="pdf-modal-kicker">SCAN TO OPEN</div>
+                        <h3 id="qrTitle">Tài liệu</h3>
+                    </div>
+                    <button id="qrClose" class="pdf-close" type="button" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="qrCode" class="qr-code"></div>
+                <p id="qrUrl" class="qr-url"></p>
+                <button id="qrDownload" class="admin-btn qr-download" type="button">
+                    <i class="fa-solid fa-download"></i>
+                    Tải QR
+                </button>
+            </div>
+        </div>
+
+
             </div>
         </section>
 
@@ -3020,69 +3096,6 @@ body:has(.pdf-modal.open){
         </section>
 
 
-        <div id="pdfModal" class="pdf-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Xem tài liệu PDF">
-            <div class="pdf-modal-inner">
-                <div class="pdf-modal-head">
-                    <div class="pdf-modal-title-wrap">
-                        <div class="pdf-modal-kicker">DOCUMENT VIEWER</div>
-                        <h3 id="pdfModalTitle">Tài liệu</h3>
-                    </div>
-                    <div class="pdf-modal-actions">
-                        <button id="pdfShare" class="document-action secondary" type="button">
-                            <i class="fa-solid fa-link"></i>
-                            Chia sẻ
-                        </button>
-                        <button id="pdfQr" class="document-action secondary" type="button">
-                            <i class="fa-solid fa-qrcode"></i>
-                            QR
-                        </button>
-                        <a id="pdfDownload" class="document-action secondary" href="#" target="_blank" rel="noopener noreferrer">
-                            <i class="fa-solid fa-download"></i>
-                            Tải xuống
-                        </a>
-                        <button id="pdfClose" class="pdf-close" type="button" aria-label="Đóng">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="pdf-modal-body-scroll" tabindex="0">
-                    <div class="pdf-viewer-scroll">
-                        <div id="pdfViewerPages" class="pdf-viewer-pages">
-                            <div class="pdf-viewer-loading">
-                                <i class="fa-solid fa-spinner fa-spin"></i>
-                                <span>Đang tải tài liệu...</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pdf-related-wrap">
-                        <div class="pdf-related-title">Tài liệu liên quan</div>
-                        <div id="pdfRelatedTags" class="pdf-related-tags"></div>
-                        <div id="pdfRelatedList" class="pdf-related-list"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="qrModal" class="qr-modal" aria-hidden="true" role="dialog" aria-modal="true">
-            <div class="qr-card" onclick="event.stopPropagation()">
-                <div class="qr-head">
-                    <div>
-                        <div class="pdf-modal-kicker">SCAN TO OPEN</div>
-                        <h3 id="qrTitle">Tài liệu</h3>
-                    </div>
-                    <button id="qrClose" class="pdf-close" type="button" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-                <div id="qrCode" class="qr-code"></div>
-                <p id="qrUrl" class="qr-url"></p>
-                <button id="qrDownload" class="admin-btn qr-download" type="button">
-                    <i class="fa-solid fa-download"></i>
-                    Tải QR
-                </button>
-            </div>
-        </div>
-
     </main>
 
 
@@ -3384,6 +3397,7 @@ body:has(.pdf-modal.open){
 
         function renderDocumentCard(item, categoryName) {
             const url = getPublicPdfUrl(item.file_path);
+            const thumbnailUrl = item.thumbnail_path ? getPublicStorageUrl(item.thumbnail_path) : "";
             const isExam = item.document_type === "exam";
             const newBadge = isNewDocument(item.created_at) ? '<span class="document-new-badge">MỚI</span>' : '';
             const typeBadge = isExam ? '<span class="document-type-badge exam">ĐỀ THI</span>' : '<span class="document-type-badge">PDF</span>';
@@ -3397,6 +3411,18 @@ body:has(.pdf-modal.open){
             ].filter(Boolean).join(" · ");
             const title = item.title || item.file_name || "Tài liệu không có tiêu đề";
             const previewId = `pdf-preview-${item.id}`;
+            const previewHtml = thumbnailUrl
+                ? `<div class="document-card-preview uploaded-thumbnail" data-preview-kind="thumbnail">
+                        <span class="uploaded-thumbnail-badge">THUMBNAIL</span>
+                        <img src="${escapeHtml(thumbnailUrl)}" alt="Ảnh xem trước ${escapeHtml(title)}" loading="lazy" decoding="async">
+                   </div>`
+                : `<div class="document-card-preview" data-pdf-preview="${escapeHtml(url)}" data-preview-kind="pdf">
+                        <div class="document-preview-loading" id="${previewId}-loading">
+                            <i class="fa-regular fa-file-pdf"></i>
+                            <span>Đang tạo xem trước...</span>
+                        </div>
+                        <canvas id="${previewId}" class="document-preview-canvas" aria-label="Trang đầu của PDF"></canvas>
+                   </div>`;
             return `<article class="document-card document-card-clickable reveal show" tabindex="0" role="button" data-document-id="${item.id}" data-url="${escapeHtml(url)}" data-title="${escapeHtml(title)}">
                 <div class="document-card-glow"></div>
                 <div class="document-card-content-wrap">
@@ -3426,13 +3452,7 @@ body:has(.pdf-modal.open){
                             </button>
                         </div>
                     </div>
-                    <div class="document-card-preview" data-pdf-preview="${escapeHtml(url)}">
-                        <div class="document-preview-loading" id="${previewId}-loading">
-                            <i class="fa-regular fa-file-pdf"></i>
-                            <span>Đang tạo xem trước...</span>
-                        </div>
-                        <canvas id="${previewId}" class="document-preview-canvas" aria-label="Trang đầu của PDF"></canvas>
-                    </div>
+                    ${previewHtml}
                 </div>
             </article>`;
         }
@@ -3986,6 +4006,8 @@ body:has(.pdf-modal.open){
 
             const bodyScroll = document.querySelector(".pdf-modal-body-scroll");
             if (bodyScroll) bodyScroll.scrollTop = 0;
+            document.querySelector(".pdf-viewer-scroll")?.scrollTo({ top: 0, behavior: "auto" });
+            document.querySelector(".pdf-related-wrap")?.scrollTo({ top: 0, behavior: "auto" });
 
             renderRelatedDocuments(item);
             trackView(item.id);
@@ -3995,7 +4017,10 @@ body:has(.pdf-modal.open){
             url.hash = "documents";
             window.history.replaceState({}, "", url.toString());
 
-            requestAnimationFrame(() => renderPdfDocument(item));
+            requestAnimationFrame(() => {
+                renderPdfDocument(item);
+                modal.scrollIntoView({ behavior: "smooth", block: "start" });
+            });
         }
 
         function closePdfViewer() {
@@ -4007,6 +4032,8 @@ body:has(.pdf-modal.open){
             if (viewer) viewer.innerHTML = "";
             const bodyScroll = document.querySelector(".pdf-modal-body-scroll");
             if (bodyScroll) bodyScroll.scrollTop = 0;
+            document.querySelector(".pdf-viewer-scroll")?.scrollTo({ top: 0, behavior: "auto" });
+            document.querySelector(".pdf-related-wrap")?.scrollTo({ top: 0, behavior: "auto" });
             currentDocument = null;
 
             const url = new URL(window.location.href);
