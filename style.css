@@ -898,3 +898,103 @@ footer {
         justify-content: center !important;
     }
 }
+
+/* =========================================
+   FINAL HERO POSITION
+   Avatar nằm cố định bên phải
+========================================= */
+
+.hero {
+    position: relative;
+}
+
+.hero-content {
+    position: relative !important;
+    display: block !important;
+    min-height: 620px;
+}
+
+.hero-text {
+    width: 58% !important;
+    position: relative !important;
+    z-index: 2;
+}
+
+.avatar-wrapper {
+    position: absolute !important;
+
+    right: 2% !important;
+    top: 50% !important;
+
+    width: 360px !important;
+    height: 360px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    margin: 0 !important;
+
+    transform: translateY(-50%) !important;
+
+    z-index: 1;
+}
+
+.avatar {
+    width: 230px !important;
+    height: 230px !important;
+}
+
+.avatar-wrapper::before {
+    width: 270px !important;
+    height: 270px !important;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .hero-content {
+        min-height: auto !important;
+        display: flex !important;
+
+        flex-direction: column !important;
+
+        align-items: center !important;
+
+        gap: 50px !important;
+
+        text-align: center !important;
+    }
+
+    .hero-text {
+        width: 100% !important;
+    }
+
+    .avatar-wrapper {
+        position: relative !important;
+
+        right: auto !important;
+        top: auto !important;
+
+        width: 100% !important;
+        height: 260px !important;
+
+        transform: none !important;
+
+        order: 2 !important;
+    }
+
+    .avatar {
+        width: 190px !important;
+        height: 190px !important;
+    }
+
+    .avatar-wrapper::before {
+        width: 225px !important;
+        height: 225px !important;
+    }
+}
