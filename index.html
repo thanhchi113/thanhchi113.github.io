@@ -13,7 +13,7 @@
 
     <meta name="theme-color" content="#070b14">
 
-    <link rel="stylesheet" href="style.css?v=20260903-8">
+    <link rel="stylesheet" href="style.css?v=20260903-6">
 
     <!-- Font Awesome -->
     <link
@@ -31,236 +31,272 @@
 .document-card-top-badges{display:flex;align-items:center;gap:6px}
 .document-new-badge{display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:0 8px;border-radius:999px;background:rgba(34,197,94,.1);border:1px solid rgba(74,222,128,.22);color:#86efac;font-size:10px;font-weight:900;letter-spacing:.7px}
 @media(max-width:700px){.document-toolbar-right{width:100%}.document-sort-wrap{flex:1}.document-sort-wrap select{width:100%}.document-admin-link{white-space:nowrap}}
+</style>
 
-        /* PUBLIC STATS + QR */
-        .document-public-stats-v2{display:grid;grid-template-columns:1.2fr repeat(4,minmax(110px,1fr));gap:9px;margin:14px 0 18px;padding:10px;border:1px solid rgba(125,211,252,.10);border-radius:15px;background:linear-gradient(145deg,rgba(56,189,248,.035),rgba(124,58,237,.035));box-shadow:inset 0 1px 0 rgba(255,255,255,.02)}
-        .document-stat-intro{display:flex;flex-direction:column;justify-content:center;padding:4px 8px}.document-stat-intro span{font-size:9px;font-weight:900;letter-spacing:1.8px;color:#60a5fa}.document-stat-intro strong{margin-top:3px;font-size:15px;color:#eef8ff}.document-stat-intro small{margin-top:4px;color:#71839b;font-size:9px;line-height:1.35}.document-stat-v2{display:grid;grid-template-columns:30px 1fr;grid-template-rows:auto auto;gap:2px 8px;align-items:center;padding:9px 10px;border:1px solid rgba(148,163,184,.09);border-radius:11px;background:rgba(5,10,19,.30)}.document-stat-v2 i{grid-row:1/3;width:30px;height:30px;display:grid;place-items:center;border-radius:8px;color:#7dd3fc;background:rgba(56,189,248,.07)}.document-stat-v2 b{font-size:17px;line-height:1;color:#f5fbff}.document-stat-v2 small{color:#74869e;font-size:8px}.document-category-actions{display:flex;align-items:center;gap:7px}.document-category-qr{width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(125,211,252,.18);border-radius:9px;background:rgba(56,189,248,.045);color:#8bdfff;cursor:pointer;transition:.2s ease}.document-category-qr:hover{transform:translateY(-2px);border-color:rgba(125,211,252,.52);background:rgba(56,189,248,.11);box-shadow:0 8px 20px rgba(56,189,248,.09)}
-        .document-card-quick-actions{position:absolute;right:14px;bottom:14px;display:flex;gap:6px;opacity:0;transform:translateY(5px);transition:.22s ease}.document-card:hover .document-card-quick-actions,.document-card:focus-within .document-card-quick-actions{opacity:1;transform:translateY(0)}.document-card-quick-btn{width:33px;height:33px;display:grid;place-items:center;border:1px solid rgba(125,211,252,.18);border-radius:9px;background:rgba(5,10,19,.78);color:#dcefff;cursor:pointer;transition:.2s ease}.document-card-quick-btn:hover{transform:translateY(-2px);border-color:rgba(125,211,252,.55);color:#fff;box-shadow:0 8px 18px rgba(56,189,248,.08)}
-        .qr-modal-v2{position:fixed;inset:0;z-index:3500;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,14,.84);backdrop-filter:blur(11px)}.qr-modal-v2.open{display:flex}.qr-card-v2{width:min(430px,94vw);padding:22px;border:1px solid rgba(125,211,252,.16);border-radius:18px;background:#08101c;box-shadow:0 30px 100px rgba(0,0,0,.6)}.qr-head-v2{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.qr-head-v2 h3{margin:4px 0 0;color:#edf7ff;font-size:20px}.qr-code-v2{width:248px;height:248px;margin:18px auto 13px;padding:10px;display:grid;place-items:center;border-radius:13px;background:#fff}.qr-code-v2 canvas,.qr-code-v2 img{width:228px!important;height:228px!important}.qr-url-v2{margin:0;color:#7b8da5;font-size:9px;line-height:1.5;text-align:center;word-break:break-all}.qr-download-v2{width:100%;margin-top:11px}.qr-close-v2{width:38px;height:38px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:rgba(255,255,255,.03);color:#eaf5ff;cursor:pointer}
-        @media(max-width:1000px){.document-public-stats-v2{grid-template-columns:repeat(2,minmax(0,1fr))}.document-stat-intro{grid-column:1/-1}}
-        @media(max-width:700px){.document-public-stats-v2{grid-template-columns:1fr 1fr}.document-stat-intro{grid-column:1/-1}.document-category-actions{width:100%;justify-content:flex-end}.document-card-quick-actions{opacity:1;transform:none}}
-        @media(max-width:540px){.document-public-stats-v2{grid-template-columns:1fr}.document-stat-intro{grid-column:auto}.document-card-quick-actions{right:10px;bottom:10px}}
-        </style>
+    <style>
+        .document-public-stats{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 16px;color:#8192aa;font-size:12px}
+        .document-public-stats span{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid rgba(148,163,184,.11);border-radius:999px;background:rgba(255,255,255,.025)}
+        .document-public-stats i{color:#60a5fa}
+        .document-toolbar-right{display:flex;align-items:center;gap:9px}
+        .document-sort-wrap,.document-type-filter{min-height:42px;padding:0 11px;border:1px solid rgba(148,163,184,.14);border-radius:11px;background:rgba(5,10,19,.56);color:#8ea0b8;font:inherit}
+        .document-sort-wrap{display:inline-flex;align-items:center;gap:8px}
+        .document-sort-wrap select,.document-type-filter{border:0;outline:0;background:transparent;color:#dcecff;font:inherit;font-size:13px;cursor:pointer}
+        .document-sort-wrap option,.document-type-filter option{background:#0b1220;color:#fff}
+        .document-breadcrumb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px;color:#6f8199;font-size:12px}
+        .document-crumb{border:0;background:transparent;color:#8092aa;cursor:pointer;padding:0;font:inherit}.document-crumb.active{color:#dff1ff;font-weight:800}.document-crumb-sep{opacity:.4}
+        .document-thumb{height:145px;margin:-22px -22px 18px;border-bottom:1px solid rgba(255,255,255,.07);background:linear-gradient(145deg,rgba(56,189,248,.06),rgba(124,58,237,.08));overflow:hidden;display:flex;align-items:center;justify-content:center}.document-thumb img{width:100%;height:100%;object-fit:cover}.document-thumb-placeholder i{font-size:48px;color:#7dd3fc;opacity:.75}
+        .document-type-badge,.document-new-badge{display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:0 8px;border-radius:999px;font-size:9px;font-weight:900;letter-spacing:.7px}.document-type-badge{background:rgba(96,165,250,.09);border:1px solid rgba(96,165,250,.18);color:#bfdbfe}.document-type-badge.exam{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.2);color:#ddd6fe}.document-new-badge{background:rgba(34,197,94,.1);border:1px solid rgba(74,222,128,.22);color:#86efac}.document-card-top-badges{display:flex;align-items:center;gap:6px}
+        .document-tags{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 15px}.document-tags span{padding:4px 7px;border-radius:999px;background:rgba(148,163,184,.06);border:1px solid rgba(148,163,184,.1);color:#91a3ba;font-size:9px}
+        .document-quick-actions{position:absolute;right:14px;bottom:14px;display:flex;gap:5px;opacity:0;transform:translateY(5px);transition:.2s ease}.document-card:hover .document-quick-actions,.document-card:focus-within .document-quick-actions{opacity:1;transform:translateY(0)}.document-quick-btn{width:32px;height:32px;border-radius:9px;border:1px solid rgba(148,163,184,.16);background:rgba(5,10,19,.72);color:#dcecff;cursor:pointer}.document-quick-btn:hover{border-color:rgba(125,211,252,.45);color:#7dd3fc}
+        .document-pagination{display:flex;justify-content:center;align-items:center;gap:6px;margin:26px 0 5px;flex-wrap:wrap}.document-page-btn{width:36px;height:36px;border-radius:9px;border:1px solid rgba(148,163,184,.13);background:rgba(255,255,255,.025);color:#9fb0c7;cursor:pointer}.document-page-btn:hover:not(:disabled),.document-page-btn.active{border-color:rgba(125,211,252,.45);background:rgba(56,189,248,.08);color:#eaf7ff}.document-page-btn:disabled{opacity:.35;cursor:not-allowed}.document-page-ellipsis{color:#64748b;padding:0 3px}
+        .document-subsection-title{display:flex;justify-content:space-between;margin:22px 0 12px;color:#89a0ba;font-size:12px}.document-subsection-title span:last-child{color:#60a5fa}
+        .material-request-section{padding-bottom:70px}.material-request-card{max-width:920px;margin:0 auto;padding:24px;border-radius:18px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(145deg,rgba(14,23,42,.72),rgba(7,12,24,.64))}.material-request-form{display:grid;gap:14px}.material-request-form label{display:block;margin-bottom:6px;font-size:11px;font-weight:800;letter-spacing:.55px;text-transform:uppercase;color:#a8b6c9}.material-request-form input,.material-request-form textarea,.material-request-form select{width:100%;padding:12px 13px;border-radius:10px;border:1px solid rgba(148,163,184,.16);background:rgba(5,10,19,.66);color:#f4f8ff;outline:none;font:inherit}.material-request-form textarea{min-height:120px;resize:vertical}.request-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.request-submit-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.request-status{color:#8ea0b8;font-size:12px}
+        .pdf-modal-inner{max-height:92vh}.pdf-related-wrap{padding:15px 18px 18px;border-top:1px solid rgba(255,255,255,.07)}.pdf-related-title{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#71849b;margin-bottom:10px}.pdf-related-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.pdf-related-card{min-width:0;display:flex;align-items:center;gap:9px;padding:9px;border:1px solid rgba(148,163,184,.1);border-radius:10px;background:rgba(255,255,255,.025);color:#d8e7f6;text-align:left;cursor:pointer}.pdf-related-card:hover{border-color:rgba(125,211,252,.3);background:rgba(56,189,248,.05)}.pdf-related-icon{width:32px;height:32px;flex:0 0 32px;display:grid;place-items:center;border-radius:8px;background:rgba(56,189,248,.07);color:#7dd3fc}.pdf-related-card span:last-child{min-width:0}.pdf-related-card b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}.pdf-related-card small{display:block;margin-top:3px;color:#73849a;font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pdf-related-empty{color:#708199;font-size:12px}
+        .qr-modal{position:fixed;inset:0;z-index:2800;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,6,14,.82);backdrop-filter:blur(10px)}.qr-modal.open{display:flex}.qr-card{width:min(430px,94vw);padding:22px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:#08101c;box-shadow:0 30px 100px rgba(0,0,0,.55)}.qr-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.qr-code{width:240px;height:240px;margin:20px auto 15px;padding:8px;background:#fff;border-radius:12px;display:grid;place-items:center}.qr-code canvas,.qr-code img{width:224px!important;height:224px!important}.qr-url{font-size:10px;color:#7f90a7;word-break:break-all;text-align:center}.qr-download{width:100%;margin-top:9px}.qr-fallback{color:#253247;font-size:12px;text-align:center}
+        @media(max-width:900px){.pdf-related-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+        @media(max-width:700px){.document-stat-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.document-category-actions{width:100%;justify-content:flex-end}.document-category-footer{align-items:flex-start;flex-wrap:wrap}}
 
-<style id="visibility-safety">
-/* =========================================================
-   VISIBILITY SAFETY
-   Nội dung chính không phụ thuộc vào JavaScript để hiển thị.
-========================================================= */
+        @media(max-width:700px){.document-toolbar-right{width:100%;flex-wrap:wrap}.document-sort-wrap,.document-type-filter{flex:1}.request-grid{grid-template-columns:1fr}.document-quick-actions{opacity:1;transform:none}.document-thumb{height:125px}}
+        @media(max-width:540px){.pdf-related-list{grid-template-columns:1fr}.document-toolbar{gap:10px}.document-toolbar-right{gap:7px}.document-public-stats{font-size:10px}}
+    </style>
 
-html, body {
-    min-height: 100%;
+<style>
+
+/* =====================================================
+   PDF CARD - PREVIEW + ACTIONS FIX
+===================================================== */
+.document-card-clickable{
+    overflow:hidden !important;
 }
 
-main {
-    position: relative;
-    z-index: 2;
+.document-card-content-wrap{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) 150px !important;
+    gap:18px !important;
+    align-items:stretch !important;
+    min-height:174px !important;
 }
 
-.hero-content,
-.hero-text,
-.avatar-wrapper,
-.hero-space-scene {
-    position: relative;
+.document-card-info{
+    min-width:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
 }
 
-.hero-content {
-    z-index: 20;
+.document-card-preview{
+    min-width:0 !important;
+    height:174px !important;
+    border-radius:14px !important;
+    overflow:hidden !important;
+    border:1px solid rgba(125,211,252,.16) !important;
+    background:linear-gradient(145deg,rgba(8,18,33,.96),rgba(16,24,44,.88)) !important;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.02),0 12px 26px rgba(0,0,0,.16) !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    position:relative !important;
 }
 
-.hero-text,
-.avatar-wrapper {
-    opacity: 1 !important;
-    visibility: visible !important;
+.document-card-preview::after{
+    content:"TRANG 1";
+    position:absolute !important;
+    left:9px !important;
+    top:9px !important;
+    z-index:2 !important;
+    padding:4px 7px !important;
+    border-radius:999px !important;
+    background:rgba(7,13,24,.78) !important;
+    border:1px solid rgba(255,255,255,.08) !important;
+    color:#9edfff !important;
+    font-size:8px !important;
+    font-weight:900 !important;
+    letter-spacing:.6px !important;
 }
 
-.reveal,
-.reveal.show {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
+.document-preview-canvas{
+    width:100% !important;
+    height:100% !important;
+    display:block !important;
+    object-fit:contain !important;
+    background:#f8fafc !important;
 }
 
-#particleCanvas {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    z-index: 0 !important;
-    pointer-events: none !important;
+.document-preview-loading{
+    position:absolute !important;
+    inset:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:7px !important;
+    color:#71849b !important;
+    font-size:10px !important;
+    pointer-events:none !important;
 }
 
-.cursor-glow {
-    z-index: 1 !important;
-    pointer-events: none !important;
+.document-preview-loading i{
+    color:#60a5fa !important;
+    font-size:20px !important;
 }
 
-.hero-space-scene {
-    z-index: 0;
-    pointer-events: none;
+.document-preview-loading.loaded{
+    opacity:0 !important;
 }
 
-section > .container,
-.hero > .container {
-    position: relative;
-    z-index: 10;
-}
-
-/* Đảm bảo nội dung vẫn thấy ngay cả khi JS/API lỗi */
-#documents,
-#achievements,
-#contact,
-#about,
-#skills,
-#projects {
-    position: relative;
-    z-index: 2;
-}
-
-/* Library fallback */
-.document-toolbar,
-.document-library-heading,
-.document-card,
-.document-empty,
-.document-category-card {
-    position: relative;
-    z-index: 5;
-}
-
-
-/* =========================================================
-   DOCUMENT UI HOTFIX
-========================================================= */
-
-.document-category-footer {
+.document-card-topline{
     display:flex !important;
     align-items:center !important;
     justify-content:space-between !important;
-    gap:16px !important;
-}
-
-.document-category-count {
-    display:inline-flex !important;
-    align-items:center !important;
     gap:10px !important;
-    margin-right:8px !important;
-    white-space:nowrap !important;
-    color:#9eb0c5 !important;
+    margin-bottom:8px !important;
 }
 
-.document-category-count i {
-    flex:0 0 auto !important;
-    margin-right:2px !important;
-}
-
-.document-open-label {
-    display:inline-flex !important;
+.document-card-actions{
+    display:flex !important;
     align-items:center !important;
-    justify-content:center !important;
-    gap:8px !important;
-    min-height:36px !important;
-    padding:0 13px !important;
-    border:1px solid rgba(125,211,252,.24) !important;
-    border-radius:10px !important;
-    background:linear-gradient(135deg,rgba(56,189,248,.07),rgba(124,58,237,.08)) !important;
-    color:#d9efff !important;
-    box-shadow:0 0 0 rgba(56,189,248,0) !important;
-    white-space:nowrap !important;
-    transition:transform .25s ease,border-color .25s ease,background .25s ease,box-shadow .25s ease,color .25s ease !important;
+    justify-content:flex-end !important;
+    gap:7px !important;
+    flex-wrap:nowrap !important;
+    margin-top:auto !important;
+    padding-top:15px !important;
+    border-top:1px solid rgba(255,255,255,.07) !important;
 }
 
-.document-category-card:hover .document-open-label,
-.document-card-clickable:hover .document-open-label {
-    transform:translateY(-2px) !important;
-    border-color:rgba(125,211,252,.58) !important;
-    background:linear-gradient(135deg,rgba(56,189,248,.14),rgba(124,58,237,.15)) !important;
-    color:#ffffff !important;
-    box-shadow:0 8px 25px rgba(56,189,248,.10),0 0 18px rgba(124,58,237,.08) !important;
-}
-
-.document-category-card:hover {
-    border-color:rgba(125,211,252,.24) !important;
-}
-
-.document-backbar {
-    margin:0 0 20px !important;
-    padding:12px !important;
-    border:1px solid rgba(125,211,252,.14) !important;
-    border-radius:14px !important;
-    background:linear-gradient(135deg,rgba(7,16,30,.72),rgba(10,14,32,.68)) !important;
-    box-shadow:0 12px 32px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.03) !important;
-}
-
-.document-back-button {
-    appearance:none !important;
-    -webkit-appearance:none !important;
-    border:1px solid rgba(125,211,252,.28) !important;
-    outline:none !important;
-    display:inline-flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    gap:9px !important;
-    min-height:42px !important;
-    padding:0 15px !important;
+.document-card-action{
+    position:relative !important;
+    inset:auto !important;
+    width:auto !important;
+    min-width:40px !important;
+    height:38px !important;
+    padding:0 12px !important;
     border-radius:11px !important;
-    background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(124,58,237,.10)) !important;
-    color:#e7f6ff !important;
-    font:inherit !important;
-    font-size:13px !important;
-    font-weight:750 !important;
-    line-height:1 !important;
-    text-decoration:none !important;
-    cursor:pointer !important;
-    box-shadow:0 8px 22px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.04) !important;
-    transition:transform .25s ease,border-color .25s ease,background .25s ease,box-shadow .25s ease,color .25s ease !important;
-}
-
-.document-back-button i {
-    margin:0 !important;
-    font-size:12px !important;
-    color:#7dd3fc !important;
-}
-
-.document-back-button:hover {
-    transform:translateX(-3px) translateY(-1px) !important;
-    border-color:rgba(125,211,252,.64) !important;
-    background:linear-gradient(135deg,rgba(56,189,248,.15),rgba(124,58,237,.15)) !important;
-    color:#ffffff !important;
-    box-shadow:0 10px 28px rgba(56,189,248,.10),0 0 22px rgba(124,58,237,.09) !important;
-}
-
-.document-back-button:active {
-    transform:translateX(-1px) scale(.985) !important;
-}
-
-.document-selected-category {
+    border:1px solid rgba(125,211,252,.18) !important;
+    background:rgba(8,18,31,.78) !important;
+    color:#dcecff !important;
     display:inline-flex !important;
     align-items:center !important;
-    min-height:30px !important;
-    padding:0 10px !important;
-    border:1px solid rgba(125,211,252,.10) !important;
-    border-radius:999px !important;
-    background:rgba(56,189,248,.035) !important;
+    justify-content:center !important;
+    gap:7px !important;
+    cursor:pointer !important;
+    font:inherit !important;
+    font-size:11px !important;
+    font-weight:800 !important;
+    transition:transform .22s ease,border-color .22s ease,background .22s ease,box-shadow .22s ease,color .22s ease !important;
 }
 
-@media(max-width:640px){
-    .document-category-footer {
-        align-items:flex-start !important;
-        flex-direction:column !important;
+.document-card-action.icon-only{
+    width:40px !important;
+    padding:0 !important;
+}
+
+.document-card-action:hover{
+    transform:translateY(-2px) !important;
+    border-color:rgba(125,211,252,.48) !important;
+    background:rgba(56,189,248,.09) !important;
+    color:#8fe3ff !important;
+    box-shadow:0 8px 22px rgba(56,189,248,.08) !important;
+}
+
+.document-card-action.open{
+    min-width:118px !important;
+    background:linear-gradient(135deg,rgba(38,106,154,.28),rgba(91,63,164,.22)) !important;
+    border-color:rgba(125,211,252,.44) !important;
+    box-shadow:0 8px 28px rgba(56,189,248,.08) !important;
+}
+
+.document-card-action.open:hover{
+    background:linear-gradient(135deg,rgba(38,134,187,.34),rgba(105,76,192,.3)) !important;
+    box-shadow:0 11px 30px rgba(56,189,248,.13) !important;
+}
+
+.document-card-footer-inline{
+    margin-top:10px !important;
+    color:#73859e !important;
+    font-size:10px !important;
+    line-height:1.45 !important;
+}
+
+.document-card-title-line{
+    display:flex !important;
+    align-items:flex-start !important;
+    gap:8px !important;
+}
+
+.document-card-title-line h3{
+    margin-top:0 !important;
+    flex:1 !important;
+}
+
+.document-card-category,
+.document-card-info p{
+    max-width:100% !important;
+}
+
+/* hide old floating quick action layer */
+.document-quick-actions{
+    display:none !important;
+}
+
+@media(max-width:760px){
+    .document-card-content-wrap{
+        grid-template-columns:1fr !important;
+        gap:14px !important;
     }
-    .document-open-label {
+    .document-card-preview{
+        order:-1 !important;
+        height:190px !important;
+    }
+    .document-card-actions{
+        justify-content:stretch !important;
+    }
+    .document-card-action{
+        flex:1 1 0 !important;
+    }
+    .document-card-action.open{
+        min-width:0 !important;
+    }
+}
+
+@media(max-width:420px){
+    .document-card-actions{
+        display:grid !important;
+        grid-template-columns:44px 44px 1fr !important;
+    }
+    .document-card-action{
         width:100% !important;
+        min-width:0 !important;
     }
-    .document-backbar {
-        align-items:stretch !important;
+    .document-card-action.open{
+        min-width:0 !important;
     }
-    .document-back-button {
-        width:100% !important;
-    }
+}
+
+/* Toast for copy/share feedback */
+.document-copy-toast{
+    position:fixed !important;
+    left:50% !important;
+    bottom:28px !important;
+    z-index:5000 !important;
+    transform:translate(-50%,18px) !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    padding:11px 16px !important;
+    border:1px solid rgba(125,211,252,.26) !important;
+    border-radius:12px !important;
+    background:rgba(7,15,28,.94) !important;
+    box-shadow:0 15px 45px rgba(0,0,0,.32) !important;
+    color:#e9f8ff !important;
+    font-size:12px !important;
+    font-weight:800 !important;
+    transition:.25s ease !important;
+}
+
+.document-copy-toast.show{
+    opacity:1 !important;
+    transform:translate(-50%,0) !important;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -327,6 +363,12 @@ section > .container,
                     <li>
                         <a href="#documents" class="nav-link">
                             Tài liệu
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#material-request" class="nav-link">
+                            Yêu cầu
                         </a>
                     </li>
 
@@ -913,19 +955,18 @@ section > .container,
              DOCUMENT LIBRARY
         ========================== -->
         <section id="documents" class="documents-section">
-
             <div class="container">
 
                 <div class="section-title reveal">
                     <div class="section-kicker">MATH LIBRARY</div>
                     <h2>Tài liệu Toán học</h2>
-                    <p>Chọn một danh mục để xem các tài liệu PDF bên trong</p>
+                    <p>Kho tài liệu, đề thi và chuyên đề được sắp xếp theo danh mục.</p>
                 </div>
 
                 <div class="document-toolbar reveal">
                     <div class="document-search-wrap">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input id="documentSearch" type="search" placeholder="Tìm danh mục..." autocomplete="off">
+                        <input id="documentSearch" type="search" placeholder="Tìm danh mục hoặc tài liệu..." autocomplete="off">
                     </div>
 
                     <div class="document-toolbar-right">
@@ -936,8 +977,15 @@ section > .container,
                                 <option value="oldest">Cũ nhất</option>
                                 <option value="az">A → Z</option>
                                 <option value="za">Z → A</option>
+                                <option value="views">Xem nhiều nhất</option>
                             </select>
                         </label>
+
+                        <select id="documentTypeFilter" class="document-type-filter" hidden aria-label="Loại tài liệu">
+                            <option value="all">Tất cả loại</option>
+                            <option value="document">Tài liệu</option>
+                            <option value="exam">Đề thi</option>
+                        </select>
 
                         <a class="document-admin-link" href="admin.html">
                             <i class="fa-solid fa-lock"></i>
@@ -954,27 +1002,48 @@ section > .container,
                     <div id="documentStatus" class="document-status">Đang tải...</div>
                 </div>
 
-                <div id="publicLibraryStats" class="document-public-stats-v2 reveal" aria-label="Thống kê thư viện">
-                    <div class="document-stat-intro">
-                        <span>LIBRARY OVERVIEW</span>
-                        <strong>Thống kê thư viện</strong>
-                        <small>Dữ liệu cập nhật tự động từ kho tài liệu.</small>
+                <div id="documentStats" class="document-public-stats reveal">
+                    <div class="document-stat-title">
+                        <span>THƯ VIỆN</span>
+                        <strong>Thống kê</strong>
                     </div>
-                    <div class="document-stat-v2"><i class="fa-regular fa-file-lines"></i><b id="publicDocCount">0</b><small>TÀI LIỆU</small></div>
-                    <div class="document-stat-v2"><i class="fa-regular fa-folder-open"></i><b id="publicCategoryCount">0</b><small>DANH MỤC</small></div>
-                    <div class="document-stat-v2"><i class="fa-solid fa-chart-line"></i><b id="publicViewCount">0</b><small>LƯỢT XEM</small></div>
-                    <div class="document-stat-v2"><i class="fa-solid fa-file-circle-check"></i><b id="publicExamCount">0</b><small>ĐỀ THI</small></div>
+                    <div class="document-stat-cards">
+                        <span class="document-stat-card">
+                            <i class="fa-regular fa-file-lines"></i>
+                            <b id="publicDocCount">0</b>
+                            <small>Tài liệu</small>
+                        </span>
+                        <span class="document-stat-card">
+                            <i class="fa-regular fa-folder-open"></i>
+                            <b id="publicCategoryCount">0</b>
+                            <small>Danh mục</small>
+                        </span>
+                        <span class="document-stat-card">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <b id="publicViewCount">0</b>
+                            <small>Lượt xem</small>
+                        </span>
+                        <span class="document-stat-card">
+                            <i class="fa-solid fa-file-circle-check"></i>
+                            <b id="publicExamCount">0</b>
+                            <small>Đề thi</small>
+                        </span>
+                    </div>
                 </div>
+
+                <div id="documentBreadcrumb" class="document-breadcrumb reveal"></div>
 
                 <div id="documentBackbar" class="document-backbar" hidden>
                     <button id="documentBackButton" class="document-back-button" type="button">
                         <i class="fa-solid fa-arrow-left"></i>
-                        Danh mục tài liệu
+                        Quay lại
                     </button>
                     <span id="documentSelectedCategory" class="document-selected-category"></span>
                 </div>
 
                 <div id="documentList" class="document-grid document-category-grid"></div>
+
+                <div id="documentPagination" class="document-pagination" hidden></div>
 
                 <div id="documentEmpty" class="document-empty" hidden>
                     <i class="fa-regular fa-folder-open"></i>
@@ -983,7 +1052,54 @@ section > .container,
                 </div>
 
             </div>
+        </section>
 
+        <!-- =========================
+             MATERIAL REQUEST
+        ========================== -->
+        <section id="material-request" class="material-request-section">
+            <div class="container">
+                <div class="section-title reveal">
+                    <div class="section-kicker">REQUEST A MATERIAL</div>
+                    <h2>Không tìm thấy tài liệu?</h2>
+                    <p>Gửi yêu cầu, tôi sẽ xem xét bổ sung tài liệu phù hợp vào thư viện.</p>
+                </div>
+
+                <div class="material-request-card reveal">
+                    <form id="materialRequestForm" class="material-request-form">
+                        <div class="request-grid">
+                            <div>
+                                <label for="requestName">Tên của bạn</label>
+                                <input id="requestName" type="text" maxlength="100" placeholder="Không bắt buộc">
+                            </div>
+                            <div>
+                                <label for="requestEmail">Email</label>
+                                <input id="requestEmail" type="email" maxlength="160" placeholder="Không bắt buộc">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="requestCategory">Danh mục</label>
+                            <select id="requestCategory">
+                                <option value="">-- Chọn danh mục --</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="requestText">Bạn đang cần tài liệu gì?</label>
+                            <textarea id="requestText" maxlength="1000" required placeholder="Ví dụ: Em cần bộ đề ôn thi THPT chuyên đề Hàm số..."></textarea>
+                        </div>
+
+                        <div class="request-submit-row">
+                            <button class="btn btn-primary" type="submit">
+                                <span>Gửi yêu cầu</span>
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                            <span id="requestStatus" class="request-status"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </section>
 
         <!-- =========================
@@ -1335,21 +1451,6 @@ section > .container,
         </section>
 
 
-        <div id="qrModalV2" class="qr-modal-v2" aria-hidden="true" role="dialog" aria-modal="true">
-            <div class="qr-card-v2" onclick="event.stopPropagation()">
-                <div class="qr-head-v2">
-                    <div>
-                        <div class="pdf-modal-kicker">SCAN TO OPEN</div>
-                        <h3 id="qrTitleV2">Tài liệu</h3>
-                    </div>
-                    <button id="qrCloseV2" class="qr-close-v2" type="button" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-                <div id="qrCodeV2" class="qr-code-v2"></div>
-                <p id="qrUrlV2" class="qr-url-v2"></p>
-                <button id="qrDownloadV2" class="document-action secondary qr-download-v2" type="button"><i class="fa-solid fa-download"></i> Tải QR</button>
-            </div>
-        </div>
-
         <div id="pdfModal" class="pdf-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Xem tài liệu PDF">
             <div class="pdf-modal-inner" onclick="event.stopPropagation()">
                 <div class="pdf-modal-head">
@@ -1358,6 +1459,14 @@ section > .container,
                         <h3 id="pdfModalTitle">Tài liệu</h3>
                     </div>
                     <div class="pdf-modal-actions">
+                        <button id="pdfShare" class="document-action secondary" type="button">
+                            <i class="fa-solid fa-share-nodes"></i>
+                            Chia sẻ
+                        </button>
+                        <button id="pdfQr" class="document-action secondary" type="button">
+                            <i class="fa-solid fa-qrcode"></i>
+                            QR
+                        </button>
                         <a id="pdfDownload" class="document-action secondary" href="#" target="_blank" rel="noopener noreferrer">
                             <i class="fa-solid fa-download"></i>
                             Tải xuống
@@ -1366,6 +1475,28 @@ section > .container,
                     </div>
                 </div>
                 <div class="pdf-frame-wrap"><iframe id="pdfFrame" title="Trình xem PDF" src="about:blank"></iframe></div>
+                <div class="pdf-related-wrap">
+                    <div class="pdf-related-title">Tài liệu liên quan</div>
+                    <div id="pdfRelatedList" class="pdf-related-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="qrModal" class="qr-modal" aria-hidden="true" role="dialog" aria-modal="true">
+            <div class="qr-card" onclick="event.stopPropagation()">
+                <div class="qr-head">
+                    <div>
+                        <div class="pdf-modal-kicker">SCAN TO OPEN</div>
+                        <h3 id="qrTitle">Tài liệu</h3>
+                    </div>
+                    <button id="qrClose" class="pdf-close" type="button" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="qrCode" class="qr-code"></div>
+                <p id="qrUrl" class="qr-url"></p>
+                <button id="qrDownload" class="admin-btn qr-download" type="button">
+                    <i class="fa-solid fa-download"></i>
+                    Tải QR
+                </button>
             </div>
         </div>
 
@@ -1400,11 +1531,12 @@ section > .container,
          JAVASCRIPT
     ========================== -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
 
         /* =========================================
-           SUPABASE DOCUMENT LIBRARY
+           MATH LIBRARY V3
         ========================================== */
 
         const SUPABASE_URL = "https://uiyqdqucqplifcvukwul.supabase.co";
@@ -1415,6 +1547,10 @@ section > .container,
         let libraryCategories = [];
         let activeDocumentCategoryId = null;
         let documentSortMode = "newest";
+        let documentTypeMode = "all";
+        let documentCurrentPage = 1;
+        let documentPageSize = 12;
+        let currentDocument = null;
 
         const documentIconMap = {
             "Lớp 10": "fa-calculator",
@@ -1422,13 +1558,8 @@ section > .container,
             "Lớp 12": "fa-square-root-variable",
             "Ôn thi vào 10": "fa-graduation-cap",
             "Ôn thi THPT": "fa-award",
-            "Chuyên đề": "fa-book-open",
-            "default": "fa-folder-open"
+            "Chuyên đề": "fa-book-open"
         };
-
-        function getCategoryIcon(categoryName) {
-            return documentIconMap[categoryName] || documentIconMap.default;
-        }
 
         function escapeHtml(value) {
             return String(value ?? "")
@@ -1437,6 +1568,10 @@ section > .container,
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
+        }
+
+        function getCategoryIcon(name) {
+            return documentIconMap[name] || "fa-folder-open";
         }
 
         function formatDocumentDate(value) {
@@ -1450,29 +1585,405 @@ section > .container,
             }).format(date);
         }
 
-        function getPublicPdfUrl(filePath) {
-            if (!filePath) return "";
-            return supabaseClient.storage.from("math-pdfs").getPublicUrl(filePath).data.publicUrl;
-        }
-
-        let currentQrPayload = null;
-
         function formatNumber(value) {
             return new Intl.NumberFormat("vi-VN").format(Number(value) || 0);
         }
 
-        function updatePublicStats() {
-            const docs = document.getElementById("publicDocCount");
-            const cats = document.getElementById("publicCategoryCount");
-            const views = document.getElementById("publicViewCount");
-            const exams = document.getElementById("publicExamCount");
-            if (docs) docs.textContent = formatNumber(libraryDocuments.length);
-            if (cats) cats.textContent = formatNumber(libraryCategories.length);
-            if (views) views.textContent = formatNumber(libraryDocuments.reduce((sum, item) => sum + (Number(item.view_count) || 0), 0));
-            if (exams) exams.textContent = formatNumber(libraryDocuments.filter(item => item.document_type === "exam").length);
+        function getPublicPdfUrl(path) {
+            if (!path) return "";
+            return supabaseClient.storage.from("math-pdfs").getPublicUrl(path).data.publicUrl;
         }
 
-        function shareUrlForDocument(id) {
+        function getPublicStorageUrl(path) {
+            if (!path) return "";
+            return supabaseClient.storage.from("math-pdfs").getPublicUrl(path).data.publicUrl;
+        }
+
+        function getChildren(categoryId) {
+            return libraryCategories.filter(category => String(category.parent_id || "") === String(categoryId || ""));
+        }
+
+        function getDescendantCategoryIds(categoryId) {
+            const ids = [String(categoryId)];
+            const walk = (id) => {
+                getChildren(id).forEach(child => {
+                    ids.push(String(child.id));
+                    walk(child.id);
+                });
+            };
+            walk(categoryId);
+            return ids;
+        }
+
+        function getCategoryPath(categoryId) {
+            const path = [];
+            let current = libraryCategories.find(c => String(c.id) === String(categoryId));
+            while (current) {
+                path.unshift(current);
+                current = libraryCategories.find(c => String(c.id) === String(current.parent_id || ""));
+            }
+            return path;
+        }
+
+        function countDocsForCategory(categoryId) {
+            const ids = new Set(getDescendantCategoryIds(categoryId));
+            return libraryDocuments.filter(doc => ids.has(String(doc.category_id))).length;
+        }
+
+        function setDocumentFiltersVisible(visible) {
+            const sortWrap = document.getElementById("documentSortWrap");
+            const typeFilter = document.getElementById("documentTypeFilter");
+            if (sortWrap) sortWrap.hidden = !visible;
+            if (typeFilter) typeFilter.hidden = !visible;
+        }
+
+        function renderBreadcrumb() {
+            const root = document.getElementById("documentBreadcrumb");
+            if (!root) return;
+            const path = activeDocumentCategoryId ? getCategoryPath(activeDocumentCategoryId) : [];
+            if (!path.length) {
+                root.innerHTML = '<button type="button" class="document-crumb active"><i class="fa-solid fa-house"></i> Danh mục</button>';
+                return;
+            }
+            root.innerHTML = '<button type="button" class="document-crumb" data-breadcrumb-id="root">Danh mục</button>' +
+                path.map((item, index) => {
+                    const active = index === path.length - 1 ? "active" : "";
+                    return `<span class="document-crumb-sep">/</span><button type="button" class="document-crumb ${active}" data-breadcrumb-id="${escapeHtml(item.id)}">${escapeHtml(item.name)}</button>`;
+                }).join("");
+
+            root.querySelectorAll("[data-breadcrumb-id]").forEach(button => {
+                button.addEventListener("click", () => {
+                    const id = button.dataset.breadcrumbId;
+                    if (id === "root") setCategoryView(null);
+                    else setCategoryView(id);
+                });
+            });
+        }
+
+        function setCategoryView(categoryId, page = 1) {
+            activeDocumentCategoryId = categoryId == null ? null : String(categoryId);
+            documentCurrentPage = page;
+            const searchInput = document.getElementById("documentSearch");
+            if (searchInput) {
+                searchInput.value = "";
+                searchInput.placeholder = activeDocumentCategoryId ? "Tìm tài liệu trong danh mục..." : "Tìm danh mục hoặc tài liệu...";
+            }
+            renderDocumentLibrary();
+        }
+
+        function isNewDocument(createdAt) {
+            if (!createdAt) return false;
+            const age = Date.now() - new Date(createdAt).getTime();
+            return age >= 0 && age <= 1000 * 60 * 60 * 24 * 14;
+        }
+
+        function sortDocuments(documents) {
+            const items = [...documents];
+            items.sort((a, b) => {
+                if (documentSortMode === "oldest") return new Date(a.created_at || 0) - new Date(b.created_at || 0);
+                if (documentSortMode === "az") return String(a.title || "").localeCompare(String(b.title || ""), "vi", { sensitivity: "base" });
+                if (documentSortMode === "za") return String(b.title || "").localeCompare(String(a.title || ""), "vi", { sensitivity: "base" });
+                if (documentSortMode === "views") return (Number(b.view_count) || 0) - (Number(a.view_count) || 0);
+                const created = new Date(b.created_at || 0) - new Date(a.created_at || 0);
+                return created !== 0 ? created : (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0);
+            });
+            return items;
+        }
+
+        function renderPagination(total) {
+            const root = document.getElementById("documentPagination");
+            if (!root) return;
+            const pages = Math.max(1, Math.ceil(total / documentPageSize));
+            if (pages <= 1) {
+                root.hidden = true;
+                root.innerHTML = "";
+                return;
+            }
+            root.hidden = false;
+            const buttons = [];
+            buttons.push(`<button type="button" class="document-page-btn" data-page="${Math.max(1, documentCurrentPage - 1)}" ${documentCurrentPage === 1 ? "disabled" : ""}><i class="fa-solid fa-chevron-left"></i></button>`);
+            for (let p = 1; p <= pages; p++) {
+                if (pages > 8 && p > 3 && p < pages - 2 && Math.abs(p - documentCurrentPage) > 1) {
+                    if (!buttons.some(x => x.includes('ellipsis'))) buttons.push('<span class="document-page-ellipsis">…</span>');
+                    continue;
+                }
+                buttons.push(`<button type="button" class="document-page-btn ${p === documentCurrentPage ? "active" : ""}" data-page="${p}">${p}</button>`);
+            }
+            buttons.push(`<button type="button" class="document-page-btn" data-page="${Math.min(pages, documentCurrentPage + 1)}" ${documentCurrentPage === pages ? "disabled" : ""}><i class="fa-solid fa-chevron-right"></i></button>`);
+            root.innerHTML = buttons.join("");
+            root.querySelectorAll("[data-page]").forEach(btn => btn.addEventListener("click", () => {
+                if (btn.disabled) return;
+                documentCurrentPage = Number(btn.dataset.page);
+                renderDocumentLibrary();
+                document.getElementById("documentList")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }));
+        }
+
+        function renderCategoryCards(categories) {
+            const list = document.getElementById("documentList");
+            const empty = document.getElementById("documentEmpty");
+            const status = document.getElementById("documentStatus");
+            const title = document.getElementById("documentViewTitle");
+            const backbar = document.getElementById("documentBackbar");
+            const searchInput = document.getElementById("documentSearch");
+            if (!list || !empty || !status || !title || !backbar) return;
+
+            title.textContent = activeDocumentCategoryId ? (libraryCategories.find(c => String(c.id) === String(activeDocumentCategoryId))?.name || "Danh mục") : "Danh mục tài liệu";
+            backbar.hidden = !activeDocumentCategoryId;
+            setDocumentFiltersVisible(false);
+            renderBreadcrumb();
+            status.textContent = `${categories.length} danh mục`;
+            if (!categories.length) {
+                list.innerHTML = "";
+                empty.hidden = false;
+                empty.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><h3>Không tìm thấy danh mục</h3><p>Hãy thử với từ khóa khác.</p>';
+                renderPagination(0);
+                return;
+            }
+            empty.hidden = true;
+            list.className = "document-grid document-category-grid";
+            list.innerHTML = categories.map(category => {
+                const count = countDocsForCategory(category.id);
+                const childCount = getChildren(category.id).length;
+                const icon = getCategoryIcon(category.name);
+                return `<article class="document-card document-category-card reveal show" tabindex="0" role="button" data-category-id="${escapeHtml(category.id)}">
+                    <div class="document-card-glow"></div>
+                    <div class="document-category-icon"><i class="fa-solid ${escapeHtml(icon)}"></i></div>
+                    <div class="document-card-category">${childCount ? "FOLDER" : "CATEGORY"}</div>
+                    <h3>${escapeHtml(category.name)}</h3>
+                    <p>${escapeHtml(category.description || "Tài liệu học tập và luyện tập môn Toán.")}</p>
+                    <div class="document-category-footer">
+                        <span class="document-category-count"><i class="fa-regular fa-file-lines"></i>${count} tài liệu</span>
+                        <span class="document-open-label">${childCount ? "Mở thư mục" : "Xem tài liệu"} <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </article>`;
+            }).join("");
+            list.querySelectorAll("[data-category-id]").forEach(card => {
+                const open = () => setCategoryView(card.dataset.categoryId);
+                card.addEventListener("click", event => {
+                    if (event.target.closest("[data-category-qr]")) return;
+                    open();
+                });
+                card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+            });
+            list.querySelectorAll("[data-category-qr]").forEach(button => {
+                button.addEventListener("click", event => {
+                    event.stopPropagation();
+                    const category = libraryCategories.find(c => String(c.id) === String(button.dataset.categoryQr));
+                    if (category) openQrForCategory(category);
+                });
+            });
+            renderPagination(0);
+        }
+
+        function renderDocumentCard(item, categoryName) {
+            const url = getPublicPdfUrl(item.file_path);
+            const isExam = item.document_type === "exam";
+            const newBadge = isNewDocument(item.created_at) ? '<span class="document-new-badge">MỚI</span>' : '';
+            const typeBadge = isExam ? '<span class="document-type-badge exam">ĐỀ THI</span>' : '<span class="document-type-badge">PDF</span>';
+            const tags = Array.isArray(item.tags) ? item.tags.filter(Boolean).slice(0, 4) : [];
+            const tagHtml = tags.length ? `<div class="document-tags">${tags.map(tag => `<span>${escapeHtml(tag)}</span>`).join("")}</div>` : "";
+            const meta = [
+                formatDocumentDate(item.created_at),
+                isExam && item.exam_year ? `Năm ${item.exam_year}` : "",
+                isExam && item.duration_minutes ? `${item.duration_minutes} phút` : "",
+                `${formatNumber(item.view_count)} lượt xem`
+            ].filter(Boolean).join(" · ");
+            const title = item.title || item.file_name || "Tài liệu không có tiêu đề";
+            const previewId = `pdf-preview-${item.id}`;
+            return `<article class="document-card document-card-clickable reveal show" tabindex="0" role="button" data-document-id="${item.id}" data-url="${escapeHtml(url)}" data-title="${escapeHtml(title)}">
+                <div class="document-card-glow"></div>
+                <div class="document-card-content-wrap">
+                    <div class="document-card-info">
+                        <div class="document-card-topline">
+                            <div class="document-card-top-badges">${typeBadge}${newBadge}</div>
+                        </div>
+                        <div class="document-card-category">${escapeHtml(categoryName || "Tài liệu")}</div>
+                        <div class="document-card-title-line">
+                            <h3>${escapeHtml(title)}</h3>
+                        </div>
+                        <p>${escapeHtml(item.description || "Tài liệu học tập và luyện tập môn Toán.")}</p>
+                        ${tagHtml}
+                        <div class="document-card-footer-inline">
+                            ${escapeHtml(meta)}
+                        </div>
+                        <div class="document-card-actions">
+                            <button type="button" class="document-card-action icon-only" data-share-id="${item.id}" aria-label="Sao chép liên kết" title="Sao chép liên kết">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+                            <button type="button" class="document-card-action icon-only" data-qr-id="${item.id}" aria-label="Tạo QR" title="Tạo QR">
+                                <i class="fa-solid fa-qrcode"></i>
+                            </button>
+                            <button type="button" class="document-card-action open" data-open-id="${item.id}" aria-label="Mở tài liệu">
+                                Mở tài liệu
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="document-card-preview" data-pdf-preview="${escapeHtml(url)}">
+                        <div class="document-preview-loading" id="${previewId}-loading">
+                            <i class="fa-regular fa-file-pdf"></i>
+                            <span>Đang tạo xem trước...</span>
+                        </div>
+                        <canvas id="${previewId}" class="document-preview-canvas" aria-label="Trang đầu của PDF"></canvas>
+                    </div>
+                </div>
+            </article>`;
+        }
+
+        function matchesDocumentSearch(item, keyword) {
+            if (!keyword) return true;
+            const haystack = [item.title, item.description, item.file_name, ...(Array.isArray(item.tags) ? item.tags : []), item.math_categories?.name].filter(Boolean).join(" ").toLowerCase();
+            return haystack.includes(keyword);
+        }
+
+        function renderDocuments(items, titleText, statusPrefix = "") {
+            const list = document.getElementById("documentList");
+            const empty = document.getElementById("documentEmpty");
+            const status = document.getElementById("documentStatus");
+            const heading = document.getElementById("documentViewTitle");
+            const backbar = document.getElementById("documentBackbar");
+            const selected = document.getElementById("documentSelectedCategory");
+            if (!list || !empty || !status || !heading || !backbar) return;
+            heading.textContent = titleText;
+            backbar.hidden = !activeDocumentCategoryId;
+            renderBreadcrumb();
+            setDocumentFiltersVisible(true);
+            const keyword = (document.getElementById("documentSearch")?.value || "").trim().toLowerCase();
+            let filtered = items.filter(item => {
+                if (documentTypeMode !== "all" && item.document_type !== documentTypeMode) return false;
+                return matchesDocumentSearch(item, keyword);
+            });
+            filtered = sortDocuments(filtered);
+            status.textContent = `${filtered.length}${statusPrefix ? " · " + statusPrefix : ""} tài liệu`;
+            if (selected) selected.textContent = statusPrefix;
+            if (!filtered.length) {
+                list.innerHTML = "";
+                empty.hidden = false;
+                empty.innerHTML = '<i class="fa-regular fa-folder-open"></i><h3>Chưa có tài liệu phù hợp</h3><p>Danh mục này chưa có PDF hoặc không có kết quả theo từ khóa.</p>';
+                renderPagination(0);
+                return;
+            }
+            empty.hidden = true;
+            const start = (documentCurrentPage - 1) * documentPageSize;
+            const pageItems = filtered.slice(start, start + documentPageSize);
+            list.className = "document-grid document-pdf-grid";
+            list.innerHTML = pageItems.map(item => renderDocumentCard(item, item.math_categories?.name)).join("");
+            renderPagination(filtered.length);
+            bindDocumentCards();
+        }
+
+        function renderGlobalSearch(keyword) {
+            const query = keyword.trim().toLowerCase();
+            if (!query) {
+                renderCategoryMenu();
+                return;
+            }
+            activeDocumentCategoryId = null;
+            setDocumentFiltersVisible(true);
+            const matching = libraryDocuments.filter(item => {
+                if (documentTypeMode !== "all" && item.document_type !== documentTypeMode) return false;
+                return matchesDocumentSearch(item, query);
+            });
+            const list = document.getElementById("documentList");
+            const empty = document.getElementById("documentEmpty");
+            const status = document.getElementById("documentStatus");
+            const heading = document.getElementById("documentViewTitle");
+            const backbar = document.getElementById("documentBackbar");
+            const typeFilter = document.getElementById("documentTypeFilter");
+            if (typeFilter) typeFilter.hidden = false;
+            backbar.hidden = true;
+            renderBreadcrumb();
+            heading.textContent = "Kết quả tìm kiếm toàn thư viện";
+            status.textContent = `${matching.length} tài liệu`;
+            if (!matching.length) {
+                list.innerHTML = "";
+                empty.hidden = false;
+                empty.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><h3>Không tìm thấy tài liệu</h3><p>Hãy thử từ khóa khác.</p>';
+                renderPagination(0);
+                return;
+            }
+            empty.hidden = true;
+            const sorted = sortDocuments(matching);
+            const start = (documentCurrentPage - 1) * documentPageSize;
+            const pageItems = sorted.slice(start, start + documentPageSize);
+            list.className = "document-grid document-pdf-grid";
+            list.innerHTML = pageItems.map(item => renderDocumentCard(item, item.math_categories?.name)).join("");
+            renderPagination(sorted.length);
+            bindDocumentCards();
+        }
+
+        function renderCategoryMenu() {
+            const searchInput = document.getElementById("documentSearch");
+            const keyword = (searchInput?.value || "").trim().toLowerCase();
+            const rootCategories = libraryCategories.filter(category => !category.parent_id);
+            const visibleCategories = rootCategories.filter(category => !keyword || [category.name, category.description, category.slug].filter(Boolean).join(" ").toLowerCase().includes(keyword));
+            documentCurrentPage = 1;
+            if (keyword) {
+                renderGlobalSearch(keyword);
+                return;
+            }
+            renderCategoryCards(visibleCategories);
+        }
+
+        function renderActiveCategory() {
+            const category = libraryCategories.find(c => String(c.id) === String(activeDocumentCategoryId));
+            if (!category) {
+                activeDocumentCategoryId = null;
+                renderCategoryMenu();
+                return;
+            }
+            const children = getChildren(category.id);
+            const descendantIds = new Set(getDescendantCategoryIds(category.id));
+            const docs = libraryDocuments.filter(item => descendantIds.has(String(item.category_id)));
+            const selectedCategory = document.getElementById("documentSelectedCategory");
+            if (selectedCategory) selectedCategory.textContent = `${countDocsForCategory(category.id)} tài liệu`;
+            if (children.length) {
+                renderCategoryCards(children);
+                const directDocs = libraryDocuments.filter(item => String(item.category_id) === String(category.id));
+                if (directDocs.length) {
+                    const list = document.getElementById("documentList");
+                    const divider = document.createElement("div");
+                    divider.className = "document-subsection-title";
+                    divider.innerHTML = `<span>Tài liệu trực tiếp</span><span>${directDocs.length}</span>`;
+                    list.parentNode.insertBefore(divider, list.nextSibling);
+                }
+                return;
+            }
+            renderDocuments(docs, category.name, category.name);
+        }
+
+        function renderDocumentLibrary() {
+            if (activeDocumentCategoryId == null) renderCategoryMenu();
+            else renderActiveCategory();
+        }
+
+        function goBackToParent() {
+            if (!activeDocumentCategoryId) return;
+            const category = libraryCategories.find(c => String(c.id) === String(activeDocumentCategoryId));
+            setCategoryView(category?.parent_id || null);
+        }
+
+        async function trackView(documentId) {
+            try {
+                const { data } = await supabaseClient.rpc("increment_document_view", { p_document_id: documentId });
+                const item = libraryDocuments.find(doc => Number(doc.id) === Number(documentId));
+                if (item && data != null) item.view_count = Number(data);
+                updatePublicStats();
+            } catch (error) {
+                console.warn("Could not track document view", error);
+            }
+        }
+
+        function updatePublicStats() {
+            document.getElementById("publicDocCount").textContent = formatNumber(libraryDocuments.length);
+            document.getElementById("publicCategoryCount").textContent = formatNumber(libraryCategories.length);
+            const totalViews = libraryDocuments.reduce((sum, item) => sum + (Number(item.view_count) || 0), 0);
+            document.getElementById("publicViewCount").textContent = formatNumber(totalViews);
+            document.getElementById("publicExamCount").textContent = formatNumber(libraryDocuments.filter(item => item.document_type === "exam").length);
+        }
+
+        function shareUrlFor(id) {
             const url = new URL(window.location.href);
             url.searchParams.set("doc", id);
             url.searchParams.delete("category");
@@ -1480,88 +1991,166 @@ section > .container,
             return url.toString();
         }
 
-        function shareUrlForCategory(id) {
+        function shareCategoryUrl(categoryId) {
             const url = new URL(window.location.href);
             url.searchParams.delete("doc");
-            url.searchParams.set("category", id);
+            url.searchParams.set("category", categoryId);
             url.hash = "documents";
             return url.toString();
         }
 
-        async function shareCurrentDocument(item) {
-            if (!item) return;
-            const url = shareUrlForDocument(item.id);
-            const title = item.title || item.file_name || "Tài liệu Toán học";
-            try {
-                if (navigator.share) {
-                    await navigator.share({ title, text: `Tài liệu Toán học: ${title}`, url });
-                } else if (navigator.clipboard) {
-                    await navigator.clipboard.writeText(url);
-                    alert("Đã sao chép liên kết tài liệu.");
-                }
-            } catch (error) {
-                if (error?.name !== "AbortError" && navigator.clipboard) {
-                    try { await navigator.clipboard.writeText(url); alert("Đã sao chép liên kết tài liệu."); } catch (_) {}
-                }
-            }
-        }
-
-        function openQrPayload(title, url) {
-            const modal = document.getElementById("qrModalV2");
-            const qr = document.getElementById("qrCodeV2");
-            const titleEl = document.getElementById("qrTitleV2");
-            const urlEl = document.getElementById("qrUrlV2");
+        function openQrForCategory(category) {
+            if (!category) return;
+            qrTarget = { title: category.name, url: shareCategoryUrl(category.id) };
+            const modal = document.getElementById("qrModal");
+            const qr = document.getElementById("qrCode");
+            const title = document.getElementById("qrTitle");
+            const urlEl = document.getElementById("qrUrl");
             if (!modal || !qr) return;
-            currentQrPayload = { title: title || "Tài liệu", url };
-            titleEl.textContent = title || "Tài liệu";
-            urlEl.textContent = url;
+            title.textContent = category.name || "Danh mục";
+            urlEl.textContent = qrTarget.url;
             qr.innerHTML = "";
             if (window.QRCode) {
-                new QRCode(qr, { text: url, width: 228, height: 228, correctLevel: QRCode.CorrectLevel.M });
+                new QRCode(qr, { text: qrTarget.url, width: 240, height: 240, correctLevel: QRCode.CorrectLevel.M });
             }
             modal.classList.add("open");
             modal.setAttribute("aria-hidden", "false");
         }
 
-        function openQrForDocument(item) {
+        function showCopyToast(message) {
+            let toast = document.getElementById("documentCopyToast");
+            if (!toast) {
+                toast = document.createElement("div");
+                toast.id = "documentCopyToast";
+                toast.className = "document-copy-toast";
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.classList.add("show");
+            clearTimeout(window.__documentCopyToastTimer);
+            window.__documentCopyToastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+        }
+
+        async function copyText(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+                return true;
+            }
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+            textarea.setAttribute("readonly", "");
+            document.body.appendChild(textarea);
+            textarea.select();
+            textarea.setSelectionRange(0, textarea.value.length);
+            const ok = document.execCommand("copy");
+            textarea.remove();
+            return ok;
+        }
+
+        async function shareDocument(item) {
             if (!item) return;
-            openQrPayload(item.title || item.file_name || "Tài liệu", shareUrlForDocument(item.id));
+            const url = shareUrlFor(item.id);
+            try {
+                const copied = await copyText(url);
+                if (copied) {
+                    showCopyToast("✓ Đã sao chép đường link, liên kết");
+                } else {
+                    showCopyToast("Không thể sao chép liên kết");
+                }
+            } catch (error) {
+                console.error("Copy link failed:", error);
+                showCopyToast("Không thể sao chép liên kết");
+            }
         }
 
-        function openQrForCategory(category) {
-            if (!category) return;
-            openQrPayload(category.name || "Danh mục", shareUrlForCategory(category.id));
+        let qrTarget = null;
+        function openQr(item) {
+            if (!item) return;
+            qrTarget = { title: item.title || item.file_name || "Tài liệu", url: shareUrlFor(item.id) };
+            const modal = document.getElementById("qrModal");
+            const qr = document.getElementById("qrCode");
+            const title = document.getElementById("qrTitle");
+            const urlEl = document.getElementById("qrUrl");
+            if (!modal || !qr) return;
+            title.textContent = qrTarget.title;
+            urlEl.textContent = qrTarget.url;
+            qr.innerHTML = "";
+            if (window.QRCode) {
+                new QRCode(qr, { text: qrTarget.url, width: 240, height: 240, correctLevel: QRCode.CorrectLevel.M });
+            } else {
+                qr.innerHTML = '<div class="qr-fallback">Không tải được thư viện QR. Hãy tải lại trang.</div>';
+            }
+            modal.classList.add("open");
+            modal.setAttribute("aria-hidden", "false");
         }
 
-        function closeQrV2() {
-            const modal = document.getElementById("qrModalV2");
+        function closeQr() {
+            const modal = document.getElementById("qrModal");
             if (!modal) return;
             modal.classList.remove("open");
             modal.setAttribute("aria-hidden", "true");
-            currentQrPayload = null;
         }
 
-        function downloadQrV2() {
-            const canvas = document.querySelector("#qrCodeV2 canvas");
-            if (!canvas || !currentQrPayload) return;
+        function downloadQr() {
+            const canvas = document.querySelector("#qrCode canvas");
+            if (!canvas || !qrTarget) return;
             const a = document.createElement("a");
             a.href = canvas.toDataURL("image/png");
-            a.download = `${(currentQrPayload.title || "qr").replace(/[^a-zA-Z0-9-_]+/g, "-")}-QR.png`;
+            a.download = `${(qrTarget.title || "tai-lieu").replace(/[^a-zA-Z0-9\-_]+/g, "-")}-QR.png`;
             a.click();
         }
 
-        function openPdfViewer(title, url) {
+        function relatedDocuments(item) {
+            if (!item) return [];
+            const tags = new Set(Array.isArray(item.tags) ? item.tags.map(x => String(x).toLowerCase()) : []);
+            return libraryDocuments
+                .filter(other => Number(other.id) !== Number(item.id))
+                .map(other => {
+                    let score = 0;
+                    if (String(other.category_id) === String(item.category_id)) score += 4;
+                    const otherTags = Array.isArray(other.tags) ? other.tags : [];
+                    otherTags.forEach(tag => { if (tags.has(String(tag).toLowerCase())) score += 2; });
+                    if (other.document_type === item.document_type) score += 1;
+                    return { item: other, score };
+                })
+                .filter(x => x.score > 0)
+                .sort((a,b) => b.score - a.score || (Number(b.item.view_count)||0) - (Number(a.item.view_count)||0))
+                .slice(0, 4)
+                .map(x => x.item);
+        }
+
+        function renderRelatedDocuments(item) {
+            const root = document.getElementById("pdfRelatedList");
+            if (!root) return;
+            const related = relatedDocuments(item);
+            root.innerHTML = related.length ? related.map(doc => `<button type="button" class="pdf-related-card" data-related-id="${doc.id}"><span class="pdf-related-icon"><i class="fa-solid ${doc.document_type === "exam" ? "fa-file-circle-check" : "fa-file-pdf"}"></i></span><span><b>${escapeHtml(doc.title || doc.file_name || "Tài liệu")}</b><small>${escapeHtml(doc.math_categories?.name || "Tài liệu")}</small></span></button>`).join("") : '<div class="pdf-related-empty">Chưa có tài liệu liên quan.</div>';
+            root.querySelectorAll("[data-related-id]").forEach(btn => btn.addEventListener("click", () => {
+                const doc = libraryDocuments.find(d => Number(d.id) === Number(btn.dataset.relatedId));
+                if (doc) openPdfViewer(doc);
+            }));
+        }
+
+        function openPdfViewer(item) {
+            if (!item?.file_path) return;
+            currentDocument = item;
             const modal = document.getElementById("pdfModal");
             const frame = document.getElementById("pdfFrame");
             const modalTitle = document.getElementById("pdfModalTitle");
             const download = document.getElementById("pdfDownload");
-            if (!modal || !frame || !modalTitle || !download || !url) return;
-            modalTitle.textContent = title || "Tài liệu";
-            frame.src = url;
-            download.href = url;
+            if (!modal || !frame || !modalTitle || !download) return;
+            modalTitle.textContent = item.title || item.file_name || "Tài liệu";
+            frame.src = getPublicPdfUrl(item.file_path);
+            download.href = getPublicPdfUrl(item.file_path);
             modal.classList.add("open");
             modal.setAttribute("aria-hidden", "false");
             document.body.classList.add("modal-open");
+            renderRelatedDocuments(item);
+            trackView(item.id);
+            const url = new URL(window.location.href);
+            url.searchParams.set("doc", item.id);
+            window.history.replaceState({}, "", url.toString());
         }
 
         function closePdfViewer() {
@@ -1572,290 +2161,200 @@ section > .container,
             modal.setAttribute("aria-hidden", "true");
             document.body.classList.remove("modal-open");
             if (frame) frame.src = "about:blank";
+            currentDocument = null;
+            const url = new URL(window.location.href);
+            url.searchParams.delete("doc");
+            history.replaceState({}, "", `${url.pathname}${url.search}${url.hash || "#documents"}`);
         }
 
-        function getActiveCategory() {
-            return libraryCategories.find(function (category) {
-                return String(category.id) === String(activeDocumentCategoryId);
-            }) || null;
-        }
-
-        function setCategoryView(categoryId) {
-            activeDocumentCategoryId = categoryId == null ? null : String(categoryId);
-            const searchInput = document.getElementById("documentSearch");
-            const sortWrap = document.getElementById("documentSortWrap");
-            if (searchInput) {
-                searchInput.value = "";
-                searchInput.placeholder = activeDocumentCategoryId ? "Tìm tài liệu trong danh mục..." : "Tìm danh mục...";
-            }
-            if (sortWrap) sortWrap.hidden = activeDocumentCategoryId == null;
-            renderDocumentLibrary();
-        }
-
-        function renderCategoryMenu() {
+        function bindDocumentCards() {
             const list = document.getElementById("documentList");
-            const empty = document.getElementById("documentEmpty");
-            const status = document.getElementById("documentStatus");
-            const title = document.getElementById("documentViewTitle");
-            const backbar = document.getElementById("documentBackbar");
-            const searchInput = document.getElementById("documentSearch");
-            if (!list || !empty || !status || !title || !backbar) return;
+            if (!list) return;
 
-            const keyword = (searchInput?.value || "").trim().toLowerCase();
-            const categories = libraryCategories.filter(function (category) {
-                const haystack = [category.name, category.description, category.slug]
-                    .filter(Boolean).join(" ").toLowerCase();
-                return !keyword || haystack.includes(keyword);
-            });
-
-            title.textContent = "Danh mục tài liệu";
-            backbar.hidden = true;
-            status.textContent = `${categories.length} danh mục`;
-
-            if (!categories.length) {
-                list.innerHTML = "";
-                empty.hidden = false;
-                empty.innerHTML = `<i class="fa-solid fa-magnifying-glass"></i><h3>Không tìm thấy danh mục</h3><p>Hãy thử với từ khóa khác.</p>`;
-                return;
-            }
-
-            empty.hidden = true;
-            list.className = "document-grid document-category-grid";
-            list.innerHTML = categories.map(function (category) {
-                const count = libraryDocuments.filter(function (item) {
-                    return String(item.category_id) === String(category.id);
-                }).length;
-                const icon = getCategoryIcon(category.name);
-                const description = category.description || "Tài liệu học tập và luyện tập môn Toán.";
-                return `
-                    <article class="document-card document-category-card reveal show" tabindex="0" role="button" data-category-id="${escapeHtml(category.id)}">
-                        <div class="document-card-glow"></div>
-                        <div class="document-category-icon"><i class="fa-solid ${escapeHtml(icon)}"></i></div>
-                        <div class="document-card-category">CATEGORY</div>
-                        <h3>${escapeHtml(category.name)}</h3>
-                        <p>${escapeHtml(description)}</p>
-                        <div class="document-category-footer">
-                            <span class="document-category-count"><i class="fa-regular fa-file-lines"></i><span>${count} tài liệu</span></span>
-                            <div class="document-category-actions">
-                                <button type="button" class="document-category-qr" data-category-qr="${escapeHtml(category.id)}" aria-label="Tạo QR cho ${escapeHtml(category.name)}" title="Tạo QR">
-                                    <i class="fa-solid fa-qrcode"></i>
-                                </button>
-                                <span class="document-open-label">Xem tài liệu <i class="fa-solid fa-arrow-right"></i></span>
-                            </div>
-                        </div>
-                    </article>`;
-            }).join("");
-
-            list.querySelectorAll(".document-category-card").forEach(function (card) {
-                const open = function () { setCategoryView(card.dataset.categoryId); };
-                card.addEventListener("click", function (event) {
-                    if (event.target.closest("[data-category-qr]")) return;
-                    open();
-                });
-                card.addEventListener("keydown", function (event) {
-                    if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
-                        open();
-                    }
-                });
-            });
-            list.querySelectorAll("[data-category-qr]").forEach(function (button) {
-                button.addEventListener("click", function (event) {
-                    event.stopPropagation();
-                    const category = libraryCategories.find(c => String(c.id) === String(button.dataset.categoryQr));
-                    if (category) openQrForCategory(category);
-                });
-            });
-        }
-
-        function sortDocuments(documents) {
-            const items = [...documents];
-            if (documentSortMode === "oldest") {
-                items.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
-            } else if (documentSortMode === "az") {
-                items.sort((a, b) => String(a.title || "").localeCompare(String(b.title || ""), "vi", { sensitivity: "base" }));
-            } else if (documentSortMode === "za") {
-                items.sort((a, b) => String(b.title || "").localeCompare(String(a.title || ""), "vi", { sensitivity: "base" }));
-            } else {
-                items.sort((a, b) => {
-                    const byCreated = new Date(b.created_at || 0) - new Date(a.created_at || 0);
-                    if (byCreated !== 0) return byCreated;
-                    return (Number(a.sort_order) || 0) - (Number(b.sort_order) || 0);
-                });
-            }
-            return items;
-        }
-
-        function isNewDocument(createdAt) {
-            if (!createdAt) return false;
-            const age = Date.now() - new Date(createdAt).getTime();
-            return age >= 0 && age <= 1000 * 60 * 60 * 24 * 14;
-        }
-
-        function renderPdfDocuments() {
-            const list = document.getElementById("documentList");
-            const empty = document.getElementById("documentEmpty");
-            const status = document.getElementById("documentStatus");
-            const title = document.getElementById("documentViewTitle");
-            const backbar = document.getElementById("documentBackbar");
-            const selectedCategory = document.getElementById("documentSelectedCategory");
-            const searchInput = document.getElementById("documentSearch");
-            if (!list || !empty || !status || !title || !backbar) return;
-
-            const category = getActiveCategory();
-            const keyword = (searchInput?.value || "").trim().toLowerCase();
-            const categoryId = String(activeDocumentCategoryId);
-            const categoryName = category?.name || "Tài liệu";
-
-            let filtered = libraryDocuments.filter(function (item) {
-                if (String(item.category_id) !== categoryId) return false;
-                const haystack = [item.title, item.description, item.file_name].filter(Boolean).join(" ").toLowerCase();
-                return !keyword || haystack.includes(keyword);
-            });
-
-            filtered = sortDocuments(filtered);
-            title.textContent = categoryName;
-            backbar.hidden = false;
-            if (selectedCategory) selectedCategory.textContent = `${filtered.length} tài liệu`;
-            status.textContent = `${filtered.length} tài liệu`;
-
-            if (!filtered.length) {
-                list.innerHTML = "";
-                list.className = "document-grid document-pdf-grid";
-                empty.hidden = false;
-                empty.innerHTML = `<i class="fa-regular fa-folder-open"></i><h3>Chưa có tài liệu phù hợp</h3><p>Danh mục này chưa có PDF hoặc không có kết quả theo từ khóa.</p>`;
-                return;
-            }
-
-            empty.hidden = true;
-            list.className = "document-grid document-pdf-grid";
-            list.innerHTML = filtered.map(function (item) {
-                const description = item.description || "Tài liệu học tập và luyện tập môn Toán.";
-                const url = getPublicPdfUrl(item.file_path);
-                const date = formatDocumentDate(item.created_at);
-                const titleText = item.title || "Tài liệu không có tiêu đề";
-                const newBadge = isNewDocument(item.created_at) ? `<span class="document-new-badge">MỚI</span>` : "";
-                return `
-                    <article class="document-card document-card-clickable reveal show" tabindex="0" role="button" data-url="${escapeHtml(url)}" data-title="${escapeHtml(titleText)}">
-                        <div class="document-card-glow"></div>
-                        <div class="document-card-top">
-                            <div class="document-icon document-icon-pdf"><i class="fa-solid fa-file-pdf"></i></div>
-                            <div class="document-card-top-badges"><span class="document-badge">PDF</span>${newBadge}</div>
-                        </div>
-                        <div class="document-card-category">${escapeHtml(categoryName)}</div>
-                        <h3>${escapeHtml(titleText)}</h3>
-                        <p>${escapeHtml(description)}</p>
-                        <div class="document-card-footer">
-                            <span>${escapeHtml(date || "Tài liệu học tập")}</span>
-                            <span class="document-open-label">Mở tài liệu <i class="fa-solid fa-arrow-right"></i></span>
-                        </div>
-                        <div class="document-card-quick-actions">
-                            <button type="button" class="document-card-quick-btn" data-share-id="${item.id}" aria-label="Chia sẻ tài liệu" title="Chia sẻ"><i class="fa-solid fa-share-nodes"></i></button>
-                            <button type="button" class="document-card-quick-btn" data-qr-id="${item.id}" aria-label="Tạo QR tài liệu" title="QR"><i class="fa-solid fa-qrcode"></i></button>
-                        </div>
-                    </article>`;
-            }).join("");
-
-            list.querySelectorAll(".document-card-clickable").forEach(function (card) {
-                const open = function () {
-                    const item = libraryDocuments.find(d => Number(d.id) === Number(card.dataset.documentId));
-                    if (item) openPdfViewer(item.title || "Tài liệu", card.dataset.url);
+            list.querySelectorAll(".document-card-clickable").forEach(card => {
+                const open = () => {
+                    const item = libraryDocuments.find(doc => Number(doc.id) === Number(card.dataset.documentId));
+                    if (item) openPdfViewer(item);
                 };
-                card.addEventListener("click", function (event) {
-                    if (event.target.closest(".document-card-quick-btn")) return;
+
+                card.addEventListener("click", event => {
+                    if (event.target.closest(".document-card-action")) return;
                     open();
                 });
-                card.addEventListener("keydown", function (event) {
+
+                card.addEventListener("keydown", event => {
                     if (event.key === "Enter" || event.key === " ") {
                         event.preventDefault();
                         open();
                     }
                 });
-            });
-            list.querySelectorAll("[data-share-id]").forEach(function (button) {
-                button.addEventListener("click", function (event) {
+
+                card.querySelector("[data-open-id]")?.addEventListener("click", event => {
                     event.stopPropagation();
-                    const item = libraryDocuments.find(d => Number(d.id) === Number(button.dataset.shareId));
-                    if (item) shareCurrentDocument(item);
+                    open();
                 });
             });
-            list.querySelectorAll("[data-qr-id]").forEach(function (button) {
-                button.addEventListener("click", function (event) {
+
+            list.querySelectorAll("[data-share-id]").forEach(button => {
+                button.addEventListener("click", event => {
                     event.stopPropagation();
-                    const item = libraryDocuments.find(d => Number(d.id) === Number(button.dataset.qrId));
-                    if (item) openQrForDocument(item);
+                    const item = libraryDocuments.find(doc => Number(doc.id) === Number(button.dataset.shareId));
+                    shareDocument(item);
                 });
             });
+
+            list.querySelectorAll("[data-qr-id]").forEach(button => {
+                button.addEventListener("click", event => {
+                    event.stopPropagation();
+                    const item = libraryDocuments.find(doc => Number(doc.id) === Number(button.dataset.qrId));
+                    openQr(item);
+                });
+            });
+
+            bindPdfPreviewRendering(list);
         }
 
-        function renderDocumentLibrary() {
-            if (activeDocumentCategoryId == null) renderCategoryMenu();
-            else renderPdfDocuments();
-        }
+        function bindPdfPreviewRendering(container) {
+            if (!window.pdfjsLib) {
+                container.querySelectorAll(".document-preview-loading span").forEach(el => el.textContent = "Xem PDF để mở tài liệu");
+                return;
+            }
 
-        function goBackToCategories() { setCategoryView(null); }
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+            const renderOne = async preview => {
+                const url = preview.dataset.pdfPreview;
+                const canvas = preview.querySelector(".document-preview-canvas");
+                const loading = preview.querySelector(".document-preview-loading");
+                if (!url || !canvas || canvas.dataset.rendered === "1") return;
+                canvas.dataset.rendered = "1";
+                try {
+                    const task = window.pdfjsLib.getDocument({ url, disableAutoFetch: false, disableStream: false });
+                    const pdf = await task.promise;
+                    const page = await pdf.getPage(1);
+                    const baseViewport = page.getViewport({ scale: 1 });
+                    const targetWidth = Math.max(220, preview.clientWidth || 220);
+                    const scale = Math.min(1.9, Math.max(0.55, targetWidth / baseViewport.width));
+                    const viewport = page.getViewport({ scale });
+                    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+                    canvas.width = Math.ceil(viewport.width * ratio);
+                    canvas.height = Math.ceil(viewport.height * ratio);
+                    canvas.style.width = "100%";
+                    canvas.style.height = "100%";
+                    const ctx = canvas.getContext("2d", { alpha: false });
+                    await page.render({
+                        canvasContext: ctx,
+                        viewport,
+                        transform: ratio !== 1 ? [ratio,0,0,ratio,0,0] : null
+                    }).promise;
+                    if (loading) loading.classList.add("loaded");
+                } catch (error) {
+                    console.warn("PDF preview failed:", error);
+                    if (loading) {
+                        loading.querySelector("span").textContent = "Chưa thể xem trước";
+                    }
+                    canvas.dataset.rendered = "";
+                }
+            };
+
+            const previews = [...container.querySelectorAll("[data-pdf-preview]")];
+            if ("IntersectionObserver" in window) {
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            renderOne(entry.target);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { rootMargin: "250px 0px" });
+                previews.forEach(preview => observer.observe(preview));
+            } else {
+                previews.forEach(renderOne);
+            }
+        }
 
         async function loadDocumentLibrary() {
             const status = document.getElementById("documentStatus");
             const empty = document.getElementById("documentEmpty");
             try {
                 const [categoriesResponse, documentsResponse] = await Promise.all([
-                    supabaseClient.from("math_categories")
-                        .select("id,name,slug,description,sort_order,parent_id")
-                        .order("sort_order", { ascending: true })
-                        .order("created_at", { ascending: true }),
-                    supabaseClient.from("math_documents")
-                        .select("id,title,description,category_id,file_path,file_name,published,sort_order,created_at,updated_at,tags,thumbnail_path,document_type,exam_year,duration_minutes,view_count,math_categories(name,slug)")
-                        .eq("published", true)
-                        .order("sort_order", { ascending: true })
-                        .order("created_at", { ascending: false })
+                    supabaseClient.from("math_categories").select("id,name,slug,description,sort_order,parent_id").order("sort_order", { ascending: true }).order("created_at", { ascending: true }),
+                    supabaseClient.from("math_documents").select("id,title,description,category_id,file_path,file_name,published,sort_order,created_at,updated_at,tags,thumbnail_path,document_type,exam_year,duration_minutes,view_count,math_categories(name,slug)").eq("published", true).order("sort_order", { ascending: true }).order("created_at", { ascending: false })
                 ]);
                 if (categoriesResponse.error) throw categoriesResponse.error;
                 if (documentsResponse.error) throw documentsResponse.error;
                 libraryCategories = categoriesResponse.data || [];
                 libraryDocuments = documentsResponse.data || [];
                 updatePublicStats();
+                const requestCategory = document.getElementById("requestCategory");
+                if (requestCategory) {
+                    requestCategory.innerHTML = '<option value="">-- Chọn danh mục --</option>' + libraryCategories.map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join("");
+                }
                 renderDocumentLibrary();
-                const url = new URL(window.location.href);
-                const requestedDoc = url.searchParams.get("doc");
-                const requestedCategory = url.searchParams.get("category");
-                if (requestedDoc) {
-                    const doc = libraryDocuments.find(d => String(d.id) === String(requestedDoc));
-                    if (doc) setTimeout(() => openPdfViewer(doc.title || "Tài liệu", getPublicPdfUrl(doc.file_path)), 150);
-                } else if (requestedCategory) {
-                    const category = libraryCategories.find(c => String(c.id) === String(requestedCategory));
-                    if (category) setCategoryView(category.id);
+                const targetId = new URL(window.location.href).searchParams.get("doc");
+                if (targetId) {
+                    const target = libraryDocuments.find(doc => String(doc.id) === String(targetId));
+                    if (target) openPdfViewer(target);
                 }
             } catch (error) {
                 console.error("Document library error:", error);
                 if (status) status.textContent = "Không thể tải thư viện";
                 if (empty) {
                     empty.hidden = false;
-                    empty.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i><h3>Không thể tải tài liệu</h3><p>Vui lòng tải lại trang sau ít phút.</p>`;
+                    empty.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i><h3>Không thể tải tài liệu</h3><p>Vui lòng tải lại trang sau ít phút.</p>';
                 }
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("documentSearch")?.addEventListener("input", renderDocumentLibrary);
-            document.getElementById("documentSort")?.addEventListener("change", function (event) {
-                documentSortMode = event.target.value;
-                renderDocumentLibrary();
-            });
-            document.getElementById("documentBackButton")?.addEventListener("click", goBackToCategories);
-            document.getElementById("qrCloseV2")?.addEventListener("click", closeQrV2);
-            document.getElementById("qrDownloadV2")?.addEventListener("click", downloadQrV2);
-            document.getElementById("qrModalV2")?.addEventListener("click", function(event){ if (event.target === event.currentTarget) closeQrV2(); });
-
-            document.getElementById("pdfClose")?.addEventListener("click", closePdfViewer);
-            document.getElementById("pdfModal")?.addEventListener("click", function (event) {
-                if (event.target === event.currentTarget) closePdfViewer();
-            });
-            document.addEventListener("keydown", function (event) {
-                if (event.key === "Escape") closePdfViewer();
-            });
-            loadDocumentLibrary();
+        document.getElementById("documentSearch")?.addEventListener("input", () => {
+            documentCurrentPage = 1;
+            renderDocumentLibrary();
         });
+
+        document.getElementById("documentSort")?.addEventListener("change", event => {
+            documentSortMode = event.target.value;
+            documentCurrentPage = 1;
+            renderDocumentLibrary();
+        });
+
+        document.getElementById("documentTypeFilter")?.addEventListener("change", event => {
+            documentTypeMode = event.target.value;
+            documentCurrentPage = 1;
+            renderDocumentLibrary();
+        });
+
+        document.getElementById("documentBackButton")?.addEventListener("click", goBackToParent);
+        document.getElementById("pdfClose")?.addEventListener("click", closePdfViewer);
+        document.getElementById("pdfShare")?.addEventListener("click", () => shareDocument(currentDocument));
+        document.getElementById("pdfQr")?.addEventListener("click", () => openQr(currentDocument));
+        document.getElementById("qrClose")?.addEventListener("click", closeQr);
+        document.getElementById("qrDownload")?.addEventListener("click", downloadQr);
+        document.getElementById("pdfModal")?.addEventListener("click", event => { if (event.target === event.currentTarget) closePdfViewer(); });
+        document.getElementById("qrModal")?.addEventListener("click", event => { if (event.target === event.currentTarget) closeQr(); });
+
+        document.getElementById("materialRequestForm")?.addEventListener("submit", async event => {
+            event.preventDefault();
+            const status = document.getElementById("requestStatus");
+            const requestText = document.getElementById("requestText").value.trim();
+            if (!requestText) return;
+            status.textContent = "Đang gửi...";
+            const { error } = await supabaseClient.from("math_requests").insert({
+                name: document.getElementById("requestName").value.trim() || null,
+                email: document.getElementById("requestEmail").value.trim() || null,
+                category_id: document.getElementById("requestCategory").value ? Number(document.getElementById("requestCategory").value) : null,
+                request_text: requestText,
+                status: "pending"
+            });
+            if (error) {
+                status.textContent = "Không thể gửi yêu cầu. Vui lòng thử lại.";
+                console.error(error);
+                return;
+            }
+            event.target.reset();
+            status.textContent = "Đã gửi yêu cầu. Cảm ơn bạn!";
+        });
+
+        loadDocumentLibrary();
 
         /* =========================================
            MOBILE MENU
@@ -1981,9 +2480,8 @@ section > .container,
             document.querySelectorAll(".nav-link");
 
         const sectionObserver =
-            ("IntersectionObserver" in window)
-                ? new IntersectionObserver(
-                    function (entries) {
+            new IntersectionObserver(
+                function (entries) {
 
                     entries.forEach(
                         function (entry) {
@@ -2019,19 +2517,16 @@ section > .container,
                     rootMargin:
                         "-30% 0px -55% 0px"
                 }
-            )
-                : null;
-
-
-        if (sectionObserver) {
-            sections.forEach(
-                function (section) {
-
-                    sectionObserver.observe(section);
-
-                }
             );
-        }
+
+
+        sections.forEach(
+            function (section) {
+
+                sectionObserver.observe(section);
+
+            }
+        );
 
 
         /* =========================================
