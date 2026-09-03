@@ -13,7 +13,7 @@
 
     <meta name="theme-color" content="#070b14">
 
-    <link rel="stylesheet" href="style.css?v=20260903-6">
+    <link rel="stylesheet" href="style.css?v=20260903-8">
 
     <!-- Font Awesome -->
     <link
@@ -31,7 +31,16 @@
 .document-card-top-badges{display:flex;align-items:center;gap:6px}
 .document-new-badge{display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:0 8px;border-radius:999px;background:rgba(34,197,94,.1);border:1px solid rgba(74,222,128,.22);color:#86efac;font-size:10px;font-weight:900;letter-spacing:.7px}
 @media(max-width:700px){.document-toolbar-right{width:100%}.document-sort-wrap{flex:1}.document-sort-wrap select{width:100%}.document-admin-link{white-space:nowrap}}
-</style>
+
+        /* PUBLIC STATS + QR */
+        .document-public-stats-v2{display:grid;grid-template-columns:1.2fr repeat(4,minmax(110px,1fr));gap:9px;margin:14px 0 18px;padding:10px;border:1px solid rgba(125,211,252,.10);border-radius:15px;background:linear-gradient(145deg,rgba(56,189,248,.035),rgba(124,58,237,.035));box-shadow:inset 0 1px 0 rgba(255,255,255,.02)}
+        .document-stat-intro{display:flex;flex-direction:column;justify-content:center;padding:4px 8px}.document-stat-intro span{font-size:9px;font-weight:900;letter-spacing:1.8px;color:#60a5fa}.document-stat-intro strong{margin-top:3px;font-size:15px;color:#eef8ff}.document-stat-intro small{margin-top:4px;color:#71839b;font-size:9px;line-height:1.35}.document-stat-v2{display:grid;grid-template-columns:30px 1fr;grid-template-rows:auto auto;gap:2px 8px;align-items:center;padding:9px 10px;border:1px solid rgba(148,163,184,.09);border-radius:11px;background:rgba(5,10,19,.30)}.document-stat-v2 i{grid-row:1/3;width:30px;height:30px;display:grid;place-items:center;border-radius:8px;color:#7dd3fc;background:rgba(56,189,248,.07)}.document-stat-v2 b{font-size:17px;line-height:1;color:#f5fbff}.document-stat-v2 small{color:#74869e;font-size:8px}.document-category-actions{display:flex;align-items:center;gap:7px}.document-category-qr{width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(125,211,252,.18);border-radius:9px;background:rgba(56,189,248,.045);color:#8bdfff;cursor:pointer;transition:.2s ease}.document-category-qr:hover{transform:translateY(-2px);border-color:rgba(125,211,252,.52);background:rgba(56,189,248,.11);box-shadow:0 8px 20px rgba(56,189,248,.09)}
+        .document-card-quick-actions{position:absolute;right:14px;bottom:14px;display:flex;gap:6px;opacity:0;transform:translateY(5px);transition:.22s ease}.document-card:hover .document-card-quick-actions,.document-card:focus-within .document-card-quick-actions{opacity:1;transform:translateY(0)}.document-card-quick-btn{width:33px;height:33px;display:grid;place-items:center;border:1px solid rgba(125,211,252,.18);border-radius:9px;background:rgba(5,10,19,.78);color:#dcefff;cursor:pointer;transition:.2s ease}.document-card-quick-btn:hover{transform:translateY(-2px);border-color:rgba(125,211,252,.55);color:#fff;box-shadow:0 8px 18px rgba(56,189,248,.08)}
+        .qr-modal-v2{position:fixed;inset:0;z-index:3500;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,14,.84);backdrop-filter:blur(11px)}.qr-modal-v2.open{display:flex}.qr-card-v2{width:min(430px,94vw);padding:22px;border:1px solid rgba(125,211,252,.16);border-radius:18px;background:#08101c;box-shadow:0 30px 100px rgba(0,0,0,.6)}.qr-head-v2{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.qr-head-v2 h3{margin:4px 0 0;color:#edf7ff;font-size:20px}.qr-code-v2{width:248px;height:248px;margin:18px auto 13px;padding:10px;display:grid;place-items:center;border-radius:13px;background:#fff}.qr-code-v2 canvas,.qr-code-v2 img{width:228px!important;height:228px!important}.qr-url-v2{margin:0;color:#7b8da5;font-size:9px;line-height:1.5;text-align:center;word-break:break-all}.qr-download-v2{width:100%;margin-top:11px}.qr-close-v2{width:38px;height:38px;border:1px solid rgba(255,255,255,.1);border-radius:10px;background:rgba(255,255,255,.03);color:#eaf5ff;cursor:pointer}
+        @media(max-width:1000px){.document-public-stats-v2{grid-template-columns:repeat(2,minmax(0,1fr))}.document-stat-intro{grid-column:1/-1}}
+        @media(max-width:700px){.document-public-stats-v2{grid-template-columns:1fr 1fr}.document-stat-intro{grid-column:1/-1}.document-category-actions{width:100%;justify-content:flex-end}.document-card-quick-actions{opacity:1;transform:none}}
+        @media(max-width:540px){.document-public-stats-v2{grid-template-columns:1fr}.document-stat-intro{grid-column:auto}.document-card-quick-actions{right:10px;bottom:10px}}
+        </style>
 
 <style id="visibility-safety">
 /* =========================================================
@@ -285,79 +294,49 @@ section > .container,
             <nav>
                 <ul class="nav-links" id="mainMenu">
 
-    <li>
-        <a
-            href="#home"
-            class="nav-link active"
-        >
-            Trang chủ
-        </a>
-    </li>
+                    <li>
+                        <a href="#home" class="nav-link active">
+                            Trang chủ
+                        </a>
+                    </li>
 
-    <li>
-        <a
-            href="#about"
-            class="nav-link"
-        >
-            Giới thiệu
-        </a>
-    </li>
+                    <li>
+                        <a href="#about" class="nav-link">
+                            Giới thiệu
+                        </a>
+                    </li>
 
-    <li>
-        <a
-            href="#skills"
-            class="nav-link"
-        >
-            Kỹ năng
-        </a>
-    </li>
+                    <li>
+                        <a href="#skills" class="nav-link">
+                            Kỹ năng
+                        </a>
+                    </li>
 
-    <li>
-        <a
-            href="#projects"
-            class="nav-link"
-        >
-            Dự án
-        </a>
-    </li>
+                    <li>
+                        <a href="#projects" class="nav-link">
+                            Dự án
+                        </a>
+                    </li>
 
-    <li>
-        <a
-            href="#documents"
-            class="nav-link"
-        >
-            Tài liệu
-        </a>
-    </li>
+                    <li>
+                        <a href="#achievements" class="nav-link">
+                            Thành tích
+                        </a>
+                    </li>
 
-    <li>
-        <a
-            href="#achievements"
-            class="nav-link"
-        >
-            Thành tích
-        </a>
-    </li>
+                    <li>
+                        <a href="#documents" class="nav-link">
+                            Tài liệu
+                        </a>
+                    </li>
 
-    <li>
-        <a
-            href="#material-request"
-            class="nav-link"
-        >
-            Yêu cầu
-        </a>
-    </li>
+                    <li>
+                        <a href="#contact" class="nav-link">
+                            Liên hệ
+                        </a>
+                    </li>
 
-    <li>
-        <a
-            href="#contact"
-            class="nav-link"
-        >
-            Liên hệ
-        </a>
-    </li>
-
-</ul>
+                </ul>
             </nav>
 
         </div>
@@ -975,6 +954,18 @@ section > .container,
                     <div id="documentStatus" class="document-status">Đang tải...</div>
                 </div>
 
+                <div id="publicLibraryStats" class="document-public-stats-v2 reveal" aria-label="Thống kê thư viện">
+                    <div class="document-stat-intro">
+                        <span>LIBRARY OVERVIEW</span>
+                        <strong>Thống kê thư viện</strong>
+                        <small>Dữ liệu cập nhật tự động từ kho tài liệu.</small>
+                    </div>
+                    <div class="document-stat-v2"><i class="fa-regular fa-file-lines"></i><b id="publicDocCount">0</b><small>TÀI LIỆU</small></div>
+                    <div class="document-stat-v2"><i class="fa-regular fa-folder-open"></i><b id="publicCategoryCount">0</b><small>DANH MỤC</small></div>
+                    <div class="document-stat-v2"><i class="fa-solid fa-chart-line"></i><b id="publicViewCount">0</b><small>LƯỢT XEM</small></div>
+                    <div class="document-stat-v2"><i class="fa-solid fa-file-circle-check"></i><b id="publicExamCount">0</b><small>ĐỀ THI</small></div>
+                </div>
+
                 <div id="documentBackbar" class="document-backbar" hidden>
                     <button id="documentBackButton" class="document-back-button" type="button">
                         <i class="fa-solid fa-arrow-left"></i>
@@ -1344,6 +1335,21 @@ section > .container,
         </section>
 
 
+        <div id="qrModalV2" class="qr-modal-v2" aria-hidden="true" role="dialog" aria-modal="true">
+            <div class="qr-card-v2" onclick="event.stopPropagation()">
+                <div class="qr-head-v2">
+                    <div>
+                        <div class="pdf-modal-kicker">SCAN TO OPEN</div>
+                        <h3 id="qrTitleV2">Tài liệu</h3>
+                    </div>
+                    <button id="qrCloseV2" class="qr-close-v2" type="button" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="qrCodeV2" class="qr-code-v2"></div>
+                <p id="qrUrlV2" class="qr-url-v2"></p>
+                <button id="qrDownloadV2" class="document-action secondary qr-download-v2" type="button"><i class="fa-solid fa-download"></i> Tải QR</button>
+            </div>
+        </div>
+
         <div id="pdfModal" class="pdf-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Xem tài liệu PDF">
             <div class="pdf-modal-inner" onclick="event.stopPropagation()">
                 <div class="pdf-modal-head">
@@ -1393,6 +1399,7 @@ section > .container,
     <!-- =========================
          JAVASCRIPT
     ========================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
 
@@ -1446,6 +1453,101 @@ section > .container,
         function getPublicPdfUrl(filePath) {
             if (!filePath) return "";
             return supabaseClient.storage.from("math-pdfs").getPublicUrl(filePath).data.publicUrl;
+        }
+
+        let currentQrPayload = null;
+
+        function formatNumber(value) {
+            return new Intl.NumberFormat("vi-VN").format(Number(value) || 0);
+        }
+
+        function updatePublicStats() {
+            const docs = document.getElementById("publicDocCount");
+            const cats = document.getElementById("publicCategoryCount");
+            const views = document.getElementById("publicViewCount");
+            const exams = document.getElementById("publicExamCount");
+            if (docs) docs.textContent = formatNumber(libraryDocuments.length);
+            if (cats) cats.textContent = formatNumber(libraryCategories.length);
+            if (views) views.textContent = formatNumber(libraryDocuments.reduce((sum, item) => sum + (Number(item.view_count) || 0), 0));
+            if (exams) exams.textContent = formatNumber(libraryDocuments.filter(item => item.document_type === "exam").length);
+        }
+
+        function shareUrlForDocument(id) {
+            const url = new URL(window.location.href);
+            url.searchParams.set("doc", id);
+            url.searchParams.delete("category");
+            url.hash = "documents";
+            return url.toString();
+        }
+
+        function shareUrlForCategory(id) {
+            const url = new URL(window.location.href);
+            url.searchParams.delete("doc");
+            url.searchParams.set("category", id);
+            url.hash = "documents";
+            return url.toString();
+        }
+
+        async function shareCurrentDocument(item) {
+            if (!item) return;
+            const url = shareUrlForDocument(item.id);
+            const title = item.title || item.file_name || "Tài liệu Toán học";
+            try {
+                if (navigator.share) {
+                    await navigator.share({ title, text: `Tài liệu Toán học: ${title}`, url });
+                } else if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(url);
+                    alert("Đã sao chép liên kết tài liệu.");
+                }
+            } catch (error) {
+                if (error?.name !== "AbortError" && navigator.clipboard) {
+                    try { await navigator.clipboard.writeText(url); alert("Đã sao chép liên kết tài liệu."); } catch (_) {}
+                }
+            }
+        }
+
+        function openQrPayload(title, url) {
+            const modal = document.getElementById("qrModalV2");
+            const qr = document.getElementById("qrCodeV2");
+            const titleEl = document.getElementById("qrTitleV2");
+            const urlEl = document.getElementById("qrUrlV2");
+            if (!modal || !qr) return;
+            currentQrPayload = { title: title || "Tài liệu", url };
+            titleEl.textContent = title || "Tài liệu";
+            urlEl.textContent = url;
+            qr.innerHTML = "";
+            if (window.QRCode) {
+                new QRCode(qr, { text: url, width: 228, height: 228, correctLevel: QRCode.CorrectLevel.M });
+            }
+            modal.classList.add("open");
+            modal.setAttribute("aria-hidden", "false");
+        }
+
+        function openQrForDocument(item) {
+            if (!item) return;
+            openQrPayload(item.title || item.file_name || "Tài liệu", shareUrlForDocument(item.id));
+        }
+
+        function openQrForCategory(category) {
+            if (!category) return;
+            openQrPayload(category.name || "Danh mục", shareUrlForCategory(category.id));
+        }
+
+        function closeQrV2() {
+            const modal = document.getElementById("qrModalV2");
+            if (!modal) return;
+            modal.classList.remove("open");
+            modal.setAttribute("aria-hidden", "true");
+            currentQrPayload = null;
+        }
+
+        function downloadQrV2() {
+            const canvas = document.querySelector("#qrCodeV2 canvas");
+            if (!canvas || !currentQrPayload) return;
+            const a = document.createElement("a");
+            a.href = canvas.toDataURL("image/png");
+            a.download = `${(currentQrPayload.title || "qr").replace(/[^a-zA-Z0-9-_]+/g, "-")}-QR.png`;
+            a.click();
         }
 
         function openPdfViewer(title, url) {
@@ -1533,20 +1635,35 @@ section > .container,
                         <h3>${escapeHtml(category.name)}</h3>
                         <p>${escapeHtml(description)}</p>
                         <div class="document-category-footer">
-                            <span class="document-category-count"><i class="fa-regular fa-file-lines"></i>${count} tài liệu</span>
-                            <span class="document-open-label">Xem tài liệu <i class="fa-solid fa-arrow-right"></i></span>
+                            <span class="document-category-count"><i class="fa-regular fa-file-lines"></i><span>${count} tài liệu</span></span>
+                            <div class="document-category-actions">
+                                <button type="button" class="document-category-qr" data-category-qr="${escapeHtml(category.id)}" aria-label="Tạo QR cho ${escapeHtml(category.name)}" title="Tạo QR">
+                                    <i class="fa-solid fa-qrcode"></i>
+                                </button>
+                                <span class="document-open-label">Xem tài liệu <i class="fa-solid fa-arrow-right"></i></span>
+                            </div>
                         </div>
                     </article>`;
             }).join("");
 
             list.querySelectorAll(".document-category-card").forEach(function (card) {
                 const open = function () { setCategoryView(card.dataset.categoryId); };
-                card.addEventListener("click", open);
+                card.addEventListener("click", function (event) {
+                    if (event.target.closest("[data-category-qr]")) return;
+                    open();
+                });
                 card.addEventListener("keydown", function (event) {
                     if (event.key === "Enter" || event.key === " ") {
                         event.preventDefault();
                         open();
                     }
+                });
+            });
+            list.querySelectorAll("[data-category-qr]").forEach(function (button) {
+                button.addEventListener("click", function (event) {
+                    event.stopPropagation();
+                    const category = libraryCategories.find(c => String(c.id) === String(button.dataset.categoryQr));
+                    if (category) openQrForCategory(category);
                 });
             });
         }
@@ -1632,17 +1749,41 @@ section > .container,
                             <span>${escapeHtml(date || "Tài liệu học tập")}</span>
                             <span class="document-open-label">Mở tài liệu <i class="fa-solid fa-arrow-right"></i></span>
                         </div>
+                        <div class="document-card-quick-actions">
+                            <button type="button" class="document-card-quick-btn" data-share-id="${item.id}" aria-label="Chia sẻ tài liệu" title="Chia sẻ"><i class="fa-solid fa-share-nodes"></i></button>
+                            <button type="button" class="document-card-quick-btn" data-qr-id="${item.id}" aria-label="Tạo QR tài liệu" title="QR"><i class="fa-solid fa-qrcode"></i></button>
+                        </div>
                     </article>`;
             }).join("");
 
             list.querySelectorAll(".document-card-clickable").forEach(function (card) {
-                const open = function () { openPdfViewer(card.dataset.title || "Tài liệu", card.dataset.url); };
-                card.addEventListener("click", open);
+                const open = function () {
+                    const item = libraryDocuments.find(d => Number(d.id) === Number(card.dataset.documentId));
+                    if (item) openPdfViewer(item.title || "Tài liệu", card.dataset.url);
+                };
+                card.addEventListener("click", function (event) {
+                    if (event.target.closest(".document-card-quick-btn")) return;
+                    open();
+                });
                 card.addEventListener("keydown", function (event) {
                     if (event.key === "Enter" || event.key === " ") {
                         event.preventDefault();
                         open();
                     }
+                });
+            });
+            list.querySelectorAll("[data-share-id]").forEach(function (button) {
+                button.addEventListener("click", function (event) {
+                    event.stopPropagation();
+                    const item = libraryDocuments.find(d => Number(d.id) === Number(button.dataset.shareId));
+                    if (item) shareCurrentDocument(item);
+                });
+            });
+            list.querySelectorAll("[data-qr-id]").forEach(function (button) {
+                button.addEventListener("click", function (event) {
+                    event.stopPropagation();
+                    const item = libraryDocuments.find(d => Number(d.id) === Number(button.dataset.qrId));
+                    if (item) openQrForDocument(item);
                 });
             });
         }
@@ -1664,7 +1805,7 @@ section > .container,
                         .order("sort_order", { ascending: true })
                         .order("created_at", { ascending: true }),
                     supabaseClient.from("math_documents")
-                        .select("id,title,description,category_id,file_path,file_name,published,sort_order,created_at,updated_at,math_categories(name,slug)")
+                        .select("id,title,description,category_id,file_path,file_name,published,sort_order,created_at,updated_at,tags,thumbnail_path,document_type,exam_year,duration_minutes,view_count,math_categories(name,slug)")
                         .eq("published", true)
                         .order("sort_order", { ascending: true })
                         .order("created_at", { ascending: false })
@@ -1673,7 +1814,18 @@ section > .container,
                 if (documentsResponse.error) throw documentsResponse.error;
                 libraryCategories = categoriesResponse.data || [];
                 libraryDocuments = documentsResponse.data || [];
+                updatePublicStats();
                 renderDocumentLibrary();
+                const url = new URL(window.location.href);
+                const requestedDoc = url.searchParams.get("doc");
+                const requestedCategory = url.searchParams.get("category");
+                if (requestedDoc) {
+                    const doc = libraryDocuments.find(d => String(d.id) === String(requestedDoc));
+                    if (doc) setTimeout(() => openPdfViewer(doc.title || "Tài liệu", getPublicPdfUrl(doc.file_path)), 150);
+                } else if (requestedCategory) {
+                    const category = libraryCategories.find(c => String(c.id) === String(requestedCategory));
+                    if (category) setCategoryView(category.id);
+                }
             } catch (error) {
                 console.error("Document library error:", error);
                 if (status) status.textContent = "Không thể tải thư viện";
@@ -1691,6 +1843,10 @@ section > .container,
                 renderDocumentLibrary();
             });
             document.getElementById("documentBackButton")?.addEventListener("click", goBackToCategories);
+            document.getElementById("qrCloseV2")?.addEventListener("click", closeQrV2);
+            document.getElementById("qrDownloadV2")?.addEventListener("click", downloadQrV2);
+            document.getElementById("qrModalV2")?.addEventListener("click", function(event){ if (event.target === event.currentTarget) closeQrV2(); });
+
             document.getElementById("pdfClose")?.addEventListener("click", closePdfViewer);
             document.getElementById("pdfModal")?.addEventListener("click", function (event) {
                 if (event.target === event.currentTarget) closePdfViewer();
