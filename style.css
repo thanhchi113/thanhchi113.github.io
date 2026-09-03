@@ -1157,3 +1157,154 @@ footer {
     }
 
 }
+
+/* =========================================
+   SKILLS - NEW DESIGN
+========================================= */
+
+.skills {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+.skill-item {
+    padding: 25px;
+
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(255, 255, 255, 0.075);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease;
+}
+
+.skill-item:hover {
+    transform: translateY(-6px);
+
+    border-color: rgba(96, 165, 250, 0.35);
+
+    background: rgba(255, 255, 255, 0.055);
+}
+
+
+/* Header */
+
+.skill-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+
+/* Icon */
+
+.skill-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: rgba(96, 165, 250, 0.10);
+
+    border: 1px solid rgba(96, 165, 250, 0.15);
+
+    font-size: 23px;
+}
+
+
+/* Text */
+
+.skill-info {
+    flex: 1;
+}
+
+.skill-info h3 {
+    margin: 0 0 3px;
+
+    color: #e2e8f0;
+
+    font-size: 16px;
+}
+
+.skill-info p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* Percentage */
+
+.skill-percent {
+    color: #60a5fa;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+/* Progress bar */
+
+.skill-bar {
+    width: 100%;
+
+    height: 7px;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.skill-progress {
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        #3b82f6,
+        #60a5fa
+    );
+
+    border-radius: 20px;
+
+    transform-origin: left;
+}
+
+
+/* =========================================
+   SKILLS MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .skills {
+        grid-template-columns: 1fr;
+    }
+
+    .skill-item {
+        padding: 22px;
+    }
+
+}
