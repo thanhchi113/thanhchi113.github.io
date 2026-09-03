@@ -1940,568 +1940,118 @@ footer {
 
 
 /* =========================================================
-   FINAL POLISH
-   - Avatar: true circle, centered inside rotating rings
-   - Brighter / higher-contrast About content
-   - Larger, separated contact icons with borders
-   - Hamburger menu: hidden on desktop, functional on mobile
-   - Keep Aurora Blue gradient, but icons stay solid for clarity
+   FINAL CONTRAST + TRUE RING ROTATION
 ========================================================= */
 
-/* -------------------------
-   ACCESSIBLE FOCUS STATES
-------------------------- */
-
-a:focus-visible,
-button:focus-visible {
-    outline: 2px solid #38bdf8;
-    outline-offset: 4px;
-}
-
-
-/* -------------------------
-   HAMBURGER MENU
-------------------------- */
-
-/* Desktop: do not show the mobile toggle */
-.menu-toggle {
-    display: none !important;
-
-    width: 44px;
-    height: 44px;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-shrink: 0;
-
-    border: 1px solid rgba(148, 163, 184, 0.20);
-    border-radius: 12px;
-
-    background:
+/* Stronger Aurora Blue gradient for accent text */
+.hero h1 span,
+.logo,
+.hero-small,
+.hero-role,
+.section-kicker,
+.about-content h3 span,
+.skill-percent,
+.project-link,
+.contact-arrow,
+.back-to-top {
+    background-image:
         linear-gradient(
-            135deg,
-            rgba(56, 189, 248, 0.08),
-            rgba(139, 92, 246, 0.08)
+            105deg,
+            #22d3ee 0%,
+            #38bdf8 26%,
+            #60a5fa 52%,
+            #818cf8 76%,
+            #a78bfa 100%
         );
 
-    color: #e2e8f0;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.14);
-
-    transition:
-        transform 0.25s ease,
-        border-color 0.25s ease,
-        background 0.25s ease,
-        box-shadow 0.25s ease;
-}
-
-.menu-toggle i {
-    font-size: 18px;
-
-    color: #e2e8f0;
-
-    -webkit-text-fill-color: initial;
-}
-
-.menu-toggle:hover {
-    transform: translateY(-2px);
-
-    border-color: rgba(56, 189, 248, 0.48);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(56, 189, 248, 0.14),
-            rgba(139, 92, 246, 0.14)
-        );
-
-    box-shadow:
-        0 10px 28px rgba(56, 189, 248, 0.08);
-}
-
-
-/* -------------------------
-   AVATAR: TRUE CIRCLE
-------------------------- */
-
-.avatar-wrapper {
-    position: relative !important;
-
-    display: flex !important;
-
-    align-items: center !important;
-    justify-content: center !important;
-
-    width: 100% !important;
-    min-height: 390px !important;
-
-    overflow: visible !important;
-
-    isolation: isolate;
-}
-
-/* Disable the old single pseudo-ring.
-   We use the two explicit avatar-ring elements instead. */
-.avatar-wrapper::before {
-    content: none !important;
-}
-
-.avatar-wrapper::after {
-    content: "";
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    width: 350px;
-    height: 350px;
-
-    transform: translate(-50%, -50%);
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(56, 189, 248, 0.12) 0%,
-            rgba(96, 165, 250, 0.08) 35%,
-            rgba(139, 92, 246, 0.08) 54%,
-            transparent 72%
-        );
-
-    filter: blur(12px);
-
-    pointer-events: none;
-
-    z-index: 0;
-
-    animation: avatarHaloFinal 5s ease-in-out infinite;
-}
-
-.avatar-ring-outer,
-.avatar-ring-inner {
-    position: absolute !important;
-
-    left: 50% !important;
-    top: 50% !important;
-
-    margin: 0 !important;
-
-    border-radius: 50% !important;
-
-    transform-origin: center !important;
-
-    pointer-events: none;
-
-    box-sizing: border-box;
-}
-
-.avatar-ring-outer {
-    width: 316px !important;
-    height: 316px !important;
-
-    transform: translate(-50%, -50%) !important;
-
-    padding: 3px;
-
-    border: 0 !important;
-
-    background:
-        conic-gradient(
-            from 0deg,
-            #38bdf8 0deg,
-            #60a5fa 80deg,
-            #8b5cf6 170deg,
-            #a78bfa 250deg,
-            #38bdf8 360deg
-        );
-
-    -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-
-    -webkit-mask-composite: xor;
-
-    mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-
-    mask-composite: exclude;
-
-    animation:
-        avatarOuterRotateFinal 12s linear infinite;
-
-    z-index: 1;
-}
-
-.avatar-ring-inner {
-    width: 278px !important;
-    height: 278px !important;
-
-    transform: translate(-50%, -50%) !important;
-
-    padding: 2px;
-
-    border: 0 !important;
-
-    background:
-        conic-gradient(
-            from 180deg,
-            transparent 0deg,
-            rgba(56, 189, 248, 0.12) 45deg,
-            #60a5fa 120deg,
-            #a78bfa 205deg,
-            transparent 290deg,
-            transparent 360deg
-        );
-
-    -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-
-    -webkit-mask-composite: xor;
-
-    mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-
-    mask-composite: exclude;
-
-    animation:
-        avatarInnerRotateFinal 9s linear infinite;
-
-    z-index: 2;
-}
-
-.avatar {
-    position: relative !important;
-
-    flex: 0 0 auto !important;
-
-    width: 230px !important;
-    height: 230px !important;
-
-    min-width: 230px !important;
-    min-height: 230px !important;
-
-    aspect-ratio: 1 / 1 !important;
-
-    overflow: hidden !important;
-
-    display: block !important;
-
-    border-radius: 50% !important;
-
-    border: 2px solid transparent !important;
-
-    background:
-        linear-gradient(#0f172a, #0f172a) padding-box,
-        var(--gradient-primary) border-box !important;
-
-    box-shadow:
-        0 0 30px rgba(56, 189, 248, 0.12),
-        0 0 70px rgba(139, 92, 246, 0.10) !important;
-
-    transform: none !important;
-
-    z-index: 3;
-
-    transition:
-        transform 0.35s ease,
-        box-shadow 0.35s ease;
-}
-
-.avatar:hover {
-    transform: scale(1.025) !important;
-
-    box-shadow:
-        0 0 42px rgba(56, 189, 248, 0.18),
-        0 0 90px rgba(139, 92, 246, 0.13) !important;
-}
-
-.avatar img {
-    width: 100% !important;
-    height: 100% !important;
-
-    min-width: 100%;
-
-    min-height: 100%;
-
-    display: block !important;
-
-    aspect-ratio: 1 / 1 !important;
-
-    object-fit: cover !important;
-    object-position: center !important;
-
-    border-radius: 50% !important;
-}
-
-
-/* Small orbiting light points */
-.avatar-wrapper .avatar-ring-outer::before,
-.avatar-wrapper .avatar-ring-outer::after {
-    content: "";
-
-    position: absolute;
-
-    width: 9px;
-    height: 9px;
-
-    border-radius: 50%;
-
-    background: #ffffff;
-
-    box-shadow:
-        0 0 10px #38bdf8,
-        0 0 22px #60a5fa,
-        0 0 34px #8b5cf6;
-}
-
-.avatar-wrapper .avatar-ring-outer::before {
-    left: 50%;
-    top: 0;
-
-    transform: translate(-50%, -50%);
-}
-
-.avatar-wrapper .avatar-ring-outer::after {
-    right: 9%;
-    bottom: 13%;
-
-    width: 6px;
-    height: 6px;
-
-    box-shadow:
-        0 0 8px #60a5fa,
-        0 0 18px #a78bfa;
-}
-
-
-/* -------------------------
-   ABOUT: HIGHER CONTRAST
-------------------------- */
-
-.about-content h3 {
-    color: #f8fafc !important;
-
-    font-weight: 800;
-
-    text-shadow:
-        0 1px 18px rgba(56, 189, 248, 0.06);
-}
-
-.about-content h3 span {
-    background: var(--gradient-primary);
-    background-size: 200% auto;
+    background-size: 260% auto;
 
     background-clip: text;
     -webkit-background-clip: text;
+
     -webkit-text-fill-color: transparent;
 
-    animation: gradientFlow 6s ease-in-out infinite;
+    animation:
+        gradientFlowStrong 5.5s ease-in-out infinite;
 }
 
-.about-content p {
+.logo span {
+    -webkit-text-fill-color: transparent;
+}
+
+/* Main body copy: bright enough to read over the gradient background */
+.hero-description,
+.about-content p,
+.section-title p,
+.skill-info p,
+.project-card p,
+.achievement-card-content p,
+.contact-intro p,
+.contact-info strong {
     color: #cbd5e1 !important;
-
-    font-size: 15.5px !important;
-
-    line-height: 1.9 !important;
 }
 
-.about-highlight .highlight-number {
-    color: #f8fafc !important;
-
-    -webkit-text-fill-color: initial;
-}
-
-.about-highlight .highlight-text {
+/* Secondary labels: brighter, but not gradient-filled */
+.skill-info p,
+.project-tags span,
+.achievement-schools span {
     color: #aebbd0 !important;
-
-    font-size: 13.5px;
 }
 
-.highlight-icon {
-    background:
-        rgba(96, 165, 250, 0.10);
-
-    border:
-        1px solid rgba(96, 165, 250, 0.28);
-
-    box-shadow:
-        inset 0 0 18px rgba(56, 189, 248, 0.04);
-}
-
-.highlight-icon i {
-    color: #67d5ff !important;
-
-    background: none !important;
-
-    -webkit-text-fill-color: #67d5ff !important;
-}
-
-
-/* -------------------------
-   ICONS: SOLID + EASY TO READ
-------------------------- */
-
-/* Override the previous gradient icon treatment.
-   Gradients remain on text/accent surfaces, not on the icons themselves. */
+/* Keep icons crisp and solid */
 .skill-icon i,
 .project-icon i,
 .achievement-card-icon i,
+.highlight-icon i,
 .contact-icon i,
 .hero-socials i,
 .contact-socials i,
-.highlight-icon i {
+.btn i,
+.evidence-button i,
+.gallery-container i {
     background: none !important;
-
-    -webkit-background-clip: initial !important;
     background-clip: initial !important;
-
+    -webkit-background-clip: initial !important;
     -webkit-text-fill-color: currentColor !important;
-
-    color: #60a5fa !important;
-}
-
-.skill-icon i,
-.project-icon i {
-    font-size: 20px;
-}
-
-.achievement-card-icon i {
-    font-size: 24px;
-}
-
-
-/* -------------------------
-   CONTACT: BIGGER ICONS + SPACE + BORDER
-------------------------- */
-
-.contact-socials {
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
-
-    margin-top: 28px;
-}
-
-.contact-socials a {
-    position: relative;
-
-    width: 48px !important;
-    height: 48px !important;
-
-    display: inline-flex !important;
-
-    align-items: center;
-    justify-content: center;
-
-    border:
-        1px solid rgba(96, 165, 250, 0.30) !important;
-
-    border-radius: 14px !important;
-
-    background:
-        rgba(255, 255, 255, 0.035) !important;
-
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.12);
-
-    color: #60a5fa !important;
-}
-
-.contact-socials a i {
-    font-size: 20px;
-
-    color: #60a5fa !important;
-}
-
-.contact-socials a:hover {
-    transform: translateY(-4px) !important;
-
-    border-color:
-        rgba(56, 189, 248, 0.62) !important;
-
-    background:
-        rgba(96, 165, 250, 0.08) !important;
-
-    box-shadow:
-        0 12px 30px rgba(56, 189, 248, 0.10);
-}
-
-
-/* Contact cards: clearer icon boxes */
-.contact-icon {
-    width: 52px !important;
-    height: 52px !important;
-
-    border:
-        1px solid rgba(96, 165, 250, 0.30) !important;
-
-    background:
-        rgba(96, 165, 250, 0.07) !important;
-}
-
-.contact-icon i {
-    font-size: 20px;
-
-    color: #60a5fa !important;
-}
-
-
-/* -------------------------
-   GALLERY / EVIDENCE ICONS
-------------------------- */
-
-.evidence-button i {
     color: #67d5ff !important;
-
-    -webkit-text-fill-color: #67d5ff !important;
 }
 
-.evidence-button {
-    border-color:
-        rgba(96, 165, 250, 0.32);
+/* Gradient only on the icon container, not on the glyph */
+.skill-icon,
+.project-icon,
+.achievement-card-icon,
+.highlight-icon,
+.contact-icon {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(56, 189, 248, 0.16),
+            rgba(96, 165, 250, 0.10) 55%,
+            rgba(139, 92, 246, 0.16)
+        );
+
+    border: 1px solid rgba(96, 165, 250, 0.32);
+
+    box-shadow:
+        inset 0 0 22px rgba(56, 189, 248, 0.035);
 }
 
-
-/* -------------------------
-   NAV ARROW / BACK TO TOP
-------------------------- */
-
-.contact-arrow i,
-.back-to-top i {
-    color: #60a5fa !important;
-
-    -webkit-text-fill-color: #60a5fa !important;
+/* Avatar ring rotation must remain transformable by keyframes */
+.avatar-ring-outer,
+.avatar-ring-inner {
+    will-change: transform;
 }
 
-
-/* -------------------------
-   FINAL HERO SPACING
-------------------------- */
-
-.hero {
-    min-height: calc(100vh - 10px);
+/* Override only the earlier translate transform; the keyframes own the rotation. */
+.avatar-ring-outer {
+    animation:
+        avatarOuterRotateFinal 10s linear infinite !important;
 }
 
-.hero-content {
-    padding-top: 4px;
-    padding-bottom: 20px;
+.avatar-ring-inner {
+    animation:
+        avatarInnerRotateFinal 7s linear infinite !important;
 }
-
-
-/* -------------------------
-   FINAL ANIMATIONS
-------------------------- */
 
 @keyframes avatarOuterRotateFinal {
     from {
@@ -2523,173 +2073,92 @@ button:focus-visible {
     }
 }
 
-@keyframes avatarHaloFinal {
+@keyframes gradientFlowStrong {
     0%,
     100% {
-        opacity: 0.60;
-        transform: translate(-50%, -50%) scale(0.96);
+        background-position: 0% 50%;
     }
 
     50% {
-        opacity: 0.95;
-        transform: translate(-50%, -50%) scale(1.06);
+        background-position: 100% 50%;
     }
 }
 
+/* Make the social icons larger and clearly bordered */
+.hero-socials a {
+    width: 44px !important;
+    height: 44px !important;
 
-/* -------------------------
-   MOBILE MENU
-------------------------- */
+    border: 1px solid rgba(96, 165, 250, 0.28) !important;
 
-@media (max-width: 800px) {
+    background:
+        rgba(7, 11, 20, 0.38) !important;
+}
 
-    .site-header,
-    .navbar {
-        height: 68px;
-    }
+.hero-socials a i {
+    font-size: 17px;
+}
 
-    .menu-toggle {
-        display: inline-flex !important;
+/* Contact social buttons remain larger */
+.contact-socials a {
+    width: 50px !important;
+    height: 50px !important;
 
-        order: 2;
-    }
+    border:
+        1px solid rgba(96, 165, 250, 0.34) !important;
 
-    nav {
-        position: relative;
-    }
+    background:
+        linear-gradient(
+            145deg,
+            rgba(56, 189, 248, 0.05),
+            rgba(139, 92, 246, 0.07)
+        ) !important;
 
-    .nav-links {
-        position: absolute;
+    box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.16);
+}
 
-        top: calc(100% + 12px);
-        right: 0;
-        left: auto;
+.contact-socials a i {
+    font-size: 21px;
 
-        width: min(310px, 86vw);
+    color: #67d5ff !important;
+}
 
-        display: none !important;
+/* CTA gets a stronger animated gradient */
+.btn-primary {
+    background:
+        linear-gradient(
+            105deg,
+            #22d3ee,
+            #38bdf8 30%,
+            #60a5fa 58%,
+            #8b5cf6 86%,
+            #a78bfa
+        ) !important;
 
-        flex-direction: column;
+    background-size: 230% 230%;
 
-        align-items: stretch;
+    animation:
+        gradientFlowStrong 5.5s ease-in-out infinite;
+}
 
-        gap: 4px;
+/* Ensure reduced motion still disables the new gradient + ring animations */
+@media (prefers-reduced-motion: reduce) {
 
-        padding: 9px;
-
-        border:
-            1px solid rgba(96, 165, 250, 0.20);
-
-        border-radius: 16px;
-
-        background:
-            rgba(7, 11, 20, 0.96);
-
-        box-shadow:
-            0 22px 55px rgba(0, 0, 0, 0.36),
-            0 0 30px rgba(56, 189, 248, 0.06);
-
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-
-        z-index: 1100;
-    }
-
-    .nav-links.open {
-        display: flex !important;
-    }
-
-    .nav-links li,
-    .nav-link {
-        width: 100%;
-    }
-
-    .nav-link {
-        display: flex;
-
-        align-items: center;
-
-        min-height: 46px;
-
-        padding: 11px 14px;
-
-        border-radius: 10px;
-    }
-
-    .nav-link::after {
-        display: none !important;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-        background:
-            linear-gradient(
-                90deg,
-                rgba(56, 189, 248, 0.10),
-                rgba(139, 92, 246, 0.10)
-            );
-
-        color: #ffffff;
-
-        -webkit-text-fill-color: initial;
-    }
-
-    .avatar-wrapper {
-        min-height: 270px !important;
-    }
-
-    .avatar-ring-outer {
-        width: 246px !important;
-        height: 246px !important;
-    }
-
+    .hero h1 span,
+    .logo,
+    .hero-small,
+    .hero-role,
+    .section-kicker,
+    .about-content h3 span,
+    .skill-percent,
+    .project-link,
+    .contact-arrow,
+    .back-to-top,
+    .btn-primary,
+    .avatar-ring-outer,
     .avatar-ring-inner {
-        width: 220px !important;
-        height: 220px !important;
-    }
-
-    .avatar-wrapper::after {
-        width: 280px;
-        height: 280px;
-    }
-
-    .avatar {
-        width: 190px !important;
-        height: 190px !important;
-
-        min-width: 190px !important;
-        min-height: 190px !important;
-    }
-
-    .contact-socials {
-        justify-content: center;
-    }
-
-}
-
-
-/* -------------------------
-   VERY SMALL SCREENS
-------------------------- */
-
-@media (max-width: 480px) {
-
-    .menu-toggle {
-        width: 42px;
-        height: 42px;
-    }
-
-    .nav-links {
-        width: min(290px, 90vw);
-    }
-
-    .contact-socials {
-        gap: 14px;
-    }
-
-    .contact-socials a {
-        width: 50px !important;
-        height: 50px !important;
+        animation: none !important;
     }
 
 }
