@@ -13,7 +13,7 @@
 
     <meta name="theme-color" content="#070b14">
 
-    <link rel="stylesheet" href="style.css?v=20260903-5">
+    <link rel="stylesheet" href="style.css?v=20260903-6">
 
     <!-- Font Awesome -->
     <link
@@ -117,6 +117,139 @@ section > .container,
     position: relative;
     z-index: 5;
 }
+
+
+/* =========================================================
+   DOCUMENT UI HOTFIX
+========================================================= */
+
+.document-category-footer {
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:16px !important;
+}
+
+.document-category-count {
+    display:inline-flex !important;
+    align-items:center !important;
+    gap:10px !important;
+    margin-right:8px !important;
+    white-space:nowrap !important;
+    color:#9eb0c5 !important;
+}
+
+.document-category-count i {
+    flex:0 0 auto !important;
+    margin-right:2px !important;
+}
+
+.document-open-label {
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:8px !important;
+    min-height:36px !important;
+    padding:0 13px !important;
+    border:1px solid rgba(125,211,252,.24) !important;
+    border-radius:10px !important;
+    background:linear-gradient(135deg,rgba(56,189,248,.07),rgba(124,58,237,.08)) !important;
+    color:#d9efff !important;
+    box-shadow:0 0 0 rgba(56,189,248,0) !important;
+    white-space:nowrap !important;
+    transition:transform .25s ease,border-color .25s ease,background .25s ease,box-shadow .25s ease,color .25s ease !important;
+}
+
+.document-category-card:hover .document-open-label,
+.document-card-clickable:hover .document-open-label {
+    transform:translateY(-2px) !important;
+    border-color:rgba(125,211,252,.58) !important;
+    background:linear-gradient(135deg,rgba(56,189,248,.14),rgba(124,58,237,.15)) !important;
+    color:#ffffff !important;
+    box-shadow:0 8px 25px rgba(56,189,248,.10),0 0 18px rgba(124,58,237,.08) !important;
+}
+
+.document-category-card:hover {
+    border-color:rgba(125,211,252,.24) !important;
+}
+
+.document-backbar {
+    margin:0 0 20px !important;
+    padding:12px !important;
+    border:1px solid rgba(125,211,252,.14) !important;
+    border-radius:14px !important;
+    background:linear-gradient(135deg,rgba(7,16,30,.72),rgba(10,14,32,.68)) !important;
+    box-shadow:0 12px 32px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.03) !important;
+}
+
+.document-back-button {
+    appearance:none !important;
+    -webkit-appearance:none !important;
+    border:1px solid rgba(125,211,252,.28) !important;
+    outline:none !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:9px !important;
+    min-height:42px !important;
+    padding:0 15px !important;
+    border-radius:11px !important;
+    background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(124,58,237,.10)) !important;
+    color:#e7f6ff !important;
+    font:inherit !important;
+    font-size:13px !important;
+    font-weight:750 !important;
+    line-height:1 !important;
+    text-decoration:none !important;
+    cursor:pointer !important;
+    box-shadow:0 8px 22px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.04) !important;
+    transition:transform .25s ease,border-color .25s ease,background .25s ease,box-shadow .25s ease,color .25s ease !important;
+}
+
+.document-back-button i {
+    margin:0 !important;
+    font-size:12px !important;
+    color:#7dd3fc !important;
+}
+
+.document-back-button:hover {
+    transform:translateX(-3px) translateY(-1px) !important;
+    border-color:rgba(125,211,252,.64) !important;
+    background:linear-gradient(135deg,rgba(56,189,248,.15),rgba(124,58,237,.15)) !important;
+    color:#ffffff !important;
+    box-shadow:0 10px 28px rgba(56,189,248,.10),0 0 22px rgba(124,58,237,.09) !important;
+}
+
+.document-back-button:active {
+    transform:translateX(-1px) scale(.985) !important;
+}
+
+.document-selected-category {
+    display:inline-flex !important;
+    align-items:center !important;
+    min-height:30px !important;
+    padding:0 10px !important;
+    border:1px solid rgba(125,211,252,.10) !important;
+    border-radius:999px !important;
+    background:rgba(56,189,248,.035) !important;
+}
+
+@media(max-width:640px){
+    .document-category-footer {
+        align-items:flex-start !important;
+        flex-direction:column !important;
+    }
+    .document-open-label {
+        width:100% !important;
+    }
+    .document-backbar {
+        align-items:stretch !important;
+    }
+    .document-back-button {
+        width:100% !important;
+    }
+}
+
 </style>
 
 </head>
