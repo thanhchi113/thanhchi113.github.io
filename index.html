@@ -2812,6 +2812,77 @@ body:has(.pdf-modal.open){overflow:auto !important;}
 }
 </style>
 
+
+<style id="final-pdf-full-page-related-scroll-fix">
+/* =========================================================
+   PDF 100% = FULL PAGE FIT
+   RELATED DOCUMENTS = OWN INTERNAL VERTICAL SCROLL
+========================================================= */
+
+#documents.document-viewer-mode .pdf-viewer-scroll{
+    overflow-x:auto !important;
+    overflow-y:auto !important;
+    box-sizing:border-box !important;
+}
+
+#documents.document-viewer-mode .pdf-viewer-pages,
+#documents.document-viewer-mode .pdf-page-wrap,
+#documents.document-viewer-mode .pdf-page-canvas{
+    box-sizing:border-box !important;
+}
+
+/* The right panel stays fixed; only its card list scrolls. */
+#documents.document-viewer-mode .pdf-related-wrap{
+    display:flex !important;
+    flex-direction:column !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+}
+
+#documents.document-viewer-mode #pdfRelatedList{
+    display:flex !important;
+    flex-direction:column !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+}
+
+#documents.document-viewer-mode #pdfRelatedList > .pdf-related-list{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    align-content:start !important;
+    gap:8px !important;
+    padding-right:6px !important;
+    scrollbar-width:thin !important;
+    scrollbar-color:rgba(125,211,252,.36) rgba(255,255,255,.035) !important;
+}
+
+#documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar{
+    width:9px !important;
+}
+
+#documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-track{
+    background:rgba(255,255,255,.03) !important;
+    border-radius:999px !important;
+}
+
+#documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-thumb{
+    background:rgba(125,211,252,.34) !important;
+    border-radius:999px !important;
+}
+
+@media(max-width:900px){
+    #documents.document-viewer-mode .pdf-related-wrap{
+        min-height:0 !important;
+        overflow:hidden !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -5069,10 +5140,16 @@ body:has(.pdf-modal.open){overflow:auto !important;}
                     <span>Đang dựng PDF...</span>
                 </div>`;
 
-            const baseWidth = getPdfTargetWidth(document.querySelector(".pdf-viewer-scroll"));
+            const viewer = document.querySelector(".pdf-viewer-scroll");
+            const availableWidth = Math.max(240, (viewer?.clientWidth || 980) - 36);
+            const availableHeight = Math.max(240, (viewer?.clientHeight || 720) - 36);
             const firstPage = await pdf.getPage(1);
             const firstBaseViewport = firstPage.getViewport({ scale: 1 });
-            currentPdfFitScale = baseWidth / firstBaseViewport.width;
+
+            /* 100% is the full-page view: fit by both width and height. */
+            const fitScaleByWidth = availableWidth / firstBaseViewport.width;
+            const fitScaleByHeight = availableHeight / firstBaseViewport.height;
+            currentPdfFitScale = Math.max(0.1, Math.min(fitScaleByWidth, fitScaleByHeight));
             const actualScale = Math.max(0.1, currentPdfFitScale * currentPdfZoom);
             const ratio = Math.min(window.devicePixelRatio || 1, 2);
 
