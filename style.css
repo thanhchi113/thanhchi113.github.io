@@ -4067,3 +4067,223 @@ header.scrolled {
     }
 
 }
+
+
+/* =========================================================
+   CHOSEN SPACE COMPOSITION
+   Large lower-left planet + open planetary field
+========================================================= */
+
+.hero-planet-horizon {
+    width: 920px !important;
+    height: 920px !important;
+
+    left: -575px !important;
+    bottom: -655px !important;
+
+    opacity: 0.94 !important;
+
+    background:
+        radial-gradient(
+            circle at 61% 38%,
+            rgba(125, 211, 252, 0.92) 0%,
+            rgba(56, 189, 248, 0.48) 13%,
+            rgba(59, 130, 246, 0.28) 27%,
+            rgba(37, 99, 235, 0.20) 43%,
+            rgba(79, 70, 229, 0.16) 57%,
+            rgba(30, 27, 75, 0.20) 68%,
+            rgba(7, 11, 20, 0) 75%
+        );
+
+    box-shadow:
+        0 -14px 66px rgba(56, 189, 248, 0.18),
+        0 -2px 44px rgba(139, 92, 246, 0.16);
+
+    animation:
+        horizonPlanetChosen 8s ease-in-out infinite !important;
+}
+
+.hero-planet-horizon::before {
+    left: 112px !important;
+    top: 120px !important;
+
+    width: 620px !important;
+    height: 620px !important;
+
+    background:
+        radial-gradient(
+            circle at 46% 43%,
+            rgba(96, 165, 250, 0.18),
+            rgba(30, 64, 175, 0.14) 42%,
+            rgba(15, 23, 42, 0.22) 67%,
+            rgba(7, 11, 20, 0) 75%
+        ) !important;
+
+    box-shadow:
+        inset -25px -18px 80px rgba(2, 10, 30, 0.46),
+        inset 12px 8px 42px rgba(56, 189, 248, 0.06);
+}
+
+.hero-planet-horizon::after {
+    top: 182px !important;
+    height: 10px !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 7%,
+            rgba(56, 189, 248, 0.18) 18%,
+            rgba(125, 211, 252, 0.70) 38%,
+            rgba(255, 255, 255, 1) 49%,
+            rgba(125, 211, 252, 0.84) 58%,
+            rgba(139, 92, 246, 0.32) 76%,
+            transparent 95%
+        ) !important;
+
+    filter: blur(6px) !important;
+
+    opacity: 0.86 !important;
+}
+
+/* Second, softer atmospheric rim */
+.hero-space-scene::after {
+    content: "";
+
+    position: absolute;
+
+    left: -400px;
+    bottom: -460px;
+
+    width: 980px;
+    height: 560px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(56, 189, 248, 0.075) 0%,
+            rgba(99, 102, 241, 0.055) 42%,
+            rgba(139, 92, 246, 0.025) 58%,
+            transparent 72%
+        );
+
+    filter: blur(28px);
+
+    pointer-events: none;
+}
+
+
+/* More spacious planet placement */
+.planet-small-1 {
+    left: 34% !important;
+    bottom: 11% !important;
+}
+
+.planet-small-2 {
+    right: 30% !important;
+    bottom: 10% !important;
+}
+
+.planet-small-3 {
+    left: 55% !important;
+    bottom: 5% !important;
+}
+
+.hero-planet-ringed {
+    right: 7% !important;
+    bottom: 7% !important;
+}
+
+
+/* Soft transition bridge between the Hero and the next section:
+   it blends rather than creating a visible horizontal split. */
+main > section:not(.hero)::before {
+    height: 170px !important;
+
+    top: -20px !important;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(56, 189, 248, 0.065) 0%,
+            rgba(96, 165, 250, 0.032) 27%,
+            rgba(139, 92, 246, 0.018) 45%,
+            transparent 75%
+        ) !important;
+
+    filter: blur(24px) !important;
+
+    opacity: 0.82 !important;
+}
+
+
+/* Keep the hero content visually clean over the planet */
+.hero-text {
+    position: relative;
+    z-index: 8;
+}
+
+.avatar-wrapper {
+    z-index: 8;
+}
+
+
+/* Slightly stronger star field near the lower-left planet */
+.space-stars::before,
+.space-stars::after {
+    content: none;
+}
+
+
+@keyframes horizonPlanetChosen {
+
+    0%,
+    100% {
+        transform: scale(0.995);
+
+        opacity: 0.90;
+    }
+
+    50% {
+        transform: scale(1.015);
+
+        opacity: 0.97;
+    }
+
+}
+
+
+/* Mobile composition */
+@media (max-width: 800px) {
+
+    .hero-planet-horizon {
+        width: 600px !important;
+        height: 600px !important;
+
+        left: -390px !important;
+        bottom: -455px !important;
+    }
+
+    .hero-planet-horizon::before {
+        left: 72px !important;
+        top: 78px !important;
+
+        width: 410px !important;
+        height: 410px !important;
+    }
+
+    .hero-planet-horizon::after {
+        top: 119px !important;
+        height: 7px !important;
+    }
+
+    .hero-space-scene::after {
+        left: -290px;
+        bottom: -330px;
+
+        width: 680px;
+        height: 420px;
+    }
+
+}
