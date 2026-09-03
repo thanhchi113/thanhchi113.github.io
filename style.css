@@ -2162,3 +2162,531 @@ footer {
     }
 
 }
+
+
+/* =========================================================
+   FINAL FIX — MOBILE MENU + AVATAR ORBIT
+========================================================= */
+
+/* -------------------------
+   MOBILE MENU
+------------------------- */
+
+.menu-toggle {
+    display: none !important;
+    position: relative;
+    z-index: 1300;
+
+    width: 44px;
+    height: 44px;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 12px;
+
+    background: rgba(7, 11, 20, 0.74);
+
+    color: #e2e8f0;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.menu-toggle i {
+    display: block;
+
+    color: #e2e8f0 !important;
+
+    background: none !important;
+
+    -webkit-text-fill-color: #e2e8f0 !important;
+
+    font-size: 18px;
+}
+
+.menu-toggle:hover {
+    transform: translateY(-2px);
+
+    border-color:
+        rgba(56, 189, 248, 0.55);
+
+    background:
+        rgba(56, 189, 248, 0.08);
+}
+
+@media (max-width: 800px) {
+
+    .menu-toggle {
+        display: inline-flex !important;
+    }
+
+    header nav {
+        position: static;
+    }
+
+    .nav-links {
+        position: absolute !important;
+
+        top: calc(100% + 10px) !important;
+
+        right: 0 !important;
+        left: auto !important;
+
+        width: min(310px, 88vw) !important;
+
+        display: none !important;
+
+        flex-direction: column !important;
+
+        align-items: stretch !important;
+
+        gap: 3px !important;
+
+        padding: 8px !important;
+
+        border:
+            1px solid rgba(96, 165, 250, 0.22) !important;
+
+        border-radius: 16px !important;
+
+        background:
+            rgba(7, 11, 20, 0.97) !important;
+
+        box-shadow:
+            0 22px 55px rgba(0, 0, 0, 0.42),
+            0 0 32px rgba(56, 189, 248, 0.07);
+
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+
+        z-index: 1200;
+    }
+
+    .nav-links.open {
+        display: flex !important;
+    }
+
+    .nav-links li {
+        width: 100% !important;
+    }
+
+    .nav-link {
+        width: 100% !important;
+
+        min-height: 46px;
+
+        display: flex !important;
+
+        align-items: center;
+
+        padding: 11px 14px !important;
+
+        border-radius: 10px;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(56, 189, 248, 0.11),
+                rgba(139, 92, 246, 0.11)
+            ) !important;
+
+        color: #ffffff !important;
+
+        -webkit-text-fill-color: #ffffff !important;
+    }
+}
+
+
+/* -------------------------
+   AVATAR ORBIT — ROBUST VERSION
+------------------------- */
+
+/* Remove the old masked-ring appearance and use visible rotating rings. */
+.avatar-ring-outer,
+.avatar-ring-inner {
+    position: absolute !important;
+
+    left: 50% !important;
+    top: 50% !important;
+
+    margin: 0 !important;
+
+    border-radius: 50% !important;
+
+    background: transparent !important;
+
+    -webkit-mask: none !important;
+    mask: none !important;
+
+    -webkit-mask-composite: unset !important;
+    mask-composite: unset !important;
+
+    pointer-events: none !important;
+
+    will-change: transform !important;
+}
+
+/* Outer orbit */
+.avatar-ring-outer {
+    width: 316px !important;
+    height: 316px !important;
+
+    transform: translate(-50%, -50%) rotate(0deg) !important;
+
+    border: 2px solid rgba(96, 165, 250, 0.18) !important;
+
+    border-top-color: #38bdf8 !important;
+
+    border-right-color: #8b5cf6 !important;
+
+    box-shadow:
+        0 0 14px rgba(56, 189, 248, 0.12),
+        inset 0 0 14px rgba(139, 92, 246, 0.04);
+
+    animation:
+        orbitRingOuter 10s linear infinite !important;
+
+    z-index: 1;
+}
+
+/* Inner orbit */
+.avatar-ring-inner {
+    width: 276px !important;
+    height: 276px !important;
+
+    transform: translate(-50%, -50%) rotate(360deg) !important;
+
+    border: 2px solid rgba(96, 165, 250, 0.10) !important;
+
+    border-left-color: #60a5fa !important;
+
+    border-bottom-color: #a78bfa !important;
+
+    box-shadow:
+        0 0 12px rgba(139, 92, 246, 0.10);
+
+    animation:
+        orbitRingInner 7s linear infinite !important;
+
+    z-index: 2;
+}
+
+
+/* Orbiting planet-like particles */
+.orbit-particle {
+    position: absolute !important;
+
+    left: 50%;
+    top: 50%;
+
+    display: block;
+
+    border-radius: 50%;
+
+    transform-origin: center center;
+
+    pointer-events: none;
+
+    z-index: 4;
+
+    will-change: transform;
+}
+
+.orbit-particle-outer {
+    width: 11px;
+    height: 11px;
+
+    margin-left: -5.5px;
+    margin-top: -5.5px;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ffffff 0%,
+            #67e8f9 28%,
+            #38bdf8 58%,
+            #2563eb 100%
+        );
+
+    box-shadow:
+        0 0 8px #38bdf8,
+        0 0 18px rgba(56, 189, 248, 0.82),
+        0 0 30px rgba(96, 165, 250, 0.38);
+
+    animation:
+        orbitPlanetOuter 6.5s linear infinite;
+}
+
+.orbit-particle-inner {
+    width: 8px;
+    height: 8px;
+
+    margin-left: -4px;
+    margin-top: -4px;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ffffff 0%,
+            #c4b5fd 25%,
+            #8b5cf6 62%,
+            #6d28d9 100%
+        );
+
+    box-shadow:
+        0 0 7px #8b5cf6,
+        0 0 16px rgba(139, 92, 246, 0.72);
+
+    animation:
+        orbitPlanetInner 4.8s linear infinite reverse;
+}
+
+.orbit-particle-small {
+    width: 5px;
+    height: 5px;
+
+    margin-left: -2.5px;
+    margin-top: -2.5px;
+
+    background: #67e8f9;
+
+    box-shadow:
+        0 0 7px #38bdf8,
+        0 0 15px rgba(56, 189, 248, 0.62);
+
+    animation:
+        orbitPlanetSmall 8.5s linear infinite;
+}
+
+.orbit-particle-tiny {
+    width: 4px;
+    height: 4px;
+
+    margin-left: -2px;
+    margin-top: -2px;
+
+    background: #c4b5fd;
+
+    box-shadow:
+        0 0 6px #8b5cf6,
+        0 0 14px rgba(167, 139, 250, 0.58);
+
+    animation:
+        orbitPlanetTiny 5.7s linear infinite reverse;
+}
+
+
+/* Ring and particle keyframes */
+@keyframes orbitRingOuter {
+
+    from {
+        transform:
+            translate(-50%, -50%)
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            translate(-50%, -50%)
+            rotate(360deg);
+    }
+
+}
+
+@keyframes orbitRingInner {
+
+    from {
+        transform:
+            translate(-50%, -50%)
+            rotate(360deg);
+    }
+
+    to {
+        transform:
+            translate(-50%, -50%)
+            rotate(0deg);
+    }
+
+}
+
+@keyframes orbitPlanetOuter {
+
+    from {
+        transform:
+            rotate(0deg)
+            translateX(158px);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            translateX(158px);
+    }
+
+}
+
+@keyframes orbitPlanetInner {
+
+    from {
+        transform:
+            rotate(0deg)
+            translateX(138px);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            translateX(138px);
+    }
+
+}
+
+@keyframes orbitPlanetSmall {
+
+    from {
+        transform:
+            rotate(0deg)
+            translateX(153px);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            translateX(153px);
+    }
+
+}
+
+@keyframes orbitPlanetTiny {
+
+    from {
+        transform:
+            rotate(0deg)
+            translateX(127px);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            translateX(127px);
+    }
+
+}
+
+
+/* Mobile avatar orbit sizes */
+@media (max-width: 800px) {
+
+    .avatar-ring-outer {
+        width: 246px !important;
+        height: 246px !important;
+    }
+
+    .avatar-ring-inner {
+        width: 218px !important;
+        height: 218px !important;
+    }
+
+    .orbit-particle-outer {
+        animation-name: orbitPlanetOuterMobile;
+    }
+
+    .orbit-particle-inner {
+        animation-name: orbitPlanetInnerMobile;
+    }
+
+    .orbit-particle-small {
+        animation-name: orbitPlanetSmallMobile;
+    }
+
+    .orbit-particle-tiny {
+        animation-name: orbitPlanetTinyMobile;
+    }
+
+}
+
+@keyframes orbitPlanetOuterMobile {
+
+    from {
+        transform:
+            rotate(0deg)
+            translateX(123px);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            translateX(123px);
+    }
+
+}
+
+@keyframes orbitPlanetInnerMobile {
+
+    from {
+        transform:
+            rotate(0deg)
+            translateX(109px);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            translateX(109px);
+    }
+
+}
+
+@keyframes orbitPlanetSmallMobile {
+
+    from {
+        transform:
+            rotate(0deg)
+            translateX(118px);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            translateX(118px);
+    }
+
+}
+
+@keyframes orbitPlanetTinyMobile {
+
+    from {
+        transform:
+            rotate(0deg)
+            translateX(101px);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            translateX(101px);
+    }
+
+}
+
+
+/* Keep the central avatar visually dominant */
+.avatar {
+    z-index: 5 !important;
+
+    border-radius: 50% !important;
+}
