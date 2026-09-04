@@ -3479,6 +3479,21 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
 body.tikz-detail-mode .tikz-library-section .tikz-library-intro, body.tikz-detail-mode .tikz-library-section .tikz-library-toolbar, body.tikz-detail-mode .tikz-library-section .tikz-library-heading, body.tikz-detail-mode .tikz-library-section #tikzGrid, body.tikz-detail-mode .tikz-library-section #tikzEmpty{display:none!important;}
 body.tikz-detail-mode .tikz-library-section{padding-top:100px;}
 body.tikz-detail-mode .tikz-library-section .container{max-width:1050px;}
+body.tikz-detail-mode .tikz-library-intro,
+body.tikz-detail-mode .tikz-library-toolbar,
+body.tikz-detail-mode .tikz-library-heading,
+body.tikz-detail-mode #tikzGrid,
+body.tikz-detail-mode #tikzEmpty,
+body.tikz-detail-mode #tikzPagination{display:none!important;}
+.tikz-pagination{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin:24px 0 10px;}
+.tikz-pagination button,.tikz-pagination .tikz-page-label{min-width:38px;height:36px;padding:0 10px;border:1px solid rgba(148,163,184,.16);border-radius:10px;background:rgba(10,18,31,.8);color:#b8c9dc;font:700 11px/1 inherit;cursor:pointer;}
+.tikz-pagination button:hover{border-color:rgba(125,211,252,.35);color:#e9f8ff;background:rgba(56,189,248,.08);}
+.tikz-pagination button.active{background:rgba(56,189,248,.13);border-color:rgba(97,207,255,.45);color:#6bd7ff;}
+.tikz-pagination .tikz-page-label{display:inline-flex;align-items:center;gap:6px;cursor:default;}
+.tikz-pagination input{width:54px;height:28px;border:1px solid rgba(148,163,184,.2);border-radius:8px;background:#08111f;color:#e8f6ff;text-align:center;outline:none;font:700 11px/1 inherit;}
+.tikz-pagination .tikz-page-jump{min-width:auto;padding:0 11px;}
+.tikz-pagination .is-disabled{opacity:.4;pointer-events:none;}
+@media(max-width:600px){.tikz-pagination{gap:5px}.tikz-pagination button,.tikz-pagination .tikz-page-label{height:34px;min-width:34px;padding:0 8px}.tikz-pagination .tikz-page-label{width:100%;justify-content:center;order:5;margin-top:4px;}}
 body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 @media(max-width:600px){body.tikz-detail-mode .tikz-library-section{padding-top:88px;}}
 .tikz-card[data-tikz-card-open]:focus-visible{outline:2px solid rgba(125,211,252,.55);outline-offset:3px;}
@@ -4191,6 +4206,8 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                     <h3>Chưa có hình vẽ</h3>
                     <p>Hiện chưa có hình vẽ TikZ/LaTeX được xuất bản.</p>
                 </div>
+
+                <div id="tikzPagination" class="tikz-pagination" aria-label="Phân trang hình vẽ"></div>
 
                 <div id="tikzDetail" class="tikz-detail" hidden>
                     <div class="tikz-detail-head">
@@ -7000,37 +7017,22 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
         async function renderTikzInto(container, drawing) {
             if (!container || !drawing) return;
-            container.innerHTML = `<div class="tikz-render-loading"><i class="fa-solid fa-spinner fa-spin"></i><span>Đang tải bản render đã lưu...</span></div>`;
             const status = document.getElementById("tikzRenderStatus");
-            if (status) { status.className = "tikz-render-status"; status.textContent = "Đang tải hình đã render từ kho..."; }
-            try {
-                const url = await getCachedTikzPdfUrl(drawing);
-                if (!window.pdfjsLib) throw new Error("PDF.js chưa được tải. Hãy tải lại trang.");
-                const pdf = await pdfjsLib.getDocument({url, disableAutoFetch:false, disableStream:false}).promise;
-                const page = await pdf.getPage(1);
-                const base = page.getViewport({scale:1});
-                const maxWidth = Math.max(220, container.clientWidth - 42);
-                const maxHeight = Math.max(260, container.clientHeight - 42);
-                const scale = Math.min(maxWidth / base.width, maxHeight / base.height);
-                const viewport = page.getViewport({scale:Math.max(.1, scale)});
-                const canvas = document.createElement("canvas");
-                const ratio = Math.min(window.devicePixelRatio || 1, 2);
-                canvas.width = Math.ceil(viewport.width * ratio);
-                canvas.height = Math.ceil(viewport.height * ratio);
-                canvas.style.width = `${viewport.width}px`;
-                canvas.style.height = `${viewport.height}px`;
-                await page.render({canvasContext:canvas.getContext("2d",{alpha:false}),viewport,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;
-                container.innerHTML="";
-                container.appendChild(canvas);
-                if (status) { status.className="tikz-render-status ok"; status.textContent=`Đã tải bản render đã lưu · ${formatTikzDate(drawing.rendered_at || drawing.created_at)}`; }
+            const imageUrl=getTikzPublicUrl(drawing.preview_path);
+            const pdfUrl=getTikzPublicUrl(drawing.render_path);
+            if(imageUrl){
+                container.innerHTML=`<img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(drawing.title || 'Hình vẽ TikZ')}" style="max-width:100%;height:auto;display:block;background:#fff;box-shadow:0 15px 50px rgba(0,0,0,.28)">`;
+                if(status){status.className="tikz-render-status ok";status.textContent=`Bản render đã lưu · ${formatTikzDate(drawing.rendered_at || drawing.created_at)}`;}
                 return true;
-            } catch(error) {
-                console.error("TikZ cached render failed:",error);
-                const safeMessage=escapeHtml(error?.message||"Không tải được bản render.");
-                container.innerHTML=`<div class="tikz-render-loading"><i class="fa-solid fa-triangle-exclamation"></i><span>Chưa có bản render</span><small style="max-width:520px;line-height:1.6;text-align:center">${safeMessage}</small></div>`;
-                if(status){status.className="tikz-render-status error";status.textContent=error?.message||"Không tải được bản render.";}
-                return false;
             }
+            if(pdfUrl){
+                container.innerHTML=`<iframe src="${escapeHtml(pdfUrl)}#page=1&toolbar=0&navpanes=0" title="${escapeHtml(drawing.title || 'Bản render TikZ')}" style="width:100%;height:100%;min-height:520px;border:0;background:#fff"></iframe>`;
+                if(status){status.className="tikz-render-status ok";status.textContent="Bản render PDF đã lưu; chưa có ảnh PNG xem trước.";}
+                return true;
+            }
+            container.innerHTML=`<div class="tikz-render-loading"><i class="fa-regular fa-image"></i><span>Hình này chưa có bản render.</span><small>Hãy vào trang quản trị và bấm Render.</small></div>`;
+            if(status){status.className="tikz-render-status";status.textContent="Chưa có bản render đã lưu.";}
+            return false;
         }
 
         async function loadTikzDrawings() {
@@ -7038,7 +7040,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             try {
                 const {data, error} = await supabaseClient
                     .from("tikz_drawings")
-                    .select("id,title,description,tags,packages,published,code_unlocked,sort_order,created_at,updated_at,render_path,rendered_at,render_error")
+                    .select("id,title,description,tags,packages,published,code_unlocked,sort_order,created_at,updated_at,render_path,preview_path,rendered_at,render_error")
                     .eq("published", true)
                     .order("sort_order", {ascending:true})
                     .order("created_at", {ascending:false});
@@ -7065,7 +7067,10 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             }
         }
 
-        function getFilteredTikzDrawings() {
+        const TIKZ_PAGE_SIZE=8;
+let tikzCurrentPage=1;
+
+function getFilteredTikzDrawings() {
             const q = (document.getElementById("tikzSearch")?.value || "").trim().toLowerCase();
             const sort = document.getElementById("tikzSort")?.value || "newest";
             let list = tikzDrawings.filter(d => !q || [d.title,d.description,d.tags].filter(Boolean).join(" ").toLowerCase().includes(q));
@@ -7073,15 +7078,66 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             return list;
         }
 
+        function getTikzPublicUrl(path){
+            if(!path) return "";
+            const {data}=supabaseClient.storage.from("tikz-renders").getPublicUrl(path);
+            return data?.publicUrl || "";
+        }
+
+        function renderTikzPagination(total, totalPages){
+            const root=document.getElementById("tikzPagination");
+            if(!root) return;
+            if(totalPages<=1){ root.innerHTML=""; root.hidden=true; return; }
+            root.hidden=false;
+            const buttons=[];
+            buttons.push(`<button type="button" class="${tikzCurrentPage<=1?'is-disabled':''}" data-tikz-page="${tikzCurrentPage-1}" aria-label="Trang trước"><i class="fa-solid fa-chevron-left"></i></button>`);
+            const windowSize=7;
+            let start=Math.max(1,tikzCurrentPage-Math.floor(windowSize/2));
+            let finish=Math.min(totalPages,start+windowSize-1);
+            start=Math.max(1,finish-windowSize+1);
+            if(start>1){buttons.push(`<button type="button" data-tikz-page="1">1</button>`);if(start>2)buttons.push(`<span class="tikz-page-label">…</span>`);}
+            for(let i=start;i<=finish;i++) buttons.push(`<button type="button" data-tikz-page="${i}" class="${i===tikzCurrentPage?'active':''}">${i}</button>`);
+            if(finish<totalPages){if(finish<totalPages-1)buttons.push(`<span class="tikz-page-label">…</span>`);buttons.push(`<button type="button" data-tikz-page="${totalPages}">${totalPages}</button>`);}
+            buttons.push(`<button type="button" class="${tikzCurrentPage>=totalPages?'is-disabled':''}" data-tikz-page="${tikzCurrentPage+1}" aria-label="Trang sau"><i class="fa-solid fa-chevron-right"></i></button>`);
+            buttons.push(`<span class="tikz-page-label">Tới trang <input id="tikzPageJumpInput" type="number" min="1" max="${totalPages}" value="${tikzCurrentPage}"><button type="button" class="tikz-page-jump" data-tikz-jump="1">Đi</button> / ${totalPages}</span>`);
+            root.innerHTML=buttons.join("");
+            root.querySelectorAll('[data-tikz-page]').forEach(btn=>btn.addEventListener('click',()=>{
+                const page=Number(btn.dataset.tikzPage); if(!page||page<1||page>totalPages||page===tikzCurrentPage)return;
+                tikzCurrentPage=page; renderTikzLibrary();
+                requestAnimationFrame(()=>document.getElementById('tikz-library')?.scrollIntoView({behavior:'auto',block:'start'}));
+            }));
+            root.querySelector('[data-tikz-jump]')?.addEventListener('click',()=>{
+                const input=document.getElementById('tikzPageJumpInput');
+                const page=Math.min(totalPages,Math.max(1,Number(input?.value)||1));
+                tikzCurrentPage=page; renderTikzLibrary();
+                requestAnimationFrame(()=>document.getElementById('tikz-library')?.scrollIntoView({behavior:'auto',block:'start'}));
+            });
+            root.querySelector('#tikzPageJumpInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')root.querySelector('[data-tikz-jump]')?.click();});
+        }
+
         function renderTikzLibrary() {
             const grid = document.getElementById("tikzGrid");
             const empty = document.getElementById("tikzEmpty");
             if (!grid || !empty) return;
             const list = getFilteredTikzDrawings();
-            grid.innerHTML = list.map(d => {
+            const totalPages=Math.max(1,Math.ceil(list.length/TIKZ_PAGE_SIZE));
+            tikzCurrentPage=Math.min(Math.max(1,tikzCurrentPage),totalPages);
+            const start=(tikzCurrentPage-1)*TIKZ_PAGE_SIZE;
+            const pageItems=list.slice(start,start+TIKZ_PAGE_SIZE);
+            grid.innerHTML = pageItems.map(d => {
                 const tags = String(d.tags || "").split(",").map(x=>x.trim()).filter(Boolean).slice(0,5);
+                const previewUrl=getTikzPublicUrl(d.preview_path);
+                const legacyPdfUrl=getTikzPublicUrl(d.render_path);
+                let previewHtml;
+                if(previewUrl) {
+                    previewHtml=`<img src="${escapeHtml(previewUrl)}" alt="${escapeHtml(d.title || 'Hình vẽ TikZ')}" loading="lazy">`;
+                } else if(legacyPdfUrl) {
+                    previewHtml=`<iframe src="${escapeHtml(legacyPdfUrl)}#page=1&toolbar=0&navpanes=0&scrollbar=0" title="${escapeHtml(d.title || 'Bản render TikZ')}" loading="lazy"></iframe>`;
+                } else {
+                    previewHtml=`<div class="tikz-mini-loading"><i class="fa-regular fa-image"></i><br>Chưa có bản render</div>`;
+                }
                 return `<article class="tikz-card" data-tikz-id="${escapeHtml(d.id)}" data-tikz-card-open="${escapeHtml(d.id)}" role="button" tabindex="0" aria-label="Mở ${escapeHtml(d.title || 'Hình vẽ TikZ')}">
-                    <div class="tikz-card-render" data-tikz-mini-render="${escapeHtml(d.id)}"><div class="tikz-mini-loading"><i class="fa-solid fa-spinner fa-spin"></i><br>Đang render...</div></div>
+                    <div class="tikz-card-render" data-tikz-mini-render="${escapeHtml(d.id)}">${previewHtml}</div>
                     <div class="tikz-card-body">
                         <h3 class="tikz-card-title">${escapeHtml(d.title || "Hình vẽ TikZ")}</h3>
                         <p class="tikz-card-description">${escapeHtml(d.description || "Hình vẽ TikZ/LaTeX.")}</p>
@@ -7092,17 +7148,12 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             }).join("");
             empty.hidden = list.length > 0;
             grid.hidden = list.length === 0;
+            renderTikzPagination(list.length,totalPages);
             grid.querySelectorAll("[data-tikz-detail]").forEach(btn => btn.addEventListener("click", (event) => { event.stopPropagation(); openTikzDetail(btn.dataset.tikzDetail); }));
             grid.querySelectorAll("[data-tikz-card-open]").forEach(card => {
                 card.addEventListener("click", () => openTikzDetail(card.dataset.tikzCardOpen));
                 card.addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " " ) { event.preventDefault(); openTikzDetail(card.dataset.tikzCardOpen); } });
             });
-            if (list.length) {
-                list.forEach((drawing, index) => {
-                    const target = grid.querySelector(`[data-tikz-mini-render="${CSS.escape(String(drawing.id))}"]`);
-                    if (target && index < 4) renderTikzCardPreview(target, drawing);
-                });
-            }
         }
 
         async function renderTikzCardPreview(container,drawing){try{const url=await getCachedTikzPdfUrl(drawing);if(!window.pdfjsLib)throw new Error("PDF.js chưa được tải.");const pdf=await pdfjsLib.getDocument({url,disableAutoFetch:false,disableStream:false}).promise;const page=await pdf.getPage(1);const base=page.getViewport({scale:1});const width=Math.max(160,container.clientWidth-36);const height=Math.max(170,container.clientHeight-36);const scale=Math.min(width/base.width,height/base.height);const viewport=page.getViewport({scale:Math.max(.1,scale)});const canvas=document.createElement("canvas");const ratio=Math.min(window.devicePixelRatio||1,1.5);canvas.width=Math.ceil(viewport.width*ratio);canvas.height=Math.ceil(viewport.height*ratio);canvas.style.width=`${viewport.width}px`;canvas.style.height=`${viewport.height}px`;await page.render({canvasContext:canvas.getContext("2d",{alpha:false}),viewport,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;container.innerHTML="";container.appendChild(canvas);}catch(e){console.error("TikZ cached preview failed:",e);container.innerHTML=`<div class="tikz-mini-loading"><i class="fa-solid fa-triangle-exclamation"></i><br>Chưa có bản render<br><small style="opacity:.75">Hãy render hình trong trang quản trị.</small></div>`;}}
@@ -7121,6 +7172,15 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 if(el) el.scrollIntoView({behavior:"auto",block:"start"});
             });
         }
+
+        document.querySelector('.logo')?.addEventListener('click',event=>{
+            event.preventDefault();
+            document.body.classList.remove('tikz-library-mode','tikz-detail-mode');
+            document.getElementById('tikz-library')?.setAttribute('hidden','');
+            document.getElementById('tikzDetail')?.setAttribute('hidden','');
+            history.pushState(null,'',`${location.pathname}#home`);
+            requestAnimationFrame(()=>document.getElementById('home')?.scrollIntoView({behavior:'auto',block:'start'}));
+        });
 
         document.querySelectorAll("[data-main-nav]").forEach(link=>link.addEventListener("click",event=>{
             event.preventDefault();
@@ -7172,8 +7232,8 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             currentTikzDrawing = drawing;
             if (!fromHistory) history.pushState({tikzDetail:String(drawing.id)}, "", `${location.pathname}#tikz-${encodeURIComponent(drawing.id)}`);
             document.body.classList.add("tikz-detail-mode");
-            document.getElementById("tikzGrid")?.setAttribute("hidden", "");
-            document.getElementById("tikzEmpty")?.setAttribute("hidden", "");
+            ["tikzGrid","tikzEmpty","tikzPagination","tikzViewTitle"].forEach(id=>document.getElementById(id)?.setAttribute("hidden",""));
+            document.querySelectorAll("#tikz-library .tikz-library-intro,#tikz-library .tikz-library-toolbar,#tikz-library .tikz-library-heading").forEach(el=>el.setAttribute("hidden",""));
             document.getElementById("tikzDetail")?.removeAttribute("hidden");
             document.getElementById("tikzDetailTitle").textContent = drawing.title || "Hình vẽ TikZ";
             document.getElementById("tikzDetailDescription").textContent = drawing.description || "";
@@ -7217,6 +7277,9 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             document.body.classList.remove("tikz-detail-mode");
             document.getElementById("tikzDetail")?.setAttribute("hidden","");
             document.getElementById("tikzGrid")?.removeAttribute("hidden");
+            document.getElementById("tikzEmpty")?.removeAttribute("hidden");
+            document.getElementById("tikzPagination")?.removeAttribute("hidden");
+            document.querySelectorAll("#tikz-library .tikz-library-intro,#tikz-library .tikz-library-toolbar,#tikz-library .tikz-library-heading").forEach(el=>el.removeAttribute("hidden"));
             history.replaceState(null,"",`${location.pathname}#tikz-library`);
             window.scrollTo({top:0,behavior:"auto"});
         });
@@ -7229,10 +7292,13 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 document.body.classList.remove("tikz-detail-mode");
                 document.getElementById("tikzDetail")?.setAttribute("hidden","");
                 document.getElementById("tikzGrid")?.removeAttribute("hidden");
+                document.getElementById("tikzEmpty")?.removeAttribute("hidden");
+                document.getElementById("tikzPagination")?.removeAttribute("hidden");
+                document.querySelectorAll("#tikz-library .tikz-library-intro,#tikz-library .tikz-library-toolbar,#tikz-library .tikz-library-heading").forEach(el=>el.removeAttribute("hidden"));
             }
         });
-        document.getElementById("tikzSearch")?.addEventListener("input", renderTikzLibrary);
-        document.getElementById("tikzSort")?.addEventListener("change", renderTikzLibrary);
+        document.getElementById("tikzSearch")?.addEventListener("input", ()=>{tikzCurrentPage=1;renderTikzLibrary();});
+        document.getElementById("tikzSort")?.addEventListener("change", ()=>{tikzCurrentPage=1;renderTikzLibrary();});
         if (location.hash === "#tikz-library") setTimeout(openTikzLibrary, 50);
 
 
