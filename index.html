@@ -3071,10 +3071,10 @@ body::-webkit-scrollbar-thumb:hover{
 </style>
 
 
-<style id="pdf-desktop-real-100-scale-v12">
+<style id="pdf-desktop-real-100-scale-v13">
 /* =========================================================
-   V12 — DESKTOP PDF VIEWER
-   100% = REAL PDF.JS SCALE
+   V13 — DESKTOP PDF VIEWER
+   100% = BROWSER PDF VIEWER SCALE (96/72)
    Do not shrink the page to fit the viewer.
 ========================================================= */
 @media(min-width:901px){
@@ -3118,6 +3118,71 @@ body::-webkit-scrollbar-thumb:hover{
     #documents.document-viewer-mode .pdf-page-canvas{
         max-width:100% !important;
         height:auto !important;
+    }
+}
+</style>
+
+
+<style id="mobile-related-documents-scroll-v14">
+/* =========================================================
+   V14 — MOBILE: RIÊNG THANH CUỘN CHO TÀI LIỆU LIÊN QUAN
+   Giữ nguyên bố cục mobile hiện tại: PDF ở trên,
+   tài liệu liên quan ở bên dưới.
+========================================================= */
+@media(max-width:900px){
+    #documents.document-viewer-mode .pdf-related-wrap{
+        min-height:0 !important;
+        max-height:56vh !important;
+        overflow:hidden !important;
+        box-sizing:border-box !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList{
+        min-height:0 !important;
+        max-height:none !important;
+        overflow:hidden !important;
+        display:flex !important;
+        flex-direction:column !important;
+        box-sizing:border-box !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list{
+        min-height:0 !important;
+        max-height:none !important;
+        flex:1 1 auto !important;
+        overflow-y:auto !important;
+        overflow-x:hidden !important;
+        -webkit-overflow-scrolling:touch !important;
+        overscroll-behavior:contain !important;
+        scrollbar-width:thin !important;
+        scrollbar-color:rgba(125,211,252,.42) rgba(7,14,26,.72) !important;
+        padding-right:7px !important;
+        box-sizing:border-box !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar{
+        width:9px !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-track{
+        background:rgba(7,14,26,.72) !important;
+        border-radius:999px !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-thumb{
+        background:rgba(125,211,252,.38) !important;
+        border:2px solid rgba(7,14,26,.72) !important;
+        border-radius:999px !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-thumb:hover{
+        background:rgba(125,211,252,.58) !important;
+    }
+}
+
+@media(max-width:480px){
+    #documents.document-viewer-mode .pdf-related-wrap{
+        max-height:52vh !important;
     }
 }
 </style>
@@ -5399,12 +5464,27 @@ body::-webkit-scrollbar-thumb:hover{
             const fitScaleByHeight = availableHeight / firstBaseViewport.height;
             currentPdfFitScale = Math.max(0.1, Math.min(fitScaleByWidth, fitScaleByHeight));
 
+            /*
+             * PDF.js uses 72 points per inch while browser CSS uses 96px
+             * per inch.  The standard browser PDF viewer therefore makes
+             * 100% roughly 96/72 = 1.333 PDF.js scale.
+             *
+             * Using that conversion here prevents the 100% page from
+             * looking artificially small while preserving the requested
+             * real zoom behavior.  Mobile keeps its existing fit scale.
+             */
+            const CSS_UNITS = 96 / 72;
             const actualScale = isDesktopViewer
-                ? Math.max(0.1, currentPdfZoom)
+                ? Math.max(0.1, currentPdfZoom * CSS_UNITS)
                 : Math.max(0.1, currentPdfFitScale * currentPdfZoom);
 
-            /* Render at a high device-pixel density so the page stays crisp. */
-            const ratio = Math.min(window.devicePixelRatio || 1, 3);
+            /*
+             * Render the canvas at extra pixel density and display it at
+             * the logical PDF size.  This keeps text/lines sharp instead
+             * of rendering a small canvas and enlarging it with CSS.
+             */
+            const deviceRatio = window.devicePixelRatio || 1;
+            const ratio = Math.min(Math.max(deviceRatio, 2), 4);
 
             container.innerHTML = "";
 
