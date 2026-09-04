@@ -3459,6 +3459,21 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
 @media(max-width:600px){.tikz-library-section{padding:100px 0 60px}.tikz-library-toolbar{grid-template-columns:1fr}.tikz-library-toolbar .tikz-library-search-wrap{grid-column:auto}.tikz-sort{width:100%}.tikz-library-heading{align-items:flex-start;flex-direction:column}.tikz-card-render{height:240px}.tikz-detail-head h2{font-size:23px}.tikz-panel-head{align-items:flex-start;flex-direction:column}.tikz-copy-button{width:100%}.tikz-code-block,.tikz-render-box{height:420px}}
 </style>
 
+<style id="tikz-code-protection-v28">
+.tikz-code-protected{position:relative;min-height:560px;display:flex;align-items:center;justify-content:center;padding:24px;background:#060b14;overflow:hidden;}
+.tikz-code-protected::before{content:"\\begin{tikzpicture}\A  \A  ████████████████████████████████████\A  ████████████████████████████████████\A  ████████████████████████████████████\A  ████████████████████████████████████\A  \A  ...\A\end{tikzpicture}";white-space:pre-wrap;display:block;width:100%;padding:22px;border-radius:12px;background:rgba(255,255,255,.025);border:1px solid rgba(125,211,252,.08);color:rgba(217,237,255,.34);filter:blur(4px);font:12px/1.65 "JetBrains Mono","Cascadia Code",Consolas,monospace;user-select:none;pointer-events:none;}
+.tikz-code-protected-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(circle at center,rgba(5,11,20,.25),rgba(5,11,20,.72) 65%,rgba(5,11,20,.9));}
+.tikz-code-lock{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(125,211,252,.08);border:1px solid rgba(125,211,252,.22);color:#70d7ff;font-size:21px;box-shadow:0 0 35px rgba(56,189,248,.1);margin-bottom:12px;}
+.tikz-code-protected-overlay h4{margin:0 0 7px;color:#eaf5ff;font-size:15px;}
+.tikz-code-protected-overlay p{margin:0 0 15px;max-width:420px;color:#8ea2b8;font-size:11px;line-height:1.65;}
+.tikz-contact-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;}
+.tikz-contact-button{min-height:38px;padding:0 13px;border-radius:10px;border:1px solid rgba(125,211,252,.2);background:rgba(255,255,255,.045);color:#dff5ff;text-decoration:none;font:800 11px/1 "Segoe UI","Noto Sans",Arial,sans-serif;display:inline-flex;align-items:center;gap:7px;transition:.2s ease;}
+.tikz-contact-button:hover{transform:translateY(-2px);border-color:rgba(125,211,252,.5);background:rgba(56,189,248,.1);}
+.tikz-contact-button.facebook{border-color:rgba(96,165,250,.28);}.tikz-contact-button.zalo{border-color:rgba(45,212,191,.25);}
+@media(max-width:900px){.tikz-code-protected{min-height:480px;}}
+@media(max-width:600px){.tikz-code-protected{min-height:420px;padding:16px;}.tikz-code-protected::before{font-size:10px;padding:15px;}}
+</style>
+
 <style>
 .tikz-card[data-tikz-card-open]{cursor:pointer;}
 .tikz-card[data-tikz-card-open]:focus-visible{outline:2px solid rgba(125,211,252,.55);outline-offset:3px;}
@@ -4137,7 +4152,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                 <div class="section-title reveal">
                     <div class="section-kicker">TIKZ / LATEX LIBRARY</div>
                     <h2>Hình vẽ TikZ/LaTeX</h2>
-                    <p>Kho hình vẽ do tôi đăng tải. Mỗi đoạn code TikZ được tự động dựng thành tài liệu LaTeX và render thành hình ảnh để xem ngay.</p>
+                    <p>Kho hình vẽ do tôi đăng tải. Hình vẽ được render và lưu sẵn để hiển thị nhanh; code TikZ được bảo vệ và chỉ cung cấp khi liên hệ tác giả.</p>
                 </div>
 
                 <div class="tikz-library-toolbar reveal">
@@ -4191,14 +4206,24 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                             <div class="tikz-panel-head">
                                 <div>
                                     <span>CODE TIKZ</span>
-                                    <small id="tikzPackageInfo">Tự động thêm package</small>
+                                    <small id="tikzPackageInfo">Code được bảo vệ</small>
                                 </div>
-                                <button id="tikzCopyButton" class="tikz-copy-button" type="button">
-                                    <i class="fa-regular fa-copy"></i>
-                                    Sao chép code TikZ
-                                </button>
                             </div>
-                            <pre id="tikzCodeBlock" class="tikz-code-block"><code></code></pre>
+                            <div id="tikzCodeBlock" class="tikz-code-protected" aria-label="Code TikZ được bảo vệ">
+                                <div class="tikz-code-protected-overlay">
+                                    <div class="tikz-code-lock"><i class="fa-solid fa-lock"></i></div>
+                                    <h4>Code TikZ được bảo vệ</h4>
+                                    <p>Code của hình vẽ không hiển thị công khai. Muốn nhận code TikZ của hình này, vui lòng liên hệ tác giả.</p>
+                                    <div class="tikz-contact-actions">
+                                        <a class="tikz-contact-button facebook" href="https://www.facebook.com/mendz1103" target="_blank" rel="noopener noreferrer">
+                                            <i class="fa-brands fa-facebook-f"></i> Facebook
+                                        </a>
+                                        <a class="tikz-contact-button zalo" href="https://zalo.me/0905957716" target="_blank" rel="noopener noreferrer">
+                                            <i class="fa-solid fa-comment-dots"></i> Zalo: 0905957716
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="tikz-render-panel">
@@ -4207,10 +4232,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                                     <span>HÌNH RENDER</span>
                                     <small>Bản render đã được lưu sẵn</small>
                                 </div>
-                                <button id="tikzRenderAgain" class="tikz-copy-button secondary" type="button">
-                                    <i class="fa-solid fa-rotate"></i>
-                                    Render lại
-                                </button>
+
                             </div>
                             <div id="tikzRenderBox" class="tikz-render-box">
                                 <div class="tikz-render-loading">
@@ -7011,7 +7033,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             try {
                 const {data, error} = await supabaseClient
                     .from("tikz_drawings")
-                    .select("id,title,description,code,tags,packages,published,sort_order,created_at,updated_at,render_path,rendered_at,render_error")
+                    .select("id,title,description,tags,packages,published,sort_order,created_at,updated_at,render_path,rendered_at,render_error")
                     .eq("published", true)
                     .order("sort_order", {ascending:true})
                     .order("created_at", {ascending:false});
@@ -7150,8 +7172,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             document.getElementById("tikzDetailDescription").textContent = drawing.description || "";
             const tags = String(drawing.tags||"").split(",").map(x=>x.trim()).filter(Boolean);
             document.getElementById("tikzDetailMeta").innerHTML = `<span><i class="fa-regular fa-calendar"></i> Ngày đăng: ${escapeHtml(formatTikzDate(drawing.created_at))}</span>${tags.map(t=>`<span class="tikz-tag">${escapeHtml(t)}</span>`).join("")}`;
-            document.getElementById("tikzCodeBlock").querySelector("code").textContent = normalizeTikzCode(drawing.code);
-            const packages = drawing.packages || detectTikzPackages(drawing.code).join(", ");
+            const packages = drawing.packages || "Các package cần thiết đã được dùng khi render";
             document.getElementById("tikzPackageInfo").textContent = `Package: ${packages}`;
             await renderTikzInto(document.getElementById("tikzRenderBox"), drawing);
             document.getElementById("tikzDetail")?.scrollIntoView({behavior:"auto",block:"start"});
@@ -7180,12 +7201,6 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
         });
         document.getElementById("tikzSearch")?.addEventListener("input", renderTikzLibrary);
         document.getElementById("tikzSort")?.addEventListener("change", renderTikzLibrary);
-        document.getElementById("tikzCopyButton")?.addEventListener("click", async () => {
-            if (!currentTikzDrawing) return;
-            try { await navigator.clipboard.writeText(normalizeTikzCode(currentTikzDrawing.code)); document.getElementById("tikzCopyButton").innerHTML='<i class="fa-solid fa-check"></i> Đã sao chép code TikZ'; setTimeout(()=>document.getElementById("tikzCopyButton").innerHTML='<i class="fa-regular fa-copy"></i> Sao chép code TikZ',1800); }
-            catch(e) { alert("Không thể sao chép tự động. Hãy chọn và sao chép code thủ công."); }
-        });
-        document.getElementById("tikzRenderAgain")?.addEventListener("click", () => currentTikzDrawing && renderTikzInto(document.getElementById("tikzRenderBox"), currentTikzDrawing));
         if (location.hash === "#tikz-library") setTimeout(openTikzLibrary, 50);
 
 
