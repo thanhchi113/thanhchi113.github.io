@@ -7214,13 +7214,13 @@ function getFilteredTikzDrawings() {
 
         function fitRasterCanvas(container, sourceCanvas){
             if(!container)return;
-            const maxW=Math.max(120,container.clientWidth-28);
-            const maxH=Math.max(120,container.clientHeight-28);
+            const maxW=Math.max(120,container.clientWidth-12);
+            const maxH=Math.max(120,container.clientHeight-12);
             const bounds=getVisibleContentBounds(sourceCanvas.getContext("2d",{willReadFrequently:true}),sourceCanvas.width,sourceCanvas.height) || {x:0,y:0,width:sourceCanvas.width,height:sourceCanvas.height};
-            const margin=0.06;
+            const margin=0.015;
             const cropW=Math.max(1,bounds.width), cropH=Math.max(1,bounds.height);
             const usableW=maxW*(1-margin), usableH=maxH*(1-margin);
-            const scale=Math.max(0.05,Math.min(usableW/cropW,usableH/cropH));
+            const scale=Math.max(0.08,Math.min(usableW/cropW,usableH/cropH));
             const cssW=Math.max(1,Math.round(cropW*scale));
             const cssH=Math.max(1,Math.round(cropH*scale));
             const ratio=Math.min(Math.max(window.devicePixelRatio||1,1),2);
@@ -8052,7 +8052,20 @@ html, body { scroll-behavior: auto !important; }
     transform: translateZ(0);
 }
 </style>
-\n<style id="tikz-preview-fit-v31">\n/* v31: fixed preview frame + automatic scale/crop for stored render images. */\n.tikz-card-render{height:300px !important;display:flex !important;align-items:center !important;justify-content:center !important;padding:14px !important;overflow:hidden !important;box-sizing:border-box !important;background:#0c1422 !important;}\n.tikz-preview-stage{width:100% !important;height:100% !important;display:flex !important;align-items:center !important;justify-content:center !important;overflow:hidden !important;min-width:0 !important;min-height:0 !important;}\n.tikz-preview-source{display:block !important;max-width:100% !important;max-height:100% !important;width:100% !important;height:100% !important;object-fit:contain !important;background:#fff !important;box-shadow:0 8px 28px rgba(0,0,0,.20) !important;}\n.tikz-fit-canvas{display:block !important;max-width:100% !important;max-height:100% !important;background:#fff !important;box-shadow:0 8px 28px rgba(0,0,0,.20) !important;flex:0 0 auto !important;}\n.tikz-render-box{height:560px !important;display:flex !important;align-items:center !important;justify-content:center !important;overflow:hidden !important;padding:22px !important;box-sizing:border-box !important;}\n.tikz-render-box .tikz-fit-canvas{max-width:100% !important;max-height:100% !important;}\n@media(max-width:600px){\n  .tikz-card-render{height:240px !important;padding:12px !important;}\n  .tikz-render-box{height:420px !important;padding:16px !important;}\n}\n</style>\n</html>
+\n<style id="tikz-preview-fit-v32">
+/* v32: maximize stored TikZ preview size while keeping a fixed frame and aspect ratio. */
+.tikz-card-render{height:300px !important;display:flex !important;align-items:center !important;justify-content:center !important;padding:8px !important;overflow:hidden !important;box-sizing:border-box !important;background:#0c1422 !important;}
+.tikz-preview-stage{width:100% !important;height:100% !important;display:flex !important;align-items:center !important;justify-content:center !important;overflow:hidden !important;min-width:0 !important;min-height:0 !important;padding:0 !important;}
+.tikz-preview-source{display:block !important;width:auto !important;height:auto !important;max-width:98% !important;max-height:98% !important;object-fit:contain !important;background:#fff !important;box-shadow:0 8px 28px rgba(0,0,0,.20) !important;}
+.tikz-fit-canvas{display:block !important;max-width:98% !important;max-height:98% !important;width:auto !important;height:auto !important;background:#fff !important;box-shadow:0 8px 28px rgba(0,0,0,.20) !important;flex:0 0 auto !important;}
+.tikz-render-box{height:560px !important;display:flex !important;align-items:center !important;justify-content:center !important;overflow:hidden !important;padding:10px !important;box-sizing:border-box !important;}
+.tikz-render-box .tikz-fit-canvas{max-width:98% !important;max-height:98% !important;}
+.tikz-card-description{display:-webkit-box !important;-webkit-line-clamp:2 !important;-webkit-box-orient:vertical !important;overflow:hidden !important;text-overflow:ellipsis !important;min-height:40px !important;max-height:40px !important;}
+@media(max-width:600px){
+  .tikz-card-render{height:240px !important;padding:7px !important;}
+  .tikz-render-box{height:420px !important;padding:8px !important;}
+}
+</style>\n</html>
 
 
 <style id="latest-breadcrumb-and-pdf-preview-fix">
