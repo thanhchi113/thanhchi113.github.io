@@ -3070,6 +3070,58 @@ body::-webkit-scrollbar-thumb:hover{
 }
 </style>
 
+
+<style id="pdf-desktop-real-100-scale-v12">
+/* =========================================================
+   V12 — DESKTOP PDF VIEWER
+   100% = REAL PDF.JS SCALE
+   Do not shrink the page to fit the viewer.
+========================================================= */
+@media(min-width:901px){
+    #documents.document-viewer-mode .pdf-viewer-scroll{
+        overflow-x:auto !important;
+        overflow-y:auto !important;
+        scrollbar-width:thin !important;
+    }
+
+    #documents.document-viewer-mode .pdf-viewer-pages{
+        width:max-content !important;
+        min-width:100% !important;
+        max-width:none !important;
+        min-height:100% !important;
+        padding:18px 24px 32px !important;
+        box-sizing:border-box !important;
+        overflow:visible !important;
+    }
+
+    #documents.document-viewer-mode .pdf-page-wrap{
+        width:max-content !important;
+        max-width:none !important;
+        min-width:0 !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        overflow:visible !important;
+    }
+
+    #documents.document-viewer-mode .pdf-page-canvas{
+        width:auto !important;
+        height:auto !important;
+        max-width:none !important;
+        max-height:none !important;
+        flex:none !important;
+        display:block !important;
+    }
+}
+
+/* Mobile keeps the existing viewer sizing/behavior. */
+@media(max-width:900px){
+    #documents.document-viewer-mode .pdf-page-canvas{
+        max-width:100% !important;
+        height:auto !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -5333,12 +5385,26 @@ body::-webkit-scrollbar-thumb:hover{
             const firstPage = await pdf.getPage(1);
             const firstBaseViewport = firstPage.getViewport({ scale: 1 });
 
-            /* 100% is the full-page view: fit by both width and height. */
+            /*
+             * Desktop: 100% means the PDF's real PDF.js scale (1.0),
+             * not a fit-to-container scale. The page may therefore be
+             * larger than the viewport and can be scrolled, like the
+             * standard browser PDF viewer.
+             *
+             * Mobile keeps the existing fit behavior because that layout
+             * was already confirmed as correct.
+             */
+            const isDesktopViewer = window.matchMedia("(min-width:901px)").matches;
             const fitScaleByWidth = availableWidth / firstBaseViewport.width;
             const fitScaleByHeight = availableHeight / firstBaseViewport.height;
             currentPdfFitScale = Math.max(0.1, Math.min(fitScaleByWidth, fitScaleByHeight));
-            const actualScale = Math.max(0.1, currentPdfFitScale * currentPdfZoom);
-            const ratio = Math.min(window.devicePixelRatio || 1, 2);
+
+            const actualScale = isDesktopViewer
+                ? Math.max(0.1, currentPdfZoom)
+                : Math.max(0.1, currentPdfFitScale * currentPdfZoom);
+
+            /* Render at a high device-pixel density so the page stays crisp. */
+            const ratio = Math.min(window.devicePixelRatio || 1, 3);
 
             container.innerHTML = "";
 
