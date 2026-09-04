@@ -3532,6 +3532,12 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                     </li>
 
                     <li>
+                        <a href="#tikz-library" class="nav-link" data-main-nav="tikz">
+                            Hình vẽ TikZ
+                        </a>
+                    </li>
+
+                    <li>
                         <a href="#material-request" class="nav-link">
                             Yêu cầu
                         </a>
@@ -7065,6 +7071,35 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
         }
 
         async function renderTikzCardPreview(container,drawing){try{const url=await getCachedTikzPdfUrl(drawing);if(!window.pdfjsLib)throw new Error("PDF.js chưa được tải.");const pdf=await pdfjsLib.getDocument({url,disableAutoFetch:false,disableStream:false}).promise;const page=await pdf.getPage(1);const base=page.getViewport({scale:1});const width=Math.max(160,container.clientWidth-36);const height=Math.max(170,container.clientHeight-36);const scale=Math.min(width/base.width,height/base.height);const viewport=page.getViewport({scale:Math.max(.1,scale)});const canvas=document.createElement("canvas");const ratio=Math.min(window.devicePixelRatio||1,1.5);canvas.width=Math.ceil(viewport.width*ratio);canvas.height=Math.ceil(viewport.height*ratio);canvas.style.width=`${viewport.width}px`;canvas.style.height=`${viewport.height}px`;await page.render({canvasContext:canvas.getContext("2d",{alpha:false}),viewport,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;container.innerHTML="";container.appendChild(canvas);}catch(e){console.error("TikZ cached preview failed:",e);container.innerHTML=`<div class="tikz-mini-loading"><i class="fa-solid fa-triangle-exclamation"></i><br>Chưa có bản render<br><small style="opacity:.75">Hãy render hình trong trang quản trị.</small></div>`;}}
+
+        function navigateFromMainTaskbar(target){
+            if(target === "tikz") { openTikzLibrary(); return; }
+            // Leaving the TikZ library/detail view must restore the normal one-page website.
+            document.body.classList.remove("tikz-library-mode");
+            document.getElementById("tikz-library")?.setAttribute("hidden", "");
+            document.getElementById("tikzDetail")?.setAttribute("hidden", "");
+            currentTikzDrawing = null;
+            const hash = target.startsWith("#") ? target : `#${target}`;
+            history.pushState(null,"",`${location.pathname}${hash}`);
+            requestAnimationFrame(()=>{
+                const el=document.querySelector(hash);
+                if(el) el.scrollIntoView({behavior:"auto",block:"start"});
+            });
+        }
+
+        document.querySelectorAll("[data-main-nav]").forEach(link=>link.addEventListener("click",event=>{
+            event.preventDefault();
+            const target=link.dataset.mainNav;
+            if(target === "tikz") navigateFromMainTaskbar("tikz");
+        }));
+
+        // Normal navigation links must also work while the TikZ detail page is open.
+        document.querySelectorAll(".nav-link:not([data-main-nav])").forEach(link=>link.addEventListener("click",event=>{
+            const href=link.getAttribute("href")||"";
+            if(!href.startsWith("#")) return;
+            event.preventDefault();
+            navigateFromMainTaskbar(href);
+        }));
 
         function openTikzLibrary() {
             document.body.classList.add("tikz-library-mode");
