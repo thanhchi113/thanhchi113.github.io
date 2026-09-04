@@ -2178,7 +2178,7 @@ body:has(.pdf-modal.open){overflow:auto !important;}
     max-height:860px !important;
     overflow-y:auto !important;
     overflow-x:auto !important;
-    scroll-snap-type:y proximity !important;
+    scroll-snap-type:none !important;
     scrollbar-width:thin !important;
     scrollbar-color:rgba(125,211,252,.42) rgba(255,255,255,.035) !important;
 }
@@ -5687,7 +5687,7 @@ body{
 
         function getPdfRenderRatio() {
             const deviceRatio = window.devicePixelRatio || 1;
-            return Math.min(Math.max(deviceRatio, 2), 3);
+            return Math.min(Math.max(deviceRatio, 1.5), 2);
         }
 
         async function renderPdfPageNumber(pageNumber, token = currentPdfRenderToken) {
@@ -5752,9 +5752,10 @@ body{
         function ensurePdfPageRendered(pageNumber) {
             const token = currentPdfRenderToken;
             const page = Math.max(1, Number(pageNumber) || 1);
+            // Render the active page first. Adjacent pages are left to the
+            // IntersectionObserver so fast wheel/touch scrolling never
+            // starts three expensive PDF renders at once.
             renderPdfPageNumber(page, token);
-            renderPdfPageNumber(Math.max(1, page - 1), token);
-            renderPdfPageNumber(Math.min(currentPdfInstance?.numPages || page, page + 1), token);
         }
 
         function setupPdfLazyRendering() {
@@ -5769,14 +5770,22 @@ body{
             const token = currentPdfRenderToken;
             if ("IntersectionObserver" in window) {
                 window.__pdfPageObserver = new IntersectionObserver(entries => {
-                    entries.forEach(entry => {
-                        if (!entry.isIntersecting || token !== currentPdfRenderToken) return;
-                        const pageNumber = Number(entry.target.dataset.pdfPageWrap);
-                        renderPdfPageNumber(pageNumber, token);
+                    if (token !== currentPdfRenderToken) return;
+                    const visible = entries
+                        .filter(entry => entry.isIntersecting)
+                        .sort((a, b) => Math.abs(a.boundingClientRect.top - viewer.getBoundingClientRect().top) - Math.abs(b.boundingClientRect.top - viewer.getBoundingClientRect().top));
+                    if (!visible.length) return;
+                    const pageNumber = Number(visible[0].target.dataset.pdfPageWrap);
+                    // Never render synchronously inside the observer callback.
+                    // Yield one frame to the browser first, keeping wheel/touch
+                    // scrolling on the compositor path.
+                    cancelAnimationFrame(window.__pdfRenderRaf || 0);
+                    window.__pdfRenderRaf = requestAnimationFrame(() => {
+                        if (token === currentPdfRenderToken) renderPdfPageNumber(pageNumber, token);
                     });
                 }, {
                     root: viewer,
-                    rootMargin: "900px 0px",
+                    rootMargin: "260px 0px",
                     threshold: 0.01
                 });
 
@@ -7276,6 +7285,27 @@ body{
 }
 </style>
 </body>
+
+<style id="pdf-smooth-scroll-final-v19">
+/* V19: native PDF scrolling. No snapping, no smooth behavior on the scroll container. */
+html, body { scroll-behavior: auto !important; }
+#documents.document-viewer-mode .pdf-viewer-scroll,
+.pdf-viewer-scroll {
+    scroll-snap-type: none !important;
+    scroll-behavior: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    will-change: scroll-position;
+}
+#documents.document-viewer-mode .pdf-page-wrap,
+.pdf-page-wrap {
+    scroll-snap-align: none !important;
+}
+.pdf-viewer-scroll .pdf-page-canvas {
+    display: block !important;
+    transform: translateZ(0);
+}
+</style>
 </html>
 
 
