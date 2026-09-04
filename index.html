@@ -3440,6 +3440,7 @@ body{
 /* =========================================================
    TIKZ / LATEX DRAWING LIBRARY
 ========================================================= */
+.admin-taskbar-link{display:inline-flex!important;align-items:center;gap:7px}.admin-taskbar-link i{font-size:.9em;color:#7dd3fc}.admin-taskbar-link:hover i{color:#a5e7ff}
 .tikz-library-section{padding:120px 0 90px;min-height:calc(100vh - 80px)}
 .tikz-library-section[hidden]{display:none!important}
 body.tikz-library-mode main>section:not(#tikz-library){display:none!important}
@@ -3546,6 +3547,13 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                     <li>
                         <a href="#contact" class="nav-link">
                             Liên hệ
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="admin.html" class="nav-link admin-taskbar-link" aria-label="Mở trang quản trị">
+                            <i class="fa-solid fa-lock"></i>
+                            Quản trị
                         </a>
                     </li>
 
@@ -7109,7 +7117,12 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             document.getElementById("tikzEmpty")?.setAttribute("hidden", "");
             window.scrollTo({top:0,behavior:"auto"});
             loadTikzDrawings();
-            history.replaceState(null,"",`${location.pathname}#tikz-library`);
+            const previousHash = location.hash || "";
+            if (previousHash !== "#tikz-library") {
+                history.pushState({tikzLibrary:true,from:previousHash || "#projects"},"",`${location.pathname}#tikz-library`);
+            } else {
+                history.replaceState(null,"",`${location.pathname}#tikz-library`);
+            }
         }
 
         function closeTikzLibrary() {
@@ -7117,8 +7130,12 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             document.getElementById("tikz-library")?.setAttribute("hidden", "");
             document.getElementById("tikzDetail")?.setAttribute("hidden", "");
             document.getElementById("tikzGrid")?.removeAttribute("hidden");
-            window.scrollTo({top:0,behavior:"auto"});
-            history.replaceState(null,"",location.pathname);
+            currentTikzDrawing = null;
+            history.replaceState(null,"",`${location.pathname}#projects`);
+            requestAnimationFrame(() => {
+                const projects = document.getElementById("projects");
+                if (projects) projects.scrollIntoView({behavior:"auto",block:"start"});
+            });
         }
 
         async function openTikzDetail(id, fromHistory = false) {
