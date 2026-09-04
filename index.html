@@ -3187,6 +3187,156 @@ body::-webkit-scrollbar-thumb:hover{
 }
 </style>
 
+
+
+<style id="desktop-related-narrower-global-smooth-scroll-v16">
+/* =========================================================
+   V16 — DESKTOP PDF VIEWER SPACE + GLOBAL SCROLL
+   - Narrow the related-documents column on desktop.
+   - Give the freed width to the PDF column.
+   - Keep the related-documents scrollbar independent.
+   - Keep mobile layout unchanged.
+   - Use the existing dark/cyan scrollbar theme consistently.
+========================================================= */
+
+/* ---------- GLOBAL PAGE SCROLL ---------- */
+html{
+    scroll-behavior:smooth !important;
+    scrollbar-width:thin !important;
+    scrollbar-color:rgba(125,211,252,.48) rgba(7,14,26,.92) !important;
+}
+
+body{
+    scroll-behavior:smooth !important;
+    scrollbar-width:thin !important;
+    scrollbar-color:rgba(125,211,252,.48) rgba(7,14,26,.92) !important;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar{
+    width:10px !important;
+    height:10px !important;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track{
+    background:rgba(7,14,26,.94) !important;
+    border-left:1px solid rgba(125,211,252,.06) !important;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb{
+    background:linear-gradient(
+        180deg,
+        rgba(125,211,252,.52),
+        rgba(96,165,250,.40)
+    ) !important;
+    border:2px solid rgba(7,14,26,.94) !important;
+    border-radius:999px !important;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover{
+    background:linear-gradient(
+        180deg,
+        rgba(125,211,252,.68),
+        rgba(96,165,250,.54)
+    ) !important;
+}
+
+/* ---------- DESKTOP ONLY ---------- */
+@media(min-width:901px){
+
+    /* Give more horizontal room to the PDF column. */
+    #documents.document-viewer-mode .pdf-modal-body-scroll{
+        grid-template-columns:minmax(0,1fr) 270px !important;
+    }
+
+    /* The PDF column owns its own vertical/horizontal scroll. */
+    #documents.document-viewer-mode .pdf-viewer-scroll{
+        min-width:0 !important;
+        max-width:100% !important;
+        overflow-y:auto !important;
+        overflow-x:auto !important;
+        overscroll-behavior:contain !important;
+        scrollbar-gutter:stable !important;
+        scrollbar-width:thin !important;
+        scrollbar-color:rgba(125,211,252,.42) rgba(7,14,26,.78) !important;
+    }
+
+    #documents.document-viewer-mode .pdf-viewer-scroll::-webkit-scrollbar{
+        width:10px !important;
+        height:10px !important;
+    }
+
+    #documents.document-viewer-mode .pdf-viewer-scroll::-webkit-scrollbar-track{
+        background:rgba(7,14,26,.78) !important;
+        border-radius:999px !important;
+    }
+
+    #documents.document-viewer-mode .pdf-viewer-scroll::-webkit-scrollbar-thumb{
+        background:rgba(125,211,252,.42) !important;
+        border:2px solid rgba(7,14,26,.78) !important;
+        border-radius:999px !important;
+    }
+
+    #documents.document-viewer-mode .pdf-viewer-scroll::-webkit-scrollbar-thumb:hover{
+        background:rgba(125,211,252,.60) !important;
+    }
+
+    /* Related documents remain an independent, narrow column. */
+    #documents.document-viewer-mode .pdf-related-wrap{
+        min-width:0 !important;
+        width:100% !important;
+        overflow:hidden !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList{
+        min-width:0 !important;
+        width:100% !important;
+        overflow:hidden !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list{
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        overflow-y:auto !important;
+        overflow-x:hidden !important;
+        overscroll-behavior:contain !important;
+        scrollbar-gutter:stable !important;
+        scrollbar-width:thin !important;
+        scrollbar-color:rgba(125,211,252,.42) rgba(7,14,26,.72) !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar{
+        width:9px !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-track{
+        background:rgba(7,14,26,.72) !important;
+        border-radius:999px !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-thumb{
+        background:rgba(125,211,252,.42) !important;
+        border:2px solid rgba(7,14,26,.72) !important;
+        border-radius:999px !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-thumb:hover{
+        background:rgba(125,211,252,.60) !important;
+    }
+}
+
+/* Mobile: deliberately do not change the existing PDF/related layout. */
+@media(max-width:900px){
+    html,
+    body{
+        scroll-behavior:smooth !important;
+    }
+}
+</style>
 </head>
 
 <body>
