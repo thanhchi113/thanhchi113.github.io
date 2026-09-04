@@ -3476,6 +3476,11 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
 
 <style>
 .tikz-card[data-tikz-card-open]{cursor:pointer;}
+body.tikz-detail-mode .tikz-library-section .tikz-library-intro, body.tikz-detail-mode .tikz-library-section .tikz-library-toolbar, body.tikz-detail-mode .tikz-library-section .tikz-library-heading, body.tikz-detail-mode .tikz-library-section #tikzGrid, body.tikz-detail-mode .tikz-library-section #tikzEmpty{display:none!important;}
+body.tikz-detail-mode .tikz-library-section{padding-top:100px;}
+body.tikz-detail-mode .tikz-library-section .container{max-width:1050px;}
+body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
+@media(max-width:600px){body.tikz-detail-mode .tikz-library-section{padding-top:88px;}}
 .tikz-card[data-tikz-card-open]:focus-visible{outline:2px solid rgba(125,211,252,.55);outline-offset:3px;}
 </style>
 </head>
@@ -4149,7 +4154,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
         ========================== -->
         <section id="tikz-library" class="tikz-library-section" hidden>
             <div class="container">
-                <div class="section-title reveal">
+                <div class="section-title reveal tikz-library-intro">
                     <div class="section-kicker">TIKZ / LATEX LIBRARY</div>
                     <h2>Hình vẽ TikZ/LaTeX</h2>
                     <p>Kho hình vẽ do tôi đăng tải. Hình vẽ được render và lưu sẵn để hiển thị nhanh; code TikZ được bảo vệ và chỉ cung cấp khi liên hệ tác giả.</p>
@@ -7033,7 +7038,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             try {
                 const {data, error} = await supabaseClient
                     .from("tikz_drawings")
-                    .select("id,title,description,tags,packages,published,sort_order,created_at,updated_at,render_path,rendered_at,render_error")
+                    .select("id,title,description,tags,packages,published,code_unlocked,sort_order,created_at,updated_at,render_path,rendered_at,render_error")
                     .eq("published", true)
                     .order("sort_order", {ascending:true})
                     .order("created_at", {ascending:false});
@@ -7105,7 +7110,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
         function navigateFromMainTaskbar(target){
             if(target === "tikz") { openTikzLibrary(); return; }
             // Leaving the TikZ library/detail view must restore the normal one-page website.
-            document.body.classList.remove("tikz-library-mode");
+            document.body.classList.remove("tikz-library-mode","tikz-detail-mode");
             document.getElementById("tikz-library")?.setAttribute("hidden", "");
             document.getElementById("tikzDetail")?.setAttribute("hidden", "");
             currentTikzDrawing = null;
@@ -7133,6 +7138,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
 
         function openTikzLibrary() {
             document.body.classList.add("tikz-library-mode");
+            document.body.classList.remove("tikz-detail-mode");
             document.getElementById("tikz-library")?.removeAttribute("hidden");
             document.getElementById("tikzDetail")?.setAttribute("hidden", "");
             document.getElementById("tikzGrid")?.removeAttribute("hidden");
@@ -7165,6 +7171,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             if (!drawing) return;
             currentTikzDrawing = drawing;
             if (!fromHistory) history.pushState({tikzDetail:String(drawing.id)}, "", `${location.pathname}#tikz-${encodeURIComponent(drawing.id)}`);
+            document.body.classList.add("tikz-detail-mode");
             document.getElementById("tikzGrid")?.setAttribute("hidden", "");
             document.getElementById("tikzEmpty")?.setAttribute("hidden", "");
             document.getElementById("tikzDetail")?.removeAttribute("hidden");
@@ -7174,8 +7181,31 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             document.getElementById("tikzDetailMeta").innerHTML = `<span><i class="fa-regular fa-calendar"></i> Ngày đăng: ${escapeHtml(formatTikzDate(drawing.created_at))}</span>${tags.map(t=>`<span class="tikz-tag">${escapeHtml(t)}</span>`).join("")}`;
             const packages = drawing.packages || "Các package cần thiết đã được dùng khi render";
             document.getElementById("tikzPackageInfo").textContent = `Package: ${packages}`;
+            const codeBlock = document.getElementById("tikzCodeBlock");
+            if (drawing.code_unlocked) {
+                codeBlock.className = "tikz-code-block";
+                codeBlock.setAttribute("aria-label","Code TikZ");
+                codeBlock.textContent = "Đang tải code...";
+                try {
+                    const {data:codeRow,error:codeError}=await supabaseClient.from("tikz_drawings").select("code").eq("id",drawing.id).eq("published",true).eq("code_unlocked",true).single();
+                    if(codeError) throw codeError;
+                    codeBlock.textContent = codeRow?.code || "Chưa có code.";
+                    const head = codeBlock.closest(".tikz-code-panel")?.querySelector(".tikz-panel-head");
+                    if(head && !head.querySelector("[data-tikz-copy]")) {
+                        const btn=document.createElement("button"); btn.className="tikz-copy-button"; btn.type="button"; btn.dataset.tikzCopy=""; btn.innerHTML='<i class="fa-regular fa-copy"></i> Sao chép code';
+                        btn.addEventListener("click",()=>navigator.clipboard.writeText(codeBlock.textContent||"").then(()=>btn.innerHTML='<i class="fa-solid fa-check"></i> Đã sao chép').catch(()=>{}));
+                        head.appendChild(btn);
+                    }
+                } catch (e) { codeBlock.textContent = "Không tải được code TikZ."; }
+            } else {
+                const oldCopy = codeBlock.closest(".tikz-code-panel")?.querySelector("[data-tikz-copy]");
+                if (oldCopy) oldCopy.remove();
+                codeBlock.className = "tikz-code-protected";
+                codeBlock.setAttribute("aria-label","Code TikZ được bảo vệ");
+                codeBlock.innerHTML = '<div class="tikz-code-protected-overlay"><div class="tikz-code-lock"><i class="fa-solid fa-lock"></i></div><h4>Code TikZ được bảo vệ</h4><p>Muốn nhận code TikZ của hình vẽ này, vui lòng liên hệ tác giả.</p><div class="tikz-contact-actions"><a class="tikz-contact-button facebook" href="https://www.facebook.com/mendz1103" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i> Facebook</a><a class="tikz-contact-button zalo" href="tel:0905957716"><i class="fa-solid fa-phone"></i> Zalo: 0905957716</a></div></div>';
+            }
             await renderTikzInto(document.getElementById("tikzRenderBox"), drawing);
-            document.getElementById("tikzDetail")?.scrollIntoView({behavior:"auto",block:"start"});
+            window.scrollTo({top:0,behavior:"auto"});
         }
 
         document.querySelectorAll("[data-tikz-open]").forEach(card => {
@@ -7184,6 +7214,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
         });
         document.getElementById("tikzBackButton")?.addEventListener("click", closeTikzLibrary);
         document.getElementById("tikzDetailBack")?.addEventListener("click", () => {
+            document.body.classList.remove("tikz-detail-mode");
             document.getElementById("tikzDetail")?.setAttribute("hidden","");
             document.getElementById("tikzGrid")?.removeAttribute("hidden");
             history.replaceState(null,"",`${location.pathname}#tikz-library`);
@@ -7195,6 +7226,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                 const id = decodeURIComponent(hash.slice(6));
                 if (tikzDrawings.length) openTikzDetail(id, true);
             } else if (hash === "#tikz-library") {
+                document.body.classList.remove("tikz-detail-mode");
                 document.getElementById("tikzDetail")?.setAttribute("hidden","");
                 document.getElementById("tikzGrid")?.removeAttribute("hidden");
             }
