@@ -7017,22 +7017,30 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
         async function renderTikzInto(container, drawing) {
             if (!container || !drawing) return;
+            container.innerHTML = `<div class="tikz-render-loading"><i class="fa-solid fa-spinner fa-spin"></i><span>Đang tải bản render đã lưu...</span></div>`;
             const status = document.getElementById("tikzRenderStatus");
-            const imageUrl=getTikzPublicUrl(drawing.preview_path);
-            const pdfUrl=getTikzPublicUrl(drawing.render_path);
-            if(imageUrl){
-                container.innerHTML=`<img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(drawing.title || 'Hình vẽ TikZ')}" style="max-width:100%;height:auto;display:block;background:#fff;box-shadow:0 15px 50px rgba(0,0,0,.28)">`;
-                if(status){status.className="tikz-render-status ok";status.textContent=`Bản render đã lưu · ${formatTikzDate(drawing.rendered_at || drawing.created_at)}`;}
+            if (status) { status.className = "tikz-render-status"; status.textContent = "Đang tải hình đã render từ kho..."; }
+            try {
+                if(drawing.preview_path){
+                    const url=getTikzPublicUrl(drawing.preview_path);
+                    if(!url)throw new Error("Không lấy được URL ảnh preview đã lưu.");
+                    await renderTikzImagePreview(container,url);
+                } else if(drawing.render_path){
+                    const url=getTikzPublicUrl(drawing.render_path);
+                    if(!url)throw new Error("Không lấy được URL bản render PDF đã lưu.");
+                    await renderTikzCachedPdfInto(container,url);
+                } else {
+                    throw new Error("Hình này chưa có bản render được lưu. Hãy vào trang quản trị và bấm Render.");
+                }
+                if (status) { status.className="tikz-render-status ok"; status.textContent=`Đã tải bản render đã lưu · ${formatTikzDate(drawing.rendered_at || drawing.created_at)}`; }
                 return true;
+            } catch(error) {
+                console.error("TikZ cached render failed:",error);
+                const safeMessage=escapeHtml(error?.message||"Không tải được bản render.");
+                container.innerHTML=`<div class="tikz-render-loading"><i class="fa-solid fa-triangle-exclamation"></i><span>Chưa có bản render</span><small style="max-width:520px;line-height:1.6;text-align:center">${safeMessage}</small></div>`;
+                if(status){status.className="tikz-render-status error";status.textContent=error?.message||"Không tải được bản render.";}
+                return false;
             }
-            if(pdfUrl){
-                container.innerHTML=`<iframe src="${escapeHtml(pdfUrl)}#page=1&toolbar=0&navpanes=0" title="${escapeHtml(drawing.title || 'Bản render TikZ')}" style="width:100%;height:100%;min-height:520px;border:0;background:#fff"></iframe>`;
-                if(status){status.className="tikz-render-status ok";status.textContent="Bản render PDF đã lưu; chưa có ảnh PNG xem trước.";}
-                return true;
-            }
-            container.innerHTML=`<div class="tikz-render-loading"><i class="fa-regular fa-image"></i><span>Hình này chưa có bản render.</span><small>Hãy vào trang quản trị và bấm Render.</small></div>`;
-            if(status){status.className="tikz-render-status";status.textContent="Chưa có bản render đã lưu.";}
-            return false;
         }
 
         async function loadTikzDrawings() {
@@ -7130,9 +7138,9 @@ function getFilteredTikzDrawings() {
                 const legacyPdfUrl=getTikzPublicUrl(d.render_path);
                 let previewHtml;
                 if(previewUrl) {
-                    previewHtml=`<img src="${escapeHtml(previewUrl)}" alt="${escapeHtml(d.title || 'Hình vẽ TikZ')}" loading="lazy">`;
+                    previewHtml=`<div class="tikz-preview-stage" data-tikz-image-preview="${escapeHtml(previewUrl)}"><img class="tikz-preview-source" src="${escapeHtml(previewUrl)}" alt="${escapeHtml(d.title || 'Hình vẽ TikZ')}" loading="lazy"></div>`;
                 } else if(legacyPdfUrl) {
-                    previewHtml=`<iframe src="${escapeHtml(legacyPdfUrl)}#page=1&toolbar=0&navpanes=0&scrollbar=0" title="${escapeHtml(d.title || 'Bản render TikZ')}" loading="lazy"></iframe>`;
+                    previewHtml=`<div class="tikz-preview-stage" data-tikz-pdf-preview="${escapeHtml(legacyPdfUrl)}"><div class="tikz-mini-loading"><i class="fa-solid fa-spinner fa-spin"></i><br>Đang chuẩn bị hình đã lưu...</div></div>`;
                 } else {
                     previewHtml=`<div class="tikz-mini-loading"><i class="fa-regular fa-image"></i><br>Chưa có bản render</div>`;
                 }
@@ -7154,9 +7162,154 @@ function getFilteredTikzDrawings() {
                 card.addEventListener("click", () => openTikzDetail(card.dataset.tikzCardOpen));
                 card.addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " " ) { event.preventDefault(); openTikzDetail(card.dataset.tikzCardOpen); } });
             });
+            requestAnimationFrame(renderVisibleTikzCardPreviews);
         }
 
-        async function renderTikzCardPreview(container,drawing){try{const url=await getCachedTikzPdfUrl(drawing);if(!window.pdfjsLib)throw new Error("PDF.js chưa được tải.");const pdf=await pdfjsLib.getDocument({url,disableAutoFetch:false,disableStream:false}).promise;const page=await pdf.getPage(1);const base=page.getViewport({scale:1});const width=Math.max(160,container.clientWidth-36);const height=Math.max(170,container.clientHeight-36);const scale=Math.min(width/base.width,height/base.height);const viewport=page.getViewport({scale:Math.max(.1,scale)});const canvas=document.createElement("canvas");const ratio=Math.min(window.devicePixelRatio||1,1.5);canvas.width=Math.ceil(viewport.width*ratio);canvas.height=Math.ceil(viewport.height*ratio);canvas.style.width=`${viewport.width}px`;canvas.style.height=`${viewport.height}px`;await page.render({canvasContext:canvas.getContext("2d",{alpha:false}),viewport,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;container.innerHTML="";container.appendChild(canvas);}catch(e){console.error("TikZ cached preview failed:",e);container.innerHTML=`<div class="tikz-mini-loading"><i class="fa-solid fa-triangle-exclamation"></i><br>Chưa có bản render<br><small style="opacity:.75">Hãy render hình trong trang quản trị.</small></div>`;}}
+        async function waitForImage(img){
+            if (img.complete && img.naturalWidth) return;
+            await new Promise((resolve,reject)=>{
+                const onLoad=()=>{cleanup();resolve();};
+                const onError=()=>{cleanup();reject(new Error("Không tải được ảnh preview đã lưu."));};
+                const cleanup=()=>{img.removeEventListener("load",onLoad);img.removeEventListener("error",onError);};
+                img.addEventListener("load",onLoad,{once:true});
+                img.addEventListener("error",onError,{once:true});
+            });
+        }
+
+        function getVisibleContentBounds(ctx,w,h){
+            const sampleMax=900;
+            const scale=Math.min(1,sampleMax/Math.max(w,h));
+            const sw=Math.max(1,Math.round(w*scale)), sh=Math.max(1,Math.round(h*scale));
+            if(sw!==w || sh!==h){
+                const probe=document.createElement("canvas");
+                probe.width=sw; probe.height=sh;
+                const pctx=probe.getContext("2d",{willReadFrequently:true});
+                pctx.drawImage(ctx.canvas,0,0,sw,sh);
+                ctx=pctx; w=sw; h=sh;
+            }
+            const data=ctx.getImageData(0,0,w,h).data;
+            let minX=w,minY=h,maxX=-1,maxY=-1;
+            const step=2;
+            for(let y=0;y<h;y+=step){
+                for(let x=0;x<w;x+=step){
+                    const i=(y*w+x)*4;
+                    const a=data[i+3];
+                    if(a<12) continue;
+                    const r=data[i],g=data[i+1],b=data[i+2];
+                    const notBackground = !(r>247 && g>247 && b>247);
+                    if(notBackground){
+                        if(x<minX)minX=x; if(x>maxX)maxX=x; if(y<minY)minY=y; if(y>maxY)maxY=y;
+                    }
+                }
+            }
+            if(maxX<0) return null;
+            const inv=1/scale;
+            return {
+                x:Math.max(0,Math.floor(minX*inv)),
+                y:Math.max(0,Math.floor(minY*inv)),
+                width:Math.min(w*inv,Math.ceil((maxX-minX+1)*inv)),
+                height:Math.min(h*inv,Math.ceil((maxY-minY+1)*inv))
+            };
+        }
+
+        function fitRasterCanvas(container, sourceCanvas){
+            if(!container)return;
+            const maxW=Math.max(120,container.clientWidth-28);
+            const maxH=Math.max(120,container.clientHeight-28);
+            const bounds=getVisibleContentBounds(sourceCanvas.getContext("2d",{willReadFrequently:true}),sourceCanvas.width,sourceCanvas.height) || {x:0,y:0,width:sourceCanvas.width,height:sourceCanvas.height};
+            const margin=0.06;
+            const cropW=Math.max(1,bounds.width), cropH=Math.max(1,bounds.height);
+            const usableW=maxW*(1-margin), usableH=maxH*(1-margin);
+            const scale=Math.max(0.05,Math.min(usableW/cropW,usableH/cropH));
+            const cssW=Math.max(1,Math.round(cropW*scale));
+            const cssH=Math.max(1,Math.round(cropH*scale));
+            const ratio=Math.min(Math.max(window.devicePixelRatio||1,1),2);
+            const out=document.createElement("canvas");
+            out.className="tikz-fit-canvas";
+            out.width=Math.ceil(cssW*ratio);
+            out.height=Math.ceil(cssH*ratio);
+            out.style.width=`${cssW}px`;
+            out.style.height=`${cssH}px`;
+            const octx=out.getContext("2d",{alpha:false});
+            octx.fillStyle="#fff";
+            octx.fillRect(0,0,out.width,out.height);
+            octx.setTransform(ratio*scale,0,0,ratio*scale, -bounds.x*ratio*scale, -bounds.y*ratio*scale);
+            octx.drawImage(sourceCanvas,0,0);
+            container.innerHTML="";
+            container.appendChild(out);
+        }
+
+        async function renderTikzImagePreview(container,url){
+            const img=new Image();
+            img.decoding="async";
+            img.src=url;
+            await waitForImage(img);
+            const maxW=Math.min(img.naturalWidth,1600);
+            const scale=maxW/img.naturalWidth;
+            const source=document.createElement("canvas");
+            source.width=Math.max(1,Math.round(img.naturalWidth*scale));
+            source.height=Math.max(1,Math.round(img.naturalHeight*scale));
+            const ctx=source.getContext("2d",{alpha:true,willReadFrequently:true});
+            ctx.drawImage(img,0,0,source.width,source.height);
+            fitRasterCanvas(container,source);
+        }
+
+        async function renderTikzCachedPdfInto(container,url){
+            if(!window.pdfjsLib) throw new Error("PDF.js chưa được tải.");
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+            const pdf=await window.pdfjsLib.getDocument({url,disableAutoFetch:false,disableStream:false}).promise;
+            try{
+                const page=await pdf.getPage(1);
+                const base=page.getViewport({scale:1});
+                const sourceScale=Math.min(2,Math.max(1.25,1200/base.width));
+                const viewport=page.getViewport({scale:sourceScale});
+                const source=document.createElement("canvas");
+                source.width=Math.ceil(viewport.width);
+                source.height=Math.ceil(viewport.height);
+                const ctx=source.getContext("2d",{alpha:false,willReadFrequently:true});
+                ctx.fillStyle="#fff";ctx.fillRect(0,0,source.width,source.height);
+                await page.render({canvasContext:ctx,viewport}).promise;
+                fitRasterCanvas(container,source);
+            } finally { try{await pdf.destroy();}catch(_){} }
+        }
+
+        async function renderTikzCardPreview(container,drawing){
+            try{
+                if(drawing.preview_path){
+                    const url=getTikzPublicUrl(drawing.preview_path);
+                    if(!url)throw new Error("Không lấy được URL ảnh preview đã lưu.");
+                    await renderTikzImagePreview(container,url);
+                    return;
+                }
+                if(drawing.render_path){
+                    const url=getTikzPublicUrl(drawing.render_path);
+                    if(!url)throw new Error("Không lấy được URL bản render PDF đã lưu.");
+                    await renderTikzCachedPdfInto(container,url);
+                    return;
+                }
+                throw new Error("Chưa có bản render được lưu.");
+            }catch(e){
+                console.error("TikZ cached preview failed:",e);
+                container.innerHTML=`<div class="tikz-mini-loading"><i class="fa-solid fa-triangle-exclamation"></i><br>Chưa có bản render<br><small style="opacity:.75">Hãy render hình trong trang quản trị.</small></div>`;
+            }
+        }
+
+        function renderVisibleTikzCardPreviews(){
+            const grid=document.getElementById("tikzGrid");
+            if(!grid)return;
+            grid.querySelectorAll("[data-tikz-image-preview]").forEach(stage=>{
+                if(stage.dataset.done==="1")return;
+                stage.dataset.done="1";
+                const url=stage.dataset.tikzImagePreview;
+                renderTikzImagePreview(stage,url).catch(e=>{console.error(e);stage.innerHTML='<div class="tikz-mini-loading"><i class="fa-solid fa-triangle-exclamation"></i><br>Không tải được preview</div>';});
+            });
+            grid.querySelectorAll("[data-tikz-pdf-preview]").forEach(stage=>{
+                if(stage.dataset.done==="1")return;
+                stage.dataset.done="1";
+                const url=stage.dataset.tikzPdfPreview;
+                renderTikzCachedPdfInto(stage,url).catch(e=>{console.error(e);stage.innerHTML='<div class="tikz-mini-loading"><i class="fa-solid fa-triangle-exclamation"></i><br>Không tải được bản render</div>';});
+            });
+        }
 
         function navigateFromMainTaskbar(target){
             if(target === "tikz") { openTikzLibrary(); return; }
@@ -7899,7 +8052,7 @@ html, body { scroll-behavior: auto !important; }
     transform: translateZ(0);
 }
 </style>
-</html>
+\n<style id="tikz-preview-fit-v31">\n/* v31: fixed preview frame + automatic scale/crop for stored render images. */\n.tikz-card-render{height:300px !important;display:flex !important;align-items:center !important;justify-content:center !important;padding:14px !important;overflow:hidden !important;box-sizing:border-box !important;background:#0c1422 !important;}\n.tikz-preview-stage{width:100% !important;height:100% !important;display:flex !important;align-items:center !important;justify-content:center !important;overflow:hidden !important;min-width:0 !important;min-height:0 !important;}\n.tikz-preview-source{display:block !important;max-width:100% !important;max-height:100% !important;width:100% !important;height:100% !important;object-fit:contain !important;background:#fff !important;box-shadow:0 8px 28px rgba(0,0,0,.20) !important;}\n.tikz-fit-canvas{display:block !important;max-width:100% !important;max-height:100% !important;background:#fff !important;box-shadow:0 8px 28px rgba(0,0,0,.20) !important;flex:0 0 auto !important;}\n.tikz-render-box{height:560px !important;display:flex !important;align-items:center !important;justify-content:center !important;overflow:hidden !important;padding:22px !important;box-sizing:border-box !important;}\n.tikz-render-box .tikz-fit-canvas{max-width:100% !important;max-height:100% !important;}\n@media(max-width:600px){\n  .tikz-card-render{height:240px !important;padding:12px !important;}\n  .tikz-render-box{height:420px !important;padding:16px !important;}\n}\n</style>\n</html>
 
 
 <style id="latest-breadcrumb-and-pdf-preview-fix">
