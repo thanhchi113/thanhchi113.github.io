@@ -3458,6 +3458,10 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
 @media(max-width:600px){.tikz-library-section{padding:100px 0 60px}.tikz-library-toolbar{grid-template-columns:1fr}.tikz-library-toolbar .tikz-library-search-wrap{grid-column:auto}.tikz-sort{width:100%}.tikz-library-heading{align-items:flex-start;flex-direction:column}.tikz-card-render{height:240px}.tikz-detail-head h2{font-size:23px}.tikz-panel-head{align-items:flex-start;flex-direction:column}.tikz-copy-button{width:100%}.tikz-code-block,.tikz-render-box{height:420px}}
 </style>
 
+<style>
+.tikz-card[data-tikz-card-open]{cursor:pointer;}
+.tikz-card[data-tikz-card-open]:focus-visible{outline:2px solid rgba(125,211,252,.55);outline-offset:3px;}
+</style>
 </head>
 
 <body>
@@ -4187,7 +4191,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                             <div class="tikz-panel-head">
                                 <div>
                                     <span>HÌNH RENDER</span>
-                                    <small>Biên dịch LaTeX tự động</small>
+                                    <small>Bản render đã được lưu sẵn</small>
                                 </div>
                                 <button id="tikzRenderAgain" class="tikz-copy-button secondary" type="button">
                                     <i class="fa-solid fa-rotate"></i>
@@ -6951,18 +6955,17 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             return await response.blob();
         }
 
+        async function getCachedTikzPdfUrl(drawing){if(!drawing?.render_path)throw new Error("Hình này chưa có bản render được lưu. Hãy render hình trong trang quản trị trước.");const result=supabaseClient.storage.from("tikz-renders").getPublicUrl(drawing.render_path);const url=result?.data?.publicUrl;if(!url)throw new Error("Không lấy được đường dẫn bản render đã lưu.");return url;}
+
         async function renderTikzInto(container, drawing) {
             if (!container || !drawing) return;
-            container.innerHTML = `<div class="tikz-render-loading"><i class="fa-solid fa-spinner fa-spin"></i><span>Đang biên dịch TikZ/LaTeX...</span></div>`;
+            container.innerHTML = `<div class="tikz-render-loading"><i class="fa-solid fa-spinner fa-spin"></i><span>Đang tải bản render đã lưu...</span></div>`;
             const status = document.getElementById("tikzRenderStatus");
-            if (status) { status.className = "tikz-render-status"; status.textContent = "Đang biên dịch LaTeX và dựng hình..."; }
-
-            let objectUrl = null;
+            if (status) { status.className = "tikz-render-status"; status.textContent = "Đang tải hình đã render từ kho..."; }
             try {
-                const blob = await compileTikzPdf(drawing.code, drawing.packages || "");
-                objectUrl = URL.createObjectURL(blob);
+                const url = await getCachedTikzPdfUrl(drawing);
                 if (!window.pdfjsLib) throw new Error("PDF.js chưa được tải. Hãy tải lại trang.");
-                const pdf = await pdfjsLib.getDocument({url: objectUrl}).promise;
+                const pdf = await pdfjsLib.getDocument({url, disableAutoFetch:false, disableStream:false}).promise;
                 const page = await pdf.getPage(1);
                 const base = page.getViewport({scale:1});
                 const maxWidth = Math.max(220, container.clientWidth - 42);
@@ -6975,20 +6978,17 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                 canvas.height = Math.ceil(viewport.height * ratio);
                 canvas.style.width = `${viewport.width}px`;
                 canvas.style.height = `${viewport.height}px`;
-                const ctx = canvas.getContext("2d", {alpha:false});
-                await page.render({canvasContext:ctx, viewport, transform:ratio !== 1 ? [ratio,0,0,ratio,0,0] : null}).promise;
-                container.innerHTML = "";
+                await page.render({canvasContext:canvas.getContext("2d",{alpha:false}),viewport,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;
+                container.innerHTML="";
                 container.appendChild(canvas);
-                if (status) { status.className = "tikz-render-status ok"; status.textContent = `Đã render thành công · ${formatTikzDate(drawing.created_at)}`; }
+                if (status) { status.className="tikz-render-status ok"; status.textContent=`Đã tải bản render đã lưu · ${formatTikzDate(drawing.rendered_at || drawing.created_at)}`; }
                 return true;
-            } catch (error) {
-                console.error("TikZ render failed:", error);
-                const safeMessage = escapeHtml(error?.message || "Render thất bại.");
-                container.innerHTML = `<div class="tikz-render-loading"><i class="fa-solid fa-triangle-exclamation"></i><span>Không thể biên dịch hình vẽ.</span><small style="max-width:520px;line-height:1.6;text-align:center">${safeMessage}</small></div>`;
-                if (status) { status.className = "tikz-render-status error"; status.textContent = error?.message || "Render thất bại."; }
+            } catch(error) {
+                console.error("TikZ cached render failed:",error);
+                const safeMessage=escapeHtml(error?.message||"Không tải được bản render.");
+                container.innerHTML=`<div class="tikz-render-loading"><i class="fa-solid fa-triangle-exclamation"></i><span>Chưa có bản render</span><small style="max-width:520px;line-height:1.6;text-align:center">${safeMessage}</small></div>`;
+                if(status){status.className="tikz-render-status error";status.textContent=error?.message||"Không tải được bản render.";}
                 return false;
-            } finally {
-                if (objectUrl) setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
             }
         }
 
@@ -6997,7 +6997,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             try {
                 const {data, error} = await supabaseClient
                     .from("tikz_drawings")
-                    .select("id,title,description,code,tags,packages,published,sort_order,created_at,updated_at")
+                    .select("id,title,description,code,tags,packages,published,sort_order,created_at,updated_at,render_path,rendered_at,render_error")
                     .eq("published", true)
                     .order("sort_order", {ascending:true})
                     .order("created_at", {ascending:false});
@@ -7005,6 +7005,11 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                 tikzDrawings = data || [];
                 renderTikzLibrary();
                 if (status) status.textContent = `${tikzDrawings.length} hình vẽ`;
+                const hash = location.hash || "";
+                if (hash.startsWith("#tikz-") && hash !== "#tikz-library") {
+                    const id = decodeURIComponent(hash.slice(6));
+                    setTimeout(() => openTikzDetail(id, true), 0);
+                }
             } catch (error) {
                 console.error("TikZ library error:", error);
                 tikzDrawings = [];
@@ -7034,7 +7039,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             const list = getFilteredTikzDrawings();
             grid.innerHTML = list.map(d => {
                 const tags = String(d.tags || "").split(",").map(x=>x.trim()).filter(Boolean).slice(0,5);
-                return `<article class="tikz-card" data-tikz-id="${escapeHtml(d.id)}">
+                return `<article class="tikz-card" data-tikz-id="${escapeHtml(d.id)}" data-tikz-card-open="${escapeHtml(d.id)}" role="button" tabindex="0" aria-label="Mở ${escapeHtml(d.title || 'Hình vẽ TikZ')}">
                     <div class="tikz-card-render" data-tikz-mini-render="${escapeHtml(d.id)}"><div class="tikz-mini-loading"><i class="fa-solid fa-spinner fa-spin"></i><br>Đang render...</div></div>
                     <div class="tikz-card-body">
                         <h3 class="tikz-card-title">${escapeHtml(d.title || "Hình vẽ TikZ")}</h3>
@@ -7046,7 +7051,11 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             }).join("");
             empty.hidden = list.length > 0;
             grid.hidden = list.length === 0;
-            grid.querySelectorAll("[data-tikz-detail]").forEach(btn => btn.addEventListener("click", () => openTikzDetail(btn.dataset.tikzDetail)));
+            grid.querySelectorAll("[data-tikz-detail]").forEach(btn => btn.addEventListener("click", (event) => { event.stopPropagation(); openTikzDetail(btn.dataset.tikzDetail); }));
+            grid.querySelectorAll("[data-tikz-card-open]").forEach(card => {
+                card.addEventListener("click", () => openTikzDetail(card.dataset.tikzCardOpen));
+                card.addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " " ) { event.preventDefault(); openTikzDetail(card.dataset.tikzCardOpen); } });
+            });
             if (list.length) {
                 list.forEach((drawing, index) => {
                     const target = grid.querySelector(`[data-tikz-mini-render="${CSS.escape(String(drawing.id))}"]`);
@@ -7055,34 +7064,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             }
         }
 
-        async function renderTikzCardPreview(container, drawing) {
-            let objectUrl = null;
-            try {
-                const blob = await compileTikzPdf(drawing.code, drawing.packages || "");
-                objectUrl = URL.createObjectURL(blob);
-                const pdf = await pdfjsLib.getDocument({url: objectUrl}).promise;
-                const page = await pdf.getPage(1);
-                const base = page.getViewport({scale:1});
-                const width = Math.max(160, container.clientWidth - 36);
-                const height = Math.max(170, container.clientHeight - 36);
-                const scale = Math.min(width/base.width,height/base.height);
-                const viewport = page.getViewport({scale:Math.max(.1,scale)});
-                const canvas = document.createElement("canvas");
-                const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-                canvas.width = Math.ceil(viewport.width*ratio);
-                canvas.height = Math.ceil(viewport.height*ratio);
-                canvas.style.width = `${viewport.width}px`;
-                canvas.style.height = `${viewport.height}px`;
-                await page.render({canvasContext:canvas.getContext("2d",{alpha:false}),viewport,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;
-                container.innerHTML="";
-                container.appendChild(canvas);
-            } catch (e) {
-                console.error("TikZ preview failed:", e);
-                container.innerHTML=`<div class="tikz-mini-loading"><i class="fa-solid fa-triangle-exclamation"></i><br>Chưa thể render xem trước<br><small style="opacity:.75">${escapeHtml(e?.message || "Lỗi biên dịch")}</small></div>`;
-            } finally {
-                if (objectUrl) setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
-            }
-        }
+        async function renderTikzCardPreview(container,drawing){try{const url=await getCachedTikzPdfUrl(drawing);if(!window.pdfjsLib)throw new Error("PDF.js chưa được tải.");const pdf=await pdfjsLib.getDocument({url,disableAutoFetch:false,disableStream:false}).promise;const page=await pdf.getPage(1);const base=page.getViewport({scale:1});const width=Math.max(160,container.clientWidth-36);const height=Math.max(170,container.clientHeight-36);const scale=Math.min(width/base.width,height/base.height);const viewport=page.getViewport({scale:Math.max(.1,scale)});const canvas=document.createElement("canvas");const ratio=Math.min(window.devicePixelRatio||1,1.5);canvas.width=Math.ceil(viewport.width*ratio);canvas.height=Math.ceil(viewport.height*ratio);canvas.style.width=`${viewport.width}px`;canvas.style.height=`${viewport.height}px`;await page.render({canvasContext:canvas.getContext("2d",{alpha:false}),viewport,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;container.innerHTML="";container.appendChild(canvas);}catch(e){console.error("TikZ cached preview failed:",e);container.innerHTML=`<div class="tikz-mini-loading"><i class="fa-solid fa-triangle-exclamation"></i><br>Chưa có bản render<br><small style="opacity:.75">Hãy render hình trong trang quản trị.</small></div>`;}}
 
         function openTikzLibrary() {
             document.body.classList.add("tikz-library-mode");
@@ -7104,10 +7086,11 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             history.replaceState(null,"",location.pathname);
         }
 
-        async function openTikzDetail(id) {
+        async function openTikzDetail(id, fromHistory = false) {
             const drawing = tikzDrawings.find(d => String(d.id) === String(id));
             if (!drawing) return;
             currentTikzDrawing = drawing;
+            if (!fromHistory) history.pushState({tikzDetail:String(drawing.id)}, "", `${location.pathname}#tikz-${encodeURIComponent(drawing.id)}`);
             document.getElementById("tikzGrid")?.setAttribute("hidden", "");
             document.getElementById("tikzEmpty")?.setAttribute("hidden", "");
             document.getElementById("tikzDetail")?.removeAttribute("hidden");
@@ -7127,7 +7110,22 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
             card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openTikzLibrary(); } });
         });
         document.getElementById("tikzBackButton")?.addEventListener("click", closeTikzLibrary);
-        document.getElementById("tikzDetailBack")?.addEventListener("click", () => { document.getElementById("tikzDetail")?.setAttribute("hidden",""); document.getElementById("tikzGrid")?.removeAttribute("hidden"); window.scrollTo({top:0,behavior:"auto"}); });
+        document.getElementById("tikzDetailBack")?.addEventListener("click", () => {
+            document.getElementById("tikzDetail")?.setAttribute("hidden","");
+            document.getElementById("tikzGrid")?.removeAttribute("hidden");
+            history.replaceState(null,"",`${location.pathname}#tikz-library`);
+            window.scrollTo({top:0,behavior:"auto"});
+        });
+        window.addEventListener("popstate", () => {
+            const hash = location.hash || "";
+            if (hash.startsWith("#tikz-") && hash !== "#tikz-library") {
+                const id = decodeURIComponent(hash.slice(6));
+                if (tikzDrawings.length) openTikzDetail(id, true);
+            } else if (hash === "#tikz-library") {
+                document.getElementById("tikzDetail")?.setAttribute("hidden","");
+                document.getElementById("tikzGrid")?.removeAttribute("hidden");
+            }
+        });
         document.getElementById("tikzSearch")?.addEventListener("input", renderTikzLibrary);
         document.getElementById("tikzSort")?.addEventListener("change", renderTikzLibrary);
         document.getElementById("tikzCopyButton")?.addEventListener("click", async () => {
