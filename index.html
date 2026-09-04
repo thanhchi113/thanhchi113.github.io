@@ -2883,6 +2883,193 @@ body:has(.pdf-modal.open){overflow:auto !important;}
 }
 </style>
 
+
+<style id="desktop-related-scroll-and-global-scrollbar-v11">
+/* =========================================================
+   V11 — DESKTOP PDF VIEWER + THEMED GLOBAL SCROLLBARS
+
+   1. Desktop: PDF viewer and related documents share one
+      fixed-height viewing area.
+   2. The PDF keeps its existing full-page 100% fit logic.
+   3. Related documents get their OWN vertical scrollbar on
+      the far right of the related-documents panel.
+   4. Mobile layout is intentionally left unchanged.
+   5. All page scrollbars follow the existing dark/cyan theme.
+========================================================= */
+
+/* ---------- GLOBAL PAGE SCROLLBAR ---------- */
+html{
+    scrollbar-width:thin !important;
+    scrollbar-color:rgba(125,211,252,.42) rgba(7,14,26,.88) !important;
+}
+
+body{
+    scrollbar-width:thin !important;
+    scrollbar-color:rgba(125,211,252,.42) rgba(7,14,26,.88) !important;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar{
+    width:10px !important;
+    height:10px !important;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track{
+    background:rgba(7,14,26,.92) !important;
+    border-left:1px solid rgba(125,211,252,.05) !important;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb{
+    background:linear-gradient(
+        180deg,
+        rgba(125,211,252,.48),
+        rgba(96,165,250,.36)
+    ) !important;
+    border:2px solid rgba(7,14,26,.92) !important;
+    border-radius:999px !important;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover{
+    background:linear-gradient(
+        180deg,
+        rgba(125,211,252,.66),
+        rgba(96,165,250,.50)
+    ) !important;
+}
+
+/* ---------- DESKTOP PDF VIEWER ---------- */
+@media(min-width:901px){
+
+    /* One stable viewport for the two columns. */
+    #documents.document-viewer-mode .pdf-modal-body-scroll{
+        height:72vh !important;
+        max-height:72vh !important;
+        min-height:0 !important;
+        overflow:hidden !important;
+        display:grid !important;
+        grid-template-columns:minmax(0,1fr) 330px !important;
+        grid-template-rows:minmax(0,1fr) !important;
+        box-sizing:border-box !important;
+    }
+
+    /* PDF column: its own page scroll, no horizontal overflow. */
+    #documents.document-viewer-mode .pdf-viewer-scroll{
+        grid-column:1 !important;
+        grid-row:1 !important;
+        width:100% !important;
+        height:100% !important;
+        max-height:100% !important;
+        min-height:0 !important;
+        overflow-y:auto !important;
+        overflow-x:hidden !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Keep the PDF page centered inside the left viewer column. */
+    #documents.document-viewer-mode .pdf-viewer-pages{
+        width:100% !important;
+        max-width:100% !important;
+        min-height:100% !important;
+        box-sizing:border-box !important;
+        overflow:hidden !important;
+    }
+
+    #documents.document-viewer-mode .pdf-page-wrap{
+        width:100% !important;
+        max-width:100% !important;
+        box-sizing:border-box !important;
+        overflow:hidden !important;
+    }
+
+    /* The JS fit scale determines the actual 100% page size.
+       This CSS only prevents the canvas from escaping the column. */
+    #documents.document-viewer-mode .pdf-page-canvas{
+        max-width:100% !important;
+        box-sizing:border-box !important;
+    }
+
+    /* ---------- RELATED DOCUMENTS COLUMN ---------- */
+    #documents.document-viewer-mode .pdf-related-wrap{
+        grid-column:2 !important;
+        grid-row:1 !important;
+        width:100% !important;
+        height:100% !important;
+        max-height:100% !important;
+        min-height:0 !important;
+        display:flex !important;
+        flex-direction:column !important;
+        overflow:hidden !important;
+        box-sizing:border-box !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList{
+        flex:1 1 auto !important;
+        width:100% !important;
+        height:auto !important;
+        min-height:0 !important;
+        max-height:none !important;
+        display:flex !important;
+        flex-direction:column !important;
+        overflow:hidden !important;
+        box-sizing:border-box !important;
+    }
+
+    /* This is the ONLY scroll area for the related-document cards. */
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list{
+        flex:1 1 auto !important;
+        width:100% !important;
+        min-height:0 !important;
+        max-height:none !important;
+        overflow-y:auto !important;
+        overflow-x:hidden !important;
+        display:grid !important;
+        grid-template-columns:1fr !important;
+        align-content:start !important;
+        gap:8px !important;
+        padding-right:7px !important;
+        box-sizing:border-box !important;
+
+        scrollbar-width:thin !important;
+        scrollbar-color:rgba(125,211,252,.42) rgba(7,14,26,.72) !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar{
+        width:9px !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-track{
+        background:rgba(7,14,26,.72) !important;
+        border-radius:999px !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-thumb{
+        background:rgba(125,211,252,.38) !important;
+        border:2px solid rgba(7,14,26,.72) !important;
+        border-radius:999px !important;
+    }
+
+    #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-thumb:hover{
+        background:rgba(125,211,252,.58) !important;
+    }
+}
+
+/* ---------- MOBILE: KEEP THE EXISTING CORRECT LAYOUT ---------- */
+@media(max-width:900px){
+    #documents.document-viewer-mode .pdf-modal-body-scroll{
+        overflow:visible !important;
+        height:auto !important;
+        max-height:none !important;
+    }
+
+    #documents.document-viewer-mode .pdf-related-wrap{
+        overflow:hidden !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
