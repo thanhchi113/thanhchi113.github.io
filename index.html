@@ -6831,7 +6831,7 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
         /* =========================================
            TIKZ / LATEX DRAWING LIBRARY
         ========================================== */
-        const TIKZ_RENDER_ENDPOINT = "https://latexonline.cc/compile";
+        const TIKZ_RENDER_ENDPOINT = "https://latex.ytotech.com/builds/sync";
         let tikzDrawings = [];
         let currentTikzDrawing = null;
 
@@ -6843,32 +6843,49 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
         }
 
         function normalizeTikzCode(code) {
-            return String(code || "").replace(/\\r\\n/g, "\\n").trim();
+            return String(code || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
+        }
+
+        function splitTikzPackages(value) {
+            return String(value || "")
+                .split(/[\s,;]+/)
+                .map(x => x.trim())
+                .filter(Boolean)
+                .map(x => x.replace(/^\\usepackage(?:\[[^\]]*\])?\{/, "").replace(/\}$/, ""))
+                .flatMap(x => x.split(","))
+                .map(x => x.trim())
+                .filter(Boolean);
         }
 
         function detectTikzPackages(code) {
             const source = normalizeTikzCode(code);
             const packages = new Set(["tikz"]);
-            if (/\\begin\\s*\{axis\}|\\begin\\s*\{tikzpicture\}.*?pgfplots|\\addplot|pgfplots/i.test(source)) packages.add("pgfplots");
+            if (/\\begin\s*\{axis\}|\\addplot|pgfplots/i.test(source)) packages.add("pgfplots");
             if (/\\frac|\\dfrac|\\tfrac|\\begin\s*\{align|\\mathbb|\\text\{/i.test(source)) packages.add("amsmath");
             if (/\\mathbb|\\mathfrak|\\mathcal/i.test(source)) packages.add("amssymb");
             if (/tkz-euclide|\\tkz[A-Za-z]/i.test(source)) packages.add("tkz-euclide");
-            if (/circuitikz|\\draw.*to\[/i.test(source) && /circuitikz/i.test(source)) packages.add("circuitikz");
+            if (/circuitikz/i.test(source)) packages.add("circuitikz");
             if (/siunitx|\\qty\{|\\SI\{/i.test(source)) packages.add("siunitx");
-            if (/xcolor|\\definecolor|color=|draw=|fill=/i.test(source)) packages.add("xcolor");
+            if (/\\definecolor|color=|draw=|fill=/i.test(source)) packages.add("xcolor");
             return [...packages];
         }
 
-        function buildTikzLatex(code) {
+        function buildTikzLatex(code, extraPackages = "") {
             const source = normalizeTikzCode(code);
             if (/\\documentclass\b/i.test(source)) return source;
-            const packageNames = detectTikzPackages(source);
-            const packageLines = packageNames.map(name => `\\usepackage{${name}}`).join("\n");
+
+            const packageNames = new Set([
+                ...detectTikzPackages(source),
+                ...splitTikzPackages(extraPackages)
+            ]);
+            const packageLines = [...packageNames].map(name => `\\usepackage{${name}}`).join("\n");
+
             const libraries = [];
             const libraryMatches = [...source.matchAll(/\\usetikzlibrary\s*\{([^}]+)\}/g)];
             libraryMatches.forEach(m => m[1].split(",").map(x => x.trim()).filter(Boolean).forEach(x => libraries.push(x)));
             const uniqueLibraries = [...new Set(libraries)];
             const libraryLine = uniqueLibraries.length ? `\\usetikzlibrary{${uniqueLibraries.join(",")}}` : "";
+
             const cleaned = source
                 .replace(/\\usepackage(?:\[[^\]]*\])?\{[^}]+\}\s*/g, "")
                 .replace(/\\documentclass(?:\[[^\]]*\])?\{[^}]+\}\s*/g, "")
@@ -6876,24 +6893,76 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                 .replace(/\\end\s*\{document\}\s*/i, "")
                 .replace(/\\usetikzlibrary\s*\{[^}]+\}\s*/g, "")
                 .trim();
+
             const body = /\\begin\s*\{tikzpicture\}/i.test(cleaned) || /\\begin\s*\{axis\}/i.test(cleaned)
                 ? cleaned
                 : `\\begin{tikzpicture}\n${cleaned}\n\\end{tikzpicture}`;
+
             return `\\documentclass[tikz,border=6pt]{standalone}\n${packageLines}\n${libraryLine}\n\\begin{document}\n${body}\n\\end{document}`;
         }
 
-        function tikzRenderUrl(code) {
-            return `${TIKZ_RENDER_ENDPOINT}?text=${encodeURIComponent(buildTikzLatex(code))}&command=pdflatex`;
+        async function compileTikzPdf(code, packages = "") {
+            const latex = buildTikzLatex(code, packages);
+            const response = await fetch(TIKZ_RENDER_ENDPOINT, {
+                method: "POST",
+                headers: {"Content-Type": "application/json", "Accept": "application/pdf, application/json"},
+                body: JSON.stringify({
+                    compiler: "pdflatex",
+                    resources: [{ main: true, content: latex }],
+                    options: {
+                        compiler: {
+                            bibliography: false,
+                            halt_on_error: true,
+                            silent: true,
+                            force: true
+                        },
+                        response: { log_files_on_failure: true, commands: false }
+                    }
+                })
+            });
+
+            const contentType = (response.headers.get("content-type") || "").toLowerCase();
+            if (!response.ok) {
+                let detail = `HTTP ${response.status}`;
+                try {
+                    const text = await response.text();
+                    if (text) {
+                        try {
+                            const json = JSON.parse(text);
+                            detail = json.message || json.error || json.log || text;
+                        } catch (_) {
+                            detail = text;
+                        }
+                    }
+                } catch (_) {}
+                throw new Error(detail);
+            }
+
+            if (!contentType.includes("application/pdf")) {
+                const text = await response.text();
+                let detail = text || "Máy chủ biên dịch không trả về PDF.";
+                try {
+                    const json = JSON.parse(text);
+                    detail = json.message || json.error || json.log || detail;
+                } catch (_) {}
+                throw new Error(detail);
+            }
+
+            return await response.blob();
         }
 
         async function renderTikzInto(container, drawing) {
             if (!container || !drawing) return;
             container.innerHTML = `<div class="tikz-render-loading"><i class="fa-solid fa-spinner fa-spin"></i><span>Đang biên dịch TikZ/LaTeX...</span></div>`;
             const status = document.getElementById("tikzRenderStatus");
-            if (status) { status.className = "tikz-render-status"; status.textContent = "Đang biên dịch và render hình..."; }
+            if (status) { status.className = "tikz-render-status"; status.textContent = "Đang biên dịch LaTeX và dựng hình..."; }
+
+            let objectUrl = null;
             try {
-                const url = tikzRenderUrl(drawing.code);
-                const pdf = await pdfjsLib.getDocument({url, withCredentials:false}).promise;
+                const blob = await compileTikzPdf(drawing.code, drawing.packages || "");
+                objectUrl = URL.createObjectURL(blob);
+                if (!window.pdfjsLib) throw new Error("PDF.js chưa được tải. Hãy tải lại trang.");
+                const pdf = await pdfjsLib.getDocument({url: objectUrl}).promise;
                 const page = await pdf.getPage(1);
                 const base = page.getViewport({scale:1});
                 const maxWidth = Math.max(220, container.clientWidth - 42);
@@ -6914,9 +6983,12 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                 return true;
             } catch (error) {
                 console.error("TikZ render failed:", error);
-                container.innerHTML = `<div class="tikz-render-loading"><i class="fa-solid fa-triangle-exclamation"></i><span>Không thể biên dịch hình vẽ.</span><small style="max-width:420px;line-height:1.6">Kiểm tra lại code TikZ hoặc package cần thiết.</small></div>`;
+                const safeMessage = escapeHtml(error?.message || "Render thất bại.");
+                container.innerHTML = `<div class="tikz-render-loading"><i class="fa-solid fa-triangle-exclamation"></i><span>Không thể biên dịch hình vẽ.</span><small style="max-width:520px;line-height:1.6;text-align:center">${safeMessage}</small></div>`;
                 if (status) { status.className = "tikz-render-status error"; status.textContent = error?.message || "Render thất bại."; }
                 return false;
+            } finally {
+                if (objectUrl) setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
             }
         }
 
@@ -6984,9 +7056,11 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
         }
 
         async function renderTikzCardPreview(container, drawing) {
+            let objectUrl = null;
             try {
-                const url = tikzRenderUrl(drawing.code);
-                const pdf = await pdfjsLib.getDocument({url, withCredentials:false}).promise;
+                const blob = await compileTikzPdf(drawing.code, drawing.packages || "");
+                objectUrl = URL.createObjectURL(blob);
+                const pdf = await pdfjsLib.getDocument({url: objectUrl}).promise;
                 const page = await pdf.getPage(1);
                 const base = page.getViewport({scale:1});
                 const width = Math.max(160, container.clientWidth - 36);
@@ -6995,12 +7069,18 @@ body.tikz-library-mode .tikz-library-section .reveal{opacity:1!important;transfo
                 const viewport = page.getViewport({scale:Math.max(.1,scale)});
                 const canvas = document.createElement("canvas");
                 const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-                canvas.width = Math.ceil(viewport.width*ratio); canvas.height = Math.ceil(viewport.height*ratio);
-                canvas.style.width = `${viewport.width}px`; canvas.style.height = `${viewport.height}px`;
+                canvas.width = Math.ceil(viewport.width*ratio);
+                canvas.height = Math.ceil(viewport.height*ratio);
+                canvas.style.width = `${viewport.width}px`;
+                canvas.style.height = `${viewport.height}px`;
                 await page.render({canvasContext:canvas.getContext("2d",{alpha:false}),viewport,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;
-                container.innerHTML=""; container.appendChild(canvas);
+                container.innerHTML="";
+                container.appendChild(canvas);
             } catch (e) {
-                container.innerHTML=`<div class="tikz-mini-loading"><i class="fa-solid fa-triangle-exclamation"></i><br>Chưa thể render xem trước</div>`;
+                console.error("TikZ preview failed:", e);
+                container.innerHTML=`<div class="tikz-mini-loading"><i class="fa-solid fa-triangle-exclamation"></i><br>Chưa thể render xem trước<br><small style="opacity:.75">${escapeHtml(e?.message || "Lỗi biên dịch")}</small></div>`;
+            } finally {
+                if (objectUrl) setTimeout(() => URL.revokeObjectURL(objectUrl), 5000);
             }
         }
 
@@ -7726,4 +7806,3 @@ html, body { scroll-behavior: auto !important; }
     }
 }
 </style>
-
