@@ -3498,6 +3498,12 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 @media(max-width:600px){body.tikz-detail-mode .tikz-library-section{padding-top:88px;}}
 .tikz-card[data-tikz-card-open]:focus-visible{outline:2px solid rgba(125,211,252,.55);outline-offset:3px;}
 </style>
+
+<style id="tikz-contribution-v33">
+.tikz-contribution-card{margin:20px 0;padding:18px 20px;border:1px solid rgba(125,211,252,.14);border-radius:18px;background:linear-gradient(135deg,rgba(56,189,248,.05),rgba(124,58,237,.05));display:flex;align-items:center;gap:16px}.tikz-contribution-icon{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:rgba(56,189,248,.08);color:#7dd3fc;font-size:20px;flex:0 0 auto}.tikz-contribution-copy{flex:1;min-width:0}.tikz-contribution-copy h3{margin:3px 0 5px;font-size:17px}.tikz-contribution-copy p{margin:0;color:#8192aa;font-size:12px;line-height:1.55}.tikz-contribution-panel{margin:18px 0;padding:20px;border:1px solid rgba(125,211,252,.16);border-radius:18px;background:rgba(5,12,23,.7)}.tikz-contribution-form-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:16px}.tikz-contribution-form-head h3{margin-top:4px}.tikz-contribution-form{display:grid;gap:13px}.tikz-contribution-form label{display:block;margin-bottom:7px;color:#aebdd0;font-size:11px;font-weight:800;letter-spacing:.55px;text-transform:uppercase}.tikz-contribution-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.tikz-contribution-form input,.tikz-contribution-form textarea{width:100%;box-sizing:border-box;background:rgba(3,9,18,.72);border:1px solid rgba(148,163,184,.18);color:#eaf5ff;border-radius:10px;padding:12px 13px;outline:none;font:inherit}.tikz-contribution-form textarea{min-height:100px;resize:vertical}.tikz-contribution-form textarea#contribCode{min-height:260px;font-family:"JetBrains Mono",Consolas,monospace;font-size:12px;line-height:1.55}.tikz-contribution-form input:focus,.tikz-contribution-form textarea:focus{border-color:rgba(125,211,252,.48)}.tikz-contribution-check{display:flex!important;align-items:center;gap:8px;text-transform:none!important;letter-spacing:0!important;font-weight:600!important}.tikz-contribution-check input{width:auto}.tikz-contribution-submit{justify-self:start;border:1px solid rgba(125,211,252,.25);background:linear-gradient(135deg,rgba(56,189,248,.12),rgba(124,58,237,.12));color:#eaf8ff;border-radius:11px;padding:11px 15px;font:800 13px/1 inherit;cursor:pointer}.tikz-contribution-submit:hover{border-color:rgba(125,211,252,.55);transform:translateY(-1px)}
+@media(max-width:650px){.tikz-contribution-card{align-items:flex-start;flex-wrap:wrap}.tikz-contribution-card .tikz-back-button{width:100%}.tikz-contribution-grid{grid-template-columns:1fr}.tikz-contribution-form-head{flex-direction:column}}
+.tikz-contribution-thanks{padding:28px 12px;text-align:center}.tikz-contribution-thanks i{font-size:34px;color:#7dd3fc;margin-bottom:10px}.tikz-contribution-thanks h4{margin:0 0 6px;color:#e8f6ff;font-size:18px}.tikz-contribution-thanks p{margin:0;color:#8192aa;font-size:12px;line-height:1.6}
+</style>
 </head>
 
 <body>
@@ -4205,6 +4211,36 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                     <i class="fa-solid fa-draw-polygon"></i>
                     <h3>Chưa có hình vẽ</h3>
                     <p>Hiện chưa có hình vẽ TikZ/LaTeX được xuất bản.</p>
+                </div>
+
+                <div class="tikz-contribution-card reveal">
+                    <div class="tikz-contribution-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                    <div class="tikz-contribution-copy">
+                        <span class="document-library-kicker">ĐÓNG GÓP</span>
+                        <h3>Đóng góp hình vẽ TikZ/LaTeX</h3>
+                        <p>Bạn có hình vẽ hoặc code TikZ hay? Hãy gửi cho tôi. Nội dung sẽ được kiểm duyệt trước khi đăng lên thư viện.</p>
+                    </div>
+                    <button id="openTikzContribution" class="tikz-back-button" type="button"><i class="fa-solid fa-plus"></i> Đóng góp hình vẽ</button>
+                </div>
+
+                <div id="tikzContributionPanel" class="tikz-contribution-panel" hidden>
+                    <div class="tikz-contribution-form-head">
+                        <div><div class="section-kicker">TIKZ CONTRIBUTION</div><h3>Gửi hình vẽ cho tác giả duyệt</h3></div>
+                        <button id="closeTikzContribution" class="tikz-back-button" type="button"><i class="fa-solid fa-xmark"></i> Đóng</button>
+                    </div>
+                    <form id="tikzContributionForm" class="tikz-contribution-form">
+                        <div class="tikz-contribution-grid">
+                            <div><label>Tên hình vẽ *</label><input id="contribTitle" required placeholder="Ví dụ: Hình chóp S.ABCD"></div>
+                            <div><label>Tên tác giả</label><input id="contribAuthor" placeholder="Tên của bạn"></div>
+                            <div><label>Email / thông tin liên hệ</label><input id="contribContact" placeholder="Email, Facebook, Zalo... (không bắt buộc)"></div>
+                            <div><label>Package / TikZ Library</label><input id="contribPackages" placeholder="Ví dụ: calc, angles, tkz-euclide"></div>
+                        </div>
+                        <div><label>Mô tả</label><textarea id="contribDescription" placeholder="Mô tả ngắn về hình vẽ..."></textarea></div>
+                        <div><label>Code TikZ *</label><textarea id="contribCode" required placeholder="\begin{tikzpicture}...\end{tikzpicture}"></textarea></div>
+                        <label class="tikz-contribution-check"><input id="contribShowAuthor" type="checkbox" checked> Cho phép hiển thị tên tác giả trên website nếu được duyệt</label>
+                        <button class="tikz-contribution-submit" type="submit"><i class="fa-solid fa-paper-plane"></i> Gửi đóng góp</button>
+                        <div id="tikzContributionStatus" class="admin-status"></div>
+                    </form>
                 </div>
 
                 <div id="tikzPagination" class="tikz-pagination" aria-label="Phân trang hình vẽ"></div>
@@ -6406,6 +6442,23 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             if (event.key === "ArrowRight") { event.preventDefault(); scrollToPdfPage(currentPdfPage + 1); }
         });
 
+
+        async function notifySiteAdmin(type,payload){
+            try{ await supabaseClient.functions.invoke("send-site-notification",{body:{type,payload}}); }catch(error){ console.warn("Không gửi được email thông báo:",error); }
+        }
+        document.getElementById("openTikzContribution")?.addEventListener("click",()=>{const p=document.getElementById("tikzContributionPanel");p?.removeAttribute("hidden");p?.scrollIntoView({behavior:"smooth",block:"center"});});
+        document.getElementById("closeTikzContribution")?.addEventListener("click",()=>document.getElementById("tikzContributionPanel")?.setAttribute("hidden",""));
+        document.getElementById("tikzContributionForm")?.addEventListener("submit",async event=>{
+            event.preventDefault(); const status=document.getElementById("tikzContributionStatus"); const button=event.target.querySelector("button[type=submit]");
+            const payload={title:document.getElementById("contribTitle").value.trim(),author_name:document.getElementById("contribAuthor").value.trim()||null,contact:document.getElementById("contribContact").value.trim()||null,packages:document.getElementById("contribPackages").value.trim()||null,description:document.getElementById("contribDescription").value.trim()||null,code:document.getElementById("contribCode").value.trim(),show_author:document.getElementById("contribShowAuthor").checked,status:"pending"};
+            if(!payload.title||!payload.code)return; button.disabled=true; status.textContent="Đang gửi đóng góp...";
+            const {error}=await supabaseClient.from("tikz_contributions").insert(payload);
+            if(error){console.error(error);status.textContent="Không thể gửi đóng góp. Vui lòng thử lại.";button.disabled=false;return;}
+            await notifySiteAdmin("tikz_contribution",payload);
+            document.getElementById("tikzContributionPanel").innerHTML='<div class="tikz-contribution-thanks"><i class="fa-solid fa-circle-check"></i><h4>Cảm ơn bạn đã đóng góp!</h4><p>Đóng góp của bạn đã được gửi đến tác giả để kiểm duyệt. Nếu được duyệt, hình vẽ sẽ xuất hiện trong thư viện TikZ/LaTeX.</p><button id="closeContributionThanks" class="tikz-back-button" type="button" style="margin-top:16px">Đóng</button></div>';
+            document.getElementById("closeContributionThanks")?.addEventListener("click",()=>document.getElementById("tikzContributionPanel")?.setAttribute("hidden",""));
+        });
+
         document.getElementById("materialRequestForm")?.addEventListener("submit", async event => {
             event.preventDefault();
             const status = document.getElementById("requestStatus");
@@ -6424,6 +6477,8 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 console.error(error);
                 return;
             }
+            const requestPayload={name:document.getElementById("requestName").value.trim()||null,email:document.getElementById("requestEmail").value.trim()||null,category_id:document.getElementById("requestCategory").value ? Number(document.getElementById("requestCategory").value) : null,request_text:requestText};
+            await notifySiteAdmin("material_request",requestPayload);
             event.target.reset();
             status.textContent = "Đã gửi yêu cầu. Cảm ơn bạn!";
         });
