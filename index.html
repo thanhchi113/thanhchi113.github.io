@@ -3201,13 +3201,13 @@ body::-webkit-scrollbar-thumb:hover{
 
 /* ---------- GLOBAL PAGE SCROLL ---------- */
 html{
-    scroll-behavior:smooth !important;
+    scroll-behavior:auto !important;
     scrollbar-width:thin !important;
     scrollbar-color:rgba(125,211,252,.48) rgba(7,14,26,.92) !important;
 }
 
 body{
-    scroll-behavior:smooth !important;
+    scroll-behavior:auto !important;
     scrollbar-width:thin !important;
     scrollbar-color:rgba(125,211,252,.48) rgba(7,14,26,.92) !important;
 }
@@ -3333,7 +3333,7 @@ body::-webkit-scrollbar-thumb:hover{
 @media(max-width:900px){
     html,
     body{
-        scroll-behavior:smooth !important;
+        scroll-behavior:auto !important;
     }
 }
 </style>
@@ -3389,6 +3389,48 @@ body::-webkit-scrollbar-thumb:hover{
         box-sizing:border-box !important;
         margin:0 auto !important;
         background:#fff !important;
+    }
+}
+</style>
+
+
+<style id="pdf-smooth-native-scroll-v18">
+/* =========================================================
+   V18 — SMOOTH NATIVE SCROLL + LAZY PDF RENDERING
+   - Native scrollbar dragging remains immediate.
+   - PDF pages are rendered only near the viewport.
+   - High-resolution rendering is retained for visible pages.
+========================================================= */
+html,
+body{
+    scroll-behavior:auto !important;
+    overscroll-behavior-y:auto !important;
+}
+
+@media(min-width:901px){
+    #documents.document-viewer-mode .pdf-viewer-scroll{
+        scroll-behavior:auto !important;
+        -webkit-overflow-scrolling:touch !important;
+        overflow-anchor:auto !important;
+        overscroll-behavior:contain !important;
+        contain:layout paint style !important;
+    }
+
+    #documents.document-viewer-mode .pdf-viewer-pages{
+        contain:layout style !important;
+    }
+
+    #documents.document-viewer-mode .pdf-page-wrap{
+        contain:layout paint !important;
+        overflow:visible !important;
+    }
+}
+
+@media(max-width:900px){
+    #documents.document-viewer-mode .pdf-viewer-scroll{
+        scroll-behavior:auto !important;
+        -webkit-overflow-scrolling:touch !important;
+        overflow-anchor:auto !important;
     }
 }
 </style>
@@ -5633,8 +5675,117 @@ body::-webkit-scrollbar-thumb:hover{
             const page = Math.max(1, Math.min(Number(pageNumber) || 1, currentPdfInstance.numPages));
             currentPdfPage = page;
             updatePdfControls();
+
+            const viewer = document.querySelector(".pdf-viewer-scroll");
             const target = document.querySelector(`[data-pdf-page-wrap="${page}"]`);
-            if (target) target.scrollIntoView({ behavior, block: "start" });
+            if (!viewer || !target) return;
+
+            const top = Math.max(0, target.offsetTop - 12);
+            viewer.scrollTo({ top, behavior });
+            ensurePdfPageRendered(page);
+        }
+
+        function getPdfRenderRatio() {
+            const deviceRatio = window.devicePixelRatio || 1;
+            return Math.min(Math.max(deviceRatio, 2), 3);
+        }
+
+        async function renderPdfPageNumber(pageNumber, token = currentPdfRenderToken) {
+            const pdf = currentPdfInstance;
+            const wrap = document.querySelector(`[data-pdf-page-wrap="${pageNumber}"]`);
+            if (!pdf || !wrap || token !== currentPdfRenderToken) return;
+            if (wrap.dataset.rendering === "1" || wrap.dataset.rendered === "1") return;
+
+            wrap.dataset.rendering = "1";
+            try {
+                const page = await pdf.getPage(pageNumber);
+                if (token !== currentPdfRenderToken) return;
+
+                const viewer = document.querySelector(".pdf-viewer-scroll");
+                const isDesktopViewer = window.matchMedia("(min-width:901px)").matches;
+                const scrollbarReserve = viewer ? 12 : 0;
+                const pageHorizontalPadding = 24;
+                const viewerWidth = Math.max(240, viewer?.clientWidth || 980);
+                const availableWidth = Math.max(180, viewerWidth - scrollbarReserve - pageHorizontalPadding);
+
+                const baseViewport = page.getViewport({ scale: 1 });
+                const CSS_UNITS = 96 / 72;
+                const requestedScale = currentPdfZoom * CSS_UNITS;
+                const fitScaleByWidth = availableWidth / baseViewport.width;
+                const actualScale = isDesktopViewer
+                    ? Math.max(0.1, Math.min(requestedScale, fitScaleByWidth))
+                    : Math.max(0.1, currentPdfFitScale * currentPdfZoom);
+
+                const viewport = page.getViewport({ scale: actualScale });
+                const canvas = wrap.querySelector(".pdf-page-canvas");
+                if (!canvas) return;
+
+                const ratio = getPdfRenderRatio();
+                canvas.width = Math.ceil(viewport.width * ratio);
+                canvas.height = Math.ceil(viewport.height * ratio);
+                canvas.style.width = `${viewport.width}px`;
+                canvas.style.height = `${viewport.height}px`;
+                canvas.style.maxWidth = "100%";
+                canvas.style.maxHeight = "none";
+
+                wrap.style.minHeight = `${viewport.height + 34}px`;
+
+                const ctx = canvas.getContext("2d", { alpha: false, willReadFrequently: false });
+                await page.render({
+                    canvasContext: ctx,
+                    viewport,
+                    transform: ratio !== 1 ? [ratio, 0, 0, ratio, 0, 0] : null,
+                    intent: "display"
+                }).promise;
+
+                if (token !== currentPdfRenderToken) return;
+                wrap.dataset.rendered = "1";
+            } catch (error) {
+                if (token === currentPdfRenderToken) {
+                    console.warn(`PDF page ${pageNumber} render failed:`, error);
+                }
+            } finally {
+                wrap.dataset.rendering = "";
+            }
+        }
+
+        function ensurePdfPageRendered(pageNumber) {
+            const token = currentPdfRenderToken;
+            const page = Math.max(1, Number(pageNumber) || 1);
+            renderPdfPageNumber(page, token);
+            renderPdfPageNumber(Math.max(1, page - 1), token);
+            renderPdfPageNumber(Math.min(currentPdfInstance?.numPages || page, page + 1), token);
+        }
+
+        function setupPdfLazyRendering() {
+            const viewer = document.querySelector(".pdf-viewer-scroll");
+            const container = document.getElementById("pdfViewerPages");
+            if (!viewer || !container) return;
+
+            if (window.__pdfPageObserver) {
+                window.__pdfPageObserver.disconnect();
+            }
+
+            const token = currentPdfRenderToken;
+            if ("IntersectionObserver" in window) {
+                window.__pdfPageObserver = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting || token !== currentPdfRenderToken) return;
+                        const pageNumber = Number(entry.target.dataset.pdfPageWrap);
+                        renderPdfPageNumber(pageNumber, token);
+                    });
+                }, {
+                    root: viewer,
+                    rootMargin: "900px 0px",
+                    threshold: 0.01
+                });
+
+                container.querySelectorAll("[data-pdf-page-wrap]").forEach(wrap => {
+                    window.__pdfPageObserver.observe(wrap);
+                });
+            } else {
+                ensurePdfPageRendered(currentPdfPage);
+            }
         }
 
         async function renderAllPdfPages() {
@@ -5652,92 +5803,49 @@ body::-webkit-scrollbar-thumb:hover{
 
             const viewer = document.querySelector(".pdf-viewer-scroll");
             const firstPage = await pdf.getPage(1);
+            if (token !== currentPdfRenderToken) return;
             const firstBaseViewport = firstPage.getViewport({ scale: 1 });
 
-            /*
-             * The PDF column is the hard boundary on desktop.  Measure the
-             * actual inner width of that column and reserve room for its
-             * vertical scrollbar + page padding.  Height is deliberately
-             * NOT used to calculate the 100% scale: a tall page may extend
-             * below the viewport and is then reached with the PDF column's
-             * own vertical scrollbar.
-             */
+            const isDesktopViewer = window.matchMedia("(min-width:901px)").matches;
             const viewerWidth = Math.max(240, viewer?.clientWidth || 980);
-            const scrollbarReserve = viewer && viewer.scrollHeight > viewer.clientHeight ? 12 : 0;
+            const scrollbarReserve = 12;
             const pageHorizontalPadding = 24;
             const availableWidth = Math.max(180, viewerWidth - scrollbarReserve - pageHorizontalPadding);
             const availableHeight = Math.max(240, (viewer?.clientHeight || 720) - 36);
 
-            /*
-             * Desktop: 100% means the PDF's real PDF.js scale (1.0),
-             * not a fit-to-container scale. The page may therefore be
-             * larger than the viewport and can be scrolled, like the
-             * standard browser PDF viewer.
-             *
-             * Mobile keeps the existing fit behavior because that layout
-             * was already confirmed as correct.
-             */
-            const isDesktopViewer = window.matchMedia("(min-width:901px)").matches;
             const fitScaleByWidth = availableWidth / firstBaseViewport.width;
             const fitScaleByHeight = availableHeight / firstBaseViewport.height;
             currentPdfFitScale = Math.max(0.1, Math.min(fitScaleByWidth, fitScaleByHeight));
 
-            /*
-             * Desktop 100%: use the standard PDF.js 96/72 conversion,
-             * but never allow the page to exceed the WIDTH of the PDF
-             * viewport at 100%. This is intentional: the page can remain
-             * taller than the viewport and scroll vertically, while its
-             * width stays inside the PDF column and never reaches the
-             * related-documents column.
-             *
-             * At zoom levels above 100%, the PDF is allowed to become wider
-             * and the PDF viewer's own horizontal scrollbar can be used.
-             * Mobile keeps its existing fit behavior.
-             */
             const CSS_UNITS = 96 / 72;
             const requestedScale = currentPdfZoom * CSS_UNITS;
-
-            /*
-             * Desktop: 100% is allowed to be tall and scroll vertically,
-             * but it can NEVER exceed the width of the PDF column.  This
-             * prevents the page from covering the related-documents column.
-             */
             const actualScale = isDesktopViewer
                 ? Math.max(0.1, Math.min(requestedScale, fitScaleByWidth))
                 : Math.max(0.1, currentPdfFitScale * currentPdfZoom);
 
-            /*
-             * Render the canvas at extra pixel density and display it at
-             * the logical PDF size.  This keeps text/lines sharp instead
-             * of rendering a small canvas and enlarging it with CSS.
-             */
-            const deviceRatio = window.devicePixelRatio || 1;
-            const ratio = Math.min(Math.max(deviceRatio, 2), 4);
-
+            const firstViewport = firstBaseViewport.clone({ scale: actualScale });
             container.innerHTML = "";
 
+            /*
+             * Create lightweight page placeholders first. Only pages near the
+             * viewport are rendered. This prevents dozens of large canvases
+             * from competing for CPU/RAM while the user scrolls.
+             */
             for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
                 if (token !== currentPdfRenderToken) return;
 
-                const page = pageNumber === 1 ? firstPage : await pdf.getPage(pageNumber);
-                const viewport = page.getViewport({ scale: actualScale });
                 const wrap = document.createElement("div");
-                wrap.className = "pdf-page-wrap";
+                wrap.className = "pdf-page-wrap pdf-page-placeholder";
                 wrap.dataset.pdfPageWrap = String(pageNumber);
+                wrap.dataset.rendered = "";
+                wrap.dataset.rendering = "";
+                wrap.style.minHeight = `${firstViewport.height + 34}px`;
+                wrap.style.aspectRatio = `${firstBaseViewport.width} / ${firstBaseViewport.height}`;
 
                 const canvas = document.createElement("canvas");
                 canvas.className = "pdf-page-canvas";
                 canvas.dataset.page = String(pageNumber);
-                canvas.width = Math.ceil(viewport.width * ratio);
-                canvas.height = Math.ceil(viewport.height * ratio);
-                const displayWidth = isDesktopViewer
-                    ? Math.min(viewport.width, availableWidth)
-                    : viewport.width;
-                const displayScaleCorrection = isDesktopViewer && viewport.width > availableWidth
-                    ? availableWidth / viewport.width
-                    : 1;
-                canvas.style.width = `${displayWidth}px`;
-                canvas.style.height = `${viewport.height * displayScaleCorrection}px`;
+                canvas.setAttribute("aria-label", `Trang ${pageNumber}`);
 
                 const pageLabel = document.createElement("div");
                 pageLabel.className = "pdf-page-number";
@@ -5746,18 +5854,16 @@ body::-webkit-scrollbar-thumb:hover{
                 wrap.appendChild(canvas);
                 wrap.appendChild(pageLabel);
                 container.appendChild(wrap);
-
-                const ctx = canvas.getContext("2d", { alpha: false });
-                await page.render({
-                    canvasContext: ctx,
-                    viewport,
-                    transform: ratio !== 1 ? [ratio, 0, 0, ratio, 0, 0] : null
-                }).promise;
             }
 
             currentPdfPage = Math.max(1, Math.min(keepPage, pdf.numPages));
             updatePdfControls();
-            requestAnimationFrame(() => scrollToPdfPage(currentPdfPage, "auto"));
+            setupPdfLazyRendering();
+
+            requestAnimationFrame(() => {
+                ensurePdfPageRendered(currentPdfPage);
+                scrollToPdfPage(currentPdfPage, "auto");
+            });
         }
 
         async function renderPdfDocument(item) {
