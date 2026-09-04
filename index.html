@@ -3337,6 +3337,62 @@ body::-webkit-scrollbar-thumb:hover{
     }
 }
 </style>
+
+<style id="desktop-pdf-column-bound-v17">
+/* =========================================================
+   V17 — PDF MUST STAY INSIDE ITS OWN DESKTOP COLUMN
+   - Never overlap the related-documents column.
+   - At 100%, fit by PDF-column width only.
+   - Do not fit by height: vertical scrolling is allowed.
+   - Keep high-resolution canvas rendering.
+========================================================= */
+@media (min-width:901px){
+    #documents.document-viewer-mode .pdf-modal-body-scroll{
+        min-width:0 !important;
+        overflow:hidden !important;
+    }
+
+    #documents.document-viewer-mode .pdf-viewer-scroll{
+        min-width:0 !important;
+        width:100% !important;
+        max-width:100% !important;
+        overflow-y:auto !important;
+        overflow-x:hidden !important;
+        overscroll-behavior:contain !important;
+        box-sizing:border-box !important;
+    }
+
+    #documents.document-viewer-mode .pdf-viewer-pages{
+        width:100% !important;
+        min-width:0 !important;
+        max-width:100% !important;
+        min-height:100% !important;
+        padding:18px 12px 32px !important;
+        box-sizing:border-box !important;
+        overflow:visible !important;
+        align-items:flex-start !important;
+    }
+
+    #documents.document-viewer-mode .pdf-page-wrap{
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        margin:0 auto !important;
+        box-sizing:border-box !important;
+        overflow:visible !important;
+    }
+
+    #documents.document-viewer-mode .pdf-page-canvas{
+        display:block !important;
+        max-width:100% !important;
+        height:auto !important;
+        box-sizing:border-box !important;
+        margin:0 auto !important;
+        background:#fff !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -5595,10 +5651,22 @@ body::-webkit-scrollbar-thumb:hover{
                 </div>`;
 
             const viewer = document.querySelector(".pdf-viewer-scroll");
-            const availableWidth = Math.max(240, (viewer?.clientWidth || 980) - 36);
-            const availableHeight = Math.max(240, (viewer?.clientHeight || 720) - 36);
             const firstPage = await pdf.getPage(1);
             const firstBaseViewport = firstPage.getViewport({ scale: 1 });
+
+            /*
+             * The PDF column is the hard boundary on desktop.  Measure the
+             * actual inner width of that column and reserve room for its
+             * vertical scrollbar + page padding.  Height is deliberately
+             * NOT used to calculate the 100% scale: a tall page may extend
+             * below the viewport and is then reached with the PDF column's
+             * own vertical scrollbar.
+             */
+            const viewerWidth = Math.max(240, viewer?.clientWidth || 980);
+            const scrollbarReserve = viewer && viewer.scrollHeight > viewer.clientHeight ? 12 : 0;
+            const pageHorizontalPadding = 24;
+            const availableWidth = Math.max(180, viewerWidth - scrollbarReserve - pageHorizontalPadding);
+            const availableHeight = Math.max(240, (viewer?.clientHeight || 720) - 36);
 
             /*
              * Desktop: 100% means the PDF's real PDF.js scale (1.0),
@@ -5628,6 +5696,12 @@ body::-webkit-scrollbar-thumb:hover{
              */
             const CSS_UNITS = 96 / 72;
             const requestedScale = currentPdfZoom * CSS_UNITS;
+
+            /*
+             * Desktop: 100% is allowed to be tall and scroll vertically,
+             * but it can NEVER exceed the width of the PDF column.  This
+             * prevents the page from covering the related-documents column.
+             */
             const actualScale = isDesktopViewer
                 ? Math.max(0.1, Math.min(requestedScale, fitScaleByWidth))
                 : Math.max(0.1, currentPdfFitScale * currentPdfZoom);
@@ -5656,8 +5730,14 @@ body::-webkit-scrollbar-thumb:hover{
                 canvas.dataset.page = String(pageNumber);
                 canvas.width = Math.ceil(viewport.width * ratio);
                 canvas.height = Math.ceil(viewport.height * ratio);
-                canvas.style.width = `${viewport.width}px`;
-                canvas.style.height = `${viewport.height}px`;
+                const displayWidth = isDesktopViewer
+                    ? Math.min(viewport.width, availableWidth)
+                    : viewport.width;
+                const displayScaleCorrection = isDesktopViewer && viewport.width > availableWidth
+                    ? availableWidth / viewport.width
+                    : 1;
+                canvas.style.width = `${displayWidth}px`;
+                canvas.style.height = `${viewport.height * displayScaleCorrection}px`;
 
                 const pageLabel = document.createElement("div");
                 pageLabel.className = "pdf-page-number";
