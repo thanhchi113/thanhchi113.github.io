@@ -5465,17 +5465,21 @@ body::-webkit-scrollbar-thumb:hover{
             currentPdfFitScale = Math.max(0.1, Math.min(fitScaleByWidth, fitScaleByHeight));
 
             /*
-             * PDF.js uses 72 points per inch while browser CSS uses 96px
-             * per inch.  The standard browser PDF viewer therefore makes
-             * 100% roughly 96/72 = 1.333 PDF.js scale.
+             * Desktop 100%: use the standard PDF.js 96/72 conversion,
+             * but never allow the page to exceed the WIDTH of the PDF
+             * viewport at 100%. This is intentional: the page can remain
+             * taller than the viewport and scroll vertically, while its
+             * width stays inside the PDF column and never reaches the
+             * related-documents column.
              *
-             * Using that conversion here prevents the 100% page from
-             * looking artificially small while preserving the requested
-             * real zoom behavior.  Mobile keeps its existing fit scale.
+             * At zoom levels above 100%, the PDF is allowed to become wider
+             * and the PDF viewer's own horizontal scrollbar can be used.
+             * Mobile keeps its existing fit behavior.
              */
             const CSS_UNITS = 96 / 72;
+            const requestedScale = currentPdfZoom * CSS_UNITS;
             const actualScale = isDesktopViewer
-                ? Math.max(0.1, currentPdfZoom * CSS_UNITS)
+                ? Math.max(0.1, Math.min(requestedScale, fitScaleByWidth))
                 : Math.max(0.1, currentPdfFitScale * currentPdfZoom);
 
             /*
@@ -6864,6 +6868,74 @@ body::-webkit-scrollbar-thumb:hover{
     .pdf-modal-head #pdfDownload{
         min-height:40px !important;
         font-size:12px !important;
+    }
+}
+</style>
+
+
+<style id="pdf-desktop-100-width-scroll-final">
+/* =========================================================
+   DESKTOP PDF 100% FINAL FIX
+   - 100% fits ONLY the available PDF COLUMN WIDTH
+   - Height is NOT fitted, so the page may continue downward
+   - Vertical scrolling stays inside the PDF column
+   - Related documents keep their own scrollbar
+========================================================= */
+@media (min-width:901px){
+    .pdf-viewer-scroll{
+        width:100% !important;
+        min-width:0 !important;
+        max-width:100% !important;
+        overflow-y:auto !important;
+        overflow-x:auto !important;
+        box-sizing:border-box !important;
+        scrollbar-width:thin !important;
+        scrollbar-color:rgba(125,211,252,.38) rgba(255,255,255,.035) !important;
+    }
+
+    .pdf-viewer-scroll::-webkit-scrollbar{
+        width:10px !important;
+        height:10px !important;
+    }
+
+    .pdf-viewer-scroll::-webkit-scrollbar-track{
+        background:rgba(255,255,255,.035) !important;
+        border-radius:999px !important;
+    }
+
+    .pdf-viewer-scroll::-webkit-scrollbar-thumb{
+        background:rgba(125,211,252,.38) !important;
+        border-radius:999px !important;
+        border:2px solid rgba(10,17,28,.9) !important;
+    }
+
+    .pdf-viewer-pages{
+        width:100% !important;
+        min-width:0 !important;
+        box-sizing:border-box !important;
+        align-items:center !important;
+        padding:18px 18px 28px !important;
+        overflow:visible !important;
+    }
+
+    .pdf-page-wrap{
+        width:auto !important;
+        max-width:none !important;
+        min-width:0 !important;
+        margin:0 auto !important;
+        box-sizing:border-box !important;
+        overflow:visible !important;
+    }
+
+    .pdf-page-canvas{
+        display:block !important;
+        width:auto !important;
+        height:auto !important;
+        max-width:none !important;
+        max-height:none !important;
+        box-sizing:border-box !important;
+        image-rendering:auto !important;
+        background:#fff !important;
     }
 }
 </style>
