@@ -3664,6 +3664,14 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
     #documents .category-card-illustration *{animation-duration:.001ms!important;animation-iteration-count:1!important;animation-delay:0s!important;}
 }
 </style>
+
+<style id="performance-optimizations">
+/* Keep GPU-friendly layers limited to elements that actually animate. */
+#particleCanvas{pointer-events:none;will-change:transform;}
+.cursor-glow{will-change:transform;}
+.tilt-card{backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+
+</style>
 </head>
 
 <body>
@@ -5094,8 +5102,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
     <!-- =========================
          JAVASCRIPT
     ========================== -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- QRCode.js and PDF.js are lazy-loaded only when actually needed. -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
 
@@ -5106,6 +5113,62 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
         const SUPABASE_URL = "https://uiyqdqucqplifcvukwul.supabase.co";
         const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_eVPODZoNRLiGD8Ldl2VjAg_eC_KTKDg";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+        // Load heavy third-party libraries only when the user reaches the feature that needs them.
+        const externalScriptPromises = new Map();
+        function loadExternalScript(src, globalName, timeoutMs = 15000) {
+            if (globalName && window[globalName]) return Promise.resolve(window[globalName]);
+            if (externalScriptPromises.has(src)) return externalScriptPromises.get(src);
+
+            const promise = new Promise((resolve, reject) => {
+                const existing = document.querySelector(`script[data-lazy-src="${src}"]`);
+                if (existing) {
+                    const done = () => window[globalName] ? resolve(window[globalName]) : reject(new Error(`Không tải được thư viện ${globalName}.`));
+                    existing.addEventListener("load", done, { once: true });
+                    existing.addEventListener("error", () => reject(new Error(`Không tải được thư viện ${globalName}.`)), { once: true });
+                    if (globalName && window[globalName]) resolve(window[globalName]);
+                    return;
+                }
+
+                const script = document.createElement("script");
+                script.src = src;
+                script.async = true;
+                script.dataset.lazySrc = src;
+                let timer = setTimeout(() => {
+                    script.remove();
+                    reject(new Error(`Hết thời gian tải thư viện ${globalName}.`));
+                }, timeoutMs);
+                script.onload = () => {
+                    clearTimeout(timer);
+                    if (globalName && window[globalName]) resolve(window[globalName]);
+                    else reject(new Error(`Thư viện ${globalName} không sẵn sàng.`));
+                };
+                script.onerror = () => {
+                    clearTimeout(timer);
+                    reject(new Error(`Không tải được thư viện ${globalName}.`));
+                };
+                document.head.appendChild(script);
+            });
+            externalScriptPromises.set(src, promise);
+            return promise;
+        }
+
+        function ensurePdfJs() {
+            return loadExternalScript(
+                "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js",
+                "pdfjsLib"
+            ).then(lib => {
+                lib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+                return lib;
+            });
+        }
+
+        function ensureQrCodeJs() {
+            return loadExternalScript(
+                "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js",
+                "QRCode"
+            );
+        }
 
         let libraryDocuments = [];
         let libraryCategories = [];
@@ -5843,7 +5906,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             return url.toString();
         }
 
-        function openQrForCategory(category) {
+        async function openQrForCategory(category) {
             if (!category) return;
             qrTarget = { title: category.name, url: shareCategoryUrl(category.id) };
             const modal = document.getElementById("qrModal");
@@ -5853,9 +5916,14 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             if (!modal || !qr) return;
             title.textContent = category.name || "Danh mục";
             urlEl.textContent = qrTarget.url;
-            qr.innerHTML = "";
-            if (window.QRCode) {
+            qr.innerHTML = '<div class="qr-fallback">Đang tải mã QR...</div>';
+            try {
+                await ensureQrCodeJs();
+                qr.innerHTML = "";
                 new QRCode(qr, { text: qrTarget.url, width: 240, height: 240, correctLevel: QRCode.CorrectLevel.M });
+            } catch (error) {
+                console.warn("QRCode load failed:", error);
+                qr.innerHTML = '<div class="qr-fallback">Không tải được thư viện QR.</div>';
             }
             modal.classList.add("open");
             modal.setAttribute("aria-hidden", "false");
@@ -5910,7 +5978,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
         }
 
         let qrTarget = null;
-        function openQr(item) {
+        async function openQr(item) {
             if (!item) return;
             qrTarget = { title: item.title || item.file_name || "Tài liệu", url: shareUrlFor(item.id) };
             const modal = document.getElementById("qrModal");
@@ -5920,11 +5988,14 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             if (!modal || !qr) return;
             title.textContent = qrTarget.title;
             urlEl.textContent = qrTarget.url;
-            qr.innerHTML = "";
-            if (window.QRCode) {
+            qr.innerHTML = '<div class="qr-fallback">Đang tải mã QR...</div>';
+            try {
+                await ensureQrCodeJs();
+                qr.innerHTML = "";
                 new QRCode(qr, { text: qrTarget.url, width: 240, height: 240, correctLevel: QRCode.CorrectLevel.M });
-            } else {
-                qr.innerHTML = '<div class="qr-fallback">Không tải được thư viện QR. Hãy tải lại trang.</div>';
+            } catch (error) {
+                console.warn("QRCode load failed:", error);
+                qr.innerHTML = '<div class="qr-fallback">Không tải được thư viện QR.</div>';
             }
             modal.classList.add("open");
             modal.setAttribute("aria-hidden", "false");
@@ -6380,14 +6451,8 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                     <span>Đang tải tài liệu...</span>
                 </div>`;
 
-            if (!window.pdfjsLib) {
-                container.innerHTML = '<div class="pdf-viewer-loading"><i class="fa-solid fa-triangle-exclamation"></i><span>Không tải được trình xem PDF. Hãy tải lại trang.</span></div>';
-                return;
-            }
-
-            window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
             try {
+                await ensurePdfJs();
                 currentPdfInstance = await window.pdfjsLib.getDocument({
                     url: getPublicPdfUrl(item.file_path),
                     disableAutoFetch: false,
@@ -6523,13 +6588,6 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
         }
 
         function bindPdfPreviewRendering(container) {
-            if (!window.pdfjsLib) {
-                container.querySelectorAll(".document-preview-loading span").forEach(el => el.textContent = "Xem PDF để mở tài liệu");
-                return;
-            }
-
-            window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
             const renderOne = async preview => {
                 const url = preview.dataset.pdfPreview;
                 const canvas = preview.querySelector(".document-preview-canvas");
@@ -6537,6 +6595,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 if (!url || !canvas || canvas.dataset.rendered === "1") return;
                 canvas.dataset.rendered = "1";
                 try {
+                    await ensurePdfJs();
                     const task = window.pdfjsLib.getDocument({ url, disableAutoFetch: false, disableStream: false });
                     const pdf = await task.promise;
                     const page = await pdf.getPage(1);
@@ -6558,7 +6617,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                     );
                     const scale = Math.max(0.1, fitScale);
                     const viewport = page.getViewport({ scale });
-                    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+                    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
                     canvas.width = Math.ceil(viewport.width * ratio);
                     canvas.height = Math.ceil(viewport.height * ratio);
                     canvas.style.width = `${viewport.width}px`;
@@ -7590,8 +7649,7 @@ function getFilteredTikzDrawings() {
         }
 
         async function renderTikzCachedPdfInto(container,url){
-            if(!window.pdfjsLib) throw new Error("PDF.js chưa được tải.");
-            window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+            await ensurePdfJs();
             const pdf=await window.pdfjsLib.getDocument({url,disableAutoFetch:false,disableStream:false}).promise;
             try{
                 const page=await pdf.getPage(1);
@@ -7886,19 +7944,19 @@ function getFilteredTikzDrawings() {
         const finePointer =
             window.matchMedia("(pointer: fine)").matches;
 
-        if (cursorGlow && finePointer) {
-
-            window.addEventListener(
-                "pointermove",
-                function (event) {
-
-                    cursorGlow.style.transform =
-                        `translate3d(${event.clientX - 180}px, ${event.clientY - 180}px, 0)`;
-
-                },
-                { passive: true }
-            );
-
+        if (cursorGlow && finePointer && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            let glowRaf = 0;
+            let glowX = 0;
+            let glowY = 0;
+            window.addEventListener("pointermove", function (event) {
+                glowX = event.clientX - 180;
+                glowY = event.clientY - 180;
+                if (glowRaf) return;
+                glowRaf = requestAnimationFrame(() => {
+                    cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0)`;
+                    glowRaf = 0;
+                });
+            }, { passive: true });
         }
 
 
@@ -7913,40 +7971,23 @@ function getFilteredTikzDrawings() {
 
             tiltCards.forEach(function (card) {
 
+                let tiltRaf = 0;
+                let lastEvent = null;
                 card.addEventListener("pointermove", function (event) {
-
-                    const rect = card.getBoundingClientRect();
-
-                    const x =
-                        (event.clientX - rect.left) / rect.width - 0.5;
-
-                    const y =
-                        (event.clientY - rect.top) / rect.height - 0.5;
-
-                    const rotateY = x * 4;
-                    const rotateX = y * -4;
-
-                    card.style.setProperty(
-                        "--tilt-x",
-                        `${rotateX}deg`
-                    );
-
-                    card.style.setProperty(
-                        "--tilt-y",
-                        `${rotateY}deg`
-                    );
-
-                    card.style.setProperty(
-                        "--spot-x",
-                        `${(x + 0.5) * 100}%`
-                    );
-
-                    card.style.setProperty(
-                        "--spot-y",
-                        `${(y + 0.5) * 100}%`
-                    );
-
-                });
+                    lastEvent = event;
+                    if (tiltRaf) return;
+                    tiltRaf = requestAnimationFrame(() => {
+                        if (!lastEvent) { tiltRaf = 0; return; }
+                        const rect = card.getBoundingClientRect();
+                        const x = (lastEvent.clientX - rect.left) / rect.width - 0.5;
+                        const y = (lastEvent.clientY - rect.top) / rect.height - 0.5;
+                        card.style.setProperty("--tilt-x", `${y * -4}deg`);
+                        card.style.setProperty("--tilt-y", `${x * 4}deg`);
+                        card.style.setProperty("--spot-x", `${(x + 0.5) * 100}%`);
+                        card.style.setProperty("--spot-y", `${(y + 0.5) * 100}%`);
+                        tiltRaf = 0;
+                    });
+                }, { passive: true });
 
                 card.addEventListener("pointerleave", function () {
 
@@ -7989,6 +8030,7 @@ function getFilteredTikzDrawings() {
         if (particleCanvas && !prefersReducedMotion) {
 
             const particleContext =
+                particleCanvas.getContext("2d", { alpha: true, desynchronized: true }) ||
                 particleCanvas.getContext("2d");
 
             const particles = [];
@@ -7996,11 +8038,25 @@ function getFilteredTikzDrawings() {
             let canvasWidth = 0;
             let canvasHeight = 0;
             let animationFrame = 0;
+            let particlesRunning = true;
+
+            function stopParticleLoop() {
+                if (!particlesRunning) return;
+                particlesRunning = false;
+                cancelAnimationFrame(animationFrame);
+                animationFrame = 0;
+            }
+
+            function startParticleLoop() {
+                if (particlesRunning) return;
+                particlesRunning = true;
+                animationFrame = requestAnimationFrame(animateParticles);
+            }
 
             function resizeParticleCanvas() {
 
                 const ratio =
-                    Math.min(window.devicePixelRatio || 1, 2);
+                    Math.min(window.devicePixelRatio || 1, 1.5);
 
                 canvasWidth = window.innerWidth;
                 canvasHeight = window.innerHeight;
@@ -8060,6 +8116,7 @@ function getFilteredTikzDrawings() {
             }
 
             function animateParticles(time) {
+                if (!particlesRunning) return;
 
                 particleContext.clearRect(
                     0,
@@ -8132,10 +8189,15 @@ function getFilteredTikzDrawings() {
             animationFrame =
                 requestAnimationFrame(animateParticles);
 
+            document.addEventListener("visibilitychange", () => {
+                if (document.hidden) stopParticleLoop();
+                else startParticleLoop();
+            }, { passive: true });
+
             window.addEventListener(
                 "pagehide",
                 function () {
-                    cancelAnimationFrame(animationFrame);
+                    stopParticleLoop();
                 },
                 { once: true }
             );
