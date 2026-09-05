@@ -3504,12 +3504,8 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 @media(max-width:650px){.tikz-contribution-card{align-items:flex-start;flex-wrap:wrap}.tikz-contribution-card .tikz-back-button{width:100%}.tikz-contribution-grid{grid-template-columns:1fr}.tikz-contribution-form-head{flex-direction:column}}
 .tikz-contribution-thanks{padding:28px 12px;text-align:center}.tikz-contribution-thanks i{font-size:34px;color:#7dd3fc;margin-bottom:10px}.tikz-contribution-thanks h4{margin:0 0 6px;color:#e8f6ff;font-size:18px}.tikz-contribution-thanks p{margin:0;color:#8192aa;font-size:12px;line-height:1.6}
 </style>
-<style id="category-illustration-and-card-sync-v3">
-/* =========================================================
-   CATEGORY CARD + MINI ILLUSTRATION SYSTEM — v3
-========================================================= */
-
-/* Shared glass surface for content cards. */
+<style id="category-illustration-and-card-sync-v2">
+/* Unified Glass + Aurora treatment for the site's content cards. */
 :is(.card,.about-content,.highlight-item,.skill-item,.project-card,.achievement-card,.achievement-card-large,.material-request-card,.document-card,.tikz-card){
     position:relative;
     overflow:hidden;
@@ -3519,538 +3515,139 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
 }
-
-/* Soft Aurora behind the illustration. */
-#documents .category-card-illustration::before{
+:is(.card,.about-content,.highlight-item,.skill-item,.project-card,.achievement-card,.achievement-card-large,.material-request-card,.document-card,.tikz-card)::after{
     content:"";
     position:absolute;
-    width:135px;
-    height:135px;
+    width:220px;
+    height:220px;
+    right:-100px;
+    top:-115px;
     border-radius:50%;
-    background:radial-gradient(circle,rgba(56,189,248,.13),rgba(124,58,237,.08) 44%,transparent 73%);
-    filter:blur(15px);
+    background:radial-gradient(circle,rgba(56,189,248,.16),rgba(124,58,237,.09) 42%,transparent 72%);
+    filter:blur(20px);
+    opacity:.65;
     pointer-events:none;
+    transition:transform .45s ease,opacity .45s ease;
 }
+:is(.card,.about-content,.highlight-item,.skill-item,.project-card,.achievement-card,.achievement-card-large,.material-request-card,.document-card,.tikz-card):hover::after{transform:scale(1.2);opacity:.95}
 
-/* Category split: info left, illustration right. */
-#documents .document-category-card{
-    display:flex!important;
-    flex-direction:column!important;
-    gap:0!important;
-}
+/* Category card: information left, animated illustration right. */
+#documents .document-category-card{display:flex!important;flex-direction:column!important;gap:0!important;}
+#documents .category-card-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,.82fr);gap:12px;align-items:center;min-height:206px;position:relative;z-index:3;}
+#documents .category-card-info{min-width:0;position:relative;z-index:4;}
+#documents .category-card-illustration{min-width:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:3;padding:4px 0 0;opacity:.98;}
+#documents .category-card-illustration::before{content:"";position:absolute;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.11),rgba(124,58,237,.08) 48%,transparent 72%);filter:blur(14px);}
+#documents .category-card-illustration svg{width:100%;max-width:218px;height:auto;overflow:visible;position:relative;z-index:1;}
+#documents .category-card-illustration path,#documents .category-card-illustration line,#documents .category-card-illustration ellipse,#documents .category-card-illustration polyline{fill:none;stroke:rgba(125,211,252,.82);stroke-width:1.55;vector-effect:non-scaling-stroke;}
+#documents .category-card-illustration .ci-axis{stroke:rgba(210,238,255,.70);stroke-width:1.55;}
+#documents .category-card-illustration circle{fill:rgba(125,211,252,.96);stroke:none;}
+#documents .category-card-illustration .ci-paper{fill:rgba(255,255,255,.035);stroke:rgba(125,211,252,.76);stroke-width:1.55;}
+#documents .category-card-illustration .ci-paper-line{stroke:rgba(148,163,184,.28);stroke-width:1.5;}
+#documents .category-card-illustration .ci-area{fill:rgba(56,189,248,.17);stroke:none;}
+#documents .category-card-illustration .ci-curve-secondary{stroke:rgba(167,139,250,.76);stroke-width:1.85;}
+#documents .category-card-illustration .ci-hidden{stroke:rgba(125,211,252,.46);stroke-width:1.65;stroke-dasharray:5 5;}
+#documents .category-card-illustration .ci-orbits ellipse{stroke:rgba(125,211,252,.78);stroke-width:1.55;}
+#documents .category-card-illustration .ci-core{fill:#7dd3fc;filter:drop-shadow(0 0 7px rgba(56,189,248,.55));}
 
-#documents .category-card-main{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(150px,.78fr);
-    gap:12px;
-    align-items:center;
-    min-height:206px;
-    position:relative;
-    z-index:2;
-}
-
-#documents .category-card-info{
-    min-width:0;
-    position:relative;
-    z-index:3;
-}
-
-#documents .category-card-illustration{
-    min-width:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    position:relative;
-    z-index:3;
-    padding:4px 0 0;
-    opacity:.98;
-    transform-origin:center;
-    transition:transform .35s ease,filter .35s ease;
-}
-
-#documents .category-card-illustration svg{
-    width:100%;
-    max-width:205px;
-    height:auto;
-    overflow:visible;
-    position:relative;
-    z-index:1;
-}
-
-#documents .category-card-illustration path,
-#documents .category-card-illustration line,
-#documents .category-card-illustration ellipse,
-#documents .category-card-illustration polyline{
-    fill:none;
-    stroke:rgba(125,211,252,.84);
-    stroke-width:1.55;
-    vector-effect:non-scaling-stroke;
-}
-
-#documents .category-card-illustration .ci-axis,
-#documents .category-card-illustration .ci-axes{
-    color:rgba(220,244,255,.82);
-}
-
-#documents .category-card-illustration .ci-axis-x,
-#documents .category-card-illustration .ci-axis-y,
-#documents .category-card-illustration .ci-axis-z{
-    stroke:rgba(210,238,255,.78);
-    stroke-width:1.55;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-
-#documents .category-card-illustration .ci-arrow{
-    stroke:rgba(210,238,255,.78);
-    stroke-width:1.35;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-
-#documents .category-card-illustration .ci-label{
-    fill:rgba(210,238,255,.86);
-    font:500 9px/1 Arial,sans-serif;
-    stroke:none;
-}
-
-#documents .category-card-illustration circle{
-    fill:rgba(125,211,252,.96);
-    stroke:none;
-}
-
-#documents .category-card-illustration .ci-paper{
-    fill:rgba(255,255,255,.035);
-    stroke:rgba(125,211,252,.78);
-    stroke-width:1.55;
-}
-
-#documents .category-card-illustration .ci-paper-inner{
-    fill:rgba(125,211,252,.10);
-    stroke:none;
-}
-
-#documents .category-card-illustration .ci-paper-line{
-    stroke:rgba(148,163,184,.30);
-    stroke-width:1.45;
-    stroke-linecap:round;
-}
-
-#documents .category-card-illustration .ci-area{
-    fill:rgba(56,189,248,.34);
-    stroke:none;
-}
-
-#documents .category-card-illustration .ci-curve-primary{
-    stroke:#8ce6ff;
-    stroke-width:1.85;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-
-#documents .category-card-illustration .ci-curve-secondary{
-    stroke:#a78bfa;
-    stroke-width:1.85;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-
-#documents .category-card-illustration .ci-intersection{
-    fill:#e6f8ff;
-    filter:drop-shadow(0 0 4px rgba(125,211,252,.65));
-}
-
-/* =========================================================
-   LỚP 10 — y = x²
-========================================================= */
-
-.category-illustration-parabola .ci-axis-x,
-.category-illustration-parabola .ci-axis-y{
-    stroke-dasharray:1;
-    stroke-dashoffset:1;
-    animation:ciAxisLoop 3.6s ease-in-out infinite;
-}
-
-.category-illustration-parabola .ci-arrow,
-.category-illustration-parabola .ci-label{
-    opacity:0;
-    animation:ciLabelLoop 3.6s ease-in-out infinite;
-}
-
+/* Lớp 10: clean coordinate axes + y=x², no grid. */
 .category-illustration-parabola .ci-parabola{
     stroke:#8ce6ff!important;
     stroke-width:2.55!important;
     stroke-linecap:round;
     stroke-linejoin:round;
-    stroke-dasharray:1;
-    stroke-dashoffset:1;
-    animation:ciParabolaLoop 3.6s cubic-bezier(.45,0,.35,1) infinite;
+    stroke-dasharray:270;
+    stroke-dashoffset:270;
+    animation:ciDrawParabola 3.8s linear infinite;
 }
+.category-illustration-parabola .ci-axis-x,
+.category-illustration-parabola .ci-axis-y{stroke-dasharray:190;stroke-dashoffset:190;animation:ciDrawAxis 3.8s linear infinite;}
+.category-illustration-parabola .ci-dot{opacity:0;animation:ciParabolaDot 3.8s linear infinite;}
+@keyframes ciDrawAxis{0%{stroke-dashoffset:190;opacity:.25}24%{stroke-dashoffset:0;opacity:.9}84%{stroke-dashoffset:0;opacity:.9}100%{stroke-dashoffset:190;opacity:.25}}
+@keyframes ciDrawParabola{0%{stroke-dashoffset:270;opacity:.12}24%{stroke-dashoffset:270;opacity:.75}72%{stroke-dashoffset:0;opacity:1}84%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:270;opacity:.12}}
+@keyframes ciParabolaDot{0%,72%{opacity:0}76%,88%{opacity:1}100%{opacity:0}}
 
-@keyframes ciAxisLoop{
-    0%{stroke-dashoffset:1;opacity:.12}
-    25%,74%{stroke-dashoffset:0;opacity:.9}
-    100%{stroke-dashoffset:1;opacity:.12}
+/* Lớp 11: exact 12-edge rectangular prism; no extra construction lines. */
+.category-illustration-box .ci-box .ci-visible{
+    stroke-dasharray:90;
+    stroke-dashoffset:90;
+    animation:ciBoxVisible 4s linear infinite;
 }
-
-@keyframes ciParabolaLoop{
-    0%,12%{stroke-dashoffset:1;opacity:.14}
-    58%{stroke-dashoffset:0;opacity:1}
-    76%{stroke-dashoffset:0;opacity:1}
-    100%{stroke-dashoffset:1;opacity:.14}
+.category-illustration-box .ci-box .ci-hidden{
+    stroke-dasharray:5 5;
+    stroke-dashoffset:55;
+    animation:ciBoxHidden 4s linear infinite;
 }
+.category-illustration-box .ci-vertices circle{opacity:.8;animation:ciBoxVertices 4s linear infinite;}
+@keyframes ciBoxVisible{0%{stroke-dashoffset:90;opacity:.18}18%{stroke-dashoffset:90;opacity:.82}72%{stroke-dashoffset:0;opacity:1}86%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:90;opacity:.18}}
+@keyframes ciBoxHidden{0%{stroke-dashoffset:55;opacity:.10}28%{stroke-dashoffset:55;opacity:.35}78%{stroke-dashoffset:0;opacity:.78}86%{stroke-dashoffset:0;opacity:.72}100%{stroke-dashoffset:55;opacity:.10}}
+@keyframes ciBoxVertices{0%,18%{opacity:.12}72%,86%{opacity:.82}100%{opacity:.12}}
 
-@keyframes ciLabelLoop{
-    0%,18%{opacity:0}
-    28%,76%{opacity:.9}
-    100%{opacity:0}
-}
-
-/* =========================================================
-   LỚP 11 — RECTANGULAR PRISM
-   Exactly 12 edges. Back-top and far-right-back are solid.
-========================================================= */
-
-.category-illustration-box .ci-box-solid{
-    stroke:#7dd3fc!important;
-    stroke-width:1.8!important;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-    stroke-dasharray:1;
-    stroke-dashoffset:1;
-    animation:ciBoxSolidLoop 4.4s ease-in-out infinite;
-}
-
-.category-illustration-box .ci-box-hidden{
-    stroke:rgba(125,211,252,.56)!important;
-    stroke-width:1.65!important;
-    stroke-linecap:round;
-    stroke-dasharray:5 5!important;
-    stroke-dashoffset:34;
-    animation:ciBoxHiddenLoop 4.4s ease-in-out infinite;
-}
-
-.category-illustration-box .ci-vertices circle{
-    opacity:.15;
-    animation:ciBoxVerticesLoop 4.4s ease-in-out infinite;
-}
-
-@keyframes ciBoxSolidLoop{
-    0%{stroke-dashoffset:1;opacity:.12}
-    16%{stroke-dashoffset:1;opacity:.9}
-    66%{stroke-dashoffset:0;opacity:1}
-    82%{stroke-dashoffset:0;opacity:1}
-    100%{stroke-dashoffset:1;opacity:.12}
-}
-
-@keyframes ciBoxHiddenLoop{
-    0%{stroke-dashoffset:34;opacity:.10}
-    24%{stroke-dashoffset:34;opacity:.28}
-    70%{stroke-dashoffset:0;opacity:.82}
-    82%{stroke-dashoffset:0;opacity:.72}
-    100%{stroke-dashoffset:34;opacity:.10}
-}
-
-@keyframes ciBoxVerticesLoop{
-    0%,17%{opacity:.08}
-    64%,84%{opacity:.9}
-    100%{opacity:.08}
-}
-
-/* =========================================================
-   LỚP 12 — AREA BETWEEN TWO PARABOLAS
-   y = x² - 2x - 1
-   y = -x² + 3
-   Both curves draw simultaneously.
-========================================================= */
-
-.category-illustration-area .ci-axis-x,
-.category-illustration-area .ci-axis-y{
-    stroke-dasharray:1;
-    stroke-dashoffset:1;
-    animation:ciAxisLoop 5.4s ease-in-out infinite;
-}
-
+/* Lớp 12: two parabolas draw simultaneously; area fills afterward, no grid. */
 .category-illustration-area .ci-curve-primary,
 .category-illustration-area .ci-curve-secondary{
-    stroke-dasharray:1;
-    stroke-dashoffset:1;
-    animation:ciPairCurveLoop 5.4s cubic-bezier(.45,0,.35,1) infinite;
+    stroke-dasharray:270;
+    stroke-dashoffset:270;
+    animation:ciDrawPair 5s linear infinite;
 }
-
+.category-illustration-area .ci-axis-x,
+.category-illustration-area .ci-axis-y{stroke-dasharray:185;stroke-dashoffset:185;animation:ciDrawAreaAxes 5s linear infinite;}
 .category-illustration-area .ci-area{
     clip-path:inset(0 100% 0 0);
-    animation:ciAreaFillLoop 5.4s ease-in-out infinite;
-    fill:rgba(56,189,248,.40)!important;
+    animation:ciFillArea 5s linear infinite;
 }
+@keyframes ciDrawAreaAxes{0%{stroke-dashoffset:185;opacity:.16}12%{stroke-dashoffset:0;opacity:.85}90%{stroke-dashoffset:0;opacity:.85}100%{stroke-dashoffset:185;opacity:.16}}
+@keyframes ciDrawPair{0%,10%{stroke-dashoffset:270;opacity:.10}22%{opacity:.95}65%{stroke-dashoffset:0;opacity:1}82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:270;opacity:.10}}
+@keyframes ciFillArea{0%,62%{clip-path:inset(0 100% 0 0);opacity:.04}72%{clip-path:inset(0 58% 0 0);opacity:.45}86%{clip-path:inset(0 0 0 0);opacity:.95}92%{clip-path:inset(0 0 0 0);opacity:.82}100%{clip-path:inset(0 100% 0 0);opacity:.04}}
 
-.category-illustration-area .ci-intersection{
-    opacity:0;
-    animation:ciIntersectionLoop 5.4s ease-in-out infinite;
-}
-
-@keyframes ciPairCurveLoop{
-    0%,10%{stroke-dashoffset:1;opacity:.10}
-    64%{stroke-dashoffset:0;opacity:1}
-    82%{stroke-dashoffset:0;opacity:1}
-    100%{stroke-dashoffset:1;opacity:.10}
-}
-
-@keyframes ciAreaFillLoop{
-    0%,62%{
-        clip-path:inset(0 100% 0 0);
-        opacity:.03;
-    }
-    74%{
-        clip-path:inset(0 42% 0 0);
-        opacity:.72;
-    }
-    86%,92%{
-        clip-path:inset(0 0 0 0);
-        opacity:.95;
-    }
-    100%{
-        clip-path:inset(0 100% 0 0);
-        opacity:.03;
-    }
-}
-
-@keyframes ciIntersectionLoop{
-    0%,62%{opacity:0}
-    68%,92%{opacity:1}
-    100%{opacity:0}
-}
-
-/* =========================================================
-   ÔN THI VÀO 10 — PAPER
-========================================================= */
-
+/* Ôn thi vào 10: simple paper sheet, no text / icons. */
 .category-illustration-paper .ci-paper{
-    stroke-dasharray:1;
-    stroke-dashoffset:1;
-    animation:ciPaperLoop 4.6s ease-in-out infinite;
+    stroke-dasharray:470;
+    stroke-dashoffset:470;
+    animation:ciLoopPaper 4.2s linear infinite;
 }
+.category-illustration-paper .ci-paper-inner{opacity:0;animation:ciLoopPaperInner 4.2s linear infinite;}
+.category-illustration-paper .ci-paper-line{stroke-dasharray:92;stroke-dashoffset:92;animation:ciLoopPaperLine 4.2s linear infinite;}
+.category-illustration-paper .l1{animation-delay:.70s}.category-illustration-paper .l2{animation-delay:.85s}.category-illustration-paper .l3{animation-delay:1s}.category-illustration-paper .l4{animation-delay:1.15s}.category-illustration-paper .l5{animation-delay:1.3s}.category-illustration-paper .l6{animation-delay:1.45s}
+@keyframes ciLoopPaper{0%{stroke-dashoffset:470;opacity:.12}18%{opacity:1}58%{stroke-dashoffset:0;opacity:1}80%{stroke-dashoffset:0;opacity:.92}100%{stroke-dashoffset:470;opacity:.12}}
+@keyframes ciLoopPaperInner{0%,28%{opacity:0}42%,80%{opacity:1}100%{opacity:0}}
+@keyframes ciLoopPaperLine{0%,22%{stroke-dashoffset:92;opacity:.10}42%{opacity:.92}58%{stroke-dashoffset:0;opacity:.92}80%{stroke-dashoffset:0;opacity:.72}100%{stroke-dashoffset:92;opacity:.10}}
 
-.category-illustration-paper .ci-paper-inner{
-    opacity:0;
-    animation:ciPaperInnerLoop 4.6s ease-in-out infinite;
-}
-
-.category-illustration-paper .ci-paper-line{
-    stroke-dasharray:1;
-    stroke-dashoffset:1;
-    animation:ciPaperLineLoop 4.6s ease-in-out infinite;
-}
-
-.category-illustration-paper .l1{animation-delay:.70s}
-.category-illustration-paper .l2{animation-delay:.85s}
-.category-illustration-paper .l3{animation-delay:1s}
-.category-illustration-paper .l4{animation-delay:1.15s}
-.category-illustration-paper .l5{animation-delay:1.30s}
-.category-illustration-paper .l6{animation-delay:1.45s}
-
-@keyframes ciPaperLoop{
-    0%{stroke-dashoffset:1;opacity:.10}
-    18%{opacity:1}
-    58%{stroke-dashoffset:0;opacity:1}
-    80%{stroke-dashoffset:0;opacity:.92}
-    100%{stroke-dashoffset:1;opacity:.10}
-}
-
-@keyframes ciPaperInnerLoop{
-    0%,28%{opacity:0}
-    42%,80%{opacity:1}
-    100%{opacity:0}
-}
-
-@keyframes ciPaperLineLoop{
-    0%,22%{stroke-dashoffset:1;opacity:.08}
-    45%{opacity:.92}
-    62%{stroke-dashoffset:0;opacity:.92}
-    82%{stroke-dashoffset:0;opacity:.70}
-    100%{stroke-dashoffset:1;opacity:.08}
-}
-
-/* =========================================================
-   ÔN THI THPT — OXYZ
-========================================================= */
-
+/* Ôn thi THPT: Oxyz spatial coordinate system, no grid. */
 .category-illustration-xyz .ci-axis-x,
 .category-illustration-xyz .ci-axis-y,
-.category-illustration-xyz .ci-axis-z{
-    stroke-dasharray:1;
-    stroke-dashoffset:1;
-    animation:ciXYZAxisLoop 4.5s ease-in-out infinite;
-}
+.category-illustration-xyz .ci-axis-z{stroke-dasharray:165;stroke-dashoffset:165;animation:ciDrawXYZ 4.3s linear infinite;}
+.category-illustration-xyz .ci-axis-x{animation-delay:0s}.category-illustration-xyz .ci-axis-y{animation-delay:.18s}.category-illustration-xyz .ci-axis-z{animation-delay:.36s}
+.category-illustration-xyz .ci-origin{opacity:0;animation:ciXYZOrigin 4.3s linear infinite;}
+@keyframes ciDrawXYZ{0%{stroke-dashoffset:165;opacity:.15}18%{stroke-dashoffset:0;opacity:.92}76%{stroke-dashoffset:0;opacity:.92}100%{stroke-dashoffset:165;opacity:.15}}
+@keyframes ciXYZOrigin{0%,20%{opacity:0}26%,78%{opacity:1}100%{opacity:0}}
 
-.category-illustration-xyz .ci-axis-y{animation-delay:.16s}
-.category-illustration-xyz .ci-axis-z{animation-delay:.32s}
-
-.category-illustration-xyz .ci-arrow,
-.category-illustration-xyz .ci-label{
-    opacity:0;
-    animation:ciXYZLabelLoop 4.5s ease-in-out infinite;
-}
-
-.category-illustration-xyz .ci-origin{
-    opacity:0;
-    animation:ciXYZOriginLoop 4.5s ease-in-out infinite;
-}
-
-@keyframes ciXYZAxisLoop{
-    0%{stroke-dashoffset:1;opacity:.10}
-    20%{stroke-dashoffset:0;opacity:.92}
-    76%{stroke-dashoffset:0;opacity:.92}
-    100%{stroke-dashoffset:1;opacity:.10}
-}
-
-@keyframes ciXYZLabelLoop{
-    0%,20%{opacity:0}
-    28%,78%{opacity:.9}
-    100%{opacity:0}
-}
-
-@keyframes ciXYZOriginLoop{
-    0%,24%{opacity:0}
-    30%,80%{opacity:1}
-    100%{opacity:0}
-}
-
-/* =========================================================
-   CHUYÊN ĐỀ — ORBITAL NUCLEUS + MOVING PARTICLES
-========================================================= */
-
-.category-illustration-abstract .ci-orbits{
+/* Chuyên đề: orbiting ellipses continuously change position/orientation like a nucleus. */
+.category-illustration-abstract .ci-orbits ellipse{
+    stroke-dasharray:250;
+    stroke-dashoffset:0;
     transform-box:fill-box;
     transform-origin:center;
-    animation:ciOrbitSystem 6s linear infinite;
+    animation:ciOrbitMove 3.8s ease-in-out infinite;
 }
+.category-illustration-abstract .ci-orbits ellipse:nth-child(2){animation-duration:4.4s;animation-delay:-.8s;}
+.category-illustration-abstract .ci-orbits ellipse:nth-child(3){animation-duration:4.9s;animation-delay:-1.5s;}
+.category-illustration-abstract .ci-core{animation:ciCoreMove 3.8s ease-in-out infinite;}
+@keyframes ciOrbitMove{
+    0%{transform:translate(0,0) rotate(0deg);opacity:.56}
+    25%{transform:translate(7px,-4px) rotate(18deg);opacity:.88}
+    50%{transform:translate(-4px,6px) rotate(42deg);opacity:.64}
+    75%{transform:translate(-8px,-2px) rotate(64deg);opacity:.86}
+    100%{transform:translate(0,0) rotate(90deg);opacity:.56}
+}
+@keyframes ciCoreMove{0%,100%{transform:scale(.9);opacity:.72}50%{transform:scale(1.14);opacity:1}}
 
-.category-illustration-abstract .ci-orbit{
-    stroke:rgba(125,211,252,.82)!important;
-    stroke-width:1.7!important;
-}
-
-.category-illustration-abstract .orbit-1{
-    transform-box:fill-box;
-    transform-origin:center;
-    animation:ciOrbitTilt1 5.5s ease-in-out infinite;
-}
-
-.category-illustration-abstract .orbit-2{
-    transform-box:fill-box;
-    transform-origin:center;
-    animation:ciOrbitTilt2 6.4s ease-in-out infinite;
-}
-
-.category-illustration-abstract .orbit-3{
-    transform-box:fill-box;
-    transform-origin:center;
-    animation:ciOrbitTilt3 7s ease-in-out infinite;
-}
-
-.category-illustration-abstract .ci-core{
-    fill:#7dd3fc!important;
-    filter:drop-shadow(0 0 8px rgba(56,189,248,.62));
-    animation:ciCorePulse 2.4s ease-in-out infinite;
-}
-
-.category-illustration-abstract .ci-particle{
-    fill:#dff7ff!important;
-    filter:drop-shadow(0 0 5px rgba(125,211,252,.8));
-}
-
-@keyframes ciOrbitSystem{
-    from{transform:rotate(0deg)}
-    to{transform:rotate(360deg)}
-}
-
-@keyframes ciOrbitTilt1{
-    0%,100%{transform:rotate(0deg) translate(0,0)}
-    50%{transform:rotate(18deg) translate(3px,-2px)}
-}
-
-@keyframes ciOrbitTilt2{
-    0%,100%{transform:rotate(58deg) translate(0,0)}
-    50%{transform:rotate(76deg) translate(-3px,2px)}
-}
-
-@keyframes ciOrbitTilt3{
-    0%,100%{transform:rotate(-58deg) translate(0,0)}
-    50%{transform:rotate(-75deg) translate(2px,3px)}
-}
-
-@keyframes ciCorePulse{
-    0%,100%{transform:scale(.9);opacity:.70}
-    50%{transform:scale(1.18);opacity:1}
-}
-
-/* Category-specific text follows the illustration accent. */
-#documents .document-category-card[data-category-name="Lớp 10"]{
-    --cat-accent:#8ce6ff;
-    --cat-soft:rgba(140,230,255,.76);
-}
-#documents .document-category-card[data-category-name="Lớp 11"]{
-    --cat-accent:#7dd3fc;
-    --cat-soft:rgba(125,211,252,.76);
-}
-#documents .document-category-card[data-category-name="Lớp 12"]{
-    --cat-accent:#a78bfa;
-    --cat-soft:rgba(167,139,250,.76);
-}
-#documents .document-category-card[data-category-name="Ôn thi vào 10"]{
-    --cat-accent:#60a5fa;
-    --cat-soft:rgba(96,165,250,.76);
-}
-#documents .document-category-card[data-category-name="Ôn thi THPT"]{
-    --cat-accent:#5eead4;
-    --cat-soft:rgba(94,234,212,.76);
-}
-#documents .document-category-card[data-category-name="Chuyên đề"]{
-    --cat-accent:#7dd3fc;
-    --cat-soft:rgba(125,211,252,.76);
-}
-
-#documents .document-category-card[data-category-name] .document-card-category{
-    color:var(--cat-accent)!important;
-}
-#documents .document-category-card[data-category-name] h3{
-    color:#f6fbff;
-    text-shadow:0 0 18px color-mix(in srgb,var(--cat-accent) 18%,transparent);
-}
-#documents .document-category-card[data-category-name] p{
-    color:var(--cat-soft)!important;
-}
-#documents .document-category-card[data-category-name] .document-category-icon{
-    color:var(--cat-accent)!important;
-    background:color-mix(in srgb,var(--cat-accent) 9%,transparent)!important;
-    border-color:color-mix(in srgb,var(--cat-accent) 18%,transparent)!important;
-}
-
-#documents .document-category-card:hover .category-card-illustration{
-    transform:translateY(-2px) scale(1.025);
-    filter:brightness(1.08);
-}
-
+#documents .document-category-card:hover .category-card-illustration{transform:translateY(-2px) scale(1.025);filter:brightness(1.08);transition:transform .35s ease,filter .35s ease;}
 @media(max-width:700px){
-    #documents .category-card-main{
-        grid-template-columns:minmax(0,1fr) 120px;
-        min-height:184px;
-        gap:8px;
-    }
-
-    #documents .category-card-illustration svg{
-        max-width:135px;
-    }
+    #documents .category-card-main{grid-template-columns:minmax(0,1fr) 120px;min-height:184px;gap:8px;}
+    #documents .category-card-illustration svg{max-width:145px;}
 }
-
 @media(prefers-reduced-motion:reduce){
-    #documents .category-card-illustration *,
-    #documents .category-card-illustration{
-        animation-duration:.001ms!important;
-        animation-iteration-count:1!important;
-        animation-delay:0s!important;
-    }
+    #documents .category-card-illustration *{animation-duration:.001ms!important;animation-iteration-count:1!important;animation-delay:0s!important;}
 }
 </style>
 </head>
@@ -5522,108 +5119,80 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
         }
+
         function getCategoryIllustration(name) {
             const key = String(name || "").trim();
             const common = 'viewBox="0 0 220 150" role="img" aria-hidden="true" focusable="false"';
-
             if (key === "Lớp 10") return `<svg class="category-illustration category-illustration-parabola" ${common}>
-                <g class="ci-axes">
-                    <path class="ci-axis-x" d="M24 110H198"/>
-                    <path class="ci-axis-y" d="M83 136V18"/>
-                    <path class="ci-arrow" d="M192 106l6 4-6 4 M79 24l4-6 4 6"/>
-                    <text class="ci-label ci-label-x" x="200" y="114">x</text>
-                    <text class="ci-label ci-label-y" x="88" y="18">y</text>
-                    <text class="ci-label ci-label-o" x="73" y="125">O</text>
+                <g class="ci-axis">
+                    <path class="ci-axis-x" d="M28 110H198"/>
+                    <path class="ci-axis-y" d="M110 138V14"/>
+                    <path d="M192 106l6 4-6 4 M106 20l4-6 4 6"/>
                 </g>
-                <path class="ci-parabola" pathLength="1" d="M37 74 Q60 96 83 110 Q106 96 129 74"/>
+                <path class="ci-parabola" d="M50 52 C67 67 82 91 97 105 C103 111 107 114 110 114 C113 114 117 111 123 105 C138 91 153 67 170 52"/>
+                <circle class="ci-dot" cx="110" cy="114" r="3"/>
+                <text x="200" y="113">x</text><text x="116" y="17">y</text><text x="101" y="126">O</text>
             </svg>`;
-
             if (key === "Lớp 11") return `<svg class="category-illustration category-illustration-box" ${common}>
                 <g class="ci-box">
-                    <!-- 4 visible edges of the front face -->
-                    <path class="ci-box-solid s1" pathLength="1" d="M52 55H132"/>
-                    <path class="ci-box-solid s2" pathLength="1" d="M132 55V108"/>
-                    <path class="ci-box-solid s3" pathLength="1" d="M132 108H52"/>
-                    <path class="ci-box-solid s4" pathLength="1" d="M52 108V55"/>
-
-                    <!-- Back face: top and far-right edge are visible -->
-                    <path class="ci-box-solid s5" pathLength="1" d="M82 31H162"/>
-                    <path class="ci-box-solid s6" pathLength="1" d="M162 31V84"/>
-
-                    <!-- Hidden edges -->
-                    <path class="ci-box-hidden h1" pathLength="1" d="M162 84H82"/>
-                    <path class="ci-box-hidden h2" pathLength="1" d="M82 84V31"/>
-
-                    <!-- Receding edges: 3 visible + 1 hidden -->
-                    <path class="ci-box-solid s7" pathLength="1" d="M52 55L82 31"/>
-                    <path class="ci-box-solid s8" pathLength="1" d="M132 55L162 31"/>
-                    <path class="ci-box-solid s9" pathLength="1" d="M132 108L162 84"/>
-                    <path class="ci-box-hidden h3" pathLength="1" d="M52 108L82 84"/>
+                    <!-- Front face: 4 visible edges -->
+                    <path class="ci-visible" d="M54 48H138"/>
+                    <path class="ci-visible" d="M138 48V104"/>
+                    <path class="ci-visible" d="M138 104H54"/>
+                    <path class="ci-visible" d="M54 104V48"/>
+                    <!-- Back face: hidden edges -->
+                    <path class="ci-hidden" d="M84 28H168"/>
+                    <path class="ci-hidden" d="M168 28V84"/>
+                    <path class="ci-hidden" d="M168 84H84"/>
+                    <path class="ci-hidden" d="M84 84V28"/>
+                    <!-- Connecting edges: 3 visible, 1 hidden -->
+                    <path class="ci-visible" d="M54 48L84 28"/>
+                    <path class="ci-visible" d="M138 48L168 28"/>
+                    <path class="ci-visible" d="M138 104L168 84"/>
+                    <path class="ci-hidden" d="M54 104L84 84"/>
                 </g>
                 <g class="ci-vertices">
-                    <circle cx="52" cy="55" r="2.3"/><circle cx="132" cy="55" r="2.3"/>
-                    <circle cx="132" cy="108" r="2.3"/><circle cx="52" cy="108" r="2.3"/>
-                    <circle cx="82" cy="31" r="2.3"/><circle cx="162" cy="31" r="2.3"/>
-                    <circle cx="162" cy="84" r="2.3"/><circle cx="82" cy="84" r="2.3"/>
+                    <circle cx="54" cy="48" r="2.5"/><circle cx="138" cy="48" r="2.5"/><circle cx="138" cy="104" r="2.5"/><circle cx="54" cy="104" r="2.5"/>
+                    <circle cx="84" cy="28" r="2.5"/><circle cx="168" cy="28" r="2.5"/><circle cx="168" cy="84" r="2.5"/><circle cx="84" cy="84" r="2.5"/>
                 </g>
             </svg>`;
-
             if (key === "Lớp 12") return `<svg class="category-illustration category-illustration-area" ${common}>
-                <g class="ci-axes">
-                    <path class="ci-axis-x" d="M28 84H199"/>
-                    <path class="ci-axis-y" d="M92 136V18"/>
-                    <path class="ci-arrow" d="M193 80l6 4-6 4 M88 24l4-6 4 6"/>
-                    <text class="ci-label ci-label-x" x="201" y="88">x</text>
-                    <text class="ci-label ci-label-y" x="97" y="18">y</text>
-                    <text class="ci-label ci-label-o" x="82" y="98">O</text>
+                <g class="ci-axis">
+                    <path class="ci-axis-x" d="M28 108H198"/>
+                    <path class="ci-axis-y" d="M110 138V12"/>
+                    <path d="M192 104l6 4-6 4 M106 18l4-6 4 6"/>
                 </g>
-                <path class="ci-area" d="M 64.0,54.0 L 66.8,59.8 L 69.6,65.4 L 72.4,70.7 L 75.2,75.6 L 78.0,80.2 L 80.8,84.6 L 83.6,88.6 L 86.4,92.4 L 89.2,95.8 L 92.0,99.0 L 94.8,101.8 L 97.6,104.4 L 100.4,106.7 L 103.2,108.6 L 106.0,110.2 L 108.8,111.6 L 111.6,112.7 L 114.4,113.4 L 117.2,113.8 L 120.0,114.0 L 122.8,113.8 L 125.6,113.4 L 128.4,112.7 L 131.2,111.6 L 134.0,110.2 L 136.8,108.6 L 139.6,106.7 L 142.4,104.4 L 145.2,101.8 L 148.0,99.0 L 148.0,99.0 L 145.2,93.2 L 142.4,87.6 L 139.6,82.4 L 136.8,77.4 L 134.0,72.8 L 131.2,68.4 L 128.4,64.3 L 125.6,60.6 L 122.8,57.2 L 120.0,54.0 L 117.2,51.1 L 114.4,48.6 L 111.6,46.3 L 108.8,44.4 L 106.0,42.8 L 103.2,41.4 L 100.4,40.3 L 97.6,39.6 L 94.8,39.2 L 92.0,39.0 L 89.2,39.1 L 86.4,39.6 L 83.6,40.3 L 80.8,41.4 L 78.0,42.8 L 75.2,44.4 L 72.4,46.3 L 69.6,48.6 L 66.8,51.1 L 64.0,54.0 Z"/>
-                <path class="ci-curve-primary" pathLength="1" d="M 64.0,54.0 L 66.8,59.8 L 69.6,65.4 L 72.4,70.7 L 75.2,75.6 L 78.0,80.2 L 80.8,84.6 L 83.6,88.6 L 86.4,92.4 L 89.2,95.8 L 92.0,99.0 L 94.8,101.8 L 97.6,104.4 L 100.4,106.7 L 103.2,108.6 L 106.0,110.2 L 108.8,111.6 L 111.6,112.7 L 114.4,113.4 L 117.2,113.8 L 120.0,114.0 L 122.8,113.8 L 125.6,113.4 L 128.4,112.7 L 131.2,111.6 L 134.0,110.2 L 136.8,108.6 L 139.6,106.7 L 142.4,104.4 L 145.2,101.8 L 148.0,99.0"/>
-                <path class="ci-curve-secondary" pathLength="1" d="M 64.0,54.0 L 66.8,51.1 L 69.6,48.6 L 72.4,46.3 L 75.2,44.4 L 78.0,42.8 L 80.8,41.4 L 83.6,40.3 L 86.4,39.6 L 89.2,39.1 L 92.0,39.0 L 94.8,39.2 L 97.6,39.6 L 100.4,40.3 L 103.2,41.4 L 106.0,42.8 L 108.8,44.4 L 111.6,46.3 L 114.4,48.6 L 117.2,51.1 L 120.0,54.0 L 122.8,57.2 L 125.6,60.6 L 128.4,64.3 L 131.2,68.4 L 134.0,72.8 L 136.8,77.4 L 139.6,82.4 L 142.4,87.6 L 145.2,93.2 L 148.0,99.0"/>
-                <circle class="ci-intersection" cx="64" cy="54" r="2.6"/>
-                <circle class="ci-intersection" cx="148" cy="99" r="2.6"/>
+                <!-- Region between y=x^2-2x-1 and y=-x^2+3 -->
+                <path class="ci-area" d="M50 92 C67 55 85 35 110 30 C135 28 156 57 172 92 C158 106 139 113 118 114 C96 115 69 106 50 92Z"/>
+                <path class="ci-curve-primary" d="M50 92 C67 55 85 35 110 30 C135 28 156 57 172 92"/>
+                <path class="ci-curve-secondary" d="M50 92 C69 104 91 118 118 114 C139 111 158 104 172 92"/>
+                <circle cx="50" cy="92" r="2.5"/><circle cx="172" cy="92" r="2.5"/>
+                <text x="200" y="111">x</text><text x="116" y="16">y</text><text x="101" y="126">O</text>
             </svg>`;
             if (key === "Ôn thi vào 10") return `<svg class="category-illustration category-illustration-paper" ${common}>
-                <rect class="ci-paper" pathLength="1" x="52" y="14" width="114" height="122" rx="5"/>
+                <rect class="ci-paper" x="52" y="14" width="114" height="122" rx="5"/>
                 <rect class="ci-paper-inner" x="62" y="25" width="94" height="9" rx="2"/>
-                <path class="ci-paper-line l1" pathLength="1" d="M62 47H150"/>
-                <path class="ci-paper-line l2" pathLength="1" d="M62 62H146"/>
-                <path class="ci-paper-line l3" pathLength="1" d="M62 77H152"/>
-                <path class="ci-paper-line l4" pathLength="1" d="M62 92H142"/>
-                <path class="ci-paper-line l5" pathLength="1" d="M62 107H149"/>
-                <path class="ci-paper-line l6" pathLength="1" d="M62 122H132"/>
+                <path class="ci-paper-line l1" d="M62 47H150"/><path class="ci-paper-line l2" d="M62 62H146"/><path class="ci-paper-line l3" d="M62 77H152"/><path class="ci-paper-line l4" d="M62 92H142"/><path class="ci-paper-line l5" d="M62 107H149"/><path class="ci-paper-line l6" d="M62 122H132"/>
             </svg>`;
-
             if (key === "Ôn thi THPT") return `<svg class="category-illustration category-illustration-xyz" ${common}>
-                <g class="ci-axes">
-                    <path class="ci-axis-x" pathLength="1" d="M51 105H194"/>
-                    <path class="ci-axis-y" pathLength="1" d="M51 105L27 126"/>
-                    <path class="ci-axis-z" pathLength="1" d="M51 105V20"/>
-                    <path class="ci-arrow" d="M188 101l6 4-6 4 M32 121l-6 5 7-1 M47 26l4-6 4 6"/>
+                <g class="ci-axis">
+                    <path class="ci-axis-x" d="M48 104H192"/>
+                    <path class="ci-axis-y" d="M48 104L26 124"/>
+                    <path class="ci-axis-z" d="M48 104V20"/>
+                    <path d="M186 100l6 4-6 4 M31 119l-5 5 7-1 M44 26l4-6 4 6"/>
                 </g>
-                <circle class="ci-origin" cx="51" cy="105" r="2.8"/>
-                <text class="ci-label ci-label-o" x="40" y="119">O</text>
-                <text class="ci-label ci-label-x" x="199" y="109">x</text>
-                <text class="ci-label ci-label-y" x="17" y="133">y</text>
-                <text class="ci-label ci-label-z" x="57" y="17">z</text>
+                <circle class="ci-origin" cx="48" cy="104" r="3.2"/>
+                <text x="194" y="108">x</text><text x="20" y="130">y</text><text x="54" y="18">z</text><text x="38" y="119">O</text>
             </svg>`;
-
             if (key === "Chuyên đề") return `<svg class="category-illustration category-illustration-abstract" ${common}>
                 <g class="ci-orbits">
-                    <ellipse class="ci-orbit orbit-1" cx="110" cy="76" rx="74" ry="29"/>
-                    <ellipse class="ci-orbit orbit-2" cx="110" cy="76" rx="69" ry="25" transform="rotate(58 110 76)"/>
-                    <ellipse class="ci-orbit orbit-3" cx="110" cy="76" rx="69" ry="25" transform="rotate(-58 110 76)"/>
+                    <ellipse cx="110" cy="76" rx="74" ry="30"/>
+                    <ellipse cx="110" cy="76" rx="68" ry="27" transform="rotate(55 110 76)"/>
+                    <ellipse cx="110" cy="76" rx="68" ry="27" transform="rotate(-55 110 76)"/>
                 </g>
                 <circle class="ci-core" cx="110" cy="76" r="4"/>
-                <circle class="ci-particle p1" r="3"><animateMotion dur="3.2s" repeatCount="indefinite" rotate="auto"><mpath href="#ci-orbit-path-1"/></animateMotion></circle>
-                <circle class="ci-particle p2" r="2.7"><animateMotion dur="4.1s" begin="-1.2s" repeatCount="indefinite" rotate="auto"><mpath href="#ci-orbit-path-2"/></animateMotion></circle>
-                <circle class="ci-particle p3" r="2.5"><animateMotion dur="4.8s" begin="-2.4s" repeatCount="indefinite" rotate="auto"><mpath href="#ci-orbit-path-3"/></animateMotion></circle>
-                <path id="ci-orbit-path-1" d="M184 76 A74 29 0 1 1 36 76 A74 29 0 1 1 184 76" fill="none" stroke="none"/>
-                <path id="ci-orbit-path-2" d="M179 76 A69 25 58 1 1 41 76 A69 25 58 1 1 179 76" fill="none" stroke="none"/>
-                <path id="ci-orbit-path-3" d="M179 76 A69 25 -58 1 1 41 76 A69 25 -58 1 1 179 76" fill="none" stroke="none"/>
             </svg>`;
-
-            return `<svg class="category-illustration category-illustration-fallback" ${common}><text x="82" y="88">∑</text><text x="106" y="62">∫</text><text x="135" y="98">π</text></svg>`;
+            return `<svg class="category-illustration category-illustration-fallback" ${common}><g><text x="78" y="88">∑</text><text x="106" y="62">∫</text><text x="135" y="98">π</text></g></svg>`;
         }
         function getCategoryIcon(name) {
             return documentIconMap[name] || "fa-folder-open";
@@ -5937,7 +5506,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 const icon = getCategoryIcon(category.name);
                 const shareUrl = shareCategoryUrl(category.id);
 
-                return `<article class="document-card document-category-card reveal show" tabindex="0" role="button" data-category-id="${escapeHtml(category.id)}" data-category-name="${escapeHtml(category.name || "")}">
+                return `<article class="document-card document-category-card reveal show" tabindex="0" role="button" data-category-id="${escapeHtml(category.id)}">
                     <div class="document-card-glow"></div>
                     <div class="category-card-main">
                         <div class="category-card-info">
