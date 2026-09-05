@@ -125,12 +125,28 @@
 <div id="previewModal" class="modal" aria-hidden="true"><div class="modal-card"><div class="modal-head"><div><div class="muted">PDF PREVIEW</div><h2 id="previewTitle">Tài liệu</h2></div><button id="previewClose" class="modal-close" type="button" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button></div><iframe id="previewFrame" class="preview-frame" src="about:blank" title="Xem trước PDF"></iframe></div></div>
 <div id="toast" class="toast"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL="https://uiyqdqucqplifcvukwul.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_eVPODZoNRLiGD8Ldl2VjAg_eC_KTKDg";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+let pdfJsPromise=null;
+function ensurePdfJs(){
+  if(window.pdfjsLib){window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';return Promise.resolve(window.pdfjsLib);}
+  if(pdfJsPromise)return pdfJsPromise;
+  pdfJsPromise=new Promise((resolve,reject)=>{
+    const script=document.createElement('script');
+    script.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    script.async=true;
+    script.onload=()=>{
+      if(window.pdfjsLib){window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';resolve(window.pdfjsLib);}
+      else reject(new Error('PDF.js không sẵn sàng.'));
+    };
+    script.onerror=()=>reject(new Error('Không tải được PDF.js.'));
+    document.head.appendChild(script);
+  });
+  return pdfJsPromise;
+}
 const TIKZ_RENDER_ENDPOINT="https://latex.ytotech.com/builds/sync";
 const TIKZ_RENDER_BUCKET="tikz-renders";
 function normalizeTikzCode(code){return String(code||"").replace(/\r\n/g,"\n").replace(/\r/g,"\n").trim();}
@@ -154,7 +170,7 @@ if(/\\documentclass\b/i.test(source)){return source;}
 const body=/\\begin\s*\{tikzpicture\}/i.test(cleaned)||/\\begin\s*\{axis\}/i.test(cleaned)?cleaned:`\\begin{tikzpicture}\n${cleaned}\n\\end{tikzpicture}`;
 return `\\documentclass[tikz,border=6pt]{standalone}\n${packageLines}\n${libraryLine}\n\\begin{document}\n${body}\n\\end{document}`;}
 async function compileTikzPdf(code,packages=""){const response=await fetch(TIKZ_RENDER_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/pdf, application/json"},body:JSON.stringify({compiler:"lualatex",resources:[{main:true,content:buildTikzLatex(code,packages)}],options:{compiler:{bibliography:false,halt_on_error:true,silent:false,force:true},response:{log_files_on_failure:true,commands:false}}})});const type=(response.headers.get("content-type")||"").toLowerCase();if(!response.ok||!type.includes("application/pdf")){let detail=`HTTP ${response.status}`;try{const text=await response.text();try{const j=JSON.parse(text);detail=j.message||j.error||j.log||j.logs||text;}catch(_){if(text)detail=text;}}catch(_){}throw new Error(detail);}return response.blob();}
-async function showTikzPreview(blob){const box=$('tikzPreviewBox'),stateEl=$('tikzPreviewState');if(!box)return;box.innerHTML='<div class="muted" style="padding:40px;text-align:center;color:#64748b;">Đang dựng ảnh xem trước...</div>';stateEl.textContent='Đang render...';const url=URL.createObjectURL(blob);try{if(window.pdfjsLib){pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';const pdf=await pdfjsLib.getDocument(url).promise;const page=await pdf.getPage(1);const viewport=page.getViewport({scale:1.5});const canvas=document.createElement('canvas');canvas.style.maxWidth='100%';canvas.style.height='auto';canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);box.innerHTML='';box.appendChild(canvas);await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;stateEl.textContent='✓ Đã render';}else{box.innerHTML=`<iframe src="${url}" style="width:100%;height:520px;border:0;background:#fff"></iframe>`;stateEl.textContent='✓ Đã render';}}finally{setTimeout(()=>URL.revokeObjectURL(url),60000);}}
+async function showTikzPreview(blob){const box=$('tikzPreviewBox'),stateEl=$('tikzPreviewState');if(!box)return;box.innerHTML='<div class="muted" style="padding:40px;text-align:center;color:#64748b;">Đang dựng ảnh xem trước...</div>';stateEl.textContent='Đang render...';const url=URL.createObjectURL(blob);try{await ensurePdfJs();const pdf=await pdfjsLib.getDocument(url).promise;const page=await pdf.getPage(1);const viewport=page.getViewport({scale:1.5});const canvas=document.createElement('canvas');canvas.style.maxWidth='100%';canvas.style.height='auto';canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);box.innerHTML='';box.appendChild(canvas);await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;stateEl.textContent='✓ Đã render';}finally{setTimeout(()=>URL.revokeObjectURL(url),60000);}}
 async function renderAndStoreTikz(id,code,packages){setStatus('tikzFormStatus','Đang biên dịch TikZ và lưu bản render...');const {data:old}=await supabaseClient.from('tikz_drawings').select('render_path').eq('id',id).maybeSingle();const blob=await compileTikzPdf(code,packages);await showTikzPreview(blob);const path=`${id}-${Date.now()}.pdf`;const {error:uploadError}=await supabaseClient.storage.from(TIKZ_RENDER_BUCKET).upload(path,blob,{contentType:'application/pdf',upsert:true,cacheControl:'31536000'});if(uploadError)throw uploadError;const {error:updateError}=await supabaseClient.from('tikz_drawings').update({render_path:path,rendered_at:new Date().toISOString(),render_error:null,updated_at:new Date().toISOString()}).eq('id',id);if(updateError)throw updateError;if(old?.render_path&&old.render_path!==path)await supabaseClient.storage.from(TIKZ_RENDER_BUCKET).remove([old.render_path]);return path;}
 
 const state={categories:[],documents:[],tikz:[],contributions:[],editingId:null,editingTikzId:null,draggingId:null,docPage:1,tikzPage:1,contribPage:1,perPage:20,tikzPerPage:8,contribPerPage:20};
