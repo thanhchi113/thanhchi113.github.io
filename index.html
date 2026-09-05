@@ -3504,6 +3504,94 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 @media(max-width:650px){.tikz-contribution-card{align-items:flex-start;flex-wrap:wrap}.tikz-contribution-card .tikz-back-button{width:100%}.tikz-contribution-grid{grid-template-columns:1fr}.tikz-contribution-form-head{flex-direction:column}}
 .tikz-contribution-thanks{padding:28px 12px;text-align:center}.tikz-contribution-thanks i{font-size:34px;color:#7dd3fc;margin-bottom:10px}.tikz-contribution-thanks h4{margin:0 0 6px;color:#e8f6ff;font-size:18px}.tikz-contribution-thanks p{margin:0;color:#8192aa;font-size:12px;line-height:1.6}
 </style>
+
+<style id="project-card-glass-aurora-v1">
+/* =====================================================
+   PROJECT CARD - GLASS + AURORA GLOW + MAC DOTS
+   Chỉ áp dụng cho card dự án, không thay đổi card khác.
+===================================================== */
+.project-card{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.025) 45%,rgba(56,189,248,.025)) !important;
+    border:1px solid rgba(255,255,255,.10) !important;
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 18px 45px rgba(0,0,0,.22);
+    transition:transform .35s ease,border-color .35s ease,background .35s ease,box-shadow .35s ease;
+}
+.project-card::before{
+    content:"";
+    position:absolute;
+    width:220px;
+    height:220px;
+    top:-110px;
+    right:-90px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(56,189,248,.20) 0%,rgba(99,102,241,.12) 35%,rgba(139,92,246,.07) 58%,transparent 72%);
+    filter:blur(18px);
+    pointer-events:none;
+    transition:transform .5s ease,opacity .5s ease;
+}
+.project-card::after{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    left:-110px;
+    bottom:-110px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(96,165,250,.12) 0%,rgba(124,58,237,.08) 42%,transparent 72%);
+    filter:blur(22px);
+    pointer-events:none;
+    opacity:.7;
+    transition:transform .5s ease,opacity .5s ease;
+}
+.project-card > *{
+    position:relative;
+    z-index:2;
+}
+.project-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(125,211,252,.34) !important;
+    background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.032) 45%,rgba(56,189,248,.045)) !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 20px 55px rgba(0,0,0,.28),0 0 35px rgba(56,189,248,.07);
+}
+.project-card:hover::before{transform:scale(1.35);opacity:1}
+.project-card:hover::after{transform:scale(1.2);opacity:.95}
+.project-top{padding-top:18px}
+.mac-dots{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    position:absolute;
+    top:14px;
+    left:16px;
+    z-index:5;
+    pointer-events:none;
+}
+.mac-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    display:block;
+    box-shadow:0 0 7px rgba(255,255,255,.10);
+    transition:transform .25s ease,box-shadow .25s ease;
+}
+.mac-dot-red{background:#ff5f57;box-shadow:0 0 8px rgba(255,95,87,.30)}
+.mac-dot-yellow{background:#febc2e;box-shadow:0 0 8px rgba(254,188,46,.28)}
+.mac-dot-green{background:#28c840;box-shadow:0 0 8px rgba(40,200,64,.28)}
+.project-card:hover .mac-dot{transform:scale(1.12)}
+.project-card:hover .mac-dot-red{box-shadow:0 0 10px rgba(255,95,87,.45)}
+.project-card:hover .mac-dot-yellow{box-shadow:0 0 10px rgba(254,188,46,.40)}
+.project-card:hover .mac-dot-green{box-shadow:0 0 10px rgba(40,200,64,.40)}
+@media (max-width:650px){
+    .mac-dots{top:12px;left:14px}
+    .mac-dot{width:7px;height:7px}
+    .project-top{padding-top:16px}
+}
+</style>
+
 </head>
 
 <body>
@@ -4056,6 +4144,11 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 <div class="projects">
 
                     <article class="project-card reveal tilt-card tikz-project-card" data-tikz-open role="button" tabindex="0" aria-label="Mở thư viện hình vẽ TikZ và LaTeX">
+                        <div class="mac-dots" aria-hidden="true">
+                            <span class="mac-dot mac-dot-red"></span>
+                            <span class="mac-dot mac-dot-yellow"></span>
+                            <span class="mac-dot mac-dot-green"></span>
+                        </div>
 
                         <div class="project-top">
 
@@ -4092,6 +4185,11 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
 
                     <article class="project-card reveal reveal-delay-1 tilt-card">
+                        <div class="mac-dots" aria-hidden="true">
+                            <span class="mac-dot mac-dot-red"></span>
+                            <span class="mac-dot mac-dot-yellow"></span>
+                            <span class="mac-dot mac-dot-green"></span>
+                        </div>
 
                         <div class="project-top">
 
@@ -4128,6 +4226,11 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
 
                     <article class="project-card reveal reveal-delay-2 tilt-card">
+                        <div class="mac-dots" aria-hidden="true">
+                            <span class="mac-dot mac-dot-red"></span>
+                            <span class="mac-dot mac-dot-yellow"></span>
+                            <span class="mac-dot mac-dot-green"></span>
+                        </div>
 
                         <div class="project-top">
 
