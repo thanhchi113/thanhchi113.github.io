@@ -3667,9 +3667,13 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 <style id="category-illustration-cycle-v1">
 #documents .category-illustration-cycle{position:relative;width:100%;max-width:226px;aspect-ratio:3/2;isolation:isolate}
 #documents .category-illustration-cycle .ci-cycle-frame{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transform:scale(.965);transition:opacity .42s ease,transform .42s ease;pointer-events:none}
-#documents .category-illustration-cycle .ci-cycle-frame.is-active{opacity:1;transform:scale(1)}
+#documents .category-illustration-cycle .ci-cycle-frame.is-active{opacity:1;transform:scale(1);animation:ciSceneClock var(--ci-scene-duration,5600ms) linear 1 both}
 #documents .category-illustration-cycle .ci-cycle-frame svg{position:absolute!important;inset:0;width:100%!important;height:100%!important;max-width:none!important}
 #documents .category-illustration-cycle .ci-cycle-frame:not(.is-active) *{animation-play-state:paused!important}
+#documents .category-illustration-cycle .ci-cycle-frame.is-active *{animation-iteration-count:1!important;animation-fill-mode:both!important}
+#documents .category-illustration-cycle .ci-cycle-frame.is-complete *{animation-iteration-count:1!important;animation-fill-mode:both!important;animation-play-state:paused!important}
+#documents .category-illustration-cycle .ci-cycle-frame.is-resetting,#documents .category-illustration-cycle .ci-cycle-frame.is-resetting *{animation:none!important}
+@keyframes ciSceneClock{from{outline-color:transparent}to{outline-color:transparent}}
 
 /* Each scene completes its line drawing before the card rotates to the next one. */
 .category-illustration-parabola .ci-axis-x,.category-illustration-parabola .ci-axis-y,.category-illustration-parabola .ci-parabola{animation-duration:5.6s!important}
@@ -5272,7 +5276,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
         }
 
         function clearCategoryIllustrationTimers() {
-            categoryIllustrationTimers.forEach(timer => window.clearInterval(timer));
+            categoryIllustrationTimers.forEach(dispose => dispose());
             categoryIllustrationTimers = [];
         }
 
@@ -5280,15 +5284,41 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             clearCategoryIllustrationTimers();
             if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
             root.querySelectorAll(".category-illustration-cycle").forEach(cycle => {
-                const frames = [...cycle.querySelectorAll(".ci-cycle-frame")];
-                if (frames.length < 2) return;
+                if (cycle.querySelectorAll(".ci-cycle-frame").length < 2) return;
                 const duration = Number(cycle.dataset.cycleDuration) || 5600;
-                let activeIndex = 0;
-                categoryIllustrationTimers.push(window.setInterval(() => {
-                    frames[activeIndex].classList.remove("is-active");
-                    activeIndex = (activeIndex + 1) % frames.length;
-                    frames[activeIndex].classList.add("is-active");
-                }, duration));
+                cycle.style.setProperty("--ci-scene-duration", `${duration}ms`);
+
+                const activateScene = index => {
+                    const frames = [...cycle.querySelectorAll(".ci-cycle-frame")];
+                    const nextFrame = frames[index];
+                    if (!nextFrame) return;
+                    const activeFrame = frames.find(frame => frame.classList.contains("is-active"));
+
+                    frames.forEach(frame => {
+                        if (frame !== activeFrame && frame !== nextFrame) frame.classList.remove("is-complete");
+                    });
+                    if (activeFrame && activeFrame !== nextFrame) {
+                        activeFrame.classList.remove("is-active");
+                        activeFrame.classList.add("is-complete");
+                    }
+
+                    nextFrame.classList.remove("is-complete");
+                    nextFrame.classList.add("is-resetting");
+                    void nextFrame.offsetWidth;
+                    nextFrame.classList.remove("is-resetting");
+                    nextFrame.classList.add("is-active");
+                };
+
+                const onSceneComplete = event => {
+                    if (event.animationName !== "ciSceneClock" || event.target.parentElement !== cycle || !event.target.classList.contains("is-active")) return;
+                    const frames = [...cycle.querySelectorAll(".ci-cycle-frame")];
+                    const activeIndex = frames.indexOf(event.target);
+                    if (activeIndex !== -1) activateScene((activeIndex + 1) % frames.length);
+                };
+
+                cycle.addEventListener("animationend", onSceneComplete);
+                categoryIllustrationTimers.push(() => cycle.removeEventListener("animationend", onSceneComplete));
+                activateScene(0);
             });
         }
 
@@ -5356,7 +5386,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 </svg>`
             ]);
 
-            if (key === "Ôn thi THPT") return categoryIllustrationCycle(6000, [
+            if (key === "Ôn thi THPT") return categoryIllustrationCycle(6240, [
                 `<svg class="category-illustration category-illustration-xyz" ${common}>
                     <g class="ci-axis"><path class="ci-axis-x" d="M72 108H202"/><path class="ci-axis-y" d="M72 108L34 130"/><path class="ci-axis-z" d="M72 108V22"/></g>
                     <polygon class="ci-arrow" points="202,103 214,108 202,113"/><polygon class="ci-arrow" points="36,124 25,135 40,133"/><polygon class="ci-arrow" points="67,24 72,12 77,24"/><circle class="ci-origin" cx="72" cy="108" r="3"/>
