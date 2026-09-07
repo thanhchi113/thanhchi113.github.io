@@ -3606,7 +3606,6 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
     transform:none;
     fill:var(--cat-area)!important;
     stroke:none!important;
-    clip-path:url(#ciAreaReveal);
 }
 .category-illustration-area .ci-area-reveal{
     width:0;
@@ -3615,7 +3614,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 }
 @keyframes ciDrawAreaAxesContinuous{0%{stroke-dashoffset:185;opacity:.12}14%{stroke-dashoffset:0;opacity:.8}82%{stroke-dashoffset:0;opacity:.8}100%{stroke-dashoffset:-185;opacity:.12}}
 @keyframes ciDrawPairContinuous{0%{stroke-dashoffset:600;opacity:.12}12%{stroke-dashoffset:600;opacity:.9}62%{stroke-dashoffset:0;opacity:1}82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-600;opacity:.12}}
-@keyframes ciRevealAreaLeftToRight{0%,64%{width:0;opacity:.04}70%{width:18px;opacity:.48}78%{width:40px;opacity:.72}86%{width:62px;opacity:.9}92%,100%{width:78px;opacity:.94}}
+@keyframes ciRevealAreaLeftToRight{0%,68%{width:0;opacity:0}77%{width:22px;opacity:.42}87%{width:52px;opacity:.72}96%,100%{width:78px;opacity:.94}}
 
 /* Ôn thi vào 10: paper outline with no text or file/PDF icon. */
 .category-illustration-paper .ci-paper{
@@ -3694,7 +3693,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 @keyframes ciDrawCubicAxes{0%{stroke-dashoffset:185;opacity:.1}13%{stroke-dashoffset:0;opacity:.82}84%{stroke-dashoffset:0;opacity:.82}100%{stroke-dashoffset:-185;opacity:.1}}
 @keyframes ciDrawCubicPair{0%,12%{stroke-dashoffset:700;opacity:.1}58%{stroke-dashoffset:0;opacity:1}84%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-700;opacity:.1}}
 @keyframes ciShowCubicIntersections{0%,58%{opacity:0;transform:scale(.35)}64%,84%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.35)}}
-@keyframes ciRevealCubicArea{0%,64%{width:0;opacity:0}73%{width:24px;opacity:.48}84%{width:66px;opacity:.94}100%{width:66px;opacity:0}}
+@keyframes ciRevealCubicArea{0%,68%{width:0;opacity:0}77%{width:24px;opacity:.42}89%,100%{width:66px;opacity:.94}}
 
 /* The original parabolic area remains the first Lớp 12 scene. */
 .category-illustration-cycle .category-illustration-area .ci-axis-x,.category-illustration-cycle .category-illustration-area .ci-axis-y,.category-illustration-cycle .category-illustration-area .ci-curve-primary,.category-illustration-cycle .category-illustration-area .ci-curve-secondary,.category-illustration-cycle .category-illustration-area .ci-area-reveal{animation-duration:7.2s!important}
@@ -5313,8 +5312,8 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             if (key === "Lớp 11") return categoryIllustrationCycle(5800, [
                 `<svg class="category-illustration category-illustration-pyramid" ${common}>
                     <g class="ci-pyramid">
-                        <path class="ci-hidden" d="M96 82H184 M124 23L96 82"/>
-                        <path class="ci-visible" d="M61 117H151L184 82 M96 82L61 117 M124 23L61 117 M124 23L151 117 M124 23L184 82"/>
+                        <path class="ci-hidden" d="M96 82H184 M124 23L96 82 M96 82L61 117"/>
+                        <path class="ci-visible" d="M61 117H151L184 82 M124 23L61 117 M124 23L151 117 M124 23L184 82"/>
                     </g>
                     <g class="ci-vertices"><circle class="ci-vertex" cx="124" cy="23" r="2.4"/><circle class="ci-vertex" cx="61" cy="117" r="2.4"/><circle class="ci-vertex" cx="151" cy="117" r="2.4"/><circle class="ci-vertex" cx="184" cy="82" r="2.4"/><circle class="ci-vertex" cx="96" cy="82" r="2.4"/></g>
                 </svg>`,
