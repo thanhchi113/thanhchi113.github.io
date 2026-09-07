@@ -3692,6 +3692,18 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 @keyframes ciDrawCubicPair{0%,12%{stroke-dashoffset:700;opacity:.1}58%{stroke-dashoffset:0;opacity:1}84%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-700;opacity:.1}}
 @keyframes ciShowCubicIntersections{0%,58%{opacity:0;transform:scale(.35)}64%,84%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.35)}}
 @keyframes ciRevealCubicArea{0%,64%{width:0;opacity:0}73%{width:24px;opacity:.48}84%{width:66px;opacity:.94}100%{width:66px;opacity:0}}
+
+/* The original parabolic area remains the first Lớp 12 scene. */
+.category-illustration-cycle .category-illustration-area .ci-axis-x,.category-illustration-cycle .category-illustration-area .ci-axis-y,.category-illustration-cycle .category-illustration-area .ci-curve-primary,.category-illustration-cycle .category-illustration-area .ci-curve-secondary,.category-illustration-cycle .category-illustration-area .ci-area-reveal{animation-duration:7.2s!important}
+.category-illustration-area .ci-intersection{opacity:0;transform-box:fill-box;transform-origin:center;animation:ciShowParabolaIntersections 7.2s linear infinite}
+@keyframes ciShowParabolaIntersections{0%,58%{opacity:0;transform:scale(.35)}64%,84%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.35)}}
+
+/* Ôn thi THPT alternates the existing Oxyz reference with a cubic Oxy sketch. */
+.category-illustration-cycle .category-illustration-xyz .ci-axis-x,.category-illustration-cycle .category-illustration-xyz .ci-axis-y,.category-illustration-cycle .category-illustration-xyz .ci-axis-z,.category-illustration-cycle .category-illustration-xyz .ci-arrow,.category-illustration-cycle .category-illustration-xyz .ci-origin{animation-duration:6s!important}
+.category-illustration-cubic-oxy .ci-axis-x,.category-illustration-cubic-oxy .ci-axis-y{stroke-dasharray:185;stroke-dashoffset:185;animation:ciDrawCubicOxyAxes 6s linear infinite}
+.category-illustration-cubic-oxy .ci-cubic-curve{stroke:var(--cat-accent-2,#2dd4bf)!important;stroke-width:2.2!important;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:640;stroke-dashoffset:640;animation:ciDrawCubicOxy 6s linear infinite}
+@keyframes ciDrawCubicOxyAxes{0%{stroke-dashoffset:185;opacity:.1}18%{stroke-dashoffset:0;opacity:.86}84%{stroke-dashoffset:0;opacity:.86}100%{stroke-dashoffset:-185;opacity:.1}}
+@keyframes ciDrawCubicOxy{0%,18%{stroke-dashoffset:640;opacity:.1}70%{stroke-dashoffset:0;opacity:1}86%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-640;opacity:.1}}
 @media(max-width:700px){#documents .category-illustration-cycle{max-width:148px}}
 @media(prefers-reduced-motion:reduce){#documents .category-illustration-cycle .ci-cycle-frame:not(:first-child){display:none}.category-illustration-cycle .ci-cycle-frame:first-child{opacity:1;transform:none}}
 </style>
@@ -5297,30 +5309,46 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
             if (key === "Lớp 11") return categoryIllustrationCycle(5800, [
                 `<svg class="category-illustration category-illustration-pyramid" ${common}>
-                    <g class="ci-pyramid"><path class="ci-hidden" d="M100 95H170"/><path class="ci-visible" d="M70 112H140L170 95L100 95Z"/><path class="ci-visible" d="M122 30L70 112 M122 30L140 112 M122 30L170 95"/><path class="ci-hidden" d="M122 30L100 95"/></g>
+                    <g class="ci-pyramid"><path class="ci-hidden" d="M100 95H170 M122 30L100 95"/><path class="ci-visible" d="M70 112H140L170 95 M100 95L70 112 M122 30L70 112 M122 30L140 112 M122 30L170 95"/></g>
                     <g class="ci-vertices"><circle class="ci-vertex" cx="122" cy="30" r="2.4"/><circle class="ci-vertex" cx="70" cy="112" r="2.4"/><circle class="ci-vertex" cx="140" cy="112" r="2.4"/><circle class="ci-vertex" cx="170" cy="95" r="2.4"/><circle class="ci-vertex" cx="100" cy="95" r="2.4"/></g>
                 </svg>`,
                 `<svg class="category-illustration category-illustration-pyramid" ${common}>
-                    <g class="ci-pyramid"><path class="ci-visible" d="M64 116L166 116L126 88Z"/><path class="ci-visible" d="M119 27L64 116 M119 27L166 116"/><path class="ci-hidden" d="M119 27L126 88"/></g>
+                    <g class="ci-pyramid"><path class="ci-visible" d="M64 116H166L126 88 M119 27L64 116 M119 27L166 116"/><path class="ci-hidden" d="M126 88L64 116 M119 27L126 88"/></g>
                     <g class="ci-vertices"><circle class="ci-vertex" cx="119" cy="27" r="2.4"/><circle class="ci-vertex" cx="64" cy="116" r="2.4"/><circle class="ci-vertex" cx="166" cy="116" r="2.4"/><circle class="ci-vertex" cx="126" cy="88" r="2.4"/></g>
                 </svg>`
             ]);
 
             if (key === "Lớp 12") return categoryIllustrationCycle(7200, [
-                `<svg class="category-illustration category-illustration-cubic-area" ${common}>
-                    <defs><clipPath id="ciCubicRevealA"><rect class="ci-area-reveal" x="94" y="28" width="0" height="118"/></clipPath></defs>
+                `<svg class="category-illustration category-illustration-area" ${common}>
+                    <defs><clipPath id="ciParabolaReveal"><rect class="ci-area-reveal" x="79" y="24" width="0" height="120"/></clipPath></defs>
                     <g class="ci-axis"><path class="ci-axis-x" d="M28 92H214"/><path class="ci-axis-y" d="M105 142V20"/><path class="ci-axis" d="M208 88L214 92L208 96 M101 26L105 20L109 26"/></g>
-                    <path class="ci-curve-primary" pathLength="700" d="M37 89 C48 61 59 55 65 56 C80 56 91 75 105 92 C121 112 131 130 145 128 C161 126 171 98 185 56"/>
-                    <path class="ci-curve-secondary" pathLength="700" d="M73 118 C87 95 92 77 105 74 C119 71 130 88 137 103 C147 124 161 146 185 146"/>
-                    <path class="ci-area" clip-path="url(#ciCubicRevealA)" d="M94.5 78 C110 92 130 133 145 128 C151 127 154 125 155.5 124 C146 119 134 102 125 85 C115 72 104 73 94.5 78Z"/>
-                    <circle class="ci-intersection" cx="94.5" cy="78" r="3"/><circle class="ci-intersection" cx="155.5" cy="124" r="3"/>
+                    <path class="ci-curve-primary" pathLength="600" d="M62 136 C80 84 96 57 119 57 C142 57 158 84 176 136"/>
+                    <path class="ci-curve-secondary" pathLength="600" d="M64 57 C83 108 99 129 120 129 C141 129 157 108 175 57"/>
+                    <path class="ci-area" clip-path="url(#ciParabolaReveal)" d="M82 91 C92 71 104 59 119 57 C135 59 147 71 157 91 C147 115 135 128 120 129 C104 128 92 115 82 91Z"/>
+                    <circle class="ci-intersection" cx="82" cy="91" r="3"/><circle class="ci-intersection" cx="157" cy="91" r="3"/>
                     <text class="ci-label" x="211" y="83">x</text><text class="ci-label" x="112" y="17">y</text><text class="ci-label" x="88" y="108">O</text>
                 </svg>`,
                 `<svg class="category-illustration category-illustration-cubic-area" ${common}>
-                    <defs><clipPath id="ciCubicRevealB"><rect class="ci-area-reveal" x="94" y="10" width="0" height="118"/></clipPath></defs>
+                    <defs><clipPath id="ciCubicReveal"><rect class="ci-area-reveal" x="94" y="28" width="0" height="118"/></clipPath></defs>
                     <g class="ci-axis"><path class="ci-axis-x" d="M28 92H214"/><path class="ci-axis-y" d="M105 142V20"/><path class="ci-axis" d="M208 88L214 92L208 96 M101 26L105 20L109 26"/></g>
-                    <g transform="translate(0 -18)"><path class="ci-curve-primary" pathLength="700" d="M37 89 C48 61 59 55 65 56 C80 56 91 75 105 92 C121 112 131 130 145 128 C161 126 171 98 185 56"/><path class="ci-curve-secondary" pathLength="700" d="M73 118 C87 95 92 77 105 74 C119 71 130 88 137 103 C147 124 161 146 185 146"/><path class="ci-area" clip-path="url(#ciCubicRevealB)" d="M94.5 78 C110 92 130 133 145 128 C151 127 154 125 155.5 124 C146 119 134 102 125 85 C115 72 104 73 94.5 78Z"/><circle class="ci-intersection" cx="94.5" cy="78" r="3"/><circle class="ci-intersection" cx="155.5" cy="124" r="3"/></g>
+                    <path class="ci-curve-primary" pathLength="700" d="M37 89 C48 61 59 55 65 56 C80 56 91 75 105 92 C121 112 131 130 145 128 C161 126 171 98 185 56"/>
+                    <path class="ci-curve-secondary" pathLength="700" d="M73 118 C87 95 92 77 105 74 C119 71 130 88 137 103 C147 124 161 146 185 146"/>
+                    <path class="ci-area" clip-path="url(#ciCubicReveal)" d="M94.5 78 C110 92 130 133 145 128 C151 127 154 125 155.5 124 C146 119 134 102 125 85 C115 72 104 73 94.5 78Z"/>
+                    <circle class="ci-intersection" cx="94.5" cy="78" r="3"/><circle class="ci-intersection" cx="155.5" cy="124" r="3"/>
                     <text class="ci-label" x="211" y="83">x</text><text class="ci-label" x="112" y="17">y</text><text class="ci-label" x="88" y="108">O</text>
+                </svg>`
+            ]);
+
+            if (key === "Ôn thi THPT") return categoryIllustrationCycle(6000, [
+                `<svg class="category-illustration category-illustration-xyz" ${common}>
+                    <g class="ci-axis"><path class="ci-axis-x" d="M72 108H202"/><path class="ci-axis-y" d="M72 108L34 130"/><path class="ci-axis-z" d="M72 108V22"/></g>
+                    <polygon class="ci-arrow" points="202,103 214,108 202,113"/><polygon class="ci-arrow" points="36,124 25,135 40,133"/><polygon class="ci-arrow" points="67,24 72,12 77,24"/><circle class="ci-origin" cx="72" cy="108" r="3"/>
+                    <text class="ci-label" x="59" y="122">O</text><text class="ci-label" x="204" y="101">x</text><text class="ci-label" x="20" y="139">y</text><text class="ci-label" x="79" y="16">z</text>
+                </svg>`,
+                `<svg class="category-illustration category-illustration-cubic-oxy" ${common}>
+                    <g class="ci-axis"><path class="ci-axis-x" d="M28 102H214"/><path class="ci-axis-y" d="M105 142V19"/><path class="ci-axis" d="M208 98L214 102L208 106 M101 25L105 19L109 25"/></g>
+                    <path class="ci-cubic-curve" pathLength="640" d="M45 126 C64 131 76 113 86 91 C95 70 109 58 123 69 C140 82 148 117 162 125 C177 134 188 110 200 62"/>
+                    <text class="ci-label" x="211" y="93">x</text><text class="ci-label" x="112" y="17">y</text><text class="ci-label" x="88" y="118">O</text>
                 </svg>`
             ]);
 
@@ -9190,6 +9218,21 @@ html, body { scroll-behavior: auto !important; }
         font-size:11px !important;
     }
 }
+</style>
+
+<style id="tikz-category-card-sync-v1">
+/* TikZ cards use the same glass surface, soft accent glow, and lift as the document categories. */
+body.tikz-library-mode .tikz-card{position:relative;isolation:isolate;overflow:hidden;border:1px solid rgba(255,255,255,.095)!important;border-radius:14px!important;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.022) 48%,rgba(56,189,248,.025))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 18px 45px rgba(0,0,0,.20)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease!important}
+body.tikz-library-mode .tikz-card:hover,body.tikz-library-mode .tikz-card:focus-visible{transform:translateY(-4px)!important;border-color:rgba(125,211,252,.38)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 14px 30px rgba(0,0,0,.24)!important}
+body.tikz-library-mode .tikz-card::after{content:"";position:absolute;width:220px;height:220px;right:-100px;top:-115px;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.16),rgba(124,58,237,.09) 42%,transparent 72%);filter:blur(20px);opacity:.65;pointer-events:none;transition:transform .45s ease,opacity .45s ease}
+body.tikz-library-mode .tikz-card:hover::after{transform:scale(1.2);opacity:.95}
+body.tikz-library-mode .tikz-card-render,body.tikz-library-mode .tikz-card-body{position:relative;z-index:1}
+body.tikz-library-mode .tikz-card-render{border-bottom-color:rgba(255,255,255,.07)!important;background:linear-gradient(145deg,rgba(8,17,32,.50),rgba(20,34,59,.28))!important}
+body.tikz-library-mode .tikz-card-render canvas,body.tikz-library-mode .tikz-preview-source,body.tikz-library-mode .tikz-fit-canvas{transition:transform .45s ease,box-shadow .45s ease!important}
+body.tikz-library-mode .tikz-card:hover .tikz-card-render canvas,body.tikz-library-mode .tikz-card:hover .tikz-preview-source,body.tikz-library-mode .tikz-card:hover .tikz-fit-canvas{transform:scale(1.025);box-shadow:0 14px 34px rgba(0,0,0,.28)!important}
+body.tikz-library-mode .tikz-card-body{background:rgba(5,12,24,.10)}
+body.tikz-detail-mode .tikz-code-panel,body.tikz-detail-mode .tikz-render-panel{border-color:rgba(255,255,255,.095)!important;border-radius:14px!important;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018) 55%,rgba(56,189,248,.022))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 18px 45px rgba(0,0,0,.18)!important;backdrop-filter:blur(14px)}
+body.tikz-detail-mode .tikz-render-box{background:linear-gradient(145deg,rgba(8,17,32,.62),rgba(20,34,59,.30))!important}
 </style>
 
 </body>
