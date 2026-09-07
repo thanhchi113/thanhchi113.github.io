@@ -17,17 +17,44 @@
     <style id="evidence-hero-background-v3">
         .evidence-galaxy-scene{background:#01050d}.evidence-galaxy-scene .milky-way-shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(1,4,11,.46) 0%,rgba(1,4,11,.04) 25%,rgba(1,4,11,.12) 68%,rgba(1,4,11,.68) 100%),linear-gradient(90deg,rgba(1,4,11,.34) 0%,rgba(1,4,11,.18) 35%,rgba(1,4,11,.04) 63%,rgba(1,4,11,.28) 100%)}.evidence-modal{background:rgba(1,4,11,.48);backdrop-filter:blur(3px)}.evidence-modal figure{z-index:3}.evidence-modal img{box-shadow:0 26px 80px rgba(0,0,0,.52)}
     </style>
+    <style id="evidence-navigation">
+        .evidence-nav .navbar{height:76px;min-height:76px;position:relative}
+        .evidence-nav .logo{flex-shrink:0}
+        .evidence-nav .nav-links{gap:16px}
+        .evidence-nav .nav-link{white-space:nowrap;letter-spacing:0}
+        .evidence-nav .nav-link.active{color:#7dd3fc}
+        .evidence-back-link{display:inline-flex;align-items:center;gap:9px;min-height:40px;margin-bottom:20px;padding:8px 12px;border:1px solid rgba(125,211,252,.24);border-radius:8px;background:rgba(7,11,20,.5);color:#dceeff;font-size:13px}
+        .evidence-back-link:hover{border-color:#7dd3fc;background:rgba(56,189,248,.12)}
+        .evidence-back-link:focus-visible{outline:2px solid #7dd3fc;outline-offset:3px}
+        @media(min-width:801px) and (max-width:1100px){.evidence-nav .nav-links{gap:10px}.evidence-nav .nav-link{font-size:12px}}
+        @media(max-width:800px){.evidence-nav .nav-links{gap:3px;max-height:calc(100dvh - 100px);overflow-y:auto}.evidence-nav .menu-toggle{margin-left:auto}}
+    </style>
 </head>
 <body>
     <div class="evidence-galaxy-scene galaxy-scene" aria-hidden="true"><canvas id="evidenceGalaxyCanvas" class="evidence-galaxy-canvas milky-way-canvas"></canvas><div class="milky-way-shade"></div></div>
-    <header class="evidence-nav">
-        <div class="container">
-            <a class="logo" href="index.html">Thanh<span>Chí</span></a>
-            <a class="back-link" href="index.html#achievements"><i class="fa-solid fa-arrow-left"></i> Thành tích</a>
+    <header class="site-header evidence-nav" id="siteHeader">
+        <div class="container navbar">
+            <a class="logo" href="index.html#home" aria-label="Về trang chủ">Thanh<span>Chí</span></a>
+            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="mainMenu"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+            <nav aria-label="Điều hướng chính">
+                <ul class="nav-links" id="mainMenu">
+                    <li><a class="nav-link" href="index.html#home">Trang chủ</a></li>
+                    <li><a class="nav-link" href="index.html#about">Giới thiệu</a></li>
+                    <li><a class="nav-link" href="index.html#skills">Kỹ năng</a></li>
+                    <li><a class="nav-link" href="index.html#projects">Dự án</a></li>
+                    <li><a class="nav-link active" href="index.html#achievements" aria-current="page">Thành tích</a></li>
+                    <li><a class="nav-link" href="index.html#documents">Tài liệu</a></li>
+                    <li><a class="nav-link" href="index.html#tikz-library">Hình vẽ TikZ</a></li>
+                    <li><a class="nav-link" href="index.html#material-request">Yêu cầu</a></li>
+                    <li><a class="nav-link" href="index.html#contact">Liên hệ</a></li>
+                    <li><a class="nav-link" href="admin.html"><i class="fa-solid fa-lock" aria-hidden="true"></i> Quản trị</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
     <main class="evidence-page">
         <div class="container">
+            <a class="evidence-back-link" href="index.html#achievements"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Quay lại thành tích</a>
             <div class="evidence-head">
                 <div>
                     <div class="evidence-kicker">RESULTS ARCHIVE</div>
@@ -47,6 +74,32 @@
     <div id="evidenceModal" class="evidence-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Xem ảnh minh chứng">
         <figure><button id="evidenceModalClose" type="button" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button><img id="evidenceModalImage" src="" alt="Minh chứng thành tích"></figure>
     </div>
+    <script>
+        (() => {
+            const header = document.getElementById("siteHeader");
+            const button = document.getElementById("menuToggle");
+            const menu = document.getElementById("mainMenu");
+            function setMenuOpen(open) {
+                menu.classList.toggle("open", open);
+                button.setAttribute("aria-expanded", String(open));
+                button.setAttribute("aria-label", open ? "Đóng menu" : "Mở menu");
+                button.querySelector("i").className = open ? "fa-solid fa-xmark" : "fa-solid fa-bars";
+            }
+            button.addEventListener("click", () => setMenuOpen(button.getAttribute("aria-expanded") !== "true"));
+            menu.addEventListener("click", event => { if (event.target.closest("a")) setMenuOpen(false); });
+            document.addEventListener("click", event => { if (!header.contains(event.target)) setMenuOpen(false); });
+            document.addEventListener("keydown", event => {
+                if (event.key === "Escape" && button.getAttribute("aria-expanded") === "true") {
+                    setMenuOpen(false);
+                    button.focus();
+                }
+            });
+            window.addEventListener("resize", () => { if (window.innerWidth > 800) setMenuOpen(false); });
+            const updateHeader = () => header.classList.toggle("scrolled", window.scrollY > 20);
+            window.addEventListener("scroll", updateHeader, { passive: true });
+            updateHeader();
+        })();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const SUPABASE_URL = "https://uiyqdqucqplifcvukwul.supabase.co";

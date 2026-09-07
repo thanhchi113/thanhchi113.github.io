@@ -3729,6 +3729,11 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 <body>
 
     <canvas id="particleCanvas" aria-hidden="true"></canvas>
+    <!-- Keep the shared sky visible when a section is hidden for a detail view. -->
+    <div class="hero-space-scene galaxy-scene" aria-hidden="true">
+        <canvas id="milkyWayCanvas" class="milky-way-canvas"></canvas>
+        <div class="milky-way-shade"></div>
+    </div>
     <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
     <!-- =========================
@@ -3932,12 +3937,6 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             >
                 <span></span>
             </a>
-
-            <!-- Decorative Milky Way scene -->
-            <div class="hero-space-scene galaxy-scene" aria-hidden="true">
-                <canvas id="milkyWayCanvas" class="milky-way-canvas"></canvas>
-                <div class="milky-way-shade"></div>
-            </div>
 
         </section>
 
@@ -8063,10 +8062,13 @@ function getFilteredTikzDrawings() {
         function openTikzLibrary() {
             document.body.classList.add("tikz-library-mode");
             document.body.classList.remove("tikz-detail-mode");
+            currentTikzDrawing = null;
             document.getElementById("tikz-library")?.removeAttribute("hidden");
             document.getElementById("tikzDetail")?.setAttribute("hidden", "");
             document.getElementById("tikzGrid")?.removeAttribute("hidden");
             document.getElementById("tikzEmpty")?.setAttribute("hidden", "");
+            ["tikzPagination", "tikzViewTitle"].forEach(id => document.getElementById(id)?.removeAttribute("hidden"));
+            document.querySelectorAll("#tikz-library .tikz-library-intro,#tikz-library .tikz-library-toolbar,#tikz-library .tikz-library-heading").forEach(element => element.removeAttribute("hidden"));
             window.scrollTo({top:0,behavior:"auto"});
             loadTikzDrawings();
             const previousHash = location.hash || "";
@@ -8078,7 +8080,7 @@ function getFilteredTikzDrawings() {
         }
 
         function closeTikzLibrary() {
-            document.body.classList.remove("tikz-library-mode");
+            document.body.classList.remove("tikz-library-mode", "tikz-detail-mode");
             document.getElementById("tikz-library")?.setAttribute("hidden", "");
             document.getElementById("tikzDetail")?.setAttribute("hidden", "");
             document.getElementById("tikzGrid")?.removeAttribute("hidden");
