@@ -4682,12 +4682,129 @@ body.modal-open { overflow:hidden; }
     }
 }
 
-/* Achievement cards now lead to the dedicated evidence archive. */
-.achievement-card-large[data-achievement-evidence] {
-    cursor: pointer;
+/* =========================================================
+   HERO TYPE SYSTEM
+   Scoped overrides preserve the current hero composition and
+   use each display font only inside the introduction.
+========================================================= */
+.hero .hero-small {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 22px;
+    padding: 10px 13px;
+    border: 1px solid rgba(196, 181, 253, 0.34);
+    border-radius: 10px;
+    background: rgba(52, 39, 92, 0.34);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 10px 28px rgba(8, 5, 27, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #ede9fe;
+    font-family: "Cabin", "Segoe UI", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    line-height: 1;
+    background-image: none;
+    -webkit-text-fill-color: currentColor;
+    animation: none;
 }
 
-.achievement-card-large[data-achievement-evidence]:focus-visible {
-    outline: 2px solid #7dd3fc;
-    outline-offset: 4px;
+.hero .hero-small::before {
+    display: block;
+    width: 6px;
+    height: 6px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: #b69cff;
+    box-shadow: 0 0 12px rgba(182, 156, 255, 0.95);
+}
+
+.hero .hero-text h1 {
+    margin-bottom: 26px;
+    color: #fbfaff;
+    font-family: "Instrument Serif", Georgia, serif;
+    font-size: 88px;
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: 0;
+}
+
+.hero .hero-text h1 .hero-name-first,
+.hero .hero-text h1 .hero-name-last {
+    display: inline-block;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    animation: none;
+}
+
+.hero .hero-text h1 .hero-name-first {
+    color: #fbfaff;
+    font-style: normal;
+}
+
+.hero .hero-text h1 .hero-name-last {
+    padding-right: 0.1em;
+    color: #cbb8ff;
+    font-style: italic;
+}
+
+.hero .hero-role {
+    color: #dfe7f7;
+    font-family: "Manrope", "Segoe UI", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    line-height: 1.4;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    animation: none;
+}
+
+.hero .hero-description {
+    max-width: 550px;
+    color: #cad5e6 !important;
+    font-family: "Inter", "Segoe UI", sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.75;
+}
+
+.hero .buttons .btn {
+    font-family: "Cabin", "Segoe UI", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+@media (max-width: 1020px) {
+    .hero .hero-text h1 {
+        font-size: 74px;
+    }
+}
+
+@media (max-width: 800px) {
+    .hero .hero-small {
+        margin-bottom: 18px;
+        font-size: 12px;
+    }
+
+    .hero .hero-text h1 {
+        font-size: 62px;
+        line-height: 0.92;
+    }
+
+    .hero .hero-role {
+        font-size: 12px;
+    }
+
+    .hero .hero-description {
+        max-width: 540px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 420px) {
+    .hero .hero-text h1 {
+        font-size: 54px;
+    }
 }

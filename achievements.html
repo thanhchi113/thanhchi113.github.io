@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#070b14">
+    <title>Minh chứng thành tích | Huỳnh Thanh Chí</title>
+    <link rel="stylesheet" href="style.css?v=20260907-admin">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+        .evidence-page{min-height:100vh;padding:122px 0 76px;position:relative;z-index:2}.evidence-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,11,20,.86);border-bottom:1px solid rgba(255,255,255,.07);backdrop-filter:blur(18px)}.evidence-nav .container{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px}.evidence-nav .back-link{display:inline-flex;align-items:center;gap:8px;color:#bfd2e8;font-size:13px}.evidence-nav .back-link:hover{color:#7dd3fc}.evidence-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:30px}.evidence-kicker{color:#67d5ff;font-size:11px;font-weight:800;letter-spacing:1.4px}.evidence-head h1{margin:8px 0 0;color:#f5f9ff;font-size:38px;line-height:1.12}.evidence-head p{max-width:530px;margin:10px 0 0;color:#91a2b9;font-size:14px;line-height:1.7}.evidence-filters{display:flex;flex-wrap:wrap;gap:8px}.evidence-filter{border:1px solid rgba(148,163,184,.16);border-radius:9px;background:rgba(255,255,255,.025);color:#9eb0c8;padding:9px 12px;font:600 12px/1 inherit;cursor:pointer;transition:.2s ease}.evidence-filter:hover,.evidence-filter.active{border-color:rgba(125,211,252,.42);background:rgba(56,189,248,.09);color:#eaf8ff}.evidence-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.evidence-card{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(250px,.92fr);min-height:310px;border:1px solid rgba(255,255,255,.09);border-radius:14px;overflow:hidden;background:linear-gradient(145deg,rgba(14,23,42,.72),rgba(7,12,24,.68));box-shadow:0 18px 45px rgba(0,0,0,.18)}.evidence-image-wrap{position:relative;min-height:100%;background:#050a12}.evidence-image-wrap img{display:block;width:100%;height:100%;min-height:310px;object-fit:cover}.evidence-zoom{position:absolute;right:11px;top:11px;width:38px;height:38px;border:1px solid rgba(255,255,255,.18);border-radius:9px;background:rgba(5,10,19,.72);color:#f5fbff;cursor:pointer}.evidence-zoom:hover{border-color:rgba(125,211,252,.65);color:#7dd3fc}.evidence-content{padding:22px;display:flex;flex-direction:column}.evidence-content h2{margin:8px 0 8px;color:#f1f6ff;font-size:20px;line-height:1.35}.evidence-content p{margin:0;color:#9fb0c5;font-size:13px;line-height:1.65}.evidence-type{color:#67d5ff;font-size:10px;font-weight:800;letter-spacing:1.1px}.evidence-facts{display:grid;gap:9px;margin-top:auto;padding-top:20px}.evidence-fact{display:grid;grid-template-columns:72px minmax(0,1fr);gap:9px;padding-top:9px;border-top:1px solid rgba(255,255,255,.07)}.evidence-fact span{color:#72849b;font-size:10px;font-weight:800;letter-spacing:.55px;text-transform:uppercase}.evidence-fact strong{color:#dbe8f7;font-size:12px;font-weight:600;line-height:1.45}.evidence-empty{grid-column:1/-1;padding:72px 24px;border:1px dashed rgba(148,163,184,.17);border-radius:14px;color:#8395ac;text-align:center}.evidence-empty i{display:block;margin-bottom:12px;color:#60a5fa;font-size:28px}.evidence-loading{grid-column:1/-1;min-height:240px;display:grid;place-items:center;color:#8ea1b8}.evidence-modal{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(1,5,12,.86);backdrop-filter:blur(12px)}.evidence-modal.open{display:flex}.evidence-modal figure{position:relative;max-width:min(1100px,94vw);max-height:90vh;margin:0}.evidence-modal img{display:block;max-width:100%;max-height:86vh;border:1px solid rgba(255,255,255,.15);border-radius:12px}.evidence-modal button{position:absolute;right:0;top:-48px;width:38px;height:38px;border:1px solid rgba(255,255,255,.16);border-radius:9px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer}.evidence-modal button:hover{border-color:rgba(125,211,252,.65);color:#7dd3fc}@media(max-width:1060px){.evidence-grid{grid-template-columns:1fr}}@media(max-width:700px){.evidence-page{padding-top:100px}.evidence-nav .container{min-height:64px}.evidence-head{display:block}.evidence-head h1{font-size:30px}.evidence-filters{margin-top:20px;overflow:auto;flex-wrap:nowrap;padding-bottom:3px}.evidence-filter{white-space:nowrap}.evidence-card{grid-template-columns:1fr}.evidence-image-wrap img{min-height:260px;max-height:440px}.evidence-content{padding:18px}.evidence-fact{grid-template-columns:78px minmax(0,1fr)}}
+        .evidence-sample-badge{display:inline-flex;align-items:center;margin-left:8px;padding:4px 7px;border:1px solid rgba(125,211,252,.28);border-radius:999px;background:rgba(56,189,248,.09);color:#bfeeff;font-size:9px;line-height:1;letter-spacing:.7px}
+    </style>
+    <style id="evidence-galaxy-and-cards-v2">
+        .evidence-galaxy-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,rgba(18,42,78,.2),transparent 48%),#050912}.evidence-galaxy-canvas{display:block;width:100%;height:100%;opacity:.96}.evidence-nav,.evidence-page{isolation:isolate}.evidence-card{position:relative;isolation:isolate;--tilt-x:0deg;--tilt-y:0deg;--spot-x:50%;--spot-y:50%;transform:perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));transition:transform .28s ease,border-color .28s ease,background .28s ease,box-shadow .28s ease;will-change:transform}.evidence-card::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;background:radial-gradient(260px circle at var(--spot-x) var(--spot-y),rgba(163,227,255,.15),transparent 67%);transition:opacity .25s ease}.evidence-card:hover{transform:perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(-8px);border-color:rgba(125,211,252,.43);background:linear-gradient(145deg,rgba(19,34,62,.88),rgba(7,12,26,.82));box-shadow:0 26px 60px rgba(0,0,0,.38)}.evidence-card:hover::before{opacity:1}.evidence-card .evidence-image-wrap,.evidence-card .evidence-content{position:relative;z-index:2}.evidence-card .evidence-image-wrap img{transition:transform .5s ease,filter .5s ease}.evidence-card:hover .evidence-image-wrap img{transform:scale(1.045);filter:saturate(1.08) brightness(1.05)}.evidence-pagination{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:30px}.evidence-page-button{width:38px;height:38px;border:1px solid rgba(148,163,184,.16);border-radius:9px;background:rgba(8,16,30,.72);color:#aec1d7;cursor:pointer;font:700 12px/1 inherit;transition:.2s ease}.evidence-page-button:hover:not(:disabled),.evidence-page-button.active{border-color:rgba(125,211,252,.48);background:rgba(56,189,248,.13);color:#eafaff}.evidence-page-button:disabled{opacity:.34;cursor:not-allowed}.evidence-page-ellipsis{color:#71839b;padding:0 2px}@media(max-width:700px){.evidence-pagination{margin-top:22px}.evidence-card:hover{transform:none}}@media(prefers-reduced-motion:reduce){.evidence-card,.evidence-card .evidence-image-wrap img{transition:none!important}}
+    </style>
+    <style id="evidence-hero-background-v3">
+        .evidence-galaxy-scene{background:#01050d}.evidence-galaxy-scene .milky-way-shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(1,4,11,.46) 0%,rgba(1,4,11,.04) 25%,rgba(1,4,11,.12) 68%,rgba(1,4,11,.68) 100%),linear-gradient(90deg,rgba(1,4,11,.34) 0%,rgba(1,4,11,.18) 35%,rgba(1,4,11,.04) 63%,rgba(1,4,11,.28) 100%)}.evidence-modal{background:rgba(1,4,11,.48);backdrop-filter:blur(3px)}.evidence-modal figure{z-index:3}.evidence-modal img{box-shadow:0 26px 80px rgba(0,0,0,.52)}
+    </style>
+</head>
+<body>
+    <div class="evidence-galaxy-scene galaxy-scene" aria-hidden="true"><canvas id="evidenceGalaxyCanvas" class="evidence-galaxy-canvas milky-way-canvas"></canvas><div class="milky-way-shade"></div></div>
+    <header class="evidence-nav">
+        <div class="container">
+            <a class="logo" href="index.html">Thanh<span>Chí</span></a>
+            <a class="back-link" href="index.html#achievements"><i class="fa-solid fa-arrow-left"></i> Thành tích</a>
+        </div>
+    </header>
+    <main class="evidence-page">
+        <div class="container">
+            <div class="evidence-head">
+                <div>
+                    <div class="evidence-kicker">RESULTS ARCHIVE</div>
+                    <h1 id="evidencePageTitle">Minh chứng thành tích</h1>
+                    <p id="evidencePageDescription">Các kết quả và phản hồi được chọn lọc trong quá trình giảng dạy.</p>
+                </div>
+                <div class="evidence-filters" aria-label="Chọn nhóm minh chứng">
+                    <button class="evidence-filter" type="button" data-type="grade10">Luyện thi vào 10</button>
+                    <button class="evidence-filter" type="button" data-type="grade12">Tốt nghiệp THPT</button>
+                    <button class="evidence-filter" type="button" data-type="feedback">Phản hồi</button>
+                </div>
+            </div>
+            <div id="evidenceGrid" class="evidence-grid" aria-live="polite"><div class="evidence-loading"><i class="fa-solid fa-spinner fa-spin"></i></div></div>
+            <nav id="evidencePagination" class="evidence-pagination" aria-label="Phân trang minh chứng"></nav>
+        </div>
+    </main>
+    <div id="evidenceModal" class="evidence-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Xem ảnh minh chứng">
+        <figure><button id="evidenceModalClose" type="button" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button><img id="evidenceModalImage" src="" alt="Minh chứng thành tích"></figure>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = "https://uiyqdqucqplifcvukwul.supabase.co";
+        const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_eVPODZoNRLiGD8Ldl2VjAg_eC_KTKDg";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+        const groups = {
+            grade10: { title: "Minh chứng luyện thi vào lớp 10", description: "Kết quả tuyển sinh và hành trình ôn luyện của học sinh.", label: "LUYỆN THI VÀO 10" },
+            grade12: { title: "Minh chứng tốt nghiệp THPT", description: "Kết quả môn Toán và nguyện vọng của học sinh lớp 12.", label: "TỐT NGHIỆP THPT" },
+            feedback: { title: "Phản hồi từ học sinh và phụ huynh", description: "Những phản hồi thực tế sau quá trình học tập và ôn luyện.", label: "PHẢN HỒI" }
+        };
+        const localExamples = {
+            grade12: [{
+                id: "example-feedback-grade12",
+                title: "Phản hồi sau kỳ thi tốt nghiệp THPT",
+                student_name: "Zaa Khánhh",
+                course_name: "Lớp 12 · Môn Toán",
+                school_name: null,
+                result_summary: "Đậu PNT",
+                description: "Phản hồi cảm ơn sau quá trình ôn Toán lớp 12.",
+                image_url: "assets/achievements/example-feedback-grade12.png",
+                is_example: true
+            }]
+        };
+        const pageUrl = new URL(window.location.href);
+        let currentType = groups[pageUrl.searchParams.get("type")] ? pageUrl.searchParams.get("type") : "grade10";
+        const evidencePerPage = 10;
+        let evidencePage = 1;
+        let evidenceRecords = [];
+
+        function escapeHtml(value = "") {
+            return String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[character]));
+        }
+        function imageUrl(path) {
+            return supabaseClient.storage.from("achievement-evidence").getPublicUrl(path).data.publicUrl;
+        }
+        function fact(label, value) {
+            return value ? `<div class="evidence-fact"><span>${label}</span><strong>${escapeHtml(value)}</strong></div>` : "";
+        }
+        function setHeading() {
+            const group = groups[currentType];
+            document.getElementById("evidencePageTitle").textContent = group.title;
+            document.getElementById("evidencePageDescription").textContent = group.description;
+            document.querySelectorAll("[data-type]").forEach(button => button.classList.toggle("active", button.dataset.type === currentType));
+        }
+        function bindEvidenceCardEffects(root) {
+            if (!window.matchMedia("(pointer:fine)").matches) return;
+            root.querySelectorAll(".evidence-card").forEach(card => {
+                let frame = 0;
+                let latestEvent = null;
+                card.addEventListener("pointermove", event => {
+                    latestEvent = event;
+                    if (frame) return;
+                    frame = requestAnimationFrame(() => {
+                        const rect = card.getBoundingClientRect();
+                        const x = (latestEvent.clientX - rect.left) / rect.width - .5;
+                        const y = (latestEvent.clientY - rect.top) / rect.height - .5;
+                        card.style.setProperty("--tilt-x", `${y * -4}deg`);
+                        card.style.setProperty("--tilt-y", `${x * 4}deg`);
+                        card.style.setProperty("--spot-x", `${(x + .5) * 100}%`);
+                        card.style.setProperty("--spot-y", `${(y + .5) * 100}%`);
+                        frame = 0;
+                    });
+                }, { passive: true });
+                card.addEventListener("pointerleave", () => {
+                    card.style.setProperty("--tilt-x", "0deg");
+                    card.style.setProperty("--tilt-y", "0deg");
+                    card.style.setProperty("--spot-x", "50%");
+                    card.style.setProperty("--spot-y", "50%");
+                });
+            });
+        }
+        function renderEvidencePagination(totalItems, totalPages) {
+            const root = document.getElementById("evidencePagination");
+            if (totalItems < evidencePerPage) { root.innerHTML = ""; return; }
+            const pages = [];
+            const add = page => { if (!pages.includes(page)) pages.push(page); };
+            add(1);
+            for (let page = Math.max(2, evidencePage - 2); page <= Math.min(totalPages - 1, evidencePage + 2); page++) add(page);
+            if (totalPages > 1) add(totalPages);
+            const buttons = [`<button class="evidence-page-button" type="button" data-evidence-page="${evidencePage - 1}" ${evidencePage === 1 ? "disabled" : ""} aria-label="Trang trước"><i class="fa-solid fa-chevron-left"></i></button>`];
+            let previous = 0;
+            pages.forEach(page => {
+                if (previous && page - previous > 1) buttons.push('<span class="evidence-page-ellipsis">…</span>');
+                buttons.push(`<button class="evidence-page-button ${page === evidencePage ? "active" : ""}" type="button" data-evidence-page="${page}" ${page === evidencePage ? 'aria-current="page"' : ""}>${page}</button>`);
+                previous = page;
+            });
+            buttons.push(`<button class="evidence-page-button" type="button" data-evidence-page="${evidencePage + 1}" ${evidencePage === totalPages ? "disabled" : ""} aria-label="Trang sau"><i class="fa-solid fa-chevron-right"></i></button>`);
+            root.innerHTML = buttons.join("");
+            root.querySelectorAll("[data-evidence-page]").forEach(button => button.addEventListener("click", () => {
+                if (button.disabled) return;
+                evidencePage = Number(button.dataset.evidencePage);
+                renderEvidencePage();
+                document.getElementById("evidenceGrid").scrollIntoView({ behavior: "auto", block: "start" });
+            }));
+        }
+        function renderEvidencePage() {
+            const root = document.getElementById("evidenceGrid");
+            const totalPages = Math.max(1, Math.ceil(evidenceRecords.length / evidencePerPage));
+            evidencePage = Math.min(Math.max(1, evidencePage), totalPages);
+            const visibleItems = evidenceRecords.slice((evidencePage - 1) * evidencePerPage, evidencePage * evidencePerPage);
+            if (!visibleItems.length) {
+                root.innerHTML = '<div class="evidence-empty"><i class="fa-regular fa-images"></i>Chưa có minh chứng được đăng cho mục này.</div>';
+                document.getElementById("evidencePagination").innerHTML = "";
+                return;
+            }
+            root.innerHTML = visibleItems.map(item => {
+                const url = item.image_url || imageUrl(item.image_path);
+                const facts = [fact("Học sinh", item.student_name), fact("Khóa học", item.course_name), fact("Trường", item.school_name), fact("Kết quả", item.result_summary)].join("");
+                return `<article class="evidence-card tilt-card"><div class="evidence-image-wrap"><img src="${escapeHtml(url)}" alt="${escapeHtml(item.title)}" loading="lazy"><button class="evidence-zoom" type="button" data-image="${escapeHtml(url)}" data-title="${escapeHtml(item.title)}" title="Phóng to" aria-label="Phóng to ảnh ${escapeHtml(item.title)}"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button></div><div class="evidence-content"><div class="evidence-type">${groups[currentType].label}${item.is_example ? '<span class="evidence-sample-badge">MINH CHỨNG MẪU</span>' : ''}</div><h2>${escapeHtml(item.title)}</h2>${item.description ? `<p>${escapeHtml(item.description)}</p>` : ""}<div class="evidence-facts">${facts || '<div class="evidence-fact"><span>Thông tin</span><strong>Đang cập nhật</strong></div>'}</div></div></article>`;
+            }).join("");
+            root.querySelectorAll("[data-image]").forEach(button => button.addEventListener("click", () => openImage(button.dataset.image, button.dataset.title)));
+            bindEvidenceCardEffects(root);
+            renderEvidencePagination(evidenceRecords.length, totalPages);
+        }
+        async function loadEvidence() {
+            setHeading();
+            const root = document.getElementById("evidenceGrid");
+            root.innerHTML = '<div class="evidence-loading"><i class="fa-solid fa-spinner fa-spin"></i></div>';
+            const { data, error } = await supabaseClient
+                .from("achievement_evidence")
+                .select("id,title,student_name,course_name,school_name,result_summary,description,image_path,sort_order,created_at")
+                .eq("published", true)
+                .eq("group_key", currentType)
+                .order("sort_order", { ascending: true })
+                .order("created_at", { ascending: false });
+            const examples = localExamples[currentType] || [];
+            if (error && !examples.length) {
+                root.innerHTML = '<div class="evidence-empty"><i class="fa-solid fa-triangle-exclamation"></i>Chưa thể tải minh chứng.</div>';
+                document.getElementById("evidencePagination").innerHTML = "";
+                console.error(error);
+                return;
+            }
+            if (error) console.error(error);
+            evidenceRecords = [...examples, ...(data || [])];
+            evidencePage = 1;
+            renderEvidencePage();
+        }
+        function openImage(url, title) {
+            const modal = document.getElementById("evidenceModal");
+            const image = document.getElementById("evidenceModalImage");
+            image.src = url;
+            image.alt = title;
+            modal.classList.add("open");
+            modal.setAttribute("aria-hidden", "false");
+        }
+        function closeImage() {
+            const modal = document.getElementById("evidenceModal");
+            modal.classList.remove("open");
+            modal.setAttribute("aria-hidden", "true");
+            document.getElementById("evidenceModalImage").src = "";
+        }
+        (function startEvidenceGalaxy() {
+            const canvas = document.getElementById("evidenceGalaxyCanvas");
+            const context = canvas?.getContext("2d", { alpha: true });
+            if (!canvas || !context) return;
+
+            const dustTexture = document.createElement("canvas");
+            const starTexture = document.createElement("canvas");
+            const dustContext = dustTexture.getContext("2d", { alpha: true });
+            const starContext = starTexture.getContext("2d", { alpha: true });
+            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+            const palette = [[185,226,255], [137,194,255], [207,170,255], [246,178,225], [255,247,235]];
+            let width = 0;
+            let height = 0;
+            let stars = [];
+            let dust = [];
+            let streaks = [];
+            let frame = 0;
+
+            const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+            const smoothstep = value => value * value * (3 - 2 * value);
+            const randomAt = (x, y) => {
+                const value = Math.sin(x * 127.1 + y * 311.7) * 43758.5453123;
+                return value - Math.floor(value);
+            };
+            function valueNoise(x, y) {
+                const x0 = Math.floor(x), y0 = Math.floor(y), tx = smoothstep(x - x0), ty = smoothstep(y - y0);
+                const top = randomAt(x0, y0) * (1 - tx) + randomAt(x0 + 1, y0) * tx;
+                const bottom = randomAt(x0, y0 + 1) * (1 - tx) + randomAt(x0 + 1, y0 + 1) * tx;
+                return top * (1 - ty) + bottom * ty;
+            }
+            function fractalNoise(x, y, octaves) {
+                let total = 0, amplitude = .56, frequency = 1, normalization = 0;
+                for (let index = 0; index < octaves; index++) {
+                    total += valueNoise(x * frequency, y * frequency) * amplitude;
+                    normalization += amplitude;
+                    amplitude *= .52;
+                    frequency *= 2.04;
+                }
+                return total / normalization;
+            }
+            function flowY(x, time) {
+                const progress = clamp(x / width, 0, 1);
+                const center = width <= 800 ? .61 : .57;
+                const tilt = (progress - .5) * height * -.058;
+                const curve = (Math.sin(progress * Math.PI * 2.2 + time * .00009) * .018 + Math.sin(progress * Math.PI * 5.1 + time * .00005) * .007) * height;
+                return height * center + tilt + curve;
+            }
+            function buildDustTexture() {
+                const textureWidth = Math.round(clamp(width * .56, 520, 820));
+                const textureHeight = Math.round(clamp(height * .52, 300, 480));
+                dustTexture.width = textureWidth;
+                dustTexture.height = textureHeight;
+                const image = dustContext.createImageData(textureWidth, textureHeight);
+                const pixels = image.data;
+                for (let y = 0; y < textureHeight; y++) {
+                    const normalizedY = y / (textureHeight - 1);
+                    for (let x = 0; x < textureWidth; x++) {
+                        const normalizedX = x / (textureWidth - 1);
+                        const macro = fractalNoise(normalizedX * 3.6 + 12, normalizedY * 3.2 + 4, 4);
+                        const cloud = fractalNoise(normalizedX * 6.2 + 72, normalizedY * 4.7 + 19, 3);
+                        const grain = fractalNoise(normalizedX * 13 + 28, normalizedY * 14 + 17, 3);
+                        const rose = fractalNoise(normalizedX * 5.7 + 136, normalizedY * 3.8 + 55, 3);
+                        const spine = .575 - (normalizedX - .5) * .058 + Math.sin(normalizedX * Math.PI * 2.4) * .021;
+                        const meander = (macro - .5) * .052 + Math.sin(normalizedX * 16 + cloud * 5) * .012;
+                        const distance = normalizedY - (spine + meander);
+                        const spread = .135 + macro * .103 + cloud * .022;
+                        const envelope = Math.exp(-Math.pow(distance / spread, 2));
+                        const darkLane = Math.exp(-Math.pow((distance - Math.sin(normalizedX * 10.5 + macro * 5.2) * .024) / .017, 2));
+                        const cloudPatch = clamp((macro - .3) * 1.45 + (cloud - .34) * .95, 0, 1);
+                        const density = clamp(envelope * (.18 + macro * .5 + cloud * .3 + grain * .24) * (.5 + cloudPatch * .68) * (1 - darkLane * .82), 0, 1);
+                        if (density < .012) continue;
+                        const index = (y * textureWidth + x) * 4;
+                        const violet = clamp((grain - .12) * 1.28 + cloudPatch * .28, 0, 1);
+                        const blue = clamp(.38 + macro * .47 + cloud * .12, 0, 1);
+                        const pink = clamp((cloudPatch - .32) * .84 + (rose - .58) * 1.38, 0, 1);
+                        const brightness = .58 + density * .6;
+                        pixels[index] = Math.round((36 + violet * 126 + pink * 164) * brightness);
+                        pixels[index + 1] = Math.round((72 + blue * 104 + pink * 43) * brightness);
+                        pixels[index + 2] = Math.round((145 + blue * 82 + violet * 86) * brightness);
+                        pixels[index + 3] = Math.round(Math.pow(density, .78) * 242);
+                    }
+                }
+                dustContext.putImageData(image, 0, 0);
+            }
+            function buildStarTexture() {
+                const textureWidth = Math.round(clamp(width * .7, 720, 1200));
+                const textureHeight = Math.round(clamp(height * .7, 430, 760));
+                starTexture.width = textureWidth;
+                starTexture.height = textureHeight;
+                starContext.clearRect(0, 0, textureWidth, textureHeight);
+                const count = Math.min(7600, Math.max(3400, Math.floor(width * height / 150)));
+                for (let index = 0; index < count; index++) {
+                    const x = Math.random() * textureWidth;
+                    const sceneX = x / textureWidth * width;
+                    const inBand = Math.random() < .62;
+                    const spread = (Math.random() + Math.random() + Math.random() - 1.5) * Math.min(180, height * .25);
+                    const y = inBand ? (flowY(sceneX, 0) + spread) / height * textureHeight : Math.random() * textureHeight;
+                    if (y < 0 || y > textureHeight) continue;
+                    const tint = palette[Math.floor(Math.random() * palette.length)];
+                    const bright = Math.random() > .973;
+                    starContext.fillStyle = `rgba(${tint.join(",")},${bright ? Math.random() * .42 + .42 : (Math.random() * .36 + .17) * (inBand ? 1.18 : .78)})`;
+                    if (bright) { starContext.beginPath(); starContext.arc(x, y, Math.random() * 1.12 + .82, 0, Math.PI * 2); starContext.fill(); }
+                    else starContext.fillRect(x, y, Math.random() * .64 + .28, Math.random() * .64 + .28);
+                }
+            }
+            function createScene() {
+                const starCount = Math.min(1050, Math.max(520, Math.floor(width * height / 2600)));
+                const dustCount = Math.min(2200, Math.max(1250, Math.floor(width * height / 520)));
+                stars = Array.from({ length: starCount }, () => {
+                    const tint = palette[Math.floor(Math.random() * palette.length)];
+                    const inBand = Math.random() < .72;
+                    return { x: Math.random() * width, y: inBand ? flowY(Math.random() * width, 0) + (Math.random() + Math.random() + Math.random() - 1.5) * Math.min(150, height * .21) : Math.random() * height, size: Math.random() * 1.16 + .14, opacity: Math.random() * .4 + .1, phase: Math.random() * Math.PI * 2, flare: Math.random() > .984, tint };
+                });
+                dust = Array.from({ length: dustCount }, () => ({ progress: Math.random(), offset: (Math.random() + Math.random() + Math.random() - 1.5) / 1.5 * (42 + Math.random() * Math.min(148, height * .19)), size: Math.random() * 1.25 + .15, opacity: Math.random() * .42 + .08, speed: Math.random() * .000022 + .00002, phase: Math.random() * Math.PI * 2, tint: palette[Math.floor(Math.random() * palette.length)] }));
+                streaks = Array.from({ length: width <= 800 ? 2 : 3 }, () => ({ progress: Math.random(), offset: (Math.random() - .5) * Math.min(140, height * .18), length: Math.random() * 44 + 24, speed: Math.random() * .000025 + .00004, tint: palette[Math.floor(Math.random() * 3)] }));
+            }
+            function getHorizontalFlow(progress, speed, time, offset) {
+                const cycle = (progress + time * speed) % 1;
+                const x = -90 + (width + 180) * cycle;
+                return { x, y: flowY(clamp(x, 0, width), time) + offset + Math.sin(time * .00065 + progress * 17) * 1.8, fade: Math.pow(Math.max(0, Math.min(1, cycle * 8, (1 - cycle) * 8)), .62), eased: cycle };
+            }
+            function paint(time) {
+                context.clearRect(0, 0, width, height);
+                context.save();
+                context.globalCompositeOperation = "screen";
+                context.globalAlpha = .8;
+                context.drawImage(starTexture, 0, 0, width, height);
+                context.globalAlpha = .93;
+                context.filter = "blur(.45px)";
+                context.drawImage(dustTexture, Math.sin(time * .00021) * 17 - 18, Math.cos(time * .00016) * 9 - 12, width + 36, height + 24);
+                context.filter = "none";
+                stars.forEach(star => {
+                    const alpha = star.opacity * (.72 + Math.sin(time * .001 + star.phase) * .28);
+                    context.fillStyle = `rgba(${star.tint.join(",")},${Math.max(.05, alpha)})`;
+                    context.fillRect(star.x, star.y, star.size, star.size);
+                    if (star.flare && alpha > .3) { const flare = star.size * 4.5; context.strokeStyle = `rgba(234,248,255,${alpha * .42})`; context.lineWidth = .55; context.beginPath(); context.moveTo(star.x - flare, star.y); context.lineTo(star.x + flare, star.y); context.moveTo(star.x, star.y - flare); context.lineTo(star.x, star.y + flare); context.stroke(); }
+                });
+                dust.forEach(particle => {
+                    const flow = getHorizontalFlow(particle.progress, particle.speed, time, particle.offset);
+                    const alpha = particle.opacity * (.72 + Math.sin(time * .0014 + particle.phase) * .28) * flow.fade;
+                    context.fillStyle = `rgba(${particle.tint.join(",")},${Math.max(.03, alpha)})`;
+                    context.beginPath(); context.arc(flow.x, flow.y, particle.size * (.76 + flow.eased * .34), 0, Math.PI * 2); context.fill();
+                });
+                streaks.forEach(streak => {
+                    const flow = getHorizontalFlow(streak.progress, streak.speed, time, streak.offset);
+                    const tailX = flow.x - streak.length;
+                    const color = streak.tint.join(",");
+                    const trail = context.createLinearGradient(tailX, flow.y, flow.x, flow.y);
+                    trail.addColorStop(0, `rgba(${color},0)`); trail.addColorStop(.68, `rgba(${color},${flow.fade * .13})`); trail.addColorStop(1, `rgba(245,250,255,${flow.fade * .34})`);
+                    context.strokeStyle = trail; context.lineWidth = 1.25; context.shadowBlur = 10; context.shadowColor = `rgba(${color},${flow.fade * .3})`; context.beginPath(); context.moveTo(tailX, flow.y); context.lineTo(flow.x, flow.y); context.stroke();
+                });
+                context.restore();
+            }
+            function refreshMotion() {
+                cancelAnimationFrame(frame);
+                paint(performance.now());
+                if (!reducedMotion.matches && !document.hidden) frame = requestAnimationFrame(animate);
+            }
+            function animate(time) { paint(time); if (!reducedMotion.matches && !document.hidden) frame = requestAnimationFrame(animate); }
+            function resize() {
+                const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+                width = window.innerWidth; height = window.innerHeight;
+                canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
+                context.setTransform(ratio, 0, 0, ratio, 0, 0);
+                createScene(); buildDustTexture(); buildStarTexture(); refreshMotion();
+            }
+            window.addEventListener("resize", resize, { passive: true });
+            document.addEventListener("visibilitychange", refreshMotion, { passive: true });
+            reducedMotion.addEventListener("change", refreshMotion);
+            resize();
+        }());
+        document.querySelectorAll("[data-type]").forEach(button => button.addEventListener("click", () => {
+            currentType = button.dataset.type;
+            const url = new URL(window.location.href);
+            url.searchParams.set("type", currentType);
+            window.history.replaceState({}, "", url);
+            loadEvidence();
+        }));
+        document.getElementById("evidenceModalClose").addEventListener("click", closeImage);
+        document.getElementById("evidenceModal").addEventListener("click", event => { if (event.target === event.currentTarget) closeImage(); });
+        document.addEventListener("keydown", event => { if (event.key === "Escape") closeImage(); });
+        loadEvidence();
+    </script>
+</body>
+</html>

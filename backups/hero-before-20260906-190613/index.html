@@ -13,7 +13,7 @@
 
     <meta name="theme-color" content="#070b14">
 
-    <link rel="stylesheet" href="style.css?v=20260907-admin">
+    <link rel="stylesheet" href="style.css?v=20260903-6">
 
     <!-- Font Awesome -->
     <link
@@ -3672,9 +3672,6 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 .tilt-card{backface-visibility:hidden;-webkit-backface-visibility:hidden;}
 
 </style>
-<style id="material-contribution-v1">
-.material-request-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:1080px;margin:0 auto}.material-request-layout .material-request-card{max-width:none;margin:0}.material-contribution-status{min-height:18px;color:#8ea0b8;font-size:12px;line-height:1.5}.material-contribution-file{margin-top:8px;color:#7dd3fc;font-size:12px;word-break:break-word}.material-request-form input[type=file]{padding:10px;background:rgba(5,10,19,.52);cursor:pointer}@media(max-width:820px){.material-request-layout{grid-template-columns:1fr}}
-</style>
 </head>
 
 <body>
@@ -4670,7 +4667,6 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                     <p>Gửi yêu cầu, tôi sẽ xem xét bổ sung tài liệu phù hợp vào thư viện.</p>
                 </div>
 
-                <div class="material-request-layout">
                 <div class="material-request-card reveal">
                     <form id="materialRequestForm" class="material-request-form">
                         <div class="request-grid">
@@ -4705,44 +4701,6 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                         </div>
                     </form>
                 </div>
-
-                <div class="material-request-card reveal reveal-delay-1">
-                    <form id="documentContributionForm" class="material-request-form">
-                        <div class="section-kicker">CONTRIBUTE A PDF</div>
-                        <div class="request-grid">
-                            <div>
-                                <label for="contributionName">Tên của bạn</label>
-                                <input id="contributionName" type="text" maxlength="100" placeholder="Không bắt buộc">
-                            </div>
-                            <div>
-                                <label for="contributionEmail">Email</label>
-                                <input id="contributionEmail" type="email" maxlength="160" placeholder="Không bắt buộc">
-                            </div>
-                        </div>
-                        <div>
-                            <label for="contributionTitle">Tên tài liệu</label>
-                            <input id="contributionTitle" type="text" maxlength="180" required placeholder="Ví dụ: Chuyên đề Hàm số lớp 12">
-                        </div>
-                        <div>
-                            <label for="contributionCategory">Danh mục</label>
-                            <select id="contributionCategory" required><option value="">-- Chọn danh mục --</option></select>
-                        </div>
-                        <div>
-                            <label for="contributionDescription">Mô tả</label>
-                            <textarea id="contributionDescription" maxlength="1000" placeholder="Nội dung, nguồn hoặc ghi chú về tài liệu..."></textarea>
-                        </div>
-                        <div>
-                            <label for="contributionFile">File PDF</label>
-                            <input id="contributionFile" type="file" accept="application/pdf" required>
-                            <div id="contributionFileName" class="material-contribution-file"></div>
-                        </div>
-                        <div class="request-submit-row">
-                            <button class="btn btn-outline" type="submit"><span>Gửi PDF đóng góp</span><i class="fa-solid fa-file-arrow-up"></i></button>
-                            <span id="contributionStatus" class="material-contribution-status"></span>
-                        </div>
-                    </form>
-                </div>
-                </div>
             </div>
         </section>
 
@@ -4762,7 +4720,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
                 <div class="achievement-list">
 
-                    <article class="achievement-card-large reveal tilt-card" data-achievement-evidence="grade10" role="link" tabindex="0" onclick="openAchievementEvidence('grade10')">
+                    <article class="achievement-card-large reveal tilt-card">
 
                         <div class="achievement-card-icon">
                             <i class="fa-solid fa-school"></i>
@@ -4794,7 +4752,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                             <button
                                 type="button"
                                 class="evidence-button"
-                                onclick="event.stopPropagation(); openAchievementEvidence('grade10')"
+                                onclick="openGallery('grade10')"
                             >
                                 <i class="fa-solid fa-images"></i>
                                 Xem minh chứng
@@ -4805,7 +4763,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                     </article>
 
 
-                    <article class="achievement-card-large reveal reveal-delay-1 tilt-card" data-achievement-evidence="grade12" role="link" tabindex="0" onclick="openAchievementEvidence('grade12')">
+                    <article class="achievement-card-large reveal reveal-delay-1 tilt-card">
 
                         <div class="achievement-card-icon">
                             <i class="fa-solid fa-graduation-cap"></i>
@@ -4836,7 +4794,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                             <button
                                 type="button"
                                 class="evidence-button"
-                                onclick="event.stopPropagation(); openAchievementEvidence('grade12')"
+                                onclick="openGallery('grade12')"
                             >
                                 <i class="fa-solid fa-images"></i>
                                 Xem minh chứng
@@ -4847,7 +4805,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                     </article>
 
 
-                    <article class="achievement-card-large reveal reveal-delay-2 tilt-card" data-achievement-evidence="feedback" role="link" tabindex="0" onclick="openAchievementEvidence('feedback')">
+                    <article class="achievement-card-large reveal reveal-delay-2 tilt-card">
 
                         <div class="achievement-card-icon">
                             <i class="fa-solid fa-comments"></i>
@@ -4878,7 +4836,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                             <button
                                 type="button"
                                 class="evidence-button"
-                                onclick="event.stopPropagation(); openAchievementEvidence('feedback')"
+                                onclick="openGallery('feedback')"
                             >
                                 <i class="fa-solid fa-images"></i>
                                 Xem phản hồi
@@ -6696,10 +6654,6 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 if (requestCategory) {
                     requestCategory.innerHTML = '<option value="">-- Chọn danh mục --</option>' + libraryCategories.map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join("");
                 }
-                const contributionCategory = document.getElementById("contributionCategory");
-                if (contributionCategory) {
-                    contributionCategory.innerHTML = '<option value="">-- Chọn danh mục --</option>' + libraryCategories.map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join("");
-                }
                 renderDocumentLibrary();
                 const currentUrl = new URL(window.location.href);
                 const targetId = currentUrl.searchParams.get("doc");
@@ -6847,85 +6801,6 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             await notifySiteAdmin("material_request",requestPayload);
             event.target.reset();
             status.textContent = "Đã gửi yêu cầu. Cảm ơn bạn!";
-        });
-
-        function contributionFileLabel(file) {
-            if (!file) return "";
-            const size = file.size >= 1024 * 1024
-                ? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
-                : `${Math.ceil(file.size / 1024)} KB`;
-            return `${file.name} · ${size}`;
-        }
-
-        function contributionStoragePath(file) {
-            const base = String(file.name || "tai-lieu.pdf")
-                .replace(/\.pdf$/i, "")
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .replace(/[^a-zA-Z0-9]+/g, "-")
-                .replace(/^-+|-+$/g, "")
-                .toLowerCase() || "tai-lieu";
-            const token = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-            return `submissions/${Date.now()}-${token}-${base}.pdf`;
-        }
-
-        document.getElementById("contributionFile")?.addEventListener("change", event => {
-            const file = event.target.files?.[0];
-            document.getElementById("contributionFileName").textContent = contributionFileLabel(file);
-        });
-
-        document.getElementById("documentContributionForm")?.addEventListener("submit", async event => {
-            event.preventDefault();
-            const form = event.currentTarget;
-            const status = document.getElementById("contributionStatus");
-            const submit = form.querySelector('button[type="submit"]');
-            const file = document.getElementById("contributionFile").files?.[0];
-            const title = document.getElementById("contributionTitle").value.trim();
-            const categoryId = Number(document.getElementById("contributionCategory").value) || null;
-
-            if (!file || !title || !categoryId) return;
-            if (!/\.pdf$/i.test(file.name) || (file.type && file.type !== "application/pdf")) {
-                status.textContent = "Vui lòng chọn đúng file PDF.";
-                return;
-            }
-            if (file.size > 15 * 1024 * 1024) {
-                status.textContent = "File PDF cần nhỏ hơn hoặc bằng 15 MB.";
-                return;
-            }
-
-            submit.disabled = true;
-            status.textContent = "Đang tải PDF lên...";
-            const filePath = contributionStoragePath(file);
-            try {
-                const { error: uploadError } = await supabaseClient.storage
-                    .from("document-submissions")
-                    .upload(filePath, file, { contentType: "application/pdf", upsert: false });
-                if (uploadError) throw uploadError;
-
-                const payload = {
-                    title,
-                    description: document.getElementById("contributionDescription").value.trim() || null,
-                    category_id: categoryId,
-                    contributor_name: document.getElementById("contributionName").value.trim() || null,
-                    contributor_email: document.getElementById("contributionEmail").value.trim() || null,
-                    file_path: filePath,
-                    file_name: file.name,
-                    file_size: file.size,
-                    status: "pending"
-                };
-                const { error } = await supabaseClient.from("document_contributions").insert(payload);
-                if (error) throw error;
-
-                await notifySiteAdmin("document_contribution", payload);
-                form.reset();
-                document.getElementById("contributionFileName").textContent = "";
-                status.textContent = "Đã gửi PDF. Tài liệu sẽ được kiểm duyệt trước khi hiển thị.";
-            } catch (error) {
-                console.error(error);
-                status.textContent = "Không thể gửi PDF. Vui lòng thử lại sau.";
-            } finally {
-                submit.disabled = false;
-            }
         });
 
         loadDocumentLibrary();
@@ -7187,20 +7062,6 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
         let currentGallery = [];
         let currentImageIndex = 0;
-
-        function openAchievementEvidence(type) {
-            const url = new URL("achievements.html", window.location.href);
-            url.searchParams.set("type", type);
-            window.location.href = url.toString();
-        }
-
-        document.querySelectorAll("[data-achievement-evidence]").forEach(card => {
-            card.addEventListener("keydown", event => {
-                if (event.key !== "Enter" && event.key !== " ") return;
-                event.preventDefault();
-                openAchievementEvidence(card.dataset.achievementEvidence);
-            });
-        });
 
 
         function openGallery(type) {

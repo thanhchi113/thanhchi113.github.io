@@ -4681,13 +4681,3 @@ body.modal-open { overflow:hidden; }
         --card-scale: 1.012;
     }
 }
-
-/* Achievement cards now lead to the dedicated evidence archive. */
-.achievement-card-large[data-achievement-evidence] {
-    cursor: pointer;
-}
-
-.achievement-card-large[data-achievement-evidence]:focus-visible {
-    outline: 2px solid #7dd3fc;
-    outline-offset: 4px;
-}
