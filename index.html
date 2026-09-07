@@ -3680,6 +3680,9 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 @keyframes ciPyramidVisible{0%{stroke-dashoffset:180;opacity:.1}16%{stroke-dashoffset:180;opacity:.75}65%{stroke-dashoffset:0;opacity:1}84%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-180;opacity:.1}}
 @keyframes ciPyramidHidden{0%,27%{stroke-dashoffset:120;opacity:.06}67%{stroke-dashoffset:0;opacity:.6}84%{stroke-dashoffset:0;opacity:.6}100%{stroke-dashoffset:-120;opacity:.05}}
 @keyframes ciPyramidVertex{0%,40%{opacity:0}60%,84%{opacity:.82}100%{opacity:0}}
+.category-illustration-cycle .category-illustration-box .ci-box .ci-visible{animation-duration:5.8s}
+.category-illustration-cycle .category-illustration-box .ci-box .ci-hidden{animation-duration:5.8s}
+.category-illustration-cycle .category-illustration-box .ci-vertices circle{animation-duration:5.8s}
 
 /* Cubic curves are drawn first; their common points unlock the bounded area. */
 .category-illustration-cubic-area .ci-axis-x,.category-illustration-cubic-area .ci-axis-y{stroke-dasharray:185;stroke-dashoffset:185;animation:ciDrawCubicAxes 7.2s linear infinite}
@@ -5309,12 +5312,27 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
             if (key === "Lớp 11") return categoryIllustrationCycle(5800, [
                 `<svg class="category-illustration category-illustration-pyramid" ${common}>
-                    <g class="ci-pyramid"><path class="ci-hidden" d="M100 95H170 M122 30L100 95"/><path class="ci-visible" d="M70 112H140L170 95 M100 95L70 112 M122 30L70 112 M122 30L140 112 M122 30L170 95"/></g>
-                    <g class="ci-vertices"><circle class="ci-vertex" cx="122" cy="30" r="2.4"/><circle class="ci-vertex" cx="70" cy="112" r="2.4"/><circle class="ci-vertex" cx="140" cy="112" r="2.4"/><circle class="ci-vertex" cx="170" cy="95" r="2.4"/><circle class="ci-vertex" cx="100" cy="95" r="2.4"/></g>
+                    <g class="ci-pyramid">
+                        <path class="ci-hidden" d="M96 82H184 M124 23L96 82"/>
+                        <path class="ci-visible" d="M61 117H151L184 82 M96 82L61 117 M124 23L61 117 M124 23L151 117 M124 23L184 82"/>
+                    </g>
+                    <g class="ci-vertices"><circle class="ci-vertex" cx="124" cy="23" r="2.4"/><circle class="ci-vertex" cx="61" cy="117" r="2.4"/><circle class="ci-vertex" cx="151" cy="117" r="2.4"/><circle class="ci-vertex" cx="184" cy="82" r="2.4"/><circle class="ci-vertex" cx="96" cy="82" r="2.4"/></g>
                 </svg>`,
                 `<svg class="category-illustration category-illustration-pyramid" ${common}>
-                    <g class="ci-pyramid"><path class="ci-visible" d="M64 116H166L126 88 M119 27L64 116 M119 27L166 116"/><path class="ci-hidden" d="M126 88L64 116 M119 27L126 88"/></g>
-                    <g class="ci-vertices"><circle class="ci-vertex" cx="119" cy="27" r="2.4"/><circle class="ci-vertex" cx="64" cy="116" r="2.4"/><circle class="ci-vertex" cx="166" cy="116" r="2.4"/><circle class="ci-vertex" cx="126" cy="88" r="2.4"/></g>
+                    <g class="ci-pyramid">
+                        <path class="ci-hidden" d="M59 80L183 104"/>
+                        <path class="ci-visible" d="M80 124L59 80 M80 124L183 104 M122 22L59 80 M122 22L80 124 M122 22L183 104"/>
+                    </g>
+                    <g class="ci-vertices"><circle class="ci-vertex" cx="122" cy="22" r="2.4"/><circle class="ci-vertex" cx="59" cy="80" r="2.4"/><circle class="ci-vertex" cx="80" cy="124" r="2.4"/><circle class="ci-vertex" cx="183" cy="104" r="2.4"/></g>
+                </svg>`,
+                `<svg class="category-illustration category-illustration-box" ${common}>
+                    <g class="ci-box">
+                        <path class="ci-visible" d="M62 58H142"/><path class="ci-visible" d="M142 58V119"/><path class="ci-visible" d="M142 119H62"/><path class="ci-visible" d="M62 119V58"/>
+                        <path class="ci-visible" d="M62 58L99 35"/><path class="ci-visible" d="M142 58L179 35"/><path class="ci-visible" d="M142 119L179 96"/>
+                        <path class="ci-visible" d="M99 35H179"/><path class="ci-visible" d="M179 35V96"/>
+                        <path class="ci-hidden" d="M62 119L99 96"/><path class="ci-hidden" d="M99 96H179"/><path class="ci-hidden" d="M99 35V96"/>
+                    </g>
+                    <g class="ci-vertices"><circle cx="62" cy="58" r="2.3"/><circle cx="142" cy="58" r="2.3"/><circle cx="142" cy="119" r="2.3"/><circle cx="62" cy="119" r="2.3"/><circle cx="99" cy="35" r="2.3"/><circle cx="179" cy="35" r="2.3"/><circle cx="179" cy="96" r="2.3"/><circle cx="99" cy="96" r="2.3"/></g>
                 </svg>`
             ]);
 
