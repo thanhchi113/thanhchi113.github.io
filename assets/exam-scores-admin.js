@@ -69,6 +69,12 @@
         $("scorePreviewClass").textContent = `${$("scoreClass").value.trim() || "Lớp / khóa học"} · Khối ${$("scoreGrade").value}`;
         $("scorePreviewPeriod").textContent = api.label($("scorePeriod").value);
         $("scorePreviewValue").textContent = api.format(api.parseScore($("scoreValue").value));
+        const paper = $("scorePreviewFallback"), score = api.parseScore($("scoreValue").value);
+        const paperScore = api.format(score);
+        if (paper.dataset.score !== paperScore && window.ExamScorePaper) {
+            paper.innerHTML = window.ExamScorePaper.render(score) + '<span>Thành tích học tập</span>';
+            paper.dataset.score = paperScore;
+        }
         $("scorePreviewYear").textContent = $("scoreYear").value.trim() || "—";
         $("scorePreviewVisibility").textContent = $("scorePublished").checked ? "Sẽ công bố" : "Bản nháp · chỉ admin";
         $("scorePreviewPrivacyNote").textContent = !$("scorePublished").checked ? "Thẻ và điểm này chỉ hiển thị trong trang admin." : hideName ? "Tên và ảnh xác nhận được ẩn trên website. Admin vẫn giữ đầy đủ thông tin để chỉnh sửa." : "Tên, điểm và ảnh xác nhận sẽ hiển thị trên trang thành tích.";

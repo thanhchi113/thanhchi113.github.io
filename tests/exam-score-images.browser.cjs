@@ -138,6 +138,11 @@ function assertOrder(start, expected) {
         assert.equal(await page.locator('#scorePreviewValue').textContent(), '9,25');
         assert.match(await page.locator('#scorePreviewVisibility').textContent(), /Bản nháp/);
         assert(await page.locator('#scorePreviewFallback').isVisible());
+        assert.equal(await page.locator('#scorePreviewFallback .exam-score-paper').getAttribute('data-score-display'), '9,25');
+        const previewPaper = await page.locator('#scorePreviewFallback svg').elementHandle();
+        await page.fill('#scoreClass', '12A2 cập nhật');
+        assert(await previewPaper.evaluate(node => node.isConnected), 'Editing other fields must not restart the graph/LED sequence');
+        await page.fill('#scoreClass', '12A2');
 
         for (const file of [
             { name: 'bad.txt', mimeType: 'text/plain', buffer: Buffer.from('not an image') },
@@ -202,6 +207,7 @@ function assertOrder(start, expected) {
         assert(!((await publicPage.locator('#scoreStudentCards').textContent()).includes(added.student_name)), 'The public card must not expose the hidden name');
         assert.match(await publicPage.locator('.exam-name-mask').first().evaluate(node => getComputedStyle(node).filter), /blur/);
         assert.equal(await publicPage.locator('#scoreStudentCards img').count(), 0);
+        assert.equal(await publicPage.locator('#scoreStudentCards .exam-score-paper').first().getAttribute('data-score-display'), '9,25', 'The decorative paper must display this student score, including when the name is hidden');
         assert.equal(await publicPage.locator('#scoreCount').textContent(), '1', 'Anonymous student scores still count in statistics');
         assert.equal(events.filter(event => event.type === 'sign').length, signsBefore, 'Anonymous evidence must not be signed for the public page');
         await publicPage.close();

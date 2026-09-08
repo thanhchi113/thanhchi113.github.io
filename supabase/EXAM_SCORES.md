@@ -82,6 +82,8 @@ Yêu cầu đã duyệt hoặc xóa không còn trong hộp chờ duyệt. Đi�
 
 ## Tài khoản và mật khẩu
 
+Các ô mật khẩu đăng nhập, đổi mật khẩu và đặt lại mật khẩu có nút hiện/ẩn phần đang nhập. Nút tự che lại khi gửi biểu mẫu, đặt lại biểu mẫu, đăng xuất hoặc rời trang. Hệ thống không cung cấp mật khẩu đã lưu của tài khoản; mật khẩu được lưu dưới dạng băm và cần dùng chức năng đặt lại nếu quên.
+
 **Quên mật khẩu?** nằm trên biểu mẫu đăng nhập, gửi liên kết tới email với thông báo chung không tiết lộ email có tồn tại hay không. Trang phục hồi kiểm tra liên kết, xóa token khỏi thanh địa chỉ và hỗ trợ hash, token hash, mã PKCE. Liên kết lỗi/hết hạn không mở biểu mẫu mật khẩu.
 
 Trong **Tài khoản**, admin phải xác minh mật khẩu hiện tại trước khi đổi mật khẩu mới. Danh sách và thao tác thu hồi dùng `list_admin_accounts()` và `revoke_admin_access(target_user_id)`, kiểm tra quyền ở database. Thu hồi chuyển vai trò từ `admin` sang `viewer`, giữ tài khoản đăng nhập; không thể tự thu hồi và phải giữ ít nhất một admin. Hộp xác nhận nêu rõ tài khoản đích.
@@ -89,6 +91,8 @@ Trong **Tài khoản**, admin phải xác minh mật khẩu hiện tại trướ
 Callback đăng nhập không chờ thao tác Supabase Auth bên trong callback để tránh khóa phiên. Khi đăng xuất, dữ liệu điểm/tài khoản được xóa khỏi giao diện; phản hồi xác thực cũ không thể mở lại trang admin.
 
 ## Kiểm thử
+
+Giao diện admin dùng thanh điều hướng bên trái có biểu tượng, thu gọn trên máy tính và mở thành ngăn trượt trên điện thoại. Nền dùng cùng renderer Canvas với trang chủ. Trong thẻ điểm không có ảnh xác nhận, hình tờ bài thi vẽ đồ thị rồi chuyển sang điểm LED của học sinh; bản xem trước admin dùng cùng hiệu ứng. Chế độ giảm chuyển động hiển thị LED tĩnh.
 
 Chạy kiểm thử tính toán với Node.js:
 
@@ -113,6 +117,8 @@ node tests/exam-score-images.browser.cjs
 node tests/score-submissions.browser.cjs
 node tests/exam-score-settings-admin.browser.cjs
 node tests/exam-score-import.browser.cjs
+node tests/exam-score-paper.browser.cjs
+node tests/password-visibility.browser.cjs
 ```
 
 Các bộ kiểm thử dùng `playwright` và `@electric-sql/pglite@0.5.8` từ môi trường phát triển, không phải phụ thuộc của website. Có thể đặt `PGLITE_MODULE` / `PLAYWRIGHT_MODULE` thành đường dẫn module tuyệt đối. Kiểm thử trình duyệt thông thường mặc định dùng Edge và server `http://127.0.0.1:4174`; thay bằng `TEST_BROWSER_CHANNEL` / `TEST_BASE_URL` khi cần. Bộ account và bộ settings phục vụ/giả lập nội dung trực tiếp, không cần server riêng. `TEST_VENDOR_DIR` hỗ trợ bản SDK Supabase 2.116.0 và Chart.js 4.5.1 nguyên bản đã tải sẵn khi máy chặn CDN. Ảnh kiểm thử lưu tại thư mục tạm hoặc `TEST_OUTPUT_DIR`.

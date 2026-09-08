@@ -4,6 +4,55 @@
     const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
     const recoveryMessage = "Nếu email này có tài khoản, bạn sẽ nhận được liên kết đặt lại mật khẩu. Hãy kiểm tra hộp thư và thư rác.";
     const recoveryUrl = () => location.protocol === "file:" ? "https://thanhchi113.github.io/reset-password.html" : new URL("reset-password.html", location.href).href;
+    const passwordControls = new WeakMap();
+    const passwordForms = new WeakSet();
+    const passwordLabels = {
+        loginPassword: "mật khẩu đăng nhập",
+        accountCurrentPassword: "mật khẩu hiện tại",
+        accountNewPassword: "mật khẩu mới",
+        accountConfirmPassword: "mật khẩu xác nhận",
+        recoveryPassword: "mật khẩu mới",
+        recoveryConfirmation: "mật khẩu xác nhận"
+    };
+    function hidePasswords(scope = document) {
+        scope.querySelectorAll("input[data-password-visibility]").forEach(input => passwordControls.get(input)?.hide());
+    }
+    function enhancePasswordInputs(scope = document) {
+        scope.querySelectorAll('input[type="password"]').forEach(input => {
+            if (!passwordLabels[input.id] || passwordControls.has(input)) return;
+            const wrapper = document.createElement("div");
+            wrapper.className = "account-password-control";
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "account-password-toggle";
+            button.dataset.passwordToggle = input.id;
+            button.setAttribute("aria-controls", input.id);
+            button.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="account-password-slash" d="m3 3 18 18"/></svg>';
+            input.before(wrapper);
+            wrapper.append(input, button);
+            input.dataset.passwordVisibility = "true";
+            function setVisible(visible) {
+                input.type = visible ? "text" : "password";
+                button.setAttribute("aria-pressed", String(visible));
+                const label = `${visible ? "Ẩn" : "Hiện"} ${passwordLabels[input.id]}`;
+                button.setAttribute("aria-label", label);
+                button.title = label;
+                button.classList.toggle("is-visible", visible);
+            }
+            button.addEventListener("click", () => {
+                if (!input.matches(":disabled")) setVisible(input.type === "password");
+            });
+            passwordControls.set(input, { hide: () => setVisible(false) });
+            setVisible(false);
+            const form = input.form;
+            if (form && !passwordForms.has(form)) {
+                // Mask before existing submit handlers run, including failed attempts and form resets.
+                form.addEventListener("submit", () => hidePasswords(form), true);
+                form.addEventListener("reset", () => hidePasswords(form), true);
+                passwordForms.add(form);
+            }
+        });
+    }
     function status(id, message, success = false) {
         const element = byId(id);
         if (!element) return;
@@ -157,6 +206,7 @@
             ++loadVersion;
             accounts = [];
             currentUserId = null;
+            hidePasswords();
             if (!workspace) return;
             byId("accountPasswordForm").reset();
             byId("accountList").replaceChildren();
@@ -165,9 +215,12 @@
             status("accountListStatus", "");
             byId("accountRevokeDialog").close();
         }
+        enhancePasswordInputs();
         window.adminAccount = { load, clear };
         if (workspace?.classList.contains("active")) load();
         return window.adminAccount;
     }
-    window.AdminAccount = { init, validPassword, passwordError };
+    window.AdminAccount = { init, validPassword, passwordError, enhancePasswordInputs, hidePasswords };
+    enhancePasswordInputs();
+    window.addEventListener("pagehide", () => hidePasswords());
 }());

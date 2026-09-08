@@ -1,0 +1,87 @@
+.exam-score-paper {
+    --score-paper-cycle: 12s;
+    overflow: visible;
+}
+
+.exam-score-paper .esp-outline,
+.exam-score-paper .esp-headings,
+.exam-score-paper .esp-axes,
+.exam-score-paper .esp-curve,
+.exam-score-paper .esp-graph,
+.exam-score-paper .esp-led,
+.exam-score-paper .esp-accent {
+    animation-duration: var(--score-paper-cycle);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-delay: 0s;
+    animation-fill-mode: both;
+}
+
+.exam-score-paper .esp-outline { animation-name: esp-document; stroke-dasharray: 1; }
+.exam-score-paper .esp-headings { animation-name: esp-headings; }
+.exam-score-paper .esp-axes { animation-name: esp-axes; stroke-dasharray: 1; }
+.exam-score-paper .esp-curve { animation-name: esp-curve; stroke-dasharray: 1; }
+.exam-score-paper .esp-graph { animation-name: esp-graph; }
+.exam-score-paper .esp-led { animation-name: esp-led; opacity: 0; }
+.exam-score-paper .esp-accent { animation-name: esp-accent; }
+.exam-score-paper .esp-segment-off { fill: #173744; }
+.exam-score-paper .esp-segment-on { fill: #8ff5dd; filter: drop-shadow(0 0 2px rgba(88, 239, 214, .48)); }
+
+/* One 12-second clock: paper/axes, complete curve, then the LED score. */
+@keyframes esp-document {
+    0% { stroke-dashoffset: 1; opacity: .55; }
+    10%, 94% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: .55; }
+}
+
+@keyframes esp-headings {
+    0%, 5% { opacity: 0; }
+    12%, 94% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes esp-axes {
+    0%, 8.333% { stroke-dashoffset: 1; }
+    16.667%, 100% { stroke-dashoffset: 0; }
+}
+
+@keyframes esp-curve {
+    0%, 16.667% { stroke-dashoffset: 1; }
+    35%, 100% { stroke-dashoffset: 0; }
+}
+
+@keyframes esp-graph {
+    0%, 8% { opacity: 0; }
+    12%, 36.667% { opacity: 1; }
+    40.833%, 100% { opacity: 0; }
+}
+
+@keyframes esp-led {
+    0%, 42.5% { opacity: 0; }
+    46.5%, 90% { opacity: 1; }
+    96%, 100% { opacity: 0; }
+}
+
+@keyframes esp-accent {
+    0%, 100% { opacity: .2; }
+    18%, 72% { opacity: .85; }
+    90% { opacity: .4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .exam-score-paper .esp-outline,
+    .exam-score-paper .esp-headings,
+    .exam-score-paper .esp-axes,
+    .exam-score-paper .esp-curve,
+    .exam-score-paper .esp-graph,
+    .exam-score-paper .esp-led,
+    .exam-score-paper .esp-accent {
+        animation: none;
+        stroke-dashoffset: 0;
+    }
+    .exam-score-paper .esp-outline,
+    .exam-score-paper .esp-headings,
+    .exam-score-paper .esp-led,
+    .exam-score-paper .esp-accent { opacity: 1; }
+    .exam-score-paper .esp-graph { opacity: 0; }
+}

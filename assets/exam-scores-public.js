@@ -47,21 +47,13 @@
     function selectedRecords() {
         return api.filter(records, filters()).filter(row => api.parseScore(row.score) !== null);
     }
-    function examIllustration(caption) {
-        return `<svg class="exam-student-illustration" viewBox="0 0 220 260" aria-hidden="true" focusable="false">
-            <circle cx="110" cy="127" r="88" fill="rgba(125,211,252,.035)"/>
-            <rect class="exam-paper-outline" x="51" y="31" width="118" height="184" rx="9" fill="rgba(15,32,51,.7)" stroke="#7dd3fc" stroke-width="1.6" pathLength="1"/>
-            <rect x="67" y="49" width="65" height="7" rx="3" fill="rgba(125,211,252,.35)"/>
-            <g class="exam-paper-lines" fill="none" stroke="rgba(125,211,252,.4)" stroke-width="2" stroke-linecap="round"><path d="M67 73H151"/><path d="M67 86H142"/><path d="M67 99H150"/></g>
-            <path class="exam-paper-axes" d="M71 178H150M109 194V116M146 174L150 178L146 182M105 120L109 116L113 120" fill="none" stroke="#8ca9c6" stroke-width="1.2" pathLength="1"/>
-            <path class="exam-paper-curve" d="M75 130Q109 224 143 130" fill="none" stroke="#6fe0b8" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
-            <circle class="exam-paper-star" cx="178" cy="69" r="3" fill="#a78bfa"/><circle class="exam-paper-star" cx="40" cy="184" r="2.5" fill="#7dd3fc"/>
-        </svg><figcaption>${escape(caption)}</figcaption>`;
+    function examIllustration(caption, score) {
+        return `${window.ExamScorePaper?.render(score) || ""}<figcaption>${escape(caption)}</figcaption>`;
     }
     function loadStudentImage(figure, row, version) {
         if (row.hide_student_name || !row.evidence_image_path || typeof api.signedImageUrl !== "function") return;
         const current = () => version === studentRenderVersion && figure.isConnected;
-        const failed = () => { if (current()) figure.innerHTML = examIllustration("Ảnh chưa tải được · Minh họa bài thi"); };
+        const failed = () => { if (current()) figure.innerHTML = examIllustration("Ảnh chưa tải được · Minh họa bài thi", row.score); };
         (async () => {
             try {
                 const source = await api.signedImageUrl(supabaseClient, row.evidence_image_path);
@@ -104,7 +96,7 @@
                 <div class="exam-student-top"><span class="exam-student-period"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i>${escape(api.label(row.period))}</span><span class="exam-student-subject">Môn Toán</span></div>
                 <div class="exam-student-main"><div class="exam-student-identity"><span class="exam-student-label">Học sinh</span>${nameMarkup}</div><div class="exam-student-score" aria-label="Điểm đạt được: ${escape(api.format(row.score))} trên 10"><strong>${escape(api.format(row.score))}</strong><span>/ 10 điểm</span></div></div>
                 <dl class="exam-student-facts"><div><dt>Lớp / khóa học</dt><dd>${escape(row.class_name || "Chưa ghi lớp")}</dd></div><div><dt>Khối</dt><dd>${escape(row.grade)}</dd></div><div><dt>Năm học</dt><dd>${escape(row.school_year)}</dd></div></dl></div>
-                <figure class="exam-student-media">${examIllustration(row.evidence_image_path ? "Đang tải ảnh điểm…" : "Chưa có ảnh điểm · Minh họa bài thi")}</figure>
+                <figure class="exam-student-media">${examIllustration(row.evidence_image_path ? "Đang tải ảnh điểm…" : "Chưa có ảnh điểm · Minh họa bài thi", row.score)}</figure>
             </article>`;
         }).join("");
         get("scoreStudentCards").querySelectorAll(".exam-student-media").forEach((figure, index) => loadStudentImage(figure, visibleRows[index], version));

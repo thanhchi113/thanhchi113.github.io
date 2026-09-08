@@ -110,6 +110,10 @@ async function waitForScroll(page) {
         requestAnimationFrame(frame);
     }));
 }
+async function selectWorkspace(page, key) {
+    if (await page.locator('#adminSidebarOpen').isVisible() && await page.locator('#adminSidebarOpen').getAttribute('aria-expanded') !== 'true') await page.click('#adminSidebarOpen');
+    await page.click(`[data-workspace-tab="${key}"]`);
+}
 
 (async () => {
     for (const name of ['admin.html', 'reset-password.html']) {
@@ -132,6 +136,8 @@ async function waitForScroll(page) {
         const page = await context.newPage(), errors = [];
         page.on('pageerror', error => errors.push(error.message));
         await page.goto('http://account.test/admin.html#admin-account');
+        assert(await page.locator('#adminSidebar').isHidden(), 'Login has no sidebar');
+        assert(await page.locator('#adminSidebarOpen').isHidden());
         assert(await page.locator('[data-import-fields]').evaluate(fieldset => fieldset.disabled), 'Importer starts disabled before authentication');
         assert.equal(await page.locator('#scoreForm #scoreImportAdmin').count(), 0, 'Importer is independent from the score form');
         assert.equal(await page.locator('#scoresWorkspace #scoreImportAdmin').count(), 1);
@@ -161,6 +167,30 @@ async function waitForScroll(page) {
         assert(await page.locator('[data-import-fields]').evaluate(fieldset => fieldset.disabled), 'A user session alone cannot enable import before admin role verification');
         await page.evaluate(() => { accountMock.holdRole = false; accountMock.resumeRole(); delete accountMock.resumeRole; });
         await page.waitForSelector('#accountWorkspace.active .account-member');
+        assert(await page.locator('#adminSidebar').isVisible());
+        assert.equal(await page.locator('#adminSidebar [data-sidebar-icon] svg').count(), 7);
+        assert(await page.evaluate(() => document.getElementById('adminPanel').getBoundingClientRect().left >= document.getElementById('adminSidebar').getBoundingClientRect().right + 12), 'Expanded sidebar does not overlap content');
+        await page.screenshot({ path: path.join(root, '../../admin-sidebar-expanded.png') });
+        await page.click('#adminSidebarCollapse');
+        assert.equal(await page.locator('#adminSidebarCollapse').getAttribute('aria-expanded'), 'false');
+        assert.equal(await page.evaluate(() => localStorage.getItem('thanhchi.admin.sidebar.collapsed')), 'true');
+        await page.waitForFunction(() => Math.abs(document.getElementById('adminSidebar').getBoundingClientRect().width - 80) < 1);
+        assert(await page.evaluate(() => document.getElementById('adminPanel').getBoundingClientRect().left >= document.getElementById('adminSidebar').getBoundingClientRect().right + 12));
+        await page.screenshot({ path: path.join(root, '../../admin-sidebar-collapsed.png') });
+        const restored = await context.newPage();
+        await restored.goto('http://account.test/admin.html#admin-scores');
+        await restored.evaluate(() => { accountMock.signedIn = true; accountMock.emit('SIGNED_IN'); });
+        await restored.waitForSelector('body.admin-sidebar-visible.admin-sidebar-collapsed');
+        assert.equal(await restored.locator('#adminSidebarCollapse').getAttribute('aria-expanded'), 'false', 'Desktop collapsed preference survives a fresh page');
+        await restored.close();
+        await page.click('#adminSidebarCollapse');
+        await page.locator('#adminTab-account').focus();
+        await page.keyboard.press('ArrowUp');
+        assert.equal(await page.evaluate(() => document.activeElement.id), 'adminTab-contributions');
+        await page.keyboard.press('Home');
+        assert.equal(await page.evaluate(() => document.activeElement.id), 'adminTab-pdf');
+        await page.keyboard.press('End');
+        assert.equal(await page.evaluate(() => document.activeElement.id), 'adminTab-account');
         assert.equal(await page.locator('.account-member').count(), 2);
         assert.equal(await page.locator('.account-member img').count(), 0);
         assert(await page.locator(`[data-revoke-account="${self}"]`).isDisabled());
@@ -168,11 +198,11 @@ async function waitForScroll(page) {
         await page.fill('#accountCurrentPassword', 'wrong-current');
         await page.fill('#accountNewPassword', 'new-test-only');
         await page.fill('#accountConfirmPassword', 'new-test-only');
-        await page.click('#accountPasswordForm button');
+        await page.click('#accountPasswordForm button[type=submit]');
         await waitText(page, '#accountPasswordStatus', 'Không xác minh');
         assert.equal(await page.evaluate(() => accountMock.calls.filter(call => call[0] === 'password').length), 0);
         await page.fill('#accountCurrentPassword', 'current-test-only');
-        await page.click('#accountPasswordForm button');
+        await page.click('#accountPasswordForm button[type=submit]');
         await waitText(page, '#accountPasswordStatus', 'Đã cập nhật');
         assert.equal(await page.inputValue('#accountNewPassword'), '');
         assert.equal(await page.inputValue('#accountCurrentPassword'), '');
@@ -190,6 +220,30 @@ async function waitForScroll(page) {
             await page.setViewportSize({ width, height: 1000 });
             assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `No horizontal overflow at ${width}`);
         }
+        await page.waitForSelector('#adminSidebar', { state: 'hidden' });
+        assert(await page.locator('#adminSidebar').isHidden(), 'Mobile drawer starts closed');
+        await page.click('#adminSidebarOpen');
+        assert.equal(await page.locator('#adminSidebarOpen').getAttribute('aria-expanded'), 'true');
+        assert.equal(await page.locator('#adminSidebar').getAttribute('aria-modal'), 'true');
+        await page.screenshot({ path: path.join(root, '../../admin-sidebar-mobile-open.png') });
+        await page.waitForFunction(() => document.activeElement.id === 'adminSidebarClose');
+        assert.equal(await page.evaluate(() => document.activeElement.id), 'adminSidebarClose');
+        assert(await page.locator('main').evaluate(element => element.inert));
+        await page.keyboard.press('Shift+Tab');
+        assert.equal(await page.evaluate(() => document.activeElement.id), 'adminTab-account');
+        await page.keyboard.press('Tab');
+        assert.equal(await page.evaluate(() => document.activeElement.id), 'adminSidebarClose');
+        await page.screenshot({ path: path.join(root, '../../admin-sidebar-mobile-open.png') });
+        await page.keyboard.press('Escape');
+        assert.equal(await page.locator('#adminSidebarOpen').getAttribute('aria-expanded'), 'false');
+        assert.equal(await page.evaluate(() => document.activeElement.id), 'adminSidebarOpen');
+        assert(!(await page.locator('main').evaluate(element => element.inert)));
+        await page.click('#adminSidebarOpen');
+        await page.locator('#adminSidebarBackdrop').click({ position: { x: 370, y: 500 } });
+        assert.equal(await page.locator('#adminSidebarOpen').getAttribute('aria-expanded'), 'false');
+        await page.click('#adminSidebarOpen');
+        await page.click('#adminSidebarClose');
+        assert.equal(await page.locator('#adminSidebarOpen').getAttribute('aria-expanded'), 'false');
         await page.evaluate(() => { accountMock.listError = true; });
         await page.click('#accountRefresh');
         await waitText(page, '#accountListStatus', 'chưa được kích hoạt');
@@ -215,7 +269,8 @@ async function waitForScroll(page) {
         }
         await page.evaluate(() => { accountMock.listError = false; accountMock.signedIn = true; accountMock.emit('SIGNED_IN'); });
         await page.waitForSelector('#accountWorkspace.active .account-member');
-        await page.click('[data-workspace-tab="scores"]');
+        await selectWorkspace(page, 'scores');
+        assert.equal(await page.locator('#adminSidebarOpen').getAttribute('aria-expanded'), 'false', 'Selecting a mobile item closes the drawer');
         assert.equal(await page.locator('#scoreForm #scoreSubmissionAdmin').count(), 0);
         assert.equal(await page.locator('#scoresWorkspace #scoreSubmissionAdmin').count(), 1);
         await page.waitForFunction(() => document.querySelector('#scoreSubmissionAdmin').getAttribute('aria-busy') === 'false');
@@ -273,8 +328,8 @@ async function waitForScroll(page) {
         assert.equal(await page.inputValue('#scoreStudentName'), 'Điểm đang nhập riêng');
         assert.equal(await page.inputValue('#scoreValue'), '6,75');
         await page.locator('[data-import-field="score"]').first().fill('8,75');
-        await page.click('[data-workspace-tab="pdf"]');
-        await page.click('[data-workspace-tab="scores"]');
+        await selectWorkspace(page, 'pdf');
+        await selectWorkspace(page, 'scores');
         assert.equal(await page.locator('[data-import-id]').count(), 2, 'Changing workspaces retains the import draft');
         assert.equal(await page.locator('[data-import-field="score"]').first().inputValue(), '8,75');
         assert.equal(await page.inputValue('#scoreStudentName'), 'Điểm đang nhập riêng');
@@ -286,7 +341,7 @@ async function waitForScroll(page) {
             if (width !== 900) {
                 const heading = page.locator('#scoresWorkspace > .exam-admin-heading');
                 await heading.evaluate(element => {
-                    const navigationBottom = Math.max(document.querySelector('.admin-nav').getBoundingClientRect().bottom, document.querySelector('.workspace-tabs').getBoundingClientRect().bottom);
+                    const navigationBottom = document.querySelector('.admin-nav').getBoundingClientRect().bottom;
                     window.scrollTo({ top: element.getBoundingClientRect().top + scrollY - navigationBottom - 16, behavior: 'instant' });
                 });
                 await waitForScroll(page);
@@ -300,7 +355,7 @@ async function waitForScroll(page) {
                     const heading = document.querySelector('#scoreImportAdmin .score-import-heading').getBoundingClientRect();
                     const mount = document.getElementById('scoreImportAdmin');
                     const targetTop = parseFloat(getComputedStyle(mount).scrollMarginTop);
-                    const navigationBottom = Math.max(document.querySelector('.admin-nav').getBoundingClientRect().bottom, document.querySelector('.workspace-tabs').getBoundingClientRect().bottom);
+                    const navigationBottom = document.querySelector('.admin-nav').getBoundingClientRect().bottom;
                     return Math.abs(mount.getBoundingClientRect().top - targetTop) <= 3 && heading.top >= navigationBottom + 4 && heading.bottom < innerHeight;
                 });
                 assert.equal(await page.locator('[data-import-id]').count(), 2, 'Shortcut scroll does not reset imported rows');
