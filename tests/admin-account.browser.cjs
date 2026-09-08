@@ -99,6 +99,17 @@ async function waitText(page, selector, text) {
     try { await page.waitForFunction(([selector, text]) => document.querySelector(selector)?.textContent.includes(text), [selector, text]); }
     catch (error) { throw new Error(`${selector}: expected ${text}, got ${await page.locator(selector).textContent()}`, { cause: error }); }
 }
+async function waitForScroll(page) {
+    await page.evaluate(() => new Promise(resolve => {
+        let previous = scrollY, stableFrames = 0;
+        function frame() {
+            stableFrames = Math.abs(scrollY - previous) < 0.5 ? stableFrames + 1 : 0;
+            previous = scrollY;
+            if (stableFrames >= 5) resolve(); else requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+    }));
+}
 
 (async () => {
     for (const name of ['admin.html', 'reset-password.html']) {
@@ -108,7 +119,7 @@ async function waitText(page, selector, text) {
     const browser = await chromium.launch({ headless: true, channel: process.env.TEST_BROWSER_CHANNEL || 'msedge' });
     try {
         const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
-        await context.addInitScript(() => { if (!crypto.randomUUID) crypto.randomUUID = () => '00000000-0000-4000-8000-000000000099'; });
+        await context.addInitScript(() => { let uuidSequence = 0; if (!crypto.randomUUID) crypto.randomUUID = () => `00000000-0000-4000-8000-${String(++uuidSequence).padStart(12, '0')}`; });
         await context.route('**/*', route => {
             const url = new URL(route.request().url());
             if (url.host === 'cdn.jsdelivr.net' && url.pathname.includes('@supabase/supabase-js@')) return route.fulfill({ contentType: 'application/javascript', body: `(${mockSdk.toString()})();` });
@@ -121,6 +132,19 @@ async function waitText(page, selector, text) {
         const page = await context.newPage(), errors = [];
         page.on('pageerror', error => errors.push(error.message));
         await page.goto('http://account.test/admin.html#admin-account');
+        assert(await page.locator('[data-import-fields]').evaluate(fieldset => fieldset.disabled), 'Importer starts disabled before authentication');
+        assert.equal(await page.locator('#scoreForm #scoreImportAdmin').count(), 0, 'Importer is independent from the score form');
+        assert.equal(await page.locator('#scoresWorkspace #scoreImportAdmin').count(), 1);
+        await page.evaluate(() => {
+            activateAdminWorkspace('scores', false);
+            const input = document.querySelector('[data-import-files]');
+            const transfer = new DataTransfer();
+            transfer.items.add(new File(['Họ tên,Lớp,Điểm\nChưa đăng nhập,12A1,8'], 'guest.csv', { type: 'text/csv' }));
+            input.files = transfer.files;
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+            activateAdminWorkspace('account', false);
+        });
+        assert.equal(await page.locator('[data-import-id]').count(), 0, 'Even a synthetic file change before auth cannot create an import draft');
         await page.locator('#accountRecoveryRequest summary').click();
         await page.fill('#accountForgotEmail', 'admin@example.test');
         await page.click('#accountForgotSubmit');
@@ -131,7 +155,11 @@ async function waitText(page, selector, text) {
         await waitText(page, '#accountForgotStatus', 'giới hạn');
         await page.fill('#loginEmail', 'admin@example.test');
         await page.fill('#loginPassword', 'current-test-only');
+        await page.evaluate(() => { accountMock.holdRole = true; });
         await page.click('#loginForm button[type=submit]');
+        await page.waitForFunction(() => typeof accountMock.resumeRole === 'function');
+        assert(await page.locator('[data-import-fields]').evaluate(fieldset => fieldset.disabled), 'A user session alone cannot enable import before admin role verification');
+        await page.evaluate(() => { accountMock.holdRole = false; accountMock.resumeRole(); delete accountMock.resumeRole; });
         await page.waitForSelector('#accountWorkspace.active .account-member');
         assert.equal(await page.locator('.account-member').count(), 2);
         assert.equal(await page.locator('.account-member img').count(), 0);
@@ -182,6 +210,8 @@ async function waitText(page, selector, text) {
             await page.waitForFunction(() => adminCheckPromise === null && adminCheckTimer === null);
             assert(await page.locator('#adminPanel').isHidden());
             assert.equal(await page.locator('#accountList').textContent(), '');
+            assert(await page.locator('[data-import-fields]').evaluate(fieldset => fieldset.disabled), 'Late auth responses cannot re-enable import after logout');
+            assert.equal(await page.locator('[data-import-id]').count(), 0);
         }
         await page.evaluate(() => { accountMock.listError = false; accountMock.signedIn = true; accountMock.emit('SIGNED_IN'); });
         await page.waitForSelector('#accountWorkspace.active .account-member');
@@ -231,6 +261,65 @@ async function waitText(page, selector, text) {
         assert.deepEqual(await page.evaluate(() => ({ hidden: accountMock.scores[0].hide_student_name, published: accountMock.scores[0].published })), { hidden: true, published: false });
         assert.equal(await page.locator('#scoreAdminRows .exam-record-name').first().textContent(), 'Nguyễn Minh Anh');
         assert.equal(await page.locator('#scoreAdminRows .exam-record-privacy').first().textContent(), 'Ẩn tên và ảnh');
+
+        // Exercise the importer mounted by the real admin.html, without saving the draft.
+        await page.fill('#scoreStudentName', 'Điểm đang nhập riêng');
+        await page.fill('#scoreValue', '6,75');
+        const beforeImport = await page.evaluate(() => ({ scores: structuredClone(accountMock.scores), writes: accountMock.calls.filter(call => call[0] === 'score-write').length }));
+        await page.locator('[data-import-files]').setInputFiles({ name: 'integration.csv', mimeType: 'text/csv', buffer: Buffer.from('Họ tên;Lớp;Điểm;Kỳ thi\nNguyễn Bản Nhập;12A1;8,25;gk1\nTrần Bản Nhập;12A2;9;ck1') });
+        await page.waitForFunction(() => document.querySelector('#scoreImportAdmin').getAttribute('aria-busy') === 'false');
+        assert.equal(await page.locator('[data-import-id]').count(), 2);
+        assert.deepEqual(await page.locator('[data-import-field="student_name"]').evaluateAll(inputs => inputs.map(input => input.value)), ['Nguyễn Bản Nhập', 'Trần Bản Nhập']);
+        assert.equal(await page.inputValue('#scoreStudentName'), 'Điểm đang nhập riêng');
+        assert.equal(await page.inputValue('#scoreValue'), '6,75');
+        await page.locator('[data-import-field="score"]').first().fill('8,75');
+        await page.click('[data-workspace-tab="pdf"]');
+        await page.click('[data-workspace-tab="scores"]');
+        assert.equal(await page.locator('[data-import-id]').count(), 2, 'Changing workspaces retains the import draft');
+        assert.equal(await page.locator('[data-import-field="score"]').first().inputValue(), '8,75');
+        assert.equal(await page.inputValue('#scoreStudentName'), 'Điểm đang nhập riêng');
+        assert.deepEqual(await page.evaluate(() => ({ scores: accountMock.scores, writes: accountMock.calls.filter(call => call[0] === 'score-write').length })), beforeImport, 'Reading/editing CSV must never write existing or new scores');
+        for (const width of [1440, 900, 390]) {
+            await page.setViewportSize({ width, height: 900 });
+            await waitForScroll(page);
+            assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Integrated import does not overflow at ${width}`);
+            if (width !== 900) {
+                const heading = page.locator('#scoresWorkspace > .exam-admin-heading');
+                await heading.evaluate(element => {
+                    const navigationBottom = Math.max(document.querySelector('.admin-nav').getBoundingClientRect().bottom, document.querySelector('.workspace-tabs').getBoundingClientRect().bottom);
+                    window.scrollTo({ top: element.getBoundingClientRect().top + scrollY - navigationBottom - 16, behavior: 'instant' });
+                });
+                await waitForScroll(page);
+                const headingFits = await heading.evaluate(element => { const rect = element.getBoundingClientRect(); return rect.left >= 0 && rect.right <= innerWidth + 1 && element.scrollWidth <= element.clientWidth + 1; });
+                assert(headingFits, `Score heading and shortcut fit at ${width}`);
+                await page.screenshot({ path: path.join(root, `../../admin-import-heading-${width}.png`) });
+                await page.click('[data-score-import-jump]');
+                await page.waitForFunction(() => document.activeElement === document.querySelector('[data-import-drop]'));
+                await waitForScroll(page);
+                await page.waitForFunction(() => {
+                    const heading = document.querySelector('#scoreImportAdmin .score-import-heading').getBoundingClientRect();
+                    const mount = document.getElementById('scoreImportAdmin');
+                    const targetTop = parseFloat(getComputedStyle(mount).scrollMarginTop);
+                    const navigationBottom = Math.max(document.querySelector('.admin-nav').getBoundingClientRect().bottom, document.querySelector('.workspace-tabs').getBoundingClientRect().bottom);
+                    return Math.abs(mount.getBoundingClientRect().top - targetTop) <= 3 && heading.top >= navigationBottom + 4 && heading.bottom < innerHeight;
+                });
+                assert.equal(await page.locator('[data-import-id]').count(), 2, 'Shortcut scroll does not reset imported rows');
+                await page.screenshot({ path: path.join(root, `../../admin-import-shortcut-${width}.png`) });
+            }
+        }
+        await page.evaluate(() => { accountMock.signedIn = false; accountMock.emit('SIGNED_OUT'); });
+        assert.equal(await page.locator('[data-import-id]').count(), 0);
+        assert.equal(await page.locator('[data-import-sources]').textContent(), '');
+        assert.equal(await page.locator('[data-import-files]').inputValue(), '');
+        assert(await page.locator('[data-import-fields]').evaluate(fieldset => fieldset.disabled));
+        await page.evaluate(() => { delete accountMock.resumeUser; accountMock.holdGetUser = true; accountMock.signedIn = true; accountMock.emit('SIGNED_IN'); });
+        await page.waitForFunction(() => typeof accountMock.resumeUser === 'function');
+        await page.evaluate(() => { accountMock.signedIn = false; accountMock.emit('SIGNED_OUT'); accountMock.holdGetUser = false; accountMock.resumeUser(); delete accountMock.resumeUser; });
+        await page.waitForFunction(() => adminCheckPromise === null && adminCheckTimer === null);
+        assert.equal(await page.locator('[data-import-id]').count(), 0);
+        assert(await page.locator('[data-import-fields]').evaluate(fieldset => fieldset.disabled));
+        await page.evaluate(() => { accountMock.signedIn = true; accountMock.emit('SIGNED_IN'); });
+        await page.waitForSelector('#adminPanel:not(.hidden)');
         await page.evaluate(() => { accountMock.throwGetUser = true; accountMock.emit('USER_UPDATED'); });
         await page.waitForSelector('#adminPanel.hidden', { state: 'attached' });
         await waitText(page, '#loginStatus', 'Chưa kết nối');
@@ -257,6 +346,6 @@ async function waitText(page, selector, text) {
         await waitText(page, '#recoveryStatus', 'không hợp lệ');
         assert(await page.locator('#recoveryForm').isHidden());
         assert.deepEqual(errors, []);
-        console.log('PASS: isolated account UI, auth lock, recovery, password verification, role revocation, escaping, mobile layout');
+        console.log('PASS: account/auth/recovery/privacy/STT plus real admin importer integration, verified-admin gate, CSV draft with no writes, workspace retention, logout/stale-auth clearing, responsive layout');
     } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

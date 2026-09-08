@@ -60,6 +60,18 @@ Thay đổi chỉ áp dụng sau khi bấm **Lưu cài đặt thống kê**. T�
 
 Các cài đặt này chỉ điều khiển thống kê; thẻ học sinh vẫn được quản lý riêng bằng `published`. Nếu không tải được cài đặt, phần nhập/sửa điểm admin vẫn hoạt động.
 
+## Nhập điểm hàng loạt từ tệp
+
+Trong **Điểm thi → Nhập điểm từ tệp**, kéo thả hoặc chọn nhiều tệp **Word `.docx`, Excel `.xlsx`, CSV/TXT, ảnh JPG/PNG/WebP**. Điền năm học, khối, kỳ thi và lớp mặc định trước khi chọn tệp; các giá trị này chỉ bổ sung trường còn thiếu. Tệp `.doc`/`.xls` cũ cần lưu lại thành `.docx`/`.xlsx` trước.
+
+Word được đọc từ bảng hoặc đoạn văn; Excel đọc tất cả sheet, dùng kết quả công thức đã lưu trong tệp (không tự tính lại công thức). Công cụ nhận các tiêu đề tiếng Việt như Họ tên, Lớp, Điểm, Kỳ thi. Bảng có GK1, CK1, GK2, CK2 ở các cột riêng được tách thành một bản ghi cho mỗi bài thi. Ảnh được nhận diện chữ tiếng Việt và tiếng Anh ngay trong trình duyệt; ảnh mờ, chữ viết tay hoặc bố cục phức tạp có thể cần sửa nhiều trường.
+
+Sau khi đọc, bảng kiểm tra hiện tên, lớp, điểm, kỳ thi, khối, năm học, nguồn và nội dung gốc; phân trang 10 dòng. Sửa trực tiếp các ô, bỏ chọn hoặc xóa dòng không cần, rồi bấm **Lưu các dòng đã chọn**. Dòng được chọn thiếu tên/lớp hoặc có điểm, kỳ thi, năm học không hợp lệ sẽ ngăn lưu cho tới khi sửa hoặc bỏ chọn. Lưu nháp là mặc định; có thể chọn công bố và ẩn tên trước khi lưu. Không công bố tự động chỉ vì đã thả tệp.
+
+Giới hạn 20 tệp/lượt, ảnh 10 MB, tài liệu 25 MB/tệp và 3.000 dòng trong bản nhập. Tệp gốc được đọc cục bộ; ảnh nguồn chỉ dùng đối chiếu, không tự gắn lên thẻ học sinh vì có thể chứa điểm của cả lớp. Muốn đăng ảnh minh chứng riêng, mở sửa điểm sau khi lưu. Đăng xuất xóa bản nhập và ảnh tạm khỏi giao diện.
+
+Lưu dùng quyền admin hiện có, chia mỗi lô tối đa 50 dòng và giữ UUID cố định để đối soát khi mất phản hồi. Nếu lỗi mạng, giữ nguyên bản nhập và bấm **Lưu** lại; những dòng đã được máy chủ xác nhận sẽ được bỏ khỏi bản nhập. Các dòng đang chờ xác nhận giữ nguyên nội dung đã gửi; sau khi xác nhận, sửa tại danh sách điểm. Không tải lại trang hoặc nhập lại cùng tệp trong lúc thử lại vì bản nhập chỉ được giữ trong bộ nhớ của tab.
+
 ## Học sinh gửi điểm và duyệt
 
 Học sinh có thể gửi tên, lớp, khối, kỳ thi, năm học, điểm và ảnh tùy chọn từ trang chủ mà không cần đăng nhập. Yêu cầu luôn bắt đầu ở trạng thái `pending`; người gửi không có quyền đọc danh sách yêu cầu, tự sửa, duyệt hoặc xóa. Ảnh chờ duyệt nằm trong bucket riêng tư `exam-score-submissions`, chỉ admin xem.
@@ -82,6 +94,7 @@ Chạy kiểm thử tính toán với Node.js:
 
 ```sh
 node --test tests/exam-scores.test.cjs
+node --test tests/exam-score-import-parser.test.cjs
 ```
 
 Kiểm thử quyền truy cập dùng PostgreSQL cô lập:
@@ -99,10 +112,13 @@ node tests/exam-scores.browser.cjs
 node tests/exam-score-images.browser.cjs
 node tests/score-submissions.browser.cjs
 node tests/exam-score-settings-admin.browser.cjs
+node tests/exam-score-import.browser.cjs
 ```
 
 Các bộ kiểm thử dùng `playwright` và `@electric-sql/pglite@0.5.8` từ môi trường phát triển, không phải phụ thuộc của website. Có thể đặt `PGLITE_MODULE` / `PLAYWRIGHT_MODULE` thành đường dẫn module tuyệt đối. Kiểm thử trình duyệt thông thường mặc định dùng Edge và server `http://127.0.0.1:4174`; thay bằng `TEST_BROWSER_CHANNEL` / `TEST_BASE_URL` khi cần. Bộ account và bộ settings phục vụ/giả lập nội dung trực tiếp, không cần server riêng. `TEST_VENDOR_DIR` hỗ trợ bản SDK Supabase 2.116.0 và Chart.js 4.5.1 nguyên bản đã tải sẵn khi máy chặn CDN. Ảnh kiểm thử lưu tại thư mục tạm hoặc `TEST_OUTPUT_DIR`.
 
 Kiểm thử bao gồm tên bắt buộc, STT/phân trang, hai chế độ ẩn độc lập, chữ mẫu làm mờ, CRUD và kéo thả ảnh, lỗi upload/tải ảnh, dọn ảnh sau khi ghi thành công, duyệt/xóa yêu cầu, XSS và giao diện di động. Bộ account kiểm tra cả phản hồi `getUser`/RPC muộn sau đăng xuất. Bộ settings kiểm tra lưu rõ ràng, giữ lựa chọn khi tắt tổng, lỗi đọc/ghi không khóa ô nhập điểm và bỏ kết quả tải cũ sau khi xóa phiên.
+
+Bộ nhập tệp kiểm tra DOCX/XLSX được tạo thật, nhiều kỳ thi, số thập phân, sửa lỗi và chọn dòng, lô 50 dòng, đối soát khi mất phản hồi, lỗi từng tệp, ảnh OCR giả lập và giao diện di động. Bộ này cần module `docx` (hoặc `DOCX_MODULE`) và các bản Mammoth 1.8.0, ExcelJS 4.4.0 trong `TEST_VENDOR_DIR` để kiểm tra các thư viện đọc tệp thật.
 
 Kiểm thử trình duyệt chặn mọi request Supabase và dùng dữ liệu giả lập, không ghi production. Không gửi email, đổi mật khẩu hoặc thu hồi tài khoản thật để kiểm thử. Kiểm thử RLS chạy PostgreSQL trong bộ nhớ; không thay cho xác minh hàm phân quyền, cấu hình Auth hoặc Security Advisor của dự án production.
