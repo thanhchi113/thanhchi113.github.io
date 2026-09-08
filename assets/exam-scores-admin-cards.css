@@ -1,0 +1,42 @@
+#scoresWorkspace .exam-admin-preview{margin-top:26px}
+#scoresWorkspace .exam-entry-number{display:flex;align-items:center;gap:12px;margin:0 0 4px;color:#a9bbd1;font-size:12px}#scoresWorkspace .exam-entry-number output{display:inline-grid;place-items:center;min-width:34px;height:30px;border:1px solid rgba(131,199,238,.25);border-radius:8px;background:rgba(66,128,177,.1);color:#b1e2ff;font-weight:700;font-variant-numeric:tabular-nums}
+#scoresWorkspace .exam-privacy-options{display:grid;gap:8px;padding:14px;border:1px solid rgba(151,176,216,.18);border-radius:12px;background:rgba(11,22,40,.45)}#scoresWorkspace .exam-privacy-options .check-row{display:flex;align-items:flex-start;margin:0;text-transform:none;letter-spacing:0;font-size:12px;line-height:1.5}#scoresWorkspace .exam-privacy-options .exam-form-note{margin:0 0 7px 24px;font-size:11px;line-height:1.6}
+#scoresWorkspace .exam-record-number{color:#a9bbd1;font-size:12px;font-variant-numeric:tabular-nums}#scoresWorkspace .exam-record-privacy{display:block;margin-top:5px;font-size:10px;color:#bbaae0}#scoresWorkspace .exam-preview-number{margin:0 0 8px;font-size:10px;color:#839bb8;font-variant-numeric:tabular-nums}#scoresWorkspace #scorePreviewPrivacyNote{margin:12px 0 0;font-size:11px;line-height:1.65;color:#a9bbd1}
+#scoresWorkspace .exam-admin-preview h3{margin:0 0 12px;font-size:13px;font-weight:500;color:#a9bbd1}
+#scoresWorkspace .exam-admin-student-card{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);border:1px solid rgba(154,190,242,.28);border-radius:16px;background:radial-gradient(ellipse at top right,rgba(119,78,196,.2),transparent 70%),rgba(8,17,33,.9);box-shadow:0 12px 32px rgba(0,0,0,.14);overflow:hidden;overflow-wrap:anywhere;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+#scoresWorkspace .exam-admin-student-info{padding:16px 12px;min-width:0}
+#scoresWorkspace .exam-admin-student-media{display:flex;align-items:center;justify-content:center;min-width:0;background:rgba(42,52,83,.25);border-left:1px solid rgba(155,184,220,.17)}
+#scoresWorkspace .exam-admin-student-media img{display:block;width:100%;height:100%;max-height:360px;object-fit:contain}
+#scoresWorkspace .exam-admin-student-media [hidden],#scoresWorkspace #scoreRemoveImage[hidden]{display:none!important}
+#scoresWorkspace .exam-admin-paper{padding:12px 6px;color:#83c7ee;text-align:center}
+#scoresWorkspace .exam-admin-paper svg{display:block;width:100%;max-width:140px;height:auto;margin:auto}
+#scoresWorkspace .exam-admin-paper span{display:block;color:#acbbd2;font-size:10px;line-height:1.5}
+#scoresWorkspace .exam-paper-outline{stroke-dasharray:490;animation:exam-admin-paper-outline 7s ease-in-out infinite}
+#scoresWorkspace .exam-paper-lines{stroke-dasharray:65;animation:exam-admin-paper-lines 7s ease-in-out infinite}
+#scoresWorkspace .exam-paper-check{stroke-dasharray:50;animation:exam-admin-paper-check 7s ease-in-out infinite}
+#scoresWorkspace .exam-score-drop{padding:18px 12px;min-height:110px}
+#scoresWorkspace .exam-score-drop-prompt{display:grid;gap:7px;pointer-events:none;text-align:center;color:#b8c8df}
+#scoresWorkspace .exam-score-drop-prompt i{font-size:22px;color:#8bcff3}
+#scoresWorkspace .exam-score-drop-prompt strong{font-size:12px}
+#scoresWorkspace .exam-score-drop-prompt span{font-size:11px}
+#scoresWorkspace .exam-score-drop.drag-over{border-color:#83c7ee;background:rgba(100,177,235,.12)}
+#scoresWorkspace #scoreImageName{overflow-wrap:anywhere;margin:7px 0}
+#scoresWorkspace #scoreImageStatus:empty{display:none}
+#scoresWorkspace .exam-admin-student-card:hover{transform:translateY(-4px);border-color:rgba(151,198,255,.55);box-shadow:0 16px 38px rgba(70,79,160,.2)}
+#scoresWorkspace .exam-admin-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+#scoresWorkspace .exam-admin-period{display:inline-flex;align-items:center;padding:5px 10px;border:1px solid rgba(166,156,242,.3);border-radius:999px;background:rgba(127,102,220,.15);color:#d4c9ff;font-size:11px;font-weight:600}
+#scoresWorkspace .exam-admin-visibility{font-size:11px;color:#7fe0bc}
+#scoresWorkspace .exam-admin-student-card[data-published="false"] .exam-admin-visibility{color:#c0cadc}
+#scoresWorkspace .exam-admin-student-card h4{margin:0 0 8px;font-size:18px;line-height:1.4;letter-spacing:0;color:#f0f6ff}
+#scoresWorkspace .exam-admin-student-card h4.is-name-hidden{filter:blur(4px);user-select:none}
+#scoresWorkspace .exam-admin-class{margin:0;font-size:12px;line-height:1.6;color:#aebdd0}
+#scoresWorkspace .exam-admin-result{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid rgba(155,184,220,.17)}
+#scoresWorkspace .exam-admin-result>span{font-size:12px;color:#c1cce0}
+#scoresWorkspace .exam-admin-result strong{font-size:32px;line-height:1.2;color:#88ddff;font-variant-numeric:tabular-nums}
+#scoresWorkspace .exam-admin-result small{font-size:12px;font-weight:500;color:#a4b7d0}
+#scoresWorkspace .exam-admin-year{margin:16px 0 0;font-size:11px;color:#98aac4}
+#scoresWorkspace .exam-record-name{display:block;margin-bottom:4px;color:#f0f5fc;font-weight:600}
+@keyframes exam-admin-paper-outline{0%,8%{stroke-dashoffset:490}35%,88%{stroke-dashoffset:0}100%{stroke-dashoffset:490}}
+@keyframes exam-admin-paper-lines{0%,32%{stroke-dashoffset:65;opacity:0}58%,88%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:65;opacity:0}}
+@keyframes exam-admin-paper-check{0%,58%{stroke-dashoffset:50;opacity:0}75%,88%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:50;opacity:0}}
+@media(prefers-reduced-motion:reduce){#scoresWorkspace .exam-admin-student-card{transition:none}#scoresWorkspace .exam-admin-student-card:hover{transform:none}#scoresWorkspace .exam-admin-paper svg path{animation:none}}

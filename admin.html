@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quản trị tài liệu | Huỳnh Thanh Chí</title>
 <link rel="stylesheet" href="style.css?v=20260907-admin">
-<link rel="stylesheet" href="assets/exam-scores.css?v=20260907-scores">
+<link rel="stylesheet" href="assets/exam-scores.css?v=20260908-privacy">
+<link rel="stylesheet" href="assets/exam-scores-admin-cards.css?v=20260908-privacy">
+<link rel="stylesheet" href="assets/admin-account.css?v=20260908-account">
+<link rel="stylesheet" href="assets/score-submissions.css?v=20260908-submissions">
+<link rel="stylesheet" href="assets/exam-score-settings-admin.css?v=20260908-statistics">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 <style>
 :root{--admin-bg:rgba(8,15,28,.78);--admin-border:rgba(148,163,184,.14);--admin-muted:#8292a9;--admin-text:#eaf3ff;--admin-accent:#7dd3fc}
@@ -40,7 +44,7 @@
 <header class="admin-nav"><div class="container"><a class="logo" href="index.html">Thanh<span>Chí</span></a><nav class="admin-taskbar" aria-label="Điều hướng quản trị"><button class="admin-taskbar-btn" type="button" data-admin-nav="pdf"><i class="fa-solid fa-file-pdf"></i> Tài liệu</button><button class="admin-taskbar-btn" type="button" data-admin-nav="requests"><i class="fa-solid fa-inbox"></i> Yêu cầu</button><button class="admin-taskbar-btn" type="button" data-admin-nav="evidence"><i class="fa-solid fa-award"></i> Minh chứng</button><button class="admin-taskbar-btn" type="button" data-admin-nav="tikz"><i class="fa-solid fa-draw-polygon"></i> TikZ</button></nav><a class="back" href="index.html"><i class="fa-solid fa-arrow-left"></i> Về website</a></div></header>
 <main class="admin-page"><div class="container">
 
-<section id="loginPanel" class="admin-login"><div class="admin-card"><div class="admin-title"><div><h1>Đăng nhập</h1><p>Khu vực quản trị thư viện tài liệu</p></div><i class="fa-solid fa-shield-halved" style="font-size:30px;color:#7dd3fc"></i></div><form id="loginForm" class="admin-form"><div><label>Email</label><input id="loginEmail" type="email" required autocomplete="email"></div><div><label>Mật khẩu</label><input id="loginPassword" type="password" required autocomplete="current-password"></div><button class="admin-btn" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</button><div id="loginStatus" class="admin-status"></div></form></div></section>
+<section id="loginPanel" class="admin-login"><div class="admin-card"><div class="admin-title"><div><h1>Đăng nhập</h1><p>Khu vực quản trị thư viện tài liệu</p></div><i class="fa-solid fa-shield-halved" style="font-size:30px;color:#7dd3fc"></i></div><form id="loginForm" class="admin-form"><div><label for="loginEmail">Email</label><input id="loginEmail" type="email" required autocomplete="email"></div><div><label for="loginPassword">Mật khẩu</label><input id="loginPassword" type="password" required autocomplete="current-password"></div><button class="admin-btn" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</button><div id="loginStatus" class="admin-status"></div></form><div id="accountRecoveryRequest"></div></div></section>
 
 <section id="adminPanel" class="hidden">
 <div class="admin-authbar"><div class="admin-user"><i class="fa-solid fa-user-shield"></i> <span id="userEmail">Đã đăng nhập</span></div><button class="admin-btn ghost" id="logoutBtn" type="button"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button></div>
@@ -59,6 +63,7 @@
 <button class="workspace-tab" type="button" role="tab" aria-selected="false" data-workspace-tab="requests"><i class="fa-solid fa-inbox"></i> Yêu cầu & PDF đóng góp</button>
 <button class="workspace-tab" type="button" role="tab" aria-selected="false" data-workspace-tab="evidence"><i class="fa-solid fa-award"></i> Minh chứng</button>
 <button class="workspace-tab" type="button" role="tab" aria-selected="false" data-workspace-tab="scores"><i class="fa-solid fa-chart-column" aria-hidden="true"></i> Điểm thi</button>
+<button class="workspace-tab" type="button" role="tab" aria-selected="false" data-workspace-tab="account"><i class="fa-solid fa-user-shield" aria-hidden="true"></i> Tài khoản</button>
 <button class="workspace-tab" type="button" role="tab" aria-selected="false" data-workspace-tab="tikz"><i class="fa-solid fa-draw-polygon"></i> Nhập hình vẽ</button><button class="workspace-tab" type="button" role="tab" aria-selected="false" data-workspace-tab="contributions"><i class="fa-solid fa-code-pull-request"></i> Đóng góp TikZ</button>
 </div>
 <div id="pdfWorkspace" class="workspace-panel active">
@@ -162,6 +167,8 @@
         <h2 id="scoreFormTitle">Nhập điểm thi</h2>
         <form id="scoreForm" class="admin-form">
             <fieldset id="scoreFormFields" class="admin-form">
+                <div class="exam-entry-number"><span>Số thứ tự</span><output id="scoreEntryNumber" aria-live="polite">1</output></div>
+                <div><label for="scoreStudentName">Họ và tên học sinh <span aria-hidden="true">*</span></label><input id="scoreStudentName" type="text" required maxlength="160" autocomplete="off" placeholder="Nguyễn Minh Anh"></div>
                 <div class="field-grid">
                     <div><label for="scorePeriod">Kỳ thi</label><select id="scorePeriod" required><option value="gk1">Giữa kỳ 1</option><option value="ck1">Cuối kỳ 1</option><option value="gk2">Giữa kỳ 2</option><option value="ck2">Cuối kỳ 2</option></select></div>
                     <div><label for="scoreValue">Điểm Toán (0–10)</label><input id="scoreValue" type="text" inputmode="decimal" autocomplete="off" required maxlength="5" placeholder="8,5"></div>
@@ -169,21 +176,45 @@
                     <div><label for="scoreYear">Năm học</label><input id="scoreYear" required maxlength="9" pattern="20[0-9]{2}-20[0-9]{2}" placeholder="2026-2027"></div>
                 </div>
                 <div><label for="scoreClass">Lớp / khóa học</label><input id="scoreClass" required maxlength="80" list="scoreClassSuggestions" placeholder="12A1"><datalist id="scoreClassSuggestions"></datalist></div>
-                <label class="check-row"><input id="scorePublished" type="checkbox" checked> Công bố điểm trong thống kê</label>
+                <div><label for="scoreImageInput">Ảnh xác nhận điểm (không bắt buộc)</label><div id="scoreImageDropZone" class="admin-drop exam-score-drop"><input id="scoreImageInput" class="drop-input" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="scoreImageHelp"><div class="exam-score-drop-prompt"><i class="fa-regular fa-image" aria-hidden="true"></i><strong>Kéo thả hoặc chọn ảnh</strong><span id="scoreImageHelp">PNG, JPG, WebP · tối đa 10 MB</span></div></div><p id="scoreImageName" class="exam-form-note"></p><button id="scoreRemoveImage" class="admin-btn ghost" type="button" hidden><i class="fa-solid fa-xmark" aria-hidden="true"></i> Bỏ ảnh</button><p id="scoreImageStatus" class="admin-status" role="status" aria-live="polite"></p></div>
+                <div class="exam-privacy-options"><label class="check-row"><input id="scoreHideName" type="checkbox" aria-describedby="scoreHideNameHelp"> Ẩn tên và ảnh xác nhận</label><p id="scoreHideNameHelp" class="exam-form-note">Điểm vẫn được thống kê công khai.</p><label class="check-row"><input id="scorePublished" type="checkbox" checked aria-describedby="scorePublishedHelp"> Hiển thị điểm công khai</label><p id="scorePublishedHelp" class="exam-form-note">Tắt để ẩn toàn bộ thẻ và điểm khỏi trang thành tích; chỉ admin xem được.</p></div>
                 <div class="admin-actions"><button id="scoreSaveBtn" class="admin-btn success" type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> <span id="scoreSaveLabel">Lưu điểm</span></button><button id="scoreResetBtn" class="admin-btn ghost" type="button"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Hủy / nhập mới</button></div>
             </fieldset>
             <div id="scoreFormStatus" class="admin-status" role="status" aria-live="polite"></div>
         </form>
+        <div class="exam-admin-preview">
+            <h3>Xem trước thẻ học sinh</h3>
+            <article id="scorePreviewCard" class="exam-admin-student-card">
+                <div class="exam-admin-student-info">
+                <div class="exam-admin-card-top"><span id="scorePreviewPeriod" class="exam-admin-period">Giữa kỳ 1</span><span id="scorePreviewVisibility" class="exam-admin-visibility">Sẽ công bố</span></div>
+                <p id="scorePreviewNumber" class="exam-preview-number">STT 1</p>
+                <h4 id="scorePreviewName">Tên học sinh</h4>
+                <p id="scorePreviewClass" class="exam-admin-class">Lớp / khóa học · Khối 10</p>
+                <div class="exam-admin-result"><span>Điểm Toán</span><strong><span id="scorePreviewValue">—</span><small> / 10</small></strong></div>
+                <p class="exam-admin-year">Năm học <span id="scorePreviewYear"></span></p>
+                </div>
+                <div class="exam-admin-student-media">
+                    <img id="scorePreviewImage" alt="Ảnh xác nhận điểm của học sinh" hidden>
+                    <div id="scorePreviewFallback" class="exam-admin-paper" aria-label="Hình minh họa bài thi">
+                        <svg viewBox="0 0 140 180" fill="none" aria-hidden="true"><path class="exam-paper-outline" d="M29 18H89L114 43V160H29Z" stroke="currentColor" stroke-width="2"/><path d="M89 18V43H114" stroke="currentColor" stroke-width="2"/><path class="exam-paper-lines" d="M43 60H82M43 77H98M43 94H91M43 111H83" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path class="exam-paper-check" d="M66 133L76 143L98 121" stroke="#7fe0bc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span>Thành tích học tập</span>
+                    </div>
+                </div>
+            </article>
+            <p id="scorePreviewPrivacyNote" class="exam-form-note" role="status" aria-live="polite"></p>
+        </div>
     </div>
     <div class="exam-admin-list">
         <div class="exam-admin-heading"><h2>Điểm thi đã nhập</h2><button id="scoreAdminRefresh" class="admin-btn ghost icon-btn" type="button" title="Làm mới danh sách điểm" aria-label="Làm mới danh sách điểm"><i class="fa-solid fa-rotate" aria-hidden="true"></i></button></div>
-        <div class="exam-admin-filters"><input id="scoreAdminSearch" class="admin-search" type="search" placeholder="Tìm lớp, năm học..." aria-label="Tìm điểm theo lớp, năm học"><select id="scoreAdminPeriod" class="admin-filter" aria-label="Lọc kỳ thi"><option value="all">Tất cả kỳ thi</option><option value="gk1">Giữa kỳ 1</option><option value="ck1">Cuối kỳ 1</option><option value="gk2">Giữa kỳ 2</option><option value="ck2">Cuối kỳ 2</option></select><select id="scoreAdminVisibility" class="admin-filter" aria-label="Lọc công bố"><option value="all">Tất cả</option><option value="published">Đã công bố</option><option value="hidden">Đang ẩn</option></select></div>
+        <div class="exam-admin-filters"><input id="scoreAdminSearch" class="admin-search" type="search" placeholder="Tìm học sinh, lớp, năm học..." aria-label="Tìm điểm theo tên học sinh, lớp, năm học"><select id="scoreAdminPeriod" class="admin-filter" aria-label="Lọc kỳ thi"><option value="all">Tất cả kỳ thi</option><option value="gk1">Giữa kỳ 1</option><option value="ck1">Cuối kỳ 1</option><option value="gk2">Giữa kỳ 2</option><option value="ck2">Cuối kỳ 2</option></select><select id="scoreAdminVisibility" class="admin-filter" aria-label="Lọc công bố"><option value="all">Tất cả</option><option value="published">Đã công bố</option><option value="hidden">Đang ẩn</option></select></div>
         <div id="scoreAdminStatus" class="admin-status" role="status" aria-live="polite"></div>
         <div id="scoreSetupHelp" class="hidden"><a id="scoreMigrationLink" class="exam-setup-link" href="supabase/migrations/20260907144035_exam_scores.sql" target="_blank" rel="noopener">File SQL thiết lập điểm thi</a></div>
-        <div class="exam-table-wrap"><table class="exam-table"><caption class="hidden">Danh sách điểm thi đã nhập</caption><thead><tr><th scope="col">Điểm</th><th scope="col">Lớp / năm học</th><th scope="col">Kỳ thi</th><th scope="col">Trạng thái</th><th scope="col">Thao tác</th></tr></thead><tbody id="scoreAdminRows"></tbody></table></div>
+        <div class="exam-table-wrap"><table class="exam-table"><caption class="hidden">Danh sách điểm thi đã nhập</caption><thead><tr><th scope="col">STT</th><th scope="col">Điểm</th><th scope="col">Học sinh / lớp</th><th scope="col">Kỳ thi</th><th scope="col">Trạng thái</th><th scope="col">Thao tác</th></tr></thead><tbody id="scoreAdminRows"></tbody></table></div>
         <nav id="scoreAdminPagination" class="admin-pagination" aria-label="Phân trang điểm thi"></nav>
     </div>
 </div>
+<div id="scoreSubmissionAdmin"></div>
+<div id="scoreStatisticsSettings"></div>
 </div>
 <div id="evidenceWorkspace" class="workspace-panel">
 <section class="admin-card">
@@ -203,18 +234,25 @@
 <div class="admin-section-title">Minh chứng đã lưu</div><div id="evidenceAdminList" class="evidence-list"></div><div id="evidenceAdminPagination" class="admin-pagination"></div>
 </section>
 </div>
+<div id="accountWorkspace" class="workspace-panel"></div>
 </section>
 </div></main>
 
 <div id="previewModal" class="modal" aria-hidden="true"><div class="modal-card"><div class="modal-head"><div><div class="muted">PDF PREVIEW</div><h2 id="previewTitle">Tài liệu</h2></div><button id="previewClose" class="modal-close" type="button" aria-label="Đóng"><i class="fa-solid fa-xmark"></i></button></div><iframe id="previewFrame" class="preview-frame" src="about:blank" title="Xem trước PDF"></iframe></div></div>
 <div id="toast" class="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="assets/exam-scores.js?v=20260907-scores"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
+<script src="assets/exam-scores.js?v=20260908-privacy"></script>
+<script src="assets/admin-account.js?v=20260908-account"></script>
+<script src="assets/score-submissions-admin.js?v=20260908-submissions"></script>
+<script src="assets/exam-score-settings-admin.js?v=20260908-statistics"></script>
 <script>
 const SUPABASE_URL="https://uiyqdqucqplifcvukwul.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_eVPODZoNRLiGD8Ldl2VjAg_eC_KTKDg";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+window.AdminAccount?.init(supabaseClient);
+window.scoreSubmissionAdmin=window.ScoreSubmissionsAdmin?.init(supabaseClient);
+window.examScoreSettingsAdmin=window.ExamScoreSettingsAdmin?.init(supabaseClient);
 let pdfJsPromise=null;
 function ensurePdfJs(){
   if(window.pdfjsLib){window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';return Promise.resolve(window.pdfjsLib);}
@@ -266,7 +304,33 @@ function slugify(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036
 function setStatus(id,msg,ok=false){const el=$(id);if(el){el.textContent=msg||'';el.style.color=ok?'#86efac':'#8ea0b8';}}
 function toast(msg,type=''){const el=$('toast');el.textContent=msg;el.className=`toast show ${type}`;clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>el.classList.remove('show'),3200);}
 function updateStats(){const total=state.documents.length,pub=state.documents.filter(x=>x.published).length; $('statDocs').textContent=total;$('statPublished').textContent=pub;$('statHidden').textContent=total-pub;$('statCategories').textContent=state.categories.length;$('countText').textContent=`${total} tài liệu · ${pub} đang hiển thị`;const pending=state.materialRequests.filter(x=>x.status==='pending').length+state.documentContributions.filter(x=>x.status==='pending').length;$('statPendingRequests').textContent=pending;$('statEvidence').textContent=state.evidence.filter(x=>x.published).length;}
-async function checkAdmin(){const {data:{user}}=await supabaseClient.auth.getUser();if(!user){$('loginPanel').classList.remove('hidden');$('adminPanel').classList.add('hidden');return false;}const {data:isAdmin,error}=await supabaseClient.rpc('current_user_is_admin');if(error||isAdmin!==true){setStatus('loginStatus',error?.message||'Tài khoản này chưa được cấp quyền quản trị.');await supabaseClient.auth.signOut();return false;}$('loginPanel').classList.add('hidden');$('adminPanel').classList.remove('hidden');$('userEmail').textContent=user.email||'Đã đăng nhập';if($('scoresWorkspace').classList.contains('active'))window.examScoreAdmin?.load();await loadAll();return true;}
+let adminCheckPromise=null,adminCheckTimer=null,verifiedAdminId=null,adminAuthGeneration=0,adminRecheckRequested=false;
+function clearAdminSession(){adminAuthGeneration++;verifiedAdminId=null;$('loginPanel').classList.remove('hidden');$('adminPanel').classList.add('hidden');$('userEmail').textContent='';window.adminAccount?.clear();window.examScoreAdmin?.clear?.();window.scoreSubmissionAdmin?.clear?.();window.examScoreSettingsAdmin?.clear?.();}
+function scheduleAdminCheck(){clearTimeout(adminCheckTimer);adminCheckTimer=setTimeout(()=>{adminCheckTimer=null;if(adminCheckPromise){adminRecheckRequested=true;return;}checkAdmin();},0);}
+function checkAdmin(){
+  if(adminCheckPromise){adminRecheckRequested=true;return adminCheckPromise;}
+  const generation=adminAuthGeneration;
+  adminCheckPromise=(async()=>{
+    try{
+      const {data,error:userError}=await supabaseClient.auth.getUser();
+      if(generation!==adminAuthGeneration)return false;
+      const user=data?.user;
+      if(!user||userError){clearAdminSession();return false;}
+      const {data:isAdmin,error}=await supabaseClient.rpc('current_user_is_admin');
+      if(generation!==adminAuthGeneration)return false;
+      if(error||isAdmin!==true){clearAdminSession();setStatus('loginStatus',error?'Chưa xác minh được quyền quản trị. Hãy thử đăng nhập lại.':'Tài khoản này chưa được cấp quyền quản trị.');if(!error)await supabaseClient.auth.signOut({scope:'local'});return false;}
+      const firstLoad=verifiedAdminId!==user.id;
+      verifiedAdminId=user.id;
+      $('loginPanel').classList.add('hidden');$('adminPanel').classList.remove('hidden');$('userEmail').textContent=user.email||'Đã đăng nhập';
+      if($('scoresWorkspace').classList.contains('active')){window.examScoreAdmin?.load();window.scoreSubmissionAdmin?.load();window.examScoreSettingsAdmin?.load();}
+      if($('accountWorkspace').classList.contains('active'))window.adminAccount?.load();
+      if(firstLoad)await loadAll();
+      return true;
+    }catch(error){if(generation===adminAuthGeneration){clearAdminSession();setStatus('loginStatus','Chưa kết nối được trang quản trị. Hãy thử lại.');}return false;}
+    finally{adminCheckPromise=null;if(adminRecheckRequested){adminRecheckRequested=false;scheduleAdminCheck();}}
+  })();
+  return adminCheckPromise;
+}
 async function loadCategories(){const {data,error}=await supabaseClient.from('math_categories').select('id,name,slug,description,sort_order,parent_id').order('sort_order',{ascending:true}).order('created_at',{ascending:true});if(error){throw error;}state.categories=data||[];populateCategorySelects();renderCategoryManager();}
 function populateCategorySelects(){const select=$('categoryId'),filter=$('docFilterCategory');const current=select.value;select.innerHTML=state.categories.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');if(current)select.value=current;filter.innerHTML='<option value="all">Tất cả danh mục</option>'+state.categories.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');}
 async function loadDocs(){const {data,error}=await supabaseClient.from('math_documents').select('id,title,description,category_id,file_path,file_name,sort_order,published,created_at,updated_at,math_categories(name,slug)').order('sort_order',{ascending:true}).order('created_at',{ascending:false});if(error)throw error;state.documents=data||[];renderDocs();updateStats();if(!state.editingId){const cat=$('categoryId')?.value;if(cat)suggestNextDocumentOrder(cat);}}
@@ -390,13 +454,13 @@ $('logoutBtn').addEventListener('click',async()=>{await supabaseClient.auth.sign
 $('docForm').addEventListener('submit',saveDoc);$('categoryId')?.addEventListener('change',()=>suggestNextDocumentOrder($('categoryId').value));$('resetBtn').addEventListener('click',resetForm);$('tikzForm').addEventListener('submit',saveTikz);$('tikzResetBtn').addEventListener('click',resetTikzForm);$('tikzAdminSearch').addEventListener('input',()=>{state.tikzPage=1;renderTikzAdmin();});$('tikzRefreshBtn').addEventListener('click',loadTikzAdmin);$('contribRefreshBtn')?.addEventListener('click',loadContributions);$('fileInput').addEventListener('change',renderSelectedFiles);$('addCategoryBtn').addEventListener('click',addCategory);$('refreshBtn').addEventListener('click',loadAll);
 $('docSearch').addEventListener('input',()=>{state.docPage=1;renderDocs();});$('docFilterCategory').addEventListener('change',()=>{state.docPage=1;renderDocs();});$('docFilterStatus').addEventListener('change',()=>{state.docPage=1;renderDocs();});
 $('requestRefreshBtn')?.addEventListener('click',loadMaterialRequests);$('pdfContributionRefreshBtn')?.addEventListener('click',loadDocumentContributions);$('materialRequestFilter')?.addEventListener('change',()=>{state.materialRequestPage=1;renderMaterialRequests();});$('pdfContributionFilter')?.addEventListener('change',()=>{state.documentContributionPage=1;renderDocumentContributions();});$('evidenceRefreshBtn')?.addEventListener('click',loadAchievementEvidence);$('evidenceForm')?.addEventListener('submit',saveEvidence);$('evidenceResetBtn')?.addEventListener('click',resetEvidenceForm);$('evidenceImageInput')?.addEventListener('change',previewEvidenceFile);$('extractEvidenceBtn')?.addEventListener('click',extractEvidenceImage);$('tikzImportInput')?.addEventListener('change',event=>queueTikzImportFiles([...event.target.files]));$('tikzImportApproveAll')?.addEventListener('click',approveAllTikzImports);$('tikzImportClear')?.addEventListener('click',clearTikzImports);bindAdminDropZones();renderTikzImportQueue();
-const adminWorkspaceIds={pdf:'pdfWorkspace',requests:'requestsWorkspace',evidence:'evidenceWorkspace',scores:'scoresWorkspace',tikz:'tikzWorkspace',contributions:'contributionsWorkspace'};
-function activateAdminWorkspace(key,scroll){const workspaceId=adminWorkspaceIds[key]||adminWorkspaceIds.pdf;const activeKey=adminWorkspaceIds[key]?key:'pdf';document.querySelectorAll('[data-workspace-tab]').forEach(tab=>{const active=tab.dataset.workspaceTab===activeKey;tab.classList.toggle('active',active);tab.setAttribute('aria-selected',active?'true':'false');});Object.entries(adminWorkspaceIds).forEach(([name,id])=>$(id)?.classList.toggle('active',name===activeKey));if(activeKey==='tikz'&&!state.tikz.length)loadTikzAdmin();if(activeKey==='contributions')loadContributions();if(activeKey==='requests')Promise.all([loadMaterialRequests(),loadDocumentContributions()]);if(activeKey==='evidence')loadAchievementEvidence();if(activeKey==='scores')window.examScoreAdmin?.load();history.replaceState(null,'',`${location.pathname}#admin-${activeKey}`);if(scroll)$(workspaceId)?.scrollIntoView({behavior:'auto',block:'start'});}
+const adminWorkspaceIds={pdf:'pdfWorkspace',requests:'requestsWorkspace',evidence:'evidenceWorkspace',scores:'scoresWorkspace',account:'accountWorkspace',tikz:'tikzWorkspace',contributions:'contributionsWorkspace'};
+function activateAdminWorkspace(key,scroll){const workspaceId=adminWorkspaceIds[key]||adminWorkspaceIds.pdf;const activeKey=adminWorkspaceIds[key]?key:'pdf';document.querySelectorAll('[data-workspace-tab]').forEach(tab=>{const active=tab.dataset.workspaceTab===activeKey;tab.classList.toggle('active',active);tab.setAttribute('aria-selected',active?'true':'false');});Object.entries(adminWorkspaceIds).forEach(([name,id])=>$(id)?.classList.toggle('active',name===activeKey));if(activeKey==='tikz'&&!state.tikz.length)loadTikzAdmin();if(activeKey==='contributions')loadContributions();if(activeKey==='requests')Promise.all([loadMaterialRequests(),loadDocumentContributions()]);if(activeKey==='evidence')loadAchievementEvidence();if(activeKey==='scores'){window.examScoreAdmin?.load();window.scoreSubmissionAdmin?.load();window.examScoreSettingsAdmin?.load();}if(activeKey==='account')window.adminAccount?.load();history.replaceState(null,'',`${location.pathname}#admin-${activeKey}`);if(scroll)$(workspaceId)?.scrollIntoView({behavior:'auto',block:'start'});}
 function switchAdminWorkspace(key){activateAdminWorkspace(key,true);}
 document.querySelectorAll('[data-admin-nav]').forEach(button=>button.addEventListener('click',()=>switchAdminWorkspace(button.dataset.adminNav)));
 document.querySelectorAll('[data-workspace-tab]').forEach(tab=>tab.addEventListener('click',()=>activateAdminWorkspace(tab.dataset.workspaceTab,false)));
-$('previewClose').addEventListener('click',closePreview);$('previewModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closePreview();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePreview();});supabaseClient.auth.onAuthStateChange(()=>checkAdmin());const initialWorkspace=(location.hash.match(/^#admin-([a-z]+)/)||[])[1];if(initialWorkspace&&adminWorkspaceIds[initialWorkspace])activateAdminWorkspace(initialWorkspace,false);checkAdmin();
+$('previewClose').addEventListener('click',closePreview);$('previewModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closePreview();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePreview();});supabaseClient.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')clearAdminSession();else if(event==='SIGNED_IN')adminAuthGeneration++;scheduleAdminCheck();});const initialWorkspace=(location.hash.match(/^#admin-([a-z]+)/)||[])[1];if(initialWorkspace&&adminWorkspaceIds[initialWorkspace])activateAdminWorkspace(initialWorkspace,false);scheduleAdminCheck();
 </script>
-<script src="assets/exam-scores-admin.js?v=20260907-scores"></script>
+<script src="assets/exam-scores-admin.js?v=20260908-privacy"></script>
 </body>
 </html>

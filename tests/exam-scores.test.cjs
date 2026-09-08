@@ -2,7 +2,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const scores = require('../assets/exam-scores.js');
 
-const row = (score, period = 'gk1', extra = {}) => ({ score, period, grade: 12, class_name: '12A1', school_year: '2026-2027', published: true, ...extra });
+const row = (score, period = 'gk1', extra = {}) => ({ score, period, grade: 12, class_name: '12A1', school_year: '2026-2027', student_name:'Học sinh mẫu', published: true, hide_student_name:false, ...extra });
 
 test('accepts zero, ten and comma decimal scores; rejects missing and invalid input', () => {
     for (const [value, expected] of [[0, 0], ['0', 0], ['10', 10], [' 8,75 ', 8.75], ['6.5', 6.5]]) assert.equal(scores.parseScore(value), expected);
@@ -27,6 +27,14 @@ test('all score boundaries are counted once, including 0 and 10', () => {
     assert.equal(result.passRate, 7 / 9 * 100);
 });
 
+test('requires a student name and preserves independent publication and name visibility', () => {
+    assert.equal(scores.validate(row(8, 'gk1', {student_name:'  Nguyễn   Văn An  '})).student_name, 'Nguyễn Văn An');
+    assert.throws(() => scores.validate(row(8, 'gk1', {student_name:'   '})));
+    assert.equal(scores.validate(row(8, 'gk1', {hide_student_name:true})).hide_student_name,true);
+    assert.equal(scores.validate(row(8, 'gk1', {hide_student_name:true,published:false})).published,false);
+    assert.throws(() => scores.validate(row(8, 'gk1', {student_name:'A'.repeat(161)})));
+});
+
 test('averages are weighted per result; missing periods stay null, not zero', () => {
     const result = scores.summarize([row(0), row(10), row(8, 'ck1')]);
     assert.equal(result.average, 6);
@@ -45,19 +53,16 @@ test('filters combine without leaking another class, grade, year or term', () =>
     assert.equal(scores.filter(data, { period: 'all' }).length, 5);
 });
 
-test('loads more than 1000 rows for accurate charts and applies public filter on every page', async () => {
+test('loads more than 1000 public rows exclusively through the redacted API', async () => {
     const source = Array.from({ length: 1205 }, (_, id) => ({ ...row(8), id }));
-    const ranges = [], filters = [];
-    const client = { from(table) {
-        assert.equal(table, 'exam_scores');
-        return {
-            select() { return this; }, order() { return this; }, eq(key, value) { filters.push([key, value]); return this; },
-            async range(start, end) { ranges.push([start, end]); return { data: source.slice(start, end + 1), error: null }; }
-        };
+    const ranges = [];
+    const client = { async rpc(name, {page_offset,page_limit}) {
+        assert.equal(name, 'get_published_exam_scores');
+        ranges.push([page_offset,page_limit]);
+        return {data:source.slice(page_offset,page_offset+page_limit),error:null};
     } };
     assert.equal((await scores.fetchAll(client, true)).length, 1205);
-    assert.deepEqual(ranges, [[0, 499], [500, 999], [1000, 1499]]);
-    assert.deepEqual(filters, Array(3).fill(['published', true]));
+    assert.deepEqual(ranges, [[0,500],[500,500],[1000,500]]);
 });
 
 test('a later API page failing rejects the whole load, never shows partial statistics', async () => {

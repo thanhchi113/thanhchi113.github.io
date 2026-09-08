@@ -2,16 +2,19 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const { installVendorFallback, logScriptFailures } = require('./browser-vendor-support.cjs');
 const base = process.env.TEST_BASE_URL || 'http://127.0.0.1:4174';
 const output = process.env.TEST_OUTPUT_DIR || require('node:os').tmpdir();
 const api = require('../assets/exam-scores.js');
 let database = Array.from({ length: 25 }, (_, index) => ({
     id: `00000000-0000-4000-8000-${String(index).padStart(12, '0')}`,
+    student_name: `Học sinh ${index + 1}`, hide_student_name: index === 23,
     period: api.periods[index % 4].key, score: [0, 4.5, 5, 6.5, 8, 9, 10][index % 7],
     grade: index < 20 ? 12 : 11, class_name: index < 20 ? '12A1' : '11A1',
     school_year: '2026-2027', published: index !== 24, created_at: new Date(2026, 8, 7, 12, 0, 25 - index).toISOString()
 }));
-let writes = 0, scoreError = null, chartError = false, denyWrite = false;
+let writes = 0, scoreError = null, chartError = false, denyWrite = false, publicRpcCalls = 0;
+let scoreSettings = { id: 1, statistics_enabled: true, summary_enabled: true, bar_enabled: true, pie_enabled: true, line_enabled: true, enabled_periods: ['gk1', 'ck1', 'gk2', 'ck2'] };
 
 async function mockApi(context) {
     await context.route('https://uiyqdqucqplifcvukwul.supabase.co/**', async route => {
@@ -21,6 +24,17 @@ async function mockApi(context) {
         if (request.method() === 'OPTIONS') return respond({});
         if (url.pathname === '/auth/v1/user') return respond({ id: '00000000-0000-4000-8000-000000000001', email: 'admin@example.test', aud: 'authenticated', role: 'authenticated' });
         if (url.pathname.endsWith('/rpc/current_user_is_admin')) return respond(true);
+        if (url.pathname.endsWith('/exam_score_settings')) return respond(scoreSettings);
+        if (url.pathname.endsWith('/rpc/get_published_exam_scores')) {
+            publicRpcCalls++;
+            if (scoreError) return respond(scoreError, 404);
+            const { page_offset: offset = 0, page_limit: limit = 500 } = request.postDataJSON();
+            return respond(database.filter(row => row.published).slice(offset, offset + limit).map(row => ({
+                ...row, student_name: row.hide_student_name ? null : row.student_name,
+                evidence_image_path: row.hide_student_name ? null : row.evidence_image_path,
+                evidence_image_name: row.hide_student_name ? null : row.evidence_image_name
+            })));
+        }
         if (!url.pathname.endsWith('/exam_scores')) return respond([]);
         if (request.method() === 'GET') {
             if (scoreError) return respond(scoreError, 404);
@@ -45,7 +59,7 @@ async function mockApi(context) {
         } else throw new Error(`Unexpected write: ${request.method()}`);
         return respond({ id: selected.id });
     });
-    await context.route('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/**', route => chartError ? route.abort() : route.continue());
+    await context.route('https://cdn.jsdelivr.net/npm/chart.js@4.5.1/**', route => chartError ? route.abort() : route.fallback());
 }
 
 async function canvasState(page, id) {
@@ -62,6 +76,45 @@ async function waitCharts(page) {
 async function noOverflow(page) {
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Page must not overflow horizontally');
 }
+async function refreshPublic(page) {
+    await page.locator('#scoreRefresh').click();
+    await page.waitForFunction(() => document.getElementById('examScores').getAttribute('aria-busy') === 'false' && !document.getElementById('scoreRefresh').disabled);
+}
+async function verifyStatisticsSettings(page) {
+    for (const [key, canvas] of [['bar_enabled', 'scoreBarChart'], ['pie_enabled', 'scorePieChart'], ['line_enabled', 'scoreLineChart']]) {
+        scoreSettings[key] = false;
+        await refreshPublic(page);
+        assert(await page.locator(`#${canvas}`).isHidden(), `${key} must hide its chart`);
+        assert.equal(await page.evaluate(id => Boolean(Chart.getChart(document.getElementById(id))), canvas), false, `${key} must not build a hidden chart`);
+        assert.equal(await page.locator('#scoreStudentCards .exam-student-card').count(), 10);
+        scoreSettings[key] = true;
+        await refreshPublic(page);
+        await waitCharts(page);
+    }
+    scoreSettings.summary_enabled = false;
+    await refreshPublic(page);
+    assert(await page.locator('#scoreCount').isHidden(), 'The summary switch hides statistic cards');
+    assert(await page.locator('#scoreBarChart').isVisible());
+    scoreSettings.summary_enabled = true;
+    scoreSettings.enabled_periods = ['gk1', 'ck1'];
+    await refreshPublic(page);
+    const expectedCount = database.filter(row => row.published && scoreSettings.enabled_periods.includes(row.period)).length;
+    assert.equal(await page.locator('#scoreCount').textContent(), String(expectedCount));
+    const line = await page.evaluate(() => Chart.getChart(document.getElementById('scoreLineChart')).data);
+    assert.deepEqual(line.labels, ['Giữa kỳ 1', 'Cuối kỳ 1'], 'Hidden periods must not appear in the line chart');
+    assert.match(await page.locator('#scoreStudentCount').textContent(), /24 kết quả/, 'Period settings must retain every published student card');
+    scoreSettings.statistics_enabled = false;
+    await refreshPublic(page);
+    assert(await page.locator('#scoreCount').isHidden());
+    assert(await page.locator('#examScoreResults').isHidden());
+    assert.equal(await page.locator('#scoreStudentCards .exam-student-card').count(), 10, 'Disabling statistics must retain student cards');
+    scoreSettings.statistics_enabled = true;
+    scoreSettings.enabled_periods = ['gk1', 'ck1', 'gk2', 'ck2'];
+    await refreshPublic(page);
+    await waitCharts(page);
+    assert.equal(await page.locator('#scoreCount').textContent(), '24');
+    console.log('Statistics settings: master, summary, each chart, period subset and independent student cards passed');
+}
 
 (async () => {
     for (const file of ['index.html', 'admin.html', 'achievements.html']) {
@@ -71,14 +124,18 @@ async function noOverflow(page) {
     const browser = await chromium.launch({ headless: true, channel: process.env.TEST_BROWSER_CHANNEL || 'msedge' });
     try {
         const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+        await installVendorFallback(context);
         await mockApi(context);
         const page = await context.newPage(), errors = [];
+        logScriptFailures(page);
         page.on('pageerror', error => errors.push(error.message));
         await page.goto(`${base}/achievements.html?type=scores`);
         await waitCharts(page);
+        assert(publicRpcCalls > 0, 'Public scores must use the RPC that masks private student names');
         assert.equal(await page.locator('#scoreCount').innerText(), '24');
         const expected = api.summarize(database.filter(row => row.published));
         assert.equal(await page.locator('#scoreAverage').innerText(), api.format(expected.average));
+        await verifyStatisticsSettings(page);
         for (const id of ['scoreBarChart', 'scorePieChart', 'scoreLineChart', 'evidenceGalaxyCanvas']) {
             const pixels = await canvasState(page, id);
             assert(pixels.sum > 0 && pixels.width > 200 && pixels.height > 100, `${id} renders nonblank pixels`);
@@ -122,6 +179,7 @@ async function noOverflow(page) {
         console.log('Public: 3 charts, correct data, filters, missing periods, galaxy, responsive layout, navigation passed');
 
         const admin = await context.newPage();
+        logScriptFailures(admin);
         admin.on('pageerror', error => errors.push(error.message));
         await admin.addInitScript(() => {
             localStorage.setItem('sb-uiyqdqucqplifcvukwul-auth-token', JSON.stringify({
@@ -136,6 +194,7 @@ async function noOverflow(page) {
         assert.equal(await admin.locator('#scoreAdminRows tr').count(), 10);
         await admin.locator('#scoreAdminPagination [data-page="3"]').first().click();
         assert.equal(await admin.locator('#scoreAdminRows tr').count(), 5);
+        await admin.fill('#scoreStudentName', 'Nguyễn Minh Anh');
         await admin.fill('#scoreClass', '12A2');
         await admin.fill('#scoreYear', '2026-2027');
         await admin.selectOption('#scoreGrade', '12');
@@ -145,10 +204,17 @@ async function noOverflow(page) {
         assert.equal(writes, 0);
         assert((await admin.locator('#scoreFormStatus').innerText()).includes('0 đến 10'));
         await admin.fill('#scoreValue', '8,75');
+        await admin.fill('#scoreStudentName', '');
+        await admin.locator('#scoreSaveBtn').click();
+        assert.equal(writes, 0, 'A student name is required before storing a score');
+        assert.equal(await admin.locator('#scoreStudentName').evaluate(input => input.validity.valueMissing), true);
+        await admin.fill('#scoreStudentName', 'Nguyễn Minh Anh');
         await admin.locator('#scoreSaveBtn').dblclick();
         await admin.waitForFunction(() => document.getElementById('scoreFormStatus').textContent.includes('Đã lưu'));
         assert.equal(writes, 1);
         assert.equal(database[0].score, 8.75);
+        assert.equal(database[0].student_name, 'Nguyễn Minh Anh');
+        assert.equal(database[0].hide_student_name, false);
         assert.equal(await admin.locator('#scoreValue').inputValue(), '');
         assert.equal(await admin.locator('#scoreClass').inputValue(), '12A2');
         await admin.locator('[data-score-action="edit"]').first().click();
@@ -195,7 +261,7 @@ async function noOverflow(page) {
         await page.locator('#scoreRefresh').click();
         await page.waitForFunction(() => document.getElementById('scoreCount').textContent === '0');
         assert(!await page.locator('#examScoreResults').isVisible());
-        database = [{ id: 'one', score: 9, period: 'gk1', grade: 12, class_name: '12A1', school_year: '2026-2027', published: true }];
+        database = [{ id: 'one', student_name: 'Học sinh thử', hide_student_name: false, score: 9, period: 'gk1', grade: 12, class_name: '12A1', school_year: '2026-2027', published: true }];
         chartError = true;
         await page.reload();
         await page.waitForFunction(() => document.getElementById('examScoreStatus').textContent.includes('Chưa tải được biểu đồ'));

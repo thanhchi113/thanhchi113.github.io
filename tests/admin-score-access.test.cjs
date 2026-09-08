@@ -1,0 +1,127 @@
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const { PGlite } = require(process.env.PGLITE_MODULE || '@electric-sql/pglite');
+
+test('score entry, private evidence, student approval and admin revocation obey database permissions', async () => {
+    const db = new PGlite();
+    const admin = '00000000-0000-4000-8000-000000000001';
+    const second = '00000000-0000-4000-8000-000000000002';
+    const viewer = '00000000-0000-4000-8000-000000000003';
+    const submission = '00000000-0000-4000-8000-000000000004';
+    const image = `scores/${submission}.png`;
+    const details = { student_name:'Học sinh thử',period:'gk1',score:9.25,grade:12,class_name:'12A1',school_year:'2026-2027',evidence_image_path:image,evidence_image_name:'diem.png' };
+    const as = async (role, id='') => { await db.exec('reset role'); await db.query("select set_config('test.uid',$1,false)",[id]); await db.exec(`set role ${role}`); };
+    try {
+        await db.exec(`create role anon; create role authenticated;
+            create schema auth; create schema storage;
+            grant usage on schema public,auth,storage to anon,authenticated;
+            create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('test.uid',true),'')::uuid $$;
+            create table auth.users(id uuid primary key,email text);
+            create table public.profiles(id uuid primary key references auth.users,role text default 'viewer' check (role in ('admin','viewer')),created_at timestamptz default now());
+            alter table public.profiles enable row level security;
+            grant select on public.profiles to authenticated;
+            create policy own_profile on public.profiles for select to authenticated using (id=auth.uid());
+            create function public.current_user_is_admin() returns boolean language sql stable security definer set search_path=public as $$ select exists(select 1 from public.profiles where id=auth.uid() and role='admin') $$;
+            create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
+            create table storage.objects(id uuid primary key default gen_random_uuid(),bucket_id text references storage.buckets,name text,unique(bucket_id,name));
+            alter table storage.objects enable row level security;
+            grant select,insert,update,delete on storage.objects to anon,authenticated;
+        `);
+        for (const id of [admin,second,viewer]) {
+            await db.query('insert into auth.users values ($1,$2)',[id,`${id}@example.test`]);
+            await db.query('insert into public.profiles(id,role) values ($1,$2)',[id,id===viewer?'viewer':'admin']);
+        }
+        for (const file of ['migrations/20260907144035_exam_scores.sql','migrations/20260908070137_exam_score_student_details.sql','migrations/20260908082005_admin_accounts_and_score_submissions.sql']) {
+            await db.exec(fs.readFileSync(path.join(__dirname,'../supabase',file),'utf8'));
+        }
+        await as('authenticated',admin);
+        const { rows:[draft] } = await db.query(`insert into public.exam_scores(student_name,period,score,grade,class_name,school_year,published,evidence_image_path)
+            values ('Bản nháp','gk1',0,12,'12A1','2026-2027',false,$1) returning id`,[image]);
+        await db.query("insert into storage.objects(bucket_id,name) values ('exam-score-evidence',$1)",[image]);
+        assert.equal((await db.query('select * from public.exam_scores')).rows.length,1);
+        await as('anon');
+        assert.equal((await db.query('select * from public.exam_scores')).rows.length,0);
+        assert.equal((await db.query('select * from storage.objects')).rows.length,0);
+        await assert.rejects(db.exec('select * from public.list_admin_accounts()'),e=>e.code==='42501');
+        await assert.rejects(db.exec('select * from public.exam_score_submissions'),e=>e.code==='42501');
+        await db.query(`insert into public.exam_score_submissions(id,student_name,period,score,grade,class_name,school_year,evidence_image_path)
+            values ($1,'Tên gửi','gk1',7,12,'12A1','2026-2027',$2)`,[submission,`${submission}/${submission}.png`]);
+        await db.query("insert into storage.objects(bucket_id,name) values ('exam-score-submissions',$1)",[`${submission}/${submission}.png`]);
+        await assert.rejects(db.query(`insert into public.exam_score_submissions(student_name,period,score,grade,class_name,school_year,status)
+            values ('X','gk1',8,12,'12A1','2026-2027','approved')`),e=>e.code==='42501');
+        await as('authenticated',viewer);
+        assert.equal((await db.query('select * from public.exam_score_submissions')).rows.length,0);
+        await assert.rejects(db.query('select public.approve_exam_score_submission($1,$2)',[submission,details]),e=>e.code==='42501');
+        await assert.rejects(db.exec('select * from public.list_admin_accounts()'),e=>e.code==='42501');
+        await assert.rejects(db.query('select public.revoke_admin_access($1)',[admin]),e=>e.code==='42501');
+        await assert.rejects(db.query("update public.profiles set role='admin' where id=$1",[viewer]),e=>e.code==='42501');
+        await as('authenticated',admin);
+        await assert.rejects(db.query('select public.approve_exam_score_submission($1,$2)',[submission,{...details,score:11}]),e=>e.code==='23514');
+        assert.equal((await db.query('select status from public.exam_score_submissions where id=$1',[submission])).rows[0].status,'pending');
+        const approved = (await db.query('select public.approve_exam_score_submission($1,$2) as id',[submission,details])).rows[0].id;
+        assert(approved);
+        assert.equal((await db.query("select * from public.exam_score_submissions where status='pending'")).rows.length,0);
+        await assert.rejects(db.query('select public.approve_exam_score_submission($1,$2)',[submission,details]),e=>e.code==='P0002');
+        assert.equal((await db.query('select * from public.exam_scores where published=true')).rows.length,1);
+        await db.query('update public.exam_scores set score=10 where id=$1',[approved]);
+        await as('anon');
+        assert.deepEqual((await db.query('select score::text,student_name from public.exam_scores')).rows,[{score:'10',student_name:'Học sinh thử'}]);
+        assert.deepEqual((await db.query('select bucket_id from storage.objects')).rows,[{bucket_id:'exam-score-evidence'}]);
+        await as('authenticated',admin);
+        assert.equal((await db.query('select * from public.list_admin_accounts()')).rows.length,2);
+        await assert.rejects(db.query('select public.revoke_admin_access($1)',[admin]),e=>e.code==='22023');
+        assert.equal((await db.query('select public.revoke_admin_access($1) as ok',[second])).rows[0].ok,true);
+        await as('authenticated',second);
+        assert.equal((await db.query('select public.current_user_is_admin() as ok')).rows[0].ok,false);
+        await assert.rejects(db.exec('select * from public.list_admin_accounts()'),e=>e.code==='42501');
+        assert.equal((await db.query('update public.exam_scores set score=1 returning id')).rows.length,0);
+        await as('authenticated',admin);
+        await assert.rejects(db.query('select public.revoke_admin_access($1)',[second]),e=>e.code==='22023');
+        await db.query('delete from public.exam_scores where id=$1',[draft.id]);
+        await as('postgres');
+        await db.exec(fs.readFileSync(path.join(__dirname,'../supabase/migrations/20260908082007_exam_score_name_privacy.sql'),'utf8'));
+        await as('authenticated',admin);
+        await db.query('update public.exam_scores set hide_student_name=true where id=$1',[approved]);
+        await as('anon');
+        await assert.rejects(db.exec('select * from public.exam_scores'),e=>e.code==='42501');
+        let publicRows=(await db.query('select * from public.get_published_exam_scores()')).rows;
+        assert.equal(publicRows.length,1);
+        assert.equal(publicRows[0].student_name,null);
+        assert.equal(publicRows[0].score,'10');
+        assert.equal(publicRows[0].hide_student_name,true);
+        assert.equal(publicRows[0].evidence_image_path,null);
+        assert.equal((await db.query('select * from storage.objects')).rows.length,0);
+        await as('authenticated',viewer);
+        assert.equal((await db.query('select * from public.exam_scores')).rows.length,0);
+        assert.equal((await db.query('select student_name from public.get_published_exam_scores()')).rows[0].student_name,null);
+        await as('authenticated',admin);
+        assert.equal((await db.query('select student_name from public.exam_scores where id=$1',[approved])).rows[0].student_name,details.student_name);
+        await db.query('update public.exam_scores set published=false where id=$1',[approved]);
+        await as('anon');
+        assert.equal((await db.query('select * from public.get_published_exam_scores()')).rows.length,0);
+        await as('authenticated',admin);
+        await db.query('update public.exam_scores set published=true,hide_student_name=false where id=$1',[approved]);
+        await assert.rejects(db.query('update public.exam_scores set student_name=null where id=$1',[approved]),e=>e.code==='23514');
+        await as('anon');
+        publicRows=(await db.query('select * from public.get_published_exam_scores()')).rows;
+        assert.equal(publicRows[0].student_name,details.student_name);
+        assert.equal((await db.query('select * from storage.objects')).rows.length,1);
+        await as('postgres');
+        await db.exec(fs.readFileSync(path.join(__dirname,'../supabase/migrations/20260908083027_exam_score_statistics_settings.sql'),'utf8'));
+        await as('anon');
+        assert.equal((await db.query('select statistics_enabled from public.exam_score_settings')).rows[0].statistics_enabled,true);
+        await assert.rejects(db.exec('update public.exam_score_settings set statistics_enabled=false'),e=>e.code==='42501');
+        await as('authenticated',viewer);
+        assert.equal((await db.query('update public.exam_score_settings set statistics_enabled=false returning id')).rows.length,0);
+        await as('authenticated',admin);
+        await db.exec("update public.exam_score_settings set pie_enabled=false,enabled_periods=array['gk1','ck1'] where id=1");
+        await assert.rejects(db.exec("update public.exam_score_settings set enabled_periods=array['invalid']"),e=>e.code==='23514');
+        await assert.rejects(db.exec('delete from public.exam_score_settings'),e=>e.code==='42501');
+        await as('anon');
+        const config=(await db.query('select * from public.exam_score_settings')).rows[0];
+        assert.equal(config.pie_enabled,false);
+        assert.deepEqual(config.enabled_periods,['gk1','ck1']);
+    } finally { await db.close(); }
+});

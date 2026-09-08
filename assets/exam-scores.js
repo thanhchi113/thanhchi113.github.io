@@ -16,7 +16,7 @@
         { label: "6,5 đến dưới 8", max: 8, color: "#72c9f4" },
         { label: "8 đến 10", max: Infinity, color: "#6fe0b8" }
     ]);
-    const columns = "id,period,score,grade,class_name,school_year,published,created_at";
+    const columns = "id,student_name,period,score,grade,class_name,school_year,published,created_at,evidence_image_path,evidence_image_name,hide_student_name";
     const format = value => value == null ? "—" : new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 2 }).format(value);
     const label = key => periods.find(period => period.key === key)?.label || key;
     const schoolYear = (date = new Date()) => {
@@ -42,7 +42,9 @@
         }
         const className = String(input.class_name || "").trim().replace(/\s+/g, " ");
         if (!className || className.length > 80) throw new Error("Nhập lớp / khóa học, tối đa 80 ký tự.");
-        return { period: input.period, score, grade, school_year: year, class_name: className, published: input.published === true };
+        const studentName = String(input.student_name || "").trim().replace(/\s+/g, " ");
+        if (!studentName || studentName.length > 160) throw new Error("Nhập tên học sinh, tối đa 160 ký tự.");
+        return { period: input.period, score, grade, school_year: year, class_name: className, student_name: studentName, published: input.published === true, hide_student_name: input.hide_student_name === true };
     }
     function filter(records, filters = {}) {
         return records.filter(row => ["period", "grade", "school_year", "class_name"].every(key =>
@@ -73,9 +75,10 @@
         const batchSize = 500;
         // Page through the API cap: statistics must include every recorded score.
         for (let offset = 0; ; offset += batchSize) {
-            let query = client.from("exam_scores").select(columns).order("created_at", { ascending: false }).order("id", { ascending: false });
-            if (publicOnly) query = query.eq("published", true);
-            const { data, error } = await query.range(offset, offset + batchSize - 1);
+            const query = publicOnly
+                ? client.rpc("get_published_exam_scores", { page_offset: offset, page_limit: batchSize })
+                : client.from("exam_scores").select(columns).order("created_at", { ascending: false }).order("id", { ascending: false }).range(offset, offset + batchSize - 1);
+            const { data, error } = await query;
             if (error) throw error;
             rows.push(...(data || []));
             if (!data || data.length < batchSize) break;
@@ -83,11 +86,18 @@
         return rows;
     }
     function errorMessage(error, admin = false) {
-        if (["42P01", "PGRST205"].includes(error?.code)) {
+        if (["42P01", "PGRST205", "PGRST202"].includes(error?.code)) {
             return admin ? "Chưa có bảng điểm thi. Cần chạy migration exam_scores trong Supabase SQL Editor trước khi lưu." : "Mục điểm thi đang được thiết lập. Chưa có thống kê để hiển thị.";
         }
+        if (["42703", "PGRST204"].includes(error?.code)) return admin ? "Cần cập nhật bảng điểm để lưu tên học sinh và ảnh xác nhận. Hãy chạy file SQL thiết lập mới." : "Thông tin học sinh đang được cập nhật. Vui lòng quay lại sau.";
         if (error?.code === "42501") return "Chưa có quyền truy cập điểm thi. Vui lòng kiểm tra quyền quản trị và cấu hình dữ liệu.";
         return "Không thể kết nối dữ liệu điểm thi. Vui lòng thử lại.";
     }
-    return { periods, bands, columns, format, label, schoolYear, parseScore, validate, filter, summarize, fetchAll, errorMessage };
+    async function signedImageUrl(client, path) {
+        if (!path) return "";
+        const { data, error } = await client.storage.from("exam-score-evidence").createSignedUrl(path, 300);
+        if (error) throw error;
+        return data?.signedUrl || "";
+    }
+    return { periods, bands, columns, format, label, schoolYear, parseScore, validate, filter, summarize, fetchAll, signedImageUrl, errorMessage };
 }));

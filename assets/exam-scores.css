@@ -32,6 +32,49 @@
 .exam-table th{color:#a7b7c9;font-size:12px;font-weight:600}
 .exam-table tbody tr:hover{background:rgba(140,191,220,.06)}
 .exam-setup-link{color:#72c9f4;text-decoration:underline;overflow-wrap:anywhere}
+.exam-students{padding:0;margin-top:40px;scroll-margin-top:104px}
+.exam-students-heading{margin-bottom:18px}
+.exam-students-heading h2{margin:0;color:#eef6ff;font-size:23px;line-height:1.35}
+.exam-students-heading p{margin:8px 0 0;color:var(--score-muted);font-size:12px;line-height:1.7}
+.exam-student-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.exam-student-card{position:relative;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(150px,.85fr);min-width:0;overflow:hidden;border:1px solid var(--score-border);border-radius:14px;background:linear-gradient(145deg,rgba(14,23,42,.82),rgba(7,12,24,.75));box-shadow:0 18px 45px rgba(0,0,0,.18);transition:transform .28s cubic-bezier(.2,.7,.25,1.25),border-color .28s ease,box-shadow .28s ease}
+.exam-student-info{min-width:0;padding:22px}
+.exam-student-media{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-width:0;margin:0;padding:16px 10px;background:rgba(4,10,21,.55);border-left:1px solid rgba(178,204,226,.12)}
+.exam-student-media figcaption{color:#93aac4;font-size:10px;line-height:1.6;text-align:center;max-width:200px}
+.exam-student-image-link{display:flex;align-items:center;justify-content:center;width:100%;flex:1;min-height:180px;border-radius:7px;overflow:hidden}
+.exam-student-image-link:focus-visible{outline:2px solid #7dd3fc;outline-offset:3px}
+.exam-student-image-link img{display:block;width:100%;height:auto;max-height:290px;object-fit:contain}
+.exam-student-illustration{display:block;width:100%;max-width:180px;height:auto}
+.exam-paper-outline{stroke-dasharray:1;animation:examPaperOutline 7s linear infinite}
+.exam-paper-axes{stroke-dasharray:1;animation:examPaperAxes 7s linear infinite}
+.exam-paper-curve{stroke-dasharray:1;animation:examPaperCurve 7s linear infinite}
+.exam-paper-lines{animation:examPaperLines 7s linear infinite}
+.exam-paper-star{animation:examPaperStar 3s ease-in-out infinite alternate}
+@keyframes examPaperOutline{0%{stroke-dashoffset:1}24%,90%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes examPaperAxes{0%,26%{stroke-dashoffset:1}44%,90%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes examPaperCurve{0%,44%{stroke-dashoffset:1}76%,90%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes examPaperLines{0%,22%{opacity:0}40%,90%{opacity:1}100%{opacity:0}}
+@keyframes examPaperStar{from{opacity:.25}to{opacity:.9}}
+.exam-student-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.exam-student-period{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid rgba(125,211,252,.24);border-radius:7px;background:rgba(56,189,248,.08);color:#a1dffa;font-size:11px;line-height:1.4;font-weight:600}
+.exam-student-subject,.exam-student-label{color:var(--score-muted);font-size:11px}
+.exam-student-main{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:68px;margin-bottom:22px}
+.exam-student-identity{min-width:0}
+.exam-student-identity h3{margin:5px 0 0;color:#f0f7ff;font-size:19px;line-height:1.4;font-weight:600;overflow-wrap:anywhere}
+.exam-scores [hidden]{display:none!important}
+.exam-name-mask{display:block;filter:blur(4px);opacity:.72;user-select:none;pointer-events:none;letter-spacing:1px}
+.exam-name-hidden-label{display:block;color:var(--score-muted,#9dadc2);font-size:10px;font-weight:400;margin-top:6px;letter-spacing:.2px}
+.exam-student-score{flex-shrink:0;text-align:right;font-variant-numeric:tabular-nums}
+.exam-student-score strong{display:block;color:#6fe0b8;font-size:34px;line-height:1.2;letter-spacing:-1px}
+.exam-student-score span{display:block;color:var(--score-muted);font-size:11px;margin-top:5px}
+.exam-student-facts{display:grid;gap:10px;margin:0;border-top:1px solid rgba(178,204,226,.14);padding-top:16px}
+.exam-student-facts>div{display:grid;grid-template-columns:100px minmax(0,1fr);gap:10px;align-items:baseline}
+.exam-student-facts dt{color:var(--score-muted);font-size:11px}
+.exam-student-facts dd{margin:0;color:#dce8f6;font-size:12px;font-weight:500;text-align:right;overflow-wrap:anywhere}
+@media(hover:hover) and (pointer:fine){.exam-student-card:hover{transform:translateY(-6px);border-color:rgba(125,211,252,.48);box-shadow:0 24px 52px rgba(0,0,0,.34),0 0 24px rgba(92,176,232,.06)}}
+@media(max-width:1100px){.exam-student-grid{grid-template-columns:1fr}.exam-student-card{grid-template-columns:minmax(0,1fr) 220px}}
+@media(max-width:620px){.exam-student-card{grid-template-columns:1fr}.exam-student-info{padding:20px}.exam-student-media{border-left:0;border-top:1px solid rgba(178,204,226,.12);padding:14px}.exam-student-illustration{max-width:150px}.exam-student-image-link img{max-height:330px}.exam-students-heading h2{font-size:21px}}
+@media(prefers-reduced-motion:reduce){.exam-student-card{transition:none}.exam-student-card:hover{transform:none}.exam-student-illustration *{animation:none!important;stroke-dashoffset:0}}
 .exam-admin-layout{display:grid;grid-template-columns:minmax(290px,350px) minmax(0,1fr);gap:28px;padding-top:12px}
 #scoresWorkspace .exam-admin-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}
 #scoresWorkspace h1{font-size:28px;line-height:1.25}#scoresWorkspace h2{font-size:18px;margin:0 0 18px}
