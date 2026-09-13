@@ -10,6 +10,14 @@ begin
     if to_regprocedure('public.current_user_is_admin()') is null then
         raise exception 'Missing public.current_user_is_admin(); configure the existing admin roles first.';
     end if;
+    -- This legacy repair must never reopen public reads after privacy controls exist.
+    if exists (
+        select 1 from information_schema.columns
+        where table_schema = 'public' and table_name = 'achievement_evidence'
+            and column_name = 'show_image'
+    ) then
+        raise exception 'Achievement evidence privacy is already configured. Use migration 20260913183000_achievement_evidence_optional_image_privacy.sql instead; this older repair would reopen private images.';
+    end if;
 end;
 $$;
 
