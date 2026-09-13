@@ -5,7 +5,7 @@
     const root = document.getElementById("examScores");
     const get = id => document.getElementById(id);
     let records = [], pending = null, charts = [], chartLibrary = null, loaded = false;
-    let renderVersion = 0, studentPage = 1, studentRenderVersion = 0;
+    let renderVersion = 0, studentPage = 1, studentRenderVersion = 0, studentRows = [];
     let settings = null, settingsUnavailable = false;
     const studentPerPage = 10;
     const escape = value => String(value ?? "").replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
@@ -51,9 +51,9 @@
     function examIllustration(caption, score) {
         return `${window.ExamScorePaper?.render(score) || ""}<figcaption>${escape(caption)}</figcaption>`;
     }
-    function loadStudentImage(figure, row, version) {
+    function loadStudentImage(figure, row, isCurrent, gallery = false) {
         if (row.hide_student_name || !row.evidence_image_path || typeof api.signedImageUrl !== "function") return;
-        const current = () => version === studentRenderVersion && figure.isConnected;
+        const current = () => figure.isConnected && isCurrent();
         const failed = () => { if (current()) figure.innerHTML = examIllustration("Ảnh chưa tải được · Minh họa bài thi", row.score); };
         (async () => {
             try {
@@ -61,12 +61,14 @@
                 if (!current()) return;
                 const url = new URL(source);
                 if (url.protocol !== "https:") throw new Error("Invalid image URL");
-                const link = document.createElement("a");
+                const link = document.createElement(gallery ? "div" : "a");
                 link.className = "exam-student-image-link";
-                link.href = url.href;
-                link.target = "_blank";
-                link.rel = "noopener noreferrer";
-                link.setAttribute("aria-label", `Xem ảnh điểm của ${String(row.student_name || "học sinh")}`);
+                if (!gallery) {
+                    link.href = url.href;
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                    link.setAttribute("aria-label", `Xem ảnh điểm của ${String(row.student_name || "học sinh")}`);
+                }
                 const picture = document.createElement("img");
                 picture.alt = `Ảnh điểm ${api.label(row.period)} của ${String(row.student_name || "học sinh")}`;
                 picture.loading = "lazy";
@@ -75,13 +77,48 @@
                 picture.src = url.href;
                 link.appendChild(picture);
                 const caption = document.createElement("figcaption");
-                caption.textContent = "Ảnh điểm học sinh · Bấm để xem rõ";
+                caption.textContent = gallery ? "Ảnh điểm học sinh" : "Ảnh điểm học sinh · Bấm để xem rõ";
                 figure.replaceChildren(link, caption);
             } catch (_) { failed(); }
         })();
     }
+    function createStudentCard(row, { gallery = false, index = 0, version = studentRenderVersion } = {}) {
+        const student = row.hide_student_name ? "Tên học sinh" : String(row.student_name || "").trim() || "Học sinh chưa ghi tên";
+        const nameMarkup = row.hide_student_name ? `<h3 aria-label="Tên học sinh đã được ẩn"><span class="exam-name-mask" aria-hidden="true">${student}</span><span class="exam-name-hidden-label" aria-hidden="true">Đã ẩn tên</span></h3>` : `<h3>${escape(student)}</h3>`;
+        const card = document.createElement("article");
+        card.className = `exam-student-card${gallery ? " exam-student-card-detail" : ""}`;
+        if (!gallery) {
+            card.tabIndex = 0;
+            card.dataset.studentIndex = String(index);
+            card.setAttribute("aria-haspopup", "dialog");
+            card.setAttribute("aria-label", `Xem thẻ điểm ${api.label(row.period)} · ${row.hide_student_name ? "Học sinh đã ẩn tên" : student} · Lớp ${String(row.class_name || "chưa ghi")}`);
+        }
+        const hasImage = !row.hide_student_name && row.evidence_image_path;
+        card.innerHTML = `<div class="exam-student-info">
+            <div class="exam-student-top"><span class="exam-student-period"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i>${escape(api.label(row.period))}</span><span class="exam-student-subject">Môn Toán</span></div>
+            <div class="exam-student-main"><div class="exam-student-identity"><span class="exam-student-label">Học sinh</span>${nameMarkup}</div><div class="exam-student-score" aria-label="Điểm đạt được: ${escape(api.format(row.score))} trên 10"><strong>${escape(api.format(row.score))}</strong><span>/ 10 điểm</span></div></div>
+            <dl class="exam-student-facts"><div><dt>Lớp / khóa học</dt><dd>${escape(row.class_name || "Chưa ghi lớp")}</dd></div><div><dt>Khối</dt><dd>${escape(row.grade)}</dd></div><div><dt>Năm học</dt><dd>${escape(row.school_year)}</dd></div></dl></div>
+            <figure class="exam-student-media">${examIllustration(hasImage ? "Đang tải ảnh điểm…" : "Chưa có ảnh điểm · Minh họa bài thi", row.score)}</figure>`;
+        // The gallery attaches this fresh card synchronously. Disconnected cards must not receive late images.
+        queueMicrotask(() => {
+            const figure = card.querySelector(".exam-student-media");
+            if (!figure.isConnected) return;
+            loadStudentImage(figure, row, () => gallery || version === studentRenderVersion, gallery);
+        });
+        return card;
+    }
+    function openStudentCard(card) {
+        const index = Number(card.dataset.studentIndex);
+        if (!Number.isInteger(index) || !studentRows[index] || !window.AchievementGallery) return false;
+        window.AchievementGallery.open({
+            items: studentRows.slice(), index, trigger: card, label: "Điểm thi học sinh",
+            render: row => createStudentCard(row, { gallery: true })
+        });
+        return true;
+    }
     function renderStudents(rows = selectedRecords()) {
         const version = ++studentRenderVersion;
+        studentRows = rows.slice();
         const totalPages = Math.max(1, Math.ceil(rows.length / studentPerPage));
         studentPage = Math.min(Math.max(1, studentPage), totalPages);
         const offset = (studentPage - 1) * studentPerPage;
@@ -90,17 +127,7 @@
             ? `Hiển thị ${api.format(offset + 1)}–${api.format(Math.min(offset + studentPerPage, rows.length))} / ${api.format(rows.length)} kết quả · Mỗi thẻ là một bài thi.`
             : "Chưa có kết quả đã công bố phù hợp với bộ lọc này.";
         const visibleRows = rows.slice(offset, offset + studentPerPage);
-        get("scoreStudentCards").innerHTML = visibleRows.map(row => {
-            const student = row.hide_student_name ? "Tên học sinh" : String(row.student_name || "").trim() || "Học sinh chưa ghi tên";
-            const nameMarkup = row.hide_student_name ? `<h3 aria-label="Tên học sinh đã được ẩn"><span class="exam-name-mask" aria-hidden="true">${student}</span><span class="exam-name-hidden-label" aria-hidden="true">Đã ẩn tên</span></h3>` : `<h3>${escape(student)}</h3>`;
-            return `<article class="exam-student-card"><div class="exam-student-info">
-                <div class="exam-student-top"><span class="exam-student-period"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i>${escape(api.label(row.period))}</span><span class="exam-student-subject">Môn Toán</span></div>
-                <div class="exam-student-main"><div class="exam-student-identity"><span class="exam-student-label">Học sinh</span>${nameMarkup}</div><div class="exam-student-score" aria-label="Điểm đạt được: ${escape(api.format(row.score))} trên 10"><strong>${escape(api.format(row.score))}</strong><span>/ 10 điểm</span></div></div>
-                <dl class="exam-student-facts"><div><dt>Lớp / khóa học</dt><dd>${escape(row.class_name || "Chưa ghi lớp")}</dd></div><div><dt>Khối</dt><dd>${escape(row.grade)}</dd></div><div><dt>Năm học</dt><dd>${escape(row.school_year)}</dd></div></dl></div>
-                <figure class="exam-student-media">${examIllustration(row.evidence_image_path ? "Đang tải ảnh điểm…" : "Chưa có ảnh điểm · Minh họa bài thi", row.score)}</figure>
-            </article>`;
-        }).join("");
-        get("scoreStudentCards").querySelectorAll(".exam-student-media").forEach((figure, index) => loadStudentImage(figure, visibleRows[index], version));
+        get("scoreStudentCards").replaceChildren(...visibleRows.map((row, index) => createStudentCard(row, { index: offset + index, version })));
         const pagination = get("scoreStudentPagination");
         pagination.hidden = rows.length < studentPerPage;
         pagination.replaceChildren();
@@ -237,6 +264,16 @@
         renderStudents();
         get("scoreStudentsTitle").focus({ preventScroll: true });
         get("examStudentResults").scrollIntoView({ behavior: "auto", block: "start" });
+    });
+    get("scoreStudentCards").addEventListener("click", event => {
+        if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        const card = event.target.closest(".exam-student-card[data-student-index]");
+        if (card && openStudentCard(card)) event.preventDefault();
+    });
+    get("scoreStudentCards").addEventListener("keydown", event => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const card = event.target.closest(".exam-student-card[data-student-index]");
+        if (card && event.target === card && openStudentCard(card)) event.preventDefault();
     });
     get("scoreRefresh").addEventListener("click", load);
     window.examScorePage = { load };

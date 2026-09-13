@@ -1,0 +1,211 @@
+/* The full card sits over the existing, unfiltered galaxy scene. */
+.evidence-card[tabindex="0"], .exam-student-card[tabindex="0"] { cursor: zoom-in; }
+.evidence-card[tabindex="0"]:focus-visible, .exam-student-card[tabindex="0"]:focus-visible {
+    outline: 2px solid #a6e2ff;
+    outline-offset: 4px;
+    border-color: #93d9ff;
+}
+
+body.achievement-gallery-open > .evidence-page {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.achievement-gallery[hidden] { display: none !important; }
+
+.achievement-gallery {
+    --score-muted: #b5c2d3;
+    --score-border: rgba(178, 204, 226, .28);
+    position: fixed;
+    inset: 0;
+    z-index: 5100;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1120px) 52px;
+    grid-template-rows: auto minmax(0, 1fr);
+    justify-content: center;
+    gap: 14px;
+    padding: max(92px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+    color: #eff7ff;
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    overscroll-behavior: contain;
+}
+
+.achievement-gallery-toolbar {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    padding: 7px 8px 7px 18px;
+    border: 1px solid rgba(142, 205, 246, .25);
+    border-radius: 14px;
+    background: rgba(6, 13, 27, .78);
+}
+
+.achievement-gallery-title {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.achievement-gallery-count {
+    flex-shrink: 0;
+    color: #b9d7eb;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+}
+
+.achievement-gallery-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: 1px solid rgba(139, 208, 249, .42);
+    border-radius: 12px;
+    background: rgba(9, 24, 43, .94);
+    color: #dcf4ff;
+    font: 400 34px/1 system-ui, sans-serif;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: border-color .18s ease, background .18s ease;
+}
+
+.achievement-gallery-button:hover:not(:disabled) {
+    border-color: #9ddeff;
+    background: rgba(28, 66, 91, .96);
+}
+
+.achievement-gallery-button:disabled { opacity: .35; cursor: default; }
+.achievement-gallery :focus-visible { outline: 2px solid #a6e2ff; outline-offset: 3px; }
+
+#achievementGalleryPrev { grid-column: 1; grid-row: 2; align-self: center; }
+#achievementGalleryNext { grid-column: 3; grid-row: 2; align-self: center; }
+#achievementGalleryClose { width: 44px; height: 44px; font-size: 28px; }
+
+.achievement-gallery-stage {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 18px;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #547d9b transparent;
+}
+
+.achievement-gallery-content {
+    display: grid;
+    align-items: center;
+    min-height: 100%;
+    min-width: 0;
+}
+
+.achievement-gallery .achievement-gallery-card {
+    width: 100%;
+    margin: 0;
+    animation: achievementCardAppear .2s ease-out both;
+}
+
+.achievement-gallery :is(.evidence-card, .exam-student-card),
+.achievement-gallery :is(.evidence-card, .exam-student-card):hover {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: min(510px, 64vh);
+    border: 1px solid rgba(141, 210, 253, .43);
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(14, 23, 42, .88), rgba(7, 12, 24, .82));
+    box-shadow: 0 22px 65px rgba(0, 0, 0, .24);
+    transform: none !important;
+    transition: none;
+    will-change: auto;
+    cursor: default;
+}
+
+.achievement-gallery .evidence-card::before { display: none; }
+.achievement-gallery .evidence-zoom { display: none; }
+.achievement-gallery :is(.evidence-content, .exam-student-info) { padding: clamp(24px, 3vw, 40px); }
+.achievement-gallery .evidence-content h2 { font-size: clamp(25px, 2.6vw, 34px); }
+.achievement-gallery .evidence-content p { font-size: 16px; line-height: 1.75; overflow-wrap: anywhere; }
+.achievement-gallery .evidence-type { font-size: 12px; }
+.achievement-gallery .evidence-facts { gap: 14px; padding-top: 28px; }
+.achievement-gallery .evidence-fact { grid-template-columns: 90px minmax(0, 1fr); padding-top: 14px; }
+.achievement-gallery .evidence-fact span { font-size: 11px; }
+.achievement-gallery .evidence-fact strong { font-size: 15px; overflow-wrap: anywhere; }
+.achievement-gallery .evidence-image-wrap { display: flex; align-items: center; min-height: 0; background: rgba(3, 9, 20, .24); }
+.achievement-gallery .evidence-card .evidence-image-wrap img,
+.achievement-gallery .evidence-card:hover .evidence-image-wrap img {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: min(740px, 74vh);
+    object-fit: contain;
+    transform: none;
+    filter: none;
+    transition: none;
+}
+
+.achievement-gallery .exam-student-top { margin-bottom: 30px; }
+.achievement-gallery .exam-student-period { padding: 8px 12px; font-size: 14px; }
+.achievement-gallery :is(.exam-student-subject, .exam-student-label) { font-size: 14px; }
+.achievement-gallery .exam-student-main { gap: 24px; margin-bottom: 30px; }
+.achievement-gallery .exam-student-identity h3 { font-size: clamp(25px, 2.5vw, 34px); }
+.achievement-gallery .exam-student-score strong { font-size: clamp(42px, 5vw, 62px); }
+.achievement-gallery .exam-student-score span { font-size: 14px; }
+.achievement-gallery .exam-student-facts { gap: 18px; padding-top: 24px; }
+.achievement-gallery .exam-student-facts > div { grid-template-columns: 120px minmax(0, 1fr); }
+.achievement-gallery .exam-student-facts dt { font-size: 14px; }
+.achievement-gallery .exam-student-facts dd { font-size: 16px; }
+.achievement-gallery .exam-student-media { padding: 24px; background: rgba(4, 10, 21, .32); }
+.achievement-gallery .exam-student-media figcaption { max-width: 100%; font-size: 12px; }
+.achievement-gallery .exam-student-image-link { min-height: 0; }
+.achievement-gallery .exam-student-image-link img { max-height: min(680px, 68vh); object-fit: contain; }
+.achievement-gallery .exam-student-illustration { max-width: 300px; }
+.achievement-gallery-error { padding: 32px; border-radius: 14px; background: rgba(7, 14, 28, .9); line-height: 1.7; }
+
+@keyframes achievementCardAppear { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 760px) {
+    .achievement-gallery {
+        grid-template-columns: 1fr auto 1fr;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 10px;
+        padding: max(78px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+    }
+    .achievement-gallery-toolbar { grid-column: 1 / -1; padding-left: 12px; gap: 10px; }
+    .achievement-gallery-title { font-size: 14px; }
+    .achievement-gallery-stage { grid-column: 1 / -1; }
+    #achievementGalleryPrev { grid-column: 1; grid-row: 3; justify-self: end; margin-right: 12px; }
+    #achievementGalleryNext { grid-column: 3; grid-row: 3; justify-self: start; margin-left: 12px; }
+    .achievement-gallery :is(.evidence-card, .exam-student-card),
+    .achievement-gallery :is(.evidence-card, .exam-student-card):hover { grid-template-columns: 1fr; min-height: 0; border-radius: 14px; }
+    .achievement-gallery :is(.evidence-content, .exam-student-info) { padding: 24px 20px; }
+    .achievement-gallery .exam-student-media { padding: 18px; border-left: 0; border-top: 1px solid rgba(178, 204, 226, .16); }
+    .achievement-gallery .exam-student-illustration { max-width: 210px; }
+    .achievement-gallery .exam-student-facts > div { grid-template-columns: 110px minmax(0, 1fr); }
+    .achievement-gallery .exam-student-facts dd { font-size: 15px; }
+    .achievement-gallery .evidence-card .evidence-image-wrap img { max-height: none; }
+    .achievement-gallery .exam-student-image-link img { max-height: none; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+    .achievement-gallery { padding-top: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .achievement-gallery .achievement-gallery-card { animation: none; }
+    .achievement-gallery-button { transition: none; }
+}
