@@ -426,7 +426,17 @@ async function approveTikzImport(id,{skipConfirm=false,refresh=true}={}){const i
 async function approveAllTikzImports(){const items=state.tikzImportQueue.filter(item=>item.status==='ready');if(!items.length||state.tikzImportBusy)return;if(!confirm(`Duyệt và đăng ${items.length} hình vẽ đã render?`))return;for(const item of [...items])await approveTikzImport(item.id,{skipConfirm:true,refresh:false});await loadTikzAdmin();}
 function removeTikzImport(id){if(state.tikzImportBusy)return;state.tikzImportQueue=state.tikzImportQueue.filter(item=>item.id!==id);renderTikzImportQueue();}
 function clearTikzImports(){if(!state.tikzImportQueue.length||state.tikzImportBusy)return;if(!confirm('Xóa toàn bộ hàng chờ nhập TikZ?'))return;state.tikzImportQueue=[];setStatus('tikzImportStatus','');renderTikzImportQueue();}
-function reviewSetupMessage(error){return `Chưa thể tải dữ liệu. Hãy chạy migration 20260907_requests_contributions_and_evidence.sql trong Supabase SQL Editor. ${esc(error?.message||'')}`;}
+function reviewSetupMessage(error){
+  const code=String(error?.code||'');
+  const message=String(error?.message||'');
+  const missingTable=code==='PGRST205'||code==='42P01';
+  if(missingTable&&message.includes('achievement_evidence')){
+    return '<p>Supabase chưa nhận diện được bảng lưu minh chứng. Chạy file SQL sửa minh chứng trong SQL Editor, sau đó bấm Làm mới danh sách.</p><div class="admin-actions"><a class="admin-btn ghost" href="supabase/migrations/20260913153000_repair_achievement_evidence.sql" download>Tải SQL sửa minh chứng</a><a class="admin-btn ghost" href="https://supabase.com/dashboard/project/uiyqdqucqplifcvukwul/sql/new" target="_blank" rel="noopener noreferrer">Mở Supabase SQL Editor</a></div>';
+  }
+  if(missingTable)return 'Supabase chưa nhận diện được bảng dữ liệu. Hãy kiểm tra migration 20260907_requests_contributions_and_evidence.sql trong Supabase SQL Editor.';
+  if(code==='42501'||code==='PGRST301'||code==='PGRST302'||/jwt|permission denied/i.test(message))return 'Không thể tải dữ liệu do phiên đăng nhập hoặc quyền truy cập. Hãy đăng nhập lại bằng tài khoản admin rồi bấm Làm mới danh sách.';
+  return `Chưa thể tải dữ liệu. Hãy kiểm tra kết nối rồi bấm Làm mới danh sách.${message?` Chi tiết: ${esc(message)}`:''}`;
+}
 function requestCategoryName(item){return item.math_categories?.name||state.categories.find(category=>String(category.id)===String(item.category_id))?.name||'Chưa phân loại';}
 function formatDateTime(value){if(!value)return '';const date=new Date(value);return Number.isNaN(date.getTime())?'':new Intl.DateTimeFormat('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(date);}
 function reviewStatusLabel(status){return ({pending:'Chờ duyệt',approved:'Đã duyệt',rejected:'Đã từ chối'})[status]||status||'Chờ duyệt';}
