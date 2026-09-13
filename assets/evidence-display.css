@@ -8,9 +8,9 @@
     overflow: hidden;
     background: radial-gradient(ellipse at 50% 40%, rgba(83, 70, 143, .14), rgba(4, 11, 22, .35) 72%);
 }
-#evidenceWorkspace .evidence-visibility { min-width:0; margin:8px 0; padding:14px; border:1px solid rgba(151,176,216,.24); border-radius:12px; background:rgba(11,22,40,.45); }
-#evidenceWorkspace .evidence-visibility legend { padding:0 6px; color:#c8d7ef; font-size:13px; }
-#evidenceWorkspace .evidence-visibility .check-row { margin:0; }
+:is(#evidenceWorkspace, #scoresWorkspace) .evidence-visibility { min-width:0; margin:8px 0; padding:14px; border:1px solid rgba(151,176,216,.24); border-radius:12px; background:rgba(11,22,40,.45); }
+:is(#evidenceWorkspace, #scoresWorkspace) .evidence-visibility legend { padding:0 6px; color:#c8d7ef; font-size:13px; }
+:is(#evidenceWorkspace, #scoresWorkspace) .evidence-visibility .check-row { margin:0; }
 #evidenceWorkspace .evidence-visibility .muted { margin-top:10px; }
 #evidenceRemoveImage { margin-top:10px; }
 #evidenceRemoveImage[hidden] { display:none!important; }

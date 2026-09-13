@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="style.css?v=20260907-admin">
 <link rel="stylesheet" href="assets/site-experience.css?v=20260913-unified">
 <link rel="stylesheet" href="assets/exam-scores.css?v=20260908-privacy">
-<link rel="stylesheet" href="assets/exam-scores-admin-cards.css?v=20260908-dropzone">
+<link rel="stylesheet" href="assets/exam-scores-admin-cards.css?v=20260913-fields">
 <link rel="stylesheet" href="assets/admin-account.css?v=20260908-sidebar-led">
 <link rel="stylesheet" href="assets/exam-score-paper.css?v=20260908-math-cycle">
 <link rel="stylesheet" href="assets/admin-galaxy.css?v=20260908-toggle">
@@ -193,7 +193,16 @@
                 </div>
                 <div><label for="scoreClass">Lớp / khóa học</label><input id="scoreClass" required maxlength="80" list="scoreClassSuggestions" placeholder="12A1"><datalist id="scoreClassSuggestions"></datalist></div>
                 <div><label for="scoreImageInput">Ảnh xác nhận điểm (không bắt buộc)</label><div id="scoreImageDropZone" class="admin-drop exam-score-drop"><input id="scoreImageInput" class="drop-input" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="scoreImageHelp"><div class="exam-score-drop-prompt"><i class="fa-regular fa-image" aria-hidden="true"></i><strong>Thêm tệp hoặc kéo thả ảnh vào đây</strong><span id="scoreImageHelp">PNG, JPG, WebP · tối đa 10 MB</span></div></div><p id="scoreImageName" class="exam-form-note"></p><button id="scoreRemoveImage" class="admin-btn ghost" type="button" hidden><i class="fa-solid fa-xmark" aria-hidden="true"></i> Bỏ ảnh</button><p id="scoreImageStatus" class="admin-status" role="status" aria-live="polite"></p></div>
-                <div class="exam-privacy-options"><label class="check-row"><input id="scoreHideName" type="checkbox" aria-describedby="scoreHideNameHelp"> Ẩn tên và ảnh xác nhận</label><p id="scoreHideNameHelp" class="exam-form-note">Điểm vẫn được thống kê công khai.</p><label class="check-row"><input id="scorePublished" type="checkbox" checked aria-describedby="scorePublishedHelp"> Hiển thị điểm công khai</label><p id="scorePublishedHelp" class="exam-form-note">Tắt để ẩn toàn bộ thẻ và điểm khỏi trang thành tích; chỉ admin xem được.</p></div>
+                <fieldset class="evidence-visibility score-field-visibility"><legend>Thông tin hiển thị trên thẻ điểm</legend><div class="field-grid">
+                    <label class="check-row"><input id="scoreShowStudentName" type="checkbox" role="switch" checked> Tên học sinh</label>
+                    <label class="check-row"><input id="scoreShowImage" type="checkbox" role="switch" checked> Ảnh xác nhận</label>
+                    <label class="check-row"><input id="scoreShowScore" type="checkbox" role="switch" checked> Điểm đạt được</label>
+                    <label class="check-row"><input id="scoreShowClassName" type="checkbox" role="switch" checked> Lớp / khóa học</label>
+                    <label class="check-row"><input id="scoreShowGrade" type="checkbox" role="switch" checked> Khối</label>
+                    <label class="check-row"><input id="scoreShowSchoolYear" type="checkbox" role="switch" checked> Năm học</label>
+                    <label class="check-row"><input id="scoreShowPeriod" type="checkbox" role="switch" checked> Kỳ thi</label>
+                </div><p class="exam-form-note">Tắt mục nào sẽ ẩn mục đó trên website; dữ liệu vẫn giữ trong admin. Tên được che mờ. Ẩn ảnh sẽ dùng hình minh họa chuyển động. Điểm bị ẩn không xuất hiện trên đèn LED. Thống kê chỉ tính thẻ có điểm và kỳ thi được công khai, thuộc kỳ đang bật thống kê.</p><p class="exam-form-note">Ảnh có thể chứa tên, điểm hoặc thông tin khác. Hãy tắt cả ảnh nếu cần giữ kín nội dung bên trong ảnh.</p></fieldset>
+                <div class="exam-privacy-options"><label class="check-row"><input id="scorePublished" type="checkbox" role="switch" checked aria-describedby="scorePublishedHelp"> Công bố thẻ điểm</label><p id="scorePublishedHelp" class="exam-form-note">Tắt để ẩn toàn bộ thẻ và điểm khỏi trang thành tích; chỉ admin xem được.</p></div>
                 <div class="admin-actions"><button id="scoreSaveBtn" class="admin-btn success" type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> <span id="scoreSaveLabel">Lưu điểm</span></button><button id="scoreResetBtn" class="admin-btn ghost" type="button"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Hủy / nhập mới</button></div>
             </fieldset>
             <div id="scoreFormStatus" class="admin-status" role="status" aria-live="polite"></div>
@@ -224,7 +233,7 @@
         <div class="exam-admin-heading"><h2>Điểm thi đã nhập</h2><button id="scoreAdminRefresh" class="admin-btn ghost icon-btn" type="button" title="Làm mới danh sách điểm" aria-label="Làm mới danh sách điểm"><i class="fa-solid fa-rotate" aria-hidden="true"></i></button></div>
         <div class="exam-admin-filters"><input id="scoreAdminSearch" class="admin-search" type="search" placeholder="Tìm học sinh, lớp, năm học..." aria-label="Tìm điểm theo tên học sinh, lớp, năm học"><select id="scoreAdminPeriod" class="admin-filter" aria-label="Lọc kỳ thi"><option value="all">Tất cả kỳ thi</option><option value="gk1">Giữa kỳ 1</option><option value="ck1">Cuối kỳ 1</option><option value="gk2">Giữa kỳ 2</option><option value="ck2">Cuối kỳ 2</option></select><select id="scoreAdminVisibility" class="admin-filter" aria-label="Lọc công bố"><option value="all">Tất cả</option><option value="published">Đã công bố</option><option value="hidden">Đang ẩn</option></select></div>
         <div id="scoreAdminStatus" class="admin-status" role="status" aria-live="polite"></div>
-        <div id="scoreSetupHelp" class="hidden"><a id="scoreMigrationLink" class="exam-setup-link" href="supabase/migrations/20260907144035_exam_scores.sql" target="_blank" rel="noopener">File SQL thiết lập điểm thi</a></div>
+        <div id="scoreSetupHelp" class="hidden"><a id="scoreMigrationLink" class="exam-setup-link" href="supabase/migrations/20260913203000_exam_score_field_visibility.sql" target="_blank" rel="noopener">File SQL cập nhật hiện/ẩn thông tin điểm thi</a></div>
         <div class="exam-table-wrap"><table class="exam-table"><caption class="hidden">Danh sách điểm thi đã nhập</caption><thead><tr><th scope="col">STT</th><th scope="col">Điểm</th><th scope="col">Học sinh / lớp</th><th scope="col">Kỳ thi</th><th scope="col">Trạng thái</th><th scope="col">Thao tác</th></tr></thead><tbody id="scoreAdminRows"></tbody></table></div>
         <nav id="scoreAdminPagination" class="admin-pagination" aria-label="Phân trang điểm thi"></nav>
     </div>
@@ -268,14 +277,14 @@
 <div id="toast" class="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
-<script src="assets/exam-scores.js?v=20260913-options"></script>
+<script src="assets/exam-scores.js?v=20260913-fields"></script>
 <script src="assets/exam-score-options.js?v=20260913"></script>
 <script src="assets/site-experience.js?v=20260913-unified"></script>
 <script src="assets/site-content.js?v=20260913-unified"></script>
 <script src="assets/site-content-admin.js?v=20260913-unified"></script>
 <script src="assets/admin-account.js?v=20260908-sidebar-led"></script>
 <script src="assets/exam-score-paper.js?v=20260908-math-cycle"></script>
-<link rel="stylesheet" href="assets/evidence-display.css?v=20260913-optional">
+<link rel="stylesheet" href="assets/evidence-display.css?v=20260913-fields">
 <script src="assets/evidence-display.js?v=20260913-optional"></script>
 <script src="assets/score-submissions-admin.js?v=20260913-options"></script>
 <script src="assets/exam-score-settings-admin.js?v=20260913-options"></script>
@@ -647,7 +656,7 @@ document.querySelectorAll('[data-admin-nav]').forEach(button=>button.addEventLis
 document.querySelectorAll('[data-workspace-tab]').forEach(tab=>tab.addEventListener('click',()=>activateAdminWorkspace(tab.dataset.workspaceTab,false)));
 $('previewClose').addEventListener('click',closePreview);$('previewModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closePreview();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePreview();});supabaseClient.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')clearAdminSession();else if(event==='SIGNED_IN')adminAuthGeneration++;scheduleAdminCheck();});const initialWorkspace=(location.hash.match(/^#admin-([a-z]+)/)||[])[1];if(initialWorkspace&&adminWorkspaceIds[initialWorkspace])activateAdminWorkspace(initialWorkspace,false);scheduleAdminCheck();
 </script>
-<script src="assets/exam-scores-admin.js?v=20260913-options"></script>
+<script src="assets/exam-scores-admin.js?v=20260913-fields"></script>
 <script>
 Object.values(evidenceFlagInputs).forEach(id=>$(id).addEventListener('change',setEvidencePreview));
 $('evidenceRemoveImage').addEventListener('click',removeEvidenceImage);

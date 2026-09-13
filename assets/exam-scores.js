@@ -16,7 +16,19 @@
         { label: "6,5 đến dưới 8", max: 8, color: "#72c9f4" },
         { label: "8 đến 10", max: Infinity, color: "#6fe0b8" }
     ]);
-    const columns = "id,student_name,period,score,grade,class_name,school_year,published,created_at,evidence_image_path,evidence_image_name,hide_student_name";
+    const visibilityFields = Object.freeze(["show_image", "show_score", "show_class_name", "show_grade", "show_school_year", "show_period"]);
+    const columns = "id,student_name,period,score,grade,class_name,school_year,published,created_at,evidence_image_path,evidence_image_name,hide_student_name," + visibilityFields.join(",");
+    function visibility(input = {}) {
+        // Old records coupled image privacy to name privacy; preserve that until migrated.
+        return Object.fromEntries(visibilityFields.map(key => [key, key === "show_image" && input[key] == null ? !input.hide_student_name : input[key] !== false]));
+    }
+    function publicRecord(input) {
+        const row = { ...input, ...visibility(input) };
+        if (row.hide_student_name) row.student_name = null;
+        for (const key of ["score", "class_name", "grade", "school_year", "period"]) if (!row[`show_${key}`]) row[key] = null;
+        if (!row.show_image) row.evidence_image_path = row.evidence_image_name = null;
+        return row;
+    }
     const format = value => value == null ? "—" : new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 2 }).format(value);
     const label = key => options.periods.find(period => period.key === key)?.label || key;
     const schoolYear = (date = new Date()) => {
@@ -80,7 +92,7 @@
         ));
     }
     function summarize(records) {
-        const valid = records.map(row => ({ ...row, score: parseScore(row.score) })).filter(row => row.score !== null);
+        const valid = records.map(row => ({ ...row, score: row.show_score === false ? null : parseScore(row.score) })).filter(row => row.score !== null);
         const histogram = Array(10).fill(0);
         const distribution = bands.map(band => ({ ...band, count: 0 }));
         const byPeriod = options.periods.map(period => ({ ...period, count: 0, sum: 0, average: null }));
@@ -108,7 +120,7 @@
                 : client.from("exam_scores").select(columns).order("created_at", { ascending: false }).order("id", { ascending: false }).range(offset, offset + batchSize - 1);
             const { data, error } = await query;
             if (error) throw error;
-            rows.push(...(data || []));
+            rows.push(...(publicOnly ? (data || []).map(publicRecord) : (data || [])));
             if (!data || data.length < batchSize) break;
         }
         return rows;
@@ -117,7 +129,7 @@
         if (["42P01", "PGRST205", "PGRST202"].includes(error?.code)) {
             return admin ? "Chưa có bảng điểm thi. Cần chạy migration exam_scores trong Supabase SQL Editor trước khi lưu." : "Mục điểm thi đang được thiết lập. Chưa có thống kê để hiển thị.";
         }
-        if (["42703", "PGRST204"].includes(error?.code)) return admin ? "Cần cập nhật bảng điểm để lưu tên học sinh và ảnh xác nhận. Hãy chạy file SQL thiết lập mới." : "Thông tin học sinh đang được cập nhật. Vui lòng quay lại sau.";
+        if (["42703", "PGRST204"].includes(error?.code)) return admin ? "Cần chạy file SQL 20260913203000_exam_score_field_visibility.sql để thiết lập các nút hiện/ẩn thông tin điểm thi." : "Thông tin học sinh đang được cập nhật. Vui lòng quay lại sau.";
         if (error?.code === "42501") return "Chưa có quyền truy cập điểm thi. Vui lòng kiểm tra quyền quản trị và cấu hình dữ liệu.";
         return "Không thể kết nối dữ liệu điểm thi. Vui lòng thử lại.";
     }
@@ -127,5 +139,5 @@
         if (error) throw error;
         return data?.signedUrl || "";
     }
-    return { get periods() { return options.periods.map(period => ({ ...period })); }, get grades() { return [...options.grades]; }, bands, columns, format, label, schoolYear, parseScore, validate, filter, summarize, fetchAll, signedImageUrl, errorMessage, validPeriodKey, validYear, normalizeOptions, configure, getOptions, observeRecords };
+    return { get periods() { return options.periods.map(period => ({ ...period })); }, get grades() { return [...options.grades]; }, bands, columns, visibilityFields, visibility, publicRecord, format, label, schoolYear, parseScore, validate, filter, summarize, fetchAll, signedImageUrl, errorMessage, validPeriodKey, validYear, normalizeOptions, configure, getOptions, observeRecords };
 }));

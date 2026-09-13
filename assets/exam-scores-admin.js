@@ -7,6 +7,13 @@
     const imageExtensions = { "image/png": "png", "image/jpeg": "jpg", "image/webp": "webp" };
     const perPage = 10;
     const form = $("scoreForm");
+    const visibilityInputs = { show_image: "scoreShowImage", show_score: "scoreShowScore", show_class_name: "scoreShowClassName", show_grade: "scoreShowGrade", show_school_year: "scoreShowSchoolYear", show_period: "scoreShowPeriod" };
+    const visibilityLabels = { show_image: "ảnh", show_score: "điểm", show_class_name: "lớp", show_grade: "khối", show_school_year: "năm học", show_period: "kỳ thi" };
+    const formVisibility = () => Object.fromEntries(Object.entries(visibilityInputs).map(([key, id]) => [key, $(id).checked]));
+    function hiddenFields(row) {
+        const flags = api.visibility(row);
+        return [...(row.hide_student_name ? ["tên"] : []), ...Object.keys(flags).filter(key => !flags[key]).map(key => visibilityLabels[key])];
+    }
     $("scoreYear").value = api.schoolYear();
     function clearImage() {
         imageRequest++;
@@ -24,7 +31,7 @@
         $("scorePreviewImage").hidden = true;
         $("scorePreviewImage").removeAttribute("src");
         $("scorePreviewFallback").hidden = false;
-        if ($("scoreHideName").checked) return;
+        if (!$("scoreShowImage").checked) return;
         try {
             const url = localImageUrl || (visibleStoredImage ? await api.signedImageUrl(supabaseClient, storedImagePath) : null);
             if (request !== imageRequest || !url) return;
@@ -58,7 +65,8 @@
         } catch (error) { return false; }
     }
     function renderPreview() {
-        const hideName = $("scoreHideName").checked;
+        const hideName = !$("scoreShowStudentName").checked;
+        const flags = formVisibility();
         const number = editingId ? Math.max(1, records.findIndex(row => row.id === editingId) + 1) : records.length + 1;
         $("scoreEntryNumber").textContent = number;
         $("scorePreviewNumber").textContent = `STT ${number}`;
@@ -66,18 +74,23 @@
         $("scorePreviewName").classList.toggle("is-name-hidden", hideName);
         if (hideName) $("scorePreviewName").setAttribute("aria-label", "Tên học sinh đã được ẩn");
         else $("scorePreviewName").removeAttribute("aria-label");
-        $("scorePreviewClass").textContent = `${$("scoreClass").value.trim() || "Lớp / khóa học"} · Khối ${$("scoreGrade").value}`;
-        $("scorePreviewPeriod").textContent = api.label($("scorePeriod").value);
-        $("scorePreviewValue").textContent = api.format(api.parseScore($("scoreValue").value));
-        const paper = $("scorePreviewFallback"), score = api.parseScore($("scoreValue").value);
-        const paperScore = api.format(score);
+        $("scorePreviewClass").textContent = [flags.show_class_name ? $("scoreClass").value.trim() || "Lớp / khóa học" : "", flags.show_grade ? `Khối ${$("scoreGrade").value}` : ""].filter(Boolean).join(" · ");
+        $("scorePreviewClass").hidden = !flags.show_class_name && !flags.show_grade;
+        $("scorePreviewPeriod").textContent = flags.show_period ? api.label($("scorePeriod").value) : "";
+        $("scorePreviewPeriod").hidden = !flags.show_period;
+        $("scorePreviewValue").textContent = flags.show_score ? api.format(api.parseScore($("scoreValue").value)) : "";
+        $("scorePreviewValue").closest(".exam-admin-result").hidden = !flags.show_score;
+        const paper = $("scorePreviewFallback"), score = flags.show_score ? api.parseScore($("scoreValue").value) : null;
+        const paperScore = flags.show_score ? api.format(score) : "hidden";
         if (paper.dataset.score !== paperScore && window.ExamScorePaper) {
-            paper.innerHTML = window.ExamScorePaper.render(score) + '<span>Thành tích học tập</span>';
+            paper.innerHTML = (flags.show_score ? window.ExamScorePaper.render(score) : window.EvidenceDisplay.illustration()) + '<span>Thành tích học tập</span>';
             paper.dataset.score = paperScore;
         }
-        $("scorePreviewYear").textContent = $("scoreYear").value.trim() || "—";
+        $("scorePreviewYear").textContent = flags.show_school_year ? $("scoreYear").value.trim() || "—" : "";
+        $("scorePreviewYear").closest(".exam-admin-year").hidden = !flags.show_school_year;
         $("scorePreviewVisibility").textContent = $("scorePublished").checked ? "Sẽ công bố" : "Bản nháp · chỉ admin";
-        $("scorePreviewPrivacyNote").textContent = !$("scorePublished").checked ? "Thẻ và điểm này chỉ hiển thị trong trang admin." : hideName ? "Tên và ảnh xác nhận được ẩn trên website. Admin vẫn giữ đầy đủ thông tin để chỉnh sửa." : "Tên, điểm và ảnh xác nhận sẽ hiển thị trên trang thành tích.";
+        const hidden = hiddenFields({ ...flags, hide_student_name: hideName });
+        $("scorePreviewPrivacyNote").textContent = !$("scorePublished").checked ? "Thẻ và điểm này chỉ hiển thị trong trang admin." : hidden.length ? `Đang ẩn: ${hidden.join(", ")}. Admin vẫn giữ đầy đủ thông tin để chỉnh sửa.` : "Các thông tin đã chọn sẽ hiển thị trên trang thành tích.";
         $("scorePreviewCard").dataset.published = String($("scorePublished").checked);
     }
     function reset(keepContext = false) {
@@ -113,7 +126,7 @@
             <td class="exam-record-number">${(page - 1) * perPage + index + 1}</td>
             <td class="exam-record-score">${api.format(row.score)}</td>
             <td><span class="exam-record-name">${esc(row.student_name || "Chưa có tên học sinh")}</span>${esc(row.class_name)}<span class="exam-record-meta">Khối ${row.grade} · ${esc(row.school_year)}</span></td>
-            <td>${esc(api.label(row.period))}</td><td><span class="status-pill ${row.published ? "on" : "off"}">${row.published ? "Đã công bố" : "Đang ẩn"}</span>${row.hide_student_name ? '<span class="exam-record-privacy">Ẩn tên và ảnh</span>' : ''}</td>
+            <td>${esc(api.label(row.period))}</td><td><span class="status-pill ${row.published ? "on" : "off"}">${row.published ? "Đã công bố" : "Đang ẩn"}</span>${hiddenFields(row).length ? `<span class="exam-record-privacy">Ẩn: ${esc(hiddenFields(row).join(", "))}</span>` : ''}</td>
             <td><div class="doc-actions">
                 <button class="admin-btn ghost icon-btn" type="button" data-score-action="edit" data-score-id="${esc(row.id)}" title="Sửa điểm" aria-label="Sửa điểm"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
                 <button class="admin-btn ghost icon-btn" type="button" data-score-action="toggle" data-score-id="${esc(row.id)}" title="${row.published ? "Ẩn điểm" : "Công bố điểm"}" aria-label="${row.published ? "Ẩn điểm" : "Công bố điểm"}"><i class="fa-solid ${row.published ? "fa-eye-slash" : "fa-eye"}" aria-hidden="true"></i></button>
@@ -166,7 +179,9 @@
         $("scoreYear").value = row.school_year;
         $("scoreClass").value = row.class_name;
         $("scorePublished").checked = row.published;
-        $("scoreHideName").checked = Boolean(row.hide_student_name);
+        $("scoreShowStudentName").checked = !row.hide_student_name;
+        const flags = api.visibility(row);
+        Object.entries(visibilityInputs).forEach(([key, id]) => { $(id).checked = flags[key]; });
         $("scoreFormTitle").textContent = "Sửa điểm thi";
         $("scoreSaveLabel").textContent = "Cập nhật điểm";
         setStatus("scoreFormStatus", "");
@@ -185,7 +200,8 @@
         let payload;
         try {
             payload = api.validate({ student_name: $("scoreStudentName").value, period: $("scorePeriod").value, score: $("scoreValue").value, grade: $("scoreGrade").value,
-                class_name: $("scoreClass").value, school_year: $("scoreYear").value, published: $("scorePublished").checked, hide_student_name: $("scoreHideName").checked });
+                class_name: $("scoreClass").value, school_year: $("scoreYear").value, published: $("scorePublished").checked, hide_student_name: !$("scoreShowStudentName").checked });
+            Object.assign(payload, formVisibility());
         } catch (error) { setStatus("scoreFormStatus", error.message); return; }
         const wasEditing = editingId !== null;
         const oldImagePath = storedImagePath;
@@ -249,7 +265,7 @@
     $("scoreResetBtn").addEventListener("click", () => { if (!busy) reset(); });
     $("scoreAdminRefresh").addEventListener("click", () => { if (!busy) load(); });
     $("scoreImageInput").addEventListener("change", event => chooseImage(event.target.files));
-    $("scoreHideName").addEventListener("change", renderImage);
+    $("scoreShowImage").addEventListener("change", renderImage);
     $("scoreRemoveImage").addEventListener("click", () => {
         if (busy || loading) return;
         if (localImageUrl) URL.revokeObjectURL(localImageUrl);

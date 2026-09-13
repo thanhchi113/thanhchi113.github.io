@@ -291,7 +291,8 @@ async function selectWorkspace(page, key) {
         await page.fill('#scoreValue', '9,25');
         await page.locator('#scoreImageInput').setInputFiles({ name: 'score-proof.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jN1sAAAAASUVORK5CYII=', 'base64') });
         await page.waitForSelector('#scorePreviewImage:not([hidden])');
-        await page.check('#scoreHideName');
+        await page.uncheck('#scoreShowStudentName');
+        await page.uncheck('#scoreShowImage');
         assert.equal(await page.locator('#scorePreviewName').textContent(), 'Tên học sinh');
         assert.equal(await page.locator('#scorePreviewName').getAttribute('aria-label'), 'Tên học sinh đã được ẩn');
         assert.equal(await page.locator('#scorePreviewName').evaluate(element => getComputedStyle(element).filter), 'blur(4px)');
@@ -301,21 +302,23 @@ async function selectWorkspace(page, key) {
         await page.click('#scoreSaveBtn');
         await waitText(page, '#scoreFormStatus', 'Đã lưu điểm thi');
         assert.deepEqual(await page.evaluate(() => ({ name: accountMock.scores[0].student_name, hidden: accountMock.scores[0].hide_student_name, published: accountMock.scores[0].published, image: accountMock.scores[0].evidence_image_name })), { name: 'Nguyễn Minh Anh', hidden: true, published: true, image: 'score-proof.png' });
-        assert(!(await page.locator('#scoreHideName').isChecked()));
+        assert(await page.locator('#scoreShowStudentName').isChecked());
         assert.equal(await page.locator('#scoreEntryNumber').textContent(), '14');
         await page.click('[data-score-action="edit"][data-score-id="score-13"]');
-        assert(await page.locator('#scoreHideName').isChecked());
+        assert(!(await page.locator('#scoreShowStudentName').isChecked()));
         assert.equal(await page.inputValue('#scoreStudentName'), 'Nguyễn Minh Anh');
-        await page.uncheck('#scoreHideName');
+        await page.check('#scoreShowStudentName');
+        await page.check('#scoreShowImage');
         await page.waitForSelector('#scorePreviewImage:not([hidden])');
         assert.equal(await page.locator('#scorePreviewName').textContent(), 'Nguyễn Minh Anh');
-        await page.check('#scoreHideName');
+        await page.uncheck('#scoreShowStudentName');
+        await page.uncheck('#scoreShowImage');
         await page.uncheck('#scorePublished');
         await page.click('#scoreSaveBtn');
         await waitText(page, '#scoreFormStatus', 'Đã lưu điểm thi');
         assert.deepEqual(await page.evaluate(() => ({ hidden: accountMock.scores[0].hide_student_name, published: accountMock.scores[0].published })), { hidden: true, published: false });
         assert.equal(await page.locator('#scoreAdminRows .exam-record-name').first().textContent(), 'Nguyễn Minh Anh');
-        assert.equal(await page.locator('#scoreAdminRows .exam-record-privacy').first().textContent(), 'Ẩn tên và ảnh');
+        assert.equal(await page.locator('#scoreAdminRows .exam-record-privacy').first().textContent(), 'Ẩn: tên, ảnh');
 
         // Exercise the importer mounted by the real admin.html, without saving the draft.
         await page.fill('#scoreStudentName', 'Điểm đang nhập riêng');

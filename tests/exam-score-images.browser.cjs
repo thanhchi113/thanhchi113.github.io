@@ -21,11 +21,7 @@ async function mockApi(context) {
         if (url.pathname.endsWith('/exam_score_settings')) return respond({ id: 1, statistics_enabled: true, summary_enabled: true, bar_enabled: true, pie_enabled: true, line_enabled: true, enabled_periods: ['gk1', 'ck1', 'gk2', 'ck2'] });
         if (url.pathname.endsWith('/rpc/get_published_exam_scores')) {
             const { page_offset: offset = 0, page_limit: limit = 500 } = request.postDataJSON();
-            return respond(records.filter(row => row.published).slice(offset, offset + limit).map(row => ({
-                ...row, student_name: row.hide_student_name ? null : row.student_name,
-                evidence_image_path: row.hide_student_name ? null : row.evidence_image_path,
-                evidence_image_name: row.hide_student_name ? null : row.evidence_image_name
-            })));
+            return respond(records.filter(row => row.published).slice(offset, offset + limit).map(require('../assets/exam-scores.js').publicRecord));
         }
         const signPrefix = '/storage/v1/object/sign/exam-score-evidence/';
         const objectPrefix = '/storage/v1/object/exam-score-evidence/';
@@ -188,7 +184,9 @@ function assertOrder(start, expected) {
         assert.equal(await page.locator('#scoreImageName').textContent(), 'Chưa đính kèm ảnh');
 
         await edit(page, added.id);
-        await page.locator('#scoreHideName').check();
+        await page.locator('#scoreShowStudentName').uncheck();
+        assert(await page.locator('#scorePreviewImage').isVisible(), 'Hiding a name must not implicitly hide the image');
+        await page.locator('#scoreShowImage').uncheck();
         await page.locator('#scorePublished').check();
         assert.notEqual(await page.locator('#scorePreviewName').textContent(), added.student_name);
         assert.equal(await page.locator('#scorePreviewName').evaluate(node => node.classList.contains('is-name-hidden')), true);
@@ -210,9 +208,57 @@ function assertOrder(start, expected) {
         assert.equal(await publicPage.locator('#scoreStudentCards .exam-score-paper').first().getAttribute('data-score-display'), '9,25', 'The decorative paper must display this student score, including when the name is hidden');
         assert.equal(await publicPage.locator('#scoreCount').textContent(), '1', 'Anonymous student scores still count in statistics');
         assert.equal(events.filter(event => event.type === 'sign').length, signsBefore, 'Anonymous evidence must not be signed for the public page');
+        await edit(page, added.id);
+        const switches = { show_score: 'scoreShowScore', show_class_name: 'scoreShowClassName', show_grade: 'scoreShowGrade', show_school_year: 'scoreShowSchoolYear', show_period: 'scoreShowPeriod' };
+        for (const [flag, id] of Object.entries(switches)) {
+            await page.locator(`#${id}`).uncheck();
+            assert.equal(await page.locator('#scoreValue').inputValue(), '9,25', 'Toggles must preserve the editable score');
+        }
+        assert(await page.locator('#scorePreviewClass').isHidden());
+        assert(await page.locator('#scorePreviewPeriod').isHidden());
+        assert(await page.locator('#scorePreviewValue').isHidden());
+        assert(await page.locator('#scorePreviewYear').isHidden());
+        assert.equal(await page.locator('#scorePreviewFallback .esp-led').count(), 0);
+        if (process.env.TEST_OUTPUT_DIR) {
+            require('node:fs').mkdirSync(process.env.TEST_OUTPUT_DIR, { recursive: true });
+            await page.locator('.score-field-visibility').screenshot({ path: require('node:path').join(process.env.TEST_OUTPUT_DIR, 'score-field-controls.png') });
+        }
+        await save(page);
+        for (const flag of Object.keys(switches)) assert.equal(added[flag], false);
+        assert.equal(added.score, 9.25);
+        await edit(page, added.id);
+        for (const id of Object.values(switches)) assert.equal(await page.locator(`#${id}`).isChecked(), false);
+        await publicPage.reload();
+        const cards = publicPage.locator('#scoreStudentCards');
+        await cards.locator('.exam-student-card').waitFor();
+        for (const selector of ['.exam-student-score', '.exam-student-facts', '.exam-student-period', 'img', '.esp-led', '[data-score-display]']) assert.equal(await cards.locator(selector).count(), 0, selector);
+        // SVG path coordinates can coincidentally contain the same digits as a score.
+        const markup = await cards.evaluate(node => node.textContent + [...node.querySelectorAll('[aria-label],img')].map(item => `${item.getAttribute('aria-label') || ''} ${item.getAttribute('src') || ''}`).join(' '));
+        for (const secret of [added.student_name, added.class_name, added.school_year, '9,25', '9.25']) assert(!markup.includes(secret), `Hidden value exposed: ${secret}`);
+        assert.equal(await publicPage.locator('#scoreCount').textContent(), '0');
+        assert(!(await publicPage.locator('#scoreClassFilter').textContent()).includes(added.class_name));
+        assert(!(await publicPage.locator('#scoreYearFilter').textContent()).includes(added.school_year));
+        await cards.locator('.exam-student-card').click();
+        await publicPage.locator('#achievementGallery').waitFor({ state: 'visible' });
+        const detail = publicPage.locator('#achievementGalleryContent');
+        for (const selector of ['.exam-student-score', '.exam-student-facts', '.exam-student-period', 'img', '.esp-led']) assert.equal(await detail.locator(selector).count(), 0, `gallery ${selector}`);
+        assert(await detail.locator('.evidence-math-paper').isVisible());
+        await publicPage.keyboard.press('Escape');
+        await publicPage.setViewportSize({ width: 390, height: 844 });
+        assert(await cards.evaluate(node => node.scrollWidth <= node.clientWidth + 1));
+        await page.locator('#scoreShowStudentName').check();
+        await page.locator('#scoreShowImage').check();
+        for (const id of Object.values(switches)) await page.locator(`#${id}`).check();
+        await save(page);
+        await publicPage.reload();
+        await cards.locator('.exam-student-card').scrollIntoViewIfNeeded();
+        await publicPage.locator('#scoreStudentCards img').waitFor();
+        assert((await cards.textContent()).includes(added.student_name));
+        assert.equal(await publicPage.locator('#scoreCount').textContent(), '1');
+        assert.equal(await cards.locator('.exam-student-score strong').textContent(), '9,25');
+        if (process.env.TEST_OUTPUT_DIR) await cards.locator('.exam-student-card').screenshot({ path: require('node:path').join(process.env.TEST_OUTPUT_DIR, 'score-fields-mobile.png') });
         await publicPage.close();
         await edit(page, added.id);
-        await page.locator('#scoreHideName').uncheck();
         await page.locator('#scorePublished').uncheck();
         await save(page);
 
