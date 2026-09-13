@@ -124,8 +124,8 @@ function mockSdk() {
         };
 
         assert.equal(await page.locator('#evidenceImageInput').getAttribute('required'), null, 'An attachment is optional');
+        assert.equal(await page.locator('#evidenceTitle').getAttribute('required'), null, 'A title is optional');
         for (const id of Object.values(flags)) assert(await page.locator(`#${id}`).isChecked(), `${id} defaults to shown`);
-        await page.fill('#evidenceTitle', 'Minh chứng nhập không kèm ảnh');
         await page.fill('#evidenceStudent', 'Trần Thanh Bình');
         await page.fill('#evidenceCourse', '12A2 · 2026-2027');
         await page.fill('#evidenceSchool', 'THPT Nguyễn Trãi');
@@ -134,7 +134,7 @@ function mockSdk() {
         for (const id of Object.values(flags)) await page.locator(`#${id}`).uncheck();
         await preview.locator('.evidence-math-paper').waitFor();
         await save();
-        const optional = state.rows.find(row => row.title === 'Minh chứng nhập không kèm ảnh');
+        const optional = state.rows.find(row => row.title === 'Kết quả tuyển sinh lớp 10');
         assert(optional, 'No-photo submission creates a record');
         assert.equal(optional.image_path, null);
         assert.equal(uploads().length, 0);
@@ -146,6 +146,21 @@ function mockSdk() {
         assert.equal(optional.result_summary, '8,75 điểm Toán');
         assert.equal(optional.description, 'Nội dung được giữ khi tắt hiển thị.');
         assert(await list.locator('.evidence-math-paper').count() > 0, 'No-photo list items display the animated mathematical illustration');
+
+        for (const [group, suggestion] of [['grade12', 'Kết quả tốt nghiệp THPT'], ['feedback', 'Phản hồi học sinh / phụ huynh']]) {
+            await edit(optional.id);
+            await page.selectOption('#evidenceGroup', group);
+            await page.fill('#evidenceTitle', '   ');
+            assert.equal(await page.locator('#evidenceTitle').getAttribute('placeholder'), suggestion);
+            await save();
+            assert.equal(optional.title, suggestion, 'Whitespace uses the selected group suggestion when saving edits');
+        }
+        await edit(optional.id);
+        await page.fill('#evidenceTitle', 'Minh chứng nhập không kèm ảnh');
+        await page.selectOption('#evidenceGroup', 'grade10');
+        assert.equal(await page.inputValue('#evidenceTitle'), 'Minh chứng nhập không kèm ảnh', 'Changing groups preserves a custom title');
+        await save();
+        assert.equal(optional.title, 'Minh chứng nhập không kèm ảnh');
 
         await edit(optional.id);
         for (const id of Object.values(flags)) assert.equal(await page.locator(`#${id}`).isChecked(), false);

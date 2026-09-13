@@ -248,7 +248,7 @@
 <p class="admin-help">Chọn ảnh chứng nhận, bảng điểm hoặc phản hồi. Cột trái chứa nội dung OCR và thông tin chuẩn hóa; cột phải là ảnh gốc để đối chiếu.</p>
 <form id="evidenceForm" class="admin-form">
 <input id="evidenceId" type="hidden"><input id="evidenceOldPath" type="hidden">
-<div class="field-grid"><div><label for="evidenceGroup">Nhóm minh chứng</label><select id="evidenceGroup"><option value="grade10">Luyện thi vào lớp 10</option><option value="grade12">Luyện thi tốt nghiệp THPT</option><option value="feedback">Phản hồi học sinh / phụ huynh</option></select></div><div><label for="evidenceTitle">Tiêu đề</label><input id="evidenceTitle" required maxlength="180" placeholder="Ví dụ: Kết quả tuyển sinh lớp 10"></div></div>
+<div class="field-grid"><div><label for="evidenceGroup">Nhóm minh chứng</label><select id="evidenceGroup"><option value="grade10">Luyện thi vào lớp 10</option><option value="grade12">Luyện thi tốt nghiệp THPT</option><option value="feedback">Phản hồi học sinh / phụ huynh</option></select></div><div><label for="evidenceTitle">Tiêu đề (không bắt buộc)</label><input id="evidenceTitle" maxlength="180" placeholder="Kết quả tuyển sinh lớp 10" aria-describedby="evidenceTitleHelp"><p id="evidenceTitleHelp" class="muted">Bỏ trống để dùng tiêu đề gợi ý của nhóm minh chứng.</p></div></div>
 <div><label for="evidenceImageInput">Ảnh minh chứng (không bắt buộc)</label><div id="evidenceDropZone" class="admin-drop evidence-file-drop"><input id="evidenceImageInput" class="drop-input" type="file" accept="image/png,image/jpeg,image/webp"><div class="evidence-drop-prompt"><i class="fa-regular fa-images"></i><strong>Kéo thả ảnh minh chứng vào đây</strong><span>Hoặc bấm để chọn ảnh PNG, JPG, WebP</span></div><div id="evidenceFileName" class="file-name"></div></div><button id="evidenceRemoveImage" class="admin-btn ghost" type="button" hidden>Bỏ ảnh đính kèm</button><p class="muted">Không có ảnh hoặc tắt hiển thị ảnh: thẻ dùng hình minh họa Toán học chuyển động.</p></div>
 <div class="evidence-layout">
 <div class="evidence-facts"><div class="evidence-facts-head"><strong><i class="fa-solid fa-wand-magic-sparkles"></i> Thông tin trích xuất</strong><button id="extractEvidenceBtn" class="admin-btn ghost" type="button"><i class="fa-solid fa-eye"></i> Phân tích ảnh</button></div><div class="field-grid"><div><label for="evidenceStudent">Tên học sinh</label><input id="evidenceStudent" maxlength="160" placeholder="Tự điền từ ảnh nếu nhận diện được"></div><div><label for="evidenceCourse">Khóa học / lớp</label><input id="evidenceCourse" maxlength="160" placeholder="Ví dụ: 12A1 · Khóa 2025-2026"></div><div><label for="evidenceSchool">Trường</label><input id="evidenceSchool" maxlength="180" placeholder="Tên trường"></div><div><label for="evidenceResult">Kết quả</label><input id="evidenceResult" maxlength="220" placeholder="Ví dụ: Đạt 9.0 điểm Toán"></div></div><div><label for="evidenceDescription">Ghi chú hiển thị</label><textarea id="evidenceDescription" maxlength="1200" placeholder="Tóm tắt minh chứng..."></textarea></div><div><label for="evidenceOcrText">Văn bản OCR</label><textarea id="evidenceOcrText" class="evidence-ocr" readonly placeholder="Chọn ảnh để trích xuất nội dung."></textarea><div id="evidenceOcrStatus" class="admin-status"></div></div></div>
@@ -506,6 +506,8 @@ function setEvidencePreview(){
   });
 }
 function evidenceGroupLabel(group){return ({grade10:'Luyện thi vào 10',grade12:'Tốt nghiệp THPT',feedback:'Phản hồi'})[group]||group;}
+function evidenceTitleSuggestion(){return ({grade10:'Kết quả tuyển sinh lớp 10',grade12:'Kết quả tốt nghiệp THPT',feedback:'Phản hồi học sinh / phụ huynh'})[$('evidenceGroup').value]||'Minh chứng thành tích';}
+function updateEvidenceTitleSuggestion(){$('evidenceTitle').placeholder=evidenceTitleSuggestion();}
 function resetEvidenceForm(){
   resetEvidenceImage();evidenceImageRemoved=false;state.editingEvidenceId=null;
   $('evidenceForm').reset();$('evidenceId').value='';$('evidenceOldPath').value='';
@@ -513,7 +515,7 @@ function resetEvidenceForm(){
   Object.values(evidenceFlagInputs).forEach(id=>{$(id).checked=true;});
   $('evidenceFormTitle').textContent='Đăng minh chứng thành tích';$('evidenceSaveLabel').textContent='Đăng minh chứng';
   $('evidenceFileName').textContent='';$('evidenceOcrStatus').textContent='';
-  setEvidencePreview();setStatus('evidenceFormStatus','');
+  updateEvidenceTitleSuggestion();setEvidencePreview();setStatus('evidenceFormStatus','');
 }
 async function loadAchievementEvidence(){const {data,error}=await supabaseClient.from('achievement_evidence').select('id,group_key,title,student_name,course_name,school_name,result_summary,description,ocr_text,image_path,image_name,sort_order,published,created_at,updated_at,show_student_name,show_image,show_course_name,show_school_name,show_result_summary,show_description').order('sort_order',{ascending:true}).order('created_at',{ascending:false});state.evidenceSetupError=error||null;if(!error){state.evidence=data||[];state.evidencePage=1;}renderAchievementEvidence();updateStats();}
 function renderAchievementEvidence(){
@@ -546,7 +548,7 @@ function startEvidenceEdit(id){
   Object.entries(evidenceFlagInputs).forEach(([key,input])=>{$(input).checked=item[key]!==false;});
   $('evidenceFileName').textContent=item.image_name?`Ảnh hiện tại: ${item.image_name}`:'';
   $('evidenceFormTitle').textContent='Sửa minh chứng thành tích';$('evidenceSaveLabel').textContent='Cập nhật minh chứng';
-  setEvidencePreview();$('evidenceWorkspace').scrollIntoView({behavior:'smooth',block:'start'});
+  updateEvidenceTitleSuggestion();setEvidencePreview();$('evidenceWorkspace').scrollIntoView({behavior:'smooth',block:'start'});
 }
 function loadTesseract(){if(window.Tesseract)return Promise.resolve(window.Tesseract);if(tesseractLoader)return tesseractLoader;tesseractLoader=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';script.async=true;script.onload=()=>window.Tesseract?resolve(window.Tesseract):reject(new Error('Không tải được công cụ OCR.'));script.onerror=()=>reject(new Error('Không tải được công cụ OCR.'));document.head.appendChild(script);});return tesseractLoader;}
 function ocrLineValue(lines,patterns){for(let index=0;index<lines.length;index++){const line=lines[index];if(!patterns.some(pattern=>pattern.test(line)))continue;const value=line.replace(/^.*?(?:họ\s*và\s*tên|tên\s*học\s*sinh|học\s*sinh|student|khóa\s*học|lớp|course|trường|school|kết\s*quả|điểm|score)\s*[:\-]?\s*/i,'').trim();if(value&&value.length>1)return value;const next=lines[index+1]?.trim();if(next&&next.length>1)return next;}return '';}
@@ -568,8 +570,8 @@ async function extractEvidenceImage(){
     for(const [id,value] of [['evidenceStudent',fields.student],['evidenceCourse',fields.course],['evidenceSchool',fields.school],['evidenceResult',fields.result],['evidenceDescription',fields.message]]){
       if(!$(id).value.trim()&&value)$(id).value=value;
     }
-    if(!$('evidenceTitle').value.trim())$('evidenceTitle').value=fields.feedback?'Phản hồi học sinh':'Minh chứng thành tích';
     if(fields.feedback&&$('evidenceGroup').value==='grade10')$('evidenceGroup').value='feedback';
+    updateEvidenceTitleSuggestion();
     setStatus('evidenceOcrStatus','Đã trích xuất. Hãy rà soát các trường trước khi đăng.',true);
   }catch(error){if(current())setStatus('evidenceOcrStatus','Không thể OCR ảnh này. Bạn vẫn có thể nhập thông tin thủ công.');}
 }
@@ -590,7 +592,7 @@ async function saveEvidence(event){
   event.preventDefault();const form=$('evidenceForm');if(form.dataset.saving==='true')return;
   const file=$('evidenceImageInput').files?.[0];
   if(file&&(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>10*1024*1024)){setStatus('evidenceFormStatus','Ảnh cần là JPG, PNG hoặc WebP và không quá 10 MB.');return;}
-  const title=$('evidenceTitle').value.trim();if(!title){setStatus('evidenceFormStatus','Hãy nhập tiêu đề minh chứng.');return;}
+  const title=$('evidenceTitle').value.trim()||evidenceTitleSuggestion();
   const editingId=state.editingEvidenceId,current=state.evidence.find(row=>String(row.id)===String(editingId));
   const oldPath=$('evidenceOldPath').value||null;
   let imagePath=evidenceImageRemoved?null:oldPath,imageName=imagePath?current?.image_name||null:null;
@@ -649,6 +651,7 @@ $('docForm').addEventListener('submit',saveDoc);$('categoryId')?.addEventListene
 $('docSearch').addEventListener('input',()=>{state.docPage=1;renderDocs();});$('docFilterCategory').addEventListener('change',()=>{state.docPage=1;renderDocs();});$('docFilterStatus').addEventListener('change',()=>{state.docPage=1;renderDocs();});
 $('requestRefreshBtn')?.addEventListener('click',loadMaterialRequests);$('pdfContributionRefreshBtn')?.addEventListener('click',loadDocumentContributions);$('materialRequestFilter')?.addEventListener('change',()=>{state.materialRequestPage=1;renderMaterialRequests();});$('pdfContributionFilter')?.addEventListener('change',()=>{state.documentContributionPage=1;renderDocumentContributions();});$('evidenceRefreshBtn')?.addEventListener('click',loadAchievementEvidence);$('evidenceForm')?.addEventListener('submit',saveEvidence);$('evidenceResetBtn')?.addEventListener('click',resetEvidenceForm);$('evidenceImageInput')?.addEventListener('change',previewEvidenceFile);$('extractEvidenceBtn')?.addEventListener('click',extractEvidenceImage);$('tikzImportInput')?.addEventListener('change',event=>queueTikzImportFiles([...event.target.files]));$('tikzImportApproveAll')?.addEventListener('click',approveAllTikzImports);$('tikzImportClear')?.addEventListener('click',clearTikzImports);bindAdminDropZones();renderTikzImportQueue();
 const adminWorkspaceIds={content:'contentWorkspace',pdf:'pdfWorkspace',requests:'requestsWorkspace',evidence:'evidenceWorkspace',scores:'scoresWorkspace',account:'accountWorkspace',tikz:'tikzWorkspace',contributions:'contributionsWorkspace'};
+$('evidenceGroup').addEventListener('change',updateEvidenceTitleSuggestion);updateEvidenceTitleSuggestion();
 function activateAdminWorkspace(key,scroll){const workspaceId=adminWorkspaceIds[key]||adminWorkspaceIds.pdf;const activeKey=adminWorkspaceIds[key]?key:'pdf';document.querySelectorAll('[data-workspace-tab]').forEach(tab=>{const active=tab.dataset.workspaceTab===activeKey;tab.classList.toggle('active',active);tab.setAttribute('aria-selected',active?'true':'false');});Object.entries(adminWorkspaceIds).forEach(([name,id])=>$(id)?.classList.toggle('active',name===activeKey));if(activeKey==='tikz'&&!state.tikz.length)loadTikzAdmin();if(activeKey==='contributions')loadContributions();if(activeKey==='requests')Promise.all([loadMaterialRequests(),loadDocumentContributions()]);if(activeKey==='evidence')loadAchievementEvidence();if(activeKey==='scores'){window.examScoreOptionsAdmin?.load();window.examScoreAdmin?.load();window.scoreSubmissionAdmin?.load();window.examScoreSettingsAdmin?.load();window.examScoreImport?.load();}if(activeKey==='account')window.adminAccount?.load();if(activeKey==='content')window.siteContentAdmin?.load();history.replaceState(null,'',`${location.pathname}#admin-${activeKey}`);if(scroll)$(workspaceId)?.scrollIntoView({behavior:'auto',block:'start'});}
 function revealActiveWorkspaceTab(){window.adminSidebar?.syncSelection();}
 function switchAdminWorkspace(key){activateAdminWorkspace(key,true);revealActiveWorkspaceTab();}
