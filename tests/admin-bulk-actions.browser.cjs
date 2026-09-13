@@ -309,7 +309,21 @@ function initialRows() {
         await finishAction('tikz', 'delete');
         assert.deepEqual(state.storage.slice(storageStart), [{ bucket: 'tikz-renders', action: 'remove', files: ['tikz-1.pdf'] }]);
 
+        state.readErrors.math_requests = { code: '42703', message: 'column math_requests.reviewed_at does not exist' };
+        state.readErrors.document_contributions = { code: 'PGRST205', message: "Could not find the table 'public.document_contributions' in the schema cache" };
         await gotoWorkspace('requests');
+        const repair = 'supabase/migrations/20260913230000_repair_material_requests_and_pdf_contributions.sql';
+        await page.locator(`#materialRequestList a[href="${repair}"]`).waitFor();
+        await page.locator(`#pdfContributionList a[href="${repair}"]`).waitFor();
+        delete state.readErrors.math_requests;
+        await page.click('#requestRefreshBtn');
+        await waitCount('requests', 0, 2);
+        assert.equal(await page.locator('#materialRequestList .review-item').count(), 2, 'A successful refresh clears the old missing-column error');
+        assert(await page.locator(`#pdfContributionList a[href="${repair}"]`).isVisible(), 'Refreshing requests does not hide a separate PDF error');
+        delete state.readErrors.document_contributions;
+        await page.click('#pdfContributionRefreshBtn');
+        await waitCount('pdf-contributions', 0, 2);
+        assert.equal(await page.locator('#materialRequestList .review-item').count(), 2, 'Both queues recover independently');
         await waitCount('requests', 0, 2);
         await all('requests');
         writeStart = state.writes.length;

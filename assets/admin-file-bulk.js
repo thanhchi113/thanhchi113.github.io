@@ -131,7 +131,7 @@
     mount({
         key: 'pdf-contributions', listId: 'pdfContributionList', rowSelector: '.review-item', elementAttribute: 'data-pdf-contribution-delete',
         getRows: () => {
-            if (state.requestSetupError) return [];
+            if (state.documentContributionSetupError) return [];
             const filter = $('pdfContributionFilter')?.value || 'pending';
             return state.documentContributions.filter(row => filter === 'all' || row.status === filter);
         },
@@ -145,7 +145,7 @@
             }
             throw new Error('Thao tác không hợp lệ.');
         },
-        async reload() { await loadDocumentContributions(); if (state.requestSetupError) throw state.requestSetupError; }
+        async reload() { await loadDocumentContributions(); if (state.documentContributionSetupError) throw state.documentContributionSetupError; }
     });
 
     mount({
