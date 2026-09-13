@@ -35,6 +35,7 @@
         let dust = [];
         let streaks = [];
         let frameId = 0;
+        let paused = canvas.dataset.galaxyPaused === "true";
 
         function flowY(x, time) {
             const progress = Math.max(0, Math.min(1, x / width));
@@ -315,6 +316,7 @@
         }
 
         function paint(time) {
+            if (paused) return;
             context.clearRect(0, 0, width, height);
             context.save();
             context.globalCompositeOperation = "screen";
@@ -359,6 +361,8 @@
         }
 
         function animate(time) {
+            frameId = 0;
+            if (paused || document.hidden) return;
             paint(time);
 
             if (!reducedMotion.matches && !document.hidden) {
@@ -368,12 +372,24 @@
 
         function refreshMotion() {
             cancelAnimationFrame(frameId);
+            frameId = 0;
+            if (paused) return;
             paint(performance.now());
 
             if (!reducedMotion.matches && !document.hidden) {
                 frameId = requestAnimationFrame(animate);
             }
         }
+
+        canvas.galaxyBackgroundController = Object.freeze({
+            setPaused(value) {
+                const nextPaused = Boolean(value);
+                if (paused === nextPaused) return;
+                paused = nextPaused;
+                canvas.dataset.galaxyPaused = String(paused);
+                refreshMotion();
+            }
+        });
 
         window.addEventListener("resize", resize, { passive: true });
         document.addEventListener("visibilitychange", refreshMotion, { passive: true });

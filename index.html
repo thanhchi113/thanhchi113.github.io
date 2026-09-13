@@ -14,7 +14,7 @@
     <meta name="theme-color" content="#070b14">
 
     <link rel="stylesheet" href="style.css?v=20260907-admin">
-    <link rel="stylesheet" href="assets/score-submissions.css?v=20260908">
+    <link rel="stylesheet" href="assets/score-submissions.css?v=20260908-student-upload">
 
     <!-- Font Awesome -->
     <link
@@ -4968,7 +4968,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                                 <label>Điểm đạt được<input name="score" required inputmode="decimal" maxlength="5" placeholder="Ví dụ: 8,5"></label>
                             </div>
                             <div id="studentScoreSubmissionDrop" class="score-submission-drop">
-                                <label for="studentScoreSubmissionImage"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i> Kéo thả hoặc chọn ảnh xác nhận</label>
+                                <label for="studentScoreSubmissionImage"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i> Thêm tệp hoặc kéo thả ảnh xác nhận vào đây</label>
                                 <input id="studentScoreSubmissionImage" type="file" accept="image/jpeg,image/png,image/webp">
                                 <small>Không bắt buộc · JPG, PNG hoặc WebP · Tối đa 10 MB</small>
                                 <span id="studentScoreSubmissionFilename" class="score-submission-filename">Chưa chọn ảnh</span>
@@ -5217,8 +5217,10 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
     ========================== -->
     <!-- QRCode.js and PDF.js are lazy-loaded only when actually needed. -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script>
-    <script src="assets/exam-scores.js?v=20260908-privacy"></script>
-    <script src="assets/score-submissions.js?v=20260908"></script>
+    <script src="assets/exam-scores.js?v=20260913-options"></script>
+    <script src="assets/exam-score-options.js?v=20260913"></script>
+    <script src="assets/site-content.js?v=20260913"></script>
+    <script src="assets/score-submissions.js?v=20260908-student-upload"></script>
     <script>
 
         /* =========================================
@@ -5229,6 +5231,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
         const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_eVPODZoNRLiGD8Ldl2VjAg_eC_KTKDg";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
         window.ScoreSubmissions.init(supabaseClient);
+        window.SiteContent.start(supabaseClient);
 
         // Load heavy third-party libraries only when the user reaches the feature that needs them.
         const externalScriptPromises = new Map();

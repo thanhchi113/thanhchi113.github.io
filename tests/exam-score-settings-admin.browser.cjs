@@ -11,6 +11,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
         page.on('pageerror', error => errors.push(error.message));
         await page.setContent('<main id="adminPanel"><input id="scoreInput" value="8.5"><div id="scoreStatisticsSettings"></div></main>');
         await page.addStyleTag({ path: path.resolve(__dirname, '../assets/exam-score-settings-admin.css') });
+        await page.addScriptTag({ path: path.resolve(__dirname, '../assets/exam-scores.js') });
         await page.addScriptTag({ path: path.resolve(__dirname, '../assets/exam-score-settings-admin.js') });
         await page.evaluate(() => {
             window.mock = { data: { id: 1, statistics_enabled: true, summary_enabled: true, bar_enabled: true, pie_enabled: true, line_enabled: true, enabled_periods: ['gk1', 'ck1', 'gk2', 'ck2'] }, events: [], failRead: false, failWrite: false, hold: false };

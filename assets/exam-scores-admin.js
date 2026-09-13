@@ -113,7 +113,7 @@
             <td class="exam-record-number">${(page - 1) * perPage + index + 1}</td>
             <td class="exam-record-score">${api.format(row.score)}</td>
             <td><span class="exam-record-name">${esc(row.student_name || "Chưa có tên học sinh")}</span>${esc(row.class_name)}<span class="exam-record-meta">Khối ${row.grade} · ${esc(row.school_year)}</span></td>
-            <td>${api.label(row.period)}</td><td><span class="status-pill ${row.published ? "on" : "off"}">${row.published ? "Đã công bố" : "Đang ẩn"}</span>${row.hide_student_name ? '<span class="exam-record-privacy">Ẩn tên và ảnh</span>' : ''}</td>
+            <td>${esc(api.label(row.period))}</td><td><span class="status-pill ${row.published ? "on" : "off"}">${row.published ? "Đã công bố" : "Đang ẩn"}</span>${row.hide_student_name ? '<span class="exam-record-privacy">Ẩn tên và ảnh</span>' : ''}</td>
             <td><div class="doc-actions">
                 <button class="admin-btn ghost icon-btn" type="button" data-score-action="edit" data-score-id="${esc(row.id)}" title="Sửa điểm" aria-label="Sửa điểm"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
                 <button class="admin-btn ghost icon-btn" type="button" data-score-action="toggle" data-score-id="${esc(row.id)}" title="${row.published ? "Ẩn điểm" : "Công bố điểm"}" aria-label="${row.published ? "Ẩn điểm" : "Công bố điểm"}"><i class="fa-solid ${row.published ? "fa-eye-slash" : "fa-eye"}" aria-hidden="true"></i></button>
@@ -134,12 +134,13 @@
         setStatus("scoreAdminStatus", "Đang tải điểm thi...");
         pending = (async () => {
             try {
-                const loaded = await api.fetchAll(supabaseClient);
+                const [loaded] = await Promise.all([api.fetchAll(supabaseClient), window.ExamScoreOptions?.load().catch(() => {})]);
                 if (requestEpoch !== authEpoch) return;
                 records = loaded;
                 ready = true;
                 $("scoreSetupHelp").classList.add("hidden");
-                $("scoreClassSuggestions").replaceChildren(...[...new Set(records.map(row => row.class_name))].sort().map(value => new Option(value, value)));
+                if (window.ExamScoreOptions) window.ExamScoreOptions.observeRecords(records);
+                else $("scoreClassSuggestions").replaceChildren(...[...new Set(records.map(row => row.class_name))].sort().map(value => new Option(value, value)));
                 render();
             } catch (error) {
                 if (requestEpoch !== authEpoch) return;
@@ -292,6 +293,7 @@
         lock(busy);
     }
     window.examScoreAdmin = { load, clear };
+    window.addEventListener("exam-score-options-change", () => { if (ready) render(); });
     renderPreview();
     renderImage();
     lock(false);

@@ -71,3 +71,35 @@ test('a later API page failing rejects the whole load, never shows partial stati
     const client = { from() { return { select() { return this; }, order() { return this; }, async range() { return ++calls === 1 ? { data: Array(500).fill(row(8)) } : { error }; } }; } };
     await assert.rejects(scores.fetchAll(client), value => value === error);
 });
+
+test('custom periods and configured lower grades retain validation and historical scores', () => {
+    try {
+        scores.configure({ periods: [{ key: 'thi_thu_1', label: 'Thi thử THPT lần 1' }], grades: [9], classes: ['9A1'], years: ['2027-2028'] });
+        const entry = scores.validate(row('8,75', 'thi_thu_1', { grade: 9, class_name: '9A1' }));
+        assert.equal(entry.score, 8.75);
+        assert.equal(scores.label(entry.period), 'Thi thử THPT lần 1');
+        assert.deepEqual(scores.grades, [9, 10, 11, 12]);
+        assert.equal(scores.summarize([entry]).byPeriod.find(period => period.key === 'thi_thu_1').average, 8.75);
+        assert.throws(() => scores.validate({ ...entry, grade: 8 }));
+        assert.throws(() => scores.validate({ ...entry, period: 'unknown' }));
+        scores.observeRecords([row(7, 'old_term', { grade: 8, class_name: '8A2', school_year: '2024-2025' })]);
+        assert.equal(scores.validate(row(7, 'old_term', { grade: 8 })).grade, 8);
+        assert(scores.getOptions().classes.includes('8A2'));
+        assert(scores.getOptions().years.includes('2024-2025'));
+        const copy = scores.getOptions(); copy.periods[0].label = 'Changed outside'; copy.grades.length = 0;
+        assert.equal(scores.label('gk1'), 'Giữa kỳ 1');
+        assert(scores.grades.includes(12));
+    } finally { scores.configure({}); }
+});
+
+test('malformed catalog data cannot relax score, year, name or key validation', () => {
+    try {
+        scores.configure({ periods: [null, { key: '<img>', label: 'Invalid' }, { key: 'x'.repeat(49), label: 'Too long' }], grades: [0, 13, 1.5, 'oops'], classes: [null, {}, ' A  B ', ''], years: ['2027-2029', 2026, '2027-2028'] });
+        assert.equal(scores.periods.length, 4);
+        assert.deepEqual(scores.grades, [10, 11, 12]);
+        assert.deepEqual(scores.getOptions().classes, ['A B']);
+        assert(!scores.getOptions().years.includes('2027-2029'));
+        assert.throws(() => scores.validate(row('11')));
+        assert.throws(() => scores.validate(row(8, 'gk1', { student_name: '' })));
+    } finally { scores.configure({}); }
+});

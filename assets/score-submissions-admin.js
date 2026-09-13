@@ -64,10 +64,10 @@
                     <h4>${escape(row.student_name)}</h4><p>Chờ duyệt · ${escape(new Date(row.created_at).toLocaleString("vi-VN"))}</p>
                     <div class="score-submission-review"><div class="score-submission-grid">
                         ${field(row, "student_name", "Tên học sinh", 'required maxlength="160" autocomplete="off"')}
-                        ${field(row, "class_name", "Lớp / khóa học", 'required maxlength="80"')}
-                        <label>Khối<select name="grade">${[10, 11, 12].map(grade => `<option value="${grade}" ${Number(row.grade) === grade ? "selected" : ""}>Khối ${grade}</option>`).join("")}</select></label>
-                        ${field(row, "school_year", "Năm học", 'required pattern="20[0-9]{2}-20[0-9]{2}" maxlength="9"')}
-                        <label>Kỳ thi<select name="period">${api.periods.map(period => `<option value="${period.key}" ${row.period === period.key ? "selected" : ""}>${period.label}</option>`).join("")}</select></label>
+                        ${field(row, "class_name", "Lớp / khóa học", 'required maxlength="80" list="scoreClassSuggestions"')}
+                        <label>Khối<select name="grade">${api.grades.map(grade => `<option value="${grade}" ${Number(row.grade) === grade ? "selected" : ""}>Khối ${grade}</option>`).join("")}</select></label>
+                        ${field(row, "school_year", "Năm học", 'required pattern="20[0-9]{2}-20[0-9]{2}" maxlength="9" list="scoreYearSuggestions"')}
+                        <label>Kỳ thi<select name="period">${api.periods.map(period => `<option value="${escape(period.key)}" ${row.period === period.key ? "selected" : ""}>${escape(period.label)}</option>`).join("")}</select></label>
                         ${field({ score: api.format(row.score) }, "score", "Điểm đạt được", 'required inputmode="decimal" maxlength="5"')}
                     </div><div class="score-submission-image" data-submission-image></div></div>
                     <div class="score-submission-actions"><button type="submit" class="score-submission-button">Duyệt và hiển thị</button><button type="button" class="score-submission-button danger" data-submission-delete>Xóa yêu cầu</button></div>
@@ -89,6 +89,8 @@
                 message("Đang tải yêu cầu chờ duyệt...");
                 pendingLoad = (async () => {
                     try {
+                        await window.ExamScoreOptions?.load().catch(() => {});
+                        if (requestEpoch !== authEpoch) return;
                         let result = await client.from("exam_score_submissions").select(columns, { count: "exact" }).eq("status", "pending").order("created_at", { ascending: false }).order("id", { ascending: false }).range((page - 1) * 10, page * 10 - 1);
                         if (requestEpoch !== authEpoch) return;
                         if (result.error) throw result.error;
@@ -102,6 +104,7 @@
                             total = result.count ?? total;
                         }
                         records = result.data || [];
+                        api.observeRecords?.(records);
                         render();
                         message(total ? `${total} yêu cầu chờ duyệt · Trang ${page}/${Math.max(1, Math.ceil(total / 10))}` : "Không có yêu cầu chờ duyệt.");
                     } catch (error) {
@@ -199,6 +202,10 @@
                 if (deleteButton) act(deleteButton.closest("[data-submission-id]"), true);
             });
             const controller = { load, clear() { authEpoch++; version++; records = []; total = 0; page = 1; render(); message(""); } };
+            window.addEventListener("exam-score-options-change", () => {
+                list.querySelectorAll('select[name="period"]').forEach(select => window.ExamScoreOptions?.selectOptions(select, api.periods.map(period => [period.key, period.label])));
+                list.querySelectorAll('select[name="grade"]').forEach(select => window.ExamScoreOptions?.selectOptions(select, api.grades.map(grade => [grade, `Khối ${grade}`])));
+            });
             mount.scoreSubmissionsController = controller;
             return controller;
         }

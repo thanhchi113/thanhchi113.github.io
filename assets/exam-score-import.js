@@ -32,8 +32,8 @@
             mount.innerHTML = `<div class="score-import-heading"><div><h3>Nhập điểm từ tệp</h3><p>Kéo thả bảng điểm hoặc ảnh, kiểm tra các dòng nhận diện rồi lưu hàng loạt.</p></div><span class="score-import-tag">Có bước kiểm tra</span></div>
                 <fieldset data-import-fields disabled><div class="score-import-defaults">
                     <label>Năm học mặc định<input data-import-default="school_year" value="${escape(api.schoolYear())}" maxlength="9" placeholder="2026-2027"></label>
-                    <label>Khối mặc định<select data-import-default="grade">${[10,11,12].map(grade => `<option value="${grade}" ${grade === 12 ? "selected" : ""}>Khối ${grade}</option>`).join("")}</select></label>
-                    <label>Kỳ thi mặc định<select data-import-default="period">${api.periods.map(period => `<option value="${period.key}">${period.label}</option>`).join("")}</select></label>
+                    <label>Khối mặc định<select data-import-default="grade">${api.grades.map(grade => `<option value="${grade}" ${grade === 12 ? "selected" : ""}>Khối ${grade}</option>`).join("")}</select></label>
+                    <label>Kỳ thi mặc định<select data-import-default="period">${api.periods.map(period => `<option value="${escape(period.key)}">${escape(period.label)}</option>`).join("")}</select></label>
                     <label>Lớp mặc định<input data-import-default="class_name" maxlength="80" placeholder="Dùng khi tệp thiếu lớp"></label></div>
                 <p class="score-import-hint">Các giá trị mặc định chỉ bổ sung thông tin còn thiếu khi đọc tệp.</p>
                 <label class="score-import-drop" data-import-drop tabindex="0" role="button"><span class="score-import-drop-icon" aria-hidden="true">↥</span><strong>Kéo thả tệp vào đây hoặc bấm để chọn</strong><span>Word .docx · Excel .xlsx · .csv, .txt · ảnh JPG, PNG, WebP</span><small>Tối đa 20 tệp/lượt · ảnh 10 MB · tài liệu 25 MB/tệp</small><input type="file" data-import-files multiple accept=".docx,.xlsx,.csv,.txt,.png,.jpg,.jpeg,.webp" aria-label="Chọn tệp bảng điểm" hidden></label>
@@ -55,7 +55,7 @@
                 if (!row.class_name.trim() || row.class_name.length > 80) errors.class_name = "Cần lớp / khóa học (tối đa 80 ký tự).";
                 if (api.parseScore(row.score) === null) errors.score = "Điểm phải từ 0 đến 10, tối đa 2 số thập phân.";
                 if (!api.periods.some(period => period.key === row.period)) errors.period = "Chọn kỳ thi hợp lệ.";
-                if (![10,11,12].includes(Number(row.grade))) errors.grade = "Chọn khối 10, 11 hoặc 12.";
+                if (!api.grades.includes(Number(row.grade))) errors.grade = "Chọn khối trong danh mục.";
                 if (!/^20\d{2}-20\d{2}$/.test(row.school_year) || Number(row.school_year.slice(5)) !== Number(row.school_year.slice(0, 4)) + 1) errors.school_year = "Năm học phải gồm 2 năm liên tiếp.";
                 return errors;
             }
@@ -72,7 +72,7 @@
             }
             function options(row, key, choices) {
                 const invalid = !choices.some(([value]) => String(value) === String(row[key]));
-                return `<select data-import-field="${key}" aria-label="${key === "grade" ? "Khối" : "Kỳ thi"} dòng ${rows.indexOf(row) + 1}" ${row.attempt ? "disabled" : ""}>${invalid ? '<option value="">Cần chọn</option>' : ""}${choices.map(([value, label]) => `<option value="${value}" ${String(row[key]) === String(value) ? "selected" : ""}>${label}</option>`).join("")}</select>`;
+                return `<select data-import-field="${key}" aria-label="${key === "grade" ? "Khối" : "Kỳ thi"} dòng ${rows.indexOf(row) + 1}" ${row.attempt ? "disabled" : ""}>${invalid ? '<option value="">Cần chọn</option>' : ""}${choices.map(([value, label]) => `<option value="${escape(value)}" ${String(row[key]) === String(value) ? "selected" : ""}>${escape(label)}</option>`).join("")}</select>`;
             }
             function markRow(row, element) {
                 const errors = errorsFor(row);
@@ -89,12 +89,14 @@
                 const totalPages = Math.max(1, Math.ceil(rows.length / perPage));
                 page = Math.max(1, Math.min(page, totalPages));
                 const visible = rows.slice((page - 1) * perPage, page * perPage);
-                table.innerHTML = visible.map((row, index) => `<tr data-import-id="${row.id}"><td><input type="checkbox" data-import-select ${row.selected ? "checked" : ""} aria-label="Chọn dòng ${(page - 1) * perPage + index + 1}"></td><td>${(page - 1) * perPage + index + 1}</td><td>${input(row,"student_name","Tên học sinh",'maxlength="160"')}</td><td>${input(row,"class_name","Lớp",'maxlength="80"')}</td><td>${input(row,"score","Điểm",'inputmode="decimal" maxlength="8"')}</td><td>${options(row,"period",api.periods.map(period => [period.key,period.short]))}</td><td>${options(row,"grade",[10,11,12].map(grade => [grade,grade]))}</td><td>${input(row,"school_year","Năm học",'maxlength="9"')}</td><td class="score-import-source-cell"><small>${escape(row.source)} · dòng ${row.sourceLine}</small><span data-row-note></span>${row.raw ? `<details><summary>Văn bản gốc</summary><pre>${escape(row.raw)}</pre></details>` : ""}</td></tr>`).join("");
+                table.innerHTML = visible.map((row, index) => `<tr data-import-id="${row.id}"><td><input type="checkbox" data-import-select ${row.selected ? "checked" : ""} aria-label="Chọn dòng ${(page - 1) * perPage + index + 1}"></td><td>${(page - 1) * perPage + index + 1}</td><td>${input(row,"student_name","Tên học sinh",'maxlength="160"')}</td><td>${input(row,"class_name","Lớp",'maxlength="80" list="scoreClassSuggestions"')}</td><td>${input(row,"score","Điểm",'inputmode="decimal" maxlength="8"')}</td><td>${options(row,"period",api.periods.map(period => [period.key,period.label]))}</td><td>${options(row,"grade",api.grades.map(grade => [grade,grade]))}</td><td>${input(row,"school_year","Năm học",'maxlength="9" list="scoreYearSuggestions"')}</td><td class="score-import-source-cell"><small>${escape(row.source)} · dòng ${row.sourceLine}</small><span data-row-note></span>${row.raw ? `<details><summary>Văn bản gốc</summary><pre>${escape(row.raw)}</pre></details>` : ""}</td></tr>`).join("");
                 visible.forEach(row => markRow(row, table.querySelector(`[data-import-id="${row.id}"]`)));
                 const all = find("[data-import-select-all]");
                 all.checked = rows.length > 0 && rows.every(row => row.selected);
                 all.indeterminate = rows.some(row => row.selected) && !all.checked;
-                find("[data-import-pagination]").innerHTML = rows.length ? `<button type="button" class="secondary" data-import-page="${page - 1}" ${page === 1 ? "disabled" : ""} aria-label="Trang trước">←</button><span>Trang ${page}/${totalPages} · ${rows.length} dòng</span><button type="button" class="secondary" data-import-page="${page + 1}" ${page === totalPages ? "disabled" : ""} aria-label="Trang sau">→</button>` : "";
+                const pages = [...new Set([1, page - 1, page, page + 1, totalPages])].filter(number => number > 0 && number <= totalPages).sort((a, b) => a - b);
+                const pageButtons = pages.map((number, index) => `${index && number > pages[index - 1] + 1 ? '<span aria-hidden="true">…</span>' : ""}<button type="button" class="${number === page ? "" : "secondary"}" data-import-page="${number}" aria-label="Trang ${number}" ${number === page ? 'aria-current="page"' : ""}>${number}</button>`).join("");
+                find("[data-import-pagination]").innerHTML = rows.length ? `<button type="button" class="secondary" data-import-page="${page - 1}" ${page === 1 ? "disabled" : ""} aria-label="Trang trước">←</button>${pageButtons}<span>Trang ${page}/${totalPages} · ${rows.length} dòng</span><button type="button" class="secondary" data-import-page="${page + 1}" ${page === totalPages ? "disabled" : ""} aria-label="Trang sau">→</button>` : "";
             }
             async function readFile(file, source, requestEpoch) {
                 const extension = file.name.split(".").pop().toLowerCase();
@@ -272,6 +274,11 @@
             });
             find("[data-import-pagination]").addEventListener("click", event => { const button = event.target.closest("[data-import-page]"); if (button && !busy) { page = Number(button.dataset.importPage); render(); } });
             mount.scoreImportController = { load() { enabled = !document.getElementById("adminPanel")?.classList.contains("hidden"); lock(busy); }, clear };
+            window.addEventListener("exam-score-options-change", () => {
+                window.ExamScoreOptions?.selectOptions(find('[data-import-default="period"]'), api.periods.map(period => [period.key, period.label]));
+                window.ExamScoreOptions?.selectOptions(find('[data-import-default="grade"]'), api.grades.map(grade => [grade, `Khối ${grade}`]));
+                if (!busy) render();
+            });
             render();
             return mount.scoreImportController;
         }

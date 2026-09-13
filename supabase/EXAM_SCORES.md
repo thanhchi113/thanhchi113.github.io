@@ -4,6 +4,8 @@ Các trang chính: `admin.html#admin-scores`, `achievements.html?type=scores`, b
 
 ## Trạng thái triển khai
 
+Bản ngày 13/09/2026 bổ sung sửa nội dung section và danh mục lớp/năm học/kỳ thi/khối. Migration `20260913074535_site_content_and_score_options.sql` đã kiểm thử cục bộ, **chưa áp dụng trên production**: API hiện trả `PGRST205` cho `site_configuration`, CLI chưa có access token và công cụ trình duyệt không có phiên quản trị khả dụng. Cần chạy riêng migration mới này trong SQL Editor của dự án hiện có; không chạy lại các migration cũ. Khi chưa thiết lập, nội dung trang chủ và chức năng nhập điểm cũ vẫn hoạt động.
+
 Đã kích hoạt trên Supabase production: bảng điểm, tên/ảnh minh chứng, hai kho ảnh riêng tư, hộp thư học sinh gửi điểm và các hàm quản lý tài khoản admin. Lỗi thiếu bảng `exam_scores` khiến biểu mẫu nhập điểm bị khóa đã được xử lý ở cơ sở dữ liệu.
 
 Đã kích hoạt `20260908082007_exam_score_name_privacy.sql` trên production: API điểm công khai phản hồi 200, truy cập bảng điểm gốc bằng khóa khách bị từ chối (401).
@@ -23,12 +25,15 @@ Xác nhận đúng dự án Supabase và hàm phân quyền `public.current_user
 3. `migrations/20260908082005_admin_accounts_and_score_submissions.sql`: hộp thư `exam_score_submissions`, bucket đóng góp và các hàm duyệt điểm/quản lý admin.
 4. `migrations/20260908082007_exam_score_name_privacy.sql`: ẩn tên, bắt buộc tên với bản ghi mới/sửa, API công khai loại bỏ thông tin bị ẩn.
 5. `migrations/20260908083027_exam_score_statistics_settings.sql`: cài đặt bật/tắt từng phần thống kê và các kỳ tham gia.
+6. `migrations/20260913074535_site_content_and_score_options.sql`: nội dung section công khai, danh mục nhập điểm và mở rộng các kỳ thi/khối.
 
 Các migration tạo đối tượng mới; không chạy lại tùy tiện trên môi trường đã cài đặt. Đẩy code lên GitHub Pages không tự thực thi SQL. Giao diện mới cần các migration tương ứng trước khi triển khai.
 
 Trong **Authentication → URL Configuration**, thêm URL chính xác của `reset-password.html` tại tên miền triển khai vào danh sách Redirect URLs. Frontend chỉ sử dụng publishable key; không đưa mật khẩu cơ sở dữ liệu, secret key hoặc `service_role` vào website. Phân quyền dựa trên `profiles` và hàm admin hiện có, không dựa trên `user_metadata` do người dùng tự sửa.
 
 ## Dữ liệu và thống kê
+
+Trong **Điểm thi → Danh mục nhập điểm**, nhập mỗi lớp/năm học trên một dòng, chọn thêm khối 1–9 bên cạnh khối 10–12 có sẵn, thêm hoặc đổi tên kỳ thi rồi bấm **Lưu danh mục**. Danh mục dùng chung cho admin, nhập từ tệp, biểu mẫu học sinh và bộ lọc công khai. Mã kỳ thi được giữ ổn định khi đổi tên; các lựa chọn của dữ liệu cũ vẫn được giữ. Lớp và năm học cũng nhập trực tiếp được trong từng bản ghi. Bảng admin hiển thị 10 bản ghi mỗi trang, có số trang, mũi tên và ô chuyển tới trang.
 
 - Mỗi bản ghi là một bài thi môn Toán, không phải một học sinh duy nhất. Điểm giống nhau được phép vì nhiều bài có thể cùng điểm.
 - Bốn kỳ theo thứ tự: GK1, CK1, GK2, CK2. Điểm từ 0 đến 10, tối đa hai chữ số thập phân. Ô nhập chấp nhận `8,5` và `8.5`.
@@ -74,11 +79,17 @@ Lưu dùng quyền admin hiện có, chia mỗi lô tối đa 50 dòng và giữ
 
 ## Học sinh gửi điểm và duyệt
 
-Học sinh có thể gửi tên, lớp, khối, kỳ thi, năm học, điểm và ảnh tùy chọn từ trang chủ mà không cần đăng nhập. Yêu cầu luôn bắt đầu ở trạng thái `pending`; người gửi không có quyền đọc danh sách yêu cầu, tự sửa, duyệt hoặc xóa. Ảnh chờ duyệt nằm trong bucket riêng tư `exam-score-submissions`, chỉ admin xem.
+Học sinh có thể gửi tên, lớp, khối, kỳ thi, năm học, điểm và ảnh tùy chọn từ trang chủ mà không cần đăng nhập. Trang **Điểm thi GK, CK** có nút **Gửi điểm để xét duyệt** dẫn tới biểu mẫu này. Yêu cầu luôn bắt đầu ở trạng thái `pending`; người gửi không có quyền đọc danh sách yêu cầu, tự sửa, duyệt hoặc xóa. Ảnh chờ duyệt nằm trong bucket riêng tư `exam-score-submissions`, chỉ admin xem.
 
 Admin mở **Điểm học sinh gửi chờ duyệt**, xem ảnh và sửa thông tin trước khi bấm **Duyệt và hiển thị**. Hàm duyệt tạo điểm công khai và đánh dấu yêu cầu đã xử lý trong cùng giao dịch. Khóa bản ghi ngăn duyệt hai lần tạo điểm trùng. Khi có ảnh, admin chuyển bản sao sang bucket minh chứng trước khi duyệt và dọn ảnh nguồn sau khi thành công.
 
 Yêu cầu đã duyệt hoặc xóa không còn trong hộp chờ duyệt. Điểm đã duyệt vẫn sửa, ẩn tên/ảnh, ẩn toàn bộ hoặc xóa được ở **Điểm thi đã nhập**. Hai danh sách đều phân trang 10 mục.
+
+## Chỉnh sửa nội dung trang web
+
+Mở **Nội dung trang web** trên thanh bên (`admin.html#admin-content`). Chọn Trang đầu, Giới thiệu, Kỹ năng, Dự án, Tài liệu, Thành tích hoặc Liên hệ. Có thể sửa chữ, mô tả, tên/chú thích kỹ năng, tỷ lệ phần trăm, nội dung nổi bật, số hiển thị dự án và thông tin/liên kết liên hệ. Thanh kỹ năng thay đổi theo tỷ lệ đã nhập. Các thống kê tính từ bảng điểm vẫn được tính từ dữ liệu thực tế.
+
+Bản xem trước phản ánh nội dung đang nhập nhưng chưa công bố. **Lưu nội dung** lưu tất cả mục đã chỉnh sửa; **Hủy thay đổi** trở về bản đã lưu; **Khôi phục mẫu gốc** đưa riêng mục đang chọn về nội dung gốc trong bản xem trước, cần Lưu để công bố. Nội dung được ghi ở hàng `site_content` trong `site_configuration`; bản nháp chỉ ở bộ nhớ tab. Chữ được gán bằng `textContent`, liên kết chỉ chấp nhận `https:`, `mailto:`, `tel:`; không cho nhập HTML/script. Lưu so sánh `updated_at` để tránh ghi đè bản sửa của phiên khác.
 
 ## Tài khoản và mật khẩu
 
@@ -92,7 +103,9 @@ Callback đăng nhập không chờ thao tác Supabase Auth bên trong callback 
 
 ## Kiểm thử
 
-Giao diện admin dùng thanh điều hướng bên trái có biểu tượng, thu gọn trên máy tính và mở thành ngăn trượt trên điện thoại. Nền dùng cùng renderer Canvas với trang chủ. Trong thẻ điểm không có ảnh xác nhận, hình tờ bài thi vẽ đồ thị rồi chuyển sang điểm LED của học sinh; bản xem trước admin dùng cùng hiệu ứng. Chế độ giảm chuyển động hiển thị LED tĩnh.
+Giao diện admin dùng thanh điều hướng bên trái có biểu tượng, thu gọn trên máy tính và mở thành ngăn trượt trên điện thoại. Nền dùng cùng renderer Canvas với trang chủ. Nút **Nền: Bật/Tắt** cạnh **Đăng xuất** ghi nhớ lựa chọn trên trình duyệt; khi tắt, các vòng lặp vẽ nền và mây dừng lại. Lựa chọn này chỉ áp dụng cho admin.
+
+Trong thẻ điểm không có ảnh xác nhận, hình tờ bài thi lần lượt vẽ parabol, đồ thị bậc 3, ký hiệu nguyên hàm và đồ thị bậc 4 rồi chuyển sang điểm LED của học sinh. Mỗi cảnh hoàn tất trước khi chuyển cảnh tiếp theo, trong cùng chu kỳ 24 giây; bản xem trước admin dùng cùng hiệu ứng. Chế độ giảm chuyển động hiển thị LED tĩnh.
 
 Chạy kiểm thử tính toán với Node.js:
 
@@ -119,6 +132,9 @@ node tests/exam-score-settings-admin.browser.cjs
 node tests/exam-score-import.browser.cjs
 node tests/exam-score-paper.browser.cjs
 node tests/password-visibility.browser.cjs
+node tests/site-content.browser.cjs
+node tests/exam-score-options.browser.cjs
+node --test tests/site-configuration.test.cjs
 ```
 
 Các bộ kiểm thử dùng `playwright` và `@electric-sql/pglite@0.5.8` từ môi trường phát triển, không phải phụ thuộc của website. Có thể đặt `PGLITE_MODULE` / `PLAYWRIGHT_MODULE` thành đường dẫn module tuyệt đối. Kiểm thử trình duyệt thông thường mặc định dùng Edge và server `http://127.0.0.1:4174`; thay bằng `TEST_BROWSER_CHANNEL` / `TEST_BASE_URL` khi cần. Bộ account và bộ settings phục vụ/giả lập nội dung trực tiếp, không cần server riêng. `TEST_VENDOR_DIR` hỗ trợ bản SDK Supabase 2.116.0 và Chart.js 4.5.1 nguyên bản đã tải sẵn khi máy chặn CDN. Ảnh kiểm thử lưu tại thư mục tạm hoặc `TEST_OUTPUT_DIR`.

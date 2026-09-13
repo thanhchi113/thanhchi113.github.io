@@ -14,7 +14,9 @@
 #scoresWorkspace .exam-paper-outline{stroke-dasharray:490;animation:exam-admin-paper-outline 7s ease-in-out infinite}
 #scoresWorkspace .exam-paper-lines{stroke-dasharray:65;animation:exam-admin-paper-lines 7s ease-in-out infinite}
 #scoresWorkspace .exam-paper-check{stroke-dasharray:50;animation:exam-admin-paper-check 7s ease-in-out infinite}
-#scoresWorkspace .exam-score-drop{padding:18px 12px;min-height:110px}
+#scoresWorkspace .exam-score-drop{position:relative;display:grid;place-items:center;padding:24px 16px;min-height:144px;cursor:pointer}
+#scoresWorkspace .exam-score-drop .drop-input{position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%;margin:0;padding:0;opacity:0;cursor:pointer}
+#scoresWorkspace .exam-score-drop:focus-within{outline:2px solid #96d6ff;outline-offset:3px}
 #scoresWorkspace .exam-score-drop-prompt{display:grid;gap:7px;pointer-events:none;text-align:center;color:#b8c8df}
 #scoresWorkspace .exam-score-drop-prompt i{font-size:22px;color:#8bcff3}
 #scoresWorkspace .exam-score-drop-prompt strong{font-size:12px}

@@ -17,6 +17,29 @@
             const fields = document.getElementById("studentScoreSubmissionFields");
             let file = null, localUrl = null, busy = false, id = crypto.randomUUID(), uploadedPath = null;
             field("school_year").value = api.schoolYear();
+            function syncOptions() {
+                const options = api.getOptions?.();
+                if (!options) return;
+                for (const [name, choices] of [
+                    ["grade", options.grades.map(grade => [String(grade), `Khối ${grade}`])],
+                    ["period", options.periods.map(period => [period.key, period.label])]
+                ]) {
+                    const select = field(name), previous = select.value;
+                    select.replaceChildren(...choices.map(([value, label]) => new Option(label, value)));
+                    if (choices.some(([value]) => value === previous)) select.value = previous;
+                }
+                for (const [name, values] of [["class_name", options.classes], ["school_year", options.years]]) {
+                    const listId = `studentScoreSuggestions-${name}`;
+                    let list = document.getElementById(listId);
+                    if (!list) { list = document.createElement("datalist"); list.id = listId; form.appendChild(list); }
+                    list.replaceChildren(...values.map(value => new Option(value, value)));
+                    field(name).setAttribute("list", listId);
+                }
+            }
+            window.addEventListener("exam-score-options-change", syncOptions);
+            syncOptions();
+            // Keep the default form available if the shared catalog cannot be loaded.
+            window.ExamScoreOptions?.init(client)?.load().catch(() => {});
             function message(text, error = false) {
                 status.textContent = text;
                 status.dataset.error = String(error);

@@ -1,6 +1,7 @@
 (function () {
     "use strict";
     const api = window.ExamScores;
+    window.ExamScoreOptions?.init(supabaseClient);
     const root = document.getElementById("examScores");
     const get = id => document.getElementById(id);
     let records = [], pending = null, charts = [], chartLibrary = null, loaded = false;
@@ -153,7 +154,7 @@
         get("scorePassRate").textContent = summary.passRate === null ? "—" : `${api.format(summary.passRate)}%`;
         get("examScoreResults").hidden = !statisticsOn || !summary.count;
         status(settingsUnavailable ? "Chưa tải được cài đặt thống kê. Kết quả học sinh vẫn hiển thị bên dưới." : !statisticsOn ? "" : summary.count ? `${api.format(summary.count)} bài thi môn Toán · ${selected.period === "all" ? "Các kỳ đang được thống kê" : api.label(selected.period)} · ${selected.school_year === "all" ? "Tất cả năm học" : selected.school_year}` : filtered.length ? "Chưa có điểm phù hợp với các kỳ đang bật thống kê." : "Chưa có điểm thi đã công bố phù hợp với bộ lọc này.");
-        get("scorePeriodRows").innerHTML = periodSummary.map(period => `<tr><th scope="row">${period.label}</th><td>${api.format(period.count)}</td><td>${api.format(period.average)}</td></tr>`).join("");
+        get("scorePeriodRows").innerHTML = periodSummary.map(period => `<tr><th scope="row">${escape(period.label)}</th><td>${api.format(period.count)}</td><td>${api.format(period.average)}</td></tr>`).join("");
         const anyChart = statisticsOn && (settings.bar_enabled || settings.pie_enabled || settings.line_enabled);
         get("examScoreCharts").hidden = !anyChart;
         if (!summary.count || !anyChart) return;
@@ -208,10 +209,13 @@
             try {
                 const [scoreResult, configuration] = await Promise.allSettled([
                     api.fetchAll(supabaseClient, true),
-                    supabaseClient.from("exam_score_settings").select("*").eq("id", 1).single()
+                    supabaseClient.from("exam_score_settings").select("*").eq("id", 1).single(),
+                    window.ExamScoreOptions?.load()
                 ]);
                 if (scoreResult.status === "rejected") throw scoreResult.reason;
                 records = scoreResult.value;
+                if (window.ExamScoreOptions) window.ExamScoreOptions.observeRecords(records);
+                else api.observeRecords?.(records);
                 settingsUnavailable = configuration.status === "rejected" || Boolean(configuration.value.error) || !configuration.value.data;
                 settings = settingsUnavailable ? null : configuration.value.data;
                 setOptions(get("scoreYearFilter"), [...new Set(records.map(row => row.school_year))].sort().reverse(), "Tất cả năm học");

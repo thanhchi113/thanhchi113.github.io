@@ -1,15 +1,15 @@
 (function (root, factory) {
-    const api = factory();
+    const api = factory(root);
     if (typeof module === "object" && module.exports) module.exports = api;
     else root.ExamScoreImportParser = api;
-}(typeof globalThis !== "undefined" ? globalThis : this, function () {
+}(typeof globalThis !== "undefined" ? globalThis : this, function (root) {
     "use strict";
     const normalize = value => String(value ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase().replace(/[^a-z0-9]/g, "");
     const text = value => String(value ?? "").trim().replace(/\s+/g, " ");
     function period(value) {
         const key = normalize(value).replace(/^diem(?:thi)?/, "").replace(/hocki|hocky/g, "ky").replace(/(giua|cuoi)ki/g, "$1ky");
         const aliases = { gk1: "gk1", gki: "gk1", giuaky1: "gk1", giuakyi: "gk1", ck1: "ck1", cki: "ck1", cuoiky1: "ck1", cuoikyi: "ck1", gk2: "gk2", gkii: "gk2", giuaky2: "gk2", giuakyii: "gk2", ck2: "ck2", ckii: "ck2", cuoiky2: "ck2", cuoikyii: "ck2" };
-        return aliases[key] || "";
+        return aliases[key] || root.ExamScores?.periods.find(period => [period.key, period.label, period.short].some(candidate => normalize(candidate) === normalize(value)))?.key || "";
     }
     function header(value) {
         const key = normalize(value);
@@ -24,7 +24,7 @@
     }
     function makeRow(values, defaults, source, sourceLine) {
         const className = text(values.class_name || defaults.class_name).replace(/^lớp\s+/i, "");
-        const inferredGrade = className.match(/^(10|11|12)(?:\D|$)/)?.[1];
+        const inferredGrade = className.match(/^(1[0-2]|[1-9])(?:\D|$)/)?.[1];
         return {
             student_name: text(values.student_name), class_name: className,
             score: text(values.score).replace(/\s*\/\s*10$/, ""),
@@ -99,7 +99,7 @@
     }
     function guessLine(input) {
         let raw = input.trim().replace(/^\d+[.)]?\s+/, "");
-        const classMatch = raw.match(/\b(?:10|11|12)[A-Za-zÀ-ỹ][A-Za-z0-9.-]*\b/);
+        const classMatch = raw.match(/\b(?:1[0-2]|[1-9])[A-Za-zÀ-ỹ][A-Za-z0-9.-]*\b/);
         const scoreMatch = raw.match(/(?:^|\s)(\d{1,2}(?:[.,]\d{1,2})?)(?:\s*\/\s*10)?\s*(?:điểm)?$/i);
         const result = { student_name: "", score: "", class_name: classMatch?.[0] || "", raw: input };
         if (scoreMatch) {

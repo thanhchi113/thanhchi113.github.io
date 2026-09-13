@@ -27,6 +27,22 @@
         return `<g class="esp-digit" transform="translate(${x} 0)">${segments.map((path, index) => `<path class="esp-segment ${active.includes(String(index)) ? "esp-segment-on" : "esp-segment-off"}" d="${path}"/>`).join("")}</g>`;
     }
 
+    function axes(originY) {
+        // The O, x and y labels are strokes too, and follow the axes as they draw.
+        return `<path class="esp-axes" d="M71 ${originY}H150M109 194V116M146 ${originY - 4}L150 ${originY}L146 ${originY + 4}M105 120L109 116L113 120M105 ${originY + 7}a2 2.5 0 1 0-4 0a2 2.5 0 1 0 4 0M154 ${originY - 3}l4 6m0-6l-4 6M115 112l2 3 2-3m-2 3v4" fill="none" stroke="#8ca9c6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/>`;
+    }
+
+    function polynomialPath(evaluate, domain, originY, scaleY) {
+        return Array.from({ length: 81 }, (_, index) => {
+            const x = -domain + domain * 2 * index / 80;
+            return `${index ? "L" : "M"}${(75 + 68 * index / 80).toFixed(2)} ${(originY - evaluate(x) * scaleY).toFixed(2)}`;
+        }).join("");
+    }
+
+    function graphScene(name, originY, path, color) {
+        return `<g class="esp-scene esp-scene-${name}" data-scene="${name}">${axes(originY)}<path class="esp-curve" d="${path}" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></g>`;
+    }
+
     function render(score) {
         const display = scoreText(score);
         const glyphs = Array.from(display);
@@ -48,8 +64,13 @@
                 <path d="M77 202H143" fill="none" stroke="rgba(125,211,252,.17)" stroke-width="2" stroke-linecap="round"/>
             </g>
             <g class="esp-graph">
-                <path class="esp-axes" d="M71 178H150M109 194V116M146 174L150 178L146 182M105 120L109 116L113 120" fill="none" stroke="#8ca9c6" stroke-width="1.2" pathLength="1"/>
-                <path class="esp-curve" d="M75 130Q109 224 143 130" fill="none" stroke="#6fe0b8" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
+                ${graphScene("parabola", 178, "M75 130Q109 226 143 130", "#6fe0b8")}
+                ${graphScene("cubic", 159, polynomialPath(x => x * x * x - 3 * x, 2.2, 159, 8), "#8ad8ff")}
+                <g class="esp-scene esp-scene-integral" data-scene="integral" fill="none" stroke="#c4afff" stroke-linecap="round" stroke-linejoin="round">
+                    <path class="esp-integral-sign" d="M98 126C89 120 88 134 86 149L83 170C81 186 77 189 72 183" stroke-width="3" pathLength="1"/>
+                    <path class="esp-integral-expression" d="M108 147C103 144 102 147 102 152V169M98 155H108M114 146Q108 157 114 169M117 153L123 163M123 153L117 163M127 146Q133 157 127 169M143 146V169M143 158C136 151 132 159 135 165C137 172 143 168 143 163M149 153L156 169M156 153L149 169" stroke-width="1.6" pathLength="1"/>
+                </g>
+                ${graphScene("quartic", 169, polynomialPath(x => x ** 4 - 3 * x * x + 1, 1.9, 169, 12), "#f5bcdd")}
             </g>
             <g class="esp-led">
                 <rect x="61" y="121" width="98" height="73" rx="7" fill="#091d2a" fill-opacity=".92" stroke="#78dacd" stroke-opacity=".24" stroke-width=".8"/>

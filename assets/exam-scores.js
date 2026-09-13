@@ -4,7 +4,7 @@
     else root.ExamScores = api;
 }(typeof globalThis !== "undefined" ? globalThis : this, function () {
     "use strict";
-    const periods = Object.freeze([
+    const defaultPeriods = Object.freeze([
         { key: "gk1", label: "Giữa kỳ 1", short: "GK1" },
         { key: "ck1", label: "Cuối kỳ 1", short: "CK1" },
         { key: "gk2", label: "Giữa kỳ 2", short: "GK2" },
@@ -18,11 +18,39 @@
     ]);
     const columns = "id,student_name,period,score,grade,class_name,school_year,published,created_at,evidence_image_path,evidence_image_name,hide_student_name";
     const format = value => value == null ? "—" : new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 2 }).format(value);
-    const label = key => periods.find(period => period.key === key)?.label || key;
+    const label = key => options.periods.find(period => period.key === key)?.label || key;
     const schoolYear = (date = new Date()) => {
         const start = date.getFullYear() - (date.getMonth() < 7 ? 1 : 0);
         return `${start}-${start + 1}`;
     };
+    const validPeriodKey = key => typeof key === "string" && /^[a-z][a-z0-9_-]{0,47}$/.test(key);
+    const validYear = year => /^20\d{2}-20\d{2}$/.test(year) && Number(year.slice(5)) === Number(year.slice(0, 4)) + 1;
+    let options = { periods: defaultPeriods.map(period => ({ ...period })), grades: [10, 11, 12], classes: [], years: [schoolYear()] };
+    function normalizeOptions(value = {}) {
+        if (!value || typeof value !== "object" || Array.isArray(value)) value = {};
+        const periods = defaultPeriods.map(period => ({ ...period }));
+        for (const item of Array.isArray(value.periods) ? value.periods.slice(0, 60) : []) {
+            if (!validPeriodKey(item?.key) || typeof item.label !== "string") continue;
+            const label = item.label.trim().replace(/\s+/g, " ").slice(0, 80);
+            if (!label) continue;
+            const period = { key: item.key, label, short: String(item.short || label).slice(0, 24) };
+            const existing = periods.findIndex(entry => entry.key === period.key);
+            if (existing >= 0) periods[existing] = period; else periods.push(period);
+        }
+        const strings = (items, max, valid) => [...new Set((Array.isArray(items) ? items : []).filter(item => typeof item === "string").map(item => item.trim().replace(/\s+/g, " ")).filter(item => item && item.length <= max && (!valid || valid(item))))].slice(0, 500);
+        return { periods, grades: [...new Set([10, 11, 12, ...(Array.isArray(value.grades) ? value.grades : []).map(Number).filter(grade => Number.isInteger(grade) && grade >= 1 && grade <= 12)])].sort((a, b) => a - b),
+            classes: strings(value.classes, 80), years: [...new Set([schoolYear(), ...strings(value.years, 9, validYear)])].sort().reverse() };
+    }
+    function configure(value) { options = normalizeOptions(value); return getOptions(); }
+    function getOptions() { return { periods: options.periods.map(period => ({ ...period })), grades: [...options.grades], classes: [...options.classes], years: [...options.years] }; }
+    function observeRecords(records) {
+        const next = getOptions();
+        for (const row of records) {
+            if (validPeriodKey(row.period) && !next.periods.some(period => period.key === row.period)) next.periods.push({ key: row.period, label: row.period, short: row.period });
+            next.grades.push(row.grade); next.classes.push(row.class_name); next.years.push(row.school_year);
+        }
+        return configure(next);
+    }
     function parseScore(value) {
         if (typeof value !== "number" && typeof value !== "string") return null;
         const text = String(value).trim().replace(",", ".");
@@ -33,9 +61,9 @@
     function validate(input) {
         const score = parseScore(input.score);
         if (score === null) throw new Error("Điểm phải từ 0 đến 10, tối đa 2 chữ số thập phân.");
-        if (!periods.some(period => period.key === input.period)) throw new Error("Hãy chọn kỳ thi.");
+        if (!options.periods.some(period => period.key === input.period)) throw new Error("Hãy chọn kỳ thi trong danh mục.");
         const grade = Number(input.grade);
-        if (![10, 11, 12].includes(grade)) throw new Error("Hãy chọn khối 10, 11 hoặc 12.");
+        if (!options.grades.includes(grade)) throw new Error("Hãy chọn khối trong danh mục.");
         const year = String(input.school_year || "").trim();
         if (!/^20\d{2}-20\d{2}$/.test(year) || Number(year.slice(5)) !== Number(year.slice(0, 4)) + 1) {
             throw new Error("Năm học phải gồm 2 năm liên tiếp, ví dụ 2026-2027.");
@@ -55,7 +83,7 @@
         const valid = records.map(row => ({ ...row, score: parseScore(row.score) })).filter(row => row.score !== null);
         const histogram = Array(10).fill(0);
         const distribution = bands.map(band => ({ ...band, count: 0 }));
-        const byPeriod = periods.map(period => ({ ...period, count: 0, sum: 0, average: null }));
+        const byPeriod = options.periods.map(period => ({ ...period, count: 0, sum: 0, average: null }));
         let total = 0, passed = 0, highest = null;
         for (const row of valid) {
             total += row.score;
@@ -99,5 +127,5 @@
         if (error) throw error;
         return data?.signedUrl || "";
     }
-    return { periods, bands, columns, format, label, schoolYear, parseScore, validate, filter, summarize, fetchAll, signedImageUrl, errorMessage };
+    return { get periods() { return options.periods.map(period => ({ ...period })); }, get grades() { return [...options.grades]; }, bands, columns, format, label, schoolYear, parseScore, validate, filter, summarize, fetchAll, signedImageUrl, errorMessage, validPeriodKey, validYear, normalizeOptions, configure, getOptions, observeRecords };
 }));

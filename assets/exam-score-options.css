@@ -1,0 +1,23 @@
+.score-options-admin{margin:24px 0;padding:22px;border:1px solid rgba(142,175,211,.2);border-radius:18px;background:rgba(9,17,32,.64)}
+.score-options-admin summary{font-weight:700;font-size:18px;cursor:pointer;color:#e9f3ff}
+.score-options-intro,.score-options-note{font-size:13px;line-height:1.65;color:#aabbd0;margin:12px 0 18px}
+.score-options-admin form>fieldset{border:0;padding:0;margin:0;min-width:0}
+.score-options-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.score-options-grid label{display:flex;flex-direction:column;gap:7px;font-size:13px;color:#d8e5f7}
+.score-options-grid label>span,.score-options-grades small{font-size:11px;color:#95abc4;font-weight:400}
+.score-options-admin textarea,.score-options-admin input:not([type=checkbox]){width:100%;box-sizing:border-box;border:1px solid rgba(142,175,211,.28);border-radius:9px;background:#0b1627;color:#e9f3ff;padding:10px 12px;font:inherit}
+.score-options-admin textarea{resize:vertical;min-height:115px;line-height:1.6}
+.score-options-admin :is(input,textarea,button,summary):focus-visible{outline:2px solid #87ceff;outline-offset:3px}
+.score-options-grades{border:1px solid rgba(142,175,211,.2);border-radius:12px;padding:15px;min-width:0}
+.score-options-grades legend,.score-options-periods h3{font-size:14px;font-weight:650;color:#d8e5f7;margin:0 0 12px}
+.score-options-grades>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.score-options-grades label{flex-direction:row;align-items:center;white-space:nowrap}
+.score-options-periods [data-options-periods]{display:grid;gap:9px;max-height:260px;overflow:auto;padding:3px}
+.score-options-period{display:grid!important;grid-template-columns:85px minmax(0,1fr);align-items:center}
+.score-options-period>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.score-options-add{display:flex;gap:10px;align-items:end;margin-top:15px}
+.score-options-add label{flex:1;min-width:0}
+.score-options-add button{white-space:nowrap}
+.score-options-admin fieldset:disabled{opacity:.6}
+.score-options-admin [data-options-status][data-error=true]{color:#fca5a5}
+@media(max-width:680px){.score-options-grid{grid-template-columns:1fr}.score-options-admin{padding:16px}.score-options-add{align-items:stretch;flex-direction:column}.score-options-grades>div{grid-template-columns:repeat(3,minmax(0,1fr))}}

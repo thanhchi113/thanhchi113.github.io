@@ -1,7 +1,6 @@
 (function () {
     "use strict";
     const keys = ["statistics_enabled", "summary_enabled", "bar_enabled", "pie_enabled", "line_enabled"];
-    const periods = [{ key: "gk1", label: "Giữa kỳ 1" }, { key: "ck1", label: "Cuối kỳ 1" }, { key: "gk2", label: "Giữa kỳ 2" }, { key: "ck2", label: "Cuối kỳ 2" }];
     window.ExamScoreSettingsAdmin = {
         init(client) {
             const mount = document.getElementById("scoreStatisticsSettings");
@@ -17,7 +16,7 @@
                     <label class="exam-settings-toggle"><input type="checkbox" name="bar_enabled" checked> Biểu đồ cột</label>
                     <label class="exam-settings-toggle"><input type="checkbox" name="pie_enabled" checked> Biểu đồ tròn</label>
                     <label class="exam-settings-toggle"><input type="checkbox" name="line_enabled" checked> Biểu đồ đoạn thẳng</label>
-                </div><p class="exam-settings-label">Kỳ đưa vào thống kê</p><div class="exam-settings-options">${periods.map(period => `<label class="exam-settings-toggle"><input type="checkbox" name="enabled_periods" value="${period.key}" checked> ${period.label}</label>`).join("")}</div></fieldset>
+                </div><p class="exam-settings-label">Kỳ đưa vào thống kê</p><div class="exam-settings-options" data-settings-periods></div></fieldset>
                 <p class="exam-settings-help">Các lựa chọn này chỉ áp dụng cho thống kê. Thẻ điểm học sinh vẫn được quản lý bằng nút hiển thị điểm riêng.</p>
                 <div class="admin-actions"><button type="submit" class="admin-btn success">Lưu cài đặt thống kê</button></div>
                 </fieldset></form><p class="admin-status" data-settings-status role="status" aria-live="polite"></p>`;
@@ -27,6 +26,17 @@
             const refresh = mount.querySelector("[data-settings-refresh]");
             const status = mount.querySelector("[data-settings-status]");
             const checkbox = name => form.elements.namedItem(name);
+            function renderPeriods(selected) {
+                const previous = selected || [...form.querySelectorAll('[name="enabled_periods"]:checked')].map(input => input.value);
+                const target = mount.querySelector("[data-settings-periods]");
+                target.replaceChildren(...window.ExamScores.periods.map(period => {
+                    const label = document.createElement("label"), input = document.createElement("input");
+                    label.className = "exam-settings-toggle"; input.type = "checkbox"; input.name = "enabled_periods"; input.value = period.key;
+                    input.checked = previous.includes(period.key); input.defaultChecked = input.checked;
+                    label.append(input, document.createTextNode(` ${period.label}`)); return label;
+                }));
+            }
+            renderPeriods(window.ExamScores.periods.map(period => period.key));
             function message(text, error = false) { status.textContent = text; status.dataset.error = String(error); }
             function lock() {
                 fields.disabled = !ready || busy || Boolean(pending);
@@ -41,11 +51,11 @@
                 message("Đang tải cài đặt thống kê...");
                 pending = (async () => {
                     try {
-                        const { data, error } = await client.from("exam_score_settings").select("*").eq("id", 1).single();
+                        const [{ data, error }] = await Promise.all([client.from("exam_score_settings").select("*").eq("id", 1).single(), window.ExamScoreOptions?.load().catch(() => {})]);
                         if (requestEpoch !== epoch) return;
                         if (error || data?.id !== 1) throw error || new Error("Missing settings");
                         keys.forEach(key => { checkbox(key).checked = data[key] === true; });
-                        form.querySelectorAll('[name="enabled_periods"]').forEach(input => { input.checked = (data.enabled_periods || []).includes(input.value); });
+                        renderPeriods(data.enabled_periods || []);
                         ready = true;
                         message("Các thay đổi chỉ áp dụng sau khi bấm Lưu cài đặt thống kê.");
                     } catch (error) {
@@ -80,6 +90,7 @@
                 } finally { if (requestEpoch === epoch) { busy = false; lock(); } }
             });
             refresh.addEventListener("click", load);
+            window.addEventListener("exam-score-options-change", () => renderPeriods());
             const controller = { load, clear() { epoch++; ready = busy = false; pending = null; form.reset(); message(""); lock(); } };
             mount.controller = controller;
             lock();

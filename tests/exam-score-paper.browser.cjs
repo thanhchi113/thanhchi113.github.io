@@ -34,9 +34,14 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
                 }).sort().join('');
                 return numerals[active] || '?';
             }).join('');
-            const curve = svg.querySelector('.esp-curve'), length = curve.getTotalLength();
-            const curveX = Array.from({ length: 11 }, (_, index) => curve.getPointAtLength(length * index / 10).x);
-            return { decoded, label: svg.dataset.scoreDisplay, hidden: svg.getAttribute('aria-hidden'), focusable: svg.getAttribute('focusable'), externalNodes: svg.querySelectorAll('image,foreignObject,script,[id]').length, curveX };
+            const curves = [...svg.querySelectorAll('.esp-curve')].map(curve => {
+                const length = curve.getTotalLength();
+                return Array.from({ length: 81 }, (_, index) => {
+                    const point = curve.getPointAtLength(length * index / 80);
+                    return { x: point.x, y: point.y };
+                });
+            });
+            return { decoded, label: svg.dataset.scoreDisplay, hidden: svg.getAttribute('aria-hidden'), focusable: svg.getAttribute('focusable'), externalNodes: svg.querySelectorAll('image,foreignObject,script,[id]').length, scenes: [...svg.querySelectorAll('[data-scene]')].map(scene => scene.dataset.scene), curves };
         }));
         assert.deepEqual(displays.map(item => item.decoded), [...expected, ...expected]);
         displays.forEach(item => {
@@ -44,7 +49,14 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
             assert.equal(item.hidden, 'true');
             assert.equal(item.focusable, 'false');
             assert.equal(item.externalNodes, 0);
-            assert(item.curveX.every((x, index, xs) => index === 0 || x > xs[index - 1]), 'The curve must draw from left to right');
+            assert.deepEqual(item.scenes, ['parabola', 'cubic', 'integral', 'quartic']);
+            item.curves.forEach((curve, graphIndex) => {
+                assert(curve.every((point, index, points) => index === 0 || point.x > points[index - 1].x), 'Every polynomial must draw from left to right');
+                assert(curve.every(point => point.x >= 51 && point.x <= 169 && point.y >= 115 && point.y <= 195), 'The graph must fit inside the paper');
+                const directions = curve.slice(1).map((point, index) => Math.sign(point.y - curve[index].y)).filter(Boolean);
+                const turns = directions.filter((direction, index) => index > 0 && direction !== directions[index - 1]).length;
+                assert.equal(turns, graphIndex + 1, 'The parabola, cubic and quartic must have one, two and three visible turning points');
+            });
         });
 
         async function at(time) {
@@ -53,26 +65,42 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
                 return [...document.querySelectorAll('.exam-score-paper')].map(svg => ({
                     led: Number(getComputedStyle(svg.querySelector('.esp-led')).opacity),
                     graph: Number(getComputedStyle(svg.querySelector('.esp-graph')).opacity),
-                    curve: parseFloat(getComputedStyle(svg.querySelector('.esp-curve')).strokeDashoffset)
+                    scenes: [...svg.querySelectorAll('[data-scene]')].map(scene => ({
+                        name: scene.dataset.scene,
+                        opacity: Number(getComputedStyle(scene).opacity),
+                        strokes: [...scene.querySelectorAll('path')].map(path => parseFloat(getComputedStyle(path).strokeDashoffset))
+                    }))
                 }));
             }, time);
         }
-        for (const time of [0, 2000, 3000, 4200, 4900, 5100]) {
+        for (const [time, name] of [[5000, 'parabola'], [9800, 'cubic'], [14400, 'integral'], [19000, 'quartic']]) {
             const states = await at(time);
             states.forEach(state => {
-                assert.equal(state.led, 0, `LED must stay hidden until the curve completes (t=${time})`);
-                if (time === 3000) assert(state.graph === 1 && state.curve > 0 && state.curve < 1, 'The curve must visibly draw before the score');
-                if (time === 4200) assert(state.graph === 1 && state.curve === 0, 'Show the completed curve before replacing it');
-                if (time === 4900) assert.equal(state.graph, 0);
+                assert.equal(state.led, 0, `LED must stay hidden until all drawings complete (t=${time})`);
+                const visible = state.scenes.filter(scene => scene.opacity > 0);
+                assert.equal(visible.length, 1);
+                assert.equal(visible[0].name, name);
+                assert.equal(visible[0].opacity, 1, 'Hold the completed drawing before replacing it');
+                assert(visible[0].strokes.every(offset => offset === 0));
             });
         }
-        for (const time of [6000, 10800]) {
-            (await at(time)).forEach(state => { assert.equal(state.led, 1); assert.equal(state.graph, 0); });
+        for (const [time, name, strokeIndex] of [[3000, 'parabola', 1], [8000, 'cubic', 1], [11500, 'integral', 0], [13200, 'integral', 1], [17500, 'quartic', 1]]) {
+            (await at(time)).forEach(state => {
+                const scene = state.scenes.find(scene => scene.name === name);
+                assert.equal(scene.opacity, 1);
+                assert(scene.strokes[strokeIndex] > 0 && scene.strokes[strokeIndex] < 1, 'The active drawing must progressively reveal its path');
+            });
         }
-        (await at(12000)).forEach(state => assert.equal(state.led, 0, 'The next curve must start without the previous LED score'));
-        assert.deepEqual(await page.evaluate(() => [...new Set(document.getAnimations().map(animation => animation.effect.getTiming().duration))]), [12000]);
+        for (let time = 0; time < 24000; time += 240) {
+            (await at(time)).forEach(state => assert(state.scenes.filter(scene => scene.opacity > 0).length + (state.led > 0 ? 1 : 0) <= 1, `Drawings and LED must never overlap (t=${time})`));
+        }
+        for (const time of [21600, 23000]) {
+            (await at(time)).forEach(state => { assert.equal(state.led, 1); assert(state.scenes.every(scene => scene.opacity === 0)); });
+        }
+        (await at(24000)).forEach(state => { assert.equal(state.led, 0, 'The next cycle must start without the previous LED score'); assert(state.scenes.every(scene => scene.opacity === 0)); });
+        assert.deepEqual(await page.evaluate(() => [...new Set(document.getAnimations().map(animation => animation.effect.getTiming().duration))]), [24000]);
 
-        await at(6000);
+        await at(21600);
         for (const width of [1200, 390]) {
             await page.setViewportSize({ width, height: 900 });
             const bounds = await page.locator('.exam-score-paper').evaluateAll(svgs => svgs.map(svg => {

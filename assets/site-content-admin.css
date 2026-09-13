@@ -1,0 +1,13 @@
+.site-content-editor{padding:24px;border:1px solid rgba(150,190,230,.18);border-radius:18px;background:rgba(9,18,35,.62);backdrop-filter:blur(16px)}
+.workspace-panel>section.site-content-editor{background:rgba(8,16,31,.88)}
+.site-content-editor h1{font-size:26px;margin:0 0 8px}.site-content-editor p{font-size:13px;line-height:1.65;color:#a6b7ce}
+.site-content-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0}.site-content-toolbar label{display:grid;gap:6px;font-size:12px;color:#bcd0e8}.site-content-toolbar select{min-width:200px}
+.site-content-layout{display:grid;grid-template-columns:minmax(300px,1fr) minmax(320px,1fr);gap:24px;align-items:start}
+.site-content-fields{border:0;padding:0;margin:0;min-width:0;display:grid;gap:15px}.site-content-fields label{display:grid;gap:7px;color:#bed0e5;font-size:12px}.site-content-fields textarea{min-height:110px;resize:vertical}
+.site-content-editor input,.site-content-editor textarea,.site-content-editor select{width:100%;min-width:0;padding:11px 12px;background:#0b1425;color:#eaf3ff;border:1px solid rgba(148,180,225,.25);border-radius:9px;box-sizing:border-box;font:inherit}
+.site-content-editor input:focus-visible,.site-content-editor textarea:focus-visible,.site-content-editor select:focus-visible{outline:2px solid #96d6ff;outline-offset:2px}
+.site-content-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.site-content-preview{position:sticky;top:96px}.site-content-preview iframe{display:block;width:100%;height:650px;max-height:75vh;border:1px solid rgba(147,183,234,.25);border-radius:12px;background:#030813}.site-content-preview p{margin:0 0 10px}
+.site-content-editor [data-content-status]{min-height:24px;overflow-wrap:anywhere}.site-content-editor [data-content-status][data-error=true]{color:#fda4af}.site-content-editor [data-content-status][data-saved=true]{color:#86efac}
+.site-content-editor fieldset:disabled{opacity:.6}.site-content-editor [hidden]{display:none!important}
+@media(max-width:1150px){.site-content-layout{grid-template-columns:1fr}.site-content-preview{position:static}.site-content-preview iframe{height:500px}}
+@media(max-width:500px){.site-content-editor{padding:16px}.site-content-toolbar{align-items:stretch}.site-content-toolbar label{width:100%}}

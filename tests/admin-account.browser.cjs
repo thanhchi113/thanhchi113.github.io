@@ -168,7 +168,7 @@ async function selectWorkspace(page, key) {
         await page.evaluate(() => { accountMock.holdRole = false; accountMock.resumeRole(); delete accountMock.resumeRole; });
         await page.waitForSelector('#accountWorkspace.active .account-member');
         assert(await page.locator('#adminSidebar').isVisible());
-        assert.equal(await page.locator('#adminSidebar [data-sidebar-icon] svg').count(), 7);
+        assert.equal(await page.locator('#adminSidebar [data-sidebar-icon] svg').count(), 8);
         assert(await page.evaluate(() => document.getElementById('adminPanel').getBoundingClientRect().left >= document.getElementById('adminSidebar').getBoundingClientRect().right + 12), 'Expanded sidebar does not overlap content');
         await page.screenshot({ path: path.join(root, '../../admin-sidebar-expanded.png') });
         await page.click('#adminSidebarCollapse');
@@ -188,7 +188,7 @@ async function selectWorkspace(page, key) {
         await page.keyboard.press('ArrowUp');
         assert.equal(await page.evaluate(() => document.activeElement.id), 'adminTab-contributions');
         await page.keyboard.press('Home');
-        assert.equal(await page.evaluate(() => document.activeElement.id), 'adminTab-pdf');
+        assert.equal(await page.evaluate(() => document.activeElement.id), 'adminTab-content');
         await page.keyboard.press('End');
         assert.equal(await page.evaluate(() => document.activeElement.id), 'adminTab-account');
         assert.equal(await page.locator('.account-member').count(), 2);

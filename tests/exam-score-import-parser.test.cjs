@@ -54,3 +54,17 @@ test('headerless OCR lines infer one trailing score and preserve uncertain colum
     assert.equal(rows[2].score, '');
     assert.equal(rows[2].student_name, '');
 });
+
+test('custom exam labels in columns and cells use configured keys; lower grade classes are inferred', () => {
+    globalThis.ExamScores = scores;
+    try {
+        scores.configure({ periods: [{ key: 'thi_thu_1', label: 'Thi thử lần 1' }], grades: [9] });
+        const wide = parser.fromText('Họ tên;Lớp;Thi thử lần 1\nNguyễn An;9A1;8,5', defaults).rows;
+        assert.equal(wide[0].period, 'thi_thu_1');
+        assert.equal(wide[0].grade, '9');
+        assert.equal(scores.validate(wide[0]).score, 8.5);
+        const standard = parser.fromText('Họ tên;Lớp;Điểm;Kỳ thi\nTrần Bình;9B2;7,5;Thi thử lần 1', defaults).rows;
+        assert.equal(standard[0].period, 'thi_thu_1');
+        assert.equal(scores.validate(standard[0]).grade, 9);
+    } finally { delete globalThis.ExamScores; scores.configure({}); }
+});

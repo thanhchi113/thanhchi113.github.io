@@ -9,6 +9,7 @@
     let collapsed = false, open = false, savedOverflow = null;
     try { collapsed = localStorage.getItem(storageKey) === "true"; } catch (_) { /* The sidebar also works with browser storage disabled. */ }
     const icons = {
+        content: '<path d="M4 4h16v16H4zM4 9h16M9 9v11M12 13h5M12 16h5"/>',
         pdf: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h5"/>',
         requests: '<path d="M4 4h16v16H4zM4 13h5l1 3h4l1-3h5M8 8h8"/>',
         evidence: '<circle cx="12" cy="8" r="5"/><path d="m8 12-2 9 6-3 6 3-2-9M12 6v4M10 8h4"/>',
