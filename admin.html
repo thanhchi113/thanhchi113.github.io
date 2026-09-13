@@ -504,6 +504,9 @@ document.querySelectorAll('[data-workspace-tab]').forEach(tab=>tab.addEventListe
 $('previewClose').addEventListener('click',closePreview);$('previewModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closePreview();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePreview();});supabaseClient.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')clearAdminSession();else if(event==='SIGNED_IN')adminAuthGeneration++;scheduleAdminCheck();});const initialWorkspace=(location.hash.match(/^#admin-([a-z]+)/)||[])[1];if(initialWorkspace&&adminWorkspaceIds[initialWorkspace])activateAdminWorkspace(initialWorkspace,false);scheduleAdminCheck();
 </script>
 <script src="assets/exam-scores-admin.js?v=20260913-options"></script>
+<link rel="stylesheet" href="assets/admin-bulk-actions.css?v=20260913">
+<script src="assets/admin-bulk-actions.js?v=20260913"></script>
+<script src="assets/admin-file-bulk.js?v=20260913"></script>
 <script src="assets/admin-galaxy.js?v=20260908-toggle"></script>
 <script src="assets/galaxy-streaks.js?v=20260908-brighter-streaks"></script>
 <script src="assets/galaxy-clouds.js?v=20260913-performance"></script>
