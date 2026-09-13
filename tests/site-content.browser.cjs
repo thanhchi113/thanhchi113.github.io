@@ -93,6 +93,11 @@ async function waitStatus(page, text) {
         for (const key of ['about.paragraph1', 'about.highlight1.number', 'skills.skill1.name', 'skills.skill1.percent', 'home.nameFirst', 'contact.item1.url']) {
             assert(sourceFields.some(item => item.key === key), `Existing ${key} is available to edit`);
         }
+        for (const id of ['home', 'about', 'skills', 'projects', 'documents', 'achievements', 'contact', 'tikz-library', 'material-request']) {
+            const visibility = sourceFields.find(item => item.key === `${id}.visible`);
+            assert.equal(visibility?.kind, 'boolean', `${id} has an explicit visibility setting`);
+            assert.equal(visibility.defaultValue, true, `${id} stays enabled for existing configurations`);
+        }
         assert.equal(sourceFields.filter(item => item.kind === 'percent').length, 6, 'All six existing skill percentages are extracted');
         const initialAbout = sourceFields.find(item => item.key === 'about.paragraph1').defaultValue;
         assert.equal(await field('about.paragraph1').inputValue(), initialAbout);
@@ -130,7 +135,141 @@ async function waitStatus(page, text) {
         await publicPage.waitForFunction(() => document.querySelector('.skill-percent').textContent === '73.5%');
         assert.equal(await publicPage.locator('.about-content > p').first().textContent(), state.value['about.paragraph1']);
         assert.equal(await publicPage.locator('.skill-progress').first().evaluate(node => node.style.getPropertyValue('--progress')), '73.5%');
+        assert(await publicPage.locator('#skills').isVisible(), 'A missing visibility flag preserves the original section');
+
+        // Visibility is a reversible draft setting; hiding a section never discards its edited content.
+        const beforeVisibilityWrites = state.writes.length;
+        assert.equal(await field('skills.visible').getAttribute('role'), 'switch');
+        assert(await field('skills.visible').isChecked());
+        await field('skills.visible').uncheck();
+        await preview.locator('#skills[data-site-section-hidden="true"]').waitFor({ state: 'attached' });
+        assert(!(await preview.locator('#skills').isVisible()), 'The draft preview immediately hides skills');
+        assert.equal(await page.evaluate(() => new URL(document.querySelector('iframe').contentWindow.location.href).searchParams.get('admin-content-preview')), '1', 'Visibility fallback navigation preserves the protected preview mode');
+        assert.equal(await preview.locator('#skills .skill-info h3').first().textContent(), 'Tư duy Toán học');
+        assert.equal(state.writes.length, beforeVisibilityWrites, 'A visibility toggle does not publish until saved');
+        assert.notEqual(state.value['skills.visible'], false);
+        assert(await publicPage.locator('#skills').isVisible(), 'The live page is unchanged while editing the draft');
+        await page.click('[data-content-undo]');
+        await page.waitForFunction(() => document.querySelector('iframe').contentDocument.querySelector('#skills').getAttribute('data-site-section-hidden') !== 'true');
+        assert(await field('skills.visible').isChecked());
+        assert(await preview.locator('#skills').isVisible());
+        assert.equal(await field('skills.skill1.name').inputValue(), 'Tư duy Toán học');
+        assert.equal(state.writes.length, beforeVisibilityWrites);
+
+        await field('skills.visible').uncheck();
+        await page.click('[data-content-save]');
+        await waitStatus(page, 'Đã lưu.');
+        assert.equal(state.value['skills.visible'], false);
+        assert.equal(state.value['skills.skill1.name'], 'Tư duy Toán học');
+        assert.equal(state.value['skills.skill1.percent'], 73.5);
+        await publicPage.reload();
+        await publicPage.locator('#skills[data-site-section-hidden="true"]').waitFor({ state: 'attached' });
+        assert(!(await publicPage.locator('#skills').isVisible()));
+        const skillLink = publicPage.locator('#mainMenu a[href="#skills"]');
+        assert.equal(await skillLink.getAttribute('data-site-link-hidden'), 'true');
+        assert.equal(await skillLink.locator('..').getAttribute('data-site-link-hidden'), 'true');
+        assert(!(await skillLink.locator('..').isVisible()), 'The entire hidden navigation item leaves no menu gap');
+        await publicPage.waitForFunction(() => location.hash !== '#skills' && document.querySelector('#home').getBoundingClientRect().height > 0);
+        assert.equal(await publicPage.locator('#skills .skill-info h3').first().textContent(), 'Tư duy Toán học');
+
+        await page.click('[data-content-defaults]');
+        assert(await field('skills.visible').isChecked(), 'Restoring defaults also enables the section in the draft');
+        await page.waitForFunction(() => document.querySelector('iframe').contentDocument.querySelector('#skills').getAttribute('data-site-section-hidden') !== 'true');
+        assert.equal(state.value['skills.visible'], false, 'Restoring defaults does not publish');
+        assert.equal(state.value['skills.skill1.name'], 'Tư duy Toán học');
+        await page.click('[data-content-undo]');
+        assert(!(await field('skills.visible').isChecked()), 'Undo restores the saved hidden setting');
+        assert.equal(await field('skills.skill1.name').inputValue(), 'Tư duy Toán học');
+        await field('skills.visible').check();
+        await page.click('[data-content-save]');
+        await waitStatus(page, 'Đã lưu.');
+        await publicPage.reload();
+        await publicPage.waitForFunction(() => document.querySelector('#skills .skill-info h3').textContent === 'Tư duy Toán học');
+        assert(await publicPage.locator('#skills').isVisible(), 'A saved toggle restores the section with its existing content');
+        assert(await publicPage.locator('#mainMenu a[href="#skills"]').isVisible());
+        assert.equal(state.value['skills.skill1.percent'], 73.5);
         await publicPage.close();
+
+        // Exercise saved configurations on fresh pages without altering the editor's saved version.
+        const savedVisibilityConfiguration = structuredClone(state.value);
+        const routePage = await context.newPage();
+        routePage.on('pageerror', error => errors.push(error.message));
+        try {
+            state.value = { ...savedVisibilityConfiguration, 'skills.visible': false, 'tikz-library.visible': false,
+                'home.description': 'Kiểm tra đường dẫn tới mục đang ẩn.' };
+            for (const hash of ['#skills', '#tikz-library', '#tikz-hidden-example']) {
+                await routePage.goto(`https://content.test/index.html?visibility-case=${encodeURIComponent(hash.slice(1))}${hash}`);
+                await routePage.waitForFunction(() => document.querySelector('.hero-description').textContent === 'Kiểm tra đường dẫn tới mục đang ẩn.');
+                await routePage.waitForFunction(() => !['#skills', '#tikz-library', '#tikz-hidden-example'].includes(location.hash));
+                assert(!(await routePage.locator('#skills').isVisible()));
+                assert(!(await routePage.locator('#tikz-library').isVisible()));
+                assert(!(await routePage.locator('[data-tikz-open]').isVisible()), 'The project card cannot reopen a hidden TikZ library');
+                assert(await routePage.locator('#home').isVisible(), `The ${hash} deep link falls back to visible content`);
+                assert.equal(await routePage.evaluate(() => document.body.classList.contains('tikz-library-mode') || document.body.classList.contains('tikz-detail-mode')), false);
+            }
+            state.value = { ...savedVisibilityConfiguration, 'documents.visible': false,
+                'home.description': 'Kiểm tra đường dẫn tài liệu đang ẩn.' };
+            for (const parameter of ['doc', 'category']) {
+                await routePage.goto(`https://content.test/index.html?${parameter}=hidden-example&visibility-case=${parameter}`);
+                await routePage.waitForFunction(() => document.querySelector('.hero-description').textContent === 'Kiểm tra đường dẫn tài liệu đang ẩn.');
+                await routePage.waitForFunction(() => !new URL(location.href).searchParams.has('doc') && !new URL(location.href).searchParams.has('category'));
+                assert(!(await routePage.locator('#documents').isVisible()), `A hidden ${parameter} deep link never opens the documents section`);
+                assert(await routePage.locator('#home').isVisible(), `The ${parameter} URL without a hash still shows available content`);
+                assert.equal(await routePage.locator('#pdfModal').getAttribute('aria-hidden'), 'true');
+            }
+            state.value = { ...savedVisibilityConfiguration, 'home.visible': false, 'projects.visible': false,
+                'about.paragraph1': 'Kiểm tra đường dẫn quay lại mục đang bật.' };
+            await routePage.goto('https://content.test/index.html?visibility-case=hidden-home');
+            await routePage.waitForFunction(() => document.querySelector('.about-content > p').textContent === 'Kiểm tra đường dẫn quay lại mục đang bật.' && location.hash === '#about');
+            assert(!(await routePage.locator('#home').isVisible()));
+            assert(!(await routePage.locator('#projects').isVisible()));
+            assert(await routePage.locator('#about').isVisible());
+            for (const selector of ['.logo', '.back-to-top']) {
+                assert.equal(new URL(await routePage.locator(selector).getAttribute('href'), routePage.url()).hash, '#about', `${selector} points to the first available section`);
+            }
+            await routePage.locator('#mainMenu [data-main-nav="tikz"]').click();
+            await routePage.waitForFunction(() => document.body.classList.contains('tikz-library-mode') && location.hash === '#tikz-library');
+            assert(await routePage.locator('#tikz-library').isVisible());
+            await routePage.locator('#tikzBackButton').click();
+            await routePage.waitForFunction(() => location.hash === '#about' && !document.body.classList.contains('tikz-library-mode'));
+            assert(await routePage.locator('#about').isVisible(), 'Closing TikZ falls back to an enabled section when projects and home are hidden');
+
+            state.value = { ...savedVisibilityConfiguration, 'skills.visible': 'false', 'about.visible': 0,
+                'contact.visible': null, 'home.description': 'Kiểm tra cấu hình hiển thị không hợp lệ.' };
+            await routePage.goto('https://content.test/index.html?visibility-case=invalid#skills');
+            await routePage.waitForFunction(() => document.querySelector('.hero-description').textContent === 'Kiểm tra cấu hình hiển thị không hợp lệ.');
+            for (const id of ['skills', 'about', 'contact']) {
+                assert(await routePage.locator(`#${id}`).isVisible(), `${id} stays visible when its flag is not a boolean`);
+            }
+
+            state.value = { ...savedVisibilityConfiguration, 'skills.visible': false, 'achievements.visible': false };
+            await routePage.goto('https://content.test/achievements.html?type=grade10');
+            await routePage.locator('#mainMenu a[href="index.html#skills"][data-site-link-hidden="true"]').waitFor({ state: 'attached' });
+            for (const id of ['skills', 'achievements']) {
+                const link = routePage.locator(`#mainMenu a[href="index.html#${id}"]`);
+                assert(!(await link.locator('..').isVisible()), `The achievements page also hides ${id} navigation`);
+            }
+            const back = routePage.locator('.evidence-back-link');
+            assert(await back.isVisible(), 'Visitors retain a way back when the achievements section is hidden');
+            assert.notEqual(new URL(await back.getAttribute('href'), routePage.url()).hash, '#achievements');
+            assert.equal(await routePage.locator('a[href="index.html#scoreSubmission"]').getAttribute('data-site-link-hidden'), 'true', 'The submission invitation does not point into a hidden achievements section');
+        } finally {
+            state.value = savedVisibilityConfiguration;
+            await routePage.close();
+        }
+
+        const beforeTikzPreviewWrites = state.writes.length;
+        await page.selectOption('#siteContentSection', 'tikz-library');
+        await page.waitForFunction(() => document.querySelector('iframe').contentDocument.querySelector('#tikz-library').getBoundingClientRect().height > 0);
+        assert(await preview.locator('#tikz-library').isVisible(), 'Selecting TikZ in the editor opens its normally separate preview view');
+        await field('tikz-library.visible').uncheck();
+        await preview.locator('#tikz-library[data-site-section-hidden="true"]').waitFor({ state: 'attached' });
+        assert(!(await preview.locator('#tikz-library').isVisible()));
+        await field('tikz-library.visible').check();
+        await page.waitForFunction(() => document.querySelector('iframe').contentDocument.querySelector('#tikz-library').getBoundingClientRect().height > 0);
+        assert.equal(await page.evaluate(() => new URL(document.querySelector('iframe').contentWindow.location.href).searchParams.get('admin-content-preview')), '1');
+        assert.equal(state.writes.length, beforeTikzPreviewWrites, 'Previewing and toggling TikZ never publishes without saving');
+        await page.click('[data-content-undo]');
 
         // Unsafe markup stays plain text in both preview and public application.
         const markup = '<img src=x onerror="window.contentInjected=true">';
@@ -210,7 +349,7 @@ async function waitStatus(page, text) {
         await waitStatus(page, 'Đã tải nội dung');
         assert.equal(await field('about.paragraph1').inputValue(), 'Nội dung đã được admin khác lưu.');
         assert.deepEqual(errors, []);
-        console.log('PASS: actual admin/page CMS extraction, draft preview, save/public refresh, percentages, safe text/links, failures/conflicts, logout stale-load protection, and responsive desktop/mobile layout.');
+        console.log('PASS: actual admin/page CMS extraction, draft preview, reversible visibility switches, hidden navigation/deep-link fallbacks, save/public refresh, percentages, safe text/links, failures/conflicts, logout stale-load protection, and responsive desktop/mobile layout.');
     } finally {
         await browser.close();
     }

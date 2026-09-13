@@ -87,7 +87,11 @@ Yêu cầu đã duyệt hoặc xóa không còn trong hộp chờ duyệt. Đi�
 
 ## Chỉnh sửa nội dung trang web
 
-Mở **Nội dung trang web** trên thanh bên (`admin.html#admin-content`). Chọn Trang đầu, Giới thiệu, Kỹ năng, Dự án, Tài liệu, Thành tích hoặc Liên hệ. Có thể sửa chữ, mô tả, tên/chú thích kỹ năng, tỷ lệ phần trăm, nội dung nổi bật, số hiển thị dự án và thông tin/liên kết liên hệ. Thanh kỹ năng thay đổi theo tỷ lệ đã nhập. Các thống kê tính từ bảng điểm vẫn được tính từ dữ liệu thực tế.
+Mở **Nội dung trang web** trên thanh bên (`admin.html#admin-content`). Chọn Trang đầu, Giới thiệu, Kỹ năng, Dự án, Tài liệu, Thành tích, Hình vẽ TikZ, Yêu cầu hoặc Liên hệ. Có thể sửa chữ, mô tả, tên/chú thích kỹ năng, tỷ lệ phần trăm, nội dung nổi bật, số hiển thị dự án và thông tin/liên kết liên hệ. Thanh kỹ năng thay đổi theo tỷ lệ đã nhập. Các thống kê tính từ bảng điểm vẫn được tính từ dữ liệu thực tế.
+
+Công tắc **Hiển thị mục này trên website** bật/ẩn mục đang chọn. Ví dụ chọn **Kỹ năng**, chuyển công tắc sang **Ẩn**, rồi bấm **Lưu nội dung**. Mục và liên kết điều hướng tương ứng biến mất trên website; nội dung vẫn giữ nguyên để chỉnh sửa hoặc bật lại. Danh sách admin đánh dấu **Đang ẩn**. Bản xem trước phản ánh lựa chọn ngay, còn website chỉ thay đổi sau khi lưu. Hủy thay đổi khôi phục trạng thái đã lưu; khôi phục mẫu gốc bật lại mục trong bản nháp. Các liên kết cũ đến mục ẩn trên trang chủ được chuyển về mục đang bật.
+
+Trạng thái dùng các khóa boolean như `skills.visible` trong hàng `site_content` hiện có, cùng quyền admin và kiểm tra phiên bản khi lưu. Không cần migration SQL mới. Cấu hình cũ chưa có khóa này vẫn hiển thị các mục như trước; chỉ giá trị boolean `false` mới ẩn mục.
 
 Bản xem trước phản ánh nội dung đang nhập nhưng chưa công bố. **Lưu nội dung** lưu tất cả mục đã chỉnh sửa; **Hủy thay đổi** trở về bản đã lưu; **Khôi phục mẫu gốc** đưa riêng mục đang chọn về nội dung gốc trong bản xem trước, cần Lưu để công bố. Nội dung được ghi ở hàng `site_content` trong `site_configuration`; bản nháp chỉ ở bộ nhớ tab. Chữ được gán bằng `textContent`, liên kết chỉ chấp nhận `https:`, `mailto:`, `tel:`; không cho nhập HTML/script. Lưu so sánh `updated_at` để tránh ghi đè bản sửa của phiên khác.
 

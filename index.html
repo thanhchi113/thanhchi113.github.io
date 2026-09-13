@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" href="style.css?v=20260907-admin">
     <link rel="stylesheet" href="assets/score-submissions.css?v=20260908-student-upload">
+    <link rel="stylesheet" href="assets/site-content.css?v=20260913-visibility">
 
     <!-- Font Awesome -->
     <link
@@ -5218,7 +5219,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script>
     <script src="assets/exam-scores.js?v=20260913-options"></script>
     <script src="assets/exam-score-options.js?v=20260913"></script>
-    <script src="assets/site-content.js?v=20260913"></script>
+    <script src="assets/site-content.js?v=20260913-visibility"></script>
     <script src="assets/score-submissions.js?v=20260908-student-upload"></script>
     <script>
 
@@ -5650,6 +5651,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
         }
 
         function setCategoryView(categoryId, page = 1) {
+            if (!window.SiteContent.isVisible("documents")) { ensureVisibleRoute(); return; }
             activeDocumentCategoryId = categoryId == null ? null : String(categoryId);
             documentCurrentPage = page;
             const searchInput = document.getElementById("documentSearch");
@@ -6725,6 +6727,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
         }
 
         function openPdfViewer(item) {
+            if (!window.SiteContent.isVisible("documents")) { ensureVisibleRoute(); return; }
             if (!item?.file_path) return;
             currentDocument = item;
             currentPdfDocument = item;
@@ -7284,7 +7287,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                     entries.forEach(
                         function (entry) {
 
-                            if (!entry.isIntersecting) {
+                            if (!entry.isIntersecting || !window.SiteContent.isVisible(entry.target.id)) {
                                 return;
                             }
 
@@ -8066,8 +8069,11 @@ function getFilteredTikzDrawings() {
             renderDocumentLibrary();
         }
 
-        function navigateFromMainTaskbar(target){
-            if(target === "tikz") { openTikzLibrary(); return; }
+        function navigateFromMainTaskbar(target, replace = false){
+            let hash = target === "tikz" ? "#tikz-library" : target.startsWith("#") ? target : `#${target}`;
+            const section = window.SiteContent.sectionForHash(hash);
+            if (section && !window.SiteContent.isVisible(section)) hash = `#${window.SiteContent.firstVisible() || ""}`;
+            if(hash === "#tikz-library") { openTikzLibrary(); return; }
             // Always leave document/category/PDF detail state when using the main navigation.
             resetDocumentNavigationState();
             // Leaving the TikZ library/detail view must restore the normal one-page website.
@@ -8075,21 +8081,36 @@ function getFilteredTikzDrawings() {
             document.getElementById("tikz-library")?.setAttribute("hidden", "");
             document.getElementById("tikzDetail")?.setAttribute("hidden", "");
             currentTikzDrawing = null;
-            const hash = target.startsWith("#") ? target : `#${target}`;
-            history.pushState(null,"",`${location.pathname}${hash}`);
+            const destination = new URL(location.href);
+            destination.searchParams.delete("doc");
+            destination.searchParams.delete("category");
+            destination.hash = hash;
+            history[replace ? "replaceState" : "pushState"](null,"",destination);
             requestAnimationFrame(()=>{
-                const el=document.querySelector(hash);
+                const el=hash.length > 1 ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
                 if(el) el.scrollIntoView({behavior:"auto",block:"start"});
+                else window.scrollTo({top:0,behavior:"auto"});
             });
         }
 
+        function ensureVisibleRoute() {
+            const api = window.SiteContent;
+            const url = new URL(location.href);
+            const target = api.sectionForHash(url.hash);
+            const hiddenDocuments = !api.isVisible("documents") && (url.searchParams.has("doc") || url.searchParams.has("category"));
+            const hiddenTikz = !api.isVisible("tikz-library") && document.body.classList.contains("tikz-library-mode");
+            if ((target && !api.isVisible(target)) || (!url.hash && !api.isVisible("home")) || hiddenDocuments || hiddenTikz) {
+                navigateFromMainTaskbar(`#${api.firstVisible() || ""}`, true);
+                return true;
+            }
+            return false;
+        }
+        document.addEventListener("site-content-visibility-change", ensureVisibleRoute);
+        window.addEventListener("hashchange", ensureVisibleRoute);
+
         document.querySelector('.logo')?.addEventListener('click',event=>{
             event.preventDefault();
-            document.body.classList.remove('tikz-library-mode','tikz-detail-mode');
-            document.getElementById('tikz-library')?.setAttribute('hidden','');
-            document.getElementById('tikzDetail')?.setAttribute('hidden','');
-            history.pushState(null,'',`${location.pathname}#home`);
-            requestAnimationFrame(()=>document.getElementById('home')?.scrollIntoView({behavior:'auto',block:'start'}));
+            navigateFromMainTaskbar(event.currentTarget.getAttribute("href") || "#home");
         });
 
         document.querySelectorAll("[data-main-nav]").forEach(link=>link.addEventListener("click",event=>{
@@ -8107,6 +8128,7 @@ function getFilteredTikzDrawings() {
         }));
 
         function openTikzLibrary() {
+            if (!window.SiteContent.isVisible("tikz-library")) { navigateFromMainTaskbar(`#${window.SiteContent.firstVisible() || ""}`, true); return; }
             document.body.classList.add("tikz-library-mode");
             document.body.classList.remove("tikz-detail-mode");
             currentTikzDrawing = null;
@@ -8119,31 +8141,31 @@ function getFilteredTikzDrawings() {
             window.scrollTo({top:0,behavior:"auto"});
             loadTikzDrawings();
             const previousHash = location.hash || "";
+            const destination = new URL(location.href);
+            destination.searchParams.delete("doc");
+            destination.searchParams.delete("category");
+            destination.hash = "tikz-library";
             if (previousHash !== "#tikz-library") {
-                history.pushState({tikzLibrary:true,from:previousHash || "#projects"},"",`${location.pathname}#tikz-library`);
+                history.pushState({tikzLibrary:true,from:previousHash || "#projects"},"",destination);
             } else {
-                history.replaceState(null,"",`${location.pathname}#tikz-library`);
+                history.replaceState(null,"",destination);
             }
         }
 
         function closeTikzLibrary() {
-            document.body.classList.remove("tikz-library-mode", "tikz-detail-mode");
-            document.getElementById("tikz-library")?.setAttribute("hidden", "");
-            document.getElementById("tikzDetail")?.setAttribute("hidden", "");
-            document.getElementById("tikzGrid")?.removeAttribute("hidden");
-            currentTikzDrawing = null;
-            history.replaceState(null,"",`${location.pathname}#projects`);
-            requestAnimationFrame(() => {
-                const projects = document.getElementById("projects");
-                if (projects) projects.scrollIntoView({behavior:"auto",block:"start"});
-            });
+            navigateFromMainTaskbar("#projects", true);
         }
 
         async function openTikzDetail(id, fromHistory = false) {
+            if (!window.SiteContent.isVisible("tikz-library")) { ensureVisibleRoute(); return; }
             const drawing = tikzDrawings.find(d => String(d.id) === String(id));
             if (!drawing) return;
             currentTikzDrawing = drawing;
-            if (!fromHistory) history.pushState({tikzDetail:String(drawing.id)}, "", `${location.pathname}#tikz-${encodeURIComponent(drawing.id)}`);
+            if (!fromHistory) {
+                const destination = new URL(location.href);
+                destination.hash = `tikz-${encodeURIComponent(drawing.id)}`;
+                history.pushState({tikzDetail:String(drawing.id)}, "", destination);
+            }
             document.body.classList.add("tikz-detail-mode");
             ["tikzGrid","tikzEmpty","tikzPagination","tikzViewTitle"].forEach(id=>document.getElementById(id)?.setAttribute("hidden",""));
             document.querySelectorAll("#tikz-library .tikz-library-intro,#tikz-library .tikz-library-toolbar,#tikz-library .tikz-library-heading").forEach(el=>el.setAttribute("hidden",""));
@@ -8197,6 +8219,7 @@ function getFilteredTikzDrawings() {
             window.scrollTo({top:0,behavior:"auto"});
         });
         window.addEventListener("popstate", () => {
+            if (ensureVisibleRoute()) return;
             const hash = location.hash || "";
             if (hash.startsWith("#tikz-") && hash !== "#tikz-library") {
                 const id = decodeURIComponent(hash.slice(6));

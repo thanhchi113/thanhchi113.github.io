@@ -1,0 +1,5 @@
+/* This must outrank the library/detail display rules while preserving their own hidden state. */
+html body :is(#home, #about, #skills, #projects, #documents, #achievements, #tikz-library, #material-request, #contact)[data-site-section-hidden="true"],
+html body [data-site-link-hidden="true"] {
+    display: none !important;
+}

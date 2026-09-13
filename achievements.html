@@ -57,7 +57,7 @@
     </header>
     <main class="evidence-page">
         <div class="container">
-            <a class="evidence-back-link" href="index.html#achievements"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Quay lại thành tích</a>
+            <a class="evidence-back-link" href="index.html#achievements"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> <span data-back-label>Quay lại thành tích</span></a>
             <div class="evidence-head">
                 <div>
                     <div class="evidence-kicker">RESULTS ARCHIVE</div>
@@ -140,6 +140,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
     <script src="assets/exam-scores.js?v=20260913-options"></script>
     <script src="assets/exam-score-options.js?v=20260913"></script>
+    <link rel="stylesheet" href="assets/site-content.css?v=20260913-visibility">
+    <script src="assets/site-content.js?v=20260913-visibility"></script>
     <script src="assets/exam-score-paper.js?v=20260908-math-cycle"></script>
     <script src="assets/galaxy-streaks.js?v=20260908-brighter-streaks"></script>
     <script src="assets/galaxy-clouds.js?v=20260913-performance"></script>
@@ -147,6 +149,7 @@
         const SUPABASE_URL = "https://uiyqdqucqplifcvukwul.supabase.co";
         const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_eVPODZoNRLiGD8Ldl2VjAg_eC_KTKDg";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+        window.SiteContent.start(supabaseClient);
         const groups = {
             grade10: { title: "Minh chứng luyện thi vào lớp 10", description: "Kết quả tuyển sinh và hành trình ôn luyện của học sinh.", label: "LUYỆN THI VÀO 10" },
             grade12: { title: "Minh chứng tốt nghiệp THPT", description: "Kết quả môn Toán và nguyện vọng của học sinh lớp 12.", label: "TỐT NGHIỆP THPT" },
