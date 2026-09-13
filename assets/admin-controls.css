@@ -1,0 +1,128 @@
+/* Native checkboxes keep their labels, keyboard behavior and form values. */
+#adminPanel input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-grid;
+    place-content: center;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    border: 1px solid #607492;
+    border-radius: 6px;
+    background: linear-gradient(145deg, #122239, #0a1525);
+    color: #07182c;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .18);
+    cursor: pointer;
+    transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease;
+}
+
+#adminPanel input[type="checkbox"]::before {
+    content: "";
+    width: 9px;
+    height: 5px;
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-1px) rotate(-45deg) scale(0);
+    transition: transform .14s ease;
+}
+
+#adminPanel input[type="checkbox"]:is(:checked, :indeterminate) {
+    background: linear-gradient(135deg, #79cefa, #a292ef);
+    border-color: #a4ceff;
+    box-shadow: 0 2px 8px rgba(88, 142, 235, .16), inset 0 1px 0 rgba(255, 255, 255, .22);
+}
+#adminPanel input[type="checkbox"]:checked::before { transform: translateY(-1px) rotate(-45deg) scale(1); }
+#adminPanel input[type="checkbox"]:indeterminate::before {
+    width: 9px;
+    height: 0;
+    border-left: 0;
+    transform: none;
+}
+#adminPanel input[type="checkbox"]:focus-visible {
+    outline: 2px solid #b2ddff;
+    outline-offset: 4px;
+}
+#adminPanel input[type="checkbox"]:disabled {
+    border-color: #435975;
+    background: #192b42;
+    color: #a9bdd7;
+    box-shadow: none;
+    cursor: default;
+    opacity: .8;
+}
+
+#adminPanel .score-options-grades > div { gap: 9px; }
+#adminPanel .score-options-grades label {
+    min-width: 0;
+    min-height: 46px;
+    padding: 9px 11px;
+    margin: 0;
+    gap: 10px;
+    border: 1px solid rgba(137, 167, 211, .2);
+    border-radius: 10px;
+    background: rgba(17, 31, 51, .68);
+    color: #bbcee7;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color .16s ease, background-color .16s ease, color .16s ease;
+}
+#adminPanel .score-options-grades label:has(input:checked) {
+    border-color: rgba(133, 187, 255, .5);
+    background: linear-gradient(125deg, rgba(65, 143, 218, .17), rgba(132, 107, 211, .16));
+    color: #e2f1ff;
+}
+#adminPanel .score-options-grades label:has(input:disabled) {
+    border-color: rgba(137, 167, 211, .16);
+    background: rgba(29, 43, 63, .5);
+    color: #9daec5;
+    cursor: default;
+}
+#adminPanel .score-options-grades label:has(input:focus-visible) { border-color: #9dceff; }
+#adminPanel .check-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 36px;
+    line-height: 1.55;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    cursor: pointer;
+}
+#adminPanel .exam-settings-toggle { min-height: 36px; }
+
+@media (hover: hover) {
+    #adminPanel input[type="checkbox"]:enabled:hover {
+        border-color: #a9d6ff;
+        box-shadow: 0 0 0 3px rgba(124, 174, 245, .12);
+    }
+    #adminPanel .score-options-grades label:has(input:enabled):hover {
+        border-color: rgba(156, 201, 255, .65);
+        background-color: rgba(50, 76, 116, .34);
+        color: #e2f1ff;
+    }
+}
+@media (max-width: 480px) {
+    #adminPanel .score-options-grades > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (pointer: coarse) {
+    #adminPanel input[type="checkbox"] { width: 22px; height: 22px; min-width: 22px; }
+    #adminPanel :is(.check-row, .exam-settings-toggle) { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    #adminPanel input[type="checkbox"],
+    #adminPanel input[type="checkbox"]::before,
+    #adminPanel .score-options-grades label { transition: none; }
+}
+@media (forced-colors: active) {
+    #adminPanel input[type="checkbox"] { appearance: auto; -webkit-appearance: auto; }
+    #adminPanel input[type="checkbox"]::before { content: none; }
+    #adminPanel .score-options-grades label:has(input:checked) { border-color: Highlight; }
+    #adminPanel .score-options-grades label:has(input:disabled) { border-color: GrayText; color: GrayText; }
+}
