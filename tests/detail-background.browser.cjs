@@ -16,7 +16,7 @@ function mockSdk() {
     const scores = [{ id: 'score', student_name: 'Học sinh minh họa', hide_student_name: false, score: 8.5, period: 'gk1', grade: 12, class_name: '12A1', school_year: '2026-2027', evidence_image_path: 'scores/evidence.svg', published: true, created_at: '2026-09-13' }];
     const client = {
         auth: { async getUser() { return { data: { user: null }, error: null }; }, onAuthStateChange() { return { data: { subscription: { unsubscribe() {} } } }; } },
-        async rpc(name) { return { data: name === 'get_published_exam_scores' ? scores : name === 'increment_document_view' ? 1 : false, error: null }; },
+        async rpc(name) { return { data: name === 'get_published_exam_scores' ? scores : name === 'get_published_achievement_evidence' ? evidence : name === 'increment_document_view' ? 1 : false, error: null }; },
         from(table) {
             let single = false;
             const finish = () => {

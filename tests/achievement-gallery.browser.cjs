@@ -26,6 +26,7 @@ function mockSdk() {
         auth: { async getUser() { return { data: { user: null }, error: null }; }, onAuthStateChange() { return { data: { subscription: { unsubscribe() {} } } }; } },
         async rpc(name, params) {
             if (name === 'get_published_exam_scores') return { data: scores.slice(params.page_offset, params.page_offset + params.page_limit), error: null };
+            if (name === 'get_published_achievement_evidence') return { data: evidence.filter(row => row.group_key === params.evidence_group).slice(params.page_offset, params.page_offset + params.page_limit), error: null };
             throw new Error(`Unexpected RPC ${name}`);
         },
         from(table) {

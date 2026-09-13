@@ -32,6 +32,7 @@ function mockSdk() {
         },
         storage: { from(bucket) { return {
             getPublicUrl(file) { return { data: { publicUrl: `${location.origin}/fixture/${file}` } }; },
+            async createSignedUrl(file) { return { data: { signedUrl: `${location.origin}/fixture/${file}?signed=1` }, error: null }; },
             async upload(file, blob, options) { return window.evidenceStorageRequest({ bucket, action: 'upload', file, name: blob.name, size: blob.size, options }); },
             async remove(files) { return window.evidenceStorageRequest({ bucket, action: 'remove', files }); }
         }; } }
@@ -92,11 +93,11 @@ function mockSdk() {
         const refresh = async text => { await page.click('#evidenceRefreshBtn'); await waitList(text); };
         const completed = () => page.waitForFunction(() => document.querySelector('#evidenceFormStatus').textContent === 'Hoàn tất.');
         await page.goto(`${origin}/admin.html#admin-evidence`);
-        await waitList('Supabase chưa nhận diện được bảng lưu minh chứng');
+        await waitList('Cần cập nhật bảng minh chứng');
         const download = list.locator('a[download]');
         assert.equal(await download.count(), 1);
         const repairUrl = await download.getAttribute('href');
-        assert.equal(repairUrl, 'supabase/migrations/20260913153000_repair_achievement_evidence.sql');
+        assert.equal(repairUrl, 'supabase/migrations/20260913183000_achievement_evidence_optional_image_privacy.sql');
         const sql = await page.evaluate(async href => { const response = await fetch(href); return { status: response.status, text: await response.text() }; }, repairUrl);
         assert.equal(sql.status, 200, 'The repair link serves an existing SQL file');
         assert.match(sql.text, /create table if not exists public\.achievement_evidence/i);

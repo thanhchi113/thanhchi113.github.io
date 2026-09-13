@@ -240,11 +240,19 @@
 <form id="evidenceForm" class="admin-form">
 <input id="evidenceId" type="hidden"><input id="evidenceOldPath" type="hidden">
 <div class="field-grid"><div><label for="evidenceGroup">Nhóm minh chứng</label><select id="evidenceGroup"><option value="grade10">Luyện thi vào lớp 10</option><option value="grade12">Luyện thi tốt nghiệp THPT</option><option value="feedback">Phản hồi học sinh / phụ huynh</option></select></div><div><label for="evidenceTitle">Tiêu đề</label><input id="evidenceTitle" required maxlength="180" placeholder="Ví dụ: Kết quả tuyển sinh lớp 10"></div></div>
-<div><label for="evidenceImageInput">Ảnh minh chứng</label><div id="evidenceDropZone" class="admin-drop evidence-file-drop"><input id="evidenceImageInput" class="drop-input" type="file" accept="image/png,image/jpeg,image/webp"><div class="evidence-drop-prompt"><i class="fa-regular fa-images"></i><strong>Kéo thả ảnh minh chứng vào đây</strong><span>Hoặc bấm để chọn ảnh PNG, JPG, WebP</span></div><div id="evidenceFileName" class="file-name"></div></div></div>
+<div><label for="evidenceImageInput">Ảnh minh chứng (không bắt buộc)</label><div id="evidenceDropZone" class="admin-drop evidence-file-drop"><input id="evidenceImageInput" class="drop-input" type="file" accept="image/png,image/jpeg,image/webp"><div class="evidence-drop-prompt"><i class="fa-regular fa-images"></i><strong>Kéo thả ảnh minh chứng vào đây</strong><span>Hoặc bấm để chọn ảnh PNG, JPG, WebP</span></div><div id="evidenceFileName" class="file-name"></div></div><button id="evidenceRemoveImage" class="admin-btn ghost" type="button" hidden>Bỏ ảnh đính kèm</button><p class="muted">Không có ảnh hoặc tắt hiển thị ảnh: thẻ dùng hình minh họa Toán học chuyển động.</p></div>
 <div class="evidence-layout">
 <div class="evidence-facts"><div class="evidence-facts-head"><strong><i class="fa-solid fa-wand-magic-sparkles"></i> Thông tin trích xuất</strong><button id="extractEvidenceBtn" class="admin-btn ghost" type="button"><i class="fa-solid fa-eye"></i> Phân tích ảnh</button></div><div class="field-grid"><div><label for="evidenceStudent">Tên học sinh</label><input id="evidenceStudent" maxlength="160" placeholder="Tự điền từ ảnh nếu nhận diện được"></div><div><label for="evidenceCourse">Khóa học / lớp</label><input id="evidenceCourse" maxlength="160" placeholder="Ví dụ: 12A1 · Khóa 2025-2026"></div><div><label for="evidenceSchool">Trường</label><input id="evidenceSchool" maxlength="180" placeholder="Tên trường"></div><div><label for="evidenceResult">Kết quả</label><input id="evidenceResult" maxlength="220" placeholder="Ví dụ: Đạt 9.0 điểm Toán"></div></div><div><label for="evidenceDescription">Ghi chú hiển thị</label><textarea id="evidenceDescription" maxlength="1200" placeholder="Tóm tắt minh chứng..."></textarea></div><div><label for="evidenceOcrText">Văn bản OCR</label><textarea id="evidenceOcrText" class="evidence-ocr" readonly placeholder="Chọn ảnh để trích xuất nội dung."></textarea><div id="evidenceOcrStatus" class="admin-status"></div></div></div>
 <div class="evidence-preview" id="evidencePreview"><div class="evidence-preview-empty"><i class="fa-regular fa-image"></i>Ảnh minh chứng sẽ hiển thị tại đây</div></div>
 </div>
+<fieldset class="evidence-visibility"><legend>Thông tin hiển thị trên thẻ</legend><div class="field-grid">
+<label class="check-row"><input id="evidenceShowStudentName" type="checkbox" role="switch" checked> Tên học sinh</label>
+<label class="check-row"><input id="evidenceShowImage" type="checkbox" role="switch" checked> Ảnh minh chứng</label>
+<label class="check-row"><input id="evidenceShowCourseName" type="checkbox" role="switch" checked> Khóa học / lớp</label>
+<label class="check-row"><input id="evidenceShowSchoolName" type="checkbox" role="switch" checked> Trường</label>
+<label class="check-row"><input id="evidenceShowResultSummary" type="checkbox" role="switch" checked> Kết quả</label>
+<label class="check-row"><input id="evidenceShowDescription" type="checkbox" role="switch" checked> Ghi chú</label>
+</div><p class="muted">Tắt một trường vẫn giữ nội dung trong admin. Tên xuất hiện trong ảnh hoặc ghi chú sẽ theo tùy chọn của ảnh hoặc ghi chú đó.</p></fieldset>
 <label class="check-row"><input id="evidencePublished" type="checkbox" checked> Hiển thị trên trang minh chứng</label>
 <div class="admin-actions"><button class="admin-btn" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> <span id="evidenceSaveLabel">Đăng minh chứng</span></button><button class="admin-btn ghost" id="evidenceResetBtn" type="button">Làm mới</button></div><div id="evidenceFormStatus" class="admin-status"></div>
 </form>
@@ -267,6 +275,8 @@
 <script src="assets/site-content-admin.js?v=20260913-unified"></script>
 <script src="assets/admin-account.js?v=20260908-sidebar-led"></script>
 <script src="assets/exam-score-paper.js?v=20260908-math-cycle"></script>
+<link rel="stylesheet" href="assets/evidence-display.css?v=20260913-optional">
+<script src="assets/evidence-display.js?v=20260913-optional"></script>
 <script src="assets/score-submissions-admin.js?v=20260913-options"></script>
 <script src="assets/exam-score-settings-admin.js?v=20260913-options"></script>
 <script src="assets/exam-score-import-parser.js?v=20260913-options"></script>
@@ -430,8 +440,8 @@ function reviewSetupMessage(error){
   const code=String(error?.code||'');
   const message=String(error?.message||'');
   const missingTable=code==='PGRST205'||code==='42P01';
-  if(missingTable&&message.includes('achievement_evidence')){
-    return '<p>Supabase chưa nhận diện được bảng lưu minh chứng. Chạy file SQL sửa minh chứng trong SQL Editor, sau đó bấm Làm mới danh sách.</p><div class="admin-actions"><a class="admin-btn ghost" href="supabase/migrations/20260913153000_repair_achievement_evidence.sql" download>Tải SQL sửa minh chứng</a><a class="admin-btn ghost" href="https://supabase.com/dashboard/project/uiyqdqucqplifcvukwul/sql/new" target="_blank" rel="noopener noreferrer">Mở Supabase SQL Editor</a></div>';
+  if((missingTable&&message.includes('achievement_evidence'))||(['PGRST204','42703','23502'].includes(code)&&/achievement_evidence|show_|image_path/.test(message))){
+    return '<p>Cần cập nhật bảng minh chứng để ảnh không bắt buộc và bật/tắt từng thông tin. Chạy file SQL bên dưới trong SQL Editor, sau đó bấm Làm mới danh sách.</p><div class="admin-actions"><a class="admin-btn ghost" href="supabase/migrations/20260913183000_achievement_evidence_optional_image_privacy.sql" download>Tải SQL cập nhật minh chứng</a><a class="admin-btn ghost" href="https://supabase.com/dashboard/project/uiyqdqucqplifcvukwul/sql/new" target="_blank" rel="noopener noreferrer">Mở Supabase SQL Editor</a></div>';
   }
   if(missingTable)return 'Supabase chưa nhận diện được bảng dữ liệu. Hãy kiểm tra migration 20260907_requests_contributions_and_evidence.sql trong Supabase SQL Editor.';
   if(code==='42501'||code==='PGRST301'||code==='PGRST302'||/jwt|permission denied/i.test(message))return 'Không thể tải dữ liệu do phiên đăng nhập hoặc quyền truy cập. Hãy đăng nhập lại bằng tài khoản admin rồi bấm Làm mới danh sách.';
@@ -446,7 +456,7 @@ async function loadReviewOverview(){
   const [requestsResult,contributionsResult,evidenceResult]=await Promise.all([
     supabaseClient.from('math_requests').select('id,name,email,category_id,request_text,status,admin_note,created_at,reviewed_at,math_categories(name)').order('created_at',{ascending:false}),
     supabaseClient.from('document_contributions').select('id,title,description,category_id,contributor_name,contributor_email,file_path,file_name,file_size,status,admin_note,created_at,reviewed_at,math_categories(name)').order('created_at',{ascending:false}),
-    supabaseClient.from('achievement_evidence').select('id,group_key,title,student_name,course_name,school_name,result_summary,description,ocr_text,image_path,image_name,sort_order,published,created_at,updated_at').order('sort_order',{ascending:true}).order('created_at',{ascending:false})
+    supabaseClient.from('achievement_evidence').select('id,group_key,title,student_name,course_name,school_name,result_summary,description,ocr_text,image_path,image_name,sort_order,published,created_at,updated_at,show_student_name,show_image,show_course_name,show_school_name,show_result_summary,show_description').order('sort_order',{ascending:true}).order('created_at',{ascending:false})
   ]);
   state.requestSetupError=requestsResult.error||contributionsResult.error||null;
   state.evidenceSetupError=evidenceResult.error||null;
@@ -468,25 +478,159 @@ async function previewDocumentContribution(id){const item=state.documentContribu
 async function approveDocumentContribution(id){const item=state.documentContributions.find(row=>String(row.id)===String(id));if(!item)return;if(!item.category_id){toast('PDF này chưa có danh mục để đăng.','error');return;}if(!confirm(`Duyệt và đăng “${item.title}” vào thư viện?`))return;let approvedPath='',publishedDocumentId=null;try{const signedUrl=await contributionSignedUrl(item.file_path);const response=await fetch(signedUrl);if(!response.ok)throw new Error('Không tải được PDF đóng góp.');const blob=await response.blob();if(blob.size>15*1024*1024)throw new Error('PDF vượt giới hạn 15 MB.');const safe=filenameToTitle(item.file_name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')||'document';approvedPath=`uploads/${Date.now()}-${crypto.randomUUID()}-${safe}.pdf`;const {error:uploadError}=await supabaseClient.storage.from('math-pdfs').upload(approvedPath,blob,{contentType:'application/pdf',upsert:false});if(uploadError)throw uploadError;const {data:inserted,error:insertError}=await supabaseClient.from('math_documents').insert({title:item.title,description:item.description||null,category_id:item.category_id,file_path:approvedPath,file_name:item.file_name,sort_order:state.documents.filter(doc=>String(doc.category_id)===String(item.category_id)).length+1,published:true,created_at:new Date().toISOString(),updated_at:new Date().toISOString()}).select('id').single();if(insertError)throw insertError;publishedDocumentId=inserted.id;const {error:updateError}=await supabaseClient.from('document_contributions').update({status:'approved',reviewed_at:new Date().toISOString(),updated_at:new Date().toISOString()}).eq('id',item.id);if(updateError)throw updateError;const {error:removeError}=await supabaseClient.storage.from('document-submissions').remove([item.file_path]);if(removeError)console.warn(removeError);toast('Đã duyệt và đăng PDF vào thư viện.','ok');await loadAll();}catch(error){if(publishedDocumentId)await supabaseClient.from('math_documents').delete().eq('id',publishedDocumentId);if(approvedPath)await deleteStorage(approvedPath);console.error(error);toast(error.message||'Không duyệt được PDF.','error');}}
 async function deleteDocumentContribution(id){const item=state.documentContributions.find(row=>String(row.id)===String(id));if(!item)return;if(!confirm(`Xóa yêu cầu “${item.title}” và file PDF đã tải lên?`))return;const {error}=await supabaseClient.from('document_contributions').delete().eq('id',item.id);if(error){toast(error.message,'error');return;}const {error:storageError}=await supabaseClient.storage.from('document-submissions').remove([item.file_path]);if(storageError)console.warn(storageError);toast('Đã xóa yêu cầu và PDF.','ok');await loadDocumentContributions();}
 
-let evidencePreviewObjectUrl='';let tesseractLoader=null;
-function achievementImageUrl(path){if(!path)return '';return supabaseClient.storage.from('achievement-evidence').getPublicUrl(path).data.publicUrl;}
-function setEvidencePreview(url,alt='Ảnh minh chứng'){const root=$('evidencePreview');if(!root)return;root.innerHTML=url?`<img src="${esc(url)}" alt="${esc(alt)}">`:'<div class="evidence-preview-empty"><i class="fa-regular fa-image"></i>Ảnh minh chứng sẽ hiển thị tại đây</div>';}
+let evidencePreviewObjectUrl='',evidencePreviewCleanup=null,evidencePreviewVersion=0,evidenceOcrVersion=0,evidenceImageRemoved=false;
+let tesseractLoader=null;
+const evidenceFlagInputs={show_student_name:'evidenceShowStudentName',show_image:'evidenceShowImage',show_course_name:'evidenceShowCourseName',show_school_name:'evidenceShowSchoolName',show_result_summary:'evidenceShowResultSummary',show_description:'evidenceShowDescription'};
+function evidenceVisibility(){return Object.fromEntries(Object.entries(evidenceFlagInputs).map(([key,id])=>[key,$(id).checked]));}
+function resetEvidenceImage(){evidenceOcrVersion++;evidencePreviewVersion++;evidencePreviewCleanup?.();evidencePreviewCleanup=null;if(evidencePreviewObjectUrl)URL.revokeObjectURL(evidencePreviewObjectUrl);evidencePreviewObjectUrl='';$('evidenceImageInput').value='';}
+function removeEvidenceImage(){resetEvidenceImage();evidenceImageRemoved=true;$('evidenceFileName').textContent='';$('evidenceOcrStatus').textContent='';setEvidencePreview();}
+function achievementImageUrl(path){return window.EvidenceDisplay.signedImageUrl(supabaseClient,path);}
+function setEvidencePreview(){
+  const root=$('evidencePreview'),version=++evidencePreviewVersion;
+  evidencePreviewCleanup?.();
+  const imagePath=evidenceImageRemoved?null:$('evidenceOldPath').value||null;
+  $('evidenceRemoveImage').hidden=!evidencePreviewObjectUrl&&!imagePath;
+  root.replaceChildren();
+  const media=document.createElement('div');root.append(media);
+  evidencePreviewCleanup=window.EvidenceDisplay.mountMedia(media,{image_path:imagePath,...evidenceVisibility()},supabaseClient,{
+    detail:true,localUrl:evidencePreviewObjectUrl,isCurrent:()=>version===evidencePreviewVersion
+  });
+}
 function evidenceGroupLabel(group){return ({grade10:'Luyện thi vào 10',grade12:'Tốt nghiệp THPT',feedback:'Phản hồi'})[group]||group;}
-function resetEvidenceForm(){state.editingEvidenceId=null;evidencePreviewObjectUrl&&URL.revokeObjectURL(evidencePreviewObjectUrl);evidencePreviewObjectUrl='';$('evidenceForm').reset();$('evidenceId').value='';$('evidenceOldPath').value='';$('evidencePublished').checked=true;$('evidenceFormTitle').textContent='Đăng minh chứng thành tích';$('evidenceSaveLabel').textContent='Đăng minh chứng';$('evidenceFileName').textContent='';$('evidenceOcrStatus').textContent='';setEvidencePreview('');setStatus('evidenceFormStatus','');}
-async function loadAchievementEvidence(){const {data,error}=await supabaseClient.from('achievement_evidence').select('id,group_key,title,student_name,course_name,school_name,result_summary,description,ocr_text,image_path,image_name,sort_order,published,created_at,updated_at').order('sort_order',{ascending:true}).order('created_at',{ascending:false});state.evidenceSetupError=error||null;if(!error){state.evidence=data||[];state.evidencePage=1;}renderAchievementEvidence();updateStats();}
-function renderAchievementEvidence(){const root=$('evidenceAdminList');if(!root)return;if(state.evidenceSetupError){root.innerHTML=`<div class="review-empty">${reviewSetupMessage(state.evidenceSetupError)}</div>`;renderPagination('evidenceAdminPagination',1,1,()=>{},0,state.reviewPerPage);return;}const pg=pageItems(state.evidence,state.evidencePage,state.reviewPerPage);state.evidencePage=pg.page;if(!state.evidence.length){root.innerHTML='<div class="review-empty"><i class="fa-regular fa-images"></i><div style="margin-top:8px">Chưa có minh chứng nào.</div></div>';renderPagination('evidenceAdminPagination',1,1,()=>{},0,state.reviewPerPage);return;}root.innerHTML=pg.items.map(item=>{const meta=[item.student_name&&`Học sinh: ${item.student_name}`,item.course_name&&`Khóa học: ${item.course_name}`,item.result_summary&&`Kết quả: ${item.result_summary}`].filter(Boolean).map(value=>`<span>${esc(value)}</span>`).join('');return `<article class="review-item"><div class="evidence-thumb"><img src="${esc(achievementImageUrl(item.image_path))}" alt="${esc(item.title)}"></div><div><h3>${esc(item.title)}</h3><div class="review-item-meta"><strong>${esc(evidenceGroupLabel(item.group_key))}</strong><span>${esc(formatDateTime(item.created_at))}</span><span class="status-pill ${item.published?'on':'off'}">${item.published?'Đang hiển thị':'Đang ẩn'}</span></div>${item.description?`<p>${esc(item.description)}</p>`:''}<div class="evidence-metadata">${meta||'<span>Chưa có thông tin trích xuất</span>'}</div></div><div class="doc-actions"><button class="admin-btn ghost icon-btn" type="button" data-evidence-edit="${item.id}" title="Sửa minh chứng"><i class="fa-solid fa-pen"></i></button><button class="admin-btn ${item.published?'danger':'success'} icon-btn" type="button" data-evidence-toggle="${item.id}" title="${item.published?'Ẩn':'Hiển thị'}"><i class="fa-solid ${item.published?'fa-eye-slash':'fa-eye'}"></i></button><button class="admin-btn danger icon-btn" type="button" data-evidence-delete="${item.id}" title="Xóa minh chứng"><i class="fa-solid fa-trash"></i></button></div></article>`;}).join('');root.querySelectorAll('[data-evidence-edit]').forEach(button=>button.addEventListener('click',()=>startEvidenceEdit(button.dataset.evidenceEdit)));root.querySelectorAll('[data-evidence-toggle]').forEach(button=>button.addEventListener('click',()=>toggleEvidencePublished(button.dataset.evidenceToggle)));root.querySelectorAll('[data-evidence-delete]').forEach(button=>button.addEventListener('click',()=>deleteEvidence(button.dataset.evidenceDelete)));renderPagination('evidenceAdminPagination',pg.page,pg.totalPages,page=>{state.evidencePage=page;renderAchievementEvidence();window.scrollTo({top:root.getBoundingClientRect().top+window.scrollY-120,behavior:'auto'});},state.evidence.length,state.reviewPerPage);}
-function startEvidenceEdit(id){const item=state.evidence.find(row=>String(row.id)===String(id));if(!item)return;resetEvidenceForm();state.editingEvidenceId=item.id;$('evidenceId').value=item.id;$('evidenceOldPath').value=item.image_path||'';$('evidenceGroup').value=item.group_key||'grade10';$('evidenceTitle').value=item.title||'';$('evidenceStudent').value=item.student_name||'';$('evidenceCourse').value=item.course_name||'';$('evidenceSchool').value=item.school_name||'';$('evidenceResult').value=item.result_summary||'';$('evidenceDescription').value=item.description||'';$('evidenceOcrText').value=item.ocr_text||'';$('evidencePublished').checked=!!item.published;$('evidenceFileName').textContent=item.image_name?`Ảnh hiện tại: ${item.image_name}`:'';$('evidenceFormTitle').textContent='Sửa minh chứng thành tích';$('evidenceSaveLabel').textContent='Cập nhật minh chứng';setEvidencePreview(achievementImageUrl(item.image_path),item.title);$('evidenceWorkspace').scrollIntoView({behavior:'smooth',block:'start'});}
+function resetEvidenceForm(){
+  resetEvidenceImage();evidenceImageRemoved=false;state.editingEvidenceId=null;
+  $('evidenceForm').reset();$('evidenceId').value='';$('evidenceOldPath').value='';
+  $('evidencePublished').checked=true;
+  Object.values(evidenceFlagInputs).forEach(id=>{$(id).checked=true;});
+  $('evidenceFormTitle').textContent='Đăng minh chứng thành tích';$('evidenceSaveLabel').textContent='Đăng minh chứng';
+  $('evidenceFileName').textContent='';$('evidenceOcrStatus').textContent='';
+  setEvidencePreview();setStatus('evidenceFormStatus','');
+}
+async function loadAchievementEvidence(){const {data,error}=await supabaseClient.from('achievement_evidence').select('id,group_key,title,student_name,course_name,school_name,result_summary,description,ocr_text,image_path,image_name,sort_order,published,created_at,updated_at,show_student_name,show_image,show_course_name,show_school_name,show_result_summary,show_description').order('sort_order',{ascending:true}).order('created_at',{ascending:false});state.evidenceSetupError=error||null;if(!error){state.evidence=data||[];state.evidencePage=1;}renderAchievementEvidence();updateStats();}
+function renderAchievementEvidence(){
+  const root=$('evidenceAdminList');if(!root)return;
+  if(state.evidenceSetupError){root.innerHTML=`<div class="review-empty">${reviewSetupMessage(state.evidenceSetupError)}</div>`;renderPagination('evidenceAdminPagination',1,1,()=>{},0,state.reviewPerPage);return;}
+  const pg=pageItems(state.evidence,state.evidencePage,state.reviewPerPage);state.evidencePage=pg.page;
+  if(!state.evidence.length){root.innerHTML='<div class="review-empty"><i class="fa-regular fa-images"></i><div style="margin-top:8px">Chưa có minh chứng nào.</div></div>';renderPagination('evidenceAdminPagination',1,1,()=>{},0,state.reviewPerPage);return;}
+  const flagLabels={show_student_name:'tên',show_image:'ảnh',show_course_name:'khóa học/lớp',show_school_name:'trường',show_result_summary:'kết quả',show_description:'ghi chú'};
+  root.innerHTML=pg.items.map(item=>{
+    const meta=[item.student_name&&`Học sinh: ${item.student_name}`,item.course_name&&`Khóa học: ${item.course_name}`,item.result_summary&&`Kết quả: ${item.result_summary}`].filter(Boolean).map(value=>`<span>${esc(value)}</span>`).join('');
+    const hidden=Object.entries(flagLabels).filter(([key])=>item[key]===false).map(([,label])=>label).join(', ');
+    return `<article class="review-item"><div class="evidence-thumb" data-evidence-thumb="${esc(item.id)}"></div><div><h3>${esc(item.title)}</h3><div class="review-item-meta"><strong>${esc(evidenceGroupLabel(item.group_key))}</strong><span>${esc(formatDateTime(item.created_at))}</span><span class="status-pill ${item.published?'on':'off'}">${item.published?'Đang hiển thị':'Đang ẩn'}</span></div>${item.description?`<p>${esc(item.description)}</p>`:''}<div class="evidence-metadata">${meta||'<span>Chưa có thông tin trích xuất</span>'}</div>${hidden?`<p class="muted">Ẩn trên website: ${esc(hidden)}</p>`:''}</div><div class="doc-actions"><button class="admin-btn ghost icon-btn" type="button" data-evidence-edit="${esc(item.id)}" title="Sửa minh chứng"><i class="fa-solid fa-pen"></i></button><button class="admin-btn ${item.published?'danger':'success'} icon-btn" type="button" data-evidence-toggle="${esc(item.id)}" title="${item.published?'Ẩn':'Hiển thị'}"><i class="fa-solid ${item.published?'fa-eye-slash':'fa-eye'}"></i></button><button class="admin-btn danger icon-btn" type="button" data-evidence-delete="${esc(item.id)}" title="Xóa minh chứng"><i class="fa-solid fa-trash"></i></button></div></article>`;
+  }).join('');
+  root.querySelectorAll('[data-evidence-thumb]').forEach(node=>{
+    const item=pg.items.find(row=>String(row.id)===node.dataset.evidenceThumb);
+    window.EvidenceDisplay.mountMedia(node,item,supabaseClient,{isCurrent:()=>root.contains(node)});
+  });
+  root.querySelectorAll('[data-evidence-edit]').forEach(button=>button.addEventListener('click',()=>startEvidenceEdit(button.dataset.evidenceEdit)));
+  root.querySelectorAll('[data-evidence-toggle]').forEach(button=>button.addEventListener('click',()=>toggleEvidencePublished(button.dataset.evidenceToggle)));
+  root.querySelectorAll('[data-evidence-delete]').forEach(button=>button.addEventListener('click',()=>deleteEvidence(button.dataset.evidenceDelete)));
+  renderPagination('evidenceAdminPagination',pg.page,pg.totalPages,page=>{state.evidencePage=page;renderAchievementEvidence();root.scrollIntoView({behavior:'auto',block:'start'});},state.evidence.length,state.reviewPerPage);
+}
+function startEvidenceEdit(id){
+  const item=state.evidence.find(row=>String(row.id)===String(id));if(!item)return;
+  resetEvidenceForm();state.editingEvidenceId=item.id;
+  $('evidenceId').value=item.id;$('evidenceOldPath').value=item.image_path||'';$('evidenceGroup').value=item.group_key||'grade10';
+  $('evidenceTitle').value=item.title||'';$('evidenceStudent').value=item.student_name||'';$('evidenceCourse').value=item.course_name||'';
+  $('evidenceSchool').value=item.school_name||'';$('evidenceResult').value=item.result_summary||'';$('evidenceDescription').value=item.description||'';
+  $('evidenceOcrText').value=item.ocr_text||'';$('evidencePublished').checked=!!item.published;
+  Object.entries(evidenceFlagInputs).forEach(([key,input])=>{$(input).checked=item[key]!==false;});
+  $('evidenceFileName').textContent=item.image_name?`Ảnh hiện tại: ${item.image_name}`:'';
+  $('evidenceFormTitle').textContent='Sửa minh chứng thành tích';$('evidenceSaveLabel').textContent='Cập nhật minh chứng';
+  setEvidencePreview();$('evidenceWorkspace').scrollIntoView({behavior:'smooth',block:'start'});
+}
 function loadTesseract(){if(window.Tesseract)return Promise.resolve(window.Tesseract);if(tesseractLoader)return tesseractLoader;tesseractLoader=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';script.async=true;script.onload=()=>window.Tesseract?resolve(window.Tesseract):reject(new Error('Không tải được công cụ OCR.'));script.onerror=()=>reject(new Error('Không tải được công cụ OCR.'));document.head.appendChild(script);});return tesseractLoader;}
 function ocrLineValue(lines,patterns){for(let index=0;index<lines.length;index++){const line=lines[index];if(!patterns.some(pattern=>pattern.test(line)))continue;const value=line.replace(/^.*?(?:họ\s*và\s*tên|tên\s*học\s*sinh|học\s*sinh|student|khóa\s*học|lớp|course|trường|school|kết\s*quả|điểm|score)\s*[:\-]?\s*/i,'').trim();if(value&&value.length>1)return value;const next=lines[index+1]?.trim();if(next&&next.length>1)return next;}return '';}
 function extractChatSender(lines){const ignored=/^(hoạt động|active|messenger|facebook|đang hoạt động|phút trước|giờ trước|online|cuộc gọi|video call|gọi)/i;return lines.find(line=>{const words=line.split(/\s+/);return words.length>=1&&words.length<=5&&/[A-Za-zÀ-ỹ]/.test(line)&&!ignored.test(line)&&!/[.!?]/.test(line);})||'';}
 function extractChatMessage(lines,sender){const senderIndex=lines.indexOf(sender);const content=lines.slice(senderIndex>=0?senderIndex+1:0).filter(line=>!/(?:hoạt động|active|phút trước|giờ trước|online|messenger|facebook)/i.test(line));return content.join(' ').replace(/\s+/g,' ').trim();}
 function extractEvidenceFields(text){const lines=String(text||'').split(/\r?\n/).map(line=>line.trim()).filter(Boolean);const joined=lines.join(' ');const student=ocrLineValue(lines,[/họ\s*và\s*tên/i,/tên\s*học\s*sinh/i,/^học\s*sinh/i,/student/i])||extractChatSender(lines);const course=ocrLineValue(lines,[/khóa\s*học/i,/^lớp\b/i,/course/i])||(/(?:môn\s*)?toán\s*(?:năm|lớp)\s*12|\blớp\s*12\b/i.test(joined)?'Lớp 12 · Môn Toán':'');const school=ocrLineValue(lines,[/trường/i,/school/i]);const resultMatch=joined.match(/(?:^|\s)(?:đậu|trúng\s*tuyển)\s+([A-ZĐ0-9]{2,})/iu);const result=ocrLineValue(lines,[/kết\s*quả/i,/điểm/i,/score/i])||(resultMatch?`Đậu ${resultMatch[1].toUpperCase()}`:'');const message=extractChatMessage(lines,student);const feedback=/(?:cảm\s*ơn|chúc|dìu\s*dắt|điều\s*dắt|thành\s*công)/i.test(joined);return{student,course,school,result,message,feedback};}
-async function extractEvidenceImage(){const file=$('evidenceImageInput').files?.[0];if(!file){setStatus('evidenceOcrStatus','Chọn ảnh trước khi phân tích.');return;}try{setStatus('evidenceOcrStatus','Đang nhận diện văn bản trong ảnh...');const Tesseract=await loadTesseract();const result=await Tesseract.recognize(file,'vie+eng',{logger:message=>{if(message.status==='recognizing text')setStatus('evidenceOcrStatus',`Đang nhận diện ${Math.round((message.progress||0)*100)}%...`);}});const text=result?.data?.text||'';$('evidenceOcrText').value=text;const fields=extractEvidenceFields(text);if(!$('evidenceStudent').value.trim())$('evidenceStudent').value=fields.student;if(!$('evidenceCourse').value.trim())$('evidenceCourse').value=fields.course;if(!$('evidenceSchool').value.trim())$('evidenceSchool').value=fields.school;if(!$('evidenceResult').value.trim())$('evidenceResult').value=fields.result;if(!$('evidenceDescription').value.trim()&&fields.message)$('evidenceDescription').value=fields.message;if(!$('evidenceTitle').value.trim()&&fields.student)$('evidenceTitle').value=fields.feedback?`Phản hồi từ ${fields.student}`:`Minh chứng của ${fields.student}`;if(fields.feedback&&$('evidenceGroup').value==='grade10')$('evidenceGroup').value='feedback';setStatus('evidenceOcrStatus','Đã trích xuất. Hãy rà soát các trường trước khi đăng.',true);}catch(error){console.error(error);setStatus('evidenceOcrStatus','Không thể OCR ảnh này. Bạn vẫn có thể nhập thông tin thủ công.');}}
-function previewEvidenceFile(){const file=$('evidenceImageInput').files?.[0];if(!file)return;evidencePreviewObjectUrl&&URL.revokeObjectURL(evidencePreviewObjectUrl);evidencePreviewObjectUrl=URL.createObjectURL(file);$('evidenceFileName').textContent=`${file.name} · ${formatBytes(file.size)}`;setEvidencePreview(evidencePreviewObjectUrl,file.name);extractEvidenceImage();}
+async function extractEvidenceImage(){
+  const file=$('evidenceImageInput').files?.[0];
+  if(!file){setStatus('evidenceOcrStatus','Chọn ảnh trước khi phân tích.');return;}
+  const version=++evidenceOcrVersion;
+  const current=()=>version===evidenceOcrVersion&&$('evidenceImageInput').files?.[0]===file;
+  try{
+    setStatus('evidenceOcrStatus','Đang nhận diện văn bản trong ảnh...');
+    const Tesseract=await loadTesseract();if(!current())return;
+    const result=await Tesseract.recognize(file,'vie+eng',{logger:message=>{if(current()&&message.status==='recognizing text')setStatus('evidenceOcrStatus',`Đang nhận diện ${Math.round((message.progress||0)*100)}%...`);}});
+    if(!current())return;
+    const text=result?.data?.text||'';$('evidenceOcrText').value=text;
+    const fields=extractEvidenceFields(text);
+    for(const [id,value] of [['evidenceStudent',fields.student],['evidenceCourse',fields.course],['evidenceSchool',fields.school],['evidenceResult',fields.result],['evidenceDescription',fields.message]]){
+      if(!$(id).value.trim()&&value)$(id).value=value;
+    }
+    if(!$('evidenceTitle').value.trim())$('evidenceTitle').value=fields.feedback?'Phản hồi học sinh':'Minh chứng thành tích';
+    if(fields.feedback&&$('evidenceGroup').value==='grade10')$('evidenceGroup').value='feedback';
+    setStatus('evidenceOcrStatus','Đã trích xuất. Hãy rà soát các trường trước khi đăng.',true);
+  }catch(error){if(current())setStatus('evidenceOcrStatus','Không thể OCR ảnh này. Bạn vẫn có thể nhập thông tin thủ công.');}
+}
+function previewEvidenceFile(){
+  const file=$('evidenceImageInput').files?.[0];
+  evidenceOcrVersion++;
+  if(evidencePreviewObjectUrl)URL.revokeObjectURL(evidencePreviewObjectUrl);evidencePreviewObjectUrl='';
+  if(!file){setEvidencePreview();return;}
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>10*1024*1024){
+    $('evidenceImageInput').value='';setStatus('evidenceOcrStatus','Ảnh cần là JPG, PNG hoặc WebP và không quá 10 MB.');setEvidencePreview();return;
+  }
+  evidenceImageRemoved=false;evidencePreviewObjectUrl=URL.createObjectURL(file);
+  $('evidenceFileName').textContent=`${file.name} · ${formatBytes(file.size)}`;
+  setEvidencePreview();extractEvidenceImage();
+}
 function evidencePath(file){const extension=(file.name.split('.').pop()||'jpg').toLowerCase();const stem=file.name.replace(/\.[^.]+$/,'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-+|-+$/g,'').toLowerCase()||'minh-chung';return `evidence/${Date.now()}-${crypto.randomUUID()}-${stem}.${extension}`;}
-async function saveEvidence(event){event.preventDefault();const file=$('evidenceImageInput').files?.[0];if(!state.editingEvidenceId&&!file){setStatus('evidenceFormStatus','Hãy chọn ảnh minh chứng.');return;}if(file&&(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>10*1024*1024)){setStatus('evidenceFormStatus','Ảnh cần là JPG, PNG hoặc WebP và không quá 10 MB.');return;}let uploadedPath='';try{setStatus('evidenceFormStatus','Đang lưu minh chứng...');let imagePath=$('evidenceOldPath').value||'',imageName='';if(file){uploadedPath=evidencePath(file);const {error:uploadError}=await supabaseClient.storage.from('achievement-evidence').upload(uploadedPath,file,{contentType:file.type,upsert:false});if(uploadError)throw uploadError;imagePath=uploadedPath;imageName=file.name;}else{const current=state.evidence.find(row=>String(row.id)===String(state.editingEvidenceId));imageName=current?.image_name||'';}const payload={group_key:$('evidenceGroup').value,title:$('evidenceTitle').value.trim(),student_name:$('evidenceStudent').value.trim()||null,course_name:$('evidenceCourse').value.trim()||null,school_name:$('evidenceSchool').value.trim()||null,result_summary:$('evidenceResult').value.trim()||null,description:$('evidenceDescription').value.trim()||null,ocr_text:$('evidenceOcrText').value.trim()||null,image_path:imagePath,image_name:imageName,sort_order:0,published:$('evidencePublished').checked,updated_at:new Date().toISOString()};if(!payload.title)throw new Error('Hãy nhập tiêu đề minh chứng.');if(state.editingEvidenceId){const oldPath=$('evidenceOldPath').value;const {error}=await supabaseClient.from('achievement_evidence').update(payload).eq('id',state.editingEvidenceId);if(error)throw error;if(uploadedPath&&oldPath&&oldPath!==uploadedPath)await supabaseClient.storage.from('achievement-evidence').remove([oldPath]);}else{payload.created_at=new Date().toISOString();const {error}=await supabaseClient.from('achievement_evidence').insert(payload);if(error)throw error;}toast('Đã lưu minh chứng.','ok');await loadAchievementEvidence();resetEvidenceForm();setStatus('evidenceFormStatus','Hoàn tất.',true);}catch(error){if(uploadedPath)await supabaseClient.storage.from('achievement-evidence').remove([uploadedPath]);console.error(error);setStatus('evidenceFormStatus',error.message||'Không thể lưu minh chứng.');toast(error.message||'Không thể lưu minh chứng.','error');}}
+async function saveEvidence(event){
+  event.preventDefault();const form=$('evidenceForm');if(form.dataset.saving==='true')return;
+  const file=$('evidenceImageInput').files?.[0];
+  if(file&&(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>10*1024*1024)){setStatus('evidenceFormStatus','Ảnh cần là JPG, PNG hoặc WebP và không quá 10 MB.');return;}
+  const title=$('evidenceTitle').value.trim();if(!title){setStatus('evidenceFormStatus','Hãy nhập tiêu đề minh chứng.');return;}
+  const editingId=state.editingEvidenceId,current=state.evidence.find(row=>String(row.id)===String(editingId));
+  const oldPath=$('evidenceOldPath').value||null;
+  let imagePath=evidenceImageRemoved?null:oldPath,imageName=imagePath?current?.image_name||null:null;
+  const payload={group_key:$('evidenceGroup').value,title,student_name:$('evidenceStudent').value.trim()||null,course_name:$('evidenceCourse').value.trim()||null,school_name:$('evidenceSchool').value.trim()||null,result_summary:$('evidenceResult').value.trim()||null,description:$('evidenceDescription').value.trim()||null,ocr_text:$('evidenceOcrText').value.trim()||null,sort_order:current?.sort_order||0,published:$('evidencePublished').checked,...evidenceVisibility(),updated_at:new Date().toISOString()};
+  let uploadedPath='',saved=false,cleanupWarning='';
+  const controls=[...form.querySelectorAll('input,textarea,select,button')].map(node=>[node,node.disabled]);
+  form.dataset.saving='true';controls.forEach(([node])=>{node.disabled=true;});evidenceOcrVersion++;
+  try{
+    setStatus('evidenceFormStatus','Đang lưu minh chứng...');
+    if(file){
+      uploadedPath=evidencePath(file);
+      const {error}=await supabaseClient.storage.from('achievement-evidence').upload(uploadedPath,file,{contentType:file.type,upsert:false});
+      if(error)throw error;imagePath=uploadedPath;imageName=file.name;
+    }
+    payload.image_path=imagePath;payload.image_name=imageName;
+    let result;
+    if(editingId)result=await supabaseClient.from('achievement_evidence').update(payload).eq('id',editingId);
+    else{payload.created_at=new Date().toISOString();result=await supabaseClient.from('achievement_evidence').insert(payload);}
+    if(result.error)throw result.error;saved=true;
+    if(oldPath&&oldPath!==imagePath){
+      try{const {error}=await supabaseClient.storage.from('achievement-evidence').remove([oldPath]);if(error)throw error;}
+      catch(error){cleanupWarning='Đã lưu, nhưng chưa xóa được ảnh cũ khỏi kho lưu trữ.';}
+    }
+    await loadAchievementEvidence();resetEvidenceForm();
+    setStatus('evidenceFormStatus',cleanupWarning||'Hoàn tất.',!cleanupWarning);
+    toast(cleanupWarning||'Đã lưu minh chứng.',cleanupWarning?'error':'ok');
+  }catch(error){
+    // A lost response may follow a committed save. Retain the new image unless
+    // the server explicitly rejected the database write.
+    if(uploadedPath&&!saved&&/^(?:PGRST|22|23|42)/.test(String(error?.code||''))){
+      try{await supabaseClient.storage.from('achievement-evidence').remove([uploadedPath]);}catch(_){}
+    }
+    const needsSetup=['PGRST204','42703','23502','PGRST205','42P01'].includes(error?.code);
+    if(needsSetup){state.evidenceSetupError=error;renderAchievementEvidence();}
+    setStatus('evidenceFormStatus',needsSetup?'Cần cập nhật SQL minh chứng để lưu ảnh tùy chọn và quyền hiển thị. Dùng nút tải SQL bên dưới.':error.message||'Không thể lưu minh chứng.');
+    toast('Chưa lưu được minh chứng. Hãy kiểm tra thông báo.','error');
+  }finally{delete form.dataset.saving;controls.forEach(([node,disabled])=>{node.disabled=disabled;});}
+}
 async function toggleEvidencePublished(id){const item=state.evidence.find(row=>String(row.id)===String(id));if(!item)return;const {error}=await supabaseClient.from('achievement_evidence').update({published:!item.published,updated_at:new Date().toISOString()}).eq('id',item.id);if(error){toast(error.message,'error');return;}toast(item.published?'Đã ẩn minh chứng.':'Đã hiển thị minh chứng.','ok');await loadAchievementEvidence();}
-async function deleteEvidence(id){const item=state.evidence.find(row=>String(row.id)===String(id));if(!item)return;if(!confirm(`Xóa minh chứng “${item.title}” và ảnh đã tải lên?`))return;const {error}=await supabaseClient.from('achievement_evidence').delete().eq('id',item.id);if(error){toast(error.message,'error');return;}const {error:storageError}=await supabaseClient.storage.from('achievement-evidence').remove([item.image_path]);if(storageError)console.warn(storageError);if(String(state.editingEvidenceId)===String(item.id))resetEvidenceForm();toast('Đã xóa minh chứng.','ok');await loadAchievementEvidence();}
+async function deleteEvidence(id){
+  const item=state.evidence.find(row=>String(row.id)===String(id));if(!item)return;
+  if(!confirm(`Xóa minh chứng “${item.title}”${item.image_path?' và ảnh đã tải lên':''}?`))return;
+  const {error}=await supabaseClient.from('achievement_evidence').delete().eq('id',item.id);if(error){toast(error.message,'error');return;}
+  let cleanupFailed=false;
+  if(item.image_path){try{const {error:storageError}=await supabaseClient.storage.from('achievement-evidence').remove([item.image_path]);cleanupFailed=!!storageError;}catch(_){cleanupFailed=true;}}
+  if(String(state.editingEvidenceId)===String(item.id))resetEvidenceForm();
+  toast(cleanupFailed?'Đã xóa minh chứng nhưng chưa xóa được ảnh trong kho.':'Đã xóa minh chứng.',cleanupFailed?'error':'ok');
+  await loadAchievementEvidence();
+}
 
 function previewDoc(id){const d=state.documents.find(x=>x.id===id);if(!d)return;const modal=$('previewModal');$('previewTitle').textContent=d.title||d.file_name||'Tài liệu';$('previewFrame').src=fileUrl(d.file_path);modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
 function closePreview(){const modal=$('previewModal');modal.classList.remove('open');modal.setAttribute('aria-hidden','true');$('previewFrame').src='about:blank';document.body.style.overflow='';}
@@ -504,6 +648,11 @@ document.querySelectorAll('[data-workspace-tab]').forEach(tab=>tab.addEventListe
 $('previewClose').addEventListener('click',closePreview);$('previewModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closePreview();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePreview();});supabaseClient.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')clearAdminSession();else if(event==='SIGNED_IN')adminAuthGeneration++;scheduleAdminCheck();});const initialWorkspace=(location.hash.match(/^#admin-([a-z]+)/)||[])[1];if(initialWorkspace&&adminWorkspaceIds[initialWorkspace])activateAdminWorkspace(initialWorkspace,false);scheduleAdminCheck();
 </script>
 <script src="assets/exam-scores-admin.js?v=20260913-options"></script>
+<script>
+Object.values(evidenceFlagInputs).forEach(id=>$(id).addEventListener('change',setEvidencePreview));
+$('evidenceRemoveImage').addEventListener('click',removeEvidenceImage);
+setEvidencePreview();
+</script>
 <link rel="stylesheet" href="assets/admin-bulk-actions.css?v=20260913">
 <script src="assets/admin-bulk-actions.js?v=20260913"></script>
 <script src="assets/admin-file-bulk.js?v=20260913"></script>

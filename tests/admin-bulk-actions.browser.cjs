@@ -35,6 +35,7 @@ function mockSdk() {
         },
         storage: { from(bucket) { return {
             getPublicUrl(file) { return { data: { publicUrl: `${location.origin}/fixture/${file}` } }; },
+            async createSignedUrl(file) { return { data: { signedUrl: `${location.origin}/fixture/${file}?signed=1` }, error: null }; },
             async remove(files) { return window.bulkStorageRequest({ bucket, action: 'remove', files }); }
         }; } }
     };
@@ -285,6 +286,15 @@ function initialRows() {
         delete state.readErrors.achievement_evidence;
         await page.click('#evidenceRefreshBtn');
         await waitCount('evidence', 0, 1);
+
+        state.rows.achievement_evidence.find(row => row.id === 'evidence-2').image_path = null;
+        await page.click('#evidenceRefreshBtn');
+        await waitCount('evidence', 0, 1);
+        await rowCheck('evidence', 'Minh chứng 2').check();
+        storageStart = state.storage.length;
+        await finishAction('evidence', 'delete');
+        await waitCount('evidence', 0, 0);
+        assert.equal(state.storage.length, storageStart, 'Bulk deletion of an optional-image record does not remove an empty storage path');
 
         await gotoWorkspace('tikz');
         await waitCount('tikz', 0, 2);

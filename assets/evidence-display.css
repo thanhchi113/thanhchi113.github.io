@@ -1,0 +1,49 @@
+.evidence-media {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 310px;
+    height: 100%;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 40%, rgba(83, 70, 143, .14), rgba(4, 11, 22, .35) 72%);
+}
+#evidenceWorkspace .evidence-visibility { min-width:0; margin:8px 0; padding:14px; border:1px solid rgba(151,176,216,.24); border-radius:12px; background:rgba(11,22,40,.45); }
+#evidenceWorkspace .evidence-visibility legend { padding:0 6px; color:#c8d7ef; font-size:13px; }
+#evidenceWorkspace .evidence-visibility .check-row { margin:0; }
+#evidenceWorkspace .evidence-visibility .muted { margin-top:10px; }
+#evidenceRemoveImage { margin-top:10px; }
+#evidenceRemoveImage[hidden] { display:none!important; }
+.evidence-media .evidence-math-paper { display: block; width: min(88%, 240px); max-width: 100%; height: auto; margin: auto; }
+.evidence-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.evidence-media-has-image { background: rgba(3, 9, 20, .24); }
+.evidence-math-paper .esp-scene-quartic { animation-name: evidence-quartic; }
+.evidence-name-private { display: inline-flex; align-items: center; gap: 7px; }
+.evidence-name-private::before { content: ""; display: block; width: 42px; height: 7px; border-radius: 6px; background: #a3b6cd; opacity: .5; filter: blur(3px); }
+
+/* Evidence has no numeric result to invent. Hold the completed last graph until
+   the next document cycle instead of leaving the score display phase empty. */
+@keyframes evidence-quartic {
+    0%, 64%, 100% { opacity: 0; }
+    66%, 96% { opacity: 1; }
+}
+.achievement-gallery .evidence-media { min-height: min(460px, 58vh); }
+.achievement-gallery .evidence-media .evidence-math-paper { width: min(80%, 300px); }
+.achievement-gallery .evidence-media img { height: auto; object-fit: contain; }
+#evidencePreview .evidence-media { min-height: 340px; }
+#evidencePreview .evidence-media img { max-height: 500px; object-fit: contain; }
+.evidence-thumb .evidence-media, .evidence-thumb.evidence-media { min-height: 0; }
+.evidence-thumb .evidence-math-paper { width: 64px; height: 72px; }
+@media (max-width: 760px) {
+    .evidence-media { min-height: 260px; }
+    .achievement-gallery .evidence-media { min-height: 270px; }
+    .achievement-gallery .evidence-media .evidence-math-paper { width: 210px; }
+    #evidencePreview .evidence-media { min-height: 260px; }
+    .evidence-thumb .evidence-math-paper { width: 130px; height: 154px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .evidence-math-paper .esp-graph { opacity: 1; }
+    .evidence-math-paper .esp-scene { animation: none; opacity: 0; }
+    .evidence-math-paper .esp-scene-parabola { opacity: 1; }
+    .evidence-math-paper .esp-axes, .evidence-math-paper .esp-curve { animation: none; stroke-dashoffset: 0; }
+}

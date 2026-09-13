@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/score-submissions.css?v=20260908-student-upload">
     <link rel="stylesheet" href="assets/galaxy-scene.css?v=20260913-detail-background">
     <link rel="stylesheet" href="assets/achievement-gallery.css?v=20260913-unified">
+    <link rel="stylesheet" href="assets/evidence-display.css?v=20260914-optional">
     <link rel="stylesheet" href="assets/site-experience.css?v=20260913-unified">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
@@ -144,6 +145,7 @@
     <script src="assets/site-experience.js?v=20260913-unified"></script>
     <script src="assets/site-content.js?v=20260913-unified"></script>
     <script src="assets/exam-score-paper.js?v=20260908-math-cycle"></script>
+    <script src="assets/evidence-display.js?v=20260914-optional"></script>
     <script src="assets/galaxy-streaks.js?v=20260908-brighter-streaks"></script>
     <script src="assets/galaxy-clouds.js?v=20260913-performance"></script>
     <script src="assets/achievement-gallery.js?v=20260913-card-gallery"></script>
@@ -180,9 +182,6 @@
 
         function escapeHtml(value = "") {
             return String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[character]));
-        }
-        function imageUrl(path) {
-            return supabaseClient.storage.from("achievement-evidence").getPublicUrl(path).data.publicUrl;
         }
         function fact(label, value) {
             return value ? `<div class="evidence-fact"><span>${label}</span><strong>${escapeHtml(value)}</strong></div>` : "";
@@ -248,7 +247,7 @@
                 document.getElementById("evidenceGrid").scrollIntoView({ behavior: "auto", block: "start" });
             }));
         }
-        function createEvidenceCard(item, { index, detail = false, label = groups[currentType].label } = {}) {
+        function createEvidenceCard(item, { index, detail = false, label = groups[currentType].label, isCurrent } = {}) {
             const card = document.createElement("article");
             card.className = detail ? "evidence-card" : "evidence-card tilt-card";
             if (!detail) {
@@ -257,11 +256,19 @@
                 card.setAttribute("aria-haspopup", "dialog");
                 card.setAttribute("aria-label", `Xem thành tích: ${item.title}`);
             }
-            const url = item.image_url || imageUrl(item.image_path);
-            const facts = [fact("Học sinh", item.student_name), fact("Khóa học", item.course_name), fact("Trường", item.school_name), fact("Kết quả", item.result_summary)].join("");
+            const visible = window.EvidenceDisplay.visibilityFlags(item);
+            const facts = [
+                visible.show_student_name ? fact("Học sinh", item.student_name) : '<div class="evidence-fact"><span>Học sinh</span><strong class="evidence-name-private">Đã ẩn tên</strong></div>',
+                visible.show_course_name ? fact("Khóa học", item.course_name) : "",
+                visible.show_school_name ? fact("Trường", item.school_name) : "",
+                visible.show_result_summary ? fact("Kết quả", item.result_summary) : ""
+            ].join("");
             const zoom = detail ? "" : `<button class="evidence-zoom" type="button" title="Xem thành tích" aria-label="Phóng to card ${escapeHtml(item.title)}"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></button>`;
-            card.innerHTML = `<div class="evidence-image-wrap"><img src="${escapeHtml(url)}" alt="${escapeHtml(item.title)}" loading="${detail ? "eager" : "lazy"}">${zoom}</div><div class="evidence-content"><div class="evidence-type">${escapeHtml(label)}${item.is_example ? '<span class="evidence-sample-badge">MINH CHỨNG MẪU</span>' : ''}</div><h2>${escapeHtml(item.title)}</h2>${item.description ? `<p>${escapeHtml(item.description)}</p>` : ""}<div class="evidence-facts">${facts || '<div class="evidence-fact"><span>Thông tin</span><strong>Đang cập nhật</strong></div>'}</div></div>`;
-            card.append(card.querySelector(".evidence-image-wrap"));
+            card.innerHTML = `<div class="evidence-content"><div class="evidence-type">${escapeHtml(label)}${item.is_example ? '<span class="evidence-sample-badge">MINH CHỨNG MẪU</span>' : ''}</div><h2>${escapeHtml(item.title)}</h2>${visible.show_description && item.description ? `<p>${escapeHtml(item.description)}</p>` : ""}<div class="evidence-facts">${facts || '<div class="evidence-fact"><span>Thông tin</span><strong>Đang cập nhật</strong></div>'}</div></div><div class="evidence-image-wrap"><div class="evidence-media"></div>${zoom}</div>`;
+            window.EvidenceDisplay.mountMedia(card.querySelector(".evidence-media"), item, supabaseClient, {
+                detail, isCurrent,
+                exampleUrl: item === localExamples.grade12[0] ? "assets/achievements/example-feedback-grade12.png" : ""
+            });
             return card;
         }
         function openEvidenceCard(card, trigger = card) {
@@ -271,7 +278,10 @@
                 index: Number(card.dataset.evidenceIndex),
                 label: groups[currentType].title,
                 trigger,
-                render: item => createEvidenceCard(item, { detail: true, label })
+                render: item => {
+                    const detailCard = createEvidenceCard(item, { detail: true, label, isCurrent: () => detailCard.isConnected && detailCard.parentElement?.id === "achievementGalleryContent" });
+                    return detailCard;
+                }
             });
         }
         document.getElementById("evidenceGrid").addEventListener("click", event => {
@@ -310,16 +320,24 @@
             document.getElementById("examScores").hidden = !scoresMode;
             if (scoresMode) { window.examScorePage?.load(); return; }
             root.innerHTML = '<div class="evidence-loading"><i class="fa-solid fa-spinner fa-spin"></i></div>';
-            const { data, error } = await supabaseClient
-                .from("achievement_evidence")
-                .select("id,title,student_name,course_name,school_name,result_summary,description,image_path,sort_order,created_at")
-                .eq("published", true)
-                .eq("group_key", currentType)
-                .order("sort_order", { ascending: true })
-                .order("created_at", { ascending: false });
+            const data = [];
+            let error;
+            try {
+                for (let offset = 0; ; offset += 500) {
+                    const response = await supabaseClient.rpc("get_published_achievement_evidence", {
+                        evidence_group: currentType, page_offset: offset, page_limit: 500
+                    });
+                    if (version !== evidenceLoadVersion) return;
+                    if (response.error) throw response.error;
+                    const rows = Array.isArray(response.data) ? response.data : [];
+                    data.push(...rows);
+                    if (rows.length < 500) break;
+                }
+            } catch (loadError) { error = loadError; }
             if (version !== evidenceLoadVersion) return;
             const examples = localExamples[currentType] || [];
             if (error && !examples.length) {
+                evidenceRecords = [];
                 root.innerHTML = '<div class="evidence-empty"><i class="fa-solid fa-triangle-exclamation"></i>Chưa thể tải minh chứng.</div>';
                 document.getElementById("evidencePagination").innerHTML = "";
                 console.error(error);
