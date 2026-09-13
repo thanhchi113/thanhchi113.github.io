@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
         .evidence-page{min-height:100vh;padding:122px 0 76px;position:relative;z-index:2}.evidence-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,11,20,.86);border-bottom:1px solid rgba(255,255,255,.07);backdrop-filter:blur(18px)}.evidence-nav .container{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px}.evidence-nav .back-link{display:inline-flex;align-items:center;gap:8px;color:#bfd2e8;font-size:13px}.evidence-nav .back-link:hover{color:#7dd3fc}.evidence-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:30px}.evidence-kicker{color:#67d5ff;font-size:11px;font-weight:800;letter-spacing:1.4px}.evidence-head h1{margin:8px 0 0;color:#f5f9ff;font-size:38px;line-height:1.12}.evidence-head p{max-width:530px;margin:10px 0 0;color:#91a2b9;font-size:14px;line-height:1.7}.evidence-filters{display:flex;flex-wrap:wrap;gap:8px}.evidence-filter{border:1px solid rgba(148,163,184,.16);border-radius:9px;background:rgba(255,255,255,.025);color:#9eb0c8;padding:9px 12px;font:600 12px/1 inherit;cursor:pointer;transition:.2s ease}.evidence-filter:hover,.evidence-filter.active{border-color:rgba(125,211,252,.42);background:rgba(56,189,248,.09);color:#eaf8ff}.evidence-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.evidence-card{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(250px,.92fr);min-height:310px;border:1px solid rgba(255,255,255,.09);border-radius:14px;overflow:hidden;background:linear-gradient(145deg,rgba(14,23,42,.72),rgba(7,12,24,.68));box-shadow:0 18px 45px rgba(0,0,0,.18)}.evidence-image-wrap{position:relative;min-height:100%;background:#050a12}.evidence-image-wrap img{display:block;width:100%;height:100%;min-height:310px;object-fit:cover}.evidence-zoom{position:absolute;right:11px;top:11px;width:38px;height:38px;border:1px solid rgba(255,255,255,.18);border-radius:9px;background:rgba(5,10,19,.72);color:#f5fbff;cursor:pointer}.evidence-zoom:hover{border-color:rgba(125,211,252,.65);color:#7dd3fc}.evidence-content{padding:22px;display:flex;flex-direction:column}.evidence-content h2{margin:8px 0 8px;color:#f1f6ff;font-size:20px;line-height:1.35}.evidence-content p{margin:0;color:#9fb0c5;font-size:13px;line-height:1.65}.evidence-type{color:#67d5ff;font-size:10px;font-weight:800;letter-spacing:1.1px}.evidence-facts{display:grid;gap:9px;margin-top:auto;padding-top:20px}.evidence-fact{display:grid;grid-template-columns:72px minmax(0,1fr);gap:9px;padding-top:9px;border-top:1px solid rgba(255,255,255,.07)}.evidence-fact span{color:#72849b;font-size:10px;font-weight:800;letter-spacing:.55px;text-transform:uppercase}.evidence-fact strong{color:#dbe8f7;font-size:12px;font-weight:600;line-height:1.45}.evidence-empty{grid-column:1/-1;padding:72px 24px;border:1px dashed rgba(148,163,184,.17);border-radius:14px;color:#8395ac;text-align:center}.evidence-empty i{display:block;margin-bottom:12px;color:#60a5fa;font-size:28px}.evidence-loading{grid-column:1/-1;min-height:240px;display:grid;place-items:center;color:#8ea1b8}.evidence-modal{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(1,5,12,.86);backdrop-filter:blur(12px)}.evidence-modal.open{display:flex}.evidence-modal figure{position:relative;max-width:min(1100px,94vw);max-height:90vh;margin:0}.evidence-modal img{display:block;max-width:100%;max-height:86vh;border:1px solid rgba(255,255,255,.15);border-radius:12px}.evidence-modal button{position:absolute;right:0;top:-48px;width:38px;height:38px;border:1px solid rgba(255,255,255,.16);border-radius:9px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer}.evidence-modal button:hover{border-color:rgba(125,211,252,.65);color:#7dd3fc}@media(max-width:1060px){.evidence-grid{grid-template-columns:1fr}}@media(max-width:700px){.evidence-page{padding-top:100px}.evidence-nav .container{min-height:64px}.evidence-head{display:block}.evidence-head h1{font-size:30px}.evidence-filters{margin-top:20px;overflow:auto;flex-wrap:nowrap;padding-bottom:3px}.evidence-filter{white-space:nowrap}.evidence-card{grid-template-columns:1fr}.evidence-image-wrap img{min-height:260px;max-height:440px}.evidence-content{padding:18px}.evidence-fact{grid-template-columns:78px minmax(0,1fr)}}
-        .evidence-sample-badge{display:inline-flex;align-items:center;margin-left:8px;padding:4px 7px;border:1px solid rgba(125,211,252,.28);border-radius:999px;background:rgba(56,189,248,.09);color:#bfeeff;font-size:9px;line-height:1;letter-spacing:.7px}
     </style>
     <style id="evidence-galaxy-and-cards-v2">
         .evidence-galaxy-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,rgba(18,42,78,.2),transparent 48%),#050912}.evidence-galaxy-canvas{display:block;width:100%;height:100%;opacity:.96}.evidence-nav,.evidence-page{isolation:isolate}.evidence-card{position:relative;isolation:isolate;--tilt-x:0deg;--tilt-y:0deg;--spot-x:50%;--spot-y:50%;transform:perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));transition:transform .28s ease,border-color .28s ease,background .28s ease,box-shadow .28s ease;will-change:transform}.evidence-card::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;background:radial-gradient(260px circle at var(--spot-x) var(--spot-y),rgba(163,227,255,.15),transparent 67%);transition:opacity .25s ease}.evidence-card:hover{transform:perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(-8px);border-color:rgba(125,211,252,.43);background:linear-gradient(145deg,rgba(19,34,62,.88),rgba(7,12,26,.82));box-shadow:0 26px 60px rgba(0,0,0,.38)}.evidence-card:hover::before{opacity:1}.evidence-card .evidence-image-wrap,.evidence-card .evidence-content{position:relative;z-index:2}.evidence-card .evidence-image-wrap img{transition:transform .5s ease,filter .5s ease}.evidence-card:hover .evidence-image-wrap img{transform:scale(1.045);filter:saturate(1.08) brightness(1.05)}.evidence-pagination{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:30px}.evidence-page-button{width:38px;height:38px;border:1px solid rgba(148,163,184,.16);border-radius:9px;background:rgba(8,16,30,.72);color:#aec1d7;cursor:pointer;font:700 12px/1 inherit;transition:.2s ease}.evidence-page-button:hover:not(:disabled),.evidence-page-button.active{border-color:rgba(125,211,252,.48);background:rgba(56,189,248,.13);color:#eafaff}.evidence-page-button:disabled{opacity:.34;cursor:not-allowed}.evidence-page-ellipsis{color:#71839b;padding:0 2px}@media(max-width:700px){.evidence-pagination{margin-top:22px}.evidence-card:hover{transform:none}}@media(prefers-reduced-motion:reduce){.evidence-card,.evidence-card .evidence-image-wrap img{transition:none!important}}
@@ -145,7 +144,7 @@
     <script src="assets/site-experience.js?v=20260913-unified"></script>
     <script src="assets/site-content.js?v=20260913-unified"></script>
     <script src="assets/exam-score-paper.js?v=20260908-math-cycle"></script>
-    <script src="assets/evidence-display.js?v=20260914-optional"></script>
+    <script src="assets/evidence-display.js?v=20260913-no-sample"></script>
     <script src="assets/galaxy-streaks.js?v=20260908-brighter-streaks"></script>
     <script src="assets/galaxy-clouds.js?v=20260913-performance"></script>
     <script src="assets/achievement-gallery.js?v=20260913-card-gallery"></script>
@@ -159,19 +158,6 @@
             grade12: { title: "Minh chứng tốt nghiệp THPT", description: "Kết quả môn Toán và nguyện vọng của học sinh lớp 12.", label: "TỐT NGHIỆP THPT" },
             feedback: { title: "Phản hồi từ học sinh và phụ huynh", description: "Những phản hồi thực tế sau quá trình học tập và ôn luyện.", label: "PHẢN HỒI" },
             scores: { title: "Điểm thi giữa kỳ, cuối kỳ", description: "Kết quả môn Toán qua các kỳ thi trong năm học.", label: "ĐIỂM THI" }
-        };
-        const localExamples = {
-            grade12: [{
-                id: "example-feedback-grade12",
-                title: "Phản hồi sau kỳ thi tốt nghiệp THPT",
-                student_name: "Zaa Khánhh",
-                course_name: "Lớp 12 · Môn Toán",
-                school_name: null,
-                result_summary: "Đậu PNT",
-                description: "Phản hồi cảm ơn sau quá trình ôn Toán lớp 12.",
-                image_url: "assets/achievements/example-feedback-grade12.png",
-                is_example: true
-            }]
         };
         const pageUrl = new URL(window.location.href);
         let currentType = groups[pageUrl.searchParams.get("type")] ? pageUrl.searchParams.get("type") : "grade10";
@@ -264,10 +250,9 @@
                 visible.show_result_summary ? fact("Kết quả", item.result_summary) : ""
             ].join("");
             const zoom = detail ? "" : `<button class="evidence-zoom" type="button" title="Xem thành tích" aria-label="Phóng to card ${escapeHtml(item.title)}"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></button>`;
-            card.innerHTML = `<div class="evidence-content"><div class="evidence-type">${escapeHtml(label)}${item.is_example ? '<span class="evidence-sample-badge">MINH CHỨNG MẪU</span>' : ''}</div><h2>${escapeHtml(item.title)}</h2>${visible.show_description && item.description ? `<p>${escapeHtml(item.description)}</p>` : ""}<div class="evidence-facts">${facts || '<div class="evidence-fact"><span>Thông tin</span><strong>Đang cập nhật</strong></div>'}</div></div><div class="evidence-image-wrap"><div class="evidence-media"></div>${zoom}</div>`;
+            card.innerHTML = `<div class="evidence-content"><div class="evidence-type">${escapeHtml(label)}</div><h2>${escapeHtml(item.title)}</h2>${visible.show_description && item.description ? `<p>${escapeHtml(item.description)}</p>` : ""}<div class="evidence-facts">${facts || '<div class="evidence-fact"><span>Thông tin</span><strong>Đang cập nhật</strong></div>'}</div></div><div class="evidence-image-wrap"><div class="evidence-media"></div>${zoom}</div>`;
             window.EvidenceDisplay.mountMedia(card.querySelector(".evidence-media"), item, supabaseClient, {
-                detail, isCurrent,
-                exampleUrl: item === localExamples.grade12[0] ? "assets/achievements/example-feedback-grade12.png" : ""
+                detail, isCurrent
             });
             return card;
         }
@@ -335,16 +320,14 @@
                 }
             } catch (loadError) { error = loadError; }
             if (version !== evidenceLoadVersion) return;
-            const examples = localExamples[currentType] || [];
-            if (error && !examples.length) {
+            if (error) {
                 evidenceRecords = [];
                 root.innerHTML = '<div class="evidence-empty"><i class="fa-solid fa-triangle-exclamation"></i>Chưa thể tải minh chứng.</div>';
                 document.getElementById("evidencePagination").innerHTML = "";
                 console.error(error);
                 return;
             }
-            if (error) console.error(error);
-            evidenceRecords = [...examples, ...(data || [])];
+            evidenceRecords = data;
             evidencePage = 1;
             renderEvidencePage();
         }

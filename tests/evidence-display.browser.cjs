@@ -127,8 +127,12 @@ async function isolated(context) {
             await cards.first().locator('h2').click();
             assert.equal(await page.locator('#achievementGalleryCount').textContent(), '11 / 12');
             await page.keyboard.press('Escape');
+            await page.locator('[data-type="grade12"]').click();
+            await page.locator('#evidenceGrid .evidence-empty').waitFor();
+            assert.match(await page.locator('#evidenceGrid').textContent(), /Chưa có minh chứng được đăng/);
+            assert.equal(await cards.count(), 0, 'The THPT group must not inject an undeletable sample');
             await page.evaluate(() => { evidenceMock.fail = true; });
-            await page.locator('[data-type="feedback"]').click();
+            await page.locator('[data-type="grade12"]').click();
             await page.locator('#evidenceGrid .evidence-empty').waitFor();
             assert.match(await page.locator('#evidenceGrid').textContent(), /Chưa thể tải minh chứng/);
             assert.equal(await page.evaluate(() => evidenceMock.reads.includes('achievement_evidence')), false, 'Missing RPC never falls back to exposing the table');

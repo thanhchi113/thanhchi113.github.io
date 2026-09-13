@@ -54,15 +54,13 @@
                 if (candidate.protocol === "blob:" && candidate.origin === location.origin) localUrl = candidate.href;
             } catch { /* Only object URLs created for a local attachment are accepted here. */ }
         }
-        const example = item.is_example === true && options.exampleUrl === "assets/achievements/example-feedback-grade12.png"
-            ? options.exampleUrl : "";
-        const canLoad = visible.show_image && (localUrl || example || (typeof item.image_path === "string" && item.image_path.trim()));
+        const canLoad = visible.show_image && (localUrl || (typeof item.image_path === "string" && item.image_path.trim()));
         async function load() {
             if (started || !current()) return;
             started = true;
             observer?.disconnect();
             try {
-                const url = localUrl || example || await signedImageUrl(client, item.image_path);
+                const url = localUrl || await signedImageUrl(client, item.image_path);
                 if (!current()) return;
                 const image = new Image();
                 image.alt = "Ảnh minh chứng thành tích";
