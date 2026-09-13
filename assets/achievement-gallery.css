@@ -1,5 +1,5 @@
 /* The full card sits over the existing, unfiltered galaxy scene. */
-.evidence-card[tabindex="0"], .exam-student-card[tabindex="0"] { cursor: zoom-in; }
+.evidence-card[tabindex="0"], .exam-student-card[tabindex="0"] { cursor: pointer; }
 .evidence-card[tabindex="0"]:focus-visible, .exam-student-card[tabindex="0"]:focus-visible {
     outline: 2px solid #a6e2ff;
     outline-offset: 4px;

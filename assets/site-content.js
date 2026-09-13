@@ -5,10 +5,14 @@
         ["projects", "Dự án"], ["documents", "Tài liệu"], ["achievements", "Thành tích"],
         ["tikz-library", "Hình vẽ TikZ"], ["material-request", "Yêu cầu"], ["contact", "Liên hệ"]
     ];
+    const editorSections = [...sections, ["appearance", "Giao diện & hiệu ứng"]];
     const hiddenByDocument = new WeakMap();
     const clean = value => String(value ?? "").replace(/\s+/g, " ").trim();
     function schema(doc) {
         const fields = [];
+        fields.push({ section: "appearance", key: "appearance.motionEnabled", kind: "boolean", defaultValue: true,
+            label: "Cho phép nền chuyển động trên website người dùng", offLabel: "Tắt",
+            hint: "Tắt để giữ nền thiên hà tĩnh cho mọi người. Khi bật, người xem vẫn có thể tự tạm dừng bằng nút trên website. Các trang đang mở nhận thay đổi trong khoảng 45 giây hoặc khi quay lại tab." });
         function add(section, key, label, selector, kind = "text", max = 200) {
             const node = doc.querySelector(selector);
             if (!node) return;
@@ -66,7 +70,7 @@
     }
     function validate(field, value) {
         if (field.kind === "boolean") {
-            if (typeof value !== "boolean") throw new Error(`${field.label}: chọn Bật hoặc Ẩn.`);
+            if (typeof value !== "boolean") throw new Error(`${field.label}: chọn Bật hoặc ${field.offLabel || "Ẩn"}.`);
             return value;
         }
         if (field.kind === "percent") {
@@ -99,6 +103,8 @@
             } else node.textContent = value;
         }
         applyVisibility(doc, values);
+        doc.documentElement.dataset.siteMotionAllowed = String(values?.["appearance.motionEnabled"] !== false);
+        doc.dispatchEvent(new CustomEvent("site-appearance-change"));
     }
     function isVisible(id, doc = document) { return !hiddenByDocument.get(doc)?.has(id); }
     function firstVisible(doc = document) { return sections.find(([id]) => isVisible(id, doc))?.[0] || null; }
@@ -174,6 +180,7 @@
             const { data, error } = await client.from("site_configuration").select("value").eq("id", "site_content").maybeSingle();
             if (!error && data?.value) apply(document, fields, data.value);
         } catch (_) { /* The original page stays available when configuration cannot load. */ }
+        window.SiteExperience?.connect(client);
     }
-    window.SiteContent = Object.freeze({ sections, schema, validate, apply, start, isVisible, firstVisible, sectionForHash });
+    window.SiteContent = Object.freeze({ sections, editorSections, schema, validate, apply, start, isVisible, firstVisible, sectionForHash });
 }());

@@ -5,10 +5,11 @@
         if (!mount || !window.SiteContent) return { load: async () => {}, clear() {} };
         if (mount.controller) return mount.controller;
         const api = window.SiteContent;
+        const editorSections = api.editorSections || api.sections;
         let fields = [], defaults = {}, saved = {}, draft = {}, version = null, section = "about";
         let epoch = 0, ready = false, busy = false, pending = null, dirty = false;
         mount.innerHTML = `<section class="site-content-editor"><h1>Nội dung trang web</h1><p>Bật, ẩn các mục hoặc chỉnh sửa chữ, thông tin liên hệ và các con số. Bản xem trước cập nhật khi bạn nhập; website chỉ thay đổi khi bấm Lưu nội dung.</p>
-            <div class="site-content-toolbar"><label for="siteContentSection">Mục cần chỉnh sửa<select id="siteContentSection">${api.sections.map(([id, name]) => `<option value="${id}">${name}</option>`).join("")}</select></label><button type="button" class="admin-btn ghost" data-content-reload>Tải lại nội dung</button></div>
+            <div class="site-content-toolbar"><label for="siteContentSection">Mục cần chỉnh sửa<select id="siteContentSection">${editorSections.map(([id, name]) => `<option value="${id}">${name}</option>`).join("")}</select></label><button type="button" class="admin-btn ghost" data-content-reload>Tải lại nội dung</button></div>
             <div class="site-content-layout"><form data-content-form><fieldset class="site-content-fields" data-content-fields disabled></fieldset><div class="site-content-actions"><button class="admin-btn success" type="submit" data-content-save disabled>Lưu nội dung</button><button class="admin-btn ghost" type="button" data-content-undo disabled>Hủy thay đổi</button><button class="admin-btn ghost" type="button" data-content-defaults disabled>Khôi phục mẫu gốc</button></div></form>
             <div class="site-content-preview"><p data-content-preview-label>Bản xem trước · chưa công bố</p><iframe title="Xem trước nội dung trang web" data-content-preview sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe></div></div>
             <p data-content-status role="status" aria-live="polite"></p></section>`;
@@ -20,7 +21,7 @@
         function preview(scroll = false) {
             const values = { ...defaults, ...draft };
             for (const option of selector.options) {
-                const name = api.sections.find(([id]) => id === option.value)?.[1] || option.value;
+                const name = editorSections.find(([id]) => id === option.value)?.[1] || option.value;
                 option.textContent = `${name}${values[`${option.value}.visible`] === false ? " · Đang ẩn" : ""}`;
             }
             mount.querySelector("[data-content-preview-label]").textContent = values[`${section}.visible`] === false
@@ -42,11 +43,11 @@
                     const copy = document.createElement("span"); copy.className = "site-content-visibility-copy";
                     const title = document.createElement("span"); title.id = `${input.id}-title`; title.textContent = field.label;
                     const hint = document.createElement("small"); hint.id = `${input.id}-hint`;
-                    hint.textContent = "Khi tắt, mục này và liên kết trên thanh điều hướng sẽ ẩn. Nội dung vẫn được lưu để bật lại.";
+                    hint.textContent = field.hint || "Khi tắt, mục này và liên kết trên thanh điều hướng sẽ ẩn. Nội dung vẫn được lưu để bật lại.";
                     input.setAttribute("aria-labelledby", title.id); input.setAttribute("aria-describedby", hint.id);
                     copy.append(title, hint);
                     const state = document.createElement("span"); state.className = "site-content-toggle-state"; state.setAttribute("aria-hidden", "true");
-                    state.textContent = input.checked ? "Bật" : "Ẩn";
+                    state.textContent = input.checked ? "Bật" : field.offLabel || "Ẩn";
                     label.replaceChildren(copy, input, state);
                 } else {
                     if (field.kind === "percent") { input.type = "number"; input.min = "0"; input.max = "100"; input.step = "any"; }
@@ -92,7 +93,7 @@
             const field = fields.find(item => item.key === event.target.name);
             if (!ready || busy || !field) return;
             draft[field.key] = field.kind === "boolean" ? event.target.checked : event.target.value;
-            if (field.kind === "boolean") event.target.closest("label").querySelector(".site-content-toggle-state").textContent = event.target.checked ? "Bật" : "Ẩn";
+            if (field.kind === "boolean") event.target.closest("label").querySelector(".site-content-toggle-state").textContent = event.target.checked ? "Bật" : field.offLabel || "Ẩn";
             dirty = true; preview(field.kind === "boolean"); message("Có thay đổi chưa lưu. Bấm Lưu nội dung để công bố.");
         });
         form.addEventListener("submit", async event => {

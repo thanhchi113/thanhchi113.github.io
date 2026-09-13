@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/score-submissions.css?v=20260908-student-upload">
     <link rel="stylesheet" href="assets/site-content.css?v=20260913-visibility">
     <link rel="stylesheet" href="assets/galaxy-scene.css?v=20260913-detail-background">
+    <link rel="stylesheet" href="assets/site-experience.css?v=20260913-unified">
 
     <!-- Font Awesome -->
     <link
@@ -3736,7 +3737,6 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
         <canvas id="milkyWayCanvas" class="milky-way-canvas"></canvas>
         <div class="milky-way-shade"></div>
     </div>
-    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
     <!-- =========================
          HEADER
@@ -5220,7 +5220,8 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script>
     <script src="assets/exam-scores.js?v=20260913-options"></script>
     <script src="assets/exam-score-options.js?v=20260913"></script>
-    <script src="assets/site-content.js?v=20260913-visibility"></script>
+    <script src="assets/site-experience.js?v=20260913-unified"></script>
+    <script src="assets/site-content.js?v=20260913-unified"></script>
     <script src="assets/score-submissions.js?v=20260908-student-upload"></script>
     <script>
 
@@ -8309,26 +8310,8 @@ function getFilteredTikzDrawings() {
            MOUSE GLOW
         ========================================== */
 
-        const cursorGlow =
-            document.getElementById("cursorGlow");
-
         const finePointer =
             window.matchMedia("(pointer: fine)").matches;
-
-        if (cursorGlow && finePointer && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            let glowRaf = 0;
-            let glowX = 0;
-            let glowY = 0;
-            window.addEventListener("pointermove", function (event) {
-                glowX = event.clientX - 180;
-                glowY = event.clientY - 180;
-                if (glowRaf) return;
-                glowRaf = requestAnimationFrame(() => {
-                    cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0)`;
-                    glowRaf = 0;
-                });
-            }, { passive: true });
-        }
 
 
         /* =========================================
@@ -8392,7 +8375,7 @@ function getFilteredTikzDrawings() {
 
 <script src="assets/galaxy-streaks.js?v=20260908-brighter-streaks"></script>
 <script src="assets/galaxy-clouds.js?v=20260913-performance"></script>
-<script src="assets/galaxy-background.js?v=20260913-performance"></script>
+<script src="assets/galaxy-background.js?v=20260913-unified"></script>
 
 
 <style id="document-card-thumbnail-actions-final-fix">

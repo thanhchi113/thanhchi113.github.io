@@ -394,11 +394,11 @@
         function refreshMotion() {
             cancelAnimationFrame(frameId);
             frameId = 0;
-            if (paused || document.hidden || pageAway) return;
+            if (document.hidden || pageAway) return;
             lastPaint = performance.now();
             paint(lastPaint);
 
-            if (textureReady && !reducedMotion.matches && !document.hidden) {
+            if (!paused && textureReady && !reducedMotion.matches && !document.hidden) {
                 frameId = requestAnimationFrame(animate);
             }
         }

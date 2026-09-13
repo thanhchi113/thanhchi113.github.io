@@ -199,7 +199,7 @@
         const motion = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         const base = () => ({
             responsive: true, maintainAspectRatio: false, animation: motion ? { duration: 650 } : false,
-            color: "#bdcddd", font: { family: "Inter, Arial, sans-serif", size: 12 },
+            color: "#bdcddd", font: { family: '"Site Noto Sans", "Segoe UI", Arial, sans-serif', size: 12 },
             plugins: { legend: { display: false }, tooltip: { backgroundColor: "#101924", padding: 12, titleColor: "#fff", bodyColor: "#e2edf8" } }
         });
         const axis = title => ({ title: { display: true, text: title, color: "#abb8ca" }, ticks: { color: "#abb8ca" }, grid: { color: "rgba(187,207,228,.1)" }, border: { color: "rgba(187,207,228,.2)" } });
