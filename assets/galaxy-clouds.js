@@ -9,7 +9,9 @@
         const targetDocument = scene.ownerDocument;
         const targetWindow = targetDocument.defaultView;
         const reducedMotion = targetWindow.matchMedia("(prefers-reduced-motion: reduce)");
-        let paused = false;
+        const lightDevice = targetWindow.matchMedia("(pointer: coarse)").matches || (targetWindow.navigator.hardwareConcurrency || 8) <= 4 || targetWindow.navigator.connection?.saveData === true;
+        let paused = scene.hidden;
+        let textureReady = false, destroyed = false, pageAway = false;
         let showClouds = true;
         let showGlow = true;
         const canvas = targetDocument.createElement("canvas");
@@ -21,7 +23,7 @@
         if (!context) { canvas.remove(); return null; }
         const texture = document.createElement("canvas");
         const glowTexture = document.createElement("canvas");
-        const textureWidth = 1024, textureHeight = 256;
+        const textureWidth = lightDevice ? 512 : 1024, textureHeight = lightDevice ? 128 : 256;
         texture.width = glowTexture.width = textureWidth;
         texture.height = glowTexture.height = textureHeight;
         const textureContext = texture.getContext("2d");
@@ -55,35 +57,46 @@
             return sum / weight;
         }
 
-        for (let y = 0; y < textureHeight; y++) {
-            const ny = y / textureHeight;
-            for (let x = 0; x < textureWidth; x++) {
-                const nx = x / textureWidth;
-                const broad = noise(nx * 8, ny * 3 + 8, 8);
-                const details = cloudNoise(nx * 8, ny * 5 + 12);
-                const envelope = Math.pow(Math.sin(ny * Math.PI), 2.2);
-                const depth = clamp((broad * .65 + details * .8 - .45) * 2.0) * envelope;
-                const fibers = clamp((details - .34) * 2.4);
-                const alpha = Math.pow(depth, 1.4) * (.56 + fibers * .3);
-                const at = (y * textureWidth + x) * 4;
-                image.data[at] = 105 + details * 85;
-                image.data[at + 1] = 66 + details * 61;
-                image.data[at + 2] = 187 + details * 68;
-                image.data[at + 3] = Math.round(alpha * 185);
-                glowImage.data[at] = 170 + details * 60;
-                glowImage.data[at + 1] = 157 + details * 76;
-                glowImage.data[at + 2] = 255;
-                glowImage.data[at + 3] = Math.round(Math.pow(depth, 1.05) * 220);
+        async function buildTexture() {
+            let sliceStart = performance.now();
+            for (let y = 0; y < textureHeight; y++) {
+                if (destroyed) return;
+                if (performance.now() - sliceStart > 7) {
+                    await new Promise(resolve => targetWindow.setTimeout(resolve, 0));
+                    sliceStart = performance.now();
+                }
+                const ny = y / textureHeight;
+                for (let x = 0; x < textureWidth; x++) {
+                    const nx = x / textureWidth;
+                    const broad = noise(nx * 8, ny * 3 + 8, 8);
+                    const details = cloudNoise(nx * 8, ny * 5 + 12);
+                    const envelope = Math.pow(Math.sin(ny * Math.PI), 2.2);
+                    const depth = clamp((broad * .65 + details * .8 - .45) * 2.0) * envelope;
+                    const fibers = clamp((details - .34) * 2.4);
+                    const alpha = Math.pow(depth, 1.4) * (.56 + fibers * .3);
+                    const at = (y * textureWidth + x) * 4;
+                    image.data[at] = 105 + details * 85;
+                    image.data[at + 1] = 66 + details * 61;
+                    image.data[at + 2] = 187 + details * 68;
+                    image.data[at + 3] = Math.round(alpha * 185);
+                    glowImage.data[at] = 170 + details * 60;
+                    glowImage.data[at + 1] = 157 + details * 76;
+                    glowImage.data[at + 2] = 255;
+                    glowImage.data[at + 3] = Math.round(Math.pow(depth, 1.05) * 220);
+                }
             }
+            textureContext.putImageData(image, 0, 0);
+            glowContext.putImageData(glowImage, 0, 0);
+            textureReady = true;
+            canvas.dataset.textureReady = "true";
+            refresh();
         }
-        textureContext.putImageData(image, 0, 0);
-        glowContext.putImageData(glowImage, 0, 0);
 
         const pulseTexture = document.createElement("canvas");
         pulseTexture.width = 360;
         pulseTexture.height = 220;
         const pulseContext = pulseTexture.getContext("2d");
-        let width = 0, height = 0, animation = 0, elapsed = 0, previous = 0;
+        let width = 0, height = 0, animation = 0, elapsed = 0, previous = 0, lastPaint = 0, resizeTimer = 0;
 
         function drawLayer(source, offset, top, layerWidth, layerHeight) {
             for (let x = offset - layerWidth; x < width; x += layerWidth) {
@@ -91,8 +104,9 @@
             }
         }
         function paint() {
+            if (destroyed || targetDocument.hidden || pageAway) return;
             context.clearRect(0, 0, width, height);
-            if (!showClouds) return;
+            if (!showClouds || !textureReady) return;
             const layerWidth = Math.max(width * 1.2, 840);
             const layerHeight = Math.min(height * .58, 510);
             const top = height * .565 - layerHeight * .5;
@@ -111,7 +125,8 @@
                     const pulseY = height * .555;
                     pulseContext.clearRect(0, 0, 360, 220);
                     pulseContext.globalCompositeOperation = "source-over";
-                    pulseContext.drawImage(glowTexture, textureWidth * .48, 10, 360, 220, 0, 0, 360, 220);
+                    const textureScale = textureWidth / 1024;
+                    pulseContext.drawImage(glowTexture, textureWidth * .48, 10 * textureScale, 360 * textureScale, 220 * textureScale, 0, 0, 360, 220);
                     pulseContext.globalCompositeOperation = "destination-in";
                     const mask = pulseContext.createRadialGradient(180, 110, 12, 180, 110, 180);
                     mask.addColorStop(0, "rgba(255,255,255,1)");
@@ -126,9 +141,14 @@
             context.globalAlpha = 1;
         }
         function loop(now) {
+            animation = 0;
+            if (destroyed || paused || reducedMotion.matches || !showClouds || targetDocument.hidden || pageAway) return;
             if (previous) elapsed += Math.min(now - previous, 50);
             previous = now;
-            paint();
+            if (now - lastPaint >= 1000 / 30 - 1) {
+                lastPaint = now - ((now - lastPaint) % (1000 / 30));
+                paint();
+            }
             animation = targetWindow.requestAnimationFrame(loop);
         }
         function refresh() {
@@ -136,7 +156,8 @@
             animation = 0;
             previous = 0;
             paint();
-            if (!paused && !reducedMotion.matches && showClouds && !targetDocument.hidden) {
+            lastPaint = performance.now();
+            if (textureReady && !destroyed && !paused && !reducedMotion.matches && showClouds && !targetDocument.hidden && !pageAway) {
                 animation = targetWindow.requestAnimationFrame(loop);
             }
         }
@@ -146,19 +167,23 @@
             previous = 0;
         }
         function resize() {
+            if (width === targetWindow.innerWidth && height === targetWindow.innerHeight) return;
             width = targetWindow.innerWidth;
             height = targetWindow.innerHeight;
-            const ratio = Math.min(targetWindow.devicePixelRatio || 1, 1.5);
+            const ratio = Math.min(targetWindow.devicePixelRatio || 1, lightDevice ? 1 : 1.5);
             canvas.width = Math.round(width * ratio);
             canvas.height = Math.round(height * ratio);
             context.setTransform(ratio, 0, 0, ratio, 0, 0);
             paint();
         }
-        targetWindow.addEventListener("resize", resize, { passive: true });
+        function queueResize() { clearTimeout(resizeTimer); resizeTimer = targetWindow.setTimeout(resize, 120); }
+        function hidePage() { pageAway = true; stop(); clearTimeout(resizeTimer); }
+        function showPage() { pageAway = false; resize(); refresh(); }
+        targetWindow.addEventListener("resize", queueResize, { passive: true });
         targetDocument.addEventListener("visibilitychange", refresh);
         reducedMotion.addEventListener("change", refresh);
-        targetWindow.addEventListener("pagehide", stop);
-        targetWindow.addEventListener("pageshow", refresh);
+        targetWindow.addEventListener("pagehide", hidePage);
+        targetWindow.addEventListener("pageshow", showPage);
         resize();
         refresh();
         const controller = {
@@ -170,17 +195,20 @@
                 refresh();
             },
             destroy() {
+                destroyed = true;
                 stop();
-                targetWindow.removeEventListener("resize", resize);
+                clearTimeout(resizeTimer);
+                targetWindow.removeEventListener("resize", queueResize);
                 targetDocument.removeEventListener("visibilitychange", refresh);
                 reducedMotion.removeEventListener("change", refresh);
-                targetWindow.removeEventListener("pagehide", stop);
-                targetWindow.removeEventListener("pageshow", refresh);
+                targetWindow.removeEventListener("pagehide", hidePage);
+                targetWindow.removeEventListener("pageshow", showPage);
                 canvas.remove();
                 controllers.delete(scene);
             }
         };
         controllers.set(scene, controller);
+        buildTexture();
         return controller;
     }
 

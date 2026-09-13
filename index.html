@@ -3729,7 +3729,6 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
 <body>
 
-    <canvas id="particleCanvas" aria-hidden="true"></canvas>
     <!-- Keep the shared sky visible when a section is hidden for a detail view. -->
     <div class="hero-space-scene galaxy-scene" aria-hidden="true">
         <canvas id="milkyWayCanvas" class="milky-way-canvas"></canvas>
@@ -8315,7 +8314,7 @@ function getFilteredTikzDrawings() {
         const tiltCards =
             document.querySelectorAll(".tilt-card");
 
-        if (finePointer) {
+        if (finePointer && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 
             tiltCards.forEach(function (card) {
 
@@ -8365,197 +8364,11 @@ function getFilteredTikzDrawings() {
         }
 
 
-        /* =========================================
-           PARTICLE BACKGROUND
-        ========================================== */
-
-        const particleCanvas =
-            document.getElementById("particleCanvas");
-
-        const prefersReducedMotion =
-            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-        if (particleCanvas && !prefersReducedMotion) {
-
-            const particleContext =
-                particleCanvas.getContext("2d", { alpha: true, desynchronized: true }) ||
-                particleCanvas.getContext("2d");
-
-            const particles = [];
-
-            let canvasWidth = 0;
-            let canvasHeight = 0;
-            let animationFrame = 0;
-            let particlesRunning = true;
-
-            function stopParticleLoop() {
-                if (!particlesRunning) return;
-                particlesRunning = false;
-                cancelAnimationFrame(animationFrame);
-                animationFrame = 0;
-            }
-
-            function startParticleLoop() {
-                if (particlesRunning) return;
-                particlesRunning = true;
-                animationFrame = requestAnimationFrame(animateParticles);
-            }
-
-            function resizeParticleCanvas() {
-
-                const ratio =
-                    Math.min(window.devicePixelRatio || 1, 1.5);
-
-                canvasWidth = window.innerWidth;
-                canvasHeight = window.innerHeight;
-
-                particleCanvas.width =
-                    canvasWidth * ratio;
-
-                particleCanvas.height =
-                    canvasHeight * ratio;
-
-                particleCanvas.style.width =
-                    `${canvasWidth}px`;
-
-                particleCanvas.style.height =
-                    `${canvasHeight}px`;
-
-                particleContext.setTransform(
-                    ratio,
-                    0,
-                    0,
-                    ratio,
-                    0,
-                    0
-                );
-
-                createParticles();
-            }
-
-            function createParticles() {
-
-                particles.length = 0;
-
-                const count =
-                    Math.min(
-                        85,
-                        Math.max(
-                            28,
-                            Math.floor(
-                                (canvasWidth * canvasHeight) / 22000
-                            )
-                        )
-                    );
-
-                for (let i = 0; i < count; i++) {
-
-                    particles.push({
-                        x: Math.random() * canvasWidth,
-                        y: Math.random() * canvasHeight,
-                        radius: Math.random() * 1.6 + 0.35,
-                        speedX: (Math.random() - 0.5) * 0.18,
-                        speedY: (Math.random() - 0.5) * 0.18,
-                        opacity: Math.random() * 0.50 + 0.18,
-                        phase: Math.random() * Math.PI * 2,
-                        pulse: Math.random() * 0.02 + 0.005
-                    });
-                }
-            }
-
-            function animateParticles(time) {
-                if (!particlesRunning) return;
-
-                particleContext.clearRect(
-                    0,
-                    0,
-                    canvasWidth,
-                    canvasHeight
-                );
-
-                for (const particle of particles) {
-
-                    particle.x += particle.speedX;
-                    particle.y += particle.speedY;
-                    particle.phase += particle.pulse;
-
-                    if (particle.x < -10) {
-                        particle.x = canvasWidth + 10;
-                    }
-
-                    if (particle.x > canvasWidth + 10) {
-                        particle.x = -10;
-                    }
-
-                    if (particle.y < -10) {
-                        particle.y = canvasHeight + 10;
-                    }
-
-                    if (particle.y > canvasHeight + 10) {
-                        particle.y = -10;
-                    }
-
-                    const twinkle =
-                        particle.opacity +
-                        Math.sin(particle.phase) * 0.12;
-
-                    particleContext.beginPath();
-
-                    particleContext.arc(
-                        particle.x,
-                        particle.y,
-                        particle.radius,
-                        0,
-                        Math.PI * 2
-                    );
-
-                    particleContext.fillStyle =
-                        `rgba(96, 165, 250, ${Math.max(0.05, twinkle)})`;
-
-                    particleContext.shadowBlur =
-                        particle.radius > 1.15 ? 8 : 4;
-
-                    particleContext.shadowColor =
-                        "rgba(96, 165, 250, 0.7)";
-
-                    particleContext.fill();
-                }
-
-                particleContext.shadowBlur = 0;
-
-                animationFrame =
-                    requestAnimationFrame(animateParticles);
-            }
-
-            window.addEventListener(
-                "resize",
-                resizeParticleCanvas,
-                { passive: true }
-            );
-
-            resizeParticleCanvas();
-            animationFrame =
-                requestAnimationFrame(animateParticles);
-
-            document.addEventListener("visibilitychange", () => {
-                if (document.hidden) stopParticleLoop();
-                else startParticleLoop();
-            }, { passive: true });
-
-            window.addEventListener(
-                "pagehide",
-                function () {
-                    stopParticleLoop();
-                },
-                { once: true }
-            );
-
-        }
 </script>
 
 <script src="assets/galaxy-streaks.js?v=20260908-brighter-streaks"></script>
-<script src="assets/galaxy-clouds.js?v=20260908-clouds-approved"></script>
-<script src="assets/galaxy-background.js?v=20260908-shared-background"></script>
+<script src="assets/galaxy-clouds.js?v=20260913-performance"></script>
+<script src="assets/galaxy-background.js?v=20260913-performance"></script>
 
 
 <style id="document-card-thumbnail-actions-final-fix">
@@ -8799,7 +8612,6 @@ function getFilteredTikzDrawings() {
     }
 }
 </style>
-</body>
 
 <style id="pdf-smooth-scroll-final-v19">
 /* V19: native PDF scrolling. No snapping, no smooth behavior on the scroll container. */
@@ -8821,7 +8633,7 @@ html, body { scroll-behavior: auto !important; }
     transform: translateZ(0);
 }
 </style>
-\n<style id="tikz-preview-fit-v32">
+<style id="tikz-preview-fit-v32">
 /* v32: maximize stored TikZ preview size while keeping a fixed frame and aspect ratio. */
 .tikz-card-render{height:300px !important;display:flex !important;align-items:center !important;justify-content:center !important;padding:8px !important;overflow:hidden !important;box-sizing:border-box !important;background:#0c1422 !important;}
 .tikz-preview-stage{width:100% !important;height:100% !important;display:flex !important;align-items:center !important;justify-content:center !important;overflow:hidden !important;min-width:0 !important;min-height:0 !important;padding:0 !important;}
@@ -8834,7 +8646,7 @@ html, body { scroll-behavior: auto !important; }
   .tikz-card-render{height:240px !important;padding:7px !important;}
   .tikz-render-box{height:420px !important;padding:8px !important;}
 }
-</style>\n</html>
+</style>
 
 
 <style id="latest-breadcrumb-and-pdf-preview-fix">
@@ -8920,5 +8732,7 @@ body.tikz-detail-mode .tikz-code-panel,body.tikz-detail-mode .tikz-render-panel{
 body.tikz-detail-mode .tikz-render-box{background:linear-gradient(145deg,rgba(8,17,32,.62),rgba(20,34,59,.30))!important}
 </style>
 
+<link rel="stylesheet" href="assets/page-motion.css?v=20260913-performance">
+<script src="assets/page-motion.js?v=20260913-performance"></script>
 </body>
 </html>

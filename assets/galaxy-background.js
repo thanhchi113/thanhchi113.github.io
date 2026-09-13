@@ -1,6 +1,6 @@
 // Shared procedural galaxy renderer; preserve the homepage scene on admin pages.
     (function () {
-        const canvas = document.getElementById("milkyWayCanvas") || document.getElementById("adminGalaxyCanvas");
+        const canvas = document.getElementById("milkyWayCanvas") || document.getElementById("adminGalaxyCanvas") || document.getElementById("evidenceGalaxyCanvas");
 
         if (!canvas || canvas.dataset.galaxyBackgroundInitialized === "true") return;
 
@@ -20,6 +20,8 @@
         canvas.dataset.galaxyBackgroundInitialized = "true";
 
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const lightDevice = window.matchMedia("(pointer: coarse)").matches || (navigator.hardwareConcurrency || 8) <= 4 || navigator.connection?.saveData === true;
+        const frameInterval = 1000 / (lightDevice ? 30 : 45);
         const palette = [
             [185, 226, 255],
             [137, 194, 255],
@@ -36,6 +38,7 @@
         let streaks = [];
         let frameId = 0;
         let paused = canvas.dataset.galaxyPaused === "true";
+        let lastPaint = 0, resizeTimer = 0, pageAway = false, textureReady = false;
 
         function flowY(x, time) {
             const progress = Math.max(0, Math.min(1, x / width));
@@ -94,8 +97,8 @@
         }
 
         function createScene() {
-            const starCount = Math.min(1050, Math.max(520, Math.floor((width * height) / 2600)));
-            const dustCount = Math.min(2400, Math.max(1250, Math.floor((width * height) / 520)));
+            const starCount = lightDevice ? 240 : Math.min(1050, Math.max(520, Math.floor((width * height) / 2600)));
+            const dustCount = lightDevice ? 560 : Math.min(2400, Math.max(1250, Math.floor((width * height) / 520)));
 
             stars = Array.from({ length: starCount }, function () {
                 const tint = palette[Math.floor(Math.random() * palette.length)];
@@ -110,7 +113,7 @@
                     opacity: Math.random() * 0.4 + 0.1,
                     phase: Math.random() * Math.PI * 2,
                     flare: Math.random() > 0.984,
-                    tint: tint
+                    color: "rgb(" + tint.join(",") + ")"
                 };
             });
 
@@ -125,7 +128,7 @@
                     opacity: Math.random() * 0.42 + 0.08,
                     speed: Math.random() * 0.000022 + 0.00002,
                     phase: Math.random() * Math.PI * 2,
-                    tint: tint
+                    color: "rgb(" + tint.join(",") + ")"
                 };
             });
 
@@ -171,9 +174,10 @@
             }
         }
 
-        function buildDustTexture() {
-            const textureWidth = Math.round(clamp(width * 0.56, 520, 820));
-            const textureHeight = Math.round(clamp(height * 0.52, 300, 480));
+        async function buildDustTexture() {
+            // This texture uses normalized coordinates, so resizing can reuse it.
+            const textureWidth = lightDevice ? 360 : 768;
+            const textureHeight = lightDevice ? 240 : 432;
 
             dustTexture.width = textureWidth;
             dustTexture.height = textureHeight;
@@ -185,7 +189,12 @@
             const pixels = image.data;
             const detailPixels = detailImage.data;
 
+            let sliceStart = performance.now();
             for (let y = 0; y < textureHeight; y++) {
+                if (performance.now() - sliceStart > 7) {
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                    sliceStart = performance.now();
+                }
                 const normalizedY = y / (textureHeight - 1);
 
                 for (let x = 0; x < textureWidth; x++) {
@@ -254,26 +263,31 @@
 
             dustTextureContext.putImageData(image, 0, 0);
             detailTextureContext.putImageData(detailImage, 0, 0);
+            textureReady = true;
+            canvas.dataset.galaxyTextureReady = "true";
+            refreshMotion();
         }
 
         function resize() {
-            pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+            const nextRatio = Math.min(window.devicePixelRatio || 1, lightDevice ? 1 : 1.5);
+            if (width === window.innerWidth && height === window.innerHeight && pixelRatio === nextRatio) return;
+            pixelRatio = nextRatio;
             width = window.innerWidth;
             height = window.innerHeight;
 
             canvas.width = Math.round(width * pixelRatio);
             canvas.height = Math.round(height * pixelRatio);
-            canvas.style.width = width + "px";
-            canvas.style.height = height + "px";
+            canvas.style.width = "100%";
+            canvas.style.height = "100%";
             context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
             createScene();
-            buildDustTexture();
             buildStarField();
-            paint(performance.now());
+            refreshMotion();
         }
 
         function drawMilkyWay(time) {
+            if (!textureReady) return;
             const driftX = Math.sin(time * 0.00021) * 17;
             const driftY = Math.cos(time * 0.00016) * 9;
             const detailDriftX = Math.sin(time * 0.00032 + 0.85) * 32;
@@ -281,10 +295,10 @@
 
             context.save();
             context.globalAlpha = 0.93;
-            context.filter = "blur(0.45px)";
+            context.filter = "none";
             context.drawImage(dustTexture, driftX - 18, driftY - 12, width + 36, height + 24);
             context.globalAlpha = 0.64;
-            context.filter = "blur(0.1px)";
+            context.filter = "none";
             context.drawImage(detailTexture, detailDriftX - 36, detailDriftY - 22, width + 72, height + 44);
             context.restore();
         }
@@ -316,7 +330,7 @@
         }
 
         function paint(time) {
-            if (paused) return;
+            if (paused || document.hidden || pageAway) return;
             context.clearRect(0, 0, width, height);
             context.save();
             context.globalCompositeOperation = "screen";
@@ -326,12 +340,14 @@
 
             for (const star of stars) {
                 const twinkle = star.opacity * (0.72 + Math.sin(time * 0.001 + star.phase) * 0.28);
-                const color = star.tint.join(",");
+                const color = star.color;
 
-                context.fillStyle = "rgba(" + color + "," + Math.max(0.05, twinkle) + ")";
+                context.fillStyle = color;
+                context.globalAlpha = Math.max(0.05, twinkle);
                 context.fillRect(star.x, star.y, star.size, star.size);
 
                 if (star.flare && twinkle > 0.3) {
+                    context.globalAlpha = 1;
                     const flareSize = star.size * 4.5;
 
                     context.strokeStyle = "rgba(234, 248, 255," + (twinkle * 0.42) + ")";
@@ -349,12 +365,14 @@
                 const flow = getHorizontalFlow(particle.progress, particle.speed, time, particle.offset);
                 const shimmer = particle.opacity * (0.72 + Math.sin(time * 0.0014 + particle.phase) * 0.28) * flow.fade;
 
-                context.fillStyle = "rgba(" + particle.tint.join(",") + "," + Math.max(0.03, shimmer) + ")";
+                context.fillStyle = particle.color;
+                context.globalAlpha = Math.max(0.03, shimmer);
                 context.beginPath();
                 context.arc(flow.x, flow.y, particle.size * (0.76 + flow.eased * 0.34), 0, Math.PI * 2);
                 context.fill();
             }
 
+            context.globalAlpha = 1;
             drawStreaks(time);
 
             context.restore();
@@ -362,10 +380,13 @@
 
         function animate(time) {
             frameId = 0;
-            if (paused || document.hidden) return;
-            paint(time);
+            if (paused || document.hidden || pageAway) return;
+            if (time - lastPaint >= frameInterval - 1) {
+                lastPaint = time - ((time - lastPaint) % frameInterval);
+                paint(time);
+            }
 
-            if (!reducedMotion.matches && !document.hidden) {
+            if (textureReady && !reducedMotion.matches && !document.hidden) {
                 frameId = requestAnimationFrame(animate);
             }
         }
@@ -373,10 +394,11 @@
         function refreshMotion() {
             cancelAnimationFrame(frameId);
             frameId = 0;
-            if (paused) return;
-            paint(performance.now());
+            if (paused || document.hidden || pageAway) return;
+            lastPaint = performance.now();
+            paint(lastPaint);
 
-            if (!reducedMotion.matches && !document.hidden) {
+            if (textureReady && !reducedMotion.matches && !document.hidden) {
                 frameId = requestAnimationFrame(animate);
             }
         }
@@ -391,10 +413,12 @@
             }
         });
 
-        window.addEventListener("resize", resize, { passive: true });
+        window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 120); }, { passive: true });
         document.addEventListener("visibilitychange", refreshMotion, { passive: true });
         reducedMotion.addEventListener("change", refreshMotion);
+        window.addEventListener("pagehide", () => { pageAway = true; clearTimeout(resizeTimer); refreshMotion(); });
+        window.addEventListener("pageshow", () => { pageAway = false; resize(); refreshMotion(); });
 
         resize();
-        refreshMotion();
+        buildDustTexture();
     }());

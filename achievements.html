@@ -142,7 +142,7 @@
     <script src="assets/exam-score-options.js?v=20260913"></script>
     <script src="assets/exam-score-paper.js?v=20260908-math-cycle"></script>
     <script src="assets/galaxy-streaks.js?v=20260908-brighter-streaks"></script>
-    <script src="assets/galaxy-clouds.js?v=20260908-clouds-approved"></script>
+    <script src="assets/galaxy-clouds.js?v=20260913-performance"></script>
     <script>
         const SUPABASE_URL = "https://uiyqdqucqplifcvukwul.supabase.co";
         const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_eVPODZoNRLiGD8Ldl2VjAg_eC_KTKDg";
@@ -307,170 +307,6 @@
             modal.setAttribute("aria-hidden", "true");
             document.getElementById("evidenceModalImage").src = "";
         }
-        (function startEvidenceGalaxy() {
-            const canvas = document.getElementById("evidenceGalaxyCanvas");
-            const context = canvas?.getContext("2d", { alpha: true });
-            if (!canvas || !context) return;
-
-            const dustTexture = document.createElement("canvas");
-            const starTexture = document.createElement("canvas");
-            const dustContext = dustTexture.getContext("2d", { alpha: true });
-            const starContext = starTexture.getContext("2d", { alpha: true });
-            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-            const palette = [[185,226,255], [137,194,255], [207,170,255], [246,178,225], [255,247,235]];
-            let width = 0;
-            let height = 0;
-            let stars = [];
-            let dust = [];
-            let streaks = [];
-            let frame = 0;
-
-            const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-            const smoothstep = value => value * value * (3 - 2 * value);
-            const randomAt = (x, y) => {
-                const value = Math.sin(x * 127.1 + y * 311.7) * 43758.5453123;
-                return value - Math.floor(value);
-            };
-            function valueNoise(x, y) {
-                const x0 = Math.floor(x), y0 = Math.floor(y), tx = smoothstep(x - x0), ty = smoothstep(y - y0);
-                const top = randomAt(x0, y0) * (1 - tx) + randomAt(x0 + 1, y0) * tx;
-                const bottom = randomAt(x0, y0 + 1) * (1 - tx) + randomAt(x0 + 1, y0 + 1) * tx;
-                return top * (1 - ty) + bottom * ty;
-            }
-            function fractalNoise(x, y, octaves) {
-                let total = 0, amplitude = .56, frequency = 1, normalization = 0;
-                for (let index = 0; index < octaves; index++) {
-                    total += valueNoise(x * frequency, y * frequency) * amplitude;
-                    normalization += amplitude;
-                    amplitude *= .52;
-                    frequency *= 2.04;
-                }
-                return total / normalization;
-            }
-            function flowY(x, time) {
-                const progress = clamp(x / width, 0, 1);
-                const center = width <= 800 ? .61 : .57;
-                const tilt = (progress - .5) * height * -.058;
-                const curve = (Math.sin(progress * Math.PI * 2.2 + time * .00009) * .018 + Math.sin(progress * Math.PI * 5.1 + time * .00005) * .007) * height;
-                return height * center + tilt + curve;
-            }
-            function buildDustTexture() {
-                const textureWidth = Math.round(clamp(width * .56, 520, 820));
-                const textureHeight = Math.round(clamp(height * .52, 300, 480));
-                dustTexture.width = textureWidth;
-                dustTexture.height = textureHeight;
-                const image = dustContext.createImageData(textureWidth, textureHeight);
-                const pixels = image.data;
-                for (let y = 0; y < textureHeight; y++) {
-                    const normalizedY = y / (textureHeight - 1);
-                    for (let x = 0; x < textureWidth; x++) {
-                        const normalizedX = x / (textureWidth - 1);
-                        const macro = fractalNoise(normalizedX * 3.6 + 12, normalizedY * 3.2 + 4, 4);
-                        const cloud = fractalNoise(normalizedX * 6.2 + 72, normalizedY * 4.7 + 19, 3);
-                        const grain = fractalNoise(normalizedX * 13 + 28, normalizedY * 14 + 17, 3);
-                        const rose = fractalNoise(normalizedX * 5.7 + 136, normalizedY * 3.8 + 55, 3);
-                        const spine = .575 - (normalizedX - .5) * .058 + Math.sin(normalizedX * Math.PI * 2.4) * .021;
-                        const meander = (macro - .5) * .052 + Math.sin(normalizedX * 16 + cloud * 5) * .012;
-                        const distance = normalizedY - (spine + meander);
-                        const spread = .135 + macro * .103 + cloud * .022;
-                        const envelope = Math.exp(-Math.pow(distance / spread, 2));
-                        const darkLane = Math.exp(-Math.pow((distance - Math.sin(normalizedX * 10.5 + macro * 5.2) * .024) / .017, 2));
-                        const cloudPatch = clamp((macro - .3) * 1.45 + (cloud - .34) * .95, 0, 1);
-                        const density = clamp(envelope * (.18 + macro * .5 + cloud * .3 + grain * .24) * (.5 + cloudPatch * .68) * (1 - darkLane * .82), 0, 1);
-                        if (density < .012) continue;
-                        const index = (y * textureWidth + x) * 4;
-                        const violet = clamp((grain - .12) * 1.28 + cloudPatch * .28, 0, 1);
-                        const blue = clamp(.38 + macro * .47 + cloud * .12, 0, 1);
-                        const pink = clamp((cloudPatch - .32) * .84 + (rose - .58) * 1.38, 0, 1);
-                        const brightness = .58 + density * .6;
-                        pixels[index] = Math.round((36 + violet * 126 + pink * 164) * brightness);
-                        pixels[index + 1] = Math.round((72 + blue * 104 + pink * 43) * brightness);
-                        pixels[index + 2] = Math.round((145 + blue * 82 + violet * 86) * brightness);
-                        pixels[index + 3] = Math.round(Math.pow(density, .78) * 242);
-                    }
-                }
-                dustContext.putImageData(image, 0, 0);
-            }
-            function buildStarTexture() {
-                const textureWidth = Math.round(clamp(width * .7, 720, 1200));
-                const textureHeight = Math.round(clamp(height * .7, 430, 760));
-                starTexture.width = textureWidth;
-                starTexture.height = textureHeight;
-                starContext.clearRect(0, 0, textureWidth, textureHeight);
-                const count = Math.min(7600, Math.max(3400, Math.floor(width * height / 150)));
-                for (let index = 0; index < count; index++) {
-                    const x = Math.random() * textureWidth;
-                    const sceneX = x / textureWidth * width;
-                    const inBand = Math.random() < .62;
-                    const spread = (Math.random() + Math.random() + Math.random() - 1.5) * Math.min(180, height * .25);
-                    const y = inBand ? (flowY(sceneX, 0) + spread) / height * textureHeight : Math.random() * textureHeight;
-                    if (y < 0 || y > textureHeight) continue;
-                    const tint = palette[Math.floor(Math.random() * palette.length)];
-                    const bright = Math.random() > .973;
-                    starContext.fillStyle = `rgba(${tint.join(",")},${bright ? Math.random() * .42 + .42 : (Math.random() * .36 + .17) * (inBand ? 1.18 : .78)})`;
-                    if (bright) { starContext.beginPath(); starContext.arc(x, y, Math.random() * 1.12 + .82, 0, Math.PI * 2); starContext.fill(); }
-                    else starContext.fillRect(x, y, Math.random() * .64 + .28, Math.random() * .64 + .28);
-                }
-            }
-            function createScene() {
-                const starCount = Math.min(1050, Math.max(520, Math.floor(width * height / 2600)));
-                const dustCount = Math.min(2200, Math.max(1250, Math.floor(width * height / 520)));
-                stars = Array.from({ length: starCount }, () => {
-                    const tint = palette[Math.floor(Math.random() * palette.length)];
-                    const inBand = Math.random() < .72;
-                    return { x: Math.random() * width, y: inBand ? flowY(Math.random() * width, 0) + (Math.random() + Math.random() + Math.random() - 1.5) * Math.min(150, height * .21) : Math.random() * height, size: Math.random() * 1.16 + .14, opacity: Math.random() * .4 + .1, phase: Math.random() * Math.PI * 2, flare: Math.random() > .984, tint };
-                });
-                dust = Array.from({ length: dustCount }, () => ({ progress: Math.random(), offset: (Math.random() + Math.random() + Math.random() - 1.5) / 1.5 * (42 + Math.random() * Math.min(148, height * .19)), size: Math.random() * 1.25 + .15, opacity: Math.random() * .42 + .08, speed: Math.random() * .000022 + .00002, phase: Math.random() * Math.PI * 2, tint: palette[Math.floor(Math.random() * palette.length)] }));
-                streaks = window.GalaxyStreaks.create(width, height);
-            }
-            function getHorizontalFlow(progress, speed, time, offset) {
-                const cycle = (progress + time * speed) % 1;
-                const x = -90 + (width + 180) * cycle;
-                return { x, y: flowY(clamp(x, 0, width), time) + offset + Math.sin(time * .00065 + progress * 17) * 1.8, fade: Math.pow(Math.max(0, Math.min(1, cycle * 8, (1 - cycle) * 8)), .62), eased: cycle };
-            }
-            function paint(time) {
-                context.clearRect(0, 0, width, height);
-                context.save();
-                context.globalCompositeOperation = "screen";
-                context.globalAlpha = .8;
-                context.drawImage(starTexture, 0, 0, width, height);
-                context.globalAlpha = .93;
-                context.filter = "blur(.45px)";
-                context.drawImage(dustTexture, Math.sin(time * .00021) * 17 - 18, Math.cos(time * .00016) * 9 - 12, width + 36, height + 24);
-                context.filter = "none";
-                stars.forEach(star => {
-                    const alpha = star.opacity * (.72 + Math.sin(time * .001 + star.phase) * .28);
-                    context.fillStyle = `rgba(${star.tint.join(",")},${Math.max(.05, alpha)})`;
-                    context.fillRect(star.x, star.y, star.size, star.size);
-                    if (star.flare && alpha > .3) { const flare = star.size * 4.5; context.strokeStyle = `rgba(234,248,255,${alpha * .42})`; context.lineWidth = .55; context.beginPath(); context.moveTo(star.x - flare, star.y); context.lineTo(star.x + flare, star.y); context.moveTo(star.x, star.y - flare); context.lineTo(star.x, star.y + flare); context.stroke(); }
-                });
-                dust.forEach(particle => {
-                    const flow = getHorizontalFlow(particle.progress, particle.speed, time, particle.offset);
-                    const alpha = particle.opacity * (.72 + Math.sin(time * .0014 + particle.phase) * .28) * flow.fade;
-                    context.fillStyle = `rgba(${particle.tint.join(",")},${Math.max(.03, alpha)})`;
-                    context.beginPath(); context.arc(flow.x, flow.y, particle.size * (.76 + flow.eased * .34), 0, Math.PI * 2); context.fill();
-                });
-                window.GalaxyStreaks.draw(context, streaks, time, getHorizontalFlow);
-                context.restore();
-            }
-            function refreshMotion() {
-                cancelAnimationFrame(frame);
-                paint(performance.now());
-                if (!reducedMotion.matches && !document.hidden) frame = requestAnimationFrame(animate);
-            }
-            function animate(time) { paint(time); if (!reducedMotion.matches && !document.hidden) frame = requestAnimationFrame(animate); }
-            function resize() {
-                const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-                width = window.innerWidth; height = window.innerHeight;
-                canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
-                context.setTransform(ratio, 0, 0, ratio, 0, 0);
-                createScene(); buildDustTexture(); buildStarTexture(); refreshMotion();
-            }
-            window.addEventListener("resize", resize, { passive: true });
-            document.addEventListener("visibilitychange", refreshMotion, { passive: true });
-            reducedMotion.addEventListener("change", refreshMotion);
-            resize();
-        }());
         document.querySelectorAll("[data-type]").forEach(button => button.addEventListener("click", () => {
             currentType = button.dataset.type;
             const url = new URL(window.location.href);
@@ -484,5 +320,8 @@
         loadEvidence();
     </script>
     <script src="assets/exam-scores-public.js?v=20260913-options"></script>
+    <script src="assets/galaxy-background.js?v=20260913-performance"></script>
+    <link rel="stylesheet" href="assets/page-motion.css?v=20260913-performance">
+    <script src="assets/page-motion.js?v=20260913-performance"></script>
 </body>
 </html>

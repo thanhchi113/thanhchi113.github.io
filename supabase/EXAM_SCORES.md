@@ -4,7 +4,7 @@ Các trang chính: `admin.html#admin-scores`, `achievements.html?type=scores`, b
 
 ## Trạng thái triển khai
 
-Bản ngày 13/09/2026 bổ sung sửa nội dung section và danh mục lớp/năm học/kỳ thi/khối. Migration `20260913074535_site_content_and_score_options.sql` đã kiểm thử cục bộ, **chưa áp dụng trên production**: API hiện trả `PGRST205` cho `site_configuration`, CLI chưa có access token và công cụ trình duyệt không có phiên quản trị khả dụng. Cần chạy riêng migration mới này trong SQL Editor của dự án hiện có; không chạy lại các migration cũ. Khi chưa thiết lập, nội dung trang chủ và chức năng nhập điểm cũ vẫn hoạt động.
+Bản ngày 13/09/2026 bổ sung sửa nội dung section và danh mục lớp/năm học/kỳ thi/khối. Migration `20260913074535_site_content_and_score_options.sql` đã áp dụng trên production. Sau khi chạy trong SQL Editor, API `site_configuration` trả HTTP 200 với đủ hai hàng `site_content` và `score_options`, cùng thời điểm cập nhật `2026-09-13T08:24:58.876135+00:00`. Không cần chạy lại migration.
 
 Đã kích hoạt trên Supabase production: bảng điểm, tên/ảnh minh chứng, hai kho ảnh riêng tư, hộp thư học sinh gửi điểm và các hàm quản lý tài khoản admin. Lỗi thiếu bảng `exam_scores` khiến biểu mẫu nhập điểm bị khóa đã được xử lý ở cơ sở dữ liệu.
 
@@ -102,6 +102,10 @@ Trong **Tài khoản**, admin phải xác minh mật khẩu hiện tại trướ
 Callback đăng nhập không chờ thao tác Supabase Auth bên trong callback để tránh khóa phiên. Khi đăng xuất, dữ liệu điểm/tài khoản được xóa khỏi giao diện; phản hồi xác thực cũ không thể mở lại trang admin.
 
 ## Kiểm thử
+
+Nền trang chủ, thành tích và admin dùng chung bộ vẽ. Texture bụi/mây được tính theo từng phần ngắn và tái sử dụng khi đổi kích thước. Điện thoại/thiết bị tiết kiệm dữ liệu dùng ít hạt động và độ phân giải Canvas thấp hơn; vẫn giữ lớp sao dày, mây tím và vệt sáng. Hiệu ứng minh họa ngoài màn hình tạm dừng cả nhóm để giữ thứ tự các cảnh; khi tab ẩn, nền và hoạt ảnh CSS dừng. Giảm hiệu ứng kính mờ trên các card ở thiết bị cảm ứng.
+
+`node tests/galaxy-performance.browser.cjs` đo khởi tạo, vẽ và resize bằng Canvas thật trên Edge với CPU mô phỏng chậm 4 lần; `PERF_REV` chọn bản Git để đối chiếu. Số đo phụ thuộc máy, không phải cam kết FPS. `node tests/page-motion.browser.cjs` kiểm tra trang thật, cuộn ra/vào, thứ tự cảnh, card thêm động, giao diện di động và nút nền admin.
 
 Giao diện admin dùng thanh điều hướng bên trái có biểu tượng, thu gọn trên máy tính và mở thành ngăn trượt trên điện thoại. Nền dùng cùng renderer Canvas với trang chủ. Nút **Nền: Bật/Tắt** cạnh **Đăng xuất** ghi nhớ lựa chọn trên trình duyệt; khi tắt, các vòng lặp vẽ nền và mây dừng lại. Lựa chọn này chỉ áp dụng cho admin.
 

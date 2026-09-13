@@ -189,6 +189,7 @@ async function waitStatus(page, text) {
                     return rect.width && (rect.left < outer.left || rect.right > outer.right) ? [{ tag: control.tagName, left: rect.left, right: rect.right, outer: outer.right }] : [];
                 });
             });
+            assert.equal(await page.locator('.site-content-editor').evaluate(node => node.scrollLeft), 0, 'The decorative glow must not scroll the editor sideways');
             assert.deepEqual(clipped, [], `No clipped editor controls at ${width}px`);
             if (width === 390) await page.screenshot({ path: path.join(root, '../../site-content-mobile.png') });
         }
