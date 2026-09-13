@@ -1,4 +1,13 @@
-#scoresWorkspace .exam-admin-preview{margin-top:26px}
+#scoresWorkspace .exam-admin-preview{min-width:0;margin:0}
+#scoresWorkspace #scoreFormFields{gap:20px}
+#scoresWorkspace .score-details-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 20px}
+#scoresWorkspace .score-media-layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;align-items:start}
+#scoresWorkspace .score-attachment{min-width:0}
+#scoresWorkspace .score-attachment .exam-score-drop{min-height:230px}
+#scoresWorkspace .score-field-visibility .field-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 20px}
+#scoresWorkspace .exam-admin-list{scroll-margin-top:100px}
+@media(max-width:1100px){#scoresWorkspace .score-details-grid,#scoresWorkspace .score-field-visibility .field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#scoresWorkspace .score-media-layout{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){#scoresWorkspace .score-details-grid{grid-template-columns:minmax(0,1fr)}#scoresWorkspace .score-field-visibility .field-grid{grid-template-columns:minmax(0,1fr)}#scoresWorkspace .score-attachment .exam-score-drop{min-height:160px}}
 #scoresWorkspace .exam-entry-number{display:flex;align-items:center;gap:12px;margin:0 0 4px;color:#a9bbd1;font-size:12px}#scoresWorkspace .exam-entry-number output{display:inline-grid;place-items:center;min-width:34px;height:30px;border:1px solid rgba(131,199,238,.25);border-radius:8px;background:rgba(66,128,177,.1);color:#b1e2ff;font-weight:700;font-variant-numeric:tabular-nums}
 #scoresWorkspace .exam-privacy-options{display:grid;gap:8px;padding:14px;border:1px solid rgba(151,176,216,.18);border-radius:12px;background:rgba(11,22,40,.45)}#scoresWorkspace .exam-privacy-options .check-row{display:flex;align-items:flex-start;margin:0;text-transform:none;letter-spacing:0;font-size:12px;line-height:1.5}#scoresWorkspace .exam-privacy-options .exam-form-note{margin:0 0 7px 24px;font-size:11px;line-height:1.6}
 #scoresWorkspace .exam-record-number{color:#a9bbd1;font-size:12px;font-variant-numeric:tabular-nums}#scoresWorkspace .exam-record-privacy{display:block;margin-top:5px;font-size:10px;color:#bbaae0}#scoresWorkspace .exam-preview-number{margin:0 0 8px;font-size:10px;color:#839bb8;font-variant-numeric:tabular-nums}#scoresWorkspace #scorePreviewPrivacyNote{margin:12px 0 0;font-size:11px;line-height:1.65;color:#a9bbd1}
