@@ -1,0 +1,92 @@
+/* One viewport, shade and canvas opacity for the homepage and public detail pages. */
+body > .site-galaxy {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1 !important;
+    overflow: hidden !important;
+    isolation: isolate;
+    pointer-events: none !important;
+    background: #01050d;
+    opacity: 1 !important;
+    filter: none;
+}
+
+.site-galaxy > .milky-way-canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 1;
+    pointer-events: none;
+}
+
+body > .site-galaxy > .milky-way-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(1, 4, 11, .46) 0%, rgba(1, 4, 11, .04) 25%, rgba(1, 4, 11, .12) 68%, rgba(1, 4, 11, .68) 100%),
+        linear-gradient(90deg, rgba(1, 4, 11, .34) 0%, rgba(1, 4, 11, .18) 35%, rgba(1, 4, 11, .04) 63%, rgba(1, 4, 11, .28) 100%);
+}
+
+/* Detail layouts reveal the original sky instead of stacking opaque backdrops. */
+#documents.document-viewer-mode .pdf-modal,
+#documents.document-viewer-mode .pdf-modal-body-scroll,
+#documents.document-viewer-mode .pdf-viewer-scroll,
+#documents.document-viewer-mode .pdf-viewer-pages,
+#documents.document-viewer-mode .pdf-related-title,
+body.tikz-detail-mode #tikzRenderBox {
+    background: transparent !important;
+}
+
+#documents.document-viewer-mode .pdf-modal,
+#documents.document-viewer-mode .pdf-modal-inner,
+#documents.document-viewer-mode .pdf-modal-head,
+#documents.document-viewer-mode .pdf-viewer-toolbar,
+#documents.document-viewer-mode .pdf-related-wrap,
+body.tikz-detail-mode #tikzDetail .tikz-code-panel,
+body.tikz-detail-mode #tikzDetail .tikz-render-panel {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+#documents.document-viewer-mode .pdf-modal-inner,
+body.tikz-detail-mode #tikzDetail .tikz-code-panel,
+body.tikz-detail-mode #tikzDetail .tikz-render-panel {
+    background: linear-gradient(145deg, rgba(13, 22, 41, .32), rgba(7, 12, 26, .18)) !important;
+}
+
+#documents.document-viewer-mode .pdf-modal-head,
+#documents.document-viewer-mode .pdf-viewer-toolbar {
+    background: rgba(7, 14, 28, .56) !important;
+}
+
+#documents.document-viewer-mode .pdf-related-wrap {
+    background: rgba(7, 14, 28, .26) !important;
+}
+
+body.tikz-detail-mode .tikz-code-block,
+body.tikz-detail-mode .tikz-code-protected {
+    background: rgba(5, 11, 22, .32);
+}
+
+body.tikz-detail-mode .tikz-code-protected-overlay {
+    background: radial-gradient(circle at center, rgba(5, 11, 20, .32), rgba(5, 11, 20, .12) 75%);
+}
+
+/* The photograph floats over the same clear sky; restore the page on close. */
+body .evidence-modal {
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+body:has(.evidence-modal.open) > .evidence-page {
+    visibility: hidden;
+    opacity: 0;
+}
