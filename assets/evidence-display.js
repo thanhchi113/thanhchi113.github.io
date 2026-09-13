@@ -26,9 +26,9 @@
         if (typeof path !== "string" || !path.trim()) return "";
         const { data, error } = await client.storage.from("achievement-evidence").createSignedUrl(path, 60);
         if (error) throw error;
-        if (!data?.signedUrl) throw new Error("Không thể tải ảnh minh chứng.");
+        if (!data?.signedUrl) throw new Error("Không thể tải hình ảnh.");
         const url = new URL(data.signedUrl);
-        if (url.protocol !== "https:") throw new Error("Đường dẫn ảnh minh chứng không hợp lệ.");
+        if (url.protocol !== "https:") throw new Error("Đường dẫn hình ảnh không hợp lệ.");
         return url.href;
     }
 
@@ -63,7 +63,7 @@
                 const url = localUrl || await signedImageUrl(client, item.image_path);
                 if (!current()) return;
                 const image = new Image();
-                image.alt = "Ảnh minh chứng thành tích";
+                image.alt = "Hình ảnh kết quả học tập";
                 image.decoding = "async";
                 image.loading = "eager";
                 image.addEventListener("load", () => {

@@ -57,7 +57,7 @@
         <button class="workspace-tab" id="adminTab-content" type="button" role="tab" aria-selected="false" aria-controls="contentWorkspace" data-workspace-tab="content" title="Nội dung trang web"><span class="admin-sidebar-icon" data-sidebar-icon="content"></span><span class="admin-sidebar-label">Nội dung trang web</span></button>
         <button class="workspace-tab active" id="adminTab-pdf" type="button" role="tab" aria-selected="true" aria-controls="pdfWorkspace" data-workspace-tab="pdf" title="Nhập file PDF"><span class="admin-sidebar-icon" data-sidebar-icon="pdf"></span><span class="admin-sidebar-label">Nhập file PDF</span></button>
         <button class="workspace-tab" id="adminTab-requests" type="button" role="tab" aria-selected="false" aria-controls="requestsWorkspace" data-workspace-tab="requests" title="Yêu cầu và PDF đóng góp"><span class="admin-sidebar-icon" data-sidebar-icon="requests"></span><span class="admin-sidebar-label">Yêu cầu & PDF đóng góp</span></button>
-        <button class="workspace-tab" id="adminTab-evidence" type="button" role="tab" aria-selected="false" aria-controls="evidenceWorkspace" data-workspace-tab="evidence" title="Minh chứng"><span class="admin-sidebar-icon" data-sidebar-icon="evidence"></span><span class="admin-sidebar-label">Minh chứng</span></button>
+        <button class="workspace-tab" id="adminTab-evidence" type="button" role="tab" aria-selected="false" aria-controls="evidenceWorkspace" data-workspace-tab="evidence" title="Hình ảnh"><span class="admin-sidebar-icon" data-sidebar-icon="evidence"></span><span class="admin-sidebar-label">Hình ảnh</span></button>
         <button class="workspace-tab" id="adminTab-scores" type="button" role="tab" aria-selected="false" aria-controls="scoresWorkspace" data-workspace-tab="scores" title="Điểm thi"><span class="admin-sidebar-icon" data-sidebar-icon="scores"></span><span class="admin-sidebar-label">Điểm thi</span></button>
         <button class="workspace-tab" id="adminTab-tikz" type="button" role="tab" aria-selected="false" aria-controls="tikzWorkspace" data-workspace-tab="tikz" title="Nhập hình vẽ"><span class="admin-sidebar-icon" data-sidebar-icon="tikz"></span><span class="admin-sidebar-label">Nhập hình vẽ</span></button>
         <button class="workspace-tab" id="adminTab-contributions" type="button" role="tab" aria-selected="false" aria-controls="contributionsWorkspace" data-workspace-tab="contributions" title="Đóng góp TikZ"><span class="admin-sidebar-icon" data-sidebar-icon="contributions"></span><span class="admin-sidebar-label">Đóng góp TikZ</span></button>
@@ -78,7 +78,7 @@
     <div class="stat-box"><i class="fa-regular fa-eye-slash"></i><div class="stat-value" id="statHidden">0</div><div class="stat-label">ĐANG ẨN</div></div>
     <div class="stat-box"><i class="fa-regular fa-folder-open"></i><div class="stat-value" id="statCategories">0</div><div class="stat-label">DANH MỤC</div></div>
     <div class="stat-box"><i class="fa-solid fa-inbox"></i><div class="stat-value" id="statPendingRequests">0</div><div class="stat-label">YÊU CẦU CHỜ DUYỆT</div></div>
-    <div class="stat-box"><i class="fa-solid fa-images"></i><div class="stat-value" id="statEvidence">0</div><div class="stat-label">MINH CHỨNG ĐÃ ĐĂNG</div></div>
+    <div class="stat-box"><i class="fa-solid fa-images"></i><div class="stat-value" id="statEvidence">0</div><div class="stat-label">KẾT QUẢ ĐÃ ĐĂNG</div></div>
 </div>
 
 <div id="pdfWorkspace" class="workspace-panel active">
@@ -246,28 +246,28 @@
 </div>
 <div id="evidenceWorkspace" class="workspace-panel">
 <section class="admin-card">
-<div class="admin-title"><div><h1 id="evidenceFormTitle">Đăng minh chứng thành tích</h1><p>Ảnh được phân tích cục bộ để gợi ý dữ liệu. Hãy kiểm tra và chỉnh lại trước khi xuất bản.</p></div><button class="admin-btn ghost icon-btn" id="evidenceRefreshBtn" type="button" title="Làm mới danh sách"><i class="fa-solid fa-rotate"></i></button></div>
+<div class="admin-title"><div><h1 id="evidenceFormTitle">Đăng hình ảnh và kết quả</h1><p>Ảnh được phân tích cục bộ để gợi ý dữ liệu. Hãy kiểm tra và chỉnh lại trước khi xuất bản.</p></div><button class="admin-btn ghost icon-btn" id="evidenceRefreshBtn" type="button" title="Làm mới danh sách"><i class="fa-solid fa-rotate"></i></button></div>
 <p class="admin-help">Chọn ảnh chứng nhận, bảng điểm hoặc phản hồi. Cột trái chứa nội dung OCR và thông tin chuẩn hóa; cột phải là ảnh gốc để đối chiếu.</p>
 <form id="evidenceForm" class="admin-form">
 <input id="evidenceId" type="hidden"><input id="evidenceOldPath" type="hidden">
-<div class="field-grid"><div><label for="evidenceGroup">Nhóm minh chứng</label><select id="evidenceGroup"><option value="grade10">Luyện thi vào lớp 10</option><option value="grade12">Luyện thi tốt nghiệp THPT</option><option value="feedback">Phản hồi học sinh / phụ huynh</option></select></div><div><label for="evidenceTitle">Tiêu đề (không bắt buộc)</label><input id="evidenceTitle" maxlength="180" placeholder="Kết quả tuyển sinh lớp 10" aria-describedby="evidenceTitleHelp"><p id="evidenceTitleHelp" class="muted">Bỏ trống để dùng tiêu đề gợi ý của nhóm minh chứng.</p></div></div>
-<div><label for="evidenceImageInput">Ảnh minh chứng (không bắt buộc)</label><div id="evidenceDropZone" class="admin-drop evidence-file-drop"><input id="evidenceImageInput" class="drop-input" type="file" accept="image/png,image/jpeg,image/webp"><div class="evidence-drop-prompt"><i class="fa-regular fa-images"></i><strong>Kéo thả ảnh minh chứng vào đây</strong><span>Hoặc bấm để chọn ảnh PNG, JPG, WebP</span></div><div id="evidenceFileName" class="file-name"></div></div><button id="evidenceRemoveImage" class="admin-btn ghost" type="button" hidden>Bỏ ảnh đính kèm</button><p class="muted">Không có ảnh hoặc tắt hiển thị ảnh: thẻ dùng hình minh họa Toán học chuyển động.</p></div>
+<div class="field-grid"><div><label for="evidenceGroup">Nhóm kết quả</label><select id="evidenceGroup"><option value="grade10">Luyện thi vào lớp 10</option><option value="grade12">Luyện thi tốt nghiệp THPT</option><option value="feedback">Phản hồi học sinh / phụ huynh</option></select></div><div><label for="evidenceTitle">Tiêu đề (không bắt buộc)</label><input id="evidenceTitle" maxlength="180" placeholder="Kết quả tuyển sinh lớp 10" aria-describedby="evidenceTitleHelp"><p id="evidenceTitleHelp" class="muted">Bỏ trống để dùng tiêu đề gợi ý của nhóm kết quả.</p></div></div>
+<div><label for="evidenceImageInput">Hình ảnh (không bắt buộc)</label><div id="evidenceDropZone" class="admin-drop evidence-file-drop"><input id="evidenceImageInput" class="drop-input" type="file" accept="image/png,image/jpeg,image/webp"><div class="evidence-drop-prompt"><i class="fa-regular fa-images"></i><strong>Kéo thả hình ảnh vào đây</strong><span>Hoặc bấm để chọn ảnh PNG, JPG, WebP</span></div><div id="evidenceFileName" class="file-name"></div></div><button id="evidenceRemoveImage" class="admin-btn ghost" type="button" hidden>Bỏ ảnh đính kèm</button><p class="muted">Không có ảnh hoặc tắt hiển thị ảnh: thẻ dùng hình minh họa Toán học chuyển động.</p></div>
 <div class="evidence-layout">
-<div class="evidence-facts"><div class="evidence-facts-head"><strong><i class="fa-solid fa-wand-magic-sparkles"></i> Thông tin trích xuất</strong><button id="extractEvidenceBtn" class="admin-btn ghost" type="button"><i class="fa-solid fa-eye"></i> Phân tích ảnh</button></div><div class="field-grid"><div><label for="evidenceStudent">Tên học sinh</label><input id="evidenceStudent" maxlength="160" placeholder="Tự điền từ ảnh nếu nhận diện được"></div><div><label for="evidenceCourse">Khóa học / lớp</label><input id="evidenceCourse" maxlength="160" placeholder="Ví dụ: 12A1 · Khóa 2025-2026"></div><div><label for="evidenceSchool">Trường</label><input id="evidenceSchool" maxlength="180" placeholder="Tên trường"></div><div><label for="evidenceResult">Kết quả</label><input id="evidenceResult" maxlength="220" placeholder="Ví dụ: Đạt 9.0 điểm Toán"></div></div><div><label for="evidenceDescription">Ghi chú hiển thị</label><textarea id="evidenceDescription" maxlength="1200" placeholder="Tóm tắt minh chứng..."></textarea></div><div><label for="evidenceOcrText">Văn bản OCR</label><textarea id="evidenceOcrText" class="evidence-ocr" readonly placeholder="Chọn ảnh để trích xuất nội dung."></textarea><div id="evidenceOcrStatus" class="admin-status"></div></div></div>
-<div class="evidence-preview" id="evidencePreview"><div class="evidence-preview-empty"><i class="fa-regular fa-image"></i>Ảnh minh chứng sẽ hiển thị tại đây</div></div>
+<div class="evidence-facts"><div class="evidence-facts-head"><strong><i class="fa-solid fa-wand-magic-sparkles"></i> Thông tin trích xuất</strong><button id="extractEvidenceBtn" class="admin-btn ghost" type="button"><i class="fa-solid fa-eye"></i> Phân tích ảnh</button></div><div class="field-grid"><div><label for="evidenceStudent">Tên học sinh</label><input id="evidenceStudent" maxlength="160" placeholder="Tự điền từ ảnh nếu nhận diện được"></div><div><label for="evidenceCourse">Khóa học / lớp</label><input id="evidenceCourse" maxlength="160" placeholder="Ví dụ: 12A1 · Khóa 2025-2026"></div><div><label for="evidenceSchool">Trường</label><input id="evidenceSchool" maxlength="180" placeholder="Tên trường"></div><div><label for="evidenceResult">Kết quả</label><input id="evidenceResult" maxlength="220" placeholder="Ví dụ: Đạt 9.0 điểm Toán"></div></div><div><label for="evidenceDescription">Ghi chú hiển thị</label><textarea id="evidenceDescription" maxlength="1200" placeholder="Tóm tắt kết quả..."></textarea></div><div><label for="evidenceOcrText">Văn bản OCR</label><textarea id="evidenceOcrText" class="evidence-ocr" readonly placeholder="Chọn ảnh để trích xuất nội dung."></textarea><div id="evidenceOcrStatus" class="admin-status"></div></div></div>
+<div class="evidence-preview" id="evidencePreview"><div class="evidence-preview-empty"><i class="fa-regular fa-image"></i>Hình ảnh sẽ hiển thị tại đây</div></div>
 </div>
 <fieldset class="evidence-visibility"><legend>Thông tin hiển thị trên thẻ</legend><div class="field-grid">
 <label class="check-row"><input id="evidenceShowStudentName" type="checkbox" role="switch" checked> Tên học sinh</label>
-<label class="check-row"><input id="evidenceShowImage" type="checkbox" role="switch" checked> Ảnh minh chứng</label>
+<label class="check-row"><input id="evidenceShowImage" type="checkbox" role="switch" checked> Hình ảnh</label>
 <label class="check-row"><input id="evidenceShowCourseName" type="checkbox" role="switch" checked> Khóa học / lớp</label>
 <label class="check-row"><input id="evidenceShowSchoolName" type="checkbox" role="switch" checked> Trường</label>
 <label class="check-row"><input id="evidenceShowResultSummary" type="checkbox" role="switch" checked> Kết quả</label>
 <label class="check-row"><input id="evidenceShowDescription" type="checkbox" role="switch" checked> Ghi chú</label>
 </div><p class="muted">Tắt một trường vẫn giữ nội dung trong admin. Tên xuất hiện trong ảnh hoặc ghi chú sẽ theo tùy chọn của ảnh hoặc ghi chú đó.</p></fieldset>
-<label class="check-row"><input id="evidencePublished" type="checkbox" checked> Hiển thị trên trang minh chứng</label>
-<div class="admin-actions"><button class="admin-btn" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> <span id="evidenceSaveLabel">Đăng minh chứng</span></button><button class="admin-btn ghost" id="evidenceResetBtn" type="button">Làm mới</button></div><div id="evidenceFormStatus" class="admin-status"></div>
+<label class="check-row"><input id="evidencePublished" type="checkbox" checked> Hiển thị trên trang thành tích</label>
+<div class="admin-actions"><button class="admin-btn" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> <span id="evidenceSaveLabel">Đăng kết quả</span></button><button class="admin-btn ghost" id="evidenceResetBtn" type="button">Làm mới</button></div><div id="evidenceFormStatus" class="admin-status"></div>
 </form>
-<div class="admin-section-title">Minh chứng đã lưu</div><div id="evidenceAdminList" class="evidence-list"></div><div id="evidenceAdminPagination" class="admin-pagination"></div>
+<div class="admin-section-title">Hình ảnh và kết quả đã lưu</div><div id="evidenceAdminList" class="evidence-list"></div><div id="evidenceAdminPagination" class="admin-pagination"></div>
 </section>
 </div>
 <div id="accountWorkspace" class="workspace-panel"></div>
@@ -287,11 +287,11 @@
 <script src="assets/admin-account.js?v=20260908-sidebar-led"></script>
 <script src="assets/exam-score-paper.js?v=20260908-math-cycle"></script>
 <link rel="stylesheet" href="assets/evidence-display.css?v=20260913-fields">
-<script src="assets/evidence-display.js?v=20260913-no-sample"></script>
+<script src="assets/evidence-display.js?v=20260913-result-labels"></script>
 <script src="assets/score-submissions-admin.js?v=20260913-options"></script>
 <script src="assets/exam-score-settings-admin.js?v=20260913-options"></script>
 <script src="assets/exam-score-import-parser.js?v=20260913-options"></script>
-<script src="assets/exam-score-import.js?v=20260913-options"></script>
+<script src="assets/exam-score-import.js?v=20260913-result-labels"></script>
 <script src="assets/admin-sidebar.js?v=20260913-content"></script>
 <script>
 const SUPABASE_URL="https://uiyqdqucqplifcvukwul.supabase.co";
@@ -452,7 +452,7 @@ function reviewSetupMessage(error){
   const message=String(error?.message||'');
   const missingTable=code==='PGRST205'||code==='42P01';
   if((missingTable&&message.includes('achievement_evidence'))||(['PGRST204','42703','23502'].includes(code)&&/achievement_evidence|show_|image_path/.test(message))){
-    return '<p>Cần cập nhật bảng minh chứng để ảnh không bắt buộc và bật/tắt từng thông tin. Chạy file SQL bên dưới trong SQL Editor, sau đó bấm Làm mới danh sách.</p><div class="admin-actions"><a class="admin-btn ghost" href="supabase/migrations/20260913183000_achievement_evidence_optional_image_privacy.sql" download>Tải SQL cập nhật minh chứng</a><a class="admin-btn ghost" href="https://supabase.com/dashboard/project/uiyqdqucqplifcvukwul/sql/new" target="_blank" rel="noopener noreferrer">Mở Supabase SQL Editor</a></div>';
+    return '<p>Cần cập nhật bảng kết quả để ảnh không bắt buộc và bật/tắt từng thông tin. Chạy file SQL bên dưới trong SQL Editor, sau đó bấm Làm mới danh sách.</p><div class="admin-actions"><a class="admin-btn ghost" href="supabase/migrations/20260913183000_achievement_evidence_optional_image_privacy.sql" download>Tải SQL cập nhật kết quả</a><a class="admin-btn ghost" href="https://supabase.com/dashboard/project/uiyqdqucqplifcvukwul/sql/new" target="_blank" rel="noopener noreferrer">Mở Supabase SQL Editor</a></div>';
   }
   if(missingTable||['PGRST204','42703','PGRST200'].includes(code))return '<p>Cần bổ sung cấu hình yêu cầu tài liệu và đóng góp PDF. Chạy file SQL bên dưới trong Supabase, sau đó bấm Làm mới danh sách.</p><div class="admin-actions"><a class="admin-btn ghost" href="supabase/migrations/20260913230000_repair_material_requests_and_pdf_contributions.sql" download>Tải SQL sửa yêu cầu và PDF</a><a class="admin-btn ghost" href="https://supabase.com/dashboard/project/uiyqdqucqplifcvukwul/sql/new" target="_blank" rel="noopener noreferrer">Mở Supabase SQL Editor</a></div>';
   if(code==='42501'||code==='PGRST301'||code==='PGRST302'||/jwt|permission denied/i.test(message))return 'Không thể tải dữ liệu do phiên đăng nhập hoặc quyền truy cập. Hãy đăng nhập lại bằng tài khoản admin rồi bấm Làm mới danh sách.';
@@ -509,14 +509,14 @@ function setEvidencePreview(){
   });
 }
 function evidenceGroupLabel(group){return ({grade10:'Luyện thi vào 10',grade12:'Tốt nghiệp THPT',feedback:'Phản hồi'})[group]||group;}
-function evidenceTitleSuggestion(){return ({grade10:'Kết quả tuyển sinh lớp 10',grade12:'Kết quả tốt nghiệp THPT',feedback:'Phản hồi học sinh / phụ huynh'})[$('evidenceGroup').value]||'Minh chứng thành tích';}
+function evidenceTitleSuggestion(){return ({grade10:'Kết quả tuyển sinh lớp 10',grade12:'Kết quả tốt nghiệp THPT',feedback:'Phản hồi học sinh / phụ huynh'})[$('evidenceGroup').value]||'Hình ảnh và kết quả';}
 function updateEvidenceTitleSuggestion(){$('evidenceTitle').placeholder=evidenceTitleSuggestion();}
 function resetEvidenceForm(){
   resetEvidenceImage();evidenceImageRemoved=false;state.editingEvidenceId=null;
   $('evidenceForm').reset();$('evidenceId').value='';$('evidenceOldPath').value='';
   $('evidencePublished').checked=true;
   Object.values(evidenceFlagInputs).forEach(id=>{$(id).checked=true;});
-  $('evidenceFormTitle').textContent='Đăng minh chứng thành tích';$('evidenceSaveLabel').textContent='Đăng minh chứng';
+  $('evidenceFormTitle').textContent='Đăng hình ảnh và kết quả';$('evidenceSaveLabel').textContent='Đăng kết quả';
   $('evidenceFileName').textContent='';$('evidenceOcrStatus').textContent='';
   updateEvidenceTitleSuggestion();setEvidencePreview();setStatus('evidenceFormStatus','');
 }
@@ -525,12 +525,12 @@ function renderAchievementEvidence(){
   const root=$('evidenceAdminList');if(!root)return;
   if(state.evidenceSetupError){root.innerHTML=`<div class="review-empty">${reviewSetupMessage(state.evidenceSetupError)}</div>`;renderPagination('evidenceAdminPagination',1,1,()=>{},0,state.reviewPerPage);return;}
   const pg=pageItems(state.evidence,state.evidencePage,state.reviewPerPage);state.evidencePage=pg.page;
-  if(!state.evidence.length){root.innerHTML='<div class="review-empty"><i class="fa-regular fa-images"></i><div style="margin-top:8px">Chưa có minh chứng nào.</div></div>';renderPagination('evidenceAdminPagination',1,1,()=>{},0,state.reviewPerPage);return;}
+  if(!state.evidence.length){root.innerHTML='<div class="review-empty"><i class="fa-regular fa-images"></i><div style="margin-top:8px">Chưa có kết quả nào.</div></div>';renderPagination('evidenceAdminPagination',1,1,()=>{},0,state.reviewPerPage);return;}
   const flagLabels={show_student_name:'tên',show_image:'ảnh',show_course_name:'khóa học/lớp',show_school_name:'trường',show_result_summary:'kết quả',show_description:'ghi chú'};
   root.innerHTML=pg.items.map(item=>{
     const meta=[item.student_name&&`Học sinh: ${item.student_name}`,item.course_name&&`Khóa học: ${item.course_name}`,item.result_summary&&`Kết quả: ${item.result_summary}`].filter(Boolean).map(value=>`<span>${esc(value)}</span>`).join('');
     const hidden=Object.entries(flagLabels).filter(([key])=>item[key]===false).map(([,label])=>label).join(', ');
-    return `<article class="review-item"><div class="evidence-thumb" data-evidence-thumb="${esc(item.id)}"></div><div><h3>${esc(item.title)}</h3><div class="review-item-meta"><strong>${esc(evidenceGroupLabel(item.group_key))}</strong><span>${esc(formatDateTime(item.created_at))}</span><span class="status-pill ${item.published?'on':'off'}">${item.published?'Đang hiển thị':'Đang ẩn'}</span></div>${item.description?`<p>${esc(item.description)}</p>`:''}<div class="evidence-metadata">${meta||'<span>Chưa có thông tin trích xuất</span>'}</div>${hidden?`<p class="muted">Ẩn trên website: ${esc(hidden)}</p>`:''}</div><div class="doc-actions"><button class="admin-btn ghost icon-btn" type="button" data-evidence-edit="${esc(item.id)}" title="Sửa minh chứng"><i class="fa-solid fa-pen"></i></button><button class="admin-btn ${item.published?'danger':'success'} icon-btn" type="button" data-evidence-toggle="${esc(item.id)}" title="${item.published?'Ẩn':'Hiển thị'}"><i class="fa-solid ${item.published?'fa-eye-slash':'fa-eye'}"></i></button><button class="admin-btn danger icon-btn" type="button" data-evidence-delete="${esc(item.id)}" title="Xóa minh chứng"><i class="fa-solid fa-trash"></i></button></div></article>`;
+    return `<article class="review-item"><div class="evidence-thumb" data-evidence-thumb="${esc(item.id)}"></div><div><h3>${esc(item.title)}</h3><div class="review-item-meta"><strong>${esc(evidenceGroupLabel(item.group_key))}</strong><span>${esc(formatDateTime(item.created_at))}</span><span class="status-pill ${item.published?'on':'off'}">${item.published?'Đang hiển thị':'Đang ẩn'}</span></div>${item.description?`<p>${esc(item.description)}</p>`:''}<div class="evidence-metadata">${meta||'<span>Chưa có thông tin trích xuất</span>'}</div>${hidden?`<p class="muted">Ẩn trên website: ${esc(hidden)}</p>`:''}</div><div class="doc-actions"><button class="admin-btn ghost icon-btn" type="button" data-evidence-edit="${esc(item.id)}" title="Sửa kết quả"><i class="fa-solid fa-pen"></i></button><button class="admin-btn ${item.published?'danger':'success'} icon-btn" type="button" data-evidence-toggle="${esc(item.id)}" title="${item.published?'Ẩn':'Hiển thị'}"><i class="fa-solid ${item.published?'fa-eye-slash':'fa-eye'}"></i></button><button class="admin-btn danger icon-btn" type="button" data-evidence-delete="${esc(item.id)}" title="Xóa kết quả"><i class="fa-solid fa-trash"></i></button></div></article>`;
   }).join('');
   root.querySelectorAll('[data-evidence-thumb]').forEach(node=>{
     const item=pg.items.find(row=>String(row.id)===node.dataset.evidenceThumb);
@@ -550,7 +550,7 @@ function startEvidenceEdit(id){
   $('evidenceOcrText').value=item.ocr_text||'';$('evidencePublished').checked=!!item.published;
   Object.entries(evidenceFlagInputs).forEach(([key,input])=>{$(input).checked=item[key]!==false;});
   $('evidenceFileName').textContent=item.image_name?`Ảnh hiện tại: ${item.image_name}`:'';
-  $('evidenceFormTitle').textContent='Sửa minh chứng thành tích';$('evidenceSaveLabel').textContent='Cập nhật minh chứng';
+  $('evidenceFormTitle').textContent='Sửa hình ảnh và kết quả';$('evidenceSaveLabel').textContent='Cập nhật kết quả';
   updateEvidenceTitleSuggestion();setEvidencePreview();$('evidenceWorkspace').scrollIntoView({behavior:'smooth',block:'start'});
 }
 function loadTesseract(){if(window.Tesseract)return Promise.resolve(window.Tesseract);if(tesseractLoader)return tesseractLoader;tesseractLoader=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';script.async=true;script.onload=()=>window.Tesseract?resolve(window.Tesseract):reject(new Error('Không tải được công cụ OCR.'));script.onerror=()=>reject(new Error('Không tải được công cụ OCR.'));document.head.appendChild(script);});return tesseractLoader;}
@@ -604,7 +604,7 @@ async function saveEvidence(event){
   const controls=[...form.querySelectorAll('input,textarea,select,button')].map(node=>[node,node.disabled]);
   form.dataset.saving='true';controls.forEach(([node])=>{node.disabled=true;});evidenceOcrVersion++;
   try{
-    setStatus('evidenceFormStatus','Đang lưu minh chứng...');
+    setStatus('evidenceFormStatus','Đang lưu kết quả...');
     if(file){
       uploadedPath=evidencePath(file);
       const {error}=await supabaseClient.storage.from('achievement-evidence').upload(uploadedPath,file,{contentType:file.type,upsert:false});
@@ -621,7 +621,7 @@ async function saveEvidence(event){
     }
     await loadAchievementEvidence();resetEvidenceForm();
     setStatus('evidenceFormStatus',cleanupWarning||'Hoàn tất.',!cleanupWarning);
-    toast(cleanupWarning||'Đã lưu minh chứng.',cleanupWarning?'error':'ok');
+    toast(cleanupWarning||'Đã lưu kết quả.',cleanupWarning?'error':'ok');
   }catch(error){
     // A lost response may follow a committed save. Retain the new image unless
     // the server explicitly rejected the database write.
@@ -630,19 +630,19 @@ async function saveEvidence(event){
     }
     const needsSetup=['PGRST204','42703','23502','PGRST205','42P01'].includes(error?.code);
     if(needsSetup){state.evidenceSetupError=error;renderAchievementEvidence();}
-    setStatus('evidenceFormStatus',needsSetup?'Cần cập nhật SQL minh chứng để lưu ảnh tùy chọn và quyền hiển thị. Dùng nút tải SQL bên dưới.':error.message||'Không thể lưu minh chứng.');
-    toast('Chưa lưu được minh chứng. Hãy kiểm tra thông báo.','error');
+    setStatus('evidenceFormStatus',needsSetup?'Cần cập nhật SQL kết quả để lưu ảnh tùy chọn và quyền hiển thị. Dùng nút tải SQL bên dưới.':error.message||'Không thể lưu kết quả.');
+    toast('Chưa lưu được kết quả. Hãy kiểm tra thông báo.','error');
   }finally{delete form.dataset.saving;controls.forEach(([node,disabled])=>{node.disabled=disabled;});}
 }
-async function toggleEvidencePublished(id){const item=state.evidence.find(row=>String(row.id)===String(id));if(!item)return;const {error}=await supabaseClient.from('achievement_evidence').update({published:!item.published,updated_at:new Date().toISOString()}).eq('id',item.id);if(error){toast(error.message,'error');return;}toast(item.published?'Đã ẩn minh chứng.':'Đã hiển thị minh chứng.','ok');await loadAchievementEvidence();}
+async function toggleEvidencePublished(id){const item=state.evidence.find(row=>String(row.id)===String(id));if(!item)return;const {error}=await supabaseClient.from('achievement_evidence').update({published:!item.published,updated_at:new Date().toISOString()}).eq('id',item.id);if(error){toast(error.message,'error');return;}toast(item.published?'Đã ẩn kết quả.':'Đã hiển thị kết quả.','ok');await loadAchievementEvidence();}
 async function deleteEvidence(id){
   const item=state.evidence.find(row=>String(row.id)===String(id));if(!item)return;
-  if(!confirm(`Xóa minh chứng “${item.title}”${item.image_path?' và ảnh đã tải lên':''}?`))return;
+  if(!confirm(`Xóa kết quả “${item.title}”${item.image_path?' và ảnh đã tải lên':''}?`))return;
   const {error}=await supabaseClient.from('achievement_evidence').delete().eq('id',item.id);if(error){toast(error.message,'error');return;}
   let cleanupFailed=false;
   if(item.image_path){try{const {error:storageError}=await supabaseClient.storage.from('achievement-evidence').remove([item.image_path]);cleanupFailed=!!storageError;}catch(_){cleanupFailed=true;}}
   if(String(state.editingEvidenceId)===String(item.id))resetEvidenceForm();
-  toast(cleanupFailed?'Đã xóa minh chứng nhưng chưa xóa được ảnh trong kho.':'Đã xóa minh chứng.',cleanupFailed?'error':'ok');
+  toast(cleanupFailed?'Đã xóa kết quả nhưng chưa xóa được ảnh trong kho.':'Đã xóa kết quả.',cleanupFailed?'error':'ok');
   await loadAchievementEvidence();
 }
 
@@ -670,7 +670,7 @@ setEvidencePreview();
 </script>
 <link rel="stylesheet" href="assets/admin-bulk-actions.css?v=20260913">
 <script src="assets/admin-bulk-actions.js?v=20260913"></script>
-<script src="assets/admin-file-bulk.js?v=20260913-requests-repair"></script>
+<script src="assets/admin-file-bulk.js?v=20260913-result-labels"></script>
 <script src="assets/admin-galaxy.js?v=20260908-toggle"></script>
 <script src="assets/galaxy-streaks.js?v=20260908-brighter-streaks"></script>
 <script src="assets/galaxy-clouds.js?v=20260913-performance"></script>

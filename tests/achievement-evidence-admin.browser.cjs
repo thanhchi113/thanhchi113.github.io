@@ -93,7 +93,7 @@ function mockSdk() {
         const refresh = async text => { await page.click('#evidenceRefreshBtn'); await waitList(text); };
         const completed = () => page.waitForFunction(() => document.querySelector('#evidenceFormStatus').textContent === 'Hoàn tất.');
         await page.goto(`${origin}/admin.html#admin-evidence`);
-        await waitList('Cần cập nhật bảng minh chứng');
+        await waitList('Cần cập nhật bảng kết quả');
         const download = list.locator('a[download]');
         assert.equal(await download.count(), 1);
         const repairUrl = await download.getAttribute('href');
@@ -114,12 +114,12 @@ function mockSdk() {
         assert((await list.textContent()).includes('<img src=x onerror=alert(1)>'));
 
         state.error = null;
-        await refresh('Chưa có minh chứng nào.');
+        await refresh('Chưa có kết quả nào.');
         state.rows = [{ id: 'existing', group_key: 'grade12', title: 'Minh chứng đã lưu', student_name: 'Trần Thanh Bình', image_path: 'evidence/existing.png', image_name: 'existing.png', published: true, created_at: '2026-09-13T00:00:00Z' }];
         await refresh('Minh chứng đã lưu');
         assert((await list.textContent()).includes('Trần Thanh Bình'), 'Refresh recovers existing records after a schema error');
         await page.click('[data-evidence-delete="existing"]');
-        await waitList('Chưa có minh chứng nào.');
+        await waitList('Chưa có kết quả nào.');
         assert.deepEqual(state.storage.at(-1).files, ['evidence/existing.png']);
 
         await page.locator('#evidenceImageInput').setInputFiles({ name: 'minh-chung.png', mimeType: 'image/png', buffer: png });
@@ -166,7 +166,7 @@ function mockSdk() {
         assert.equal(state.rows[0].published, true);
         const currentPath = state.rows[0].image_path;
         await page.click(`[data-evidence-delete="${original.id}"]`);
-        await waitList('Chưa có minh chứng nào.');
+        await waitList('Chưa có kết quả nào.');
         assert.equal(state.rows.length, 0);
         assert.deepEqual(state.storage.at(-1).files, [currentPath]);
         assert.deepEqual(errors, [], 'The actual admin page has no uncaught JavaScript errors');
