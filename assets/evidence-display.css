@@ -17,12 +17,11 @@
 .evidence-media .evidence-math-paper { display: block; width: min(88%, 240px); max-width: 100%; height: auto; margin: auto; }
 .evidence-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .evidence-media-has-image { background: rgba(3, 9, 20, .24); }
-.evidence-math-paper .esp-scene-quartic { animation-name: evidence-quartic; }
+.evidence-math-paper:not([data-score-display]) .esp-scene-quartic { animation-name: evidence-quartic; }
 .evidence-name-private { display: inline-flex; align-items: center; gap: 7px; }
 .evidence-name-private::before { content: ""; display: block; width: 42px; height: 7px; border-radius: 6px; background: #a3b6cd; opacity: .5; filter: blur(3px); }
 
-/* Evidence has no numeric result to invent. Hold the completed last graph until
-   the next document cycle instead of leaving the score display phase empty. */
+/* Without a visible numeric score, hold the last graph through the LED phase. */
 @keyframes evidence-quartic {
     0%, 64%, 100% { opacity: 0; }
     66%, 96% { opacity: 1; }
@@ -42,8 +41,8 @@
     .evidence-thumb .evidence-math-paper { width: 130px; height: 154px; }
 }
 @media (prefers-reduced-motion: reduce) {
-    .evidence-math-paper .esp-graph { opacity: 1; }
-    .evidence-math-paper .esp-scene { animation: none; opacity: 0; }
-    .evidence-math-paper .esp-scene-parabola { opacity: 1; }
-    .evidence-math-paper .esp-axes, .evidence-math-paper .esp-curve { animation: none; stroke-dashoffset: 0; }
+    .evidence-math-paper:not([data-score-display]) .esp-graph { opacity: 1; }
+    .evidence-math-paper:not([data-score-display]) .esp-scene { animation: none; opacity: 0; }
+    .evidence-math-paper:not([data-score-display]) .esp-scene-parabola { opacity: 1; }
+    .evidence-math-paper:not([data-score-display]) .esp-axes, .evidence-math-paper:not([data-score-display]) .esp-curve { animation: none; stroke-dashoffset: 0; }
 }

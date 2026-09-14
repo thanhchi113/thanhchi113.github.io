@@ -19,10 +19,13 @@ function mockSdk() {
         show_student_name: false, show_course_name: false, show_school_name: false,
         show_result_summary: false, show_description: false
     });
-    Object.assign(rows[1], { image_path: 'private.jpg', show_image: false });
-    rows[2].image_path = 'public.svg';
-    rows[3].image_path = 'missing.svg';
+    Object.assign(rows[1], { image_path: 'private.jpg', show_image: false, result_summary: '9' });
+    Object.assign(rows[2], { image_path: 'public.svg', result_summary: '9,5 điểm Toán' });
+    Object.assign(rows[3], { image_path: 'missing.svg', result_summary: 'Đạt 8,75 điểm Toán' });
     rows[4].image_path = 'delayed.svg';
+    Object.assign(rows[6], { result_summary: '9,75', show_result_summary: false });
+    rows[7].result_summary = 'Đậu nguyện vọng trường Quốc Học Quy Nhơn';
+    rows[8].result_summary = 'Năm học 2025-2026';
     const client = {
         auth: { async getUser() { return { data: { user: null }, error: null }; } },
         async rpc(name, params) {
@@ -73,9 +76,22 @@ async function isolated(context) {
             page.on('pageerror', error => errors.push(error.message));
             await page.goto(`${origin}/achievements.html?type=grade10`);
             await page.waitForFunction(() => document.querySelectorAll('#evidenceGrid .evidence-card').length === 10);
+            if (!mobile) {
+                const values = ['0', '10/10', 'Điểm Toán: 9', '11', '-1', 'Toán 9 điểm, Lý 8 điểm', '', null];
+                const displays = await page.evaluate(values => values.map(result_summary => {
+                    const template = document.createElement('template');
+                    template.innerHTML = EvidenceDisplay.illustration({ result_summary });
+                    return template.content.querySelector('[data-score-display]')?.getAttribute('data-score-display') ?? null;
+                }), values);
+                assert.deepEqual(displays, ['0', '10', '9', null, null, null, null, null], 'Score parsing keeps valid endpoints and rejects out-of-range, negative and ambiguous results');
+            }
             const cards = page.locator('#evidenceGrid .evidence-card');
             assert.equal(await cards.first().locator('.evidence-math-paper').count(), 1);
             assert.equal(await cards.first().locator('img, .esp-led, [data-score-display]').count(), 0, 'Text-only evidence must not fabricate a score');
+            assert.equal(await cards.nth(1).locator('[data-score-display]').getAttribute('data-score-display'), '9', 'A numeric evidence result appears in the right illustration');
+            assert.equal(await cards.nth(1).locator('.evidence-fact').filter({ hasText: /^Điểm/ }).count(), 1, 'The public score field is labelled Điểm');
+            for (const index of [6, 7, 8]) assert.equal(await cards.nth(index).locator('.esp-led, [data-score-display]').count(), 0, 'Hidden scores and non-score text do not produce LED digits');
+            assert(!(await cards.nth(6).innerHTML()).includes('9,75'), 'A hidden score cannot leak into SVG markup or attributes');
             assert(!(await page.content()).includes('HIDDEN_'), 'Hidden fields never appear in content, HTML attributes, or accessible labels');
             assert.match(await cards.first().textContent(), /Đã ẩn tên/);
             await cards.first().locator('h2').click();
@@ -94,12 +110,32 @@ async function isolated(context) {
             await page.keyboard.press('ArrowRight');
             assert.equal(await page.locator('#achievementGalleryContent img').count(), 0);
             assert.equal(await page.locator('#achievementGalleryContent .evidence-math-paper').count(), 1);
+            assert.equal(await page.locator('#achievementGalleryContent [data-score-display]').getAttribute('data-score-display'), '9', 'Gallery carries the same student score as the card');
+            const scorePhases = await page.locator('#achievementGalleryContent .evidence-math-paper').evaluate(svg => {
+                const animations = svg.getAnimations({ subtree: true });
+                const sample = time => {
+                    for (const animation of animations) { animation.pause(); animation.currentTime = time; }
+                    return { led: getComputedStyle(svg.querySelector('.esp-led')).opacity, quartic: getComputedStyle(svg.querySelector('.esp-scene-quartic')).opacity };
+                };
+                return { graph: sample(18000), led: sample(22000) };
+            });
+            assert.equal(scorePhases.graph.led, '0', 'LED waits until the graph sequence has completed');
+            assert.deepEqual(scorePhases.led, { led: '1', quartic: '0' }, 'Completed graph gives way to the LED score without overlap');
+            await page.locator('#achievementGalleryContent .evidence-card').evaluate(card => card.getAnimations().forEach(animation => animation.finish()));
+            if (mobile) await page.locator('#achievementGalleryContent .evidence-media').scrollIntoViewIfNeeded();
+            await page.screenshot({ path: path.resolve(root, '../..', `evidence-led-${mobile ? 'mobile' : 'desktop'}.png`) });
+            await page.emulateMedia({ reducedMotion: 'reduce' });
+            const staticScore = await page.locator('#achievementGalleryContent .evidence-math-paper').evaluate(svg => ({ led: getComputedStyle(svg.querySelector('.esp-led')).opacity, graph: getComputedStyle(svg.querySelector('.esp-graph')).opacity }));
+            assert.deepEqual(staticScore, { led: '1', graph: '0' }, 'Reduced motion retains the readable score without overlapping drawings');
+            await page.emulateMedia({ reducedMotion: 'no-preference' });
             await page.keyboard.press('ArrowRight');
             await page.waitForFunction(() => document.querySelector('#achievementGalleryContent img')?.naturalWidth > 0);
             assert.match(await page.locator('#achievementGalleryContent img').getAttribute('src'), /public\.svg/);
+            assert.equal(await page.locator('#achievementGalleryContent .esp-led').count(), 0, 'An uploaded image is preserved in the right column');
             await page.keyboard.press('ArrowRight');
             await page.waitForFunction(() => evidenceMock.signs.some(row => row.file === 'missing.svg'));
             assert.equal(await page.locator('#achievementGalleryContent .evidence-math-paper').count(), 1, 'Broken image keeps the animated illustration');
+            assert.equal(await page.locator('#achievementGalleryContent [data-score-display]').getAttribute('data-score-display'), '8,75', 'A score embedded in Vietnamese text is extracted without losing decimal precision');
             await page.evaluate(() => { evidenceMock.hold = true; });
             await page.keyboard.press('ArrowRight');
             await page.waitForFunction(() => evidenceMock.held.length > 0);
@@ -142,6 +178,6 @@ async function isolated(context) {
             assert.deepEqual(errors, []);
             await context.close();
         }
-        console.log('Evidence display: desktop/mobile, hidden fields, optional/private/broken images, gallery, stale image guard, pagination, safe RPC failure and reduced motion passed.');
+        console.log('Evidence display: desktop/mobile, numeric and text-derived LED scores, animation phases, hidden fields, optional/private/broken images, gallery, stale image guard, pagination, safe RPC failure and reduced motion passed.');
     } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

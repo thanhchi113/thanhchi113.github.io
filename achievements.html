@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="assets/score-submissions.css?v=20260908-student-upload">
     <link rel="stylesheet" href="assets/galaxy-scene.css?v=20260913-detail-background">
     <link rel="stylesheet" href="assets/achievement-gallery.css?v=20260913-unified">
-    <link rel="stylesheet" href="assets/evidence-display.css?v=20260914-optional">
+    <link rel="stylesheet" href="assets/evidence-display.css?v=20260914-score-led">
     <link rel="stylesheet" href="assets/site-experience.css?v=20260913-unified">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
@@ -146,7 +146,7 @@
     <script src="assets/site-experience.js?v=20260913-unified"></script>
     <script src="assets/site-content.js?v=20260913-unified"></script>
     <script src="assets/exam-score-paper.js?v=20260908-math-cycle"></script>
-    <script src="assets/evidence-display.js?v=20260913-result-labels"></script>
+    <script src="assets/evidence-display.js?v=20260914-score-led"></script>
     <script src="assets/galaxy-streaks.js?v=20260908-brighter-streaks"></script>
     <script src="assets/galaxy-clouds.js?v=20260913-performance"></script>
     <script src="assets/achievement-gallery.js?v=20260913-card-gallery"></script>
@@ -249,7 +249,7 @@
                 visible.show_student_name ? fact("Học sinh", item.student_name) : '<div class="evidence-fact"><span>Học sinh</span><strong class="evidence-name-private">Đã ẩn tên</strong></div>',
                 visible.show_course_name ? fact("Khóa học", item.course_name) : "",
                 visible.show_school_name ? fact("Trường", item.school_name) : "",
-                visible.show_result_summary ? fact("Kết quả", item.result_summary) : ""
+                visible.show_result_summary ? fact("Điểm", item.result_summary) : ""
             ].join("");
             const zoom = detail ? "" : `<button class="evidence-zoom" type="button" title="Xem thành tích" aria-label="Phóng to card ${escapeHtml(item.title)}"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></button>`;
             card.innerHTML = `<div class="evidence-content"><div class="evidence-type">${escapeHtml(label)}</div><h2>${escapeHtml(item.title)}</h2>${visible.show_description && item.description ? `<p>${escapeHtml(item.description)}</p>` : ""}<div class="evidence-facts">${facts || '<div class="evidence-fact"><span>Thông tin</span><strong>Đang cập nhật</strong></div>'}</div></div><div class="evidence-image-wrap"><div class="evidence-media"></div>${zoom}</div>`;

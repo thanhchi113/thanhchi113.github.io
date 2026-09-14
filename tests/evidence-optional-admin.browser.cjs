@@ -125,11 +125,24 @@ function mockSdk() {
 
         assert.equal(await page.locator('#evidenceImageInput').getAttribute('required'), null, 'An attachment is optional');
         assert.equal(await page.locator('#evidenceTitle').getAttribute('required'), null, 'A title is optional');
+        assert.equal(await page.locator('label[for="evidenceResult"]').textContent(), 'Điểm', 'Admin uses the same score label as the public card');
+        assert.match(await page.locator('#evidenceShowResultSummary').locator('..').textContent(), /Điểm/, 'The visibility switch is labelled Điểm too');
         for (const id of Object.values(flags)) assert(await page.locator(`#${id}`).isChecked(), `${id} defaults to shown`);
         await page.fill('#evidenceStudent', 'Trần Thanh Bình');
         await page.fill('#evidenceCourse', '12A2 · 2026-2027');
         await page.fill('#evidenceSchool', 'THPT Nguyễn Trãi');
+        await page.fill('#evidenceResult', '9');
+        assert.equal(await preview.locator('[data-score-display]').getAttribute('data-score-display'), '9', 'Typing a score immediately updates the preview');
+        await page.fill('#evidenceResult', 'Đạt 8,75 điểm Toán');
+        assert.equal(await preview.locator('[data-score-display]').getAttribute('data-score-display'), '8,75', 'Preview extracts the score from descriptive text');
+        await page.fill('#evidenceResult', 'Đậu nguyện vọng trường Quốc Học Quy Nhơn');
+        assert.equal(await preview.locator('.esp-led, [data-score-display]').count(), 0, 'Non-score text never invents a LED score');
         await page.fill('#evidenceResult', '8,75 điểm Toán');
+        await page.locator('#evidenceShowResultSummary').uncheck();
+        assert.equal(await preview.locator('.esp-led, [data-score-display]').count(), 0, 'Turning score visibility off immediately removes the LED');
+        assert.equal(await page.inputValue('#evidenceResult'), '8,75 điểm Toán', 'Hiding the score preserves its editable source');
+        await page.locator('#evidenceShowResultSummary').check();
+        assert.equal(await preview.locator('[data-score-display]').getAttribute('data-score-display'), '8,75', 'Re-enabling visibility restores the same score');
         await page.fill('#evidenceDescription', 'Nội dung được giữ khi tắt hiển thị.');
         for (const id of Object.values(flags)) await page.locator(`#${id}`).uncheck();
         await preview.locator('.evidence-math-paper').waitFor();
@@ -173,11 +186,15 @@ function mockSdk() {
 
         await edit(existing.id);
         await preview.locator('img').waitFor();
+        assert.equal(await preview.locator('.esp-led').count(), 0, 'Existing uploaded images remain the media preview');
         await page.locator('#evidenceShowImage').uncheck();
         await page.locator('#evidenceShowStudentName').uncheck();
         await preview.locator('.evidence-math-paper').waitFor();
         const signCount = signs().length;
         await page.fill('#evidenceResult', '9,25 điểm Toán');
+        assert.equal(await preview.locator('[data-score-display]').getAttribute('data-score-display'), '9,25', 'A hidden image uses the current score in its fallback drawing');
+        await preview.scrollIntoViewIfNeeded();
+        await page.screenshot({ path: path.resolve(root, '../../evidence-led-admin-desktop.png') });
         await save();
         const current = state.rows.find(row => row.id === existing.id);
         assert.equal(current.image_path, existing.image_path, 'Hiding an attachment preserves its stored path');
@@ -185,6 +202,7 @@ function mockSdk() {
         assert.equal(current.student_name, existing.student_name, 'Hiding the name preserves editable source data');
         assert.equal(current.show_student_name, false);
         assert.equal(current.show_image, false);
+        assert.match(await list.locator('.review-item').filter({ has: page.locator(`[data-evidence-edit="${existing.id}"]`) }).textContent(), /Điểm: 9,25 điểm Toán/, 'The saved admin list labels this field Điểm');
         assert.equal(uploads().length, 0);
         assert.equal(removes().length, 0, 'Visibility changes never delete an image');
         await edit(existing.id);
@@ -256,6 +274,6 @@ function mockSdk() {
         assert(geometry.controls.every(rect => rect.left >= 0 && rect.right <= geometry.width + 1), 'All six visibility controls fit on mobile');
         await page.screenshot({ path: path.resolve(root, '../../evidence-optional-admin-mobile.png') });
         assert.deepEqual(errors, [], 'The actual admin page has no uncaught errors');
-        console.log('PASS: optional no-image creation, six independent visibility settings, private signed previews, preserved source fields, safe attachment removal/retry, stale OCR isolation, null-safe deletion, actionable schema migration and mobile layout.');
+        console.log('PASS: live LED score previews and Điểm labels, optional no-image creation, six independent visibility settings, private signed previews, preserved source fields, safe attachment removal/retry, stale OCR isolation, null-safe deletion, actionable schema migration and mobile layout.');
     } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

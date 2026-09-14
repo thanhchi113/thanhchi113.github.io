@@ -256,7 +256,7 @@
 <div class="field-grid"><div><label for="evidenceGroup">Nhóm kết quả</label><select id="evidenceGroup"><option value="grade10">Luyện thi vào lớp 10</option><option value="grade12">Luyện thi tốt nghiệp THPT</option><option value="feedback">Phản hồi học sinh / phụ huynh</option></select></div><div><label for="evidenceTitle">Tiêu đề (không bắt buộc)</label><input id="evidenceTitle" maxlength="180" placeholder="Kết quả tuyển sinh lớp 10" aria-describedby="evidenceTitleHelp"><p id="evidenceTitleHelp" class="muted">Bỏ trống để dùng tiêu đề gợi ý của nhóm kết quả.</p></div></div>
 <div><label for="evidenceImageInput">Hình ảnh (không bắt buộc)</label><div id="evidenceDropZone" class="admin-drop evidence-file-drop"><input id="evidenceImageInput" class="drop-input" type="file" accept="image/png,image/jpeg,image/webp"><div class="evidence-drop-prompt"><i class="fa-regular fa-images"></i><strong>Kéo thả hình ảnh vào đây</strong><span>Hoặc bấm để chọn ảnh PNG, JPG, WebP</span></div><div id="evidenceFileName" class="file-name"></div></div><button id="evidenceRemoveImage" class="admin-btn ghost" type="button" hidden>Bỏ ảnh đính kèm</button><p class="muted">Không có ảnh hoặc tắt hiển thị ảnh: thẻ dùng hình minh họa Toán học chuyển động.</p></div>
 <div class="evidence-layout">
-<div class="evidence-facts"><div class="evidence-facts-head"><strong><i class="fa-solid fa-wand-magic-sparkles"></i> Thông tin trích xuất</strong><button id="extractEvidenceBtn" class="admin-btn ghost" type="button"><i class="fa-solid fa-eye"></i> Phân tích ảnh</button></div><div class="field-grid"><div><label for="evidenceStudent">Tên học sinh</label><input id="evidenceStudent" maxlength="160" placeholder="Tự điền từ ảnh nếu nhận diện được"></div><div><label for="evidenceCourse">Khóa học / lớp</label><input id="evidenceCourse" maxlength="160" placeholder="Ví dụ: 12A1 · Khóa 2025-2026"></div><div><label for="evidenceSchool">Trường</label><input id="evidenceSchool" maxlength="180" placeholder="Tên trường"></div><div><label for="evidenceResult">Kết quả</label><input id="evidenceResult" maxlength="220" placeholder="Ví dụ: Đạt 9.0 điểm Toán"></div></div><div><label for="evidenceDescription">Ghi chú hiển thị</label><textarea id="evidenceDescription" maxlength="1200" placeholder="Tóm tắt kết quả..."></textarea></div><div><label for="evidenceOcrText">Văn bản OCR</label><textarea id="evidenceOcrText" class="evidence-ocr" readonly placeholder="Chọn ảnh để trích xuất nội dung."></textarea><div id="evidenceOcrStatus" class="admin-status"></div></div></div>
+<div class="evidence-facts"><div class="evidence-facts-head"><strong><i class="fa-solid fa-wand-magic-sparkles"></i> Thông tin trích xuất</strong><button id="extractEvidenceBtn" class="admin-btn ghost" type="button"><i class="fa-solid fa-eye"></i> Phân tích ảnh</button></div><div class="field-grid"><div><label for="evidenceStudent">Tên học sinh</label><input id="evidenceStudent" maxlength="160" placeholder="Tự điền từ ảnh nếu nhận diện được"></div><div><label for="evidenceCourse">Khóa học / lớp</label><input id="evidenceCourse" maxlength="160" placeholder="Ví dụ: 12A1 · Khóa 2025-2026"></div><div><label for="evidenceSchool">Trường</label><input id="evidenceSchool" maxlength="180" placeholder="Tên trường"></div><div><label for="evidenceResult">Điểm</label><input id="evidenceResult" maxlength="220" placeholder="Ví dụ: 9 hoặc 8,75 điểm Toán" aria-describedby="evidenceScoreHelp"><p id="evidenceScoreHelp" class="muted">Điểm từ 0–10 sẽ hiện dạng LED sau hiệu ứng vẽ khi thẻ dùng hình minh họa.</p></div></div><div><label for="evidenceDescription">Ghi chú hiển thị</label><textarea id="evidenceDescription" maxlength="1200" placeholder="Tóm tắt kết quả..."></textarea></div><div><label for="evidenceOcrText">Văn bản OCR</label><textarea id="evidenceOcrText" class="evidence-ocr" readonly placeholder="Chọn ảnh để trích xuất nội dung."></textarea><div id="evidenceOcrStatus" class="admin-status"></div></div></div>
 <div class="evidence-preview" id="evidencePreview"><div class="evidence-preview-empty"><i class="fa-regular fa-image"></i>Hình ảnh sẽ hiển thị tại đây</div></div>
 </div>
 <fieldset class="evidence-visibility"><legend>Thông tin hiển thị trên thẻ</legend><div class="field-grid">
@@ -264,7 +264,7 @@
 <label class="check-row"><input id="evidenceShowImage" type="checkbox" role="switch" checked> Hình ảnh</label>
 <label class="check-row"><input id="evidenceShowCourseName" type="checkbox" role="switch" checked> Khóa học / lớp</label>
 <label class="check-row"><input id="evidenceShowSchoolName" type="checkbox" role="switch" checked> Trường</label>
-<label class="check-row"><input id="evidenceShowResultSummary" type="checkbox" role="switch" checked> Kết quả</label>
+<label class="check-row"><input id="evidenceShowResultSummary" type="checkbox" role="switch" checked> Điểm</label>
 <label class="check-row"><input id="evidenceShowDescription" type="checkbox" role="switch" checked> Ghi chú</label>
 </div><p class="muted">Tắt một trường vẫn giữ nội dung trong admin. Tên xuất hiện trong ảnh hoặc ghi chú sẽ theo tùy chọn của ảnh hoặc ghi chú đó.</p></fieldset>
 <label class="check-row"><input id="evidencePublished" type="checkbox" checked> Hiển thị trên trang thành tích</label>
@@ -289,8 +289,8 @@
 <script src="assets/site-content-admin.js?v=20260913-unified"></script>
 <script src="assets/admin-account.js?v=20260908-sidebar-led"></script>
 <script src="assets/exam-score-paper.js?v=20260908-math-cycle"></script>
-<link rel="stylesheet" href="assets/evidence-display.css?v=20260913-fields">
-<script src="assets/evidence-display.js?v=20260913-result-labels"></script>
+<link rel="stylesheet" href="assets/evidence-display.css?v=20260914-score-led">
+<script src="assets/evidence-display.js?v=20260914-score-led"></script>
 <script src="assets/score-submissions-admin.js?v=20260913-options"></script>
 <script src="assets/exam-score-settings-admin.js?v=20260913-options"></script>
 <script src="assets/exam-score-import-parser.js?v=20260913-options"></script>
@@ -507,7 +507,7 @@ function setEvidencePreview(){
   $('evidenceRemoveImage').hidden=!evidencePreviewObjectUrl&&!imagePath;
   root.replaceChildren();
   const media=document.createElement('div');root.append(media);
-  evidencePreviewCleanup=window.EvidenceDisplay.mountMedia(media,{image_path:imagePath,...evidenceVisibility()},supabaseClient,{
+  evidencePreviewCleanup=window.EvidenceDisplay.mountMedia(media,{image_path:imagePath,result_summary:$('evidenceResult').value,...evidenceVisibility()},supabaseClient,{
     detail:true,localUrl:evidencePreviewObjectUrl,isCurrent:()=>version===evidencePreviewVersion
   });
 }
@@ -529,9 +529,9 @@ function renderAchievementEvidence(){
   if(state.evidenceSetupError){root.innerHTML=`<div class="review-empty">${reviewSetupMessage(state.evidenceSetupError)}</div>`;renderPagination('evidenceAdminPagination',1,1,()=>{},0,state.reviewPerPage);return;}
   const pg=pageItems(state.evidence,state.evidencePage,state.reviewPerPage);state.evidencePage=pg.page;
   if(!state.evidence.length){root.innerHTML='<div class="review-empty"><i class="fa-regular fa-images"></i><div style="margin-top:8px">Chưa có kết quả nào.</div></div>';renderPagination('evidenceAdminPagination',1,1,()=>{},0,state.reviewPerPage);return;}
-  const flagLabels={show_student_name:'tên',show_image:'ảnh',show_course_name:'khóa học/lớp',show_school_name:'trường',show_result_summary:'kết quả',show_description:'ghi chú'};
+  const flagLabels={show_student_name:'tên',show_image:'ảnh',show_course_name:'khóa học/lớp',show_school_name:'trường',show_result_summary:'điểm',show_description:'ghi chú'};
   root.innerHTML=pg.items.map(item=>{
-    const meta=[item.student_name&&`Học sinh: ${item.student_name}`,item.course_name&&`Khóa học: ${item.course_name}`,item.result_summary&&`Kết quả: ${item.result_summary}`].filter(Boolean).map(value=>`<span>${esc(value)}</span>`).join('');
+    const meta=[item.student_name&&`Học sinh: ${item.student_name}`,item.course_name&&`Khóa học: ${item.course_name}`,item.result_summary&&`Điểm: ${item.result_summary}`].filter(Boolean).map(value=>`<span>${esc(value)}</span>`).join('');
     const hidden=Object.entries(flagLabels).filter(([key])=>item[key]===false).map(([,label])=>label).join(', ');
     return `<article class="review-item"><div class="evidence-thumb" data-evidence-thumb="${esc(item.id)}"></div><div><h3>${esc(item.title)}</h3><div class="review-item-meta"><strong>${esc(evidenceGroupLabel(item.group_key))}</strong><span>${esc(formatDateTime(item.created_at))}</span><span class="status-pill ${item.published?'on':'off'}">${item.published?'Đang hiển thị':'Đang ẩn'}</span></div>${item.description?`<p>${esc(item.description)}</p>`:''}<div class="evidence-metadata">${meta||'<span>Chưa có thông tin trích xuất</span>'}</div>${hidden?`<p class="muted">Ẩn trên website: ${esc(hidden)}</p>`:''}</div><div class="doc-actions"><button class="admin-btn ghost icon-btn" type="button" data-evidence-edit="${esc(item.id)}" title="Sửa kết quả"><i class="fa-solid fa-pen"></i></button><button class="admin-btn ${item.published?'danger':'success'} icon-btn" type="button" data-evidence-toggle="${esc(item.id)}" title="${item.published?'Ẩn':'Hiển thị'}"><i class="fa-solid ${item.published?'fa-eye-slash':'fa-eye'}"></i></button><button class="admin-btn danger icon-btn" type="button" data-evidence-delete="${esc(item.id)}" title="Xóa kết quả"><i class="fa-solid fa-trash"></i></button></div></article>`;
   }).join('');
@@ -578,6 +578,7 @@ async function extractEvidenceImage(){
     }
     if(fields.feedback&&$('evidenceGroup').value==='grade10')$('evidenceGroup').value='feedback';
     updateEvidenceTitleSuggestion();
+    setEvidencePreview();
     setStatus('evidenceOcrStatus','Đã trích xuất. Hãy rà soát các trường trước khi đăng.',true);
   }catch(error){if(current())setStatus('evidenceOcrStatus','Không thể OCR ảnh này. Bạn vẫn có thể nhập thông tin thủ công.');}
 }
@@ -669,6 +670,7 @@ $('previewClose').addEventListener('click',closePreview);$('previewModal').addEv
 <script src="assets/exam-score-bulk-admin.js?v=20260914"></script>
 <script>
 Object.values(evidenceFlagInputs).forEach(id=>$(id).addEventListener('change',setEvidencePreview));
+$('evidenceResult').addEventListener('input',setEvidencePreview);
 $('evidenceRemoveImage').addEventListener('click',removeEvidenceImage);
 setEvidencePreview();
 </script>

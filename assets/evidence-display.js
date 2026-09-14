@@ -9,17 +9,32 @@
         return Object.fromEntries(flags.map(key => [key, item[key] !== false]));
     }
 
-    function illustration() {
-        if (!illustrationMarkup) {
-            const template = document.createElement("template");
-            template.innerHTML = global.ExamScorePaper.render(null);
-            const svg = template.content.querySelector("svg");
-            svg.classList.add("evidence-math-paper");
+    function scoreValue(value) {
+        if (typeof value !== "string" && typeof value !== "number") return null;
+        const text = String(value).trim();
+        const plain = text.match(/^(\d{1,2}(?:[.,]\d{1,2})?)(?:\s*\/\s*10)?$/u);
+        const candidates = plain ? [plain[1]] : [
+            ...text.matchAll(/(?:^|[^\p{L}\p{N}.,+\-/])(\d{1,2}(?:[.,]\d{1,2})?)\s*điểm(?=$|[^\p{L}\p{N}])/giu),
+            ...text.matchAll(/(?:^|[^\p{L}\p{N}])điểm(?:\s+(?:môn\s+)?toán)?\s*[:=]?\s*(\d{1,2}(?:[.,]\d{1,2})?)(?=$|[^\p{L}\p{N}.,/\-])/giu)
+        ].map(match => match[1]);
+        if (candidates.length !== 1) return null;
+        const score = Number(candidates[0].replace(",", "."));
+        return Number.isFinite(score) && score >= 0 && score <= 10 ? score : null;
+    }
+
+    function illustration(item = {}) {
+        const score = item.show_result_summary === false ? null : scoreValue(item.result_summary);
+        if (score === null && illustrationMarkup) return illustrationMarkup;
+        const template = document.createElement("template");
+        template.innerHTML = global.ExamScorePaper.render(score);
+        const svg = template.content.querySelector("svg");
+        svg.classList.add("evidence-math-paper");
+        if (score === null) {
             svg.removeAttribute("data-score-display");
             svg.querySelector(".esp-led")?.remove();
             illustrationMarkup = svg.outerHTML;
         }
-        return illustrationMarkup;
+        return svg.outerHTML;
     }
 
     async function signedImageUrl(client, path) {
@@ -40,11 +55,11 @@
         let observer;
         const current = () => !cancelled && container.isConnected && (!options.isCurrent || options.isCurrent());
         container.classList.add("evidence-media");
-        container.innerHTML = illustration();
+        container.innerHTML = illustration(item);
         const fallback = () => {
             if (!current()) return;
             container.classList.remove("evidence-media-has-image");
-            container.innerHTML = illustration();
+            container.innerHTML = illustration(item);
         };
         const visible = visibilityFlags(item);
         let localUrl = "";
