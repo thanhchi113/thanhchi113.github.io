@@ -3577,8 +3577,8 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
     stroke-dasharray:520;stroke-dashoffset:520;
     animation:ciDrawParabolaContinuous 4.4s linear infinite;
 }
-@keyframes ciDrawAxisContinuous{0%{stroke-dashoffset:190;opacity:.18}18%{stroke-dashoffset:0;opacity:.9}78%{stroke-dashoffset:0;opacity:.9}100%{stroke-dashoffset:-190;opacity:.18}}
-@keyframes ciDrawParabolaContinuous{0%{stroke-dashoffset:520;opacity:.1}15%{stroke-dashoffset:520;opacity:.72}68%{stroke-dashoffset:0;opacity:1}82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-520;opacity:.1}}
+@keyframes ciDrawAxisContinuous{0%{stroke-dashoffset:190;opacity:0}14%,100%{stroke-dashoffset:0;opacity:.9}}
+@keyframes ciDrawParabolaContinuous{0%,16%{stroke-dashoffset:520;opacity:0}20%{opacity:1}62%,100%{stroke-dashoffset:0;opacity:1}}
 
 /* Lớp 11: exact rectangular prism. 9 visible edges are solid; the 3 hidden edges are dashed. */
 .category-illustration-box .ci-box .ci-visible{
@@ -3590,9 +3590,9 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
     animation:ciBoxHiddenContinuous 4.6s linear infinite;
 }
 .category-illustration-box .ci-vertices circle{opacity:.65;animation:ciBoxVerticesContinuous 4.6s linear infinite;}
-@keyframes ciBoxVisibleContinuous{0%{stroke-dashoffset:92;opacity:.12}16%{stroke-dashoffset:0;opacity:1}74%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-92;opacity:.12}}
-@keyframes ciBoxHiddenContinuous{0%{stroke-dashoffset:100;opacity:.08}24%{stroke-dashoffset:0;opacity:.62}74%{stroke-dashoffset:0;opacity:.62}100%{stroke-dashoffset:-100;opacity:.08}}
-@keyframes ciBoxVerticesContinuous{0%{opacity:.08}18%,76%{opacity:.82}100%{opacity:.08}}
+@keyframes ciBoxVisibleContinuous{0%{stroke-dashoffset:92;opacity:0}48%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes ciBoxHiddenContinuous{0%,30%{stroke-dashoffset:0;opacity:0}62%,100%{stroke-dashoffset:0;opacity:.62}}
+@keyframes ciBoxVerticesContinuous{0%,40%{opacity:0}64%,100%{opacity:.82}}
 
 /* Lớp 12: both parabolas are drawn together, then the bounded region fills. */
 .category-illustration-area .ci-curve-primary,
@@ -3616,9 +3616,9 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
     height:120px;
     animation:ciRevealAreaLeftToRight 6s linear infinite;
 }
-@keyframes ciDrawAreaAxesContinuous{0%{stroke-dashoffset:185;opacity:.12}14%{stroke-dashoffset:0;opacity:.8}82%{stroke-dashoffset:0;opacity:.8}100%{stroke-dashoffset:-185;opacity:.12}}
-@keyframes ciDrawPairContinuous{0%{stroke-dashoffset:600;opacity:.12}12%{stroke-dashoffset:600;opacity:.9}62%{stroke-dashoffset:0;opacity:1}82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-600;opacity:.12}}
-@keyframes ciRevealAreaLeftToRight{0%,68%{width:0;opacity:0}77%{width:22px;opacity:.42}87%{width:52px;opacity:.72}96%,100%{width:78px;opacity:.94}}
+@keyframes ciDrawAreaAxesContinuous{0%{stroke-dashoffset:185;opacity:0}14%,100%{stroke-dashoffset:0;opacity:.8}}
+@keyframes ciDrawPairContinuous{0%,16%{stroke-dashoffset:600;opacity:0}20%{opacity:1}60%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes ciRevealAreaLeftToRight{0%,68%{width:0;opacity:0}70%{opacity:.94}88%,100%{width:78px;opacity:.94}}
 
 /* Ôn thi vào 10: paper outline with no text or file/PDF icon. */
 .category-illustration-paper .ci-paper{
@@ -3628,9 +3628,9 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 .category-illustration-paper .ci-paper-inner{opacity:0;animation:ciLoopPaperInnerContinuous 4.8s linear infinite;}
 .category-illustration-paper .ci-paper-line{stroke-dasharray:92;stroke-dashoffset:92;animation:ciLoopPaperLineContinuous 4.8s linear infinite;}
 .category-illustration-paper .l1{animation-delay:.65s}.category-illustration-paper .l2{animation-delay:.80s}.category-illustration-paper .l3{animation-delay:.95s}.category-illustration-paper .l4{animation-delay:1.10s}.category-illustration-paper .l5{animation-delay:1.25s}.category-illustration-paper .l6{animation-delay:1.40s}
-@keyframes ciLoopPaperContinuous{0%{stroke-dashoffset:470;opacity:.1}18%{stroke-dashoffset:320;opacity:.95}60%{stroke-dashoffset:0;opacity:1}82%{stroke-dashoffset:-120;opacity:.3}100%{stroke-dashoffset:-470;opacity:.1}}
-@keyframes ciLoopPaperInnerContinuous{0%,26%{opacity:0}42%,82%{opacity:1}100%{opacity:0}}
-@keyframes ciLoopPaperLineContinuous{0%,22%{stroke-dashoffset:92;opacity:.08}40%{stroke-dashoffset:32;opacity:.75}58%{stroke-dashoffset:0;opacity:.92}82%{stroke-dashoffset:-92;opacity:.2}100%{stroke-dashoffset:-150;opacity:.05}}
+@keyframes ciLoopPaperContinuous{0%{stroke-dashoffset:470;opacity:0}30%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes ciLoopPaperInnerContinuous{0%,30%{opacity:0}42%,100%{opacity:1}}
+@keyframes ciLoopPaperLineContinuous{0%,30%{stroke-dashoffset:92;opacity:0}58%,100%{stroke-dashoffset:0;opacity:.92}}
 
 /* Ôn thi THPT: clean Oxyz. One arrowhead per axis, labels kept completely off the lines. */
 .category-illustration-xyz .ci-axis-x,
@@ -3643,18 +3643,18 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 .category-illustration-xyz .ci-arrow{fill:var(--cat-accent,#5eead4);stroke:none;animation:ciArrowPulse 4.8s linear infinite;transform-box:fill-box;transform-origin:center;}
 .category-illustration-xyz .ci-origin{fill:var(--cat-accent,#5eead4);opacity:0;animation:ciXYZOriginContinuous 4.8s linear infinite;}
 .category-illustration-xyz .ci-label{font:700 10px/1 Arial,sans-serif;fill:#f5fbff!important;paint-order:stroke;stroke:#07101c;stroke-width:2.8px;stroke-linejoin:round;dominant-baseline:auto;}
-@keyframes ciDrawXYZContinuous{0%{stroke-dashoffset:150;opacity:.1}18%{stroke-dashoffset:0;opacity:.95}80%{stroke-dashoffset:-70;opacity:.46}100%{stroke-dashoffset:-150;opacity:.1}}
-@keyframes ciArrowPulse{0%,18%{opacity:.08;transform:scale(.84)}24%,78%{opacity:1;transform:scale(1)}90%,100%{opacity:.08;transform:scale(.84)}}
-@keyframes ciXYZOriginContinuous{0%,20%{opacity:0}26%,78%{opacity:1}100%{opacity:0}}
+@keyframes ciDrawXYZContinuous{0%{stroke-dashoffset:150;opacity:0}40%,100%{stroke-dashoffset:0;opacity:.95}}
+@keyframes ciArrowPulse{0%,40%{opacity:0;transform:scale(.84)}48%,100%{opacity:1;transform:scale(1)}}
+@keyframes ciXYZOriginContinuous{0%,40%{opacity:0}48%,100%{opacity:1}}
 
 /* Chuyên đề: statistical model — histogram bars + bell curve. */
 .category-illustration-stat .ci-chart-axis{stroke-dasharray:185;stroke-dashoffset:185;animation:ciChartAxisContinuous 5.2s linear infinite;}
 .category-illustration-stat .ci-chart-bar{transform-box:fill-box;transform-origin:center bottom;animation:ciBarGrowContinuous 5.2s ease-in-out infinite;}
 .category-illustration-stat .b1{animation-delay:.15s}.category-illustration-stat .b2{animation-delay:.26s}.category-illustration-stat .b3{animation-delay:.37s}.category-illustration-stat .b4{animation-delay:.48s}.category-illustration-stat .b5{animation-delay:.59s}.category-illustration-stat .b6{animation-delay:.70s}.category-illustration-stat .b7{animation-delay:.81s}
 .category-illustration-stat .ci-chart-curve{stroke-dasharray:320;stroke-dashoffset:320;animation:ciBellCurveContinuous 5.2s linear infinite;}
-@keyframes ciChartAxisContinuous{0%{stroke-dashoffset:185;opacity:.1}18%{stroke-dashoffset:0;opacity:.72}80%{stroke-dashoffset:-100;opacity:.38}100%{stroke-dashoffset:-185;opacity:.1}}
-@keyframes ciBarGrowContinuous{0%,15%{transform:scaleY(.08);opacity:.16}32%,78%{transform:scaleY(1);opacity:.95}100%{transform:scaleY(.08);opacity:.16}}
-@keyframes ciBellCurveContinuous{0%{stroke-dashoffset:320;opacity:.08}18%{stroke-dashoffset:320;opacity:.25}66%{stroke-dashoffset:0;opacity:1}82%{stroke-dashoffset:-90;opacity:.42}100%{stroke-dashoffset:-320;opacity:.08}}
+@keyframes ciChartAxisContinuous{0%{stroke-dashoffset:185;opacity:0}14%,100%{stroke-dashoffset:0;opacity:.72}}
+@keyframes ciBarGrowContinuous{0%,16%{transform:scaleY(0);opacity:0}52%,100%{transform:scaleY(1);opacity:.95}}
+@keyframes ciBellCurveContinuous{0%,20%{stroke-dashoffset:320;opacity:0}24%{opacity:1}66%,100%{stroke-dashoffset:0;opacity:1}}
 
 
 #documents .category-card-illustration .ci-label{fill:#f5fbff!important;}
@@ -3670,23 +3670,28 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
 <style id="category-illustration-cycle-v1">
 #documents .category-illustration-cycle{position:relative;width:100%;max-width:226px;aspect-ratio:3/2;isolation:isolate}
-#documents .category-illustration-cycle .ci-cycle-frame{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transform:scale(.965);transition:opacity .42s ease,transform .42s ease;pointer-events:none}
-#documents .category-illustration-cycle .ci-cycle-frame.is-active{opacity:1;transform:scale(1);animation:ciSceneClock var(--ci-scene-duration,5600ms) linear 1 both}
+#documents .category-illustration-cycle .ci-cycle-frame{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:none;pointer-events:none}
+#documents .category-illustration-cycle .ci-cycle-frame.is-active{opacity:1;animation:ciSceneClock var(--ci-scene-duration,8000ms) linear 1 both}
 #documents .category-illustration-cycle .ci-cycle-frame svg{position:absolute!important;inset:0;width:100%!important;height:100%!important;max-width:none!important}
+#documents .category-illustration-cycle .ci-cycle-frame *{animation-duration:calc(var(--ci-scene-duration,8000ms) - var(--ci-part-delay,0ms))!important;animation-delay:var(--ci-part-delay,0ms)!important}
 #documents .category-illustration-cycle .ci-cycle-frame:not(.is-active) *{animation-play-state:paused!important}
 #documents .category-illustration-cycle .ci-cycle-frame.is-active *{animation-iteration-count:1!important;animation-fill-mode:both!important}
 #documents .category-illustration-cycle .ci-cycle-frame.is-complete *{animation-iteration-count:1!important;animation-fill-mode:both!important;animation-play-state:paused!important}
 #documents .category-illustration-cycle .ci-cycle-frame.is-resetting,#documents .category-illustration-cycle .ci-cycle-frame.is-resetting *{animation:none!important}
-@keyframes ciSceneClock{from{outline-color:transparent}to{outline-color:transparent}}
+/* The scene clock owns the fade; completed strokes remain intact until it ends. */
+@keyframes ciSceneClock{0%{opacity:0}4%,94%{opacity:1}100%{opacity:0}}
+.category-illustration-paper .l1{--ci-part-delay:650ms}.category-illustration-paper .l2{--ci-part-delay:800ms}.category-illustration-paper .l3{--ci-part-delay:950ms}.category-illustration-paper .l4{--ci-part-delay:1100ms}.category-illustration-paper .l5{--ci-part-delay:1250ms}.category-illustration-paper .l6{--ci-part-delay:1400ms}
+.category-illustration-stat .b1{--ci-part-delay:150ms}.category-illustration-stat .b2{--ci-part-delay:260ms}.category-illustration-stat .b3{--ci-part-delay:370ms}.category-illustration-stat .b4{--ci-part-delay:480ms}.category-illustration-stat .b5{--ci-part-delay:590ms}.category-illustration-stat .b6{--ci-part-delay:700ms}.category-illustration-stat .b7{--ci-part-delay:810ms}
+.category-illustration-xyz .ci-axis-y{--ci-part-delay:120ms}.category-illustration-xyz .ci-axis-z{--ci-part-delay:240ms}
 
 /* Each scene completes its line drawing before the card rotates to the next one. */
 .category-illustration-parabola .ci-axis-x,.category-illustration-parabola .ci-axis-y,.category-illustration-parabola .ci-parabola{animation-duration:5.6s!important}
 .category-illustration-pyramid .ci-visible{stroke-dasharray:180;stroke-dashoffset:180;stroke-linecap:round;stroke-linejoin:round;animation:ciPyramidVisible 5.8s linear infinite}
 .category-illustration-pyramid .ci-hidden{stroke-dasharray:6 6;stroke-dashoffset:120;animation:ciPyramidHidden 5.8s linear infinite}
 .category-illustration-pyramid .ci-vertex{opacity:0;animation:ciPyramidVertex 5.8s linear infinite}
-@keyframes ciPyramidVisible{0%{stroke-dashoffset:180;opacity:.1}16%{stroke-dashoffset:180;opacity:.75}65%{stroke-dashoffset:0;opacity:1}84%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-180;opacity:.1}}
-@keyframes ciPyramidHidden{0%,27%{stroke-dashoffset:120;opacity:.06}67%{stroke-dashoffset:0;opacity:.6}84%{stroke-dashoffset:0;opacity:.6}100%{stroke-dashoffset:-120;opacity:.05}}
-@keyframes ciPyramidVertex{0%,40%{opacity:0}60%,84%{opacity:.82}100%{opacity:0}}
+@keyframes ciPyramidVisible{0%,12%{stroke-dashoffset:180;opacity:0}16%{opacity:1}60%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes ciPyramidHidden{0%,30%{stroke-dashoffset:0;opacity:0}64%,100%{stroke-dashoffset:0;opacity:.6}}
+@keyframes ciPyramidVertex{0%,40%{opacity:0}64%,100%{opacity:.82}}
 .category-illustration-cycle .category-illustration-box .ci-box .ci-visible{animation-duration:5.8s}
 .category-illustration-cycle .category-illustration-box .ci-box .ci-hidden{animation-duration:5.8s}
 .category-illustration-cycle .category-illustration-box .ci-vertices circle{animation-duration:5.8s}
@@ -3698,24 +3703,36 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 .category-illustration-cubic-area .ci-intersection{opacity:0;transform-box:fill-box;transform-origin:center;animation:ciShowCubicIntersections 7.2s linear infinite}
 .category-illustration-cubic-area .ci-area{fill:var(--cat-area)!important;stroke:none!important;opacity:.94}
 .category-illustration-cubic-area .ci-area-reveal{width:0;animation:ciRevealCubicArea 7.2s linear infinite}
-@keyframes ciDrawCubicAxes{0%{stroke-dashoffset:185;opacity:.1}13%{stroke-dashoffset:0;opacity:.82}84%{stroke-dashoffset:0;opacity:.82}100%{stroke-dashoffset:-185;opacity:.1}}
-@keyframes ciDrawCubicPair{0%,12%{stroke-dashoffset:700;opacity:.1}58%{stroke-dashoffset:0;opacity:1}84%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-700;opacity:.1}}
-@keyframes ciShowCubicIntersections{0%,58%{opacity:0;transform:scale(.35)}64%,84%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.35)}}
-@keyframes ciRevealCubicArea{0%,68%{width:0;opacity:0}77%{width:24px;opacity:.42}89%,100%{width:66px;opacity:.94}}
+@keyframes ciDrawCubicAxes{0%{stroke-dashoffset:185;opacity:0}14%,100%{stroke-dashoffset:0;opacity:.82}}
+@keyframes ciDrawCubicPair{0%,16%{stroke-dashoffset:700;opacity:0}20%{opacity:1}60%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes ciShowCubicIntersections{0%,60%{opacity:0;transform:scale(.35)}66%,100%{opacity:1;transform:scale(1)}}
+@keyframes ciRevealCubicArea{0%,68%{width:0;opacity:0}70%{opacity:.94}88%,100%{width:66px;opacity:.94}}
 
 /* The original parabolic area remains the first Lớp 12 scene. */
 .category-illustration-cycle .category-illustration-area .ci-axis-x,.category-illustration-cycle .category-illustration-area .ci-axis-y,.category-illustration-cycle .category-illustration-area .ci-curve-primary,.category-illustration-cycle .category-illustration-area .ci-curve-secondary,.category-illustration-cycle .category-illustration-area .ci-area-reveal{animation-duration:7.2s!important}
 .category-illustration-area .ci-intersection{opacity:0;transform-box:fill-box;transform-origin:center;animation:ciShowParabolaIntersections 7.2s linear infinite}
-@keyframes ciShowParabolaIntersections{0%,58%{opacity:0;transform:scale(.35)}64%,84%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.35)}}
+@keyframes ciShowParabolaIntersections{0%,60%{opacity:0;transform:scale(.35)}66%,100%{opacity:1;transform:scale(1)}}
 
 /* Ôn thi THPT alternates the existing Oxyz reference with a cubic Oxy sketch. */
 .category-illustration-cycle .category-illustration-xyz .ci-axis-x,.category-illustration-cycle .category-illustration-xyz .ci-axis-y,.category-illustration-cycle .category-illustration-xyz .ci-axis-z,.category-illustration-cycle .category-illustration-xyz .ci-arrow,.category-illustration-cycle .category-illustration-xyz .ci-origin{animation-duration:6s!important}
 .category-illustration-cubic-oxy .ci-axis-x,.category-illustration-cubic-oxy .ci-axis-y{stroke-dasharray:185;stroke-dashoffset:185;animation:ciDrawCubicOxyAxes 6s linear infinite}
 .category-illustration-cubic-oxy .ci-cubic-curve{stroke:var(--cat-accent-2,#2dd4bf)!important;stroke-width:2.2!important;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:640;stroke-dashoffset:640;animation:ciDrawCubicOxy 6s linear infinite}
-@keyframes ciDrawCubicOxyAxes{0%{stroke-dashoffset:185;opacity:.1}18%{stroke-dashoffset:0;opacity:.86}84%{stroke-dashoffset:0;opacity:.86}100%{stroke-dashoffset:-185;opacity:.1}}
-@keyframes ciDrawCubicOxy{0%,18%{stroke-dashoffset:640;opacity:.1}70%{stroke-dashoffset:0;opacity:1}86%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-640;opacity:.1}}
+@keyframes ciDrawCubicOxyAxes{0%{stroke-dashoffset:185;opacity:0}14%,100%{stroke-dashoffset:0;opacity:.86}}
+@keyframes ciDrawCubicOxy{0%,16%{stroke-dashoffset:640;opacity:0}20%{opacity:1}62%,100%{stroke-dashoffset:0;opacity:1}}
+.category-illustration-sine .ci-axis-x,.category-illustration-sine .ci-axis-y{stroke-dasharray:240;stroke-dashoffset:240;animation:ciDrawSineAxes 8s linear both}
+.category-illustration-sine .ci-sine-curve{stroke-width:2.3!important;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:640;stroke-dashoffset:640;animation:ciDrawCubicOxy 8s linear both}
+.category-illustration-sine .ci-label{font:500 10px/1 var(--font-ui,sans-serif)}
+.category-illustration-sine .ci-formula{font-size:13px;font-style:italic}
+@keyframes ciDrawSineAxes{0%{stroke-dashoffset:240;opacity:0}14%,100%{stroke-dashoffset:0;opacity:.86}}
 @media(max-width:700px){#documents .category-illustration-cycle{max-width:148px}}
-@media(prefers-reduced-motion:reduce){#documents .category-illustration-cycle .ci-cycle-frame:not(:first-child){display:none}.category-illustration-cycle .ci-cycle-frame:first-child{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+    #documents .category-illustration-cycle .ci-cycle-frame:not(:first-child){display:none}
+    #documents .category-illustration-cycle .ci-cycle-frame,#documents .category-illustration-cycle .ci-cycle-frame *{animation:none!important}
+    #documents .category-illustration-cycle .ci-cycle-frame:first-child{opacity:1}
+    #documents .category-illustration-cycle .ci-cycle-frame:first-child *{stroke-dashoffset:0;opacity:1;transform:none}
+    #documents .category-illustration-area .ci-area-reveal{width:78px}
+    #documents .category-illustration-cubic-area .ci-area-reveal{width:66px}
+}
 </style>
 
 <style id="performance-optimizations">
@@ -5344,8 +5361,8 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
         let categoryIllustrationTimers = [];
 
-        function categoryIllustrationCycle(duration, frames) {
-            return `<div class="category-illustration-cycle" data-cycle-duration="${duration}">${frames.map((frame, index) => `<div class="ci-cycle-frame${index === 0 ? " is-active" : ""}">${frame}</div>`).join("")}</div>`;
+        function categoryIllustrationCycle(frames) {
+            return `<div class="category-illustration-cycle" data-cycle-duration="8000">${frames.map((frame, index) => `<div class="ci-cycle-frame${index === 0 ? " is-active" : ""}">${frame}</div>`).join("")}</div>`;
         }
 
         function clearCategoryIllustrationTimers() {
@@ -5355,10 +5372,9 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
         function startCategoryIllustrationCycles(root) {
             clearCategoryIllustrationTimers();
-            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+            const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
             root.querySelectorAll(".category-illustration-cycle").forEach(cycle => {
-                if (cycle.querySelectorAll(".ci-cycle-frame").length < 2) return;
-                const duration = Number(cycle.dataset.cycleDuration) || 5600;
+                const duration = Number(cycle.dataset.cycleDuration) || 8000;
                 cycle.style.setProperty("--ci-scene-duration", `${duration}ms`);
 
                 const activateScene = index => {
@@ -5383,6 +5399,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 };
 
                 const onSceneComplete = event => {
+                    if (reducedMotion.matches) return;
                     if (event.animationName !== "ciSceneClock" || event.target.parentElement !== cycle || !event.target.classList.contains("is-active")) return;
                     const frames = [...cycle.querySelectorAll(".ci-cycle-frame")];
                     const activeIndex = frames.indexOf(event.target);
@@ -5390,7 +5407,12 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 };
 
                 cycle.addEventListener("animationend", onSceneComplete);
-                categoryIllustrationTimers.push(() => cycle.removeEventListener("animationend", onSceneComplete));
+                const onMotionChange = () => activateScene(0);
+                reducedMotion.addEventListener("change", onMotionChange);
+                categoryIllustrationTimers.push(() => {
+                    cycle.removeEventListener("animationend", onSceneComplete);
+                    reducedMotion.removeEventListener("change", onMotionChange);
+                });
                 activateScene(0);
             });
         }
@@ -5399,7 +5421,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             const key = String(name || "").trim();
             const common = 'viewBox="0 0 240 160" role="img" aria-hidden="true" focusable="false"';
 
-            if (key === "Lớp 10") return categoryIllustrationCycle(5600, [
+            if (key === "Lớp 10") return categoryIllustrationCycle([
                 `<svg class="category-illustration category-illustration-parabola" ${common}>
                     <g class="ci-axis"><path class="ci-axis-x" d="M28 110H214"/><path class="ci-axis-y" d="M105 145V18"/><path class="ci-axis" d="M208 106L214 110L208 114 M101 24L105 18L109 24"/></g>
                     <path class="ci-parabola" pathLength="520" d="M55.5 74.6 C72 98 86 110 105 110 C124 110 138 98 154.5 74.6"/>
@@ -5412,18 +5434,22 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 </svg>`
             ]);
 
-            if (key === "Lớp 11") return categoryIllustrationCycle(5800, [
-                `<svg class="category-illustration category-illustration-pyramid" ${common}>
-                    <g class="ci-pyramid">
-                        <path class="ci-hidden" d="M96 82H184 M124 23L96 82 M96 82L61 117"/>
-                        <path class="ci-visible" d="M61 117H151L184 82 M124 23L61 117 M124 23L151 117 M124 23L184 82"/>
-                    </g>
-                    <g class="ci-vertices"><circle class="ci-vertex" cx="124" cy="23" r="2.4"/><circle class="ci-vertex" cx="61" cy="117" r="2.4"/><circle class="ci-vertex" cx="151" cy="117" r="2.4"/><circle class="ci-vertex" cx="184" cy="82" r="2.4"/><circle class="ci-vertex" cx="96" cy="82" r="2.4"/></g>
+            if (key === "Lớp 11") return categoryIllustrationCycle([
+                `<svg class="category-illustration category-illustration-sine" ${common}>
+                    <g class="ci-axis"><path class="ci-axis-x" d="M18 84H226"/><path class="ci-axis-y" d="M120 137V24"/><path d="M220 80L226 84L220 88 M116 30L120 24L124 30"/></g>
+                    <path class="ci-sine-curve" pathLength="640" d="${Array.from({ length: 161 }, (_, index) => {
+                        const x = -2 * Math.PI + index * Math.PI / 40;
+                        return `${index ? "L" : "M"}${(120 + x * 48 / Math.PI).toFixed(2)} ${(84 - 34 * Math.sin(x)).toFixed(2)}`;
+                    }).join(" ")}"/>
+                    <g class="ci-axis"><path d="M24 81V87 M72 81V87 M168 81V87 M216 81V87 M117 50H123 M117 118H123"/></g>
+                    <text class="ci-label" x="225" y="76">x</text><text class="ci-label" x="126" y="28">y</text><text class="ci-label" x="109" y="98">O</text>
+                    <text class="ci-label" x="24" y="100" text-anchor="middle">−2π</text><text class="ci-label" x="72" y="100" text-anchor="middle">−π</text><text class="ci-label" x="168" y="100" text-anchor="middle">π</text><text class="ci-label" x="216" y="100" text-anchor="middle">2π</text>
+                    <text class="ci-label" x="109" y="53">1</text><text class="ci-label" x="104" y="121">−1</text><text class="ci-label ci-formula" x="164" y="29">y = sin x</text>
                 </svg>`,
                 `<svg class="category-illustration category-illustration-pyramid" ${common}>
                     <g class="ci-pyramid">
                         <path class="ci-hidden" d="M59 80L183 104"/>
-                        <path class="ci-visible" d="M80 124L59 80 M80 124L183 104 M122 22L59 80 M122 22L80 124 M122 22L183 104"/>
+                        <path class="ci-visible" pathLength="180" d="M80 124L59 80 M80 124L183 104 M122 22L59 80 M122 22L80 124 M122 22L183 104"/>
                     </g>
                     <g class="ci-vertices"><circle class="ci-vertex" cx="122" cy="22" r="2.4"/><circle class="ci-vertex" cx="59" cy="80" r="2.4"/><circle class="ci-vertex" cx="80" cy="124" r="2.4"/><circle class="ci-vertex" cx="183" cy="104" r="2.4"/></g>
                 </svg>`,
@@ -5438,7 +5464,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 </svg>`
             ]);
 
-            if (key === "Lớp 12") return categoryIllustrationCycle(7200, [
+            if (key === "Lớp 12") return categoryIllustrationCycle([
                 `<svg class="category-illustration category-illustration-area" ${common}>
                     <defs><clipPath id="ciParabolaReveal"><rect class="ci-area-reveal" x="79" y="24" width="0" height="120"/></clipPath></defs>
                     <g class="ci-axis"><path class="ci-axis-x" d="M28 92H214"/><path class="ci-axis-y" d="M105 142V20"/><path class="ci-axis" d="M208 88L214 92L208 96 M101 26L105 20L109 26"/></g>
@@ -5459,7 +5485,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 </svg>`
             ]);
 
-            if (key === "Ôn thi THPT") return categoryIllustrationCycle(6240, [
+            if (key === "Ôn thi THPT") return categoryIllustrationCycle([
                 `<svg class="category-illustration category-illustration-xyz" ${common}>
                     <g class="ci-axis"><path class="ci-axis-x" d="M72 108H202"/><path class="ci-axis-y" d="M72 108L34 130"/><path class="ci-axis-z" d="M72 108V22"/></g>
                     <polygon class="ci-arrow" points="202,103 214,108 202,113"/><polygon class="ci-arrow" points="36,124 25,135 40,133"/><polygon class="ci-arrow" points="67,24 72,12 77,24"/><circle class="ci-origin" cx="72" cy="108" r="3"/>
@@ -5532,11 +5558,11 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 <text class="ci-label" x="88" y="108">O</text>
             </svg>`;
 
-            if (key === "Ôn thi vào 10") return `<svg class="category-illustration category-illustration-paper" ${common}>
+            if (key === "Ôn thi vào 10") return categoryIllustrationCycle([`<svg class="category-illustration category-illustration-paper" ${common}>
                 <rect class="ci-paper" x="60" y="18" width="116" height="124" rx="5"/>
                 <rect class="ci-paper-inner" x="71" y="30" width="94" height="8" rx="2"/>
                 <path class="ci-paper-line l1" d="M71 52H157"/><path class="ci-paper-line l2" d="M71 67H153"/><path class="ci-paper-line l3" d="M71 82H159"/><path class="ci-paper-line l4" d="M71 97H149"/><path class="ci-paper-line l5" d="M71 112H156"/><path class="ci-paper-line l6" d="M71 127H139"/>
-            </svg>`;
+            </svg>`]);
 
             if (key === "Ôn thi THPT") return `<svg class="category-illustration category-illustration-xyz" ${common}>
                 <g class="ci-axis">
@@ -5556,7 +5582,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 <text class="ci-label" x="79" y="16">z</text>
             </svg>`;
 
-            if (key === "Chuyên đề") return `<svg class="category-illustration category-illustration-stat" ${common}>
+            if (key === "Chuyên đề") return categoryIllustrationCycle([`<svg class="category-illustration category-illustration-stat" ${common}>
                 <g class="ci-chart-axis">
                     <path d="M28 130H212"/>
                     <path d="M38 138V34"/>
@@ -5571,9 +5597,9 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                     <rect class="ci-chart-bar b7" x="170" y="101" width="15" height="29" rx="1.5"/>
                 </g>
                 <path class="ci-chart-curve" pathLength="320" d="M42 111 C60 106 70 90 82 71 C95 50 108 39 119 38 C131 37 144 49 157 70 C169 88 181 104 198 110"/>
-            </svg>`;
+            </svg>`]);
 
-            return `<svg class="category-illustration category-illustration-stat" ${common}><path class="ci-chart-axis" d="M28 130H212 M38 138V34"/><path class="ci-chart-curve" d="M42 111 C70 102 78 46 119 38 C158 45 167 103 198 110"/></svg>`;
+            return categoryIllustrationCycle([`<svg class="category-illustration category-illustration-stat" ${common}><path class="ci-chart-axis" d="M28 130H212 M38 138V34"/><path class="ci-chart-curve" d="M42 111 C70 102 78 46 119 38 C158 45 167 103 198 110"/></svg>`]);
         }
         function getCategoryIcon(name) {
             return documentIconMap[name] || "fa-folder-open";
