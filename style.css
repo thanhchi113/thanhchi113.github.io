@@ -4704,6 +4704,10 @@ body.modal-open { overflow:hidden; }
 }
 
 /* Contact QR shortcuts */
+.zalo-brand-icon { display: block; flex-shrink: 0; object-fit: contain; }
+.hero-socials .zalo-brand-icon { position: relative; z-index: 1; width: 28px; height: 28px; }
+.contact-icon-zalo .zalo-brand-icon { width: 32px; height: 32px; }
+.hero-socials a:focus-visible { outline: 2px solid #a8dcff; outline-offset: 4px; }
 .contact-icon-zalo { color: #58c6ff !important; background: rgba(45, 212, 191, .12) !important; border-color: rgba(45, 212, 191, .28) !important; }
 .contact-qr-panel { margin-top: 26px; padding: 16px; border: 1px solid rgba(164, 199, 247, .2); border-radius: 17px; background: linear-gradient(135deg, rgba(108, 164, 232, .1), rgba(145, 106, 224, .1)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 14px 35px rgba(0, 0, 0, .16); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 .contact-qr-copy { display: grid; gap: 4px; margin-bottom: 12px; }

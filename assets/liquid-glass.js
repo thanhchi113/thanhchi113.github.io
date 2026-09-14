@@ -33,7 +33,7 @@
     }
     document.addEventListener("pointermove", event => {
         if (!pointer.matches || reduced.matches || event.pointerType === "touch") return;
-        const card = event.target.closest(".liquid-glass-card");
+        const card = event.target.closest(".liquid-glass-card,.hero-about-button");
         if (card !== active) { clear(); active = card; }
         if (!active) return;
         x = event.clientX; y = event.clientY;
