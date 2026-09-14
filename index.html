@@ -3724,6 +3724,30 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 .category-illustration-sine .ci-label{font:500 10px/1 var(--font-ui,sans-serif)}
 .category-illustration-sine .ci-formula{font-size:13px;font-style:italic}
 @keyframes ciDrawSineAxes{0%{stroke-dashoffset:240;opacity:0}14%,100%{stroke-dashoffset:0;opacity:.86}}
+/* Exam illustrations follow the same draw, hold, then fade sequence. */
+.category-illustration-variation .ci-table-grid{stroke-dasharray:1;stroke-dashoffset:1;animation:ciDrawVariationTable 8s linear both}
+.category-illustration-variation .ci-table-label{font:500 13px/1 var(--font-ui,sans-serif);fill:#f5fbff;opacity:0;animation:ciShowVariationLabels 8s linear both}
+.category-illustration-variation .ci-table-formula{font-size:15px;font-style:italic}
+.category-illustration-variation .ci-variation-arrow{stroke-width:1.9!important;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:ciDrawVariationArrow 8s linear both}
+.category-illustration-variation .ci-variation-head{fill:var(--cat-accent);stroke:none;opacity:0;animation:ciShowVariationHead 8s linear both}
+.category-illustration-variation .ci-variation-step-2{--ci-part-delay:1800ms}
+.category-illustration-variation .ci-variation-step-3{--ci-part-delay:3600ms}
+@keyframes ciDrawVariationTable{0%{stroke-dashoffset:1;opacity:0}20%,100%{stroke-dashoffset:0;opacity:.72}}
+@keyframes ciShowVariationLabels{0%,20%{opacity:0}30%,100%{opacity:1}}
+@keyframes ciDrawVariationArrow{0%,24%{stroke-dashoffset:1;opacity:0}26%{opacity:1}40%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes ciShowVariationHead{0%,38%{opacity:0}40%,100%{opacity:1}}
+#documents .category-illustration-sector .ci-sector-fill{fill:var(--cat-area);stroke:none}
+.category-illustration-sector .ci-sector-reveal{width:0;animation:ciRevealSector 8s linear both}
+.category-illustration-sector .ci-circle-outline{stroke-width:2!important;stroke-dasharray:1;stroke-dashoffset:1;animation:ciDrawCircle 8s linear both}
+.category-illustration-sector .ci-radius{stroke-width:1.9!important;stroke-dasharray:1;stroke-dashoffset:1;animation:ciDrawRadii 8s linear both}
+.category-illustration-sector .ci-sector-center,.category-illustration-sector .ci-center-label{opacity:0;animation:ciShowCircleCenter 8s linear both}
+.category-illustration-sector .ci-radius-label{opacity:0;animation:ciShowRadiusLabels 8s linear both}
+.category-illustration-sector .ci-label{font:500 13px/1 var(--font-ui,sans-serif)}
+@keyframes ciShowCircleCenter{0%{opacity:0}8%,100%{opacity:1}}
+@keyframes ciDrawCircle{0%,8%{stroke-dashoffset:1;opacity:0}10%{opacity:1}40%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes ciDrawRadii{0%,42%{stroke-dashoffset:1;opacity:0}44%{opacity:1}60%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes ciShowRadiusLabels{0%,52%{opacity:0}60%,100%{opacity:1}}
+@keyframes ciRevealSector{0%,64%{width:0}86%,100%{width:104px}}
 @media(max-width:700px){#documents .category-illustration-cycle{max-width:148px}}
 @media(prefers-reduced-motion:reduce){
     #documents .category-illustration-cycle .ci-cycle-frame:not(:first-child){display:none}
@@ -3732,6 +3756,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
     #documents .category-illustration-cycle .ci-cycle-frame:first-child *{stroke-dashoffset:0;opacity:1;transform:none}
     #documents .category-illustration-area .ci-area-reveal{width:78px}
     #documents .category-illustration-cubic-area .ci-area-reveal{width:66px}
+    #documents .category-illustration-sector .ci-sector-reveal{width:104px}
 }
 </style>
 
@@ -5495,6 +5520,27 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                     <g class="ci-axis"><path class="ci-axis-x" d="M28 102H214"/><path class="ci-axis-y" d="M105 142V19"/><path class="ci-axis" d="M208 98L214 102L208 106 M101 25L105 19L109 25"/></g>
                     <path class="ci-cubic-curve" pathLength="640" d="M45 126 C64 131 76 113 86 91 C95 70 109 58 123 69 C140 82 148 117 162 125 C177 134 188 110 200 62"/>
                     <text class="ci-label" x="211" y="93">x</text><text class="ci-label" x="112" y="17">y</text><text class="ci-label" x="88" y="118">O</text>
+                </svg>`,
+                `<svg class="category-illustration category-illustration-variation" ${common}>
+                    <text class="ci-table-label ci-table-formula" x="124" y="20" text-anchor="middle">y = x³ − 3x</text>
+                    <path class="ci-table-grid" pathLength="1" d="M14 32H228V146H14Z"/>
+                    <path class="ci-table-grid" pathLength="1" d="M42 32V146"/>
+                    <path class="ci-table-grid" pathLength="1" d="M14 58H228"/>
+                    <path class="ci-table-grid" pathLength="1" d="M14 85H228"/>
+                    <g class="ci-table-label" text-anchor="middle">
+                        <text x="28" y="50">x</text><text x="60" y="50">−∞</text><text x="112" y="50">−1</text><text x="162" y="50">1</text><text x="214" y="50">+∞</text>
+                        <text x="28" y="77">y′</text><text x="85" y="77">+</text><text x="112" y="77">0</text><text x="137" y="77">−</text><text x="162" y="77">0</text><text x="188" y="77">+</text>
+                        <text x="28" y="120">y</text><text x="60" y="138">−∞</text><text x="112" y="103">2</text><text x="162" y="138">−2</text><text x="214" y="103">+∞</text>
+                    </g>
+                    <g class="ci-variation-step">
+                        <path class="ci-variation-arrow" pathLength="1" d="M69 124L102 109"/><polygon class="ci-variation-head" points="102,109 96,109 99,115"/>
+                    </g>
+                    <g class="ci-variation-step ci-variation-step-2">
+                        <path class="ci-variation-arrow" pathLength="1" d="M122 109L153 124"/><polygon class="ci-variation-head" points="153,124 150,118 147,124"/>
+                    </g>
+                    <g class="ci-variation-step ci-variation-step-3">
+                        <path class="ci-variation-arrow" pathLength="1" d="M173 124L205 109"/><polygon class="ci-variation-head" points="205,109 199,109 202,115"/>
+                    </g>
                 </svg>`
             ]);
 
@@ -5562,6 +5608,15 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 <rect class="ci-paper" x="60" y="18" width="116" height="124" rx="5"/>
                 <rect class="ci-paper-inner" x="71" y="30" width="94" height="8" rx="2"/>
                 <path class="ci-paper-line l1" d="M71 52H157"/><path class="ci-paper-line l2" d="M71 67H153"/><path class="ci-paper-line l3" d="M71 82H159"/><path class="ci-paper-line l4" d="M71 97H149"/><path class="ci-paper-line l5" d="M71 112H156"/><path class="ci-paper-line l6" d="M71 127H139"/>
+            </svg>`,
+            `<svg class="category-illustration category-illustration-sector" ${common}>
+                <defs><clipPath id="ciSectorReveal"><rect class="ci-sector-reveal" x="64" y="34" width="0" height="104"/></clipPath></defs>
+                <path class="ci-sector-fill" clip-path="url(#ciSectorReveal)" d="M116 86L168 86A52 52 0 0 0 90 40.9667Z"/>
+                <path class="ci-circle-outline" pathLength="1" d="M168 86A52 52 0 1 0 64 86A52 52 0 1 0 168 86"/>
+                <path class="ci-radius" pathLength="1" d="M116 86L168 86"/><path class="ci-radius" pathLength="1" d="M116 86L90 40.9667"/>
+                <circle class="ci-sector-center" cx="116" cy="86" r="3"/>
+                <text class="ci-label ci-center-label" x="103" y="102">O</text>
+                <g class="ci-radius-label"><text class="ci-label" x="175" y="91">A</text><text class="ci-label" x="81" y="33">B</text><text class="ci-label" x="140" y="102">r</text><text class="ci-label" x="94" y="72">r</text><text class="ci-label" x="132" y="66">120°</text></g>
             </svg>`]);
 
             if (key === "Ôn thi THPT") return `<svg class="category-illustration category-illustration-xyz" ${common}>

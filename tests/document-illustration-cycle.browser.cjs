@@ -63,6 +63,93 @@ async function geometry(frame) {
     }));
 }
 
+async function checkSectorGeometry(card) {
+    const sector = card.locator('.category-illustration-sector');
+    assert.equal(await card.locator('.category-illustration-paper').count(), 1, 'The original exam paper remains in the entrance exam cycle');
+    assert.equal(await sector.count(), 1, 'The circle sector is appended to the entrance exam cycle');
+    const shape = await sector.evaluate(node => {
+        const endpoints = path => {
+            const start = path.getPointAtLength(0), end = path.getPointAtLength(path.getTotalLength());
+            return { start: { x: start.x, y: start.y }, end: { x: end.x, y: end.y } };
+        };
+        const outline = node.querySelector('.ci-circle-outline');
+        const fill = node.querySelector('.ci-sector-fill');
+        const bounds = fill.getBBox();
+        return {
+            circle: Array.from({ length: 97 }, (_, i) => {
+                const point = outline.getPointAtLength(outline.getTotalLength() * i / 96);
+                return { x: point.x, y: point.y };
+            }),
+            radii: [...node.querySelectorAll('.ci-radius')].map(endpoints),
+            fillLength: fill.getTotalLength(),
+            fillClosed: /z\s*$/i.test(fill.getAttribute('d')),
+            fillBounds: { x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height },
+            labels: [...node.querySelectorAll('text')].map(text => text.textContent.trim())
+        };
+    });
+    const near = (actual, expected) => Math.abs(actual - expected) < .08;
+    assert(shape.circle.every(point => near(Math.hypot(point.x - 116, point.y - 86), 52)), 'Every point on the outline has radius 52 around O');
+    assert.equal(shape.radii.length, 2, 'Exactly two radii bound the sector');
+    assert(shape.radii.every(radius => near(radius.start.x, 116) && near(radius.start.y, 86)), 'Both radii start at the center');
+    assert(shape.radii.every(radius => near(Math.hypot(radius.end.x - 116, radius.end.y - 86), 52)), 'Both radii end on the circle');
+    const vectors = shape.radii.map(radius => ({ x: radius.end.x - 116, y: 86 - radius.end.y }));
+    const angle = Math.acos((vectors[0].x * vectors[1].x + vectors[0].y * vectors[1].y) / (52 * 52));
+    assert(near(angle * 180 / Math.PI, 120), 'The two radii form a 120 degree sector');
+    assert(shape.fillClosed && near(shape.fillLength, 104 + 52 * 2 * Math.PI / 3), 'The filled region is bounded by both radii and the minor circular arc');
+    assert(near(shape.fillBounds.x, 90) && near(shape.fillBounds.y, 34) && near(shape.fillBounds.width, 78) && near(shape.fillBounds.height, 52), 'The colored sector is the upper 120 degree region');
+    assert(['O', 'A', 'B'].every(label => shape.labels.includes(label)), 'The center and radius endpoints are labeled');
+}
+
+async function checkVariationGeometry(card) {
+    assert.equal(await card.locator('.category-illustration-xyz').count(), 1, 'The Oxyz scene is preserved');
+    assert.equal(await card.locator('.category-illustration-cubic-oxy').count(), 1, 'The animated cubic scene is preserved');
+    const table = card.locator('.category-illustration-variation');
+    assert.equal(await table.count(), 1, 'The variation table is appended to the THPT cycle');
+    const drawing = await table.evaluate(node => ({
+        labels: [...node.querySelectorAll('text')].map(text => ({ text: text.textContent.replace(/[−–]/g, '-').replace(/\s/g, ''), x: Number(text.getAttribute('x')), y: Number(text.getAttribute('y')) })),
+        arrows: [...node.querySelectorAll('.ci-variation-arrow')].map(path => {
+            const start = path.getPointAtLength(0), end = path.getPointAtLength(path.getTotalLength());
+            return { dx: end.x - start.x, dy: end.y - start.y };
+        }),
+        bounds: [...node.querySelectorAll('text')].map(text => {
+            const box = text.getBBox();
+            return { x: box.x, y: box.y, right: box.x + box.width, bottom: box.y + box.height };
+        }),
+        viewBox: { width: node.viewBox.baseVal.width, height: node.viewBox.baseVal.height }
+    }));
+    const xLabel = drawing.labels.find(label => label.text === 'x');
+    const derivative = drawing.labels.find(label => /^y[′']$/.test(label.text));
+    assert(xLabel && derivative, 'The table has x and derivative row labels');
+    assert.deepEqual(drawing.labels.filter(label => label.y === xLabel.y && label !== xLabel).sort((a, b) => a.x - b.x).map(label => label.text), ['-∞', '-1', '1', '+∞'], 'Critical points are ordered correctly');
+    assert.deepEqual(drawing.labels.filter(label => label.y === derivative.y && label !== derivative).sort((a, b) => a.x - b.x).map(label => label.text), ['+', '0', '-', '0', '+'], 'Derivative signs match 3x² − 3');
+    assert(drawing.labels.some(label => label.text === '2') && drawing.labels.some(label => label.text === '-2'), 'The extrema are f(−1)=2 and f(1)=−2');
+    assert(drawing.labels.some(label => /y=x(?:³|\^3)-3x/.test(label.text)), 'The table identifies y = x³ − 3x');
+    assert.equal(drawing.arrows.length, 3);
+    assert(drawing.arrows.every(arrow => arrow.dx > 0), 'The variation arrows progress from left to right');
+    assert(drawing.arrows[0].dy < 0 && drawing.arrows[1].dy > 0 && drawing.arrows[2].dy < 0, 'The function increases, decreases, then increases');
+    assert(drawing.bounds.every(box => box.x >= -1 && box.y >= -1 && box.right <= drawing.viewBox.width + 1 && box.bottom <= drawing.viewBox.height + 1), 'All table labels fit in the card illustration');
+}
+
+async function checkSectorTiming(frame) {
+    const state = () => frame.evaluate(node => ({
+        reveal: parseFloat(getComputedStyle(node.querySelector('.ci-sector-reveal')).width),
+        strokes: [...node.querySelectorAll('.ci-circle-outline,.ci-radius')].map(path => ({ offset: parseFloat(getComputedStyle(path).strokeDashoffset), opacity: parseFloat(getComputedStyle(path).opacity) }))
+    }));
+    for (const time of [0, 2800, 4800, 5120]) {
+        await seek(frame, time);
+        assert.equal((await state()).reveal, 0, 'The sector remains unfilled until the circle and both radii finish');
+    }
+    const outlined = await state();
+    assert(outlined.strokes.every(stroke => Math.abs(stroke.offset) < .01 && stroke.opacity > .9), 'The circle and both radii are complete before filling starts');
+    await seek(frame, 6000);
+    const filling = await state();
+    assert(filling.reveal > 0 && filling.reveal < 104, 'The sector fills gradually from left to right');
+    await seek(frame, 7200);
+    const held = await state();
+    assert.equal(held.reveal, 104, 'The full sector is visible before changing scenes');
+    assert.deepEqual(held.strokes, outlined.strokes, 'The completed circle and radii remain visible during the fill');
+}
+
 async function finishAndCheckNext(page, card, frame, index, count) {
     await frame.evaluate(node => {
         window.illustrationPreviousScene = node;
@@ -96,7 +183,7 @@ async function finishAndCheckNext(page, card, frame, index, count) {
         page.on('pageerror', error => errors.push(error.message));
         await page.goto('https://illustrations.test/index.html#documents');
         await page.waitForFunction(() => document.querySelectorAll('.document-category-card').length === 6);
-        const expectedCounts = [2, 3, 2, 1, 2, 1];
+        const expectedCounts = [2, 3, 2, 2, 3, 1];
         for (const [categoryIndex, name] of categoryNames.entries()) {
             const card = page.locator('.document-category-card').filter({ has: page.getByRole('heading', { name, exact: true }) });
             await card.scrollIntoViewIfNeeded();
@@ -126,6 +213,8 @@ async function finishAndCheckNext(page, card, frame, index, count) {
                 assert(wave.every(point => Math.abs((84 - point.y) / 34 - Math.sin((point.x - 120) * Math.PI / 48)) < .02), 'The path represents y = sin x');
                 assert.match(await sine.textContent(), /sin\s*x/);
             }
+            if (name === 'Ôn thi vào 10') await checkSectorGeometry(card);
+            if (name === 'Ôn thi THPT') await checkVariationGeometry(card);
 
             // Advance every scene using its real animationend handler, then loop back.
             const activeIndex = await frames.evaluateAll(nodes => nodes.findIndex(node => node.classList.contains('is-active')));
@@ -155,6 +244,15 @@ async function finishAndCheckNext(page, card, frame, index, count) {
                 if (name === 'Lớp 11' && await frame.locator('.category-illustration-sine').count()) {
                     await card.screenshot({ path: path.join(output, 'grade11-sine-desktop.png') });
                 }
+                if (await frame.locator('.category-illustration-sector').count()) {
+                    await checkSectorTiming(frame);
+                    await card.screenshot({ path: path.join(output, 'entrance10-sector-desktop.png') });
+                }
+                if (await frame.locator('.category-illustration-variation').count()) {
+                    const completed = await frame.locator('.ci-table-grid,.ci-variation-arrow').evaluateAll(paths => paths.every(path => Math.abs(parseFloat(getComputedStyle(path).strokeDashoffset)) < .01 && parseFloat(getComputedStyle(path).opacity) > .7));
+                    assert(completed, 'The full variation table stays visible before changing scenes');
+                    await card.screenshot({ path: path.join(output, 'thpt-variation-desktop.png') });
+                }
                 await finishAndCheckNext(page, card, frame, index, count);
             }
         }
@@ -181,7 +279,38 @@ async function finishAndCheckNext(page, card, frame, index, count) {
             if (name === 'Lớp 11') await card.screenshot({ path: path.join(output, 'grade11-sine-mobile.png') });
         }
         assert(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'The categories fit a 320px screen');
+
+        // Exercise and capture the added scenes on an actual narrow viewport, with motion enabled.
+        const motionMobile = await browser.newContext({ viewport: { width: 320, height: 844 }, isMobile: true, hasTouch: true });
+        await routeLocal(motionMobile);
+        const movingPhone = await motionMobile.newPage();
+        movingPhone.on('pageerror', error => errors.push(error.message));
+        await movingPhone.goto('https://illustrations.test/index.html#documents');
+        await movingPhone.waitForFunction(() => document.querySelectorAll('.document-category-card').length === 6);
+        for (const [name, selector, filename] of [
+            ['Ôn thi vào 10', '.category-illustration-sector', 'entrance10-sector-mobile.png'],
+            ['Ôn thi THPT', '.category-illustration-variation', 'thpt-variation-mobile.png']
+        ]) {
+            const card = movingPhone.locator('.document-category-card').filter({ has: movingPhone.getByRole('heading', { name, exact: true }) });
+            await card.scrollIntoViewIfNeeded();
+            const frames = card.locator('.ci-cycle-frame');
+            const count = await frames.count();
+            for (let attempt = 0; attempt < count; attempt += 1) {
+                const activeIndex = await frames.evaluateAll(nodes => nodes.findIndex(node => node.classList.contains('is-active')));
+                const active = frames.nth(activeIndex);
+                if (await active.locator(selector).count()) {
+                    await seek(active, 7200);
+                    await card.screenshot({ path: path.join(output, filename) });
+                    break;
+                }
+                await finishAndCheckNext(movingPhone, card, active, activeIndex, count);
+            }
+            assert.equal(await card.locator('.ci-cycle-frame.is-active').locator(selector).count(), 1, `${name} shows the new scene on mobile`);
+            if (name === 'Ôn thi vào 10') await checkSectorGeometry(card);
+            else await checkVariationGeometry(card);
+        }
+        assert(await movingPhone.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'The added exam scenes fit a 320px screen');
         assert.deepEqual(errors, []);
-        console.log('PASS: shared document scene timing, sequential complete loops, sine geometry, preserved solids, delayed area fill, and reduced-motion mobile layout');
+        console.log('PASS: shared document scene timing, complete loops, sine and sector geometry, cubic variation table, preserved scenes, delayed fills, desktop/mobile layout, and reduced motion');
     } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
