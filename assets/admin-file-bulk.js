@@ -111,24 +111,6 @@
     });
 
     mount({
-        key: 'evidence', listId: 'evidenceAdminList', rowSelector: '.review-item', elementAttribute: 'data-evidence-edit',
-        getRows: () => state.evidenceSetupError ? [] : state.evidence,
-        actions: () => [{ ...action('move'), label: 'Chuyển nhóm kết quả', options: ['grade10', 'grade12', 'feedback'].map(value => ({ value, label: evidenceGroupLabel(value) })) }, ...fileActions()],
-        async perform(id, row, value) {
-            if (id === 'delete') return remove('achievement_evidence', row, 'achievement-evidence', ['image_path'], deletedId => {
-                if (String(state.editingEvidenceId) === String(deletedId)) resetEvidenceForm();
-            });
-            if (id === 'move') {
-                if (!['grade10', 'grade12', 'feedback'].includes(value)) throw new Error('Hãy chọn nhóm kết quả hợp lệ.');
-                return update('achievement_evidence', row, { group_key: value });
-            }
-            if (id === 'publish' || id === 'hide') return update('achievement_evidence', row, { published: id === 'publish' });
-            throw new Error('Thao tác không hợp lệ.');
-        },
-        async reload() { await loadAchievementEvidence(); if (state.evidenceSetupError) throw state.evidenceSetupError; }
-    });
-
-    mount({
         key: 'pdf-contributions', listId: 'pdfContributionList', rowSelector: '.review-item', elementAttribute: 'data-pdf-contribution-delete',
         getRows: () => {
             if (state.documentContributionSetupError) return [];
