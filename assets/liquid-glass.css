@@ -1,0 +1,94 @@
+/* Public card surfaces: transparent tint, lens edge and a local reflection. */
+html body .liquid-glass-card,
+html body #documents .document-card.liquid-glass-card,
+html body #tikz-library .liquid-glass-card {
+    --glass-x: 24%;
+    --glass-y: 0%;
+    --glass-tint: rgba(12, 20, 39, .43);
+    position: relative;
+    isolation: isolate;
+    border: 1px solid rgba(213, 228, 255, .22) !important;
+    border-radius: 24px !important;
+    background:
+        radial-gradient(ellipse at var(--glass-x) var(--glass-y), rgba(213, 234, 255, .13), transparent 55%),
+        linear-gradient(135deg, rgba(228, 240, 255, .08), transparent 36%, rgba(178, 160, 247, .065) 78%, rgba(203, 231, 255, .1)),
+        var(--glass-tint) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .24),
+        inset 0 -1px 0 rgba(173, 204, 250, .13),
+        inset 1px 0 0 rgba(227, 242, 255, .1),
+        0 16px 42px rgba(0, 3, 15, .24) !important;
+    backdrop-filter: blur(16px) saturate(155%);
+    -webkit-backdrop-filter: blur(16px) saturate(155%);
+}
+/* Replace old glow blobs with a single edge; retain card layouts and handlers. */
+html body .liquid-glass-card::before,
+html body .liquid-glass-card::after,
+html body #documents .document-card.liquid-glass-card::before,
+html body #documents .document-card.liquid-glass-card::after,
+html body #tikz-library .liquid-glass-card::before,
+html body #tikz-library .liquid-glass-card::after { content: none !important; display: none !important; }
+.liquid-glass-card > .liquid-glass-rim {
+    position: absolute;
+    inset: 0;
+    z-index: 9;
+    display: block;
+    padding: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(135deg, rgba(255, 255, 255, .58), rgba(186, 217, 255, .06) 28%, transparent 48%, rgba(209, 187, 255, .08) 70%, rgba(225, 243, 255, .46));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: .78;
+    transition: opacity .3s ease;
+}
+.liquid-glass-card > .document-card-glow { display: none; }
+html body .liquid-glass-card:focus-visible {
+    outline: 2px solid #b7e3ff !important;
+    outline-offset: 4px;
+}
+html body .liquid-glass-card :is(.evidence-media, .exam-student-media) {
+    background-color: rgba(5, 12, 25, .18);
+}
+html body .liquid-glass-card:is(.material-request-card, .score-submission-box, .exam-chart) { --glass-tint: rgba(12, 20, 39, .65); }
+html body .liquid-glass-card:is(.highlight-item, .skill-item, .pdf-related-card, .exam-chart) { border-radius: 20px !important; }
+html body .liquid-glass-card:is(.about-content, .project-card, .achievement-card-large) p,
+html body .liquid-glass-card .highlight-text { color: #c1cee1 !important; }
+html body .achievement-gallery .liquid-glass-card { --glass-tint: rgba(12, 20, 39, .62); }
+@media (hover: hover) and (pointer: fine) {
+    html body .liquid-glass-card:hover,
+    html body #documents .document-card.liquid-glass-card:hover,
+    html body #tikz-library .liquid-glass-card:hover {
+        border-color: rgba(217, 233, 255, .4) !important;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, .35),
+            inset 0 -1px 0 rgba(190, 171, 255, .22),
+            inset 1px 0 0 rgba(224, 243, 255, .18),
+            0 22px 50px rgba(0, 3, 15, .3),
+            0 0 24px rgba(134, 175, 248, .07) !important;
+    }
+    .liquid-glass-card:hover > .liquid-glass-rim { opacity: 1; }
+}
+/* Avoid repeated backdrop sampling while scrolling on touch devices. */
+@media (hover: none), (pointer: coarse), (max-width: 760px) {
+    html body .liquid-glass-card,
+    html body #documents .document-card.liquid-glass-card,
+    html body #tikz-library .liquid-glass-card {
+        --glass-tint: rgba(15, 24, 43, .76);
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        will-change: auto !important;
+    }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    html body .liquid-glass-card { --glass-tint: rgba(15, 24, 43, .86); }
+}
+@supports not ((mask-composite: exclude) or (-webkit-mask-composite: xor)) {
+    .liquid-glass-rim { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html body .liquid-glass-card,
+    html body .liquid-glass-rim { transition: none !important; }
+}
