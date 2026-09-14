@@ -13,7 +13,7 @@
 
     <meta name="theme-color" content="#070b14">
 
-    <link rel="stylesheet" href="style.css?v=20260914-avatar-orbit">
+    <link rel="stylesheet" href="style.css?v=20260914-contact">
     <link rel="stylesheet" href="assets/score-submissions.css?v=20260908-student-upload">
     <link rel="stylesheet" href="assets/site-content.css?v=20260913-visibility">
     <link rel="stylesheet" href="assets/galaxy-scene.css?v=20260913-detail-background">
@@ -3729,7 +3729,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 .material-request-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:1080px;margin:0 auto}.material-request-layout .material-request-card{max-width:none;margin:0}.material-contribution-status{min-height:18px;color:#8ea0b8;font-size:12px;line-height:1.5}.material-contribution-file{margin-top:8px;color:#7dd3fc;font-size:12px;word-break:break-word}.material-request-form input[type=file]{padding:10px;background:rgba(5,10,19,.52);cursor:pointer}@media(max-width:820px){.material-request-layout{grid-template-columns:1fr}}
 </style>
     <link rel="stylesheet" href="assets/site-navigation.css?v=20260914">
-    <link rel="stylesheet" href="assets/liquid-glass.css?v=20260914">
+    <link rel="stylesheet" href="assets/liquid-glass.css?v=20260914-contact">
 </head>
 
 <body>
@@ -5083,6 +5083,17 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                             <i class="fa-solid fa-arrow-right-long"></i>
                         </div>
 
+                        <div class="contact-qr-panel" aria-label="Mã QR liên hệ">
+                            <div class="contact-qr-copy">
+                                <strong>Kết nối nhanh</strong>
+                                <span>Quét mã để mở Facebook hoặc Zalo</span>
+                            </div>
+                            <div class="contact-qr-actions">
+                                <button type="button" class="contact-qr-button facebook" data-contact-qr="facebook" aria-haspopup="dialog" aria-controls="contactQrDialog"><i class="fa-solid fa-qrcode" aria-hidden="true"></i><span>QR Facebook</span></button>
+                                <button type="button" class="contact-qr-button zalo" data-contact-qr="zalo" aria-haspopup="dialog" aria-controls="contactQrDialog"><i class="fa-solid fa-qrcode" aria-hidden="true"></i><span>QR Zalo</span></button>
+                            </div>
+                        </div>
+
                     </div>
 
 
@@ -5136,6 +5147,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                             href="https://www.facebook.com/mendz1103"
                             target="_blank"
                             rel="noopener noreferrer"
+                            id="contactFacebook"
                             class="contact-item reveal reveal-delay-2"
                         >
 
@@ -5177,6 +5189,12 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                                 <i class="fa-solid fa-arrow-right"></i>
                             </div>
 
+                        </a>
+
+                        <a id="contactZalo" href="https://zalo.me/0905957716" target="_blank" rel="noopener noreferrer" class="contact-item reveal reveal-delay-4">
+                            <div class="contact-icon contact-icon-zalo" aria-hidden="true"><i class="fa-solid fa-comment-dots"></i></div>
+                            <div class="contact-info"><strong>Zalo · 090.595.7716</strong><span>Nhắn tin trực tiếp qua Zalo</span></div>
+                            <div class="contact-arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
                         </a>
 
                     </div>
@@ -5271,6 +5289,10 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                     reject(new Error(`Không tải được thư viện ${globalName}.`));
                 };
                 document.head.appendChild(script);
+            }).catch(error => {
+                externalScriptPromises.delete(src);
+                document.querySelector(`script[data-lazy-src="${src}"]`)?.remove();
+                throw error;
             });
             externalScriptPromises.set(src, promise);
             return promise;
@@ -8755,6 +8777,18 @@ body.tikz-detail-mode .tikz-render-box{background:linear-gradient(145deg,rgba(8,
 <link rel="stylesheet" href="assets/page-motion.css?v=20260913-performance">
 <script src="assets/page-motion.js?v=20260913-performance"></script>
 <script src="assets/site-navigation.js?v=20260914"></script>
-<script src="assets/liquid-glass.js?v=20260914"></script>
+<script src="assets/liquid-glass.js?v=20260914-contact"></script>
+<dialog id="contactQrDialog" class="contact-qr-dialog" aria-labelledby="contactQrTitle" aria-describedby="contactQrHelp">
+    <div class="contact-qr-dialog-head"><h2 id="contactQrTitle">QR liên hệ</h2><button id="contactQrClose" type="button" aria-label="Đóng mã QR" autofocus>×</button></div>
+    <p id="contactQrHelp">Mở camera điện thoại hoặc ứng dụng quét QR để kết nối.</p>
+    <div id="contactQrCode" class="contact-qr-code" role="img" aria-label="Mã QR liên hệ"></div>
+    <p id="contactQrStatus" class="contact-qr-status" role="status"></p>
+    <a id="contactQrLink" target="_blank" rel="noopener noreferrer">Mở liên kết</a>
+    <div class="contact-qr-dialog-actions">
+        <button id="contactQrDownload" class="contact-qr-button" type="button" disabled>Tải ảnh QR</button>
+        <button id="contactQrRetry" class="contact-qr-button" type="button" hidden>Thử lại</button>
+    </div>
+</dialog>
+<script src="assets/contact-qr.js?v=20260914"></script>
 </body>
 </html>

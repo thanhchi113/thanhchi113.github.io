@@ -1,6 +1,6 @@
 (() => {
     "use strict";
-    const selector = ".about-content,.highlight-item,.skill-item,.project-card,.achievement-card,.achievement-card-large,.document-card,.tikz-card,.evidence-card,.exam-student-card,.material-request-card,.score-submission-box,.tikz-contribution-card,.pdf-related-card,.exam-chart";
+    const selector = ".about-content,.highlight-item,.skill-item,.project-card,.achievement-card,.achievement-card-large,.document-card,.tikz-card,.evidence-card,.exam-student-card,.material-request-card,.score-submission-box,.tikz-contribution-card,.pdf-related-card,.exam-chart,.contact-item";
     function mount(root) {
         if (root.nodeType !== 1) return;
         const cards = [...(root.matches(selector) ? [root] : []), ...root.querySelectorAll(selector)];

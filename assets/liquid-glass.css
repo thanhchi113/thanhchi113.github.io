@@ -21,6 +21,7 @@ html body #tikz-library .liquid-glass-card {
     backdrop-filter: blur(16px) saturate(155%);
     -webkit-backdrop-filter: blur(16px) saturate(155%);
 }
+html body .contact-item.liquid-glass-card { --glass-tint: rgba(12, 20, 39, .52); border-radius: 18px !important; }
 /* Replace old glow blobs with a single edge; retain card layouts and handlers. */
 html body .liquid-glass-card::before,
 html body .liquid-glass-card::after,

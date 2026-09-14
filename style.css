@@ -4702,3 +4702,38 @@ body.modal-open { overflow:hidden; }
     outline: 2px solid #7dd3fc;
     outline-offset: 4px;
 }
+
+/* Contact QR shortcuts */
+.contact-icon-zalo { color: #58c6ff !important; background: rgba(45, 212, 191, .12) !important; border-color: rgba(45, 212, 191, .28) !important; }
+.contact-qr-panel { margin-top: 26px; padding: 16px; border: 1px solid rgba(164, 199, 247, .2); border-radius: 17px; background: linear-gradient(135deg, rgba(108, 164, 232, .1), rgba(145, 106, 224, .1)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 14px 35px rgba(0, 0, 0, .16); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.contact-qr-copy { display: grid; gap: 4px; margin-bottom: 12px; }
+.contact-qr-copy strong { color: #eef7ff; font-size: 13px; }
+.contact-qr-copy span { color: #9fb4cc; font-size: 11px; line-height: 1.5; }
+.contact-qr-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.contact-qr-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 8px 9px; border: 1px solid rgba(148, 190, 241, .26); border-radius: 10px; background: rgba(8, 18, 35, .35); color: #dceeff; cursor: pointer; font: inherit; font-size: 12px; font-weight: 600; line-height: 1.4; transition: transform .22s ease, border-color .22s ease, background .22s ease; }
+.contact-qr-button i { color: #79d6ff; font-size: 14px; }
+.contact-qr-button.zalo i { color: #69e4d0; }
+.contact-qr-button:hover { transform: translateY(-2px); border-color: rgba(181, 224, 255, .64); background: rgba(68, 133, 211, .17); }
+.contact-qr-button:focus-visible { outline: 2px solid #a8dcff; outline-offset: 3px; }
+@media (max-width: 820px) { .contact-qr-panel { margin-top: 20px; } }
+@media (max-width: 420px) { .contact-qr-actions { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .contact-qr-button { transition: none; } }
+
+html.contact-qr-open { overflow: hidden; }
+#contactQrDialog { display: none; margin: auto; width: min(420px, calc(100vw - 24px)); max-height: calc(100dvh - 32px); padding: 22px; overflow-y: auto; overscroll-behavior: contain; color: #e4efff; border: 1px solid rgba(183, 212, 255, .3); border-radius: 24px; background: linear-gradient(140deg, #122038, #18152b); box-shadow: 0 26px 90px rgba(0, 0, 0, .48); }
+#contactQrDialog[open] { display: block; }
+#contactQrDialog::backdrop { background: rgba(2, 6, 16, .68); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+.contact-qr-dialog-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+#contactQrTitle { margin: 0; font-size: 22px; line-height: 1.4; }
+#contactQrClose { flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(180, 203, 238, .3); color: #e4efff; background: rgba(255, 255, 255, .05); cursor: pointer; font-size: 26px; }
+#contactQrHelp { margin: 12px 0 0; font-size: 13px; line-height: 1.6; color: #b6c7df; }
+#contactQrCode { width: min(100%, 280px); aspect-ratio: 1; margin: 20px auto 12px; display: grid; place-items: center; border-radius: 16px; background: white; color: #24324b; overflow: hidden; }
+#contactQrCode canvas { display: block; width: 100%; height: auto; }
+#contactQrStatus { margin: 0 0 10px; color: #c6d7ee; font-size: 12px; line-height: 1.6; }
+#contactQrLink { display: block; overflow-wrap: anywhere; color: #97d8ff; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+.contact-qr-dialog-actions { display: flex; gap: 8px; margin-top: 18px; }
+.contact-qr-dialog-actions > button { flex: 1; }
+#contactQrDialog [hidden] { display: none !important; }
+#contactQrDialog button:disabled { cursor: default; opacity: .5; transform: none; }
+#contactQrDialog :is(button, a):focus-visible { outline: 2px solid #a8dcff; outline-offset: 3px; }
+@media (max-width: 420px) { #contactQrDialog { padding: 18px; } }
