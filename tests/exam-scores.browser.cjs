@@ -164,7 +164,8 @@ async function verifyStatisticsSettings(page) {
         assert.equal(await page.locator('#scoreCount').innerText(), '0');
         assert(!await page.locator('#examScoreResults').isVisible());
         await page.locator('[data-type="grade12"]').click();
-        await page.locator('.evidence-card').first().waitFor();
+        await page.locator('.evidence-empty').waitFor();
+        assert.match(await page.locator('.evidence-empty').innerText(), /Chưa có kết quả được đăng/);
         assert(!await page.locator('#examScores').isVisible());
         await page.locator('[data-type="scores"]').click();
         await page.selectOption('#scoreGradeFilter', 'all');

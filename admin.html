@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="assets/site-experience.css?v=20260913-unified">
 <link rel="stylesheet" href="assets/exam-scores.css?v=20260913-horizontal">
 <link rel="stylesheet" href="assets/exam-scores-admin-cards.css?v=20260913-horizontal">
+<link rel="stylesheet" href="assets/exam-score-bulk-admin.css?v=20260914">
 <link rel="stylesheet" href="assets/admin-account.css?v=20260908-sidebar-led">
 <link rel="stylesheet" href="assets/exam-score-paper.css?v=20260908-math-cycle">
 <link rel="stylesheet" href="assets/admin-galaxy.css?v=20260908-toggle">
@@ -236,7 +237,9 @@
         <div class="exam-admin-filters"><input id="scoreAdminSearch" class="admin-search" type="search" placeholder="Tìm học sinh, lớp, năm học..." aria-label="Tìm điểm theo tên học sinh, lớp, năm học"><select id="scoreAdminPeriod" class="admin-filter" aria-label="Lọc kỳ thi"><option value="all">Tất cả kỳ thi</option><option value="gk1">Giữa kỳ 1</option><option value="ck1">Cuối kỳ 1</option><option value="gk2">Giữa kỳ 2</option><option value="ck2">Cuối kỳ 2</option></select><select id="scoreAdminVisibility" class="admin-filter" aria-label="Lọc công bố"><option value="all">Tất cả</option><option value="published">Đã công bố</option><option value="hidden">Đang ẩn</option></select></div>
         <div id="scoreAdminStatus" class="admin-status" role="status" aria-live="polite"></div>
         <div id="scoreSetupHelp" class="hidden"><a id="scoreMigrationLink" class="exam-setup-link" href="supabase/migrations/20260913203000_exam_score_field_visibility.sql" target="_blank" rel="noopener">File SQL cập nhật hiện/ẩn thông tin điểm thi</a></div>
-        <div class="exam-table-wrap"><table class="exam-table"><caption class="hidden">Danh sách điểm thi đã nhập</caption><thead><tr><th scope="col">STT</th><th scope="col">Điểm</th><th scope="col">Học sinh / lớp</th><th scope="col">Kỳ thi</th><th scope="col">Trạng thái</th><th scope="col">Thao tác</th></tr></thead><tbody id="scoreAdminRows"></tbody></table></div>
+        <div id="scoreBulkTools"></div>
+        <p class="exam-form-note">Bật/tắt tên, ảnh và từng thông tin ngay trên mỗi dòng. Các nút này thay đổi phần hiển thị trên website; dữ liệu gốc vẫn được lưu để quản lý.</p>
+        <div class="exam-table-wrap"><table class="exam-table"><caption class="hidden">Danh sách điểm thi đã nhập</caption><thead><tr><th scope="col">Chọn</th><th scope="col">STT</th><th scope="col">Điểm</th><th scope="col">Học sinh / lớp</th><th scope="col">Kỳ thi</th><th scope="col">Hiển thị trên website</th><th scope="col">Thao tác</th></tr></thead><tbody id="scoreAdminRows"></tbody></table></div>
         <nav id="scoreAdminPagination" class="admin-pagination" aria-label="Phân trang điểm thi"></nav>
     </section>
 </div>
@@ -662,7 +665,8 @@ document.querySelectorAll('[data-admin-nav]').forEach(button=>button.addEventLis
 document.querySelectorAll('[data-workspace-tab]').forEach(tab=>tab.addEventListener('click',()=>activateAdminWorkspace(tab.dataset.workspaceTab,false)));
 $('previewClose').addEventListener('click',closePreview);$('previewModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closePreview();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePreview();});supabaseClient.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')clearAdminSession();else if(event==='SIGNED_IN')adminAuthGeneration++;scheduleAdminCheck();});const initialWorkspace=(location.hash.match(/^#admin-([a-z]+)/)||[])[1];if(initialWorkspace&&adminWorkspaceIds[initialWorkspace])activateAdminWorkspace(initialWorkspace,false);scheduleAdminCheck();
 </script>
-<script src="assets/exam-scores-admin.js?v=20260913-fields"></script>
+<script src="assets/exam-scores-admin.js?v=20260914-bulk"></script>
+<script src="assets/exam-score-bulk-admin.js?v=20260914"></script>
 <script>
 Object.values(evidenceFlagInputs).forEach(id=>$(id).addEventListener('change',setEvidencePreview));
 $('evidenceRemoveImage').addEventListener('click',removeEvidenceImage);

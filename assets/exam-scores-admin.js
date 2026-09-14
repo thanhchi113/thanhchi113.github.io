@@ -10,6 +10,24 @@
     const visibilityInputs = { show_image: "scoreShowImage", show_score: "scoreShowScore", show_class_name: "scoreShowClassName", show_grade: "scoreShowGrade", show_school_year: "scoreShowSchoolYear", show_period: "scoreShowPeriod" };
     const visibilityLabels = { show_image: "ảnh", show_score: "điểm", show_class_name: "lớp", show_grade: "khối", show_school_year: "năm học", show_period: "kỳ thi" };
     const formVisibility = () => Object.fromEntries(Object.entries(visibilityInputs).map(([key, id]) => [key, $(id).checked]));
+    let pageIds = [];
+    function filteredRecords() {
+        const query = $("scoreAdminSearch").value.trim().toLocaleLowerCase("vi");
+        const visibility = $("scoreAdminVisibility").value;
+        return api.filter(records, { period: $("scoreAdminPeriod").value }).filter(row =>
+            (!query || `${row.student_name || ""} ${row.class_name} ${row.school_year} ${row.grade}`.toLocaleLowerCase("vi").includes(query)) &&
+            (visibility === "all" || row.published === (visibility === "published"))
+        );
+    }
+    function notifyList() { window.dispatchEvent(new Event("exam-score-admin-change")); }
+    function canManage() { return ready && !$("adminPanel").classList.contains("hidden"); }
+    function getState() { return { records, filtered: filteredRecords(), pageIds: [...pageIds], ready: canManage(), busy: busy || loading, epoch: authEpoch }; }
+    function quickControls(row) {
+        const flags = { hide_student_name: !row.hide_student_name, ...api.visibility(row) };
+        return `<div class="score-quick-controls" aria-label="Thông tin công khai của ${esc(row.student_name || row.class_name)}">${Object.entries({ hide_student_name: "Tên", show_image: "Ảnh", show_score: "Điểm", show_class_name: "Lớp", show_grade: "Khối", show_school_year: "Năm học", show_period: "Kỳ thi" }).map(([key, label]) =>
+            `<button class="score-quick-toggle" type="button" data-score-field="${key}" data-score-id="${esc(row.id)}" aria-pressed="${flags[key]}" aria-label="Hiện ${label.toLocaleLowerCase("vi")} của ${esc(row.student_name || row.class_name)}" title="${flags[key] ? "Đang hiện · bấm để ẩn" : "Đang ẩn · bấm để hiện"}${key === 'show_image' && !row.evidence_image_path ? ' (chưa có ảnh đính kèm)' : ''}"><span class="score-quick-dot" aria-hidden="true"></span><span>${label}</span></button>`
+        ).join("")}</div>`;
+    }
     function hiddenFields(row) {
         const flags = api.visibility(row);
         return [...(row.hide_student_name ? ["tên"] : []), ...Object.keys(flags).filter(key => !flags[key]).map(key => visibilityLabels[key])];
@@ -110,31 +128,33 @@
         busy = locked;
         $("scoreFormFields").disabled = locked || loading || !ready;
         $("scoreAdminRefresh").disabled = locked || loading;
-        $("scoreAdminRows").querySelectorAll("button").forEach(button => { button.disabled = locked || loading; });
+        $("scoreAdminRows").querySelectorAll("button,input").forEach(button => { button.disabled = locked || loading || !ready; });
+        $("scoreAdminPagination").querySelectorAll("button,input").forEach(button => { button.disabled = locked || loading || !ready || button.dataset.scoreDisabled === "true"; });
+        ["scoreAdminSearch", "scoreAdminPeriod", "scoreAdminVisibility"].forEach(id => { $(id).disabled = locked || loading; });
         form.setAttribute("aria-busy", String(locked || loading));
+        $("scoreAdminRows").setAttribute("aria-busy", String(locked || loading));
+        notifyList();
     }
     function render() {
-        const query = $("scoreAdminSearch").value.trim().toLocaleLowerCase("vi");
-        const visibility = $("scoreAdminVisibility").value;
-        const filtered = api.filter(records, { period: $("scoreAdminPeriod").value }).filter(row =>
-            (!query || `${row.student_name || ""} ${row.class_name} ${row.school_year} ${row.grade}`.toLocaleLowerCase("vi").includes(query)) &&
-            (visibility === "all" || row.published === (visibility === "published"))
-        );
+        const filtered = filteredRecords();
         const result = pageItems(filtered, page, perPage);
         page = result.page;
-        $("scoreAdminRows").innerHTML = result.items.map((row, index) => `<tr>
+        pageIds = result.items.map(row => row.id);
+        $("scoreAdminRows").innerHTML = result.items.map((row, index) => `<tr data-score-row="${esc(row.id)}">
+            <td class="score-record-select"><label><input type="checkbox" data-score-select value="${esc(row.id)}" aria-label="Chọn ${esc(row.student_name || row.class_name)} · ${esc(api.label(row.period))}"></label></td>
             <td class="exam-record-number">${(page - 1) * perPage + index + 1}</td>
             <td class="exam-record-score">${api.format(row.score)}</td>
             <td><span class="exam-record-name">${esc(row.student_name || "Chưa có tên học sinh")}</span>${esc(row.class_name)}<span class="exam-record-meta">Khối ${row.grade} · ${esc(row.school_year)}</span></td>
-            <td>${esc(api.label(row.period))}</td><td><span class="status-pill ${row.published ? "on" : "off"}">${row.published ? "Đã công bố" : "Đang ẩn"}</span>${hiddenFields(row).length ? `<span class="exam-record-privacy">Ẩn: ${esc(hiddenFields(row).join(", "))}</span>` : ''}</td>
+            <td>${esc(api.label(row.period))}</td><td><span class="status-pill ${row.published ? "on" : "off"}">${row.published ? "Đã công bố" : "Đang ẩn"}</span>${hiddenFields(row).length ? `<span class="exam-record-privacy">Ẩn: ${esc(hiddenFields(row).join(", "))}</span>` : ''}${quickControls(row)}</td>
             <td><div class="doc-actions">
                 <button class="admin-btn ghost icon-btn" type="button" data-score-action="edit" data-score-id="${esc(row.id)}" title="Sửa điểm" aria-label="Sửa điểm"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
-                <button class="admin-btn ghost icon-btn" type="button" data-score-action="toggle" data-score-id="${esc(row.id)}" title="${row.published ? "Ẩn điểm" : "Công bố điểm"}" aria-label="${row.published ? "Ẩn điểm" : "Công bố điểm"}"><i class="fa-solid ${row.published ? "fa-eye-slash" : "fa-eye"}" aria-hidden="true"></i></button>
+                <button class="admin-btn ghost icon-btn" type="button" data-score-action="toggle" data-score-id="${esc(row.id)}" aria-pressed="${row.published}" title="${row.published ? "Ẩn điểm" : "Công bố điểm"}" aria-label="${row.published ? "Ẩn điểm" : "Công bố điểm"}"><i class="fa-solid ${row.published ? "fa-eye-slash" : "fa-eye"}" aria-hidden="true"></i></button>
                 <button class="admin-btn danger icon-btn" type="button" data-score-action="delete" data-score-id="${esc(row.id)}" title="Xóa điểm" aria-label="Xóa điểm"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
             </div></td>
         </tr>`).join("");
         setStatus("scoreAdminStatus", filtered.length ? `${filtered.length} bài thi · ${filtered.filter(row => row.published).length} đã công bố` : "Chưa có điểm thi phù hợp.");
         renderPagination("scoreAdminPagination", page, result.totalPages, next => { page = next; render(); }, filtered.length, perPage);
+        $("scoreAdminPagination").querySelectorAll("button,input").forEach(control => { control.dataset.scoreDisabled = String(control.disabled); });
         renderPreview();
         lock(busy);
     }
@@ -155,14 +175,17 @@
                 if (window.ExamScoreOptions) window.ExamScoreOptions.observeRecords(records);
                 else $("scoreClassSuggestions").replaceChildren(...[...new Set(records.map(row => row.class_name))].sort().map(value => new Option(value, value)));
                 render();
+                return true;
             } catch (error) {
                 if (requestEpoch !== authEpoch) return;
                 ready = false;
                 records = [];
+                pageIds = [];
                 $("scoreAdminRows").replaceChildren();
                 $("scoreAdminPagination").replaceChildren();
                 setStatus("scoreAdminStatus", api.errorMessage(error, true));
                 $("scoreSetupHelp").classList.toggle("hidden", !["42P01", "PGRST205", "42703", "PGRST204", "42501"].includes(error.code));
+                return false;
             } finally { if (requestEpoch === authEpoch) { pending = null; loading = false; lock(busy); } }
         })();
         return pending;
@@ -193,6 +216,78 @@
     function writeError(error) {
         if (error.code === "PGRST116") return "Bản ghi không còn tồn tại hoặc bạn không có quyền sửa. Hãy làm mới danh sách.";
         return api.errorMessage(error, true);
+    }
+    function validatePatch(input) {
+        if (!input || typeof input !== "object" || Array.isArray(input)) throw new Error("Thông tin cập nhật không hợp lệ.");
+        const patch = {};
+        for (const [key, value] of Object.entries(input)) {
+            if (["published", "hide_student_name", ...api.visibilityFields].includes(key)) {
+                if (typeof value !== "boolean") throw new Error("Hãy chọn hiện hoặc ẩn cho thông tin cần cập nhật.");
+                patch[key] = value;
+            } else if (key === "score") {
+                patch.score = api.parseScore(value);
+                if (patch.score === null) throw new Error("Điểm thi phải nằm trong khoảng 0 đến 10.");
+            } else if (key === "grade") {
+                patch.grade = Number(value);
+                if (!api.grades.includes(patch.grade)) throw new Error("Hãy chọn khối trong danh mục.");
+            } else if (key === "period") {
+                if (!api.periods.some(period => period.key === value)) throw new Error("Hãy chọn kỳ thi trong danh mục.");
+                patch.period = value;
+            } else if (key === "school_year") {
+                patch.school_year = String(value).trim();
+                if (!api.validYear(patch.school_year)) throw new Error("Năm học phải gồm 2 năm liên tiếp, ví dụ 2026-2027.");
+            } else if (key === "class_name") {
+                patch.class_name = String(value).trim().replace(/\s+/g, " ");
+                if (!patch.class_name || patch.class_name.length > 80) throw new Error("Nhập lớp / khóa học, tối đa 80 ký tự.");
+            } else throw new Error("Trường thông tin này không hỗ trợ chỉnh sửa hàng loạt.");
+        }
+        if (!Object.keys(patch).length) throw new Error("Hãy chọn ít nhất một mục cần thay đổi.");
+        return patch;
+    }
+    function syncEditingPatch(id, patch, removed) {
+        if (editingId !== id) return;
+        if (removed) { reset(); return; }
+        const fields = { period: "scorePeriod", grade: "scoreGrade", school_year: "scoreYear", class_name: "scoreClass", score: "scoreValue", published: "scorePublished", hide_student_name: "scoreShowStudentName", ...visibilityInputs };
+        for (const [key, value] of Object.entries(patch)) {
+            const input = $(fields[key]);
+            if (!input) continue;
+            if (input.type === "checkbox") input.checked = key === "hide_student_name" ? !value : value;
+            else input.value = key === "score" ? api.format(value) : value;
+        }
+        renderPreview();
+        if (Object.hasOwn(patch, "show_image")) renderImage();
+    }
+    async function mutateRows(ids, input = {}, remove = false) {
+        if (!canManage() || busy || loading) throw new Error("Danh sách chưa sẵn sàng. Vui lòng chờ tải xong hoặc đăng nhập lại.");
+        if (!Array.isArray(ids) || !ids.length) throw new Error("Hãy chọn ít nhất một học sinh.");
+        const patch = remove ? {} : validatePatch(input);
+        const snapshot = [...new Set(ids.map(String))].map(id => records.find(row => String(row.id) === id));
+        if (snapshot.some(row => !row)) throw new Error("Có điểm thi không còn trong danh sách. Hãy làm mới rồi chọn lại.");
+        const result = { succeeded: [], failed: [], skipped: [], warnings: [] };
+        const requestEpoch = authEpoch;
+        lock(true);
+        try {
+            for (const [index, row] of snapshot.entries()) {
+                if (requestEpoch !== authEpoch || !canManage()) {
+                    result.skipped.push(...snapshot.slice(index).map(item => item.id));
+                    break;
+                }
+                try {
+                    const query = remove ? supabaseClient.from("exam_scores").delete() : supabaseClient.from("exam_scores").update(patch);
+                    const { data, error } = await query.eq("id", row.id).select("id").single();
+                    if (error) throw error;
+                    if (!data || String(data.id) !== String(row.id)) throw { code: "PGRST116" };
+                    result.succeeded.push(row.id);
+                    if (requestEpoch === authEpoch && canManage()) {
+                        records = remove ? records.filter(item => item.id !== row.id) : records.map(item => item.id === row.id ? { ...item, ...patch } : item);
+                        syncEditingPatch(row.id, patch, remove);
+                        if (remove && row.evidence_image_path && !await cleanupImage(row.evidence_image_path)) result.warnings.push(`Đã xóa điểm của ${row.student_name || row.class_name}, nhưng chưa dọn được ảnh đính kèm.`);
+                    }
+                } catch (error) { result.failed.push({ id: row.id, name: row.student_name || row.class_name, message: writeError(error) }); }
+            }
+            if (requestEpoch === authEpoch && canManage() && !await load()) result.warnings.push("Chưa làm mới được danh sách. Các thay đổi đã lưu không cần thực hiện lại.");
+        } finally { if (requestEpoch === authEpoch) lock(false); }
+        return result;
     }
     form.addEventListener("submit", async event => {
         event.preventDefault();
@@ -239,28 +334,24 @@
         finally { lock(false); if (!wasEditing && !editingId) $("scoreStudentName").focus(); }
     });
     $("scoreAdminRows").addEventListener("click", async event => {
-        const button = event.target.closest("[data-score-action]");
-        if (!button || busy || loading) return;
+        const button = event.target.closest("[data-score-action],[data-score-field]");
+        if (!button || busy || loading || !canManage()) return;
         const row = records.find(row => row.id === button.dataset.scoreId);
         if (!row) return;
         const action = button.dataset.scoreAction;
         if (action === "edit") { startEdit(row); return; }
+        const field = button.dataset.scoreField;
+        if (!field && !["toggle", "delete"].includes(action)) return;
         if (action === "delete" && !confirm(`Xóa vĩnh viễn điểm ${api.format(row.score)} của ${row.student_name ? row.student_name + ", lớp " : "lớp "}${row.class_name}, ${api.label(row.period)}, năm ${row.school_year}?`)) return;
-        lock(true);
+        const requestEpoch = authEpoch;
         try {
-            const query = action === "delete" ? supabaseClient.from("exam_scores").delete() : supabaseClient.from("exam_scores").update({ published: !row.published });
-            const { error } = await query.eq("id", row.id).select("id").single();
-            if (error) throw error;
-            const cleanupFailed = action === "delete" && row.evidence_image_path && !await cleanupImage(row.evidence_image_path);
-            if (editingId === row.id) {
-                if (action === "delete") reset();
-                else $("scorePublished").checked = !row.published;
-                renderPreview();
-            }
-            await load();
-            toast(cleanupFailed ? "Đã xóa điểm nhưng chưa dọn được ảnh xác nhận khỏi kho lưu trữ." : action === "delete" ? "Đã xóa điểm thi." : row.published ? "Đã ẩn điểm khỏi thống kê." : "Đã công bố điểm thi.", cleanupFailed ? "error" : "ok");
-        } catch (error) { toast(writeError(error), "error"); }
-        finally { lock(false); }
+            const patch = field ? { [field]: field === "hide_student_name" ? !row.hide_student_name : !api.visibility(row)[field] } : { published: !row.published };
+            const result = await mutateRows([row.id], patch, action === "delete");
+            if (requestEpoch !== authEpoch) return;
+            const error = result.failed[0]?.message || result.warnings[0];
+            toast(error || (field ? "Đã cập nhật thông tin hiển thị." : action === "delete" ? "Đã xóa điểm thi." : row.published ? "Đã ẩn điểm khỏi thống kê." : "Đã công bố điểm thi."), error ? "error" : "ok");
+            [...$("scoreAdminRows").querySelectorAll("[data-score-action],[data-score-field]")].find(node => node.dataset.scoreId === row.id && (field ? node.dataset.scoreField === field : node.dataset.scoreAction === action))?.focus({ preventScroll: true });
+        } catch (error) { if (requestEpoch === authEpoch) toast(error.message || writeError(error), "error"); }
     });
     $("scoreResetBtn").addEventListener("click", () => { if (!busy) reset(); });
     $("scoreAdminRefresh").addEventListener("click", () => { if (!busy) load(); });
@@ -298,8 +389,9 @@
     function clear() {
         authEpoch++;
         pending = null;
-        loading = ready = false;
+        busy = loading = ready = false;
         records = [];
+        pageIds = [];
         page = 1;
         reset();
         $("scoreAdminRows").replaceChildren();
@@ -308,7 +400,7 @@
         setStatus("scoreAdminStatus", "");
         lock(busy);
     }
-    window.examScoreAdmin = { load, clear };
+    window.examScoreAdmin = { load, clear, getState, mutateRows };
     window.addEventListener("exam-score-options-change", () => { if (ready) render(); });
     renderPreview();
     renderImage();
