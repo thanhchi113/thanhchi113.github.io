@@ -27,6 +27,36 @@ function mockSdk() {
     window.supabase = { createClient: () => client };
 }
 
+async function verifyAvatarOrbits(page) {
+    const avatar = page.locator('.avatar-wrapper');
+    await avatar.scrollIntoViewIfNeeded();
+    await page.waitForFunction(() => !document.querySelector('.avatar-wrapper').classList.contains('motion-offscreen'));
+    // Sample actual paint transforms so a fixed !important transform cannot pass.
+    const sample = () => avatar.evaluate(node => ({
+        photo: getComputedStyle(node.querySelector('.avatar img')).transform,
+        rings: [...node.querySelectorAll('.avatar-ring')].map(ring => {
+            const matrix = new DOMMatrix(getComputedStyle(ring).transform);
+            const rect = ring.getBoundingClientRect(), photo = node.querySelector('.avatar').getBoundingClientRect();
+            return { angle: Math.atan2(matrix.b, matrix.a), dx: rect.x + rect.width / 2 - photo.x - photo.width / 2, dy: rect.y + rect.height / 2 - photo.y - photo.height / 2 };
+        })
+    }));
+    const before = await sample();
+    await page.waitForTimeout(350);
+    const after = await sample();
+    const deltas = after.rings.map((ring, i) => Math.atan2(Math.sin(ring.angle - before.rings[i].angle), Math.cos(ring.angle - before.rings[i].angle)));
+    assert(deltas.every(value => Math.abs(value) > .015), 'Both LED rings visibly rotate');
+    assert(deltas[0] * deltas[1] < 0, 'LED rings rotate in opposite directions');
+    assert(after.rings.every(ring => Math.abs(ring.dx) < 1 && Math.abs(ring.dy) < 1), 'Rings stay centered on the photograph');
+    assert.equal(after.photo, before.photo, 'Only the decoration rotates');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.waitForTimeout(80);
+    const still = await sample();
+    await page.waitForTimeout(200);
+    assert.deepEqual(await sample(), still, 'Reduced motion keeps both rings still');
+    assert(await avatar.evaluate(node => [...node.querySelectorAll('.avatar-ring,.orbit-particle')].every(item => item.getAnimations().every(animation => animation.playState === 'paused'))));
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+}
+
 (async () => {
     const browser = await chromium.launch({ channel: process.env.TEST_BROWSER_CHANNEL || 'msedge', headless: true });
     try {
@@ -47,6 +77,7 @@ function mockSdk() {
         await page.waitForFunction(() => document.querySelector('#milkyWayCanvas')?.dataset.galaxyTextureReady === 'true' && document.querySelector('[data-galaxy-clouds]')?.dataset.textureReady === 'true');
         assert.equal(await page.locator('#particleCanvas').count(), 0);
         assert.equal(await page.locator('[data-galaxy-clouds]').count(), 1);
+        await verifyAvatarOrbits(page);
         const card = page.locator('.document-category-card').filter({ hasText: 'Lớp 12' });
         const drawing = card.locator('.category-card-illustration');
         await drawing.waitFor({ state: 'attached' });
@@ -129,6 +160,10 @@ function mockSdk() {
             return route.fulfill({ contentType: types[path.extname(file)] || 'text/plain', body: fs.readFileSync(file) });
         });
         const phone = await mobile.newPage(); phone.on('pageerror', error => errors.push(error.message));
+        await phone.goto('https://motion.test/index.html');
+        await phone.emulateMedia({ reducedMotion: 'no-preference' });
+        await verifyAvatarOrbits(phone);
+        await phone.emulateMedia({ reducedMotion: 'reduce' });
         for (const url of ['index.html#documents', 'achievements.html?type=grade12', 'admin.html#admin-scores']) {
             await phone.goto(`https://motion.test/${url}`);
             await phone.waitForFunction(() => document.querySelector('canvas[data-galaxy-background-initialized]')?.dataset.galaxyTextureReady === 'true');

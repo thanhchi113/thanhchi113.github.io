@@ -2345,7 +2345,7 @@ footer {
     width: 316px !important;
     height: 316px !important;
 
-    transform: translate(-50%, -50%) rotate(0deg) !important;
+    transform: translate(-50%, -50%) rotate(0deg);
 
     border: 2px solid rgba(96, 165, 250, 0.18) !important;
 
@@ -2358,7 +2358,7 @@ footer {
         inset 0 0 14px rgba(139, 92, 246, 0.04);
 
     animation:
-        orbitRingOuter 10s linear infinite !important;
+        orbitRingOuter 18s linear infinite !important;
 
     z-index: 1;
 }
@@ -2368,7 +2368,7 @@ footer {
     width: 276px !important;
     height: 276px !important;
 
-    transform: translate(-50%, -50%) rotate(360deg) !important;
+    transform: translate(-50%, -50%) rotate(360deg);
 
     border: 2px solid rgba(96, 165, 250, 0.10) !important;
 
@@ -2380,7 +2380,7 @@ footer {
         0 0 12px rgba(139, 92, 246, 0.10);
 
     animation:
-        orbitRingInner 7s linear infinite !important;
+        orbitRingInner 14s linear infinite !important;
 
     z-index: 2;
 }
@@ -2683,6 +2683,17 @@ footer {
 
 }
 
+
+/* Keep orbit positions while honoring the device's reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+    .avatar-wrapper .avatar-ring,
+    .avatar-wrapper .orbit-particle {
+        animation-play-state: paused !important;
+        will-change: auto !important;
+    }
+
+    .avatar-wrapper::before { animation: none; }
+}
 
 /* Keep the central avatar visually dominant */
 .avatar {
