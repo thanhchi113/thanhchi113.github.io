@@ -150,6 +150,20 @@ async function checkSectorTiming(frame) {
     assert.deepEqual(held.strokes, outlined.strokes, 'The completed circle and radii remain visible during the fill');
 }
 
+async function checkVariationTiming(frame) {
+    for (const [time, finishedCount] of [[3220, 1], [4300, 2], [5410, 3]]) {
+        await seek(frame, time);
+        const arrows = await frame.locator('.ci-variation-arrow').evaluateAll(paths => paths.map(path => ({ offset: parseFloat(getComputedStyle(path).strokeDashoffset), opacity: parseFloat(getComputedStyle(path).opacity) })));
+        const heads = await frame.locator('.ci-variation-head').evaluateAll(paths => paths.map(path => parseFloat(getComputedStyle(path).opacity)));
+        assert(arrows.slice(0, finishedCount).every(arrow => Math.abs(arrow.offset) < .01 && arrow.opacity > .9), 'Each variation arrow completes before the next is drawn');
+        assert(arrows.slice(finishedCount).every(arrow => arrow.opacity === 0), 'Later arrows stay hidden until their turn');
+        assert(heads.slice(0, finishedCount).every(opacity => opacity > .9) && heads.slice(finishedCount).every(opacity => opacity === 0), 'Arrowheads appear only with their completed variation arrows');
+    }
+    await seek(frame, 7200);
+    const completed = await frame.locator('.ci-table-grid,.ci-variation-arrow').evaluateAll(paths => paths.every(path => Math.abs(parseFloat(getComputedStyle(path).strokeDashoffset)) < .01 && parseFloat(getComputedStyle(path).opacity) > .7));
+    assert(completed, 'The full variation table stays visible before changing scenes');
+}
+
 async function finishAndCheckNext(page, card, frame, index, count) {
     await frame.evaluate(node => {
         window.illustrationPreviousScene = node;
@@ -249,8 +263,7 @@ async function finishAndCheckNext(page, card, frame, index, count) {
                     await card.screenshot({ path: path.join(output, 'entrance10-sector-desktop.png') });
                 }
                 if (await frame.locator('.category-illustration-variation').count()) {
-                    const completed = await frame.locator('.ci-table-grid,.ci-variation-arrow').evaluateAll(paths => paths.every(path => Math.abs(parseFloat(getComputedStyle(path).strokeDashoffset)) < .01 && parseFloat(getComputedStyle(path).opacity) > .7));
-                    assert(completed, 'The full variation table stays visible before changing scenes');
+                    await checkVariationTiming(frame);
                     await card.screenshot({ path: path.join(output, 'thpt-variation-desktop.png') });
                 }
                 await finishAndCheckNext(page, card, frame, index, count);
