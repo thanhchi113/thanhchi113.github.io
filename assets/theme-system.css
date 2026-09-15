@@ -326,6 +326,42 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 }
 [data-theme] #documents .document-category-card .category-card-illustration { --cat-accent:var(--theme-accent) !important; --cat-accent-2:var(--theme-accent-3) !important; --cat-area:color-mix(in srgb,var(--theme-accent) 28%,transparent) !important; }
 
+/* Category cards: remove the two legacy rectangular slabs behind the icon and
+   CATEGORY label. Keep only the continuous card surface and a soft circular
+   glow; SVG/text labels stay bright enough on every palette. */
+[data-theme] #documents .document-category-card .document-category-icon,
+[data-theme] #documents .document-category-card .document-card-category {
+  background:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  border:0 !important;
+}
+[data-theme] #documents .document-category-card .document-category-icon {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  width:auto !important;
+  min-height:0 !important;
+  padding:0 !important;
+  color:var(--theme-highlight) !important;
+}
+[data-theme] #documents .document-category-card .document-category-icon i {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+  text-shadow:0 0 12px var(--theme-glow) !important;
+}
+[data-theme] #documents .document-category-card .document-card-category {
+  color:var(--theme-highlight) !important;
+  text-shadow:0 0 12px var(--theme-glow) !important;
+}
+[data-theme] #documents .category-card-illustration :is(text,tspan,.ci-label,.ci-table-label) {
+  fill:var(--theme-text) !important;
+  stroke:var(--theme-bg) !important;
+  paint-order:stroke fill !important;
+  stroke-width:2px !important;
+}
+[data-theme] #documents .category-card-illustration :is(.ci-label,.ci-table-label) { fill:var(--theme-highlight) !important; }
+
 /* Last, shared token layer for every page/component. */
 [data-theme], [data-theme] body { font-family:var(--theme-font) !important; }
 [data-theme] body, [data-theme] main, [data-theme] section,
