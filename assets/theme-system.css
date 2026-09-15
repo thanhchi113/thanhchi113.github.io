@@ -274,5 +274,15 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
   background:transparent !important; border:0 !important; box-shadow:none !important;
 }
 [data-theme] .navbar .nav-link.active::before, [data-theme] #siteHeader .nav-link.active::before { content:none !important; display:none !important; }
+[data-theme] #siteHeader .nav-link,
+[data-theme] #siteHeader .nav-link:hover,
+[data-theme] #siteHeader .nav-link.active {
+  background:transparent !important;
+  background-image:none !important;
+  -webkit-background-clip:border-box !important;
+  background-clip:border-box !important;
+  -webkit-text-fill-color:currentColor !important;
+  text-shadow:none !important;
+}
 [data-theme] .site-galaxy, [data-theme] .evidence-galaxy-scene, [data-theme] .admin-galaxy-scene { z-index:0 !important; }
 [data-theme] .navbar *, [data-theme] .evidence-nav *, [data-theme] .admin-nav * { position:relative; z-index:1; }
