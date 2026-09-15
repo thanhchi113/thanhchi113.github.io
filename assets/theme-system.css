@@ -110,6 +110,15 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme="ocean"] { --theme-galaxy-hue:48deg; }
 [data-theme="violet"] { --theme-galaxy-hue:292deg; }
 [data-theme="ember"] { --theme-galaxy-hue:335deg; }
+[data-theme="meridian"] { --theme-galaxy-hue:20deg; }
+/* Meridian preset: sharp SaaS-inspired surfaces while retaining the site's
+   existing animated galaxy and content structure. */
+[data-theme="meridian"] .project-card, [data-theme="meridian"] .document-card,
+[data-theme="meridian"] .achievement-card-large, [data-theme="meridian"] .evidence-card,
+[data-theme="meridian"] .tikz-card, [data-theme="meridian"] .score-card,
+[data-theme="meridian"] .category-card { border-radius:0 !important; backdrop-filter:blur(18px); }
+[data-theme="meridian"] .navbar, [data-theme="meridian"] .evidence-nav,
+[data-theme="meridian"] .admin-nav { border-radius:0 !important; }
 .theme-surface, .admin-card, .admin-doc, .modal-card, .workspace-tabs, .workspace-panel section { border-color:color-mix(in srgb,var(--theme-accent) 20%,rgba(255,255,255,.1)); }
 .admin-btn:not(.danger), .theme-switcher button, .theme-switcher select { border-color:color-mix(in srgb,var(--theme-accent) 45%,rgba(255,255,255,.12)); }
 .admin-btn:not(.danger):hover, .theme-switcher button:hover { box-shadow:0 0 22px var(--theme-glow); }
