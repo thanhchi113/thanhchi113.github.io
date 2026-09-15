@@ -399,6 +399,24 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] .exam-student-card .score-value,
 [data-theme] .exam-student-card .led-score,
 [data-theme] .score-value { color:var(--theme-highlight) !important; text-shadow:0 0 16px var(--theme-glow) !important; }
+
+/* Public exam summary table: lift it off the animated galaxy for reliable
+   contrast while preserving the responsive table layout. */
+[data-theme] #examScorePeriodTable {
+  margin-top:18px !important; padding:16px !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.18)) !important;
+  border-radius:16px !important;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--theme-panel) 96%,transparent),color-mix(in srgb,var(--theme-surface) 88%,transparent)) !important;
+  box-shadow:0 18px 44px color-mix(in srgb,var(--theme-bg) 58%,transparent),inset 0 1px 0 rgba(255,255,255,.1) !important;
+}
+[data-theme] #examScorePeriodTable .exam-table { color:var(--theme-text) !important; border-collapse:separate !important; border-spacing:0 !important; }
+[data-theme] #examScorePeriodTable .exam-table caption { padding:0 0 14px !important; text-align:left !important; color:var(--theme-highlight) !important; font-size:18px !important; font-weight:800 !important; }
+[data-theme] #examScorePeriodTable .exam-table th { padding:12px 14px !important; color:var(--theme-text) !important; background:color-mix(in srgb,var(--theme-accent) 16%,var(--theme-panel)) !important; border-bottom:1px solid color-mix(in srgb,var(--theme-accent) 48%,transparent) !important; }
+[data-theme] #examScorePeriodTable .exam-table th:first-child { border-radius:10px 0 0 0; }
+[data-theme] #examScorePeriodTable .exam-table th:last-child { border-radius:0 10px 0 0; }
+[data-theme] #examScorePeriodTable .exam-table td { padding:13px 14px !important; color:var(--theme-text) !important; border-bottom:1px solid color-mix(in srgb,var(--theme-accent) 20%,rgba(255,255,255,.12)) !important; }
+[data-theme] #examScorePeriodTable .exam-table tbody tr:last-child td { border-bottom:0 !important; }
+[data-theme] #examScorePeriodTable .exam-table tbody tr:hover td { background:color-mix(in srgb,var(--theme-accent) 10%,transparent) !important; }
 [data-theme] .hero, [data-theme] .hero-content, [data-theme] .hero-text,
 [data-theme] .hero h1, [data-theme] .hero-description, [data-theme] .hero-role,
 [data-theme] .section-title, [data-theme] .section-title h2 { color:var(--theme-text) !important; }
