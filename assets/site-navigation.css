@@ -36,6 +36,8 @@
     min-height: 70px;
     padding: 0 24px;
     gap: 20px;
+    border-radius: inherit;
+    overflow: hidden;
 }
 #siteHeader .logo {
     flex-shrink: 0;
@@ -74,6 +76,8 @@
     outline: 2px solid #b3dcff;
     outline-offset: 3px;
 }
+#siteHeader .nav-link:focus,
+#siteHeader .nav-link:focus-visible { outline: none !important; box-shadow: none !important; }
 #siteHeader .nav-link[href="admin.html"] {
     margin-left: 8px;
     border-color: rgba(178, 159, 242, .24);

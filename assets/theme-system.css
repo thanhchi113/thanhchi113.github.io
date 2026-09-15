@@ -321,6 +321,18 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
   -webkit-text-fill-color:currentColor !important;
   text-shadow:none !important;
 }
+[data-theme] #siteHeader,
+[data-theme] #siteHeader .navbar {
+  border-radius:22px !important;
+  overflow:hidden !important;
+}
+[data-theme] #siteHeader .nav-link:focus,
+[data-theme] #siteHeader .nav-link:focus-visible,
+[data-theme] #siteHeader .logo:focus,
+[data-theme] #siteHeader .logo:focus-visible {
+  outline:none !important;
+  box-shadow:none !important;
+}
 [data-theme] #siteHeader .nav-link,
 [data-theme] #siteHeader .nav-link i,
 [data-theme] #documents .document-admin-link,
