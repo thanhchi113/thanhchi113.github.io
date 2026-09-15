@@ -63,6 +63,37 @@ body, main, section { color:var(--theme-text); }
   color:var(--theme-text) !important;
 }
 .admin-shell, .admin-nav, .admin-sidebar, .workspace-panel, .admin-panel { background-color:var(--theme-bg) !important; }
+/* Final cascade: page-level inline styles use !important, so these rules are
+   deliberately scoped to the active theme and use the same priority. */
+[data-theme] .project-card, [data-theme] .achievement-card-large, [data-theme] .evidence-card,
+[data-theme] .document-card, [data-theme] .tikz-card, [data-theme] .score-card,
+[data-theme] .exam-score-card, [data-theme] .category-card {
+  background:linear-gradient(145deg,color-mix(in srgb,var(--theme-panel) 94%,transparent),color-mix(in srgb,var(--theme-surface) 76%,transparent)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.18)) !important;
+  color:var(--theme-text) !important;
+}
+[data-theme] .project-card h3, [data-theme] .project-card p,
+[data-theme] .achievement-card-large h3, [data-theme] .achievement-card-large p,
+[data-theme] .document-card h3, [data-theme] .document-card p,
+[data-theme] .evidence-card h2, [data-theme] .evidence-card p,
+[data-theme] .tikz-card h3, [data-theme] .tikz-card p,
+[data-theme] .score-card h3, [data-theme] .score-card p { color:var(--theme-text) !important; }
+[data-theme] .project-card small, [data-theme] .project-card .project-number,
+[data-theme] .document-card small, [data-theme] .document-card .document-meta,
+[data-theme] .evidence-card .evidence-fact span, [data-theme] .evidence-card .evidence-fact strong { color:var(--theme-muted) !important; }
+[data-theme] .navbar, [data-theme] .evidence-nav, [data-theme] .admin-nav,
+[data-theme] .admin-sidebar, [data-theme] .taskbar, [data-theme] .workspace-tabs {
+  background:linear-gradient(135deg,color-mix(in srgb,var(--theme-panel) 96%,transparent),color-mix(in srgb,var(--theme-bg) 90%,transparent)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 42%,rgba(255,255,255,.16)) !important;
+}
+[data-theme] .nav-links a, [data-theme] .nav-link, [data-theme] .evidence-nav a,
+[data-theme] .admin-sidebar a, [data-theme] .admin-sidebar button, [data-theme] .workspace-tab {
+  color:var(--theme-text) !important;
+}
+[data-theme] .nav-links a:hover, [data-theme] .nav-links a.active,
+[data-theme] .nav-link.active, [data-theme] .workspace-tab.active { color:var(--theme-accent) !important; }
+[data-theme] .project-link, [data-theme] .section-title h2, [data-theme] .evidence-type,
+[data-theme] .document-selected-category, [data-theme] .project-icon i { color:var(--theme-accent) !important; }
 body::before { background:color-mix(in srgb,var(--theme-accent) 16%,transparent); }
 body::after { background:color-mix(in srgb,var(--theme-accent-3) 14%,transparent); }
 .theme-surface, .admin-card, .admin-doc, .modal-card, .workspace-tabs, .workspace-panel section { border-color:color-mix(in srgb,var(--theme-accent) 20%,rgba(255,255,255,.1)); }
