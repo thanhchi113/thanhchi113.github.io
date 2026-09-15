@@ -4,6 +4,16 @@
     const menu = header?.querySelector("#mainMenu");
     if (!menu) return;
     const nav = menu.closest("nav");
+    // Keep the homepage sections in the same visual order as the primary bar.
+    // Skills belongs with the About section, while the remaining sections map
+    // one-to-one to the eight public navigation items.
+    const main = document.querySelector("main");
+    if (main && main.querySelector("#home")) {
+        ["home", "about", "skills", "achievements", "documents", "projects", "tikz-library", "material-request", "contact"]
+            .map(id => document.getElementById(id))
+            .filter(Boolean)
+            .forEach(section => main.appendChild(section));
+    }
     const indicator = document.createElement("span");
     indicator.className = "site-nav-indicator";
     indicator.setAttribute("aria-hidden", "true");
