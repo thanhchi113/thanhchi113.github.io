@@ -421,6 +421,32 @@ html[data-theme]::-webkit-scrollbar-thumb,body[data-theme]::-webkit-scrollbar-th
 }
 [data-theme] .contact-icon-zalo .zalo-letter { width:32px; height:32px; border-radius:10px; }
 
+/* Accent text and admin action use the active palette instead of legacy blue. */
+[data-theme] #siteHeader .logo,
+[data-theme] #siteHeader .logo span {
+  background-image:linear-gradient(100deg,var(--theme-accent),var(--theme-accent-3),var(--theme-highlight)) !important;
+  background-size:200% auto !important; background-clip:text !important;
+  -webkit-background-clip:text !important; -webkit-text-fill-color:transparent !important;
+  color:var(--theme-accent) !important;
+}
+[data-theme] #siteHeader .admin-taskbar-link,
+[data-theme] #siteHeader .admin-taskbar-link i {
+  color:var(--theme-text) !important;
+  -webkit-text-fill-color:var(--theme-text) !important;
+}
+[data-theme] #siteHeader .admin-taskbar-link:hover,
+[data-theme] #siteHeader .admin-taskbar-link:hover i { color:var(--theme-highlight) !important; -webkit-text-fill-color:var(--theme-highlight) !important; }
+[data-theme] .hero .hero-small,
+[data-theme] .hero .hero-role,
+[data-theme] .hero .typing-caret {
+  color:var(--theme-accent) !important; -webkit-text-fill-color:var(--theme-accent) !important;
+}
+[data-theme] .hero .hero-small::before,
+[data-theme] .hero .typing-caret { background:var(--theme-accent) !important; }
+html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
+  scrollbar-color:var(--theme-accent) var(--theme-scroll-track) !important;
+}
+
 /* Flatten legacy category-card sub-panels so no rectangular slab sits behind
    the text or drawing. The card itself remains the single themed surface. */
 [data-theme] #documents .document-category-card > .document-card-glow,
