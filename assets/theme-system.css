@@ -362,6 +362,78 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 }
 [data-theme] #documents .category-card-illustration :is(.ci-label,.ci-table-label) { fill:var(--theme-highlight) !important; }
 
+/* Final bridge for document/contact controls shown on the public page. */
+[data-theme] #documents .document-card-action,
+[data-theme] #documents .document-category-count,
+[data-theme] #documents .document-sort-wrap,
+[data-theme] #documents .document-type-filter,
+[data-theme] #documents .document-search-wrap,
+[data-theme] #documents .document-search-wrap input {
+  color:var(--theme-text) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 52%,rgba(255,255,255,.2)) !important;
+  background:color-mix(in srgb,var(--theme-panel) 88%,transparent) !important;
+}
+[data-theme] #documents .document-search-wrap i,
+[data-theme] #documents .document-category-count i,
+[data-theme] #documents .document-sort-wrap i,
+[data-theme] #documents .document-type-filter i,
+[data-theme] #documents .document-card-action i,
+[data-theme] #documents .document-category-card .document-open-label i {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+  margin:0 !important;
+}
+[data-theme] #documents .document-search-wrap input::placeholder { color:var(--theme-muted) !important; opacity:1 !important; }
+[data-theme] #documents .document-sort-wrap select,
+[data-theme] #documents .document-type-filter { color:var(--theme-text) !important; }
+[data-theme] #documents .document-sort-wrap option,
+[data-theme] #documents .document-type-filter option { background:var(--theme-panel) !important; color:var(--theme-text) !important; }
+[data-theme] #documents .document-card-action:hover,
+[data-theme] #documents .document-category-count:hover,
+[data-theme] #documents .document-sort-wrap:focus-within,
+[data-theme] #documents .document-type-filter:focus-visible,
+[data-theme] #documents .document-search-wrap:focus-within {
+  color:#fff !important;
+  border-color:var(--theme-highlight) !important;
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--theme-accent) 26%,transparent),0 0 18px var(--theme-glow) !important;
+}
+[data-theme] #documents .document-card-action:hover i,
+[data-theme] #documents .document-category-count:hover i { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+
+[data-theme] .contact-item {
+  color:var(--theme-text) !important;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--theme-panel) 94%,transparent),color-mix(in srgb,var(--theme-bg) 88%,transparent)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 60%,rgba(255,255,255,.18)) !important;
+}
+[data-theme] .contact-item :is(h3,p,span,strong) { color:var(--theme-text) !important; }
+[data-theme] .contact-item p,[data-theme] .contact-item small { color:var(--theme-muted) !important; }
+[data-theme] .contact-item .contact-icon {
+  color:var(--theme-highlight) !important;
+  background:color-mix(in srgb,var(--theme-accent) 14%,var(--theme-panel)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 62%,transparent) !important;
+}
+[data-theme] .contact-item .contact-icon i,
+[data-theme] .contact-item .contact-arrow,
+[data-theme] .contact-item .contact-arrow i {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+}
+[data-theme] .contact-item:hover { border-color:var(--theme-highlight) !important; box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-highlight) 52%,transparent),0 0 22px var(--theme-glow) !important; }
+[data-theme] .contact-item:hover .contact-arrow,
+[data-theme] .contact-item:hover .contact-arrow i { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+
+/* Project and document arrow links use the same theme icon treatment. */
+[data-theme] :is(.project-link,.document-card-action,.document-open-label,.tikz-open-button) {
+  color:var(--theme-highlight) !important;
+}
+[data-theme] :is(.project-link,.document-card-action,.document-open-label,.tikz-open-button) :is(i,svg) {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+  margin:0 !important;
+}
+[data-theme] :is(.project-link,.document-card-action,.document-open-label,.tikz-open-button):hover,
+[data-theme] :is(.project-link,.document-card-action,.document-open-label,.tikz-open-button):hover :is(i,svg) { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+
 /* Last, shared token layer for every page/component. */
 [data-theme], [data-theme] body { font-family:var(--theme-font) !important; }
 [data-theme] body, [data-theme] main, [data-theme] section,
