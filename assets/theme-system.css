@@ -435,6 +435,34 @@ html[data-theme]::-webkit-scrollbar-thumb,body[data-theme]::-webkit-scrollbar-th
 [data-theme] #logoutBtn { display:inline-flex !important; align-items:center; justify-content:center; gap:8px; min-height:40px; padding:9px 14px !important; color:var(--theme-text) !important; background:color-mix(in srgb,var(--theme-accent) 12%,var(--theme-panel)) !important; border:1px solid color-mix(in srgb,var(--theme-accent) 52%,transparent) !important; }
 [data-theme] #logoutBtn:hover { color:#fff !important; background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important; border-color:var(--theme-highlight) !important; }
 [data-theme] #adminPanel .admin-user i { color:var(--theme-accent) !important; margin-right:7px; }
+/* High-contrast controls: keep cyan surfaces but make glyphs and labels
+   readable with white/yellow theme tokens. */
+[data-theme] :is(.score-quick-toggle,.evidence-quick-toggle,.admin-sidebar-control,.workspace-tab) {
+  color:var(--theme-text) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.22)) !important;
+}
+[data-theme] :is(.score-quick-toggle,.evidence-quick-toggle)[aria-pressed="true"] {
+  color:#fff !important;
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  border-color:var(--theme-highlight) !important;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-highlight) 32%,transparent),0 0 18px var(--theme-glow) !important;
+}
+[data-theme] :is(.score-quick-toggle,.evidence-quick-toggle) .score-quick-dot,
+[data-theme] :is(.score-quick-toggle,.evidence-quick-toggle) .evidence-quick-dot {
+  background:color-mix(in srgb,var(--theme-panel) 78%,transparent) !important;
+  border-color:color-mix(in srgb,#fff 62%,var(--theme-accent)) !important;
+}
+[data-theme] :is(.score-quick-toggle,.evidence-quick-toggle)[aria-pressed="true"] :is(.score-quick-dot,.evidence-quick-dot) {
+  background:color-mix(in srgb,#fff 18%,var(--theme-accent)) !important;
+  border-color:#fff !important;
+}
+[data-theme] .score-quick-dot::after,[data-theme] .evidence-quick-dot::after { background:#fff !important; }
+[data-theme] .score-quick-toggle[aria-pressed="true"] .score-quick-dot::after,[data-theme] .evidence-quick-toggle[aria-pressed="true"] .evidence-quick-dot::after { background:var(--theme-highlight) !important; }
+[data-theme] input[type=checkbox]:not(.site-content-toggle) { accent-color:var(--theme-highlight); }
+[data-theme] .check-row { color:var(--theme-text) !important; }
+[data-theme] .check-row input:checked + * { color:var(--theme-highlight) !important; }
+[data-theme] .admin-sidebar .workspace-tab.active { color:#fff !important; background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important; border-color:var(--theme-highlight) !important; }
+@media(hover:hover){ [data-theme] :is(.score-quick-toggle,.evidence-quick-toggle):hover:not(:disabled) { color:#fff !important; border-color:var(--theme-highlight) !important; background:color-mix(in srgb,var(--theme-accent) 28%,var(--theme-panel)) !important; } }
 @media(max-width:650px){ [data-theme] #loginPanel{width:calc(100% - 20px)!important;margin-top:24px!important} [data-theme] .admin-authbar{align-items:flex-start!important;flex-direction:column!important} [data-theme] .admin-session-actions{width:100%;justify-content:stretch} [data-theme] .admin-session-actions .admin-btn{flex:1 1 150px} }
 
 /* Accent text and admin action use the active palette instead of legacy blue. */
