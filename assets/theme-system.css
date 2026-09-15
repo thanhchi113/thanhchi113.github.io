@@ -201,6 +201,31 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] .admin-sidebar .admin-sidebar-status { color:inherit !important; }
 [data-theme] .admin-sidebar .admin-sidebar-icon { color:var(--theme-highlight) !important; }
 [data-theme] .admin-sidebar .workspace-tab.active .admin-sidebar-icon { color:#fff !important; }
+[data-theme] #about .about-content,
+[data-theme] #about .highlight-item,
+[data-theme] #about .skill-item,
+[data-theme] #skills .skill-item {
+  background:linear-gradient(145deg,var(--theme-panel),var(--theme-surface)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 62%,rgba(255,255,255,.18)) !important;
+  box-shadow:0 18px 44px color-mix(in srgb,var(--theme-bg) 58%,transparent),inset 0 1px 0 rgba(255,255,255,.1) !important;
+  color:var(--theme-text) !important;
+}
+[data-theme] #about .about-content h3,
+[data-theme] #about .about-content p,
+[data-theme] #about .highlight-item h3,
+[data-theme] #about .highlight-item p,
+[data-theme] #about .skill-item h3,
+[data-theme] #about .skill-item p,
+[data-theme] #skills .skill-item h3,
+[data-theme] #skills .skill-item p { color:var(--theme-text) !important; }
+[data-theme] #about .about-content h3 span,
+[data-theme] #about .highlight-item i,
+[data-theme] #about .skill-icon,
+[data-theme] #skills .skill-icon,
+[data-theme] #about .skill-percent,
+[data-theme] #skills .skill-percent { color:var(--theme-accent) !important; }
+[data-theme] #about .skill-progress,
+[data-theme] #skills .skill-progress { background:linear-gradient(90deg,var(--theme-accent),var(--theme-accent-3)) !important; }
 [data-theme] .hero, [data-theme] .hero-content, [data-theme] .hero-text,
 [data-theme] .hero h1, [data-theme] .hero-description, [data-theme] .hero-role,
 [data-theme] .section-title, [data-theme] .section-title h2 { color:var(--theme-text) !important; }
