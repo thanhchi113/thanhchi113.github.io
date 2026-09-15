@@ -16,6 +16,9 @@
   function apply(theme) {
     theme = valid(theme);
     document.documentElement.dataset.theme = theme;
+    // Mirror the theme on body as well.  A number of legacy page styles are
+    // scoped from body and this keeps the active palette available to them.
+    if (document.body) document.body.dataset.theme = theme;
     document.documentElement.style.setProperty('--theme-name', theme);
     // Inline page styles contain many legacy colour literals.  Keep one late
     // override sheet so a palette change is visible immediately everywhere.
@@ -42,7 +45,13 @@
       'input,textarea,select,.admin-filter,.admin-search{background:'+palette[0]+'cc !important;color:'+palette[7]+' !important;border-color:'+palette[3]+'55 !important}'+
       '.muted,.admin-status,.document-card p,.evidence-content p,.stat-label,.section-title p,.admin-help,.admin-form label,.field-label{color:'+palette[8]+' !important}'+
       '.theme-switcher{background:'+palette[1]+'ee !important;border-color:'+palette[3]+'88 !important}';
-    if (!style.parentNode) document.head.appendChild(style);
+    // Keep the runtime sheet as the final cascade layer.  The legacy pages
+    // contain large inline style blocks (some with !important) after the
+    // initial script tag; mounting at the end of body guarantees a selected
+    // palette replaces those literals instead of merely sitting underneath.
+    var styleHost = document.body || document.head;
+    if (style.parentNode !== styleHost) styleHost.appendChild(style);
+    else styleHost.appendChild(style);
     document.querySelectorAll('[data-theme-select]').forEach(function (s) { s.value = theme; });
     window.dispatchEvent(new CustomEvent('site-theme-change', { detail: { theme: theme } }));
   }
