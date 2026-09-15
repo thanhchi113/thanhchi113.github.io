@@ -47,6 +47,13 @@
       'input,textarea,select,.admin-filter,.admin-search{background:'+palette[0]+'cc !important;color:'+palette[7]+' !important;border-color:'+palette[3]+'55 !important}'+
       '.muted,.admin-status,.document-card p,.evidence-content p,.stat-label,.section-title p,.admin-help,.admin-form label,.field-label{color:'+palette[8]+' !important}'+
       '.theme-switcher{background:'+palette[1]+'ee !important;border-color:'+palette[3]+'88 !important}';
+    /* Keep glyphs readable against the themed gradient surfaces.  Legacy
+       rules used a fixed cyan value, which became low-contrast on violet and
+       ember palettes. */
+    style.textContent += '.hero-socials a,.contact-socials a{color:'+palette[7]+' !important;border-color:'+palette[3]+'99 !important;background:linear-gradient(145deg,'+palette[1]+'cc,'+palette[0]+'cc) !important}'+
+      '.hero-socials a:hover,.contact-socials a:hover{color:'+palette[6]+' !important;border-color:'+palette[6]+' !important;box-shadow:0 0 0 2px '+palette[3]+'55,0 0 18px '+palette[3]+'66 !important}'+
+      '.hero-socials a i,.contact-socials a i,.btn i,.evidence-button i,.contact-qr-button i,.tikz-open-button i,.tikz-contribution-submit i{color:'+palette[6]+' !important;-webkit-text-fill-color:'+palette[6]+' !important;background:none !important}'+
+      '.hero-socials a:hover i,.contact-socials a:hover i,.btn:hover i,.evidence-button:hover i,.contact-qr-button:hover i,.tikz-open-button:hover i,.tikz-contribution-submit:hover i{color:#fff !important;-webkit-text-fill-color:#fff !important}';
     // Keep the runtime sheet as the final cascade layer.  The legacy pages
     // contain large inline style blocks (some with !important) after the
     // initial script tag; mounting at the end of body guarantees a selected
@@ -63,7 +70,10 @@
     var label = document.createElement('label'); label.textContent = admin ? 'Bộ màu mặc định' : 'Bộ màu';
     var select = document.createElement('select'); select.setAttribute('data-theme-select',''); select.setAttribute('aria-label','Chọn bộ màu');
     Object.keys(palettes).forEach(function (key) { var option=document.createElement('option'); option.value=key; option.textContent=palettes[key]; select.appendChild(option); });
-    var button = document.createElement('button'); button.type='button'; button.textContent=admin ? 'Lưu mặc định' : 'Áp dụng';
+    var button = document.createElement('button'); button.type='button'; button.textContent='Lưu mặc định';
+    /* Public users apply a palette immediately from the select control; the
+       explicit save/apply button is only an admin action for the site default. */
+    if (!admin) button.hidden = true;
     var state = document.createElement('span'); state.className='theme-state';
     select.addEventListener('change', function () { apply(select.value); if (!admin) { save(userKey, select.value); state.textContent='Đã lưu trên thiết bị'; } });
     button.addEventListener('click', function () { if (admin) { save(defaultKey, select.value); save(userKey, select.value); state.textContent='Đã đặt mặc định'; } else { save(userKey, select.value); state.textContent='Đã lưu trên thiết bị'; } apply(select.value); });
