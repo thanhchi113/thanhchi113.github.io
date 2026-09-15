@@ -22,7 +22,7 @@
         if (!button) return;
         button.disabled = !allowed || reduced.matches;
         button.setAttribute("aria-pressed", String(running));
-        button.querySelector("[data-motion-icon]").textContent = running ? "Ⅱ" : "▷";
+        button.dataset.state = running ? "on" : "off";
         button.querySelector("[data-motion-label]").textContent = !allowed ? "Nền tĩnh · Quản trị viên đã tắt" : reduced.matches ? "Nền tĩnh · Giảm chuyển động" : `Nền chuyển động: ${running ? "Bật" : "Tắt"}`;
         button.title = !allowed ? "Quản trị viên đang tắt nền chuyển động cho website" : reduced.matches ? "Đang theo cài đặt giảm chuyển động của thiết bị" : running ? "Tạm dừng chuyển động, giữ nền thiên hà tĩnh" : "Bật lại nền thiên hà chuyển động";
     }
@@ -71,7 +71,7 @@
         if (!isPreview) {
             button = document.createElement("button");
             button.id = "siteMotionToggle"; button.className = "site-motion-toggle"; button.type = "button";
-            button.innerHTML = '<span data-motion-icon aria-hidden="true"></span><span data-motion-label></span>';
+            button.innerHTML = '<span class="motion-switch" data-motion-switch aria-hidden="true"><span class="motion-switch-knob"></span></span><span data-motion-label></span>';
             button.addEventListener("click", () => {
                 personal = !personal;
                 try { localStorage.setItem(preferenceKey, String(personal)); } catch (_) { /* Saving is optional. */ }
