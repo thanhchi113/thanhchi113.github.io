@@ -434,6 +434,45 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] :is(.project-link,.document-card-action,.document-open-label,.tikz-open-button):hover,
 [data-theme] :is(.project-link,.document-card-action,.document-open-label,.tikz-open-button):hover :is(i,svg) { color:#fff !important; -webkit-text-fill-color:#fff !important; }
 
+/* Remaining public-page chips, callouts and category headings. */
+[data-theme] .contact-direction,
+[data-theme] .contact-direction * {
+  color:var(--theme-text) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 58%,rgba(255,255,255,.2)) !important;
+  background:color-mix(in srgb,var(--theme-panel) 84%,transparent) !important;
+}
+[data-theme] .contact-direction i,
+[data-theme] .contact-direction svg { color:var(--theme-highlight) !important; -webkit-text-fill-color:var(--theme-highlight) !important; }
+[data-theme] .contact-direction:hover { border-color:var(--theme-highlight) !important; box-shadow:0 0 18px var(--theme-glow) !important; }
+
+[data-theme] .achievement-schools,
+[data-theme] .achievement-schools span,
+[data-theme] .skill-tag,
+[data-theme] .document-category-chip,
+[data-theme] .document-card-badge {
+  color:var(--theme-text) !important;
+  background:color-mix(in srgb,var(--theme-accent) 13%,var(--theme-panel)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 52%,transparent) !important;
+}
+[data-theme] .achievement-schools span { display:inline-flex !important; align-items:center !important; gap:6px !important; }
+[data-theme] .achievement-schools span:hover { color:#fff !important; border-color:var(--theme-highlight) !important; }
+
+[data-theme] #documents .document-category-card .document-card-category,
+[data-theme] #documents .document-category-card h3,
+[data-theme] #documents .document-category-card p {
+  color:var(--theme-text) !important;
+  -webkit-text-fill-color:var(--theme-text) !important;
+}
+[data-theme] #documents .document-category-card .document-card-category { color:var(--theme-accent) !important; -webkit-text-fill-color:var(--theme-accent) !important; }
+[data-theme] #documents .document-category-card h3 { color:var(--theme-highlight) !important; -webkit-text-fill-color:var(--theme-highlight) !important; }
+[data-theme] #documents .document-category-card p { color:var(--theme-muted) !important; -webkit-text-fill-color:var(--theme-muted) !important; }
+
+[data-theme] #documents .document-category-card .document-category-icon,
+[data-theme] #documents .document-category-card .document-category-icon i {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+}
+
 /* Give the hero greeting a clear breathing zone below the floating bar. */
 [data-theme] #siteHeader { height:64px !important; }
 [data-theme] #siteHeader .navbar { height:62px !important; min-height:62px !important; }
