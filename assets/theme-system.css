@@ -362,6 +362,43 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 }
 [data-theme] .site-galaxy canvas,[data-theme] .evidence-galaxy-scene canvas,
 [data-theme] .admin-galaxy-scene canvas { filter:hue-rotate(var(--theme-galaxy-hue,0deg)) saturate(1.12) !important; }
+
+/* SVG illustrations, score/PDF previews and animated drawing strokes inherit
+   the same active palette. */
+[data-theme] #documents .category-card-illustration svg,
+[data-theme] #documents .category-card-illustration path,
+[data-theme] #documents .category-card-illustration line,
+[data-theme] #documents .category-card-illustration polyline,
+[data-theme] #documents .category-card-illustration polygon,
+[data-theme] #documents .category-card-illustration rect,
+[data-theme] #documents .category-card-illustration ellipse { stroke:var(--theme-accent) !important; }
+[data-theme] #documents .category-card-illustration .ci-axis,
+[data-theme] #documents .category-card-illustration .ci-axis-x,
+[data-theme] #documents .category-card-illustration .ci-axis-y,
+[data-theme] #documents .category-card-illustration .ci-chart-axis { stroke:color-mix(in srgb,var(--theme-text) 76%,var(--theme-accent)) !important; }
+[data-theme] #documents .category-card-illustration .ci-curve-secondary,
+[data-theme] #documents .category-card-illustration .ci-chart-curve { stroke:var(--theme-accent-3) !important; }
+[data-theme] #documents .category-card-illustration .ci-area,
+[data-theme] #documents .category-card-illustration .ci-sector-fill,
+[data-theme] #documents .category-card-illustration .ci-chart-bar { fill:color-mix(in srgb,var(--theme-accent) 30%,transparent) !important; }
+[data-theme] #documents .category-card-illustration .ci-label,
+[data-theme] #documents .category-card-illustration .ci-table-label { fill:var(--theme-text) !important; stroke:var(--theme-bg) !important; }
+[data-theme] #documents .category-card-illustration circle,
+[data-theme] #documents .category-card-illustration .ci-arrow,
+[data-theme] #documents .category-card-illustration .ci-origin,
+[data-theme] #documents .category-card-illustration .ci-variation-head { fill:var(--theme-highlight) !important; }
+[data-theme] .exam-student-card,
+[data-theme] .score-card,
+[data-theme] .score-illustration,
+[data-theme] .exam-card-illustration,
+[data-theme] .pdf-score-illustration { background:linear-gradient(145deg,var(--theme-panel),var(--theme-surface)) !important; border-color:color-mix(in srgb,var(--theme-accent) 55%,rgba(255,255,255,.16)) !important; }
+[data-theme] .exam-student-card svg,
+[data-theme] .score-illustration svg,
+[data-theme] .exam-card-illustration svg,
+[data-theme] .pdf-score-illustration svg { filter:hue-rotate(var(--theme-galaxy-hue,0deg)) saturate(1.15) !important; }
+[data-theme] .exam-student-card .score-value,
+[data-theme] .exam-student-card .led-score,
+[data-theme] .score-value { color:var(--theme-highlight) !important; text-shadow:0 0 16px var(--theme-glow) !important; }
 [data-theme] .hero, [data-theme] .hero-content, [data-theme] .hero-text,
 [data-theme] .hero h1, [data-theme] .hero-description, [data-theme] .hero-role,
 [data-theme] .section-title, [data-theme] .section-title h2 { color:var(--theme-text) !important; }
