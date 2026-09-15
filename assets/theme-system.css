@@ -388,6 +388,24 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] .exam-student-card .score-value,
 [data-theme] .exam-student-card .led-score,
 [data-theme] .score-value { color:var(--theme-highlight) !important; text-shadow:0 0 16px var(--theme-glow) !important; }
+/* Achievement/evidence math paper: recolour every SVG layer, not only its
+   surrounding card. This keeps the document outline, axes, curves, LED panel
+   and decorative marks synchronized with the selected palette. */
+[data-theme] .exam-score-paper .esp-outline { stroke:var(--theme-accent) !important; fill:color-mix(in srgb,var(--theme-panel) 86%,transparent) !important; }
+[data-theme] .exam-score-paper > circle { fill:color-mix(in srgb,var(--theme-accent) 10%,transparent) !important; }
+[data-theme] .exam-score-paper .esp-headings rect { fill:color-mix(in srgb,var(--theme-accent) 38%,transparent) !important; }
+[data-theme] .exam-score-paper .esp-headings path { stroke:color-mix(in srgb,var(--theme-accent) 68%,var(--theme-text)) !important; }
+[data-theme] .exam-score-paper .esp-axes { stroke:color-mix(in srgb,var(--theme-text) 84%,var(--theme-accent)) !important; }
+[data-theme] .exam-score-paper .esp-curve { stroke:var(--theme-accent-3) !important; }
+[data-theme] .exam-score-paper .esp-scene-parabola .esp-curve { stroke:var(--theme-accent) !important; }
+[data-theme] .exam-score-paper .esp-scene-cubic .esp-curve { stroke:var(--theme-accent-2) !important; }
+[data-theme] .exam-score-paper .esp-scene-integral path { stroke:var(--theme-highlight) !important; }
+[data-theme] .exam-score-paper .esp-scene-quartic .esp-curve { stroke:var(--theme-accent-3) !important; }
+[data-theme] .exam-score-paper .esp-led rect { fill:color-mix(in srgb,var(--theme-bg) 90%,var(--theme-panel)) !important; stroke:color-mix(in srgb,var(--theme-accent) 62%,transparent) !important; }
+[data-theme] .exam-score-paper .esp-led path { stroke:var(--theme-highlight) !important; }
+[data-theme] .exam-score-paper .esp-segment-on { fill:var(--theme-highlight) !important; stroke:var(--theme-highlight) !important; filter:drop-shadow(0 0 3px var(--theme-glow)); }
+[data-theme] .exam-score-paper .esp-segment-off { fill:color-mix(in srgb,var(--theme-muted) 22%,transparent) !important; }
+[data-theme] .exam-score-paper .esp-accent path { stroke:var(--theme-highlight) !important; }
 
 /* Final landing/hero palette bridge. */
 [data-theme] .hero-space-scene,
