@@ -160,3 +160,44 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
   border-color: var(--theme-accent) !important;
 }
 :where(.section-title p,.admin-status,.admin-help,.field-label,.admin-form label,.muted,.stat-label) { color: var(--theme-muted) !important; }
+
+/* Readability and true component replacement.  Keep the animated scene below
+   the interface; recolour the interface surfaces themselves without an extra
+   veil. */
+[data-theme] .admin-sidebar,
+[data-theme] .admin-sidebar-menu,
+[data-theme] .admin-sidebar-heading,
+[data-theme] .admin-sidebar-footer {
+  background:var(--theme-panel) !important;
+  color:var(--theme-text) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 42%,rgba(255,255,255,.18)) !important;
+}
+[data-theme] .admin-sidebar .workspace-tab {
+  background:color-mix(in srgb,var(--theme-surface) 92%,transparent) !important;
+  color:var(--theme-text) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 30%,rgba(255,255,255,.14)) !important;
+}
+[data-theme] .admin-sidebar .workspace-tab:hover,
+[data-theme] .admin-sidebar .workspace-tab.active {
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  color:#fff !important;
+  border-color:var(--theme-highlight) !important;
+}
+[data-theme] .admin-sidebar .workspace-tab *,
+[data-theme] .admin-sidebar .admin-sidebar-label,
+[data-theme] .admin-sidebar .admin-sidebar-eyebrow,
+[data-theme] .admin-sidebar .admin-sidebar-status { color:inherit !important; }
+[data-theme] .admin-sidebar .admin-sidebar-icon { color:var(--theme-highlight) !important; }
+[data-theme] .admin-sidebar .workspace-tab.active .admin-sidebar-icon { color:#fff !important; }
+[data-theme] .hero, [data-theme] .hero-content, [data-theme] .hero-text,
+[data-theme] .hero h1, [data-theme] .hero-description, [data-theme] .hero-role,
+[data-theme] .section-title, [data-theme] .section-title h2 { color:var(--theme-text) !important; }
+[data-theme] .hero h1 span, [data-theme] .hero-role, [data-theme] .hero-small::before { color:var(--theme-accent) !important; }
+[data-theme] .hero-socials a, [data-theme] .hero-actions a { color:var(--theme-text) !important; border-color:var(--theme-accent) !important; }
+[data-theme] .navbar, [data-theme] .evidence-nav, [data-theme] .admin-nav {
+  position:relative !important; z-index:20 !important; isolation:isolate;
+  background:color-mix(in srgb,var(--theme-panel) 94%,transparent) !important;
+  box-shadow:0 10px 28px color-mix(in srgb,var(--theme-bg) 55%,transparent) !important;
+}
+[data-theme] .site-galaxy, [data-theme] .evidence-galaxy-scene, [data-theme] .admin-galaxy-scene { z-index:0 !important; }
+[data-theme] .navbar *, [data-theme] .evidence-nav *, [data-theme] .admin-nav * { position:relative; z-index:1; }
