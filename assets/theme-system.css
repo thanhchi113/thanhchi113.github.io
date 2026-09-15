@@ -525,6 +525,75 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
   height:46px !important;
   font-size:13px !important;
 }
+
+/* PDF viewer controls and related-document panel follow the active palette. */
+[data-theme] #documents.document-viewer-mode .pdf-modal-inner,
+[data-theme] #documents.document-viewer-mode .pdf-modal-body-scroll,
+[data-theme] #documents.document-viewer-mode .pdf-viewer-scroll,
+[data-theme] #documents.document-viewer-mode .pdf-related-wrap {
+  background:linear-gradient(145deg,color-mix(in srgb,var(--theme-panel) 96%,transparent),color-mix(in srgb,var(--theme-bg) 94%,transparent)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.16)) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-viewer-toolbar {
+  background:color-mix(in srgb,var(--theme-panel) 94%,transparent) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 34%,transparent) !important;
+}
+[data-theme] #documents.document-viewer-mode :is(.pdf-viewer-control,.pdf-viewer-zoom-select,.pdf-page-input-wrap) {
+  color:var(--theme-text) !important;
+  background:color-mix(in srgb,var(--theme-surface) 86%,transparent) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 58%,transparent) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-viewer-control i,
+[data-theme] #documents.document-viewer-mode .pdf-page-input-wrap b,
+[data-theme] #documents.document-viewer-mode .pdf-page-input-wrap > span {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-viewer-control:hover:not(:disabled) {
+  color:#fff !important;
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  border-color:var(--theme-highlight) !important;
+  box-shadow:0 0 16px var(--theme-glow) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-viewer-zoom-select option {
+  background:var(--theme-panel) !important;
+  color:var(--theme-text) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-page-input-wrap input {
+  color:var(--theme-text) !important;
+  background:var(--theme-bg) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 50%,transparent) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-page-input-wrap input:focus {
+  border-color:var(--theme-highlight) !important;
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--theme-accent) 24%,transparent) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-related-title,
+[data-theme] #documents.document-viewer-mode .pdf-related-choice-label {
+  color:var(--theme-highlight) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-related-tag,
+[data-theme] #documents.document-viewer-mode .pdf-related-card {
+  color:var(--theme-text) !important;
+  background:color-mix(in srgb,var(--theme-surface) 72%,transparent) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 46%,transparent) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-related-tag.active,
+[data-theme] #documents.document-viewer-mode .pdf-related-tag:hover,
+[data-theme] #documents.document-viewer-mode .pdf-related-card:hover {
+  color:#fff !important;
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  border-color:var(--theme-highlight) !important;
+  box-shadow:0 0 15px var(--theme-glow) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-related-icon,
+[data-theme] #documents.document-viewer-mode .pdf-related-card i {
+  color:var(--theme-highlight) !important;
+  background:color-mix(in srgb,var(--theme-accent) 16%,var(--theme-panel)) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-related-card b { color:var(--theme-text) !important; }
+[data-theme] #documents.document-viewer-mode .pdf-related-card small,
+[data-theme] #documents.document-viewer-mode .pdf-related-empty { color:var(--theme-muted) !important; }
 @media(max-width:900px){
   [data-theme] #documents .document-card-clickable { padding:22px !important; }
   [data-theme] #documents .document-card-content-wrap { grid-template-columns:minmax(0,1fr) minmax(175px,36%) !important; column-gap:16px !important; }
