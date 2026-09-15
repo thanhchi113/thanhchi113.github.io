@@ -227,6 +227,43 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] #about .skill-progress,
 [data-theme] #skills .skill-progress { background:linear-gradient(90deg,var(--theme-accent),var(--theme-accent-3)) !important; }
 
+/* Hero motion and colour accents follow the selected palette. */
+[data-theme] .hero h1 span,
+[data-theme] .hero-role,
+[data-theme] .hero-small,
+[data-theme] .hero-small::before,
+[data-theme] .hero-socials a i,
+[data-theme] .hero-socials a:hover,
+[data-theme] .hero-about-button .hero-about-arrow { color:var(--theme-accent) !important; }
+[data-theme] .hero h1 span {
+  background-image:linear-gradient(100deg,var(--theme-accent),var(--theme-accent-3),var(--theme-highlight)) !important;
+  -webkit-background-clip:text !important; background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;
+}
+[data-theme] .hero-role::after,
+[data-theme] .hero-small::after,
+[data-theme] .hero-socials a::before {
+  background:linear-gradient(90deg,transparent,var(--theme-accent),var(--theme-accent-3),transparent) !important;
+}
+[data-theme] .hero-socials a,
+[data-theme] .hero-about-button,
+[data-theme] .hero-contact-button,
+[data-theme] .hero-about-button .hero-about-arrow {
+  border-color:color-mix(in srgb,var(--theme-accent) 70%,transparent) !important;
+  box-shadow:0 0 18px color-mix(in srgb,var(--theme-glow) 60%,transparent) !important;
+}
+[data-theme] .hero-contact-button,
+[data-theme] .hero-about-button:hover,
+[data-theme] .hero-contact-button:hover {
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  color:#fff !important;
+}
+[data-theme] .avatar-ring-outer { border-top-color:var(--theme-accent) !important; border-right-color:var(--theme-accent-3) !important; box-shadow:0 0 18px var(--theme-glow) !important; }
+[data-theme] .avatar-ring-inner { border-left-color:var(--theme-accent) !important; border-bottom-color:var(--theme-highlight) !important; box-shadow:0 0 16px color-mix(in srgb,var(--theme-glow) 70%,transparent) !important; }
+[data-theme] .orbit-particle-outer,[data-theme] .orbit-particle-small { background:radial-gradient(circle at 35% 30%,#fff,var(--theme-accent) 52%,var(--theme-accent-2)) !important; box-shadow:0 0 10px var(--theme-accent),0 0 24px var(--theme-glow) !important; }
+[data-theme] .orbit-particle-inner,[data-theme] .orbit-particle-tiny { background:radial-gradient(circle at 35% 30%,#fff,var(--theme-highlight) 52%,var(--theme-accent-3)) !important; box-shadow:0 0 10px var(--theme-highlight),0 0 22px var(--theme-glow) !important; }
+[data-theme] .meteor { background:linear-gradient(90deg,transparent,var(--theme-accent),var(--theme-highlight),transparent) !important; box-shadow:0 0 9px var(--theme-accent),0 0 22px var(--theme-glow) !important; }
+
 /* Document library controls: use one readable surface for the breadcrumb and
    statistics instead of stacked translucent layers over the galaxy. */
 [data-theme] #documents .document-library-heading,
