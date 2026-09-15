@@ -473,6 +473,71 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
   -webkit-text-fill-color:var(--theme-highlight) !important;
 }
 
+/* Document cards: give the rendered PDF/thumbnail and its metadata enough
+   room to be read without cropping. The preview stays on the right and the
+   action row remains full width below both columns. */
+[data-theme] #documents .document-card-clickable {
+  padding:26px !important;
+  min-height:390px !important;
+}
+[data-theme] #documents .document-card-content-wrap {
+  grid-template-columns:minmax(0,1fr) minmax(210px,34%) !important;
+  grid-template-rows:minmax(270px,auto) auto !important;
+  column-gap:24px !important;
+  row-gap:18px !important;
+}
+[data-theme] #documents .document-card-content-wrap > .document-card-info {
+  min-height:270px !important;
+  display:flex !important;
+  flex-direction:column !important;
+}
+[data-theme] #documents .document-card-content-wrap > .document-card-preview {
+  min-height:270px !important;
+  max-height:340px !important;
+  border-radius:14px !important;
+  background:color-mix(in srgb,var(--theme-bg) 65%,var(--theme-panel)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 42%,transparent) !important;
+}
+[data-theme] #documents .document-card-content-wrap > .document-card-preview[data-preview-kind="pdf"] .document-preview-canvas {
+  max-width:100% !important;
+  max-height:330px !important;
+}
+[data-theme] #documents .document-card-content-wrap > .document-card-preview[data-preview-kind="thumbnail"] img {
+  object-fit:contain !important;
+  max-height:330px !important;
+}
+[data-theme] #documents .document-card-info h3 {
+  font-size:clamp(20px,2vw,28px) !important;
+  line-height:1.2 !important;
+  margin:10px 0 14px !important;
+}
+[data-theme] #documents .document-card-info p {
+  font-size:clamp(14px,1.25vw,17px) !important;
+  line-height:1.55 !important;
+  min-height:0 !important;
+}
+[data-theme] #documents .document-card-content-wrap > .document-card-actions {
+  padding-top:14px !important;
+  gap:10px !important;
+}
+[data-theme] #documents .document-card-content-wrap > .document-card-actions .document-card-action {
+  min-height:46px !important;
+  height:46px !important;
+  font-size:13px !important;
+}
+@media(max-width:900px){
+  [data-theme] #documents .document-card-clickable { padding:22px !important; }
+  [data-theme] #documents .document-card-content-wrap { grid-template-columns:minmax(0,1fr) minmax(175px,36%) !important; column-gap:16px !important; }
+  [data-theme] #documents .document-card-content-wrap > :is(.document-card-info,.document-card-preview) { min-height:240px !important; }
+}
+@media(max-width:760px){
+  [data-theme] #documents .document-card-clickable { min-height:0 !important; padding:18px !important; }
+  [data-theme] #documents .document-card-content-wrap { grid-template-columns:1fr !important; grid-template-rows:auto auto auto !important; gap:14px !important; }
+  [data-theme] #documents .document-card-content-wrap > .document-card-preview { min-height:250px !important; max-height:360px !important; }
+  [data-theme] #documents .document-card-content-wrap > .document-card-preview[data-preview-kind="pdf"] .document-preview-canvas { max-height:350px !important; }
+  [data-theme] #documents .document-card-content-wrap > .document-card-info { min-height:0 !important; }
+}
+
 /* Give the hero greeting a clear breathing zone below the floating bar. */
 [data-theme] #siteHeader { height:64px !important; }
 [data-theme] #siteHeader .navbar { height:62px !important; min-height:62px !important; }
