@@ -421,6 +421,23 @@ html[data-theme]::-webkit-scrollbar-thumb,body[data-theme]::-webkit-scrollbar-th
 }
 [data-theme] .contact-icon-zalo .zalo-letter { width:32px; height:32px; border-radius:10px; }
 
+/* Flatten legacy category-card sub-panels so no rectangular slab sits behind
+   the text or drawing. The card itself remains the single themed surface. */
+[data-theme] #documents .document-category-card > .document-card-glow,
+#documents .document-category-card > .document-card-glow {
+  display:none !important; opacity:0 !important; background:none !important;
+  filter:none !important; box-shadow:none !important;
+}
+[data-theme] #documents .document-category-card .category-card-info,
+#documents .document-category-card .category-card-info {
+  background:transparent !important; border:0 !important; box-shadow:none !important;
+}
+[data-theme] #documents .document-category-card .category-card-illustration::before,
+#documents .document-category-card .category-card-illustration::before {
+  background:radial-gradient(circle,color-mix(in srgb,var(--theme-accent) 14%,transparent),transparent 72%) !important;
+  opacity:.55 !important; filter:blur(18px) !important;
+}
+
 /* Public exam summary table: lift it off the animated galaxy for reliable
    contrast while preserving the responsive table layout. */
 [data-theme] #examScorePeriodTable {
