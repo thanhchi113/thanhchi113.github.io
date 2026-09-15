@@ -709,3 +709,29 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
 [data-theme] .tikz-date i { margin-right:6px !important; color:var(--theme-accent) !important; }
 [data-theme] :is(.tikz-card-footer button,.card-arrow,.achievement-card .arrow-button,.document-card-action) { display:inline-flex !important; align-items:center !important; justify-content:center !important; gap:7px !important; color:var(--theme-highlight) !important; border-color:color-mix(in srgb,var(--theme-accent) 44%,transparent) !important; }
 [data-theme] :is(.tikz-card-footer button,.card-arrow,.achievement-card .arrow-button,.document-card-action):hover { color:#fff !important; border-color:var(--theme-highlight) !important; background:color-mix(in srgb,var(--theme-accent) 22%,transparent) !important; }
+
+/* Exam/result cards: replace the remaining fixed blue/white/green literals
+   so every label, value and divider follows the selected palette. */
+[data-theme] .exam-student-card,
+[data-theme] .exam-admin-student-card { color:var(--theme-text) !important; }
+[data-theme] .exam-student-card .exam-student-top,
+[data-theme] .exam-student-card .exam-student-main,
+[data-theme] .exam-student-card .exam-student-facts { color:var(--theme-text) !important; }
+[data-theme] .exam-student-card .exam-student-period {
+  color:var(--theme-highlight) !important;
+  background:color-mix(in srgb,var(--theme-accent) 16%,var(--theme-panel)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 56%,transparent) !important;
+}
+[data-theme] .exam-student-card .exam-student-period i { color:var(--theme-highlight) !important; }
+[data-theme] .exam-student-card .exam-student-subject,
+[data-theme] .exam-student-card .exam-student-label,
+[data-theme] .exam-student-card .exam-student-score span,
+[data-theme] .exam-student-card .exam-student-facts dt,
+[data-theme] .exam-student-card .exam-student-media figcaption { color:var(--theme-muted) !important; }
+[data-theme] .exam-student-card .exam-student-identity h3,
+[data-theme] .exam-student-card .exam-student-facts dd { color:var(--theme-text) !important; }
+[data-theme] .exam-student-card .exam-student-score strong { color:var(--theme-highlight) !important; text-shadow:0 0 16px var(--theme-glow) !important; }
+[data-theme] .exam-student-card .exam-student-facts { border-top-color:color-mix(in srgb,var(--theme-accent) 34%,transparent) !important; }
+[data-theme] .exam-student-card .exam-student-media { background:color-mix(in srgb,var(--theme-bg) 58%,var(--theme-panel)) !important; border-left-color:color-mix(in srgb,var(--theme-accent) 26%,transparent) !important; }
+[data-theme] .exam-students-heading h2 { color:var(--theme-text) !important; }
+[data-theme] .exam-students-heading p { color:var(--theme-muted) !important; }
