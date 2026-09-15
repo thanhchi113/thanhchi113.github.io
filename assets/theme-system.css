@@ -162,17 +162,6 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 }
 :where(.section-title p,.admin-status,.admin-help,.field-label,.admin-form label,.muted,.stat-label) { color: var(--theme-muted) !important; }
 
-/* Lightweight CSS jellyfish layer inspired by the supplied LŪMEN prompt. It
-   is decorative only, stays behind hero content and inherits the active hue. */
-.jellyfish-field { display:none !important; }
-.jelly { position:absolute; width:clamp(38px,5vw,74px); aspect-ratio:1/1.05; border-radius:52% 52% 45% 45%; background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.9),transparent 15%),linear-gradient(145deg,color-mix(in srgb,var(--theme-highlight) 70%,transparent),color-mix(in srgb,var(--theme-accent) 58%,transparent) 58%,color-mix(in srgb,var(--theme-accent-3) 48%,transparent)); box-shadow:0 0 26px var(--theme-glow),inset 0 -8px 18px rgba(0,0,0,.25); animation:jelly-drift 14s ease-in-out infinite; filter:hue-rotate(var(--theme-galaxy-hue,0deg)); }
-.jelly::before { content:""; position:absolute; left:9%; right:9%; bottom:-9%; height:22%; border-radius:0 0 70% 70%; background:linear-gradient(180deg,color-mix(in srgb,var(--theme-accent) 72%,transparent),transparent); filter:blur(2px); }
-.jelly i,.jelly b { position:absolute; bottom:-70%; width:12%; height:82%; border-radius:999px; background:linear-gradient(180deg,color-mix(in srgb,var(--theme-highlight) 80%,transparent),color-mix(in srgb,var(--theme-accent) 32%,transparent),transparent); filter:blur(1px); animation:jelly-tentacle 2.8s ease-in-out infinite; }
-.jelly i { left:28%; }.jelly b { right:27%; animation-delay:-1.2s; }
-.jelly-a{left:8%;top:24%;animation-delay:-2s}.jelly-b{left:78%;top:18%;transform:scale(.72);animation-delay:-7s}.jelly-c{left:62%;top:68%;transform:scale(.55);animation-delay:-10s}.jelly-d{left:30%;top:72%;transform:scale(.42);animation-delay:-4s}
-@keyframes jelly-drift { 0%,100%{translate:0 0 rotate(-3deg)} 50%{translate:28px -22px rotate(4deg)} }
-@keyframes jelly-tentacle { 0%,100%{transform:scaleY(.86) rotate(-4deg)} 50%{transform:scaleY(1.12) rotate(5deg)} }
-@media(prefers-reduced-motion:reduce){.jelly,.jelly i,.jelly b{animation:none!important}.jellyfish-field{opacity:.45}}
 
 /* Readability and true component replacement.  Keep the animated scene below
    the interface; recolour the interface surfaces themselves without an extra

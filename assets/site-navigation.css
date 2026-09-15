@@ -107,19 +107,7 @@
     display:none !important;
     transition: transform .36s cubic-bezier(.22, 1, .36, 1), width .3s ease, height .3s ease, opacity .2s ease;
 }
-.site-nav-indicator[data-visible="true"] { opacity: 1; }
 .site-nav-indicator,.site-nav-indicator::before,.site-nav-indicator::after { display:none !important; visibility:hidden !important; opacity:0 !important; }
-.site-nav-indicator::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    left: 26%;
-    width: 48%;
-    height: 2px;
-    border-radius: 50%;
-    background: linear-gradient(90deg, transparent, #8addff, #b8a0ff, transparent);
-    box-shadow: 0 1px 10px rgba(136, 204, 255, .5);
-}
 #siteHeader:not([data-nav-ready]) .nav-link.active { background: transparent !important; }
 #siteHeader .menu-toggle { border-color: rgba(168, 186, 229, .25); background: rgba(100, 122, 194, .12); }
 #siteHeader .menu-toggle i { display: none; }
