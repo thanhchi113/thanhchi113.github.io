@@ -422,6 +422,15 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] #skills .skill-item { border-color:color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.16)) !important; }
 [data-theme] #about .skill-progress,[data-theme] #skills .skill-progress { background:linear-gradient(90deg,var(--theme-accent),var(--theme-accent-3)) !important; }
 [data-theme] #about .achievement-schools span,[data-theme] #skills .skill-tag { color:var(--theme-text) !important; border-color:color-mix(in srgb,var(--theme-accent) 38%,transparent) !important; background:color-mix(in srgb,var(--theme-accent) 14%,transparent) !important; }
+/* Hover must strengthen the card edge, never wash it out. */
+@media(hover:hover){
+  [data-theme] :is(.card,.project-card,.document-card,.document-category-card,.achievement-card,.achievement-card-large,.skill-card,.skill-item,.highlight-item,.about-content,.contact-item,.tikz-card,.score-card,.evidence-card,.exam-student-card,.material-request-card,.liquid-card):hover {
+    border-color:var(--theme-highlight) !important;
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-highlight) 68%,transparent),0 20px 48px color-mix(in srgb,var(--theme-glow) 78%,transparent) !important;
+  }
+  [data-theme] :is(.achievement-card-large,.skill-item,.highlight-item,.about-content) :is(h3,p,.achievement-label) { transition:color .2s ease; }
+  [data-theme] :is(.achievement-card-large,.skill-item,.highlight-item,.about-content):hover h3 { color:var(--theme-highlight) !important; }
+}
 
 /* Final landing/hero palette bridge. */
 [data-theme] .hero-space-scene,
