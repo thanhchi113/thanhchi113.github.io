@@ -6,6 +6,7 @@
     ocean: 'Đại dương',
     violet: 'Tím đêm',
     ember: 'Than hồng'
+    ,meridian: 'Meridian navy–cam'
   };
   var userKey = 'site-theme-user';
   var defaultKey = 'site-theme-default';
@@ -28,6 +29,7 @@
       ocean: ['#06131d','#0b2634','#103d4b','#22d3ee','#14b8a6','#38bdf8','#facc15','#effcff','#8bb4bd'],
       violet: ['#100b24','#1b123b','#2d1f52','#c084fc','#a855f7','#ec4899','#f0abfc','#faf5ff','#b7a7d4'],
       ember: ['#1a0f0b','#2a1711','#472318','#fb923c','#ef4444','#f59e0b','#fde047','#fff7ed','#c6a58d']
+      ,meridian: ['#101826','#17253a','#23334b','#ff7a3d','#ef4f3f','#f2b84b','#ffe0a3','#f5f7fb','#a9b7c9']
     }[theme];
     var id = 'site-theme-runtime-overrides';
     var style = document.getElementById(id) || document.createElement('style');
