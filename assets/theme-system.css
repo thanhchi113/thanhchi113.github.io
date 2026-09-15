@@ -226,6 +226,36 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] #skills .skill-percent { color:var(--theme-accent) !important; }
 [data-theme] #about .skill-progress,
 [data-theme] #skills .skill-progress { background:linear-gradient(90deg,var(--theme-accent),var(--theme-accent-3)) !important; }
+
+/* Document library controls: use one readable surface for the breadcrumb and
+   statistics instead of stacked translucent layers over the galaxy. */
+[data-theme] #documents .document-library-heading,
+[data-theme] #documents .document-public-stats,
+[data-theme] #documents .document-breadcrumb,
+[data-theme] #documents .document-toolbar {
+  position:relative; z-index:3; color:var(--theme-text) !important;
+}
+[data-theme] #documents .document-library-heading {
+  padding:14px 16px !important; border-left:3px solid var(--theme-accent) !important;
+  background:color-mix(in srgb,var(--theme-panel) 88%,transparent) !important;
+  border-radius:10px !important;
+}
+[data-theme] #documents .document-library-kicker,
+[data-theme] #documents .document-stat-title span { color:var(--theme-accent) !important; font-weight:800 !important; }
+[data-theme] #documents .document-library-heading h3,
+[data-theme] #documents .document-stat-title strong,
+[data-theme] #documents .document-status { color:var(--theme-text) !important; text-shadow:0 1px 10px color-mix(in srgb,var(--theme-bg) 80%,transparent); }
+[data-theme] #documents .document-public-stats { gap:12px !important; padding:12px 14px !important; border:1px solid color-mix(in srgb,var(--theme-accent) 34%,rgba(255,255,255,.18)) !important; border-radius:12px !important; background:color-mix(in srgb,var(--theme-panel) 82%,transparent) !important; }
+[data-theme] #documents .document-stat-cards { gap:9px !important; }
+[data-theme] #documents .document-stat-card { background:var(--theme-surface) !important; border:1px solid color-mix(in srgb,var(--theme-accent) 36%,rgba(255,255,255,.14)) !important; color:var(--theme-text) !important; box-shadow:none !important; }
+[data-theme] #documents .document-stat-card i { color:var(--theme-accent) !important; }
+[data-theme] #documents .document-stat-card b { color:var(--theme-highlight) !important; }
+[data-theme] #documents .document-stat-card small { color:var(--theme-muted) !important; }
+[data-theme] #documents #documentBreadcrumb { padding:8px 0 !important; }
+[data-theme] #documents #documentBreadcrumb .document-breadcrumb-path { gap:8px !important; }
+[data-theme] #documents #documentBreadcrumb .document-crumb { background:var(--theme-panel) !important; border:1px solid color-mix(in srgb,var(--theme-accent) 42%,transparent) !important; color:var(--theme-text) !important; border-radius:8px !important; padding:8px 12px !important; font-weight:800 !important; }
+[data-theme] #documents #documentBreadcrumb .document-crumb.active { background:var(--theme-accent) !important; color:#fff !important; border-color:var(--theme-accent) !important; }
+[data-theme] #documents #documentBreadcrumb .document-breadcrumb-back { background:var(--theme-surface) !important; color:var(--theme-text) !important; border-color:var(--theme-accent) !important; }
 [data-theme] .hero, [data-theme] .hero-content, [data-theme] .hero-text,
 [data-theme] .hero h1, [data-theme] .hero-description, [data-theme] .hero-role,
 [data-theme] .section-title, [data-theme] .section-title h2 { color:var(--theme-text) !important; }
