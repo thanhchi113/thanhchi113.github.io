@@ -576,6 +576,18 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
   background:radial-gradient(circle,color-mix(in srgb,var(--theme-accent) 14%,transparent),transparent 72%) !important;
   opacity:.55 !important; filter:blur(18px) !important;
 }
+/* Category cards must have one continuous surface. Remove the dark slabs
+   from the illustration wrapper/SVG and let the themed card show through. */
+[data-theme] #documents .document-category-card .category-card-main,
+[data-theme] #documents .document-category-card .category-card-info,
+[data-theme] #documents .document-category-card .category-card-illustration,
+[data-theme] #documents .document-category-card .category-card-illustration svg {
+  background:transparent !important; background-color:transparent !important;
+  box-shadow:none !important; border:0 !important;
+}
+[data-theme] #documents .document-category-card .category-card-illustration::before {
+  opacity:.28 !important; mix-blend-mode:screen;
+}
 
 /* Public exam summary table: lift it off the animated galaxy for reliable
    contrast while preserving the responsive table layout. */
