@@ -32,12 +32,15 @@
     style.textContent = ':root{--theme-bg:'+palette[0]+';--theme-panel:'+palette[1]+';--theme-surface:'+palette[2]+';--theme-accent:'+palette[3]+';--theme-accent-2:'+palette[4]+';--theme-accent-3:'+palette[5]+';--theme-highlight:'+palette[6]+';--theme-text:'+palette[7]+';--theme-muted:'+palette[8]+'}'+
       'body{background-color:'+palette[0]+' !important;color:'+palette[7]+' !important}'+
       '.site-nav,.admin-nav,.evidence-nav,.navbar,.topbar{background:linear-gradient(110deg,'+palette[1]+'ee,'+palette[0]+'e8) !important;border-color:'+palette[3]+'55 !important}'+
-      '.card,.project-card,.document-card,.evidence-card,.achievement-card,.admin-card,.admin-doc,.modal-card,.workspace-tabs,.workspace-panel,.glass-card{background:linear-gradient(145deg,'+palette[1]+'ee,'+palette[0]+'dd) !important;border-color:'+palette[3]+'55 !important}'+
-      'h1,h2,h3,h4,.section-title,.hero-title{color:'+palette[7]+' !important}'+
-      'a,.nav-link,.document-action,.project-link,.evidence-type,.kicker{color:'+palette[3]+' !important}'+
+      '.card,.project-card,.document-card,.document-category-card,.evidence-card,.achievement-card,.achievement-card-large,.skill-card,.skill-item,.highlight-item,.about-content,.contact-item,.tikz-card,.tikz-project-card,.exam-student-card,.admin-card,.admin-doc,.modal-card,.workspace-tabs,.workspace-panel,.glass-card{background:linear-gradient(145deg,'+palette[1]+'ee,'+palette[0]+'dd) !important;border-color:'+palette[3]+'66 !important;color:'+palette[7]+' !important}'+
+      '.card h1,.card h2,.card h3,.card h4,.card p,.project-card h3,.project-card p,.document-card h3,.document-card p,.document-category-card h3,.document-category-card p,.achievement-card-large h3,.achievement-card-large p,.skill-item h3,.skill-item p,.admin-card h1,.admin-card h2,.admin-card h3,.admin-card p,.admin-doc h3,.admin-doc p{color:'+palette[7]+' !important}'+
+      '.admin-taskbar,.admin-taskbar-btn,#siteHeader,.site-nav,.admin-nav,.topbar{background:linear-gradient(110deg,'+palette[1]+'f2,'+palette[0]+'e8) !important;border-color:'+palette[3]+'66 !important;color:'+palette[7]+' !important}'+
+      '.admin-taskbar-btn,.admin-nav a,#siteHeader .nav-link{color:'+palette[7]+' !important}'+
+      '.admin-taskbar-btn:hover,.admin-taskbar-btn.active,#siteHeader .nav-link.active{color:'+palette[6]+' !important;border-color:'+palette[3]+'aa !important}'+
+      'a,.nav-link,.document-action,.project-link,.evidence-type,.kicker,.admin-section-title,.section-kicker{color:'+palette[3]+' !important}'+
       'button,.btn,.admin-btn,.cta,.page-btn.active,.workspace-tab.active{background:linear-gradient(135deg,'+palette[3]+','+palette[5]+') !important;border-color:'+palette[3]+'99 !important;color:'+palette[7]+' !important}'+
       'input,textarea,select,.admin-filter,.admin-search{background:'+palette[0]+'cc !important;color:'+palette[7]+' !important;border-color:'+palette[3]+'55 !important}'+
-      '.muted,.admin-status,.document-card p,.evidence-content p,.stat-label{color:'+palette[8]+' !important}'+
+      '.muted,.admin-status,.document-card p,.evidence-content p,.stat-label,.section-title p,.admin-help,.admin-form label,.field-label{color:'+palette[8]+' !important}'+
       '.theme-switcher{background:'+palette[1]+'ee !important;border-color:'+palette[3]+'88 !important}';
     if (!style.parentNode) document.head.appendChild(style);
     document.querySelectorAll('[data-theme-select]').forEach(function (s) { s.value = theme; });

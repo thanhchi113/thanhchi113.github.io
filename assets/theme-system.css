@@ -109,3 +109,31 @@ body::after { background:color-mix(in srgb,var(--theme-accent-3) 14%,transparent
 .theme-switcher.admin-theme-switcher { position:static; margin:0 0 18px; width:max-content; max-width:100%; }
 .theme-switcher .theme-state { font-size:10px; color:var(--theme-muted); }
 @media (max-width:600px) { .theme-switcher { right:10px; bottom:10px; left:10px; justify-content:space-between; } .theme-switcher.admin-theme-switcher { margin:0 0 14px; width:100%; } }
+
+/* Palette bridge for legacy components: all cards, task bars and typography
+   consume the active tokens even where older page styles used literal colors. */
+:where(.card,.project-card,.document-card,.document-category-card,.evidence-card,
+.achievement-card,.achievement-card-large,.skill-card,.skill-item,.highlight-item,
+.about-content,.contact-item,.tikz-card,.tikz-project-card,.exam-student-card,
+.admin-card,.admin-doc,.modal-card,.workspace-tabs,.workspace-panel,.glass-card) {
+  color: var(--theme-text) !important;
+  background: linear-gradient(145deg, color-mix(in srgb,var(--theme-panel) 94%,transparent), color-mix(in srgb,var(--theme-bg) 88%,transparent)) !important;
+  border-color: color-mix(in srgb,var(--theme-accent) 42%,rgba(255,255,255,.14)) !important;
+}
+:where(.card,.project-card,.document-card,.document-category-card,.evidence-card,
+.achievement-card,.achievement-card-large,.skill-card,.skill-item,.highlight-item,
+.about-content,.contact-item,.tikz-card,.tikz-project-card,.exam-student-card,
+.admin-card,.admin-doc,.modal-card,.workspace-tabs,.workspace-panel,.glass-card) :where(h1,h2,h3,h4,p,span,small,strong,label) {
+  color: var(--theme-text) !important;
+}
+:where(.admin-taskbar,.admin-taskbar-btn,#siteHeader,.site-nav,.admin-nav,.topbar) {
+  color: var(--theme-text) !important;
+  background: linear-gradient(110deg,color-mix(in srgb,var(--theme-panel) 94%,transparent),color-mix(in srgb,var(--theme-bg) 90%,transparent)) !important;
+  border-color: color-mix(in srgb,var(--theme-accent) 44%,rgba(255,255,255,.14)) !important;
+}
+:where(.admin-taskbar-btn,#siteHeader .nav-link,.admin-nav a) { color: var(--theme-text) !important; }
+:where(.admin-taskbar-btn:hover,.admin-taskbar-btn.active,#siteHeader .nav-link.active) {
+  color: var(--theme-highlight) !important;
+  border-color: var(--theme-accent) !important;
+}
+:where(.section-title p,.admin-status,.admin-help,.field-label,.admin-form label,.muted,.stat-label) { color: var(--theme-muted) !important; }
