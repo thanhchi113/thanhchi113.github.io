@@ -441,6 +441,26 @@ html[data-theme]::-webkit-scrollbar-thumb,body[data-theme]::-webkit-scrollbar-th
 [data-theme] #logoutBtn { display:inline-flex !important; align-items:center; justify-content:center; gap:8px; min-height:40px; padding:9px 14px !important; color:var(--theme-text) !important; background:color-mix(in srgb,var(--theme-accent) 12%,var(--theme-panel)) !important; border:1px solid color-mix(in srgb,var(--theme-accent) 52%,transparent) !important; }
 [data-theme] #logoutBtn:hover { color:#fff !important; background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important; border-color:var(--theme-highlight) !important; }
 [data-theme] #adminPanel .admin-user i { color:var(--theme-accent) !important; margin-right:7px; }
+/* Admin list actions: stronger contrast for edit/hide/delete controls and
+   the per-record visibility toggles shown in the score/evidence lists. */
+[data-theme] #adminPanel .doc-actions .admin-btn,
+[data-theme] #adminPanel .admin-list .admin-btn {
+  min-width:42px; min-height:42px; color:#fff !important;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--theme-accent) 82%,#fff 8%),var(--theme-accent-3)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-highlight) 62%,var(--theme-accent)) !important;
+  box-shadow:0 5px 16px color-mix(in srgb,var(--theme-glow) 55%,transparent) !important;
+}
+[data-theme] #adminPanel .doc-actions .admin-btn i { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+[data-theme] #adminPanel .doc-actions .admin-btn.danger { background:linear-gradient(135deg,#d94675,#9f245b) !important; border-color:#ffb4c8 !important; }
+[data-theme] #adminPanel .doc-actions .admin-btn.success { background:linear-gradient(135deg,#0f9f9a,#087f8f) !important; border-color:#a7fff3 !important; }
+[data-theme] #adminPanel .doc-actions .admin-btn:hover { color:#fff !important; filter:brightness(1.12); transform:translateY(-2px); }
+[data-theme] #adminPanel .score-quick-toggle,[data-theme] #adminPanel .evidence-quick-toggle {
+  color:#fff !important; background:linear-gradient(135deg,color-mix(in srgb,var(--theme-accent) 78%,#fff 6%),var(--theme-accent-3)) !important;
+  border-color:color-mix(in srgb,var(--theme-highlight) 70%,var(--theme-accent)) !important;
+}
+[data-theme] #adminPanel .score-quick-toggle span:last-child,[data-theme] #adminPanel .evidence-quick-toggle span:last-child { color:#fff !important; font-weight:800; }
+[data-theme] #adminPanel .score-quick-toggle .score-quick-dot,[data-theme] #adminPanel .evidence-quick-toggle .evidence-quick-dot { border-color:#fff !important; background:color-mix(in srgb,var(--theme-panel) 64%,transparent) !important; }
+[data-theme] #adminPanel .score-quick-toggle .score-quick-dot::after,[data-theme] #adminPanel .evidence-quick-toggle .evidence-quick-dot::after { background:var(--theme-highlight) !important; }
 /* High-contrast controls: keep cyan surfaces but make glyphs and labels
    readable with white/yellow theme tokens. */
 [data-theme] :is(.score-quick-toggle,.evidence-quick-toggle,.admin-sidebar-control,.workspace-tab) {
