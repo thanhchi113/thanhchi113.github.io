@@ -728,6 +728,25 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] #about .highlight-item:hover .highlight-icon i { color:#fff !important; -webkit-text-fill-color:#fff !important; }
 [data-theme] #about .highlight-item { border-color:color-mix(in srgb,var(--theme-accent) 58%,rgba(255,255,255,.18)) !important; }
 [data-theme] #about .highlight-item:hover { border-color:var(--theme-highlight) !important; box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-highlight) 58%,transparent),0 0 22px var(--theme-glow) !important; }
+
+/* Remove the full-width legacy slab behind the audience/result chips. */
+[data-theme] #achievements .achievement-schools,
+[data-theme] .achievement-schools {
+  background:transparent !important;
+  background-image:none !important;
+  border:0 !important;
+  box-shadow:none !important;
+  padding:0 !important;
+}
+[data-theme] #achievements .achievement-schools span,
+[data-theme] .achievement-schools span {
+  color:var(--theme-text) !important;
+  background:color-mix(in srgb,var(--theme-accent) 14%,var(--theme-panel)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 58%,transparent) !important;
+  border-radius:10px !important;
+}
+[data-theme] #achievements .achievement-schools span:hover,
+[data-theme] .achievement-schools span:hover { color:#fff !important; border-color:var(--theme-highlight) !important; }
 @media(max-width:900px){
   [data-theme] #documents .document-card-clickable { padding:22px !important; }
   [data-theme] #documents .document-card-content-wrap { grid-template-columns:minmax(0,1fr) minmax(175px,36%) !important; column-gap:16px !important; }
