@@ -434,6 +434,23 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] :is(.project-link,.document-card-action,.document-open-label,.tikz-open-button):hover,
 [data-theme] :is(.project-link,.document-card-action,.document-open-label,.tikz-open-button):hover :is(i,svg) { color:#fff !important; -webkit-text-fill-color:#fff !important; }
 
+/* Give the hero greeting a clear breathing zone below the floating bar. */
+[data-theme] #siteHeader { height:64px !important; }
+[data-theme] #siteHeader .navbar { height:62px !important; min-height:62px !important; }
+[data-theme] .hero { padding-top:92px !important; }
+[data-theme] .hero-text { padding-top:10px !important; }
+@media(max-width:800px){
+  [data-theme] #siteHeader { height:58px !important; }
+  [data-theme] #siteHeader .navbar { height:56px !important; min-height:56px !important; }
+  [data-theme] .hero { padding-top:104px !important; }
+  [data-theme] .hero-text { padding-top:8px !important; }
+}
+@media(max-width:480px){
+  [data-theme] #siteHeader { height:54px !important; }
+  [data-theme] #siteHeader .navbar { height:52px !important; min-height:52px !important; padding-left:12px !important; padding-right:12px !important; }
+  [data-theme] .hero { padding-top:98px !important; }
+}
+
 /* Last, shared token layer for every page/component. */
 [data-theme], [data-theme] body { font-family:var(--theme-font) !important; }
 [data-theme] body, [data-theme] main, [data-theme] section,
