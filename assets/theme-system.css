@@ -678,3 +678,30 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
 [data-theme] #siteHeader .nav-link.active { outline:none !important; box-shadow:none !important; background:transparent !important; border-color:transparent !important; }
 [data-theme] .site-galaxy, [data-theme] .evidence-galaxy-scene, [data-theme] .admin-galaxy-scene { z-index:0 !important; }
 [data-theme] .navbar *, [data-theme] .evidence-nav *, [data-theme] .admin-nav * { position:relative; z-index:1; }
+
+/* Theme-aware action/label bridge. Legacy controls now inherit the active
+   palette, while flex gaps keep icons comfortably separated from labels. */
+[data-theme] :is(.tikz-open-button,.tikz-contribution-submit,.document-admin-link,.document-open-label,.evidence-button,.contact-qr-button,.request-submit-row button,.request-submit-row .btn) {
+  display:inline-flex !important; align-items:center !important; justify-content:center !important; gap:8px !important;
+  min-height:38px; color:var(--theme-text) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.22)) !important;
+  background:color-mix(in srgb,var(--theme-panel) 84%,var(--theme-accent) 16%) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 18px color-mix(in srgb,var(--theme-bg) 28%,transparent) !important;
+  transition:color .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease,transform .2s ease !important;
+}
+[data-theme] :is(.tikz-open-button,.tikz-contribution-submit,.document-admin-link,.document-open-label,.evidence-button,.contact-qr-button,.request-submit-row button,.request-submit-row .btn):hover {
+  color:#fff !important; border-color:var(--theme-highlight) !important;
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-highlight) 28%,transparent),0 0 20px var(--theme-glow) !important;
+  transform:translateY(-1px);
+}
+[data-theme] :is(.tikz-open-button,.tikz-contribution-submit,.document-admin-link,.document-open-label,.evidence-button,.contact-qr-button,.request-submit-row button,.request-submit-row .btn) :is(i,svg) {
+  flex:0 0 auto !important; margin:0 !important; color:var(--theme-highlight) !important; -webkit-text-fill-color:var(--theme-highlight) !important;
+}
+[data-theme] :is(.tikz-open-button,.tikz-contribution-submit,.document-admin-link,.document-open-label,.evidence-button,.contact-qr-button,.request-submit-row button,.request-submit-row .btn):hover :is(i,svg) { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+[data-theme] :is(.achievement-label,.section-kicker,.tikz-contribution-copy .section-kicker) { color:var(--theme-highlight) !important; -webkit-text-fill-color:var(--theme-highlight) !important; }
+[data-theme] .tikz-contribution-icon { display:grid !important; place-items:center !important; color:var(--theme-highlight) !important; background:color-mix(in srgb,var(--theme-accent) 16%,var(--theme-panel)) !important; border:1px solid color-mix(in srgb,var(--theme-accent) 42%,transparent) !important; box-shadow:0 0 18px color-mix(in srgb,var(--theme-glow) 48%,transparent) !important; }
+[data-theme] .tikz-card-footer,[data-theme] .contact-socials,[data-theme] .request-submit-row { gap:12px !important; }
+[data-theme] .tikz-date i { margin-right:6px !important; color:var(--theme-accent) !important; }
+[data-theme] :is(.tikz-card-footer button,.card-arrow,.achievement-card .arrow-button,.document-card-action) { display:inline-flex !important; align-items:center !important; justify-content:center !important; gap:7px !important; color:var(--theme-highlight) !important; border-color:color-mix(in srgb,var(--theme-accent) 44%,transparent) !important; }
+[data-theme] :is(.tikz-card-footer button,.card-arrow,.achievement-card .arrow-button,.document-card-action):hover { color:#fff !important; border-color:var(--theme-highlight) !important; background:color-mix(in srgb,var(--theme-accent) 22%,transparent) !important; }
