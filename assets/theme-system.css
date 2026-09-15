@@ -406,6 +406,22 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] .exam-score-paper .esp-segment-on { fill:var(--theme-highlight) !important; stroke:var(--theme-highlight) !important; filter:drop-shadow(0 0 3px var(--theme-glow)); }
 [data-theme] .exam-score-paper .esp-segment-off { fill:color-mix(in srgb,var(--theme-muted) 22%,transparent) !important; }
 [data-theme] .exam-score-paper .esp-accent path { stroke:var(--theme-highlight) !important; }
+/* About/skills cards: replace remaining fixed blue text and pink icons with
+   the active palette tokens. */
+[data-theme] #about .about-content h3,[data-theme] #about .about-content h3 span,
+[data-theme] #about .highlight-item h3,[data-theme] #about .skill-item h3,
+[data-theme] #skills .skill-item h3 { color:var(--theme-highlight) !important; -webkit-text-fill-color:var(--theme-highlight) !important; }
+[data-theme] #about .about-content p,[data-theme] #about .highlight-item p,
+[data-theme] #about .skill-item p,[data-theme] #skills .skill-item p,
+[data-theme] #skills .skill-info p { color:var(--theme-text) !important; }
+[data-theme] #about .achievement-label,[data-theme] #about .section-kicker,
+[data-theme] #skills .section-kicker { color:var(--theme-accent) !important; }
+[data-theme] #about .highlight-item i,[data-theme] #about .skill-icon,
+[data-theme] #skills .skill-icon,[data-theme] #skills .skill-percent { color:var(--theme-accent) !important; }
+[data-theme] #about .highlight-item,[data-theme] #about .skill-item,
+[data-theme] #skills .skill-item { border-color:color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.16)) !important; }
+[data-theme] #about .skill-progress,[data-theme] #skills .skill-progress { background:linear-gradient(90deg,var(--theme-accent),var(--theme-accent-3)) !important; }
+[data-theme] #about .achievement-schools span,[data-theme] #skills .skill-tag { color:var(--theme-text) !important; border-color:color-mix(in srgb,var(--theme-accent) 38%,transparent) !important; background:color-mix(in srgb,var(--theme-accent) 14%,transparent) !important; }
 
 /* Final landing/hero palette bridge. */
 [data-theme] .hero-space-scene,
