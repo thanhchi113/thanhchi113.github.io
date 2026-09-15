@@ -424,6 +424,12 @@ html[data-theme]::-webkit-scrollbar-thumb,body[data-theme]::-webkit-scrollbar-th
 /* Admin authentication surfaces: one coherent themed frame before and after
    sign-in, with a clearly visible sign-out action in the session bar. */
 [data-theme] #loginPanel { width:min(480px,calc(100% - 28px)) !important; margin:clamp(28px,8vh,78px) auto 0 !important; }
+[data-theme] #loginPanel.admin-login {
+  max-width:none !important; padding:0 !important; background:transparent !important;
+  border:0 !important; border-radius:0 !important; box-shadow:none !important;
+  backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
+  overflow:visible !important;
+}
 [data-theme] #loginPanel .admin-card { background:linear-gradient(145deg,color-mix(in srgb,var(--theme-panel) 96%,transparent),color-mix(in srgb,var(--theme-surface) 84%,transparent)) !important; border:1px solid color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.16)) !important; box-shadow:0 24px 70px color-mix(in srgb,var(--theme-bg) 68%,transparent),inset 0 1px 0 rgba(255,255,255,.1) !important; }
 [data-theme] #loginPanel .admin-title h1 { color:var(--theme-text) !important; }
 [data-theme] #loginPanel .admin-title p,[data-theme] #loginPanel .admin-form label,[data-theme] #loginPanel .admin-status { color:var(--theme-muted) !important; }
