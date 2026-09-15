@@ -7,6 +7,10 @@
     violet: 'Tím đêm',
     ember: 'Than hồng'
     ,meridian: 'Meridian navy–cam'
+    ,lagoon: 'Đầm phá ngọc lục'
+    ,midnight: 'Xanh đêm băng lam'
+    ,sunset: 'Hoàng hôn san hô'
+    ,forest: 'Rừng xanh ngọc'
   };
   var userKey = 'site-theme-user';
   var defaultKey = 'site-theme-default';
@@ -30,6 +34,10 @@
       violet: ['#100b24','#1b123b','#2d1f52','#c084fc','#a855f7','#ec4899','#f0abfc','#faf5ff','#b7a7d4'],
       ember: ['#1a0f0b','#2a1711','#472318','#fb923c','#ef4444','#f59e0b','#fde047','#fff7ed','#c6a58d']
       ,meridian: ['#101826','#17253a','#23334b','#ff7a3d','#ef4f3f','#f2b84b','#ffe0a3','#f5f7fb','#a9b7c9']
+      ,lagoon: ['#071c22','#0b3034','#145052','#19d3ae','#22a6b3','#4fd1c5','#b8ffe9','#effffc','#8dbab6']
+      ,midnight: ['#081226','#101f3d','#19345a','#5aa9ff','#536dfe','#8b9dff','#d8e8ff','#f3f8ff','#9bb2d0']
+      ,sunset: ['#24101d','#3a1724','#572538','#ff6b6b','#f43f5e','#fb923c','#ffe0b2','#fff7f2','#d7a6a0']
+      ,forest: ['#071b16','#0d3024','#164d36','#34d399','#10b981','#84cc16','#d9f99d','#f0fff5','#9ac4a9']
     }[theme];
     var id = 'site-theme-runtime-overrides';
     var style = document.getElementById(id) || document.createElement('style');
