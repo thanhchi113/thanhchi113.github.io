@@ -411,6 +411,15 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] .theme-switcher { background:var(--theme-panel) !important; border-color:var(--theme-accent) !important; color:var(--theme-text) !important; }
 html[data-theme]::-webkit-scrollbar-track,body[data-theme]::-webkit-scrollbar-track,html[data-theme] *::-webkit-scrollbar-track,body[data-theme] *::-webkit-scrollbar-track { background:var(--theme-scroll-track) !important; }
 html[data-theme]::-webkit-scrollbar-thumb,body[data-theme]::-webkit-scrollbar-thumb,html[data-theme] *::-webkit-scrollbar-thumb,body[data-theme] *::-webkit-scrollbar-thumb { background:linear-gradient(180deg,var(--theme-accent),var(--theme-accent-3)) !important; border-color:var(--theme-scroll-track) !important; }
+/* Use a simple, theme-aware Zalo mark instead of an external wordmark. */
+[data-theme] .zalo-letter {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:28px; height:28px; border-radius:9px;
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  color:#fff !important; font:900 18px/1 Arial,sans-serif;
+  letter-spacing:-.04em; box-shadow:0 0 14px var(--theme-glow);
+}
+[data-theme] .contact-icon-zalo .zalo-letter { width:32px; height:32px; border-radius:10px; }
 
 /* Public exam summary table: lift it off the animated galaxy for reliable
    contrast while preserving the responsive table layout. */
