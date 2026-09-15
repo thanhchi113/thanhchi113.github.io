@@ -94,8 +94,22 @@ body, main, section { color:var(--theme-text); }
 [data-theme] .nav-link.active, [data-theme] .workspace-tab.active { color:var(--theme-accent) !important; }
 [data-theme] .project-link, [data-theme] .section-title h2, [data-theme] .evidence-type,
 [data-theme] .document-selected-category, [data-theme] .project-icon i { color:var(--theme-accent) !important; }
-body::before { background:color-mix(in srgb,var(--theme-accent) 16%,transparent); }
-body::after { background:color-mix(in srgb,var(--theme-accent-3) 14%,transparent); }
+/* Recolour the actual scene layers instead of placing a second translucent
+   veil above them. */
+body::before, body::after { background:transparent !important; }
+body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
+.site-galaxy, .evidence-galaxy-scene, .admin-galaxy-scene {
+  background:var(--theme-bg) !important;
+}
+.site-galaxy > .milky-way-shade, .evidence-galaxy-scene .milky-way-shade,
+.admin-galaxy-scene .milky-way-shade { background:transparent !important; opacity:.18; }
+.site-galaxy canvas, .evidence-galaxy-scene canvas, .admin-galaxy-scene canvas {
+  filter: saturate(1.12) hue-rotate(var(--theme-galaxy-hue,0deg)) !important;
+}
+[data-theme="aurora"] { --theme-galaxy-hue:28deg; }
+[data-theme="ocean"] { --theme-galaxy-hue:48deg; }
+[data-theme="violet"] { --theme-galaxy-hue:292deg; }
+[data-theme="ember"] { --theme-galaxy-hue:335deg; }
 .theme-surface, .admin-card, .admin-doc, .modal-card, .workspace-tabs, .workspace-panel section { border-color:color-mix(in srgb,var(--theme-accent) 20%,rgba(255,255,255,.1)); }
 .admin-btn:not(.danger), .theme-switcher button, .theme-switcher select { border-color:color-mix(in srgb,var(--theme-accent) 45%,rgba(255,255,255,.12)); }
 .admin-btn:not(.danger):hover, .theme-switcher button:hover { box-shadow:0 0 22px var(--theme-glow); }
