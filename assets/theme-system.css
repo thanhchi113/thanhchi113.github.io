@@ -27,6 +27,42 @@ html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, *::-webkit-scrollb
 html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover { background:linear-gradient(180deg,var(--theme-highlight),var(--theme-accent)); }
 
 body { background-color:var(--theme-bg); color:var(--theme-text); }
+/* Apply theme tokens to legacy components that use literal colors. */
+body, main, section { color:var(--theme-text); }
+.navbar, .site-header, header.navbar, .nav-container {
+  background:linear-gradient(135deg,color-mix(in srgb,var(--theme-panel) 92%,transparent),color-mix(in srgb,var(--theme-bg) 88%,transparent)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 34%,rgba(255,255,255,.14)) !important;
+}
+.nav-links a, .navbar a, .site-header a { color:var(--theme-text) !important; }
+.nav-links a:hover, .nav-links a.active, .nav-links a[aria-current="page"] { color:var(--theme-accent) !important; }
+.project-card, .achievement-card-large, .skill-card, .service-card, .document-card,
+.tikz-card, .score-card, .exam-score-card, .glass-card, .liquid-card {
+  background:linear-gradient(145deg,color-mix(in srgb,var(--theme-panel) 92%,transparent),color-mix(in srgb,var(--theme-surface) 70%,transparent)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 34%,rgba(255,255,255,.14)) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 18px 44px color-mix(in srgb,var(--theme-bg) 65%,transparent),0 0 24px color-mix(in srgb,var(--theme-glow) 55%,transparent) !important;
+}
+.project-card:hover, .achievement-card-large:hover, .skill-card:hover, .service-card:hover,
+.document-card:hover, .tikz-card:hover, .score-card:hover {
+  border-color:var(--theme-accent) !important;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-accent) 35%,transparent),0 20px 48px var(--theme-glow) !important;
+}
+.project-link, .achievement-card-link, .document-card a, .section-title h2,
+.hero h1 span, .hero-role, .accent, .text-accent { color:var(--theme-accent) !important; }
+.project-icon, .achievement-card-icon, .skill-icon, .service-icon {
+  background:linear-gradient(135deg,color-mix(in srgb,var(--theme-accent) 28%,transparent),color-mix(in srgb,var(--theme-accent-3) 25%,transparent)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 45%,transparent) !important;
+  color:var(--theme-accent) !important;
+}
+.btn-primary, .cta-button, .hero-socials a:hover, .admin-btn:not(.danger), .theme-switcher button {
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  color:#fff !important;
+}
+.tag, .project-tags span, .badge, .pill {
+  background:color-mix(in srgb,var(--theme-accent) 12%,transparent) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 28%,transparent) !important;
+  color:var(--theme-text) !important;
+}
+.admin-shell, .admin-nav, .admin-sidebar, .workspace-panel, .admin-panel { background-color:var(--theme-bg) !important; }
 body::before { background:color-mix(in srgb,var(--theme-accent) 16%,transparent); }
 body::after { background:color-mix(in srgb,var(--theme-accent-3) 14%,transparent); }
 .theme-surface, .admin-card, .admin-doc, .modal-card, .workspace-tabs, .workspace-panel section { border-color:color-mix(in srgb,var(--theme-accent) 20%,rgba(255,255,255,.1)); }
