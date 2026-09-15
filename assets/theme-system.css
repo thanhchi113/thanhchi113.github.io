@@ -704,6 +704,30 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] .admin-page .admin-drop,
 [data-theme] .admin-page .drop-zone,
 [data-theme] .admin-page .upload-dropzone { background:color-mix(in srgb,var(--theme-accent) 8%,var(--theme-panel)) !important; border-color:color-mix(in srgb,var(--theme-accent) 52%,transparent) !important; }
+
+/* About highlight cards (Toán / AI / Tech): use the same text hierarchy as
+   the selected palette instead of the legacy blue/gray literals. */
+[data-theme] #about .highlight-item .highlight-number {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+  text-shadow:0 0 14px var(--theme-glow) !important;
+}
+[data-theme] #about .highlight-item .highlight-text {
+  color:var(--theme-text) !important;
+  -webkit-text-fill-color:var(--theme-text) !important;
+  opacity:.86 !important;
+}
+[data-theme] #about .highlight-item .highlight-icon,
+[data-theme] #about .highlight-item .highlight-icon i {
+  color:var(--theme-accent) !important;
+  -webkit-text-fill-color:var(--theme-accent) !important;
+  background:color-mix(in srgb,var(--theme-accent) 15%,var(--theme-panel)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 58%,transparent) !important;
+}
+[data-theme] #about .highlight-item:hover .highlight-number,
+[data-theme] #about .highlight-item:hover .highlight-icon i { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+[data-theme] #about .highlight-item { border-color:color-mix(in srgb,var(--theme-accent) 58%,rgba(255,255,255,.18)) !important; }
+[data-theme] #about .highlight-item:hover { border-color:var(--theme-highlight) !important; box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-highlight) 58%,transparent),0 0 22px var(--theme-glow) !important; }
 @media(max-width:900px){
   [data-theme] #documents .document-card-clickable { padding:22px !important; }
   [data-theme] #documents .document-card-content-wrap { grid-template-columns:minmax(0,1fr) minmax(175px,36%) !important; column-gap:16px !important; }
