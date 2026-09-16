@@ -7025,7 +7025,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
             try {
                 const [categoriesResponse, documentsResponse] = await Promise.all([
                     supabaseClient.from("math_categories").select("id,name,slug,description,sort_order,parent_id").order("sort_order", { ascending: true }).order("created_at", { ascending: true }),
-                    supabaseClient.from("math_documents").select("id,title,description,category_id,file_path,file_name,published,sort_order,created_at,updated_at,tags,thumbnail_path,document_type,exam_year,duration_minutes,view_count,math_categories(name,slug)").eq("published", true).order("sort_order", { ascending: true }).order("created_at", { ascending: false })
+                    supabaseClient.from("math_documents").select("id,title,description,category_id,file_path,file_name,published,sort_order,created_at,updated_at,tags,thumbnail_path,cover_enabled,document_type,exam_year,duration_minutes,view_count,math_categories(name,slug)").eq("published", true).order("sort_order", { ascending: true }).order("created_at", { ascending: false })
                 ]);
                 if (categoriesResponse.error) throw categoriesResponse.error;
                 if (documentsResponse.error) throw documentsResponse.error;

@@ -820,6 +820,61 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
   [data-theme] #documents .document-card-content-wrap > .document-card-info { min-height:0 !important; }
 }
 
+/* Compact document previews: let the media define its own height and keep
+   the first-page badge as a subtle overlay only for rendered PDFs. */
+[data-theme] #documents .document-card-preview.uploaded-thumbnail,
+[data-theme] #documents .document-card-content-wrap > .document-card-preview[data-preview-kind="pdf"] {
+  height:auto !important;
+  min-height:0 !important;
+  max-height:none !important;
+  aspect-ratio:3 / 4 !important;
+  align-self:start !important;
+  overflow:hidden !important;
+}
+[data-theme] #documents .document-card-preview.uploaded-thumbnail img {
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  max-height:none !important;
+  object-fit:contain !important;
+}
+[data-theme] #documents .document-card-content-wrap > .document-card-preview[data-preview-kind="pdf"] .document-preview-canvas {
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  max-height:none !important;
+  object-fit:contain !important;
+}
+[data-theme] #documents .document-card-preview.uploaded-thumbnail::after { display:none !important; }
+[data-theme] #documents .document-card-content-wrap > .document-card-preview[data-preview-kind="pdf"]::after {
+  display:block !important;
+  top:8px !important;
+  left:8px !important;
+  right:auto !important;
+  bottom:auto !important;
+  opacity:.82 !important;
+  background:color-mix(in srgb,var(--theme-panel) 72%,transparent) !important;
+  backdrop-filter:blur(8px) !important;
+}
+
+/* The motion control remains an accessible switch, but its label is visual-only. */
+#adminGalaxyToggle,
+[data-galaxy-toggle],
+.galaxy-toggle {
+  width:48px !important;
+  min-width:48px !important;
+  height:30px !important;
+  padding:3px !important;
+  gap:0 !important;
+  border-radius:999px !important;
+  font-size:0 !important;
+  justify-content:center !important;
+}
+#adminGalaxyToggle > span:not([data-galaxy-state]),
+[data-galaxy-toggle] > span:not(.switch-thumb),
+.galaxy-toggle > span:not(.switch-thumb) { display:none !important; }
+#adminGalaxyToggle svg { width:18px !important; height:18px !important; }
+
 /* Admin PDF workspace follows the score section's two-column rhythm. */
 [data-theme] #pdfWorkspace .admin-shell {
   grid-template-columns:minmax(0,1fr) !important;
