@@ -685,6 +685,7 @@ setEvidencePreview();
 </script>
 <script>
 (function(){
+  if(window.__pdfCoverBridgeV2)return; window.__pdfCoverBridgeV2=true;
   let busy=false,loading=false,epoch=0,pageIds=[];
   const flags=['show_student_name','show_image','show_course_name','show_school_name','show_result_summary','show_description'];
   const filtered=()=>{const q=($('evidenceAdminSearch')?.value||'').trim().toLocaleLowerCase('vi'),g=$('evidenceAdminGroup')?.value||'all',v=$('evidenceAdminVisibility')?.value||'all';return state.evidence.filter(r=>(g==='all'||r.group_key===g)&&(v==='all'||r.published===(v==='published'))&&(!q||[r.title,r.student_name,r.course_name,r.school_name,r.result_summary,r.description].filter(Boolean).join(' ').toLocaleLowerCase('vi').includes(q)))};

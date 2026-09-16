@@ -822,9 +822,17 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 
 /* Admin PDF workspace follows the score section's two-column rhythm. */
 [data-theme] #pdfWorkspace .admin-shell {
-  grid-template-columns:minmax(320px,380px) minmax(0,1fr) !important;
+  grid-template-columns:minmax(0,1fr) !important;
   align-items:start !important;
   gap:22px !important;
+}
+[data-theme] #pdfWorkspace .admin-shell > .admin-card:first-child {
+  width:100% !important;
+  max-width:none !important;
+}
+[data-theme] #pdfWorkspace .admin-shell > .admin-card:nth-child(2) {
+  width:100% !important;
+  max-width:none !important;
 }
 [data-theme] #pdfWorkspace .admin-shell > .admin-card {
   min-width:0 !important;
