@@ -842,6 +842,26 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
   overflow:visible !important;
 }
 
+/* Refined PDF cover drop zone, matching the PDF uploader and hiding the
+   browser's ugly native file control. */
+[data-theme] .cover-file-drop {
+  position:relative !important; display:grid !important; place-items:center !important;
+  min-height:144px !important; padding:18px !important; text-align:center !important;
+  cursor:pointer !important; border:1px dashed color-mix(in srgb,var(--theme-accent) 56%,rgba(255,255,255,.22)) !important;
+  border-radius:13px !important; background:color-mix(in srgb,var(--theme-accent) 7%,transparent) !important;
+}
+[data-theme] .cover-file-drop:hover, [data-theme] .cover-file-drop.is-dragging {
+  border-color:var(--theme-highlight) !important;
+  background:color-mix(in srgb,var(--theme-accent) 16%,transparent) !important;
+  transform:translateY(-2px);
+}
+[data-theme] .cover-file-drop .drop-input { position:absolute !important; inset:0 !important; width:100% !important; height:100% !important; opacity:0 !important; cursor:pointer !important; z-index:3 !important; }
+[data-theme] .cover-file-drop .pdf-drop-prompt { pointer-events:none !important; }
+[data-theme] .cover-file-drop .pdf-drop-prompt i { display:block !important; margin-bottom:8px !important; color:var(--theme-highlight) !important; font-size:27px !important; }
+[data-theme] .cover-file-drop .pdf-drop-prompt strong { display:block !important; color:var(--theme-text) !important; font-size:14px !important; }
+[data-theme] .cover-file-drop .pdf-drop-prompt span { display:block !important; margin-top:5px !important; color:var(--theme-muted) !important; font-size:11px !important; }
+[data-theme] .cover-file-drop .file-name { color:var(--theme-highlight) !important; font-size:12px !important; }
+
 /* Give the hero greeting a clear breathing zone below the floating bar. */
 [data-theme] #siteHeader { height:64px !important; }
 [data-theme] #siteHeader .navbar { height:62px !important; min-height:62px !important; }
