@@ -1381,3 +1381,7 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
 [data-theme] .admin-sidebar-brand, [data-theme] .admin-sidebar-brand strong { color:var(--theme-text) !important; }
 [data-theme] .admin-sidebar-eyebrow { color:var(--theme-highlight) !important; -webkit-text-fill-color:var(--theme-highlight) !important; }
 [data-theme] .admin-nav a, [data-theme] .admin-nav .back { color:var(--theme-text) !important; }
+[data-theme] #documents.document-viewer-mode .pdf-related-title::before {
+  background:linear-gradient(180deg,var(--theme-accent),var(--theme-accent-3),var(--theme-highlight)) !important;
+  box-shadow:0 0 10px var(--theme-glow) !important;
+}
