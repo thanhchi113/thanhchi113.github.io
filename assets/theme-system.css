@@ -820,6 +820,37 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
   [data-theme] #documents .document-card-content-wrap > .document-card-info { min-height:0 !important; }
 }
 
+/* Admin PDF workspace follows the score section's two-column rhythm. */
+[data-theme] #pdfWorkspace .admin-shell {
+  grid-template-columns:minmax(320px,380px) minmax(0,1fr) !important;
+  align-items:start !important;
+  gap:22px !important;
+}
+[data-theme] #pdfWorkspace .admin-shell > .admin-card {
+  min-width:0 !important;
+  border-radius:18px !important;
+}
+[data-theme] #pdfWorkspace .admin-list-toolbar {
+  grid-template-columns:minmax(0,1fr) minmax(150px,.55fr) minmax(150px,.55fr) !important;
+  gap:10px !important;
+}
+[data-theme] #pdfWorkspace #adminList { gap:12px !important; }
+[data-theme] #pdfWorkspace .admin-doc {
+  grid-template-columns:26px minmax(0,1fr) auto !important;
+  min-width:0 !important;
+  border-radius:16px !important;
+}
+[data-theme] #pdfWorkspace #selectAllDocs,
+[data-theme] #pdfWorkspace #toggleCoversDocs { min-height:38px !important; }
+@media(max-width:1100px){
+  [data-theme] #pdfWorkspace .admin-shell { grid-template-columns:1fr !important; }
+}
+@media(max-width:650px){
+  [data-theme] #pdfWorkspace .admin-list-toolbar { grid-template-columns:1fr !important; }
+  [data-theme] #pdfWorkspace .admin-doc { grid-template-columns:20px minmax(0,1fr) !important; }
+  [data-theme] #pdfWorkspace .admin-doc .doc-actions { grid-column:2 !important; justify-content:flex-start !important; }
+}
+
 /* Keep the liquid-glass surface clean: remove the detached blue glow/slab
    that used to protrude from the left edge of document/category cards. */
 [data-theme] #documents .document-card::before,
