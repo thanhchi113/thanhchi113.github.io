@@ -15,7 +15,7 @@
         const query = $("scoreAdminSearch").value.trim().toLocaleLowerCase("vi");
         const visibility = $("scoreAdminVisibility").value;
         return api.filter(records, { period: $("scoreAdminPeriod").value }).filter(row =>
-            (!query || `${row.student_name || ""} ${row.class_name} ${row.school_year} ${row.grade}`.toLocaleLowerCase("vi").includes(query)) &&
+            (!query || `${row.student_name || ""} ${row.student_tag || ""} ${row.class_name} ${row.school_year} ${row.grade}`.toLocaleLowerCase("vi").includes(query)) &&
             (visibility === "all" || row.published === (visibility === "published"))
         );
     }
@@ -144,7 +144,7 @@
             <td class="score-record-select"><label><input type="checkbox" data-score-select value="${esc(row.id)}" aria-label="Chọn ${esc(row.student_name || row.class_name)} · ${esc(api.label(row.period))}"></label></td>
             <td class="exam-record-number">${(page - 1) * perPage + index + 1}</td>
             <td class="exam-record-score">${api.format(row.score)}</td>
-            <td><span class="exam-record-name">${esc(row.student_name || "Chưa có tên học sinh")}</span>${esc(row.class_name)}<span class="exam-record-meta">Khối ${row.grade} · ${esc(row.school_year)}</span></td>
+            <td><span class="exam-record-name">${esc(row.student_name || "Chưa có tên học sinh")}</span>${esc(row.class_name)}<span class="exam-record-meta">Khối ${row.grade} · ${esc(row.school_year)}${row.student_tag ? ` · Nhãn: ${esc(row.student_tag)}` : ""}</span></td>
             <td>${esc(api.label(row.period))}</td><td><span class="status-pill ${row.published ? "on" : "off"}">${row.published ? "Đã công bố" : "Đang ẩn"}</span>${hiddenFields(row).length ? `<span class="exam-record-privacy">Ẩn: ${esc(hiddenFields(row).join(", "))}</span>` : ''}${quickControls(row)}</td>
             <td><div class="doc-actions">
                 <button class="admin-btn ghost icon-btn" type="button" data-score-action="edit" data-score-id="${esc(row.id)}" title="Sửa điểm" aria-label="Sửa điểm"><i class="fa-solid fa-pen" aria-hidden="true"></i></button>
@@ -196,6 +196,7 @@
         storedImagePath = row.evidence_image_path || null;
         storedImageName = row.evidence_image_name || null;
         $("scoreStudentName").value = row.student_name || "";
+        $("scoreStudentTag").value = row.student_tag || "";
         $("scorePeriod").value = row.period;
         $("scoreValue").value = api.format(row.score);
         $("scoreGrade").value = row.grade;
@@ -294,8 +295,12 @@
         if (busy || loading || !ready || !form.reportValidity()) return;
         let payload;
         try {
-            payload = api.validate({ student_name: $("scoreStudentName").value, period: $("scorePeriod").value, score: $("scoreValue").value, grade: $("scoreGrade").value,
-                class_name: $("scoreClass").value, school_year: $("scoreYear").value, published: $("scorePublished").checked, hide_student_name: !$("scoreShowStudentName").checked });
+            const name = $("scoreStudentName").value;
+            const className = $("scoreClass").value;
+            const year = $("scoreYear").value;
+            const autoTag = [name, className, year].map(value => String(value || "").trim().toLocaleLowerCase("vi").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")).filter(Boolean).join("-").slice(0, 100);
+            payload = api.validate({ student_name: name, student_tag: $("scoreStudentTag").value || autoTag, period: $("scorePeriod").value, score: $("scoreValue").value, grade: $("scoreGrade").value,
+                class_name: className, school_year: year, published: $("scorePublished").checked, hide_student_name: !$("scoreShowStudentName").checked });
             Object.assign(payload, formVisibility());
         } catch (error) { setStatus("scoreFormStatus", error.message); return; }
         const wasEditing = editingId !== null;

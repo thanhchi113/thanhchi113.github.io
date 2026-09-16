@@ -17,14 +17,14 @@
         { label: "8 đến 10", max: Infinity, color: "#6fe0b8" }
     ]);
     const visibilityFields = Object.freeze(["show_image", "show_score", "show_class_name", "show_grade", "show_school_year", "show_period"]);
-    const columns = "id,student_name,period,score,grade,class_name,school_year,published,created_at,evidence_image_path,evidence_image_name,hide_student_name," + visibilityFields.join(",");
+    const columns = "id,student_name,student_tag,period,score,grade,class_name,school_year,published,created_at,evidence_image_path,evidence_image_name,hide_student_name," + visibilityFields.join(",");
     function visibility(input = {}) {
         // Old records coupled image privacy to name privacy; preserve that until migrated.
         return Object.fromEntries(visibilityFields.map(key => [key, key === "show_image" && input[key] == null ? !input.hide_student_name : input[key] !== false]));
     }
     function publicRecord(input) {
         const row = { ...input, ...visibility(input) };
-        if (row.hide_student_name) row.student_name = null;
+        if (row.hide_student_name) { row.student_name = null; row.student_tag = null; }
         for (const key of ["score", "class_name", "grade", "school_year", "period"]) if (!row[`show_${key}`]) row[key] = null;
         if (!row.show_image) row.evidence_image_path = row.evidence_image_name = null;
         return row;
@@ -84,10 +84,12 @@
         if (!className || className.length > 80) throw new Error("Nhập lớp / khóa học, tối đa 80 ký tự.");
         const studentName = String(input.student_name || "").trim().replace(/\s+/g, " ");
         if (!studentName || studentName.length > 160) throw new Error("Nhập tên học sinh, tối đa 160 ký tự.");
-        return { period: input.period, score, grade, school_year: year, class_name: className, student_name: studentName, published: input.published === true, hide_student_name: input.hide_student_name === true };
+        const studentTag = String(input.student_tag || "").trim().replace(/\s+/g, " ");
+        if (studentTag.length > 80) throw new Error("Nhãn học sinh tối đa 80 ký tự.");
+        return { period: input.period, score, grade, school_year: year, class_name: className, student_name: studentName, student_tag: studentTag || null, published: input.published === true, hide_student_name: input.hide_student_name === true };
     }
     function filter(records, filters = {}) {
-        return records.filter(row => ["period", "grade", "school_year", "class_name"].every(key =>
+        return records.filter(row => ["period", "grade", "school_year", "class_name", "student_tag"].every(key =>
             !filters[key] || filters[key] === "all" || String(row[key]) === String(filters[key])
         ));
     }

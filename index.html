@@ -8878,5 +8878,11 @@ body.tikz-detail-mode .tikz-render-box{background:linear-gradient(145deg,rgba(8,
 </dialog>
 <script src="assets/contact-qr.js?v=20260914"></script>
 <link rel="stylesheet" href="assets/theme-system.css?v=20260916-final" />
+<style id="final-document-preview-fit">
+#documents .document-card-preview.uploaded-thumbnail,#documents .document-card-preview[data-preview-kind="pdf"]{height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:3/4!important;align-self:start!important}
+#documents .document-card-preview.uploaded-thumbnail img,#documents .document-card-preview[data-preview-kind="pdf"] .document-preview-canvas{display:block!important;width:100%!important;height:auto!important;max-height:none!important;object-fit:contain!important}
+#documents .document-card-preview.uploaded-thumbnail:after{display:none!important}
+#documents .document-card-preview[data-preview-kind="pdf"]:after{display:block!important;top:8px!important;left:8px!important;bottom:auto!important;opacity:.84!important;background:rgba(20,30,55,.74)!important;backdrop-filter:blur(8px)!important}
+</style>
 </body>
 </html>

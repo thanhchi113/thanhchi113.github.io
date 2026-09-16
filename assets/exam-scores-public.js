@@ -11,7 +11,8 @@
     const escape = value => String(value ?? "").replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
     const filters = () => ({
         school_year: get("scoreYearFilter").value, grade: get("scoreGradeFilter").value,
-        class_name: get("scoreClassFilter").value, period: get("scorePeriodFilter").value
+        class_name: get("scoreClassFilter").value, period: get("scorePeriodFilter").value,
+        student_tag: get("scoreStudentTagFilter").value.trim()
     });
     function setOptions(select, values, placeholder) {
         const previous = select.value;
@@ -46,7 +47,8 @@
         get("examScoreStatus").dataset.error = String(error);
     }
     function selectedRecords() {
-        return api.filter(records, filters());
+        const value = filters().student_tag.toLocaleLowerCase("vi");
+        return api.filter(records, { ...filters(), student_tag: "all" }).filter(row => !value || String(row.student_tag || "").toLocaleLowerCase("vi").includes(value));
     }
     function examIllustration(caption, score) {
         return `${score == null ? window.EvidenceDisplay?.illustration() || "" : window.ExamScorePaper?.render(score) || ""}<figcaption>${escape(caption)}</figcaption>`;
@@ -259,6 +261,7 @@
     ["scoreYearFilter", "scoreGradeFilter", "scoreClassFilter", "scorePeriodFilter"].forEach(id => {
         get(id).addEventListener("change", () => { studentPage = 1; if (["scoreYearFilter", "scoreGradeFilter"].includes(id)) updateClasses(); render(); });
     });
+    get("scoreStudentTagFilter").addEventListener("input", () => { studentPage = 1; render(); });
     get("scoreStudentPagination").addEventListener("click", event => {
         const button = event.target.closest("[data-student-page]");
         if (!button || button.disabled) return;
