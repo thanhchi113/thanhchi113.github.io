@@ -1385,3 +1385,35 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
   background:linear-gradient(180deg,var(--theme-accent),var(--theme-accent-3),var(--theme-highlight)) !important;
   box-shadow:0 0 10px var(--theme-glow) !important;
 }
+
+/* PDF library cards: give the information column enough horizontal room and
+   keep the rendered first page compact. */
+[data-theme] #documents .document-pdf-grid {
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:22px !important;
+}
+[data-theme] #documents .document-pdf-grid .document-card-content-wrap {
+  grid-template-columns:minmax(0,1fr) 132px !important;
+  column-gap:14px !important;
+}
+[data-theme] #documents .document-pdf-grid .document-card-preview {
+  height:145px !important;
+  max-height:145px !important;
+  border-radius:14px !important;
+}
+[data-theme] #documents .document-pdf-grid .document-card-preview::after {
+  color:var(--theme-highlight) !important;
+  background:color-mix(in srgb,var(--theme-panel) 92%,transparent) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 52%,rgba(255,255,255,.18)) !important;
+  box-shadow:0 0 12px color-mix(in srgb,var(--theme-glow) 72%,transparent) !important;
+}
+[data-theme] #documents .document-pdf-grid .document-preview-canvas {
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+}
+@media(max-width:760px){
+  [data-theme] #documents .document-pdf-grid { grid-template-columns:1fr !important; }
+  [data-theme] #documents .document-pdf-grid .document-card-content-wrap { grid-template-columns:1fr !important; }
+  [data-theme] #documents .document-pdf-grid .document-card-preview { height:185px !important; max-height:185px !important; }
+}
