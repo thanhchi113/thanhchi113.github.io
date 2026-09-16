@@ -40,7 +40,7 @@
 .exam-score-paper .esp-scene-quartic .esp-curve { animation-name: esp-quartic-curve; }
 .exam-score-paper .esp-led { animation-name: esp-led; opacity: 0; }
 .exam-score-paper .esp-accent { animation-name: esp-accent; }
-.exam-score-paper .esp-segment-off { fill: #173744; }
+.exam-score-paper .esp-segment-off { display:none !important; fill:transparent !important; opacity:0 !important; }
 .exam-score-paper .esp-segment-on { fill: #8ff5dd; filter: drop-shadow(0 0 2px rgba(88, 239, 214, .48)); }
 
 /* One 24-second clock. Each drawing completes and holds before the next starts. */

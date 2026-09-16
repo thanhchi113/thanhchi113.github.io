@@ -712,6 +712,31 @@ setEvidencePreview();
 (function(){const api=window.evidenceAdmin;if(!api)return;const get=api.getState;api.getState=()=>{const s=get();return {...s,busy:s.busy||document.getElementById('evidenceBulkTools')?.getAttribute('aria-busy')==='true'};};const normalize=()=>document.querySelectorAll('#evidenceAdminList [data-evidence-select]').forEach(input=>{input.value=input.closest('[data-evidence-row]')?.dataset.evidenceRow||input.value;});normalize();new MutationObserver(normalize).observe(document.getElementById('evidenceAdminList'),{childList:true,subtree:true});const button=document.getElementById('evidenceBulkSelectPage');if(button)button.onclick=()=>{normalize();document.querySelectorAll('#evidenceAdminList [data-evidence-select]').forEach(input=>{if(!input.checked){input.checked=true;input.dispatchEvent(new Event('change',{bubbles:true}));}});};}());
 </script>
 <script src="assets/admin-galaxy.js?v=20260908-toggle"></script>
+<script>
+// Save an optional cover image after the existing PDF form finishes inserting
+// or updating the document. The cover is stored in the math-pdfs bucket and
+// referenced by math_documents.thumbnail_path.
+(function(){
+  const input=document.getElementById('coverInput');
+  const name=document.getElementById('selectedCover');
+  const form=document.getElementById('docForm');
+  if(!input||!form)return;
+  input.addEventListener('change',()=>{const f=input.files?.[0];if(name)name.textContent=f?`Ảnh bìa: ${f.name}`:'';});
+  form.addEventListener('submit',async()=>{
+    const cover=input.files?.[0]; if(!cover)return;
+    try{
+      const safe=cover.name.replace(/[^a-zA-Z0-9._-]+/g,'-');
+      const path=`covers/${Date.now()}-${crypto.randomUUID()}-${safe}`;
+      const up=await supabaseClient.storage.from('math-pdfs').upload(path,cover,{contentType:cover.type||'image/jpeg',upsert:false});
+      if(up.error)throw up.error;
+      await new Promise(r=>setTimeout(r,1200));
+      const id=document.getElementById('docId')?.value;
+      if(id){const result=await supabaseClient.from('math_documents').update({thumbnail_path:path,updated_at:new Date().toISOString()}).eq('id',id);if(result.error)throw result.error;}
+      else if(typeof loadDocs==='function'){await loadDocs();const fileName=document.getElementById('fileInput')?.files?.[0]?.name;if(fileName){const row=state.documents.find(d=>d.file_name===fileName);if(row){const result=await supabaseClient.from('math_documents').update({thumbnail_path:path,updated_at:new Date().toISOString()}).eq('id',row.id);if(result.error)throw result.error;}}}
+    }catch(error){console.error('Không lưu được ảnh bìa PDF',error);}
+  },{capture:true});
+})();
+</script>
 <script src="assets/galaxy-streaks.js?v=20260908-brighter-streaks"></script>
 <script src="assets/galaxy-clouds.js?v=20260913-performance"></script>
 <script src="assets/galaxy-background.js?v=20260913-unified"></script>
