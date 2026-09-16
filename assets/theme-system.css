@@ -705,6 +705,66 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] .admin-page .drop-zone,
 [data-theme] .admin-page .upload-dropzone { background:color-mix(in srgb,var(--theme-accent) 8%,var(--theme-panel)) !important; border-color:color-mix(in srgb,var(--theme-accent) 52%,transparent) !important; }
 
+/* Round and recolour public project/TikZ cards and their numbered markers. */
+[data-theme] :is(.project-card,.achievement-card-large,.tikz-card,.document-card,.document-category-card) {
+  border-radius:22px !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 58%,rgba(255,255,255,.18)) !important;
+}
+[data-theme] :is(.project-card,.achievement-card-large,.tikz-card,.document-card,.document-category-card) .project-number,
+[data-theme] :is(.project-card,.achievement-card-large,.tikz-card,.document-card,.document-category-card) .achievement-label {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+}
+[data-theme] .project-card .project-icon,
+[data-theme] .achievement-card-large .achievement-card-icon {
+  color:var(--theme-accent) !important;
+  background:color-mix(in srgb,var(--theme-accent) 15%,var(--theme-panel)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 62%,transparent) !important;
+}
+[data-theme] .project-card h3,[data-theme] .achievement-card-large h3,[data-theme] .tikz-card-title { color:var(--theme-text) !important; }
+[data-theme] .project-card p,[data-theme] .achievement-card-content p,[data-theme] .tikz-card-description { color:var(--theme-muted) !important; }
+[data-theme] .tikz-card-render { background:color-mix(in srgb,var(--theme-bg) 82%,var(--theme-panel)) !important; border-bottom-color:color-mix(in srgb,var(--theme-accent) 30%,transparent) !important; }
+[data-theme] .tikz-tag { color:var(--theme-text) !important; background:color-mix(in srgb,var(--theme-accent) 12%,var(--theme-panel)) !important; border-color:color-mix(in srgb,var(--theme-accent) 48%,transparent) !important; }
+[data-theme] .tikz-date { color:var(--theme-muted) !important; }
+[data-theme] .tikz-open-button { color:var(--theme-highlight) !important; }
+[data-theme] .tikz-open-button i { color:var(--theme-highlight) !important; }
+[data-theme] .tikz-open-button:hover,[data-theme] .tikz-open-button:hover i { color:#fff !important; -webkit-text-fill-color:#fff !important; }
+
+/* Use the theme for all public social icons, including the Zalo mark. */
+[data-theme] .hero-socials a,
+[data-theme] .contact-socials a {
+  color:var(--theme-text) !important;
+  background:color-mix(in srgb,var(--theme-panel) 82%,transparent) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 68%,transparent) !important;
+}
+[data-theme] .hero-socials a i,[data-theme] .contact-socials a i,
+[data-theme] .hero-socials .zalo-brand-icon,
+[data-theme] .contact-icon-zalo .zalo-letter {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+}
+[data-theme] .contact-icon-zalo .zalo-letter {
+  display:grid !important; place-items:center !important;
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  border:1px solid var(--theme-highlight) !important;
+  color:#fff !important; -webkit-text-fill-color:#fff !important;
+}
+[data-theme] .hero-socials a:hover,[data-theme] .contact-socials a:hover { border-color:var(--theme-highlight) !important; box-shadow:0 0 18px var(--theme-glow) !important; }
+
+[data-theme] #documents.document-viewer-mode .pdf-viewer-scroll,
+[data-theme] #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list {
+  scrollbar-color:var(--theme-accent) color-mix(in srgb,var(--theme-bg) 78%,transparent) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-viewer-scroll::-webkit-scrollbar-thumb,
+[data-theme] #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-thumb {
+  background:linear-gradient(180deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  border-radius:999px !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-viewer-scroll::-webkit-scrollbar-track,
+[data-theme] #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list::-webkit-scrollbar-track {
+  background:color-mix(in srgb,var(--theme-bg) 82%,transparent) !important;
+}
+
 /* About highlight cards (Toán / AI / Tech): use the same text hierarchy as
    the selected palette instead of the legacy blue/gray literals. */
 [data-theme] #about .highlight-item .highlight-number {
