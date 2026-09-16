@@ -1395,6 +1395,16 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
 [data-theme] #documents .document-pdf-grid .document-card-content-wrap {
   grid-template-columns:minmax(0,1fr) 132px !important;
   column-gap:14px !important;
+  background:transparent !important;
+}
+[data-theme] #documents .document-pdf-grid .document-card-info,
+[data-theme] #documents .document-pdf-grid .document-card-actions {
+  background:transparent !important;
+  box-shadow:none !important;
+}
+[data-theme] #documents .document-pdf-grid .document-card-actions {
+  border-top:1px solid color-mix(in srgb,var(--theme-accent) 28%,transparent) !important;
+  padding-top:12px !important;
 }
 [data-theme] #documents .document-pdf-grid .document-card-preview {
   height:145px !important;
