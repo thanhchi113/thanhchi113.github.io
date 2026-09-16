@@ -12,7 +12,7 @@
     const filters = () => ({
         school_year: get("scoreYearFilter").value, grade: get("scoreGradeFilter").value,
         class_name: get("scoreClassFilter").value, period: get("scorePeriodFilter").value,
-        student_tag: get("scoreStudentTagFilter").value.trim()
+        student_tag: api.normalizeStudentTag(get("scoreStudentTagFilter").value)
     });
     function setOptions(select, values, placeholder) {
         const previous = select.value;
@@ -99,7 +99,7 @@
         const hasImage = row.show_image && row.evidence_image_path;
         const facts = [["show_class_name", "Lớp / khóa học", row.class_name], ["show_grade", "Khối", row.grade], ["show_school_year", "Năm học", row.school_year]].filter(([flag]) => row[flag]);
         card.innerHTML = `<div class="exam-student-info">
-            <div class="exam-student-top">${row.show_period ? `<span class="exam-student-period"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i>${escape(api.label(row.period))}</span>` : ""}<span class="exam-student-subject">Môn Toán</span></div>
+            <div class="exam-student-top">${row.show_period ? `<span class="exam-student-period"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i>${escape(api.label(row.period))}</span>` : ""}${row.student_tag ? `<span class="exam-student-tag" title="Mã học sinh">${escape(row.student_tag)}</span>` : ""}<span class="exam-student-subject">Môn Toán</span></div>
             <div class="exam-student-main"><div class="exam-student-identity"><span class="exam-student-label">Học sinh</span>${nameMarkup}</div>${row.show_score ? `<div class="exam-student-score" aria-label="Điểm đạt được: ${escape(api.format(row.score))} trên 10"><strong>${escape(api.format(row.score))}</strong><span>/ 10 điểm</span></div>` : ""}</div>
             ${facts.length ? `<dl class="exam-student-facts">${facts.map(([, label, value]) => `<div><dt>${label}</dt><dd>${escape(value ?? "—")}</dd></div>`).join("")}</dl>` : ""}</div>
             <figure class="exam-student-media">${examIllustration(hasImage ? "Đang tải ảnh điểm…" : "Minh họa bài thi", row.score)}</figure>`;

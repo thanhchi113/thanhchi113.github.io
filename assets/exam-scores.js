@@ -70,6 +70,13 @@
         const number = Number(text);
         return Number.isFinite(number) && number >= 0 && number <= 10 ? number : null;
     }
+    function normalizeStudentTag(value) {
+        const raw = String(value || "").trim().replace(/\s+/g, "-");
+        if (!raw) return "";
+        const match = raw.match(/^(?:HS[-_ ]*)?(\d{1,6})$/i);
+        if (match) return `HS-${match[1].padStart(3, "0")}`;
+        return raw.toUpperCase().replace(/[^A-Z0-9_-]/g, "").slice(0, 100);
+    }
     function validate(input) {
         const score = parseScore(input.score);
         if (score === null) throw new Error("Điểm phải từ 0 đến 10, tối đa 2 chữ số thập phân.");
@@ -84,8 +91,8 @@
         if (!className || className.length > 80) throw new Error("Nhập lớp / khóa học, tối đa 80 ký tự.");
         const studentName = String(input.student_name || "").trim().replace(/\s+/g, " ");
         if (!studentName || studentName.length > 160) throw new Error("Nhập tên học sinh, tối đa 160 ký tự.");
-        const studentTag = String(input.student_tag || "").trim().replace(/\s+/g, " ");
-        if (studentTag.length > 80) throw new Error("Nhãn học sinh tối đa 80 ký tự.");
+        const studentTag = normalizeStudentTag(input.student_tag);
+        if (studentTag.length > 100) throw new Error("Mã học sinh tối đa 100 ký tự.");
         return { period: input.period, score, grade, school_year: year, class_name: className, student_name: studentName, student_tag: studentTag || null, published: input.published === true, hide_student_name: input.hide_student_name === true };
     }
     function filter(records, filters = {}) {
@@ -141,5 +148,5 @@
         if (error) throw error;
         return data?.signedUrl || "";
     }
-    return { get periods() { return options.periods.map(period => ({ ...period })); }, get grades() { return [...options.grades]; }, bands, columns, visibilityFields, visibility, publicRecord, format, label, schoolYear, parseScore, validate, filter, summarize, fetchAll, signedImageUrl, errorMessage, validPeriodKey, validYear, normalizeOptions, configure, getOptions, observeRecords };
+    return { get periods() { return options.periods.map(period => ({ ...period })); }, get grades() { return [...options.grades]; }, bands, columns, visibilityFields, visibility, publicRecord, format, label, schoolYear, parseScore, normalizeStudentTag, validate, filter, summarize, fetchAll, signedImageUrl, errorMessage, validPeriodKey, validYear, normalizeOptions, configure, getOptions, observeRecords };
 }));

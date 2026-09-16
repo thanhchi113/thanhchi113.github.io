@@ -1635,3 +1635,5 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
   display:block !important; top:8px !important; left:8px !important; bottom:auto !important; opacity:.84 !important;
   background:color-mix(in srgb,var(--theme-panel) 74%,transparent) !important; backdrop-filter:blur(8px) !important;
 }
+[data-theme] .score-tag-filter small { display:block; margin-top:5px; color:var(--theme-muted); font-size:11px; }
+[data-theme] .exam-student-tag { display:inline-flex; align-items:center; margin-left:8px; padding:3px 8px; border:1px solid color-mix(in srgb,var(--theme-accent) 60%,transparent); border-radius:999px; color:var(--theme-highlight); font-size:11px; font-weight:800; letter-spacing:.04em; }

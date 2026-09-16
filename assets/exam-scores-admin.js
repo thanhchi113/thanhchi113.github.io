@@ -298,7 +298,8 @@
             const name = $("scoreStudentName").value;
             const className = $("scoreClass").value;
             const year = $("scoreYear").value;
-            const autoTag = [name, className, year].map(value => String(value || "").trim().toLocaleLowerCase("vi").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")).filter(Boolean).join("-").slice(0, 100);
+            const usedNumbers = records.map(row => String(row.student_tag || "").match(/^HS-(\d+)$/i)?.[1]).filter(Boolean).map(Number);
+            const autoTag = `HS-${String((usedNumbers.length ? Math.max(...usedNumbers) : 0) + 1).padStart(3, "0")}`;
             payload = api.validate({ student_name: name, student_tag: $("scoreStudentTag").value || autoTag, period: $("scorePeriod").value, score: $("scoreValue").value, grade: $("scoreGrade").value,
                 class_name: className, school_year: year, published: $("scorePublished").checked, hide_student_name: !$("scoreShowStudentName").checked });
             Object.assign(payload, formVisibility());
