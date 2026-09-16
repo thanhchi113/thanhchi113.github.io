@@ -820,6 +820,28 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
   [data-theme] #documents .document-card-content-wrap > .document-card-info { min-height:0 !important; }
 }
 
+/* Remove legacy rectangular slabs inside PDF cards. The card itself remains
+   the only glass surface; metadata and action controls stay transparent. */
+[data-theme] #documents .document-pdf-grid .document-card-topline,
+[data-theme] #documents .document-pdf-grid .document-card-category,
+[data-theme] #documents .document-pdf-grid .document-card-title-line,
+[data-theme] #documents .document-pdf-grid .document-card-info h3,
+[data-theme] #documents .document-pdf-grid .document-card-info p,
+[data-theme] #documents .document-pdf-grid .document-card-footer-inline,
+[data-theme] #documents .document-pdf-grid .document-card-actions,
+[data-theme] #documents .document-pdf-grid .document-card-action {
+  background:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+}
+[data-theme] #documents .document-pdf-grid .document-card-actions {
+  border-top-color:transparent !important;
+  border-bottom-color:transparent !important;
+}
+[data-theme] #documents .document-pdf-grid .document-card-info {
+  overflow:visible !important;
+}
+
 /* Give the hero greeting a clear breathing zone below the floating bar. */
 [data-theme] #siteHeader { height:64px !important; }
 [data-theme] #siteHeader .navbar { height:62px !important; min-height:62px !important; }
