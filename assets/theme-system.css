@@ -838,6 +838,23 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
   animation:none !important;
 }
 
+/* Final override: legacy inline rules in index.html draw a rotating blue
+   edge on .document-card-clickable. Disable that layer explicitly. */
+[data-theme] #documents .document-card-clickable::before,
+[data-theme] #documents .document-card-clickable::after,
+[data-theme] #documents .document-card-clickable .document-card-glow,
+[data-theme] #documents .document-category-card::before,
+[data-theme] #documents .document-category-card::after {
+  content:none !important;
+  display:none !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  animation:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  filter:none !important;
+}
+
 /* Remove legacy rectangular slabs inside PDF cards. The card itself remains
    the only glass surface; metadata and action controls stay transparent. */
 [data-theme] #documents .document-pdf-grid .document-card-topline,

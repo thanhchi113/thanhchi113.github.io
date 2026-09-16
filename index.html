@@ -6039,7 +6039,7 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
 
         function renderDocumentCard(item, categoryName) {
             const url = getPublicPdfUrl(item.file_path);
-            const thumbnailUrl = item.thumbnail_path ? getPublicStorageUrl(item.thumbnail_path) : "";
+            const thumbnailUrl = item.cover_enabled !== false && item.thumbnail_path ? getPublicStorageUrl(item.thumbnail_path) : "";
             const isExam = item.document_type === "exam";
             const newBadge = isNewDocument(item.created_at) ? '<span class="document-new-badge">MỚI</span>' : '';
             const typeBadge = isExam ? '<span class="document-type-badge exam">ĐỀ THI</span>' : '<span class="document-type-badge">PDF</span>';
