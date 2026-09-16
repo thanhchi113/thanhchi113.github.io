@@ -834,6 +834,21 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
   background-image:none !important;
   box-shadow:none !important;
 }
+[data-theme] #documents .document-pdf-grid .document-card-top-badges {
+  background:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+  padding:0 !important;
+}
+[data-theme] #documents .document-pdf-grid .document-type-badge,
+[data-theme] #documents .document-pdf-grid .document-new-badge {
+  position:relative !important;
+  z-index:1 !important;
+  background:color-mix(in srgb,var(--theme-accent) 18%,var(--theme-panel)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 52%,transparent) !important;
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+}
 [data-theme] #documents .document-pdf-grid .document-card-actions {
   border-top-color:transparent !important;
   border-bottom-color:transparent !important;
