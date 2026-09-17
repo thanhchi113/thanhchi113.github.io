@@ -7030,7 +7030,11 @@ body.tikz-detail-mode .tikz-detail{display:block!important;margin-top:0;}
                 if (categoriesResponse.error) throw categoriesResponse.error;
                 let finalDocumentsResponse = documentsResponse;
                 // Older projects may not have the optional cover columns yet; keep the library usable.
-                if (documentsResponse.error && ["42703", "PGRST204"].includes(documentsResponse.error.code)) {
+                // Keep the public library usable when an older Supabase schema
+                // does not yet contain optional cover columns.  PostgREST can
+                // expose this as several different error codes/messages, so
+                // retry the known-compatible projection for any select error.
+                if (documentsResponse.error) {
                     finalDocumentsResponse = await supabaseClient.from("math_documents").select("id,title,description,category_id,file_path,file_name,published,sort_order,created_at,updated_at,tags,document_type,exam_year,duration_minutes,view_count,math_categories(name,slug)").eq("published", true).order("sort_order", { ascending: true }).order("created_at", { ascending: false });
                 }
                 if (finalDocumentsResponse.error) throw finalDocumentsResponse.error;
