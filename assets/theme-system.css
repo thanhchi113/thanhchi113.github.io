@@ -1618,6 +1618,20 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
   width:42px !important; min-width:42px !important; height:30px !important; padding:3px !important;
   border-radius:999px !important; gap:0 !important; font-size:0 !important;
 }
+[data-theme] #adminGalaxyToggle { position:relative !important; }
+[data-theme] #adminGalaxyToggle svg { display:none !important; }
+[data-theme] #adminGalaxyToggle::before {
+  content:""; display:block; width:34px; height:18px; border-radius:999px;
+  background:color-mix(in srgb,var(--theme-muted,#94a3b8) 48%,#111827);
+  border:1px solid color-mix(in srgb,var(--theme-text,#f8fafc) 28%,transparent);
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.3); transition:background .2s ease,border-color .2s ease;
+}
+[data-theme] #adminGalaxyToggle::after {
+  content:""; position:absolute; left:7px; top:6px; width:12px; height:12px; border-radius:50%;
+  background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.35); transition:transform .22s cubic-bezier(.2,.8,.2,1);
+}
+[data-theme] #adminGalaxyToggle[aria-pressed="true"]::before { background:linear-gradient(135deg,var(--theme-accent,#ff2d7a),var(--theme-accent-3,#ff6b3d)); border-color:var(--theme-highlight,#ffc24b); }
+[data-theme] #adminGalaxyToggle[aria-pressed="true"]::after { transform:translateX(16px); }
 [data-galaxy-toggle] > span:not(.switch-thumb), #adminGalaxyToggle > span:not(.switch-thumb), #galaxyToggle > span:not(.switch-thumb) { display:none !important; }
 [data-galaxy-toggle] svg, #adminGalaxyToggle svg, #galaxyToggle svg { width:17px !important; height:17px !important; }
 
@@ -1647,7 +1661,8 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
 [data-galaxy-toggle], #siteMotionToggle, .site-motion-toggle {
   display:inline-flex !important; align-items:center !important; justify-content:center !important;
   width:42px !important; min-width:42px !important; height:30px !important;
-  padding:3px !important; gap:0 !important; border-radius:999px !important;
+  padding:0 !important; gap:0 !important; border-radius:0 !important;
+  background:transparent !important; border-color:transparent !important; box-shadow:none !important;
 }
 [data-theme] .score-tag-filter small { display:block; margin-top:5px; color:var(--theme-muted); font-size:11px; }
 [data-theme] .exam-student-tag { display:inline-flex; align-items:center; margin-left:8px; padding:3px 8px; border:1px solid color-mix(in srgb,var(--theme-accent) 60%,transparent); border-radius:999px; color:var(--theme-highlight); font-size:11px; font-weight:800; letter-spacing:.04em; }
