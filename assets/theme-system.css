@@ -1635,5 +1635,19 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
   display:block !important; top:8px !important; left:8px !important; bottom:auto !important; opacity:.84 !important;
   background:color-mix(in srgb,var(--theme-panel) 74%,transparent) !important; backdrop-filter:blur(8px) !important;
 }
+/* Keep the motion control compact: the switch itself conveys its state,
+   while the accessible label remains available to screen readers and tooltips. */
+[data-galaxy-toggle] [data-motion-label],
+#siteMotionToggle [data-motion-label],
+.site-motion-toggle [data-motion-label] {
+  position:absolute !important; width:1px !important; height:1px !important;
+  padding:0 !important; margin:-1px !important; overflow:hidden !important;
+  clip:rect(0,0,0,0) !important; white-space:nowrap !important; border:0 !important;
+}
+[data-galaxy-toggle], #siteMotionToggle, .site-motion-toggle {
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  width:42px !important; min-width:42px !important; height:30px !important;
+  padding:3px !important; gap:0 !important; border-radius:999px !important;
+}
 [data-theme] .score-tag-filter small { display:block; margin-top:5px; color:var(--theme-muted); font-size:11px; }
 [data-theme] .exam-student-tag { display:inline-flex; align-items:center; margin-left:8px; padding:3px 8px; border:1px solid color-mix(in srgb,var(--theme-accent) 60%,transparent); border-radius:999px; color:var(--theme-highlight); font-size:11px; font-weight:800; letter-spacing:.04em; }

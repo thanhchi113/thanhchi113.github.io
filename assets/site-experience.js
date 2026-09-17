@@ -23,7 +23,8 @@
         button.disabled = !allowed || reduced.matches;
         button.setAttribute("aria-pressed", String(running));
         button.dataset.state = running ? "on" : "off";
-        button.querySelector("[data-motion-label]").textContent = !allowed ? "Nền tĩnh · Quản trị viên đã tắt" : reduced.matches ? "Nền tĩnh · Giảm chuyển động" : `Nền chuyển động: ${running ? "Bật" : "Tắt"}`;
+        const label = button.querySelector("[data-motion-label]");
+        if (label) label.textContent = !allowed ? "Nền tĩnh · Quản trị viên đã tắt" : reduced.matches ? "Nền tĩnh · Giảm chuyển động" : `Nền chuyển động: ${running ? "Bật" : "Tắt"}`;
         button.title = !allowed ? "Quản trị viên đang tắt nền chuyển động cho website" : reduced.matches ? "Đang theo cài đặt giảm chuyển động của thiết bị" : running ? "Tạm dừng chuyển động, giữ nền thiên hà tĩnh" : "Bật lại nền thiên hà chuyển động";
     }
     function schedule() {
