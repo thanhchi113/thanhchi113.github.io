@@ -8893,5 +8893,7 @@ body.tikz-detail-mode .tikz-render-box{background:linear-gradient(145deg,rgba(8,
 #documents .document-card-preview.uploaded-thumbnail:after{display:none!important}
 #documents .document-card-preview[data-preview-kind="pdf"]:after{display:block!important;top:8px!important;left:8px!important;bottom:auto!important;opacity:.84!important;background:rgba(20,30,55,.74)!important;backdrop-filter:blur(8px)!important}
 </style>
+
+<style id="codex-hero-image-v2">.hero{position:relative}.hero-custom-image{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}.hero-custom-image img{width:100%;height:100%;object-fit:cover;opacity:.26;filter:saturate(.85) contrast(1.05)}.hero-custom-image:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,10,19,.88),rgba(5,10,19,.62),rgba(5,10,19,.84))}.hero>.container{position:relative;z-index:1}</style><script id="codex-hero-image-v2-script">document.addEventListener('DOMContentLoaded',async()=>{try{const client=window.supabaseClient;if(!client)return;const {data,error}=await client.from('site_configuration').select('value').eq('id','site_content').maybeSingle();const path=data?.value?.['home.heroImagePath'];if(error||!path)return;const url=/^https?:/i.test(path)?path:client.storage.from('math-pdfs').getPublicUrl(path).data.publicUrl;const hero=document.getElementById('home');if(hero){const box=document.createElement('div');box.className='hero-custom-image';box.innerHTML='<img src="'+url+'" alt="" aria-hidden="true">';hero.prepend(box)}}catch(_){}});</script>
 </body>
 </html>
