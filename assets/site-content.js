@@ -102,10 +102,12 @@
                 if (textNode) textNode.textContent = `${value} `;
             } else node.textContent = value;
         }
+        applyHeroImage(doc, values);
         applyVisibility(doc, values);
         doc.documentElement.dataset.siteMotionAllowed = String(values?.["appearance.motionEnabled"] !== false);
         doc.dispatchEvent(new CustomEvent("site-appearance-change"));
     }
+    function applyHeroImage(doc, values) { const path=values?.["home.heroImagePath"]; const hero=doc.getElementById("home"); if(!hero)return; hero.querySelector(".hero-custom-image")?.remove(); if(!path)return; const base=String(path); const src=/^https?:/i.test(base)?base:`https://uiyqdqucqplifcvukwul.supabase.co/storage/v1/object/public/math-pdfs/${base.split("/").map(encodeURIComponent).join("/")}`; const box=doc.createElement("div");box.className="hero-custom-image";box.innerHTML=`<img src="${src}" alt="" aria-hidden="true">`;hero.prepend(box);}
     function isVisible(id, doc = document) { return !hiddenByDocument.get(doc)?.has(id); }
     function firstVisible(doc = document) { return sections.find(([id]) => isVisible(id, doc))?.[0] || null; }
     function sectionForHash(hash, doc = document) {
