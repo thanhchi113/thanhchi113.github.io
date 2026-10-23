@@ -9,6 +9,8 @@
     try { enabled = localStorage.getItem(preferenceKey) !== "false"; } catch (_) { /* Works without saved preferences. */ }
     function apply() {
         scene.hidden = !enabled;
+        scene.dataset.galaxyHidden = String(!enabled);
+        document.documentElement.dataset.adminGalaxyRunning = String(enabled);
         canvas.dataset.galaxyPaused = String(!enabled);
         canvas.galaxyBackgroundController?.setPaused(!enabled);
         window.GalaxyClouds?.mount(scene)?.configure({ paused: !enabled });

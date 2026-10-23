@@ -7,7 +7,7 @@ function sdk() {
     const callbacks = [];
     const client = {
         auth: { async getUser() { return { data: { user: { id: 'test-admin', email: 'admin@example.test' } }, error: null }; }, onAuthStateChange(fn) { callbacks.push(fn); return { data: { subscription: { unsubscribe() {} } } }; } },
-        async rpc(name) { return { data: name === 'current_user_is_admin' ? true : [], error: null }; },
+        async rpc(name) { if (name === 'get_published_achievement_evidence') return window.configurationRequest({ table: 'achievement_evidence', action: 'read', filters: {} }); return { data: name === 'current_user_is_admin' ? true : [], error: null }; },
         from(table) {
             const request = { table, action: 'read', filters: {} };
             const finish = () => window.configurationRequest(request);

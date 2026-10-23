@@ -11,7 +11,8 @@
         const allowed = document.documentElement.dataset.siteMotionAllowed !== "false";
         const running = allowed && personal && !reduced.matches;
         document.documentElement.dataset.siteMotionRunning = String(running);
-        document.querySelectorAll(".site-galaxy").forEach(scene => {
+        document.querySelectorAll(".site-galaxy, .galaxy-scene").forEach(scene => {
+            scene.dataset.galaxyHidden = String(!running);
             const canvas = scene.querySelector(".milky-way-canvas");
             if (canvas) {
                 canvas.dataset.galaxyPaused = String(!running);
@@ -25,7 +26,7 @@
         button.dataset.state = running ? "on" : "off";
         const label = button.querySelector("[data-motion-label]");
         if (label) label.textContent = !allowed ? "Nền tĩnh · Quản trị viên đã tắt" : reduced.matches ? "Nền tĩnh · Giảm chuyển động" : `Nền chuyển động: ${running ? "Bật" : "Tắt"}`;
-        button.title = !allowed ? "Quản trị viên đang tắt nền chuyển động cho website" : reduced.matches ? "Đang theo cài đặt giảm chuyển động của thiết bị" : running ? "Tạm dừng chuyển động, giữ nền thiên hà tĩnh" : "Bật lại nền thiên hà chuyển động";
+        button.title = !allowed ? "Quản trị viên đang tắt nền chuyển động cho website" : reduced.matches ? "Đang theo cài đặt giảm chuyển động của thiết bị" : running ? "Tắt hiệu ứng nền thiên hà" : "Bật lại nền thiên hà chuyển động";
     }
     function schedule() {
         clearTimeout(timer);
@@ -46,25 +47,7 @@
     }
     function connect(nextClient) { client = nextClient; schedule(); }
     function mountGlow() {
-        const glow = document.createElement("div");
-        glow.className = "site-pointer-glow";
-        glow.setAttribute("aria-hidden", "true");
-        document.body.append(glow);
-        let frame = 0, x = 0, y = 0;
-        const pointer = matchMedia("(pointer:fine)");
-        const hide = () => { cancelAnimationFrame(frame); frame = 0; glow.dataset.active = "false"; };
-        document.addEventListener("pointermove", event => {
-            if (!pointer.matches || event.pointerType === "touch") return;
-            x = event.clientX - 170; y = event.clientY - 170;
-            if (frame) return;
-            frame = requestAnimationFrame(() => {
-                frame = 0; glow.style.transform = `translate3d(${x}px,${y}px,0)`;
-                glow.dataset.active = "true";
-            });
-        }, { passive: true });
-        document.documentElement.addEventListener("pointerleave", hide);
-        window.addEventListener("blur", hide);
-        document.addEventListener("visibilitychange", () => { if (document.hidden) hide(); });
+        // Unified cursor spotlight (#cursorGlow) is managed globally by assets/liquid-glass.js
     }
     function initialize() {
         mountGlow();

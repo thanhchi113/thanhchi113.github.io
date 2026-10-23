@@ -19,6 +19,16 @@
     indicator.setAttribute("aria-hidden", "true");
     nav.append(indicator);
     header.dataset.navReady = "true";
+    header.addEventListener("pointermove", event => {
+        if (event.pointerType === "touch") return;
+        const rect = header.getBoundingClientRect();
+        header.style.setProperty("--taskbar-spot-x", `${(event.clientX - rect.left).toFixed(1)}px`);
+        header.style.setProperty("--taskbar-spot-y", `${(event.clientY - rect.top).toFixed(1)}px`);
+        header.dataset.lightActive = "true";
+    }, { passive: true });
+    header.addEventListener("pointerleave", () => {
+        header.dataset.lightActive = "false";
+    });
     const desktop = matchMedia("(min-width: 1181px)");
     let hovered = null, frame = 0;
     const visible = link => link && menu.contains(link) && link.getClientRects().length > 0;

@@ -29,8 +29,83 @@
                 : "Bản xem trước · chưa công bố";
             frame.contentWindow?.postMessage({ type: "site-content-preview", values: { ...defaults, ...draft }, section: scroll ? section : null }, location.origin);
         }
+        function resolveAvatarUrl(raw) {
+            if (!raw) return "assets/avatar.jpg";
+            const s = String(raw).trim();
+            if (!s) return "assets/avatar.jpg";
+            if (/^(data:image\/|blob:|https?:\/\/|assets\/)/i.test(s)) return s;
+            return `https://uiyqdqucqplifcvukwul.supabase.co/storage/v1/object/public/math-pdfs/${s.replace(/^\/+/, "").split("/").map(encodeURIComponent).join("/")}`;
+        }
+        function cropSquareAvatarDataUrl(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement("canvas");
+                        const side = Math.min(img.width, img.height);
+                        const target = Math.min(640, side || 640);
+                        canvas.width = target; canvas.height = target;
+                        canvas.getContext("2d").drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, target, target);
+                        resolve(canvas.toDataURL("image/jpeg", 0.88));
+                    };
+                    img.onerror = () => resolve(reader.result);
+                    img.src = reader.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
         function render() {
             fieldset.replaceChildren();
+            if (section === "home") {
+                const avatarWrap = document.createElement("div");
+                avatarWrap.className = "hero-avatar-admin-field";
+                const currentAvatar = draft["home.avatarPath"] ?? saved["home.avatarPath"] ?? (typeof localStorage !== "undefined" ? localStorage.getItem("thanhchi.hero.avatar") : "") ?? "assets/avatar.jpg";
+                avatarWrap.innerHTML = `<span class="field-label">Ảnh đại diện ở Hero</span>
+                    <div class="hero-avatar-admin-row">
+                        <div class="hero-avatar-admin-thumb"><img data-hero-avatar-preview src="${resolveAvatarUrl(currentAvatar)}" alt="Ảnh đại diện Hero"></div>
+                        <div class="hero-avatar-admin-meta">
+                            <strong>Ảnh đại diện khung tròn ở Hero</strong>
+                            <small>Chọn ảnh JPG, PNG hoặc WebP để thay ảnh đại diện hiển thị ở phần mở đầu website.</small>
+                            <div class="hero-avatar-admin-actions">
+                                <button type="button" class="admin-btn" data-hero-avatar-pick><i class="fa-solid fa-camera"></i> Đổi ảnh đại diện ở Hero</button>
+                                <button type="button" class="admin-btn ghost" data-hero-avatar-reset><i class="fa-solid fa-rotate-left"></i> Ảnh mặc định</button>
+                            </div>
+                        </div>
+                    </div>`;
+                const fileInput = document.createElement("input");
+                fileInput.type = "file"; fileInput.accept = "image/jpeg,image/png,image/webp"; fileInput.hidden = true;
+                const previewImg = avatarWrap.querySelector("[data-hero-avatar-preview]");
+                avatarWrap.querySelector("[data-hero-avatar-pick]").addEventListener("click", () => fileInput.click());
+                avatarWrap.querySelector("[data-hero-avatar-reset]").addEventListener("click", () => {
+                    draft["home.avatarPath"] = "assets/avatar.jpg";
+                    try { localStorage.removeItem("thanhchi.hero.avatar"); } catch (_) {}
+                    previewImg.src = "assets/avatar.jpg";
+                    dirty = true; preview(false); message("Đã đặt lại ảnh đại diện mặc định trong bản xem trước. Bấm Lưu nội dung để áp dụng.");
+                });
+                fileInput.addEventListener("change", async () => {
+                    const file = fileInput.files?.[0]; fileInput.value = "";
+                    if (!file || !file.type.startsWith("image/")) return;
+                    try {
+                        const dataUrl = await cropSquareAvatarDataUrl(file);
+                        let storedRef = dataUrl;
+                        if (client?.storage) {
+                            const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+                            const storagePath = `avatars/hero-avatar-${Date.now()}.${ext}`;
+                            const up = await client.storage.from("math-pdfs").upload(storagePath, file, { contentType: file.type, upsert: true });
+                            if (!up.error) storedRef = storagePath;
+                        }
+                        draft["home.avatarPath"] = storedRef;
+                        try { localStorage.setItem("thanhchi.hero.avatar", dataUrl); } catch (_) {}
+                        previewImg.src = dataUrl;
+                        dirty = true; preview(false); message("Đã chọn ảnh đại diện Hero mới. Bấm Lưu nội dung để công bố.");
+                    } catch (_) {
+                        message("Không đọc được tệp ảnh đã chọn.", true);
+                    }
+                });
+                fieldset.append(avatarWrap);
+            }
             for (const field of fields.filter(item => item.section === section)) {
                 const label = document.createElement("label"); label.textContent = field.label;
                 const input = document.createElement(field.kind === "textarea" ? "textarea" : "input");
@@ -78,7 +153,13 @@
                     if (error) throw error;
                     if (!data) throw new Error("Cấu hình nội dung chưa được thiết lập.");
                     saved = data.value || {}; draft = { ...saved }; version = data.updated_at; dirty = false; ready = true;
-                    if (!frame.getAttribute("src")) frame.src = "index.html?admin-content-preview=1#about";
+                    if (!frame.getAttribute("src")) {
+                        const parentScrollY = window.scrollY;
+                        frame.addEventListener("load", () => {
+                            window.scrollTo({ top: parentScrollY, behavior: "instant" });
+                        }, { once: true });
+                        frame.src = "index.html?admin-content-preview=1#about";
+                    }
                     render(); message("Đã tải nội dung đang hiển thị. Chọn một mục để chỉnh sửa.");
                 } catch (error) {
                     if (requestEpoch !== epoch) return;
@@ -99,6 +180,7 @@
         form.addEventListener("submit", async event => {
             event.preventDefault(); if (!ready || busy) return;
             const next = { ...saved };
+            if (Object.hasOwn(draft, "home.avatarPath")) next["home.avatarPath"] = String(draft["home.avatarPath"] || "assets/avatar.jpg");
             try { for (const field of fields) if (Object.hasOwn(draft, field.key)) next[field.key] = api.validate(field, draft[field.key]); }
             catch (error) { message(error.message, true); return; }
             const requestEpoch = epoch; busy = true; lock(); message("Đang lưu nội dung...");

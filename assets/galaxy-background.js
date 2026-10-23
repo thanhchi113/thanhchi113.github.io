@@ -22,13 +22,42 @@
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
         const lightDevice = window.matchMedia("(pointer: coarse)").matches || (navigator.hardwareConcurrency || 8) <= 4 || navigator.connection?.saveData === true;
         const frameInterval = 1000 / (lightDevice ? 30 : 45);
-        const palette = [
+        const fallbackPalette = [
             [185, 226, 255],
             [137, 194, 255],
             [207, 170, 255],
             [246, 178, 225],
             [255, 247, 235]
         ];
+        let palette = fallbackPalette.slice();
+
+        function parseRgb(raw, fallback) {
+            const text = String(raw || "").trim();
+            if (!text) return fallback;
+            if (text.startsWith("#")) {
+                const hex = text.slice(1);
+                if (hex.length === 3) {
+                    return [parseInt(hex[0] + hex[0], 16), parseInt(hex[1] + hex[1], 16), parseInt(hex[2] + hex[2], 16)];
+                }
+                if (hex.length >= 6) {
+                    return [parseInt(hex.slice(0, 2), 16), parseInt(hex.slice(2, 4), 16), parseInt(hex.slice(4, 6), 16)];
+                }
+            }
+            const match = text.match(/(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+            if (match) return [Number(match[1]), Number(match[2]), Number(match[3])];
+            return fallback;
+        }
+
+        function getThemePalette() {
+            const style = getComputedStyle(document.documentElement);
+            return [
+                parseRgb(style.getPropertyValue("--theme-accent"), fallbackPalette[0]),
+                parseRgb(style.getPropertyValue("--theme-accent-2"), fallbackPalette[1]),
+                parseRgb(style.getPropertyValue("--theme-accent-3"), fallbackPalette[2]),
+                parseRgb(style.getPropertyValue("--theme-highlight"), fallbackPalette[3]),
+                parseRgb(style.getPropertyValue("--theme-text"), fallbackPalette[4])
+            ];
+        }
 
         let width = 0;
         let height = 0;
@@ -97,11 +126,13 @@
         }
 
         function createScene() {
+            palette = getThemePalette();
             const starCount = lightDevice ? 240 : Math.min(1050, Math.max(520, Math.floor((width * height) / 2600)));
             const dustCount = lightDevice ? 560 : Math.min(2400, Math.max(1250, Math.floor((width * height) / 520)));
 
-            stars = Array.from({ length: starCount }, function () {
-                const tint = palette[Math.floor(Math.random() * palette.length)];
+            stars = Array.from({ length: starCount }, function (_, index) {
+                const tintIndex = index % palette.length;
+                const tint = palette[tintIndex];
                 const x = Math.random() * width;
                 const belongsToBand = Math.random() < 0.72;
                 const bandOffset = (Math.random() + Math.random() + Math.random() - 1.5) * Math.min(150, height * 0.21);
@@ -113,12 +144,14 @@
                     opacity: Math.random() * 0.4 + 0.1,
                     phase: Math.random() * Math.PI * 2,
                     flare: Math.random() > 0.984,
+                    tintIndex: tintIndex,
                     color: "rgb(" + tint.join(",") + ")"
                 };
             });
 
-            dust = Array.from({ length: dustCount }, function () {
-                const tint = palette[Math.floor(Math.random() * palette.length)];
+            dust = Array.from({ length: dustCount }, function (_, index) {
+                const tintIndex = index % palette.length;
+                const tint = palette[tintIndex];
                 const concentration = (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
 
                 return {
@@ -128,6 +161,7 @@
                     opacity: Math.random() * 0.42 + 0.08,
                     speed: Math.random() * 0.000022 + 0.00002,
                     phase: Math.random() * Math.PI * 2,
+                    tintIndex: tintIndex,
                     color: "rgb(" + tint.join(",") + ")"
                 };
             });
@@ -136,6 +170,7 @@
         }
 
         function buildStarField() {
+            palette = getThemePalette();
             const textureWidth = Math.round(clamp(width * 0.7, 720, 1200));
             const textureHeight = Math.round(clamp(height * 0.7, 430, 760));
             const starCount = Math.min(8500, Math.max(3400, Math.floor((width * height) / 150)));
@@ -155,7 +190,7 @@
 
                 if (y < 0 || y > textureHeight) continue;
 
-                const tint = palette[Math.floor(Math.random() * palette.length)];
+                const tint = palette[index % palette.length];
                 const bright = Math.random() > 0.973;
                 const size = bright ? Math.random() * 1.12 + 0.82 : Math.random() * 0.64 + 0.28;
                 const opacity = bright
@@ -174,7 +209,10 @@
             }
         }
 
+        let dustBuildGeneration = 0;
         async function buildDustTexture() {
+            const currentBuild = ++dustBuildGeneration;
+            const [cAccent, cAccent2, cAccent3, cHighlight] = getThemePalette();
             // This texture uses normalized coordinates, so resizing can reuse it.
             const textureWidth = lightDevice ? 360 : 768;
             const textureHeight = lightDevice ? 240 : 432;
@@ -191,8 +229,10 @@
 
             let sliceStart = performance.now();
             for (let y = 0; y < textureHeight; y++) {
+                if (currentBuild !== dustBuildGeneration) return;
                 if (performance.now() - sliceStart > 7) {
                     await new Promise(resolve => setTimeout(resolve, 0));
+                    if (currentBuild !== dustBuildGeneration) return;
                     sliceStart = performance.now();
                 }
                 const normalizedY = y / (textureHeight - 1);
@@ -229,21 +269,25 @@
                     const blue = clamp(0.38 + macro * 0.47 + cloud * 0.12, 0, 1);
                     const violet = clamp((grain - 0.12) * 1.28 + clump * 0.28, 0, 1);
                     const pink = clamp((cloudPatch - 0.32) * 0.84 + (rose - 0.58) * 1.38 + Math.sin(normalizedX * 9) * 0.07, 0, 1);
-                    const brightness = 0.58 + density * 0.6 + clump * 0.11;
+                    const totalWeight = Math.max(0.001, blue * 0.9 + violet * 0.85 + pink * 0.85 + clump * 0.42);
+                    const mixR = (cAccent[0] * blue * 0.9 + cAccent2[0] * violet * 0.85 + cAccent3[0] * pink * 0.85 + cHighlight[0] * clump * 0.42) / totalWeight;
+                    const mixG = (cAccent[1] * blue * 0.9 + cAccent2[1] * violet * 0.85 + cAccent3[1] * pink * 0.85 + cHighlight[1] * clump * 0.42) / totalWeight;
+                    const mixB = (cAccent[2] * blue * 0.9 + cAccent2[2] * violet * 0.85 + cAccent3[2] * pink * 0.85 + cHighlight[2] * clump * 0.42) / totalWeight;
+                    const brightness = 0.68 + density * 0.66 + clump * 0.16;
 
-                    pixels[index] = Math.round((36 + violet * 126 + pink * 164 + clump * 18) * brightness);
-                    pixels[index + 1] = Math.round((72 + blue * 104 + pink * 43 + clump * 20) * brightness);
-                    pixels[index + 2] = Math.round((145 + blue * 82 + violet * 86 + pink * 12) * brightness);
+                    pixels[index] = clamp(Math.round(mixR * brightness), 0, 255);
+                    pixels[index + 1] = clamp(Math.round(mixG * brightness), 0, 255);
+                    pixels[index + 2] = clamp(Math.round(mixB * brightness), 0, 255);
                     pixels[index + 3] = Math.round(Math.pow(density, 0.78) * 242);
 
                     const detailDensity = clamp(envelope * (0.13 + grain * 0.65 + fibers * 0.34) * (0.4 + clump * 0.72) * (1 - darkDust * 0.94), 0, 1);
 
                     if (detailDensity > 0.035) {
-                        const detailBrightness = 0.5 + detailDensity * 0.68;
+                        const detailBrightness = 0.62 + detailDensity * 0.74;
 
-                        detailPixels[index] = Math.round((64 + violet * 145 + pink * 174) * detailBrightness);
-                        detailPixels[index + 1] = Math.round((76 + blue * 102 + pink * 48) * detailBrightness);
-                        detailPixels[index + 2] = Math.round((156 + blue * 72 + violet * 82 + pink * 14) * detailBrightness);
+                        detailPixels[index] = clamp(Math.round((mixR * 0.76 + cHighlight[0] * 0.24) * detailBrightness), 0, 255);
+                        detailPixels[index + 1] = clamp(Math.round((mixG * 0.76 + cHighlight[1] * 0.24) * detailBrightness), 0, 255);
+                        detailPixels[index + 2] = clamp(Math.round((mixB * 0.76 + cHighlight[2] * 0.24) * detailBrightness), 0, 255);
                         detailPixels[index + 3] = Math.round(Math.pow(detailDensity, 1.3) * 172);
                     }
 
@@ -253,9 +297,9 @@
                     if (stardust > 1 - starChance) {
                         const glint = clamp((stardust - (1 - starChance)) / Math.max(starChance, 0.001), 0, 1);
 
-                        detailPixels[index] = Math.max(detailPixels[index], Math.round(164 + glint * 76));
-                        detailPixels[index + 1] = Math.max(detailPixels[index + 1], Math.round(186 + glint * 58));
-                        detailPixels[index + 2] = Math.max(detailPixels[index + 2], Math.round(226 + glint * 29));
+                        detailPixels[index] = Math.max(detailPixels[index], clamp(Math.round(cHighlight[0] * 0.65 + 90 * glint), 0, 255));
+                        detailPixels[index + 1] = Math.max(detailPixels[index + 1], clamp(Math.round(cHighlight[1] * 0.65 + 90 * glint), 0, 255));
+                        detailPixels[index + 2] = Math.max(detailPixels[index + 2], clamp(Math.round(cHighlight[2] * 0.65 + 90 * glint), 0, 255));
                         detailPixels[index + 3] = Math.max(detailPixels[index + 3], Math.round(118 + glint * 112));
                     }
                 }
@@ -263,8 +307,12 @@
 
             dustTextureContext.putImageData(image, 0, 0);
             detailTextureContext.putImageData(detailImage, 0, 0);
+            const firstReady = !textureReady;
             textureReady = true;
             canvas.dataset.galaxyTextureReady = "true";
+            if (firstReady && paused) {
+                paint(performance.now(), true);
+            }
             refreshMotion();
         }
 
@@ -329,8 +377,9 @@
             window.GalaxyStreaks.draw(context, streaks, time, getHorizontalFlow);
         }
 
-        function paint(time) {
-            if (paused || document.hidden || pageAway) return;
+        function paint(time, force) {
+            if ((!force && paused) || document.hidden || pageAway) return;
+            const flareTint = (palette[3] || fallbackPalette[3]).join(",");
             context.clearRect(0, 0, width, height);
             context.save();
             context.globalCompositeOperation = "screen";
@@ -350,7 +399,7 @@
                     context.globalAlpha = 1;
                     const flareSize = star.size * 4.5;
 
-                    context.strokeStyle = "rgba(234, 248, 255," + (twinkle * 0.42) + ")";
+                    context.strokeStyle = "rgba(" + flareTint + "," + (twinkle * 0.48) + ")";
                     context.lineWidth = 0.55;
                     context.beginPath();
                     context.moveTo(star.x - flareSize, star.y);
@@ -403,6 +452,18 @@
             }
         }
 
+        function syncThemeColors() {
+            palette = getThemePalette();
+            for (const star of stars) {
+                star.color = "rgb(" + palette[(star.tintIndex ?? 0) % palette.length].join(",") + ")";
+            }
+            for (const particle of dust) {
+                particle.color = "rgb(" + palette[(particle.tintIndex ?? 0) % palette.length].join(",") + ")";
+            }
+            buildStarField();
+            buildDustTexture();
+        }
+
         canvas.galaxyBackgroundController = Object.freeze({
             setPaused(value) {
                 const nextPaused = Boolean(value);
@@ -418,6 +479,7 @@
         reducedMotion.addEventListener("change", refreshMotion);
         window.addEventListener("pagehide", () => { pageAway = true; clearTimeout(resizeTimer); refreshMotion(); });
         window.addEventListener("pageshow", () => { pageAway = false; resize(); refreshMotion(); });
+        window.addEventListener("site-theme-change", syncThemeColors);
 
         resize();
         buildDustTexture();

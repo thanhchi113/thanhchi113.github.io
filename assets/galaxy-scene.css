@@ -11,6 +11,55 @@ body > .site-galaxy {
     background: #01050d;
     opacity: 1 !important;
     filter: none;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+html[data-site-motion-running="false"] body > .site-galaxy,
+html[data-site-motion-running="false"] .site-galaxy,
+html[data-site-motion-running="false"] .galaxy-scene,
+html[data-site-motion-running="false"] .hero-space-scene,
+html[data-site-motion-running="false"] .evidence-galaxy-scene,
+html[data-admin-galaxy-running="false"] #adminGalaxyScene,
+body > .site-galaxy[data-galaxy-hidden="true"],
+.site-galaxy[data-galaxy-hidden="true"],
+.galaxy-scene[data-galaxy-hidden="true"],
+.site-galaxy:has(.milky-way-canvas[data-galaxy-paused="true"]),
+.galaxy-scene:has(.milky-way-canvas[data-galaxy-paused="true"]) {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    background: transparent !important;
+    background-image: none !important;
+}
+
+html[data-site-motion-running="false"] :is(.site-galaxy, .galaxy-scene) :is(canvas, .milky-way-shade, [data-galaxy-clouds], [data-galaxy-streaks]),
+:is(.site-galaxy, .galaxy-scene)[data-galaxy-hidden="true"] :is(canvas, .milky-way-shade, [data-galaxy-clouds], [data-galaxy-streaks]),
+:is(.site-galaxy, .galaxy-scene):has(.milky-way-canvas[data-galaxy-paused="true"]) :is(canvas, .milky-way-shade, [data-galaxy-clouds], [data-galaxy-streaks]) {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+html[data-site-motion-running="false"],
+html[data-site-motion-running="false"] body,
+html[data-admin-galaxy-running="false"],
+html[data-admin-galaxy-running="false"] body {
+    background: var(--theme-bg, #070b14) !important;
+    background-image: none !important;
+}
+
+html[data-site-motion-running="false"] .hero,
+html[data-site-motion-running="false"] .evidence-page,
+html[data-admin-galaxy-running="false"] .admin-page {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+html[data-site-motion-running="false"] :is(body::before, body::after, main::before, main::after, main > section::before, main > section::after, .hero::before, .hero::after, .hero-text::before, .avatar-wrapper::before, #about::before),
+html[data-admin-galaxy-running="false"] :is(body::before, body::after) {
+    content: none !important;
+    display: none !important;
+    opacity: 0 !important;
+    background: transparent !important;
+    background-image: none !important;
 }
 
 .site-galaxy > .milky-way-canvas {

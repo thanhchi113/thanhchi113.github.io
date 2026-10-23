@@ -12,7 +12,7 @@
   --theme-scroll-thumb-start: #ff2d7a;
   --theme-scroll-thumb-end: #ff6b3d;
   --theme-glow: rgba(255,45,122,.34);
-  --theme-font: "Inter", "Segoe UI", Arial, sans-serif;
+  --theme-font: "Site Noto Sans", "Inter", "Segoe UI", Arial, sans-serif;
 }
 
 [data-theme="aurora"] { --theme-bg:#071526; --theme-panel:#0e2237; --theme-surface:#163a55; --theme-accent:#39e6c3; --theme-accent-2:#36a3ff; --theme-accent-3:#8b5cf6; --theme-highlight:#b7f7ff; --theme-text:#effcff; --theme-muted:#8eb4c8; --theme-scroll-thumb-start:#39e6c3; --theme-scroll-thumb-end:#8b5cf6; --theme-glow:rgba(57,230,195,.3); }
@@ -67,7 +67,8 @@ body, main, section { color:var(--theme-text); }
   border-color:color-mix(in srgb,var(--theme-accent) 28%,transparent) !important;
   color:var(--theme-text) !important;
 }
-.admin-shell, .admin-nav, .admin-sidebar, .workspace-panel, .admin-panel { background-color:var(--theme-bg) !important; }
+.admin-nav, .admin-sidebar { background-color:var(--theme-bg) !important; }
+.admin-shell, .workspace-panel, .admin-panel, #adminPanel { background:transparent !important; border:0 !important; box-shadow:none !important; }
 /* Final cascade: page-level inline styles use !important, so these rules are
    deliberately scoped to the active theme and use the same priority. */
 [data-theme] .project-card, [data-theme] .achievement-card-large, [data-theme] .evidence-card,
@@ -143,7 +144,7 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 :where(.card,.project-card,.document-card,.document-category-card,.evidence-card,
 .achievement-card,.achievement-card-large,.skill-card,.skill-item,.highlight-item,
 .about-content,.contact-item,.tikz-card,.tikz-project-card,.exam-student-card,
-.admin-card,.admin-doc,.modal-card,.workspace-tabs,.workspace-panel,.glass-card) {
+.admin-card,.admin-doc,.modal-card,.workspace-tabs,.glass-card) {
   color: var(--theme-text) !important;
   background: linear-gradient(145deg, color-mix(in srgb,var(--theme-panel) 94%,transparent), color-mix(in srgb,var(--theme-bg) 88%,transparent)) !important;
   border-color: color-mix(in srgb,var(--theme-accent) 42%,rgba(255,255,255,.14)) !important;
@@ -435,11 +436,16 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] :is(.project-link,.document-card-action,.document-open-label,.tikz-open-button):hover :is(i,svg) { color:#fff !important; -webkit-text-fill-color:#fff !important; }
 
 /* Remaining public-page chips, callouts and category headings. */
-[data-theme] .contact-direction,
-[data-theme] .contact-direction * {
+[data-theme] .contact-direction {
   color:var(--theme-text) !important;
   border-color:color-mix(in srgb,var(--theme-accent) 58%,rgba(255,255,255,.2)) !important;
   background:color-mix(in srgb,var(--theme-panel) 84%,transparent) !important;
+}
+[data-theme] .contact-direction * {
+  color:var(--theme-text) !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
 }
 [data-theme] .contact-direction i,
 [data-theme] .contact-direction svg { color:var(--theme-highlight) !important; -webkit-text-fill-color:var(--theme-highlight) !important; }
@@ -528,10 +534,12 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 
 /* PDF viewer controls and related-document panel follow the active palette. */
 [data-theme] #documents.document-viewer-mode .pdf-modal-inner,
-[data-theme] #documents.document-viewer-mode .pdf-modal-body-scroll,
-[data-theme] #documents.document-viewer-mode .pdf-viewer-scroll,
 [data-theme] #documents.document-viewer-mode .pdf-related-wrap {
   background:linear-gradient(145deg,color-mix(in srgb,var(--theme-panel) 96%,transparent),color-mix(in srgb,var(--theme-bg) 94%,transparent)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.16)) !important;
+}
+[data-theme] #documents.document-viewer-mode .pdf-modal-body-scroll,
+[data-theme] #documents.document-viewer-mode .pdf-viewer-scroll {
   border-color:color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.16)) !important;
 }
 [data-theme] #documents.document-viewer-mode .pdf-viewer-toolbar {
@@ -626,7 +634,6 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] .admin-authbar,
 [data-theme] .admin-sidebar,
 [data-theme] .workspace-tabs,
-[data-theme] .workspace-panel,
 [data-theme] .admin-card,
 [data-theme] .admin-doc,
 [data-theme] .review-item,
@@ -733,23 +740,63 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 /* Use the theme for all public social icons, including the Zalo mark. */
 [data-theme] .hero-socials a,
 [data-theme] .contact-socials a {
-  color:var(--theme-text) !important;
-  background:color-mix(in srgb,var(--theme-panel) 82%,transparent) !important;
-  border-color:color-mix(in srgb,var(--theme-accent) 68%,transparent) !important;
+  color:var(--theme-highlight) !important;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--theme-accent) 20%,var(--theme-panel)),color-mix(in srgb,var(--theme-accent-3) 14%,var(--theme-surface))) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 58%,rgba(255,255,255,.16)) !important;
+  border-radius:14px !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 8px 20px color-mix(in srgb,var(--theme-bg) 42%,transparent) !important;
 }
-[data-theme] .hero-socials a i,[data-theme] .contact-socials a i,
-[data-theme] .hero-socials .zalo-brand-icon,
-[data-theme] .contact-icon-zalo .zalo-letter {
+[data-theme] .hero-socials a i,[data-theme] .contact-socials a i {
   color:var(--theme-highlight) !important;
   -webkit-text-fill-color:var(--theme-highlight) !important;
 }
+[data-theme] .zalo-letter,
 [data-theme] .contact-icon-zalo .zalo-letter {
-  display:grid !important; place-items:center !important;
-  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
-  border:1px solid var(--theme-highlight) !important;
-  color:#fff !important; -webkit-text-fill-color:#fff !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  color:var(--theme-highlight) !important;
 }
-[data-theme] .hero-socials a:hover,[data-theme] .contact-socials a:hover { border-color:var(--theme-highlight) !important; box-shadow:0 0 18px var(--theme-glow) !important; }
+[data-theme] .zalo-brand-svg {
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  filter:none !important;
+}
+[data-theme] .zalo-brand-svg :is(.zalo-svg-bg,.zalo-svg-wave,rect,path:nth-of-type(1),path:nth-of-type(2)) {
+  display:none !important;
+}
+[data-theme] .zalo-brand-svg :is(.zalo-svg-bubble,path:nth-of-type(3)) {
+  fill:var(--theme-highlight) !important;
+  transition:fill .24s ease !important;
+}
+[data-theme] .zalo-brand-svg :is(.zalo-svg-wordmark,path:nth-of-type(4)) {
+  fill:var(--theme-panel) !important;
+  transition:fill .24s ease !important;
+}
+[data-theme] :is(.hero-socials a,.contact-socials a):hover {
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  border-color:var(--theme-highlight) !important;
+  color:#fff !important;
+  box-shadow:0 0 20px color-mix(in srgb,var(--theme-glow) 78%,transparent),inset 0 1px 0 rgba(255,255,255,.24) !important;
+  transform:translateY(-3px) !important;
+}
+[data-theme] :is(.hero-socials a,.contact-socials a):hover i {
+  color:#fff !important;
+  -webkit-text-fill-color:#fff !important;
+}
+[data-theme] :is(.hero-socials a,.contact-socials a):hover .zalo-brand-svg :is(.zalo-svg-bubble,path:nth-of-type(3)),
+[data-theme] .contact-item:hover .contact-icon-zalo .zalo-brand-svg :is(.zalo-svg-bubble,path:nth-of-type(3)) {
+  fill:#fff !important;
+}
+[data-theme] :is(.hero-socials a,.contact-socials a):hover .zalo-brand-svg :is(.zalo-svg-wordmark,path:nth-of-type(4)),
+[data-theme] .contact-item:hover .contact-icon-zalo .zalo-brand-svg :is(.zalo-svg-wordmark,path:nth-of-type(4)) {
+  fill:var(--theme-accent) !important;
+}
 
 [data-theme] #documents.document-viewer-mode .pdf-viewer-scroll,
 [data-theme] #documents.document-viewer-mode #pdfRelatedList > .pdf-related-list {
@@ -875,23 +922,99 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 .galaxy-toggle > span:not(.switch-thumb) { display:none !important; }
 #adminGalaxyToggle svg { width:18px !important; height:18px !important; }
 
-/* Admin PDF workspace follows the score section's two-column rhythm. */
+/* Admin PDF workspace uses a full-width row layout (stacked vertically, with horizontal form rows). */
 [data-theme] #pdfWorkspace .admin-shell {
   grid-template-columns:minmax(0,1fr) !important;
   align-items:start !important;
-  gap:22px !important;
+  gap:20px !important;
 }
-[data-theme] #pdfWorkspace .admin-shell > .admin-card:first-child {
-  width:100% !important;
-  max-width:none !important;
-}
-[data-theme] #pdfWorkspace .admin-shell > .admin-card:nth-child(2) {
-  width:100% !important;
-  max-width:none !important;
-}
+[data-theme] #pdfWorkspace .admin-shell > .admin-card:first-child,
+[data-theme] #pdfWorkspace .admin-shell > .admin-card:nth-child(2),
 [data-theme] #pdfWorkspace .admin-shell > .admin-card {
+  width:100% !important;
+  max-width:none !important;
   min-width:0 !important;
   border-radius:18px !important;
+}
+[data-theme] #pdfWorkspace #docForm {
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) !important;
+  gap:10px !important;
+}
+[data-theme] #pdfWorkspace #docForm .field-grid {
+  display:contents !important;
+}
+[data-theme] #pdfWorkspace #docForm > div:not(.admin-actions):not(.admin-status):not(.progress-box):not(.edit-note):not(.field-grid),
+[data-theme] #pdfWorkspace #docForm .field-grid > div {
+  display:grid !important;
+  grid-template-columns:190px minmax(0,1fr) !important;
+  column-gap:18px !important;
+  row-gap:6px !important;
+  align-items:center !important;
+  padding:12px 16px !important;
+  border-radius:13px !important;
+  background:color-mix(in srgb,var(--theme-bg) 42%,var(--theme-panel)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 26%,rgba(255,255,255,.08)) !important;
+}
+[data-theme] #pdfWorkspace #docForm > div:not(.admin-actions):not(.admin-status):not(.progress-box):not(.edit-note):not(.field-grid) > label,
+[data-theme] #pdfWorkspace #docForm .field-grid > div > label {
+  grid-column:1 !important;
+  margin:0 !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  color:var(--theme-text) !important;
+}
+[data-theme] #pdfWorkspace #docForm > div:not(.admin-actions):not(.admin-status):not(.progress-box):not(.edit-note):not(.field-grid) > :not(label),
+[data-theme] #pdfWorkspace #docForm .field-grid > div > :not(label) {
+  grid-column:2 !important;
+  margin-top:0 !important;
+}
+[data-theme] #pdfWorkspace #docForm textarea#description {
+  min-height:64px !important;
+}
+[data-theme] #pdfWorkspace #docForm .admin-drop {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:14px !important;
+  min-height:56px !important;
+  padding:10px 16px !important;
+  text-align:left !important;
+}
+[data-theme] #pdfWorkspace #docForm .admin-drop .pdf-drop-prompt {
+  display:flex !important;
+  align-items:center !important;
+  gap:12px !important;
+  flex-wrap:wrap !important;
+  width:100% !important;
+}
+[data-theme] #pdfWorkspace #docForm .admin-drop .pdf-drop-prompt i {
+  margin-bottom:0 !important;
+  font-size:18px !important;
+  width:36px !important;
+  height:36px !important;
+  border-radius:10px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:color-mix(in srgb,var(--theme-accent) 18%,var(--theme-panel)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 44%,transparent) !important;
+  flex-shrink:0 !important;
+}
+[data-theme] #pdfWorkspace #docForm .admin-drop .pdf-drop-prompt strong {
+  display:inline !important;
+  font-size:13px !important;
+}
+[data-theme] #pdfWorkspace #docForm .admin-drop .pdf-drop-prompt span {
+  display:inline !important;
+  margin-top:0 !important;
+  font-size:12px !important;
+}
+[data-theme] #pdfWorkspace #docForm > label.check-row {
+  padding:10px 16px !important;
+  border-radius:13px !important;
+  background:color-mix(in srgb,var(--theme-bg) 42%,var(--theme-panel)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 26%,rgba(255,255,255,.08)) !important;
 }
 [data-theme] #pdfWorkspace .admin-list-toolbar {
   grid-template-columns:minmax(0,1fr) minmax(150px,.55fr) minmax(150px,.55fr) !important;
@@ -905,8 +1028,15 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 }
 [data-theme] #pdfWorkspace #selectAllDocs,
 [data-theme] #pdfWorkspace #toggleCoversDocs { min-height:38px !important; }
-@media(max-width:1100px){
-  [data-theme] #pdfWorkspace .admin-shell { grid-template-columns:1fr !important; }
+@media(max-width:760px){
+  [data-theme] #pdfWorkspace #docForm > div:not(.admin-actions):not(.admin-status):not(.progress-box):not(.edit-note):not(.field-grid),
+  [data-theme] #pdfWorkspace #docForm .field-grid > div {
+    grid-template-columns:minmax(0,1fr) !important;
+  }
+  [data-theme] #pdfWorkspace #docForm > div:not(.admin-actions):not(.admin-status):not(.progress-box):not(.edit-note):not(.field-grid) > :not(label),
+  [data-theme] #pdfWorkspace #docForm .field-grid > div > :not(label) {
+    grid-column:1 !important;
+  }
 }
 @media(max-width:650px){
   [data-theme] #pdfWorkspace .admin-list-toolbar { grid-template-columns:1fr !important; }
@@ -1032,8 +1162,8 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] [class*="modal-inner"], [data-theme] [class*="submission"] {
   border-color:color-mix(in srgb,var(--theme-accent) 45%,rgba(255,255,255,.14)) !important;
 }
-[data-theme] .card, [data-theme] [class*="card"]:not(.theme-switcher),
-[data-theme] [class*="panel"]:not(.theme-switcher), [data-theme] [class*="workspace"] {
+[data-theme] .card, [data-theme] [class*="card"]:not(.theme-switcher):not(.document-card-info):not(.document-card-actions):not(.document-card-content-wrap):not(.document-card-topline):not(.document-card-category):not(.document-card-title-line):not(.document-card-footer-inline):not(.document-card-action):not(.category-card-main):not(.category-card-info):not(.category-card-illustration):not(.tikz-card-body):not(.tikz-card-title):not(.tikz-card-description):not(.tikz-card-footer):not(.tikz-card-meta):not(.tikz-card-render):not(.achievement-card-content):not(.achievement-card-link):not(.achievement-card-icon):not(.document-stat-cards):not(.document-card-top-badges):not(.document-card-preview):not(.card-arrow),
+[data-theme] [class*="panel"]:not(.theme-switcher):not(.workspace-panel):not(.admin-panel):not(#adminPanel):not(#loginPanel):not(.tikz-panel-head) {
   background:linear-gradient(145deg,var(--theme-panel),var(--theme-surface)) !important;
 }
 [data-theme] h1,[data-theme] h2,[data-theme] h3,[data-theme] h4,
@@ -1125,7 +1255,7 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 [data-theme] #about .achievement-schools span,[data-theme] #skills .skill-tag { color:var(--theme-text) !important; border-color:color-mix(in srgb,var(--theme-accent) 38%,transparent) !important; background:color-mix(in srgb,var(--theme-accent) 14%,transparent) !important; }
 /* Hover must strengthen the card edge, never wash it out. */
 @media(hover:hover){
-  [data-theme] :is(.card,.project-card,.document-card,.document-category-card,.achievement-card,.achievement-card-large,.skill-card,.skill-item,.highlight-item,.about-content,.contact-item,.tikz-card,.score-card,.evidence-card,.exam-student-card,.material-request-card,.liquid-card):hover {
+  [data-theme] :is(.card,.project-card,.document-card,.document-category-card,.achievement-card,.achievement-card-large,.skill-card,.skill-item,.highlight-item,.about-content,.contact-item,.tikz-card,.score-card,.evidence-card,.exam-student-card,.material-request-card,.liquid-card):not(.achievement-gallery-card):hover {
     border-color:var(--theme-highlight) !important;
     box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-highlight) 68%,transparent),0 20px 48px color-mix(in srgb,var(--theme-glow) 78%,transparent) !important;
   }
@@ -1134,36 +1264,52 @@ body > .site-galaxy, body > .evidence-galaxy-scene, body > .admin-galaxy-scene,
 }
 
 /* Final landing/hero palette bridge. */
+[data-theme] .site-galaxy,
 [data-theme] .hero-space-scene,
 [data-theme] .hero-space-scene::before,
 [data-theme] .hero-space-scene::after,
 [data-theme] .hero::before,
 [data-theme] .hero::after,
+[data-theme] .hero-text::before,
+[data-theme] #about::before,
 [data-theme] main::before,
 [data-theme] main::after {
   border-color:color-mix(in srgb,var(--theme-accent) 42%,transparent) !important;
   background-color:transparent !important;
 }
+[data-theme] .hero-text::before,
+[data-theme] .hero::after,
+[data-theme] #about::before {
+  background:none !important;
+  background-image:none !important;
+}
+html[data-site-motion-running="false"] [data-theme] .hero-space-scene.site-galaxy,
+html[data-site-motion-running="false"] .hero-space-scene.site-galaxy,
+.hero-space-scene.site-galaxy[data-galaxy-hidden="true"] {
+  opacity:0 !important;
+  visibility:hidden !important;
+  background:transparent !important;
+}
+[data-theme] .site-galaxy .milky-way-shade,
 [data-theme] .hero-space-scene .milky-way-shade { background:linear-gradient(180deg,color-mix(in srgb,var(--theme-bg) 35%,transparent),transparent 45%,color-mix(in srgb,var(--theme-bg) 42%,transparent)) !important; }
 [data-theme] .hero .hero-small::before { background:var(--theme-accent) !important; }
 [data-theme] .hero .hero-description { color:var(--theme-text) !important; text-shadow:0 2px 14px color-mix(in srgb,var(--theme-bg) 90%,transparent); }
 [data-theme] .hero .hero-about-button { background:linear-gradient(135deg,var(--theme-panel),var(--theme-surface)) !important; color:var(--theme-text) !important; border:1px solid var(--theme-accent) !important; }
 [data-theme] .hero .hero-contact-button,
 [data-theme] .hero .btn-outline { background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important; color:#fff !important; border:1px solid var(--theme-highlight) !important; }
-[data-theme] .hero-socials a { background:color-mix(in srgb,var(--theme-panel) 86%,transparent) !important; border-color:color-mix(in srgb,var(--theme-accent) 58%,transparent) !important; color:var(--theme-text) !important; }
-[data-theme] .hero-socials a:hover { background:var(--theme-accent) !important; color:#fff !important; }
+[data-theme] .hero-socials a { background:linear-gradient(145deg,color-mix(in srgb,var(--theme-accent) 20%,var(--theme-panel)),color-mix(in srgb,var(--theme-accent-3) 14%,var(--theme-surface))) !important; border-color:color-mix(in srgb,var(--theme-accent) 58%,rgba(255,255,255,.16)) !important; color:var(--theme-highlight) !important; }
+[data-theme] .hero-socials a:hover { background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important; border-color:var(--theme-highlight) !important; color:#fff !important; }
 [data-theme] .theme-switcher { background:var(--theme-panel) !important; border-color:var(--theme-accent) !important; color:var(--theme-text) !important; }
 html[data-theme]::-webkit-scrollbar-track,body[data-theme]::-webkit-scrollbar-track,html[data-theme] *::-webkit-scrollbar-track,body[data-theme] *::-webkit-scrollbar-track { background:var(--theme-scroll-track) !important; }
 html[data-theme]::-webkit-scrollbar-thumb,body[data-theme]::-webkit-scrollbar-thumb,html[data-theme] *::-webkit-scrollbar-thumb,body[data-theme] *::-webkit-scrollbar-thumb { background:linear-gradient(180deg,var(--theme-accent),var(--theme-accent-3)) !important; border-color:var(--theme-scroll-track) !important; }
-/* Use a simple, theme-aware Zalo mark instead of an external wordmark. */
+/* Unified Zalo homepage icon sizing across hero and contact cards. */
 [data-theme] .zalo-letter {
   display:inline-flex; align-items:center; justify-content:center;
-  width:28px; height:28px; border-radius:9px;
-  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
-  color:#fff !important; font:900 18px/1 Arial,sans-serif;
-  letter-spacing:-.04em; box-shadow:0 0 14px var(--theme-glow);
+  width:22px !important; height:22px !important; border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
 }
-[data-theme] .contact-icon-zalo .zalo-letter { width:32px; height:32px; border-radius:10px; }
+[data-theme] .contact-icon-zalo .zalo-letter { width:24px !important; height:24px !important; border-radius:0 !important; }
 
 /* Admin authentication surfaces: one coherent themed frame before and after
    sign-in, with a clearly visible sign-out action in the session bar. */
@@ -1312,14 +1458,22 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
 [data-theme] .section-title, [data-theme] .section-title h2 { color:var(--theme-text) !important; }
 [data-theme] .hero h1 span, [data-theme] .hero-role, [data-theme] .hero-small::before { color:var(--theme-accent) !important; }
 [data-theme] .hero-socials a, [data-theme] .hero-actions a { color:var(--theme-text) !important; border-color:var(--theme-accent) !important; }
-[data-theme] .navbar, [data-theme] .evidence-nav, [data-theme] .admin-nav {
+[data-theme] .navbar {
   position:relative !important; z-index:20 !important; isolation:isolate;
   background:color-mix(in srgb,var(--theme-panel) 94%,transparent) !important;
   box-shadow:0 10px 28px color-mix(in srgb,var(--theme-bg) 55%,transparent) !important;
 }
-[data-theme] .navbar::before, [data-theme] .navbar::after,
-[data-theme] .evidence-nav::before, [data-theme] .evidence-nav::after,
-[data-theme] .admin-nav::before, [data-theme] .admin-nav::after { content:none !important; display:none !important; }
+[data-theme] #siteHeader.evidence-nav {
+  position:fixed !important; z-index:1000 !important; isolation:isolate;
+  background:linear-gradient(110deg,color-mix(in srgb,var(--theme-panel) 95%,transparent),color-mix(in srgb,var(--theme-bg) 90%,transparent)) !important;
+  box-shadow:0 12px 36px color-mix(in srgb,var(--theme-bg) 58%,transparent),inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+[data-theme] .admin-nav {
+  position:fixed !important; top:0 !important; left:0 !important; right:0 !important; z-index:1500 !important; isolation:isolate;
+  background:color-mix(in srgb,var(--theme-panel) 94%,transparent) !important;
+  box-shadow:0 10px 28px color-mix(in srgb,var(--theme-bg) 55%,transparent) !important;
+}
+[data-theme] .navbar::before, [data-theme] .navbar::after { content:none !important; display:none !important; }
 [data-theme] .navbar .nav-link::after, [data-theme] #siteHeader .nav-link::after { display:none !important; content:none !important; }
 [data-theme] .navbar .nav-link.active, [data-theme] #siteHeader .nav-link.active {
   background:transparent !important; border:0 !important; box-shadow:none !important;
@@ -1338,7 +1492,7 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
 [data-theme] #siteHeader,
 [data-theme] #siteHeader .navbar {
   border-radius:22px !important;
-  overflow:hidden !important;
+  overflow:visible !important;
 }
 [data-theme] #siteHeader .nav-link:focus,
 [data-theme] #siteHeader .nav-link:focus-visible,
@@ -1366,19 +1520,96 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
 [data-theme] #siteHeader .nav-link::after,
 [data-theme] #documents .document-admin-link::before,
 [data-theme] #documents .document-admin-link::after { content:none !important; display:none !important; }
-[data-theme] #siteHeader::before,
-[data-theme] #siteHeader::after,
-[data-theme] #siteHeader .site-nav-indicator,
-[data-theme] #siteHeader .site-nav-indicator::before,
-[data-theme] #siteHeader .site-nav-indicator::after { content:none !important; display:none !important; visibility:hidden !important; opacity:0 !important; }
 [data-theme] #siteHeader .navbar { background:transparent !important; border:0 !important; box-shadow:none !important; backdrop-filter:none !important; -webkit-backdrop-filter:none !important; }
 [data-theme] #siteHeader .nav-link,
 [data-theme] #siteHeader .nav-link:hover,
 [data-theme] #siteHeader .nav-link:focus,
 [data-theme] #siteHeader .nav-link:focus-visible,
 [data-theme] #siteHeader .nav-link.active { outline:none !important; box-shadow:none !important; background:transparent !important; border-color:transparent !important; }
+[data-theme] #siteHeader::before {
+  content:"" !important;
+  display:block !important;
+  position:absolute !important;
+  inset:0 !important;
+  border-radius:inherit !important;
+  pointer-events:none !important;
+  z-index:0 !important;
+  background:
+    radial-gradient(240px 3px at var(--taskbar-spot-x, 50%) 0px,var(--theme-highlight),var(--theme-accent) 55%,transparent 100%),
+    radial-gradient(290px 115px at var(--taskbar-spot-x, 50%) var(--taskbar-spot-y, 18px),color-mix(in srgb,var(--theme-highlight) 30%,rgba(255,255,255,.16)),color-mix(in srgb,var(--theme-accent) 16%,transparent) 48%,transparent 78%),
+    radial-gradient(190px 2px at var(--taskbar-spot-x, 50%) 100%,color-mix(in srgb,var(--theme-accent-3) 72%,transparent),transparent 100%) !important;
+  opacity:.52;
+  transition:opacity .28s ease;
+}
+[data-theme] #siteHeader:is(:hover, [data-light-active="true"])::before {
+  opacity:1 !important;
+}
+[data-theme] #siteHeader::after {
+  content:"" !important;
+  display:block !important;
+  position:absolute !important;
+  inset:0 !important;
+  left:0 !important;
+  right:0 !important;
+  top:0 !important;
+  bottom:0 !important;
+  height:auto !important;
+  border-radius:inherit !important;
+  pointer-events:none !important;
+  z-index:0 !important;
+  background:linear-gradient(108deg,transparent 34%,color-mix(in srgb,var(--theme-accent) 14%,transparent) 44%,color-mix(in srgb,var(--theme-highlight) 36%,rgba(255,255,255,.28)) 50%,color-mix(in srgb,var(--theme-accent-3) 14%,transparent) 56%,transparent 66%) !important;
+  background-size:240% 100% !important;
+  opacity:.72 !important;
+  animation:taskbar-light-sweep 7.5s cubic-bezier(.4,0,.2,1) infinite;
+}
+[data-theme] #siteHeader .site-nav-indicator {
+  position:absolute !important;
+  left:0 !important;
+  top:0 !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+  border-radius:12px !important;
+  border:1px solid color-mix(in srgb,var(--theme-highlight) 58%,rgba(255,255,255,.28)) !important;
+  background:
+    radial-gradient(90% 120% at 50% 0%,color-mix(in srgb,var(--theme-highlight) 42%,rgba(255,255,255,.24)),transparent 70%),
+    linear-gradient(115deg,color-mix(in srgb,var(--theme-accent) 28%,transparent),color-mix(in srgb,var(--theme-accent-3) 24%,transparent)) !important;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb,var(--theme-highlight) 72%,rgba(255,255,255,.35)),
+    0 4px 20px color-mix(in srgb,var(--theme-glow) 65%,transparent) !important;
+}
+@media (max-width: 1180px) {
+  [data-theme] #siteHeader .site-nav-indicator { display:none !important; }
+}
+[data-theme] .admin-nav {
+  overflow:hidden !important;
+}
+[data-theme] .admin-nav::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(240px 2px at var(--taskbar-spot-x, 50%) 0px,var(--theme-highlight),var(--theme-accent) 55%,transparent 100%),
+    radial-gradient(280px 100px at var(--taskbar-spot-x, 50%) var(--taskbar-spot-y, 18px),color-mix(in srgb,var(--theme-highlight) 26%,rgba(255,255,255,.14)),color-mix(in srgb,var(--theme-accent) 14%,transparent) 48%,transparent 78%),
+    radial-gradient(200px 2px at var(--taskbar-spot-x, 50%) 100%,color-mix(in srgb,var(--theme-accent-3) 72%,transparent),transparent 100%);
+  opacity:.55;
+  transition:opacity .28s ease;
+}
+[data-theme] .admin-nav:hover::before { opacity:1; }
+[data-theme] .admin-nav::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:linear-gradient(108deg,transparent 34%,color-mix(in srgb,var(--theme-accent) 14%,transparent) 44%,color-mix(in srgb,var(--theme-highlight) 34%,rgba(255,255,255,.26)) 50%,color-mix(in srgb,var(--theme-accent-3) 14%,transparent) 56%,transparent 66%);
+  background-size:240% 100%;
+  opacity:.68;
+  animation:taskbar-light-sweep 7.5s cubic-bezier(.4,0,.2,1) infinite;
+}
 [data-theme] .site-galaxy, [data-theme] .evidence-galaxy-scene, [data-theme] .admin-galaxy-scene { z-index:0 !important; }
-[data-theme] .navbar *, [data-theme] .evidence-nav *, [data-theme] .admin-nav * { position:relative; z-index:1; }
+[data-theme] :is(.navbar, .evidence-nav, .admin-nav) :is(.logo, nav, .nav-links, .nav-link, .admin-header-actions) { position:relative; z-index:1; }
 
 /* Theme-aware action/label bridge. Legacy controls now inherit the active
    palette, while flex gaps keep icons comfortably separated from labels. */
@@ -1666,3 +1897,1016 @@ html[data-theme],body[data-theme],html[data-theme] *,body[data-theme] * {
 }
 [data-theme] .score-tag-filter small { display:block; margin-top:5px; color:var(--theme-muted); font-size:11px; }
 [data-theme] .exam-student-tag { display:inline-flex; align-items:center; margin-left:8px; padding:3px 8px; border:1px solid color-mix(in srgb,var(--theme-accent) 60%,transparent); border-radius:999px; color:var(--theme-highlight); font-size:11px; font-weight:800; letter-spacing:.04em; }
+
+/* ==========================================================================
+   UNIFIED DESIGN SYSTEM SYNCHRONIZATION (ALL BOXES, CARDS, TEXT & CONTROLS)
+   Every card across the website shares the Achievement Card (.achievement-card-large
+   & .evidence-card) visual language, 20px liquid-glass surface, specular rim,
+   cursor-following radial spotlight, 3D tilt, and -8px spring hover lift.
+   ========================================================================== */
+
+/* 1. All Cards & Content Boxes — Unified Achievement-Card Surface, Border, Radius & Shadow */
+html[data-theme] body :is(
+  .about-content,
+  .highlight-item,
+  .skill-item,
+  .project-card,
+  #documents .document-category-card,
+  #documents .document-card,
+  #documents .document-card-clickable,
+  #documents .document-card.liquid-glass-card,
+  .material-request-card,
+  .achievement-card-large,
+  #scoreSubmission,
+  .score-submission-box,
+  .score-submission-invite,
+  .contact-qr-panel,
+  .contact-item,
+  .contact-item.liquid-glass-card,
+  .contact-direction,
+  #tikz-library .tikz-card,
+  #tikz-library .tikz-card.liquid-glass-card,
+  #tikz-library .tikz-contribution-card,
+  #tikz-library .tikz-contribution-panel,
+  #tikz-library .tikz-code-panel,
+  #tikz-library .tikz-render-panel,
+  .evidence-card,
+  .exam-student-card,
+  .exam-metric,
+  .exam-chart,
+  #examScorePeriodTable,
+  .evidence-empty,
+  .document-empty,
+  .tikz-empty,
+  .account-card,
+  .password-recovery-card
+) {
+  position:relative !important;
+  isolation:isolate !important;
+  background:
+    radial-gradient(ellipse at var(--glass-x, 24%) var(--glass-y, 0%),color-mix(in srgb,var(--theme-highlight) 13%,rgba(255,255,255,.08)),transparent 58%),
+    linear-gradient(145deg,color-mix(in srgb,var(--theme-panel) 84%,transparent),color-mix(in srgb,var(--theme-surface) 70%,transparent)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 52%,rgba(255,255,255,.18)) !important;
+  border-radius:20px !important;
+  box-shadow:0 18px 44px color-mix(in srgb,var(--theme-bg) 60%,transparent),inset 0 1px 0 rgba(255,255,255,.14) !important;
+  backdrop-filter:blur(16px) saturate(155%) !important;
+  -webkit-backdrop-filter:blur(16px) saturate(155%) !important;
+  color:var(--theme-text) !important;
+}
+html[data-theme] body .reveal.show:not(.tilt-card):not(.liquid-glass-card) {
+  transform:none !important;
+}
+html[data-theme] body #tikz-library .tikz-card-render {
+  background:color-mix(in srgb,var(--theme-bg) 48%,transparent) !important;
+  border-bottom:1px solid color-mix(in srgb,var(--theme-accent) 30%,rgba(255,255,255,.08)) !important;
+}
+
+/* 2. Compact Section Headers & Filter Toolbars — Unified Surface */
+html[data-theme] body :is(
+  #documents .document-library-heading,
+  #documents .document-public-stats,
+  #tikz-library .tikz-library-heading,
+  #tikz-library .tikz-detail-head,
+  .exam-filter-row,
+  .evidence-page .evidence-filters,
+  .achievement-gallery-toolbar
+) {
+  background:linear-gradient(145deg,color-mix(in srgb,var(--theme-panel) 94%,transparent),color-mix(in srgb,var(--theme-surface) 78%,transparent)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 44%,rgba(255,255,255,.15)) !important;
+  border-radius:16px !important;
+  box-shadow:0 12px 32px color-mix(in srgb,var(--theme-bg) 52%,transparent),inset 0 1px 0 rgba(255,255,255,.08) !important;
+  color:var(--theme-text) !important;
+}
+html[data-theme] body :is(#documents .document-library-heading,#tikz-library .tikz-library-heading,#tikz-library .tikz-detail-head) {
+  padding:14px 16px !important;
+  border-left:3px solid var(--theme-accent) !important;
+}
+html[data-theme] body #materialRequestForm::before,
+html[data-theme] body #documentContributionForm .section-kicker {
+  content:"REQUEST A MATERIAL";
+  display:block !important;
+  margin:0 !important;
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+  font-size:11px !important;
+  font-weight:800 !important;
+  letter-spacing:1.6px !important;
+  text-transform:uppercase !important;
+}
+html[data-theme] body .project-card h3::before {
+  content:"DỰ ÁN · TOÁN & AI";
+  display:block;
+  margin-bottom:6px;
+  color:var(--theme-highlight);
+  -webkit-text-fill-color:var(--theme-highlight);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+}
+html[data-theme] body #tikz-library .tikz-card-body::before {
+  content:"THƯ VIỆN HÌNH VẼ · TIKZ";
+  display:block;
+  margin-bottom:6px;
+  color:var(--theme-highlight);
+  -webkit-text-fill-color:var(--theme-highlight);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+}
+html[data-theme] body .about-content::before {
+  content:"HỒ SƠ GIÁO VIÊN · TOÁN & AI";
+  display:block;
+  margin-bottom:10px;
+  color:var(--theme-highlight);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+html[data-theme] body #scoreSubmission > h3::before {
+  content:"ĐÓNG GÓP KẾT QUẢ HỌC TẬP";
+  display:block;
+  margin-bottom:8px;
+  color:var(--theme-highlight);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.8px;
+  text-transform:uppercase;
+}
+html[data-theme] body .contact-qr-copy::before {
+  content:"QUICK CONNECT";
+  display:block;
+  margin-bottom:4px;
+  color:var(--theme-highlight);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.6px;
+  text-transform:uppercase;
+}
+html[data-theme] body .exam-filter-row {
+  padding:16px 18px !important;
+  margin-bottom:18px !important;
+}
+html[data-theme] body .evidence-page .evidence-filters {
+  position:relative !important;
+  top:auto !important;
+  z-index:2 !important;
+}
+
+/* 3. Achievement-Card 3D Perspective Tilt, Radial Spotlight, Rim & -8px Spring Hover Lift */
+html[data-theme] body .liquid-glass-card > .liquid-glass-rim::before {
+  background:
+    radial-gradient(320px circle at var(--spot-x, 50%) var(--spot-y, 50%),color-mix(in srgb,var(--theme-highlight) 24%,transparent),color-mix(in srgb,var(--theme-accent) 13%,transparent) 44%,transparent 72%),
+    radial-gradient(ellipse at var(--glass-x, 24%) var(--glass-y, 0%),color-mix(in srgb,var(--theme-highlight) 14%,rgba(255,255,255,.1)),transparent 58%) !important;
+}
+html[data-theme] body .liquid-glass-card > .liquid-glass-rim::after {
+  background:linear-gradient(135deg,color-mix(in srgb,var(--theme-highlight) 62%,rgba(255,255,255,.34)),color-mix(in srgb,var(--theme-accent) 26%,transparent) 32%,transparent 52%,color-mix(in srgb,var(--theme-accent-3) 28%,transparent) 72%,color-mix(in srgb,var(--theme-accent) 60%,rgba(255,255,255,.28))) !important;
+  opacity:.74 !important;
+}
+html[data-theme]:not([data-motion="reduced"]) body :is(
+  .liquid-glass-card,
+  .tilt-card,
+  #about .about-content.tilt-card.reveal.show,
+  #about .highlight-item.tilt-card.reveal.show,
+  #skills .skill-item.tilt-card.reveal.show,
+  #projects .project-card.tilt-card.reveal.show,
+  #achievements .achievement-card-large.tilt-card.reveal.show
+):is(.show, :not(.reveal)):not(.achievement-gallery-card) {
+  --card-lift:0px;
+  transform:translateY(var(--card-lift, 0px)) perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) !important;
+  transform-style:flat !important;
+  transition:transform .42s cubic-bezier(.16,1.24,.3,1),border-color .28s ease,background .28s ease,box-shadow .28s ease !important;
+}
+@media(hover:hover) and (pointer:fine){
+  html[data-theme]:not([data-motion="reduced"]) body :is(
+    .liquid-glass-card,
+    .tilt-card,
+    #about .about-content.tilt-card.reveal.show,
+    #about .highlight-item.tilt-card.reveal.show,
+    #skills .skill-item.tilt-card.reveal.show,
+    #projects .project-card.tilt-card.reveal.show,
+    #achievements .achievement-card-large.tilt-card.reveal.show
+  ):is(.show, :not(.reveal)):not(.achievement-gallery-card):hover {
+    --card-lift:-8px;
+    transform:translateY(-8px) perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) !important;
+    border-color:var(--theme-highlight) !important;
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-highlight) 68%,transparent),0 24px 54px color-mix(in srgb,var(--theme-glow) 78%,transparent),inset 0 1px 0 rgba(255,255,255,.24) !important;
+  }
+  html[data-theme] body .liquid-glass-card:not(.achievement-gallery-card):hover > .liquid-glass-rim::after {
+    opacity:1 !important;
+  }
+}
+/* Admin page: disable all hover 3D tilt, press-down, and vertical lift effects */
+html[data-theme] body :is(.admin-page,#adminPanel,#loginPanel,#about #adminPanel) :is(
+  .liquid-glass-card,
+  .tilt-card,
+  .admin-card,
+  .account-card,
+  .stat-box,
+  .admin-doc,
+  .review-item,
+  .category-item,
+  .tikz-import-item,
+  .admin-drop,
+  .tikz-import-drop,
+  .score-import-drop,
+  .exam-admin-student-card,
+  .site-content-editor,
+  .score-options-admin,
+  .exam-score-import,
+  .score-submission-admin,
+  .exam-statistics-settings,
+  .admin-btn,
+  .account-button,
+  .score-submission-button,
+  .admin-bulk-button,
+  .workspace-tab,
+  .admin-nav .back
+),
+html[data-theme] body :is(.admin-page,#adminPanel,#loginPanel,#about #adminPanel) :is(
+  .liquid-glass-card,
+  .tilt-card,
+  .admin-card,
+  .account-card,
+  .stat-box,
+  .admin-doc,
+  .review-item,
+  .category-item,
+  .tikz-import-item,
+  .admin-drop,
+  .tikz-import-drop,
+  .score-import-drop,
+  .exam-admin-student-card,
+  .site-content-editor,
+  .score-options-admin,
+  .exam-score-import,
+  .score-submission-admin,
+  .exam-statistics-settings,
+  .admin-btn,
+  .account-button,
+  .score-submission-button,
+  .admin-bulk-button,
+  .workspace-tab,
+  .admin-nav .back
+):hover {
+  --card-lift:0px !important;
+  --tilt-x:0deg !important;
+  --tilt-y:0deg !important;
+  transform:none !important;
+}
+html[data-theme] body .admin-page .liquid-glass-card[data-card-hover="true"] > .liquid-glass-rim::before {
+  display:block !important;
+  opacity:1 !important;
+}
+/* Achievement Gallery modal: keep the detail card stationary without 3D tilt/lift clipping while preserving the smooth cursor spotlight */
+html[data-theme] body :is(#achievementGallery,.achievement-gallery,#about #achievementGallery) :is(.evidence-card,.exam-student-card,.liquid-glass-card,.tilt-card,.achievement-gallery-card):is(.show,:not(.reveal)),
+html[data-theme] body :is(#achievementGallery,.achievement-gallery,#about #achievementGallery) :is(.evidence-card,.exam-student-card,.liquid-glass-card,.tilt-card,.achievement-gallery-card):is(.show,:not(.reveal)):hover {
+  --card-lift:0px !important;
+  --tilt-x:0deg !important;
+  --tilt-y:0deg !important;
+  transform:none !important;
+  cursor:default !important;
+}
+html[data-theme] body :is(#achievementGallery,.achievement-gallery) .achievement-gallery-stage {
+  overflow:visible !important;
+}
+html[data-theme] body :is(#achievementGallery,.achievement-gallery) .liquid-glass-card[data-card-hover="true"] > .liquid-glass-rim::before {
+  display:block !important;
+  opacity:1 !important;
+}
+html[data-theme] body .evidence-card::before {
+  content:none !important;
+  display:none !important;
+}
+html[data-theme][data-motion="reduced"] body :is(.liquid-glass-card,.tilt-card) {
+  transform:none !important;
+  transition:border-color .2s ease,box-shadow .2s ease !important;
+}
+@media(hover:hover){
+  html[data-theme][data-motion="reduced"] body :is(.liquid-glass-card,.tilt-card):hover {
+    border-color:var(--theme-highlight) !important;
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-highlight) 62%,transparent),0 20px 48px color-mix(in srgb,var(--theme-glow) 74%,transparent) !important;
+  }
+}
+
+/* 4. Eliminate Nested Inner Rectangular Slabs Inside Cards */
+html[data-theme] body :is(
+  .tikz-card-body,
+  .tikz-card-title,
+  .tikz-card-description,
+  .tikz-card-meta,
+  .tikz-panel-head,
+  .tikz-contribution-head,
+  .tikz-contribution-copy,
+  .achievement-card-content,
+  .achievement-card-link,
+  #documents .document-stat-cards,
+  #documents .document-card-info,
+  #documents .document-card-content-wrap,
+  #documents .document-card-topline,
+  #documents .document-card-category,
+  #documents .document-card-title-line,
+  #documents .document-card-footer-inline,
+  #documents .category-card-main,
+  #documents .category-card-info,
+  #documents .category-card-illustration,
+  .contact-qr-copy,
+  .contact-qr-actions,
+  .contact-info,
+  .contact-direction *,
+  .exam-student-info,
+  .exam-student-main,
+  .exam-student-top,
+  .exam-student-identity,
+  .exam-student-score,
+  .exam-student-card .exam-student-media,
+  .achievement-gallery .exam-student-media,
+  .evidence-content,
+  .evidence-facts,
+  .evidence-image-wrap,
+  .evidence-media,
+  .evidence-media-has-image,
+  .achievement-gallery .evidence-image-wrap,
+  .achievement-gallery .evidence-media
+) {
+  background:transparent !important;
+  background-color:transparent !important;
+  background-image:none !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+html[data-theme] body .exam-student-card .exam-student-media {
+  border-left:1px solid color-mix(in srgb,var(--theme-accent) 26%,rgba(255,255,255,.1)) !important;
+}
+html[data-theme] body #tikz-library .tikz-card-body {
+  padding:20px 22px 22px !important;
+  display:flex !important;
+  flex-direction:column !important;
+}
+html[data-theme] body #tikz-library .tikz-card-footer {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  padding-top:14px !important;
+  margin-top:14px !important;
+}
+html[data-theme] body :is(.tikz-card-footer,#documents .document-card-actions,.exam-student-facts) {
+  background:transparent !important;
+  background-image:none !important;
+  border-left:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  border-top:1px solid color-mix(in srgb,var(--theme-accent) 28%,rgba(255,255,255,.1)) !important;
+  box-shadow:none !important;
+}
+html[data-theme] body .evidence-fact {
+  background:transparent !important;
+  border-left:0 !important;
+  border-right:0 !important;
+  border-bottom:0 !important;
+  border-top:1px solid color-mix(in srgb,var(--theme-accent) 24%,rgba(255,255,255,.1)) !important;
+  box-shadow:none !important;
+}
+
+/* 5. Unified 4-Tier Typography & Text Color Hierarchy */
+
+/* Tier 1: Kickers, Eyebrows, Category Labels, Highlighted Numbers & Percentages */
+html[data-theme] body :is(
+  .hero-small,
+  .section-kicker,
+  .document-library-kicker,
+  #documents .document-library-kicker,
+  #tikz-library .document-library-kicker,
+  #documents .document-stat-title span,
+  #documents .document-card-category,
+  #documents .document-Category-card .document-card-category,
+  .achievement-label,
+  .project-number,
+  .evidence-kicker,
+  .evidence-type,
+  .contact-qr-kicker,
+  .score-submission-kicker,
+  .admin-sidebar-eyebrow,
+  .admin-section-title,
+  #about .about-content h3 span,
+  #about .highlight-item .highlight-number,
+  #skills .skill-percent,
+  #about .skill-percent,
+  #documents .document-stat-card b,
+  .exam-metric dd,
+  .exam-student-score strong
+) {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+  background:none !important;
+  background-image:none !important;
+  animation:none !important;
+}
+
+/* Tier 2: Main Section Titles, Card Headings (h1, h2, h3) & Form Labels */
+html[data-theme] body :is(
+  .hero h1,
+  .section-title h2,
+  .evidence-head h1,
+  .exam-students-heading h2,
+  .admin-title h1,
+  .account-card h1,
+  #about .about-content h3,
+  #skills .skill-item h3,
+  #about .skill-item h3,
+  .project-card h3,
+  #documents .document-category-card h3,
+  #documents .document-card-info h3,
+  #documents .document-library-heading h3,
+  #tikz-library .tikz-card-title,
+  #tikz-library .tikz-contribution-copy h3,
+  .achievement-card-large h3,
+  .score-submission-head h3,
+  .contact-intro h3,
+  .contact-qr-copy h3,
+  .contact-item h3,
+  .contact-info strong,
+  .evidence-content h2,
+  .exam-student-identity h3,
+  .exam-chart figcaption,
+  .admin-card h2,
+  .admin-card h3,
+  .admin-doc h3,
+  .material-request-form label,
+  .score-submission-form label,
+  .tikz-contribution-form label,
+  .exam-filter-row label,
+  .account-form label,
+  .admin-form label,
+  .field-label
+) {
+  color:var(--theme-text) !important;
+  -webkit-text-fill-color:var(--theme-text) !important;
+  transition:color .24s ease !important;
+}
+
+/* Card Heading Illumination on Hover (matching Achievement Card hover) */
+@media(hover:hover){
+  html[data-theme] body :is(.liquid-glass-card,.tilt-card):hover :is(
+    h2,
+    h3,
+    .tikz-card-title,
+    .contact-info strong
+  ) {
+    color:var(--theme-highlight) !important;
+    -webkit-text-fill-color:var(--theme-highlight) !important;
+  }
+}
+
+/* Tier 3: Card Descriptions & Body Paragraphs (High-Contrast Readable Soft Text) */
+html[data-theme] body :is(
+  .section-title p,
+  #about .about-content p,
+  #about .highlight-item .highlight-text,
+  #skills .skill-item p,
+  #skills .skill-info p,
+  .project-card p,
+  #documents .document-category-card p,
+  #documents .document-card-info p,
+  #tikz-library .tikz-card-description,
+  #tikz-library .tikz-contribution-copy p,
+  .achievement-card-large p,
+  .achievement-card-content p,
+  .score-submission-head p,
+  .score-submission-invite p,
+  .contact-intro p,
+  .contact-qr-copy p,
+  .contact-item p,
+  .evidence-head p,
+  .evidence-content p,
+  .exam-students-heading p,
+  .account-muted
+) {
+  color:color-mix(in srgb,var(--theme-text) 78%,var(--theme-muted)) !important;
+  -webkit-text-fill-color:color-mix(in srgb,var(--theme-text) 78%,var(--theme-muted)) !important;
+}
+
+/* Tier 4: Achievement-Style Icon Badges, Tag Pills & Primary Action Buttons */
+html[data-theme] body :is(
+  .highlight-icon,
+  .skill-icon,
+  .project-icon,
+  .achievement-card-icon,
+  .contact-icon,
+  .contact-icon-zalo,
+  .hero-socials a,
+  .contact-socials a,
+  .tikz-contribution-icon,
+  #documents .document-category-card .document-category-icon,
+  #documents .pdf-related-icon
+) {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--theme-accent) 20%,var(--theme-panel)),color-mix(in srgb,var(--theme-accent-3) 14%,var(--theme-surface))) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 58%,rgba(255,255,255,.16)) !important;
+  border-radius:15px !important;
+  color:var(--theme-highlight) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 8px 20px color-mix(in srgb,var(--theme-bg) 42%,transparent) !important;
+  transition:transform .32s cubic-bezier(.16,1.24,.3,1),border-color .28s ease,background .28s ease,box-shadow .28s ease,color .24s ease !important;
+}
+html[data-theme] body :is(.hero-socials a,.contact-socials a) {
+  border-radius:14px !important;
+}
+html[data-theme] body :is(.hero-socials a,.contact-socials a)::before {
+  display:none !important;
+}
+html[data-theme] body :is(.hero-socials a,.contact-socials a,.contact-icon,.contact-icon-zalo) > :is(i,.zalo-letter,svg) {
+  position:relative !important;
+  z-index:1 !important;
+}
+html[data-theme] body #documents .document-category-card .document-category-icon {
+  width:52px !important;
+  height:52px !important;
+  margin-bottom:14px !important;
+  font-size:20px !important;
+}
+@media(hover:hover){
+  html[data-theme] body :is(.liquid-glass-card,.tilt-card):hover :is(
+    .highlight-icon,
+    .skill-icon,
+    .project-icon,
+    .achievement-card-icon,
+    .contact-icon,
+    .contact-icon-zalo,
+    .tikz-contribution-icon,
+    #documents .document-category-card .document-category-icon,
+    #documents .pdf-related-icon
+  ) {
+    transform:translateY(-2px) scale(1.06) rotate(-3deg) !important;
+    border-color:var(--theme-highlight) !important;
+    background:linear-gradient(135deg,color-mix(in srgb,var(--theme-accent) 34%,var(--theme-panel)),color-mix(in srgb,var(--theme-accent-3) 26%,var(--theme-surface))) !important;
+    box-shadow:0 0 20px color-mix(in srgb,var(--theme-glow) 72%,transparent),inset 0 1px 0 rgba(255,255,255,.24) !important;
+  }
+  html[data-theme] body :is(.hero-socials a,.contact-socials a):hover,
+  html[data-theme] body .contact-item:hover :is(.contact-icon,.contact-icon-zalo) {
+    background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+    border-color:var(--theme-highlight) !important;
+    color:#fff !important;
+    box-shadow:0 0 20px color-mix(in srgb,var(--theme-glow) 78%,transparent),inset 0 1px 0 rgba(255,255,255,.24) !important;
+  }
+  html[data-theme] body .contact-item:hover :is(.contact-icon,.contact-icon-zalo) i,
+  html[data-theme] body :is(.hero-socials a,.contact-socials a):hover i {
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+  }
+}
+html[data-theme] body :is(
+  .highlight-icon i,
+  .skill-icon i,
+  .project-icon i,
+  .achievement-card-icon i,
+  .contact-icon i,
+  .hero-socials a i,
+  .contact-socials a i,
+  .tikz-contribution-icon i,
+  #documents .document-category-card .document-category-icon i,
+  .exam-chart figcaption i,
+  .evidence-empty i,
+  .document-empty i,
+  .tikz-empty i,
+  #studentScoreSubmissionDrop i
+) {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+}
+
+/* Achievement-Style Tag Pills (.achievement-schools span) Across All Cards */
+html[data-theme] body :is(
+  .achievement-schools span,
+  .project-tags span,
+  #documents .document-tags span,
+  #documents .document-category-count,
+  #documents .document-type-badge,
+  #tikz-library .tikz-tag,
+  .exam-student-period,
+  .exam-student-tag,
+  #skills .skill-percent
+) {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:6px !important;
+  padding:6px 12px !important;
+  border-radius:10px !important;
+  background:color-mix(in srgb,var(--theme-accent) 14%,var(--theme-panel)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 54%,transparent) !important;
+  color:var(--theme-text) !important;
+  -webkit-text-fill-color:var(--theme-text) !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06) !important;
+  transition:border-color .24s ease,background .24s ease,color .24s ease !important;
+}
+html[data-theme] body :is(#skills .skill-percent,.exam-student-period,.exam-student-tag,#documents .document-type-badge) {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+}
+@media(hover:hover){
+  html[data-theme] body :is(.liquid-glass-card,.tilt-card):hover :is(
+    .achievement-schools span,
+    .project-tags span,
+    #documents .document-tags span,
+    #documents .document-category-count,
+    #documents .document-type-badge,
+    #tikz-library .tikz-tag,
+    .exam-student-period,
+    .exam-student-tag,
+    #skills .skill-percent
+  ) {
+    border-color:color-mix(in srgb,var(--theme-highlight) 72%,var(--theme-accent)) !important;
+    background:color-mix(in srgb,var(--theme-accent) 22%,var(--theme-panel)) !important;
+  }
+}
+
+/* Achievement-Style Primary CTA Buttons (.evidence-button) Across All Cards */
+html[data-theme] body :is(
+  .achievement-card-large .evidence-button,
+  .project-card .project-link,
+  #documents .document-category-card .document-open-label,
+  #documents .document-card .document-card-action.open,
+  #tikz-library .tikz-card .tikz-open-button,
+  #tikz-library .tikz-card-footer button,
+  #tikz-library #openTikzContribution,
+  .tikz-contact-button,
+  .contact-qr-panel .contact-qr-button,
+  #contactQrDialog .contact-qr-button,
+  .material-request-card .request-submit-row :is(button,.btn),
+  #scoreSubmission .score-submission-button:not(.secondary),
+  .score-submission-invite .score-submission-button
+) {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:8px !important;
+  min-height:40px !important;
+  padding:10px 18px !important;
+  border-radius:11px !important;
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-highlight) 68%,rgba(255,255,255,.24)) !important;
+  color:#fff !important;
+  -webkit-text-fill-color:#fff !important;
+  font-size:12px !important;
+  font-weight:800 !important;
+  line-height:1.2 !important;
+  text-decoration:none !important;
+  animation:none !important;
+  box-shadow:0 8px 22px color-mix(in srgb,var(--theme-glow) 55%,transparent),inset 0 1px 0 rgba(255,255,255,.22) !important;
+  transition:transform .24s ease,border-color .24s ease,box-shadow .24s ease,filter .24s ease !important;
+}
+html[data-theme] body :is(
+  .achievement-card-large .evidence-button,
+  .project-card .project-link,
+  #documents .document-category-card .document-open-label,
+  #documents .document-card .document-card-action.open,
+  #tikz-library .tikz-card .tikz-open-button,
+  #tikz-library .tikz-card-footer button,
+  #tikz-library #openTikzContribution,
+  .tikz-contact-button,
+  .contact-qr-panel .contact-qr-button,
+  #contactQrDialog .contact-qr-button,
+  .material-request-card .request-submit-row :is(button,.btn),
+  #scoreSubmission .score-submission-button:not(.secondary),
+  .score-submission-invite .score-submission-button
+) :is(i,svg) {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+}
+@media(hover:hover){
+  html[data-theme] body :is(
+    .achievement-card-large .evidence-button,
+    .project-card .project-link,
+    #documents .document-category-card .document-open-label,
+    #documents .document-card .document-card-action.open,
+    #tikz-library .tikz-card .tikz-open-button,
+    #tikz-library .tikz-card-footer button,
+    #tikz-library #openTikzContribution,
+    .tikz-contact-button,
+    .contact-qr-panel .contact-qr-button,
+    #contactQrDialog .contact-qr-button:not(:disabled),
+    .material-request-card .request-submit-row :is(button,.btn),
+    #scoreSubmission .score-submission-button:not(.secondary),
+    .score-submission-invite .score-submission-button
+  ):hover {
+    transform:translateY(-2px) !important;
+    border-color:#fff !important;
+    filter:brightness(1.08) !important;
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-highlight) 52%,transparent),0 12px 28px color-mix(in srgb,var(--theme-glow) 82%,transparent) !important;
+  }
+  html[data-theme] body :is(
+    .achievement-card-large .evidence-button,
+    .project-card .project-link,
+    #documents .document-category-card .document-open-label,
+    #documents .document-card .document-card-action.open,
+    #tikz-library .tikz-card .tikz-open-button,
+    #tikz-library .tikz-card-footer button,
+    #tikz-library #openTikzContribution,
+    .tikz-contact-button,
+    .contact-qr-panel .contact-qr-button,
+    #contactQrDialog .contact-qr-button:not(:disabled),
+    .material-request-card .request-submit-row :is(button,.btn),
+    #scoreSubmission .score-submission-button:not(.secondary),
+    .score-submission-invite .score-submission-button
+  ):hover :is(i,svg) {
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+  }
+}
+html[data-theme] body #contactQrDialog {
+  background:linear-gradient(155deg,color-mix(in srgb,var(--theme-panel) 94%,transparent) 0%,color-mix(in srgb,var(--theme-surface) 88%,transparent) 55%,color-mix(in srgb,var(--theme-bg) 96%,transparent) 100%) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.18)) !important;
+  color:var(--theme-text) !important;
+  box-shadow:0 28px 80px color-mix(in srgb,var(--theme-bg) 78%,transparent),inset 0 1px 0 rgba(255,255,255,.14) !important;
+}
+html[data-theme] body #contactQrTitle { color:var(--theme-text) !important; }
+html[data-theme] body :is(#contactQrHelp,#contactQrStatus) { color:var(--theme-muted) !important; }
+html[data-theme] body #contactQrLink { color:var(--theme-highlight) !important; font-weight:700 !important; }
+html[data-theme] body #contactQrClose {
+  background:color-mix(in srgb,var(--theme-accent) 16%,var(--theme-panel)) !important;
+  border-color:color-mix(in srgb,var(--theme-accent) 52%,transparent) !important;
+  color:var(--theme-highlight) !important;
+}
+
+/* Contact Item Action Badge & Back-to-top */
+html[data-theme] body .contact-item .contact-arrow {
+  width:40px !important;
+  height:40px !important;
+  flex:0 0 40px !important;
+  border-radius:11px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:color-mix(in srgb,var(--theme-accent) 16%,var(--theme-panel)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 52%,transparent) !important;
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+  animation:none !important;
+  transition:transform .24s ease,background .24s ease,border-color .24s ease,box-shadow .24s ease !important;
+}
+@media(hover:hover){
+  html[data-theme] body .contact-item:hover .contact-arrow {
+    transform:translateX(4px) !important;
+    background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+    border-color:var(--theme-highlight) !important;
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+    box-shadow:0 6px 18px color-mix(in srgb,var(--theme-glow) 65%,transparent) !important;
+  }
+  html[data-theme] body .contact-item:hover .contact-arrow i {
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+  }
+}
+html[data-theme] body .back-to-top {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+  background:color-mix(in srgb,var(--theme-accent) 16%,var(--theme-panel)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 52%,transparent) !important;
+  animation:none !important;
+}
+html[data-theme] body .back-to-top:hover {
+  color:#fff !important;
+  -webkit-text-fill-color:#fff !important;
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  border-color:var(--theme-highlight) !important;
+}
+
+/* Media & Illustration Smooth Zoom on Card Hover (matching .evidence-card) */
+html[data-theme] body :is(
+  #documents .document-card-preview img,
+  #documents .document-card-preview canvas,
+  .exam-student-card .exam-student-media img,
+  .exam-student-card .exam-student-media svg
+) {
+  transition:transform .42s ease,filter .42s ease !important;
+}
+@media(hover:hover){
+  html[data-theme]:not([data-motion="reduced"]) body :is(
+    #documents .document-card:hover .document-card-preview img,
+    #documents .document-card:hover .document-card-preview canvas,
+    .exam-student-card:hover .exam-student-media img,
+    .exam-student-card:hover .exam-student-media svg
+  ) {
+    transform:scale(1.035) !important;
+  }
+  html[data-theme] body #documents .document-card:hover .document-card-preview {
+    border-color:var(--theme-highlight) !important;
+  }
+}
+
+html[data-theme] body .account-back-link {
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  padding:8px 14px !important;
+  border-radius:10px !important;
+  text-decoration:none !important;
+}
+
+/* 6. Unified Search Wrappers, Inputs, Selects, File Inputs & Buttons */
+html[data-theme] body :is(
+  #documents .document-search-wrap,
+  #documents .document-sort-wrap,
+  #documents .document-type-filter,
+  #tikz-library .tikz-library-search-wrap,
+  #tikz-library #tikzSort
+) {
+  background:color-mix(in srgb,var(--theme-panel) 90%,var(--theme-bg)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 48%,rgba(255,255,255,.18)) !important;
+  border-radius:11px !important;
+  color:var(--theme-text) !important;
+  box-shadow:none !important;
+}
+html[data-theme] body :is(
+  #documents .document-search-wrap input,
+  #documents .document-sort-wrap select,
+  #tikz-library .tikz-library-search-wrap input,
+  #tikz-library #tikzSearch
+) {
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  color:var(--theme-text) !important;
+}
+html[data-theme] body :is(
+  #documents .document-search-wrap i,
+  #documents .document-sort-wrap i,
+  #tikz-library .tikz-library-search-wrap i
+) {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+}
+html[data-theme] body input[type="file"]::file-selector-button {
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  color:#fff !important;
+  border:1px solid color-mix(in srgb,var(--theme-highlight) 70%,var(--theme-accent)) !important;
+  border-radius:8px !important;
+  padding:6px 12px !important;
+  margin-right:10px !important;
+  font:700 12px/1.2 var(--theme-font) !important;
+  cursor:pointer !important;
+}
+
+/* 7. Filter Tabs, Pagination & Primary CTA Buttons */
+html[data-theme] body :is(
+  .evidence-filter:not(.active),
+  #documents #documentBreadcrumb .document-crumb:not(.active),
+  .document-page-btn:not(.active),
+  .evidence-page-button:not(.active),
+  .evidence-back-link,
+  .account-back-link
+) {
+  background:color-mix(in srgb,var(--theme-panel) 88%,var(--theme-surface)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent) 42%,rgba(255,255,255,.14)) !important;
+  color:var(--theme-text) !important;
+  -webkit-text-fill-color:var(--theme-text) !important;
+  box-shadow:none !important;
+}
+html[data-theme] body :is(
+  .evidence-filter.active,
+  .evidence-filter:hover,
+  #documents #documentBreadcrumb .document-crumb.active,
+  #documents #documentBreadcrumb .document-crumb:hover,
+  .document-page-btn.active,
+  .document-page-btn:hover:not(:disabled),
+  .evidence-page-button.active,
+  .evidence-page-button:hover:not(:disabled),
+  .score-submission-invite .score-submission-button,
+  .account-button
+) {
+  background:linear-gradient(135deg,var(--theme-accent),var(--theme-accent-3)) !important;
+  border:1px solid var(--theme-highlight) !important;
+  color:#fff !important;
+  -webkit-text-fill-color:#fff !important;
+  box-shadow:0 6px 18px color-mix(in srgb,var(--theme-glow) 55%,transparent) !important;
+}
+html[data-theme] body :is(
+  .evidence-filter.active i,
+  .evidence-filter:hover i,
+  .score-submission-invite .score-submission-button i
+) {
+  color:#fff !important;
+  -webkit-text-fill-color:#fff !important;
+}
+
+/* 8. PDF Card Loading Preview Contrast Fix */
+html[data-theme] body #documents .document-card-preview:has(.document-preview-loading:not(.loaded)) .document-preview-canvas {
+  opacity:0 !important;
+}
+html[data-theme] body #documents .document-preview-loading {
+  color:var(--theme-muted) !important;
+}
+html[data-theme] body #documents .document-preview-loading i {
+  color:var(--theme-highlight) !important;
+  -webkit-text-fill-color:var(--theme-highlight) !important;
+}
+
+/* 9. Hero Avatar Change Button & Admin Hero Avatar Row */
+.hero-avatar-change-btn,
+html[data-theme] body .hero-avatar-change-btn {
+  position:absolute !important;
+  bottom:8px !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  z-index:6 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:7px !important;
+  min-height:34px !important;
+  padding:7px 14px !important;
+  border-radius:999px !important;
+  white-space:nowrap !important;
+  cursor:pointer !important;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--theme-panel,#0f172a) 88%,var(--theme-accent,#ff2d7a) 12%),color-mix(in srgb,var(--theme-surface,#111827) 84%,var(--theme-accent-3,#ff6b3d) 16%)) !important;
+  border:1px solid color-mix(in srgb,var(--theme-highlight,#ffc24b) 62%,var(--theme-accent,#ff2d7a)) !important;
+  color:var(--theme-text,#fff) !important;
+  -webkit-text-fill-color:var(--theme-text,#fff) !important;
+  font:700 12px/1.2 var(--theme-font,inherit) !important;
+  letter-spacing:.01em !important;
+  backdrop-filter:blur(12px) saturate(150%) !important;
+  -webkit-backdrop-filter:blur(12px) saturate(150%) !important;
+  box-shadow:0 8px 22px color-mix(in srgb,var(--theme-bg,#050816) 65%,transparent),0 0 16px color-mix(in srgb,var(--theme-glow,rgba(255,45,122,.28)) 52%,transparent),inset 0 1px 0 rgba(255,255,255,.18) !important;
+  transition:transform .22s ease,background .22s ease,border-color .22s ease,box-shadow .22s ease,color .22s ease !important;
+}
+.hero-avatar-change-btn i,
+html[data-theme] body .hero-avatar-change-btn i {
+  color:var(--theme-highlight,#ffc24b) !important;
+  -webkit-text-fill-color:var(--theme-highlight,#ffc24b) !important;
+  font-size:12px !important;
+  transition:color .22s ease !important;
+}
+@media(hover:hover){
+  .hero-avatar-change-btn:hover,
+  html[data-theme] body .hero-avatar-change-btn:hover {
+    transform:translateX(-50%) translateY(-2px) !important;
+    background:linear-gradient(135deg,var(--theme-accent,#ff2d7a),var(--theme-accent-3,#ff6b3d)) !important;
+    border-color:#fff !important;
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-highlight,#ffc24b) 52%,transparent),0 12px 26px var(--theme-glow,rgba(255,45,122,.38)) !important;
+  }
+  .hero-avatar-change-btn:hover i,
+  html[data-theme] body .hero-avatar-change-btn:hover i {
+    color:#fff !important;
+    -webkit-text-fill-color:#fff !important;
+  }
+}
+
+.hero-avatar-admin-row {
+  display:flex !important;
+  align-items:center !important;
+  gap:14px !important;
+  flex-wrap:wrap !important;
+  padding:12px 14px !important;
+  border-radius:14px !important;
+  border:1px solid color-mix(in srgb,var(--theme-accent,#38bdf8) 36%,rgba(255,255,255,.14)) !important;
+  background:color-mix(in srgb,var(--theme-panel,#0f172a) 86%,rgba(5,10,20,.5)) !important;
+}
+.hero-avatar-admin-thumb {
+  width:56px !important;
+  height:56px !important;
+  flex:0 0 56px !important;
+  border-radius:50% !important;
+  overflow:hidden !important;
+  border:2px solid color-mix(in srgb,var(--theme-highlight,#7dd3fc) 70%,var(--theme-accent,#38bdf8)) !important;
+  box-shadow:0 0 14px color-mix(in srgb,var(--theme-glow,rgba(56,189,248,.28)) 55%,transparent) !important;
+  background:#060d18 !important;
+}
+.hero-avatar-admin-thumb img {
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  display:block !important;
+}
+.hero-avatar-admin-meta {
+  display:grid !important;
+  gap:6px !important;
+  flex:1 1 220px !important;
+  min-width:0 !important;
+}
+.hero-avatar-admin-meta strong {
+  font-size:13px !important;
+  color:var(--theme-text,#eaf4ff) !important;
+}
+.hero-avatar-admin-meta small {
+  font-size:11.5px !important;
+  color:var(--theme-muted,#8e9fb5) !important;
+}
+.hero-avatar-admin-actions {
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  flex-wrap:wrap !important;
+}
+
+
+

@@ -32,6 +32,32 @@
         const glowImage = glowContext.createImageData(textureWidth, textureHeight);
 
         const clamp = value => Math.max(0, Math.min(1, value));
+        const fallbackPalette = [[105, 66, 187], [142, 118, 235], [170, 157, 255], [218, 205, 255]];
+        function parseRgb(raw, fallback) {
+            const text = String(raw || "").trim();
+            if (!text) return fallback;
+            if (text.startsWith("#")) {
+                const hex = text.slice(1);
+                if (hex.length === 3) {
+                    return [parseInt(hex[0] + hex[0], 16), parseInt(hex[1] + hex[1], 16), parseInt(hex[2] + hex[2], 16)];
+                }
+                if (hex.length >= 6) {
+                    return [parseInt(hex.slice(0, 2), 16), parseInt(hex.slice(2, 4), 16), parseInt(hex.slice(4, 6), 16)];
+                }
+            }
+            const match = text.match(/(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+            if (match) return [Number(match[1]), Number(match[2]), Number(match[3])];
+            return fallback;
+        }
+        function getThemeColors() {
+            const style = targetWindow.getComputedStyle(targetDocument.documentElement);
+            return [
+                parseRgb(style.getPropertyValue("--theme-accent"), fallbackPalette[0]),
+                parseRgb(style.getPropertyValue("--theme-accent-2"), fallbackPalette[1]),
+                parseRgb(style.getPropertyValue("--theme-accent-3"), fallbackPalette[2]),
+                parseRgb(style.getPropertyValue("--theme-highlight"), fallbackPalette[3])
+            ];
+        }
         function random(x, y) {
             const value = Math.sin(x * 127.1 + y * 311.7 + 43.3) * 43758.5453;
             return value - Math.floor(value);
@@ -57,12 +83,16 @@
             return sum / weight;
         }
 
+        let buildGeneration = 0;
         async function buildTexture() {
+            const currentBuild = ++buildGeneration;
+            const [cAccent, cAccent2, cAccent3, cHighlight] = getThemeColors();
             let sliceStart = performance.now();
             for (let y = 0; y < textureHeight; y++) {
-                if (destroyed) return;
+                if (destroyed || currentBuild !== buildGeneration) return;
                 if (performance.now() - sliceStart > 7) {
                     await new Promise(resolve => targetWindow.setTimeout(resolve, 0));
+                    if (destroyed || currentBuild !== buildGeneration) return;
                     sliceStart = performance.now();
                 }
                 const ny = y / textureHeight;
@@ -75,13 +105,14 @@
                     const fibers = clamp((details - .34) * 2.4);
                     const alpha = Math.pow(depth, 1.4) * (.56 + fibers * .3);
                     const at = (y * textureWidth + x) * 4;
-                    image.data[at] = 105 + details * 85;
-                    image.data[at + 1] = 66 + details * 61;
-                    image.data[at + 2] = 187 + details * 68;
+                    const blend = clamp(details * 0.65 + broad * 0.35);
+                    image.data[at] = Math.min(255, Math.round(cAccent[0] * (1 - blend * 0.52) + cAccent3[0] * (blend * 0.52) + details * 38));
+                    image.data[at + 1] = Math.min(255, Math.round(cAccent[1] * (1 - blend * 0.52) + cAccent3[1] * (blend * 0.52) + details * 34));
+                    image.data[at + 2] = Math.min(255, Math.round(cAccent[2] * (1 - blend * 0.52) + cAccent3[2] * (blend * 0.52) + details * 42));
                     image.data[at + 3] = Math.round(alpha * 185);
-                    glowImage.data[at] = 170 + details * 60;
-                    glowImage.data[at + 1] = 157 + details * 76;
-                    glowImage.data[at + 2] = 255;
+                    glowImage.data[at] = Math.min(255, Math.round(cAccent2[0] * 0.42 + cHighlight[0] * 0.58 + details * 36));
+                    glowImage.data[at + 1] = Math.min(255, Math.round(cAccent2[1] * 0.42 + cHighlight[1] * 0.58 + details * 36));
+                    glowImage.data[at + 2] = Math.min(255, Math.round(cAccent2[2] * 0.42 + cHighlight[2] * 0.58 + details * 36));
                     glowImage.data[at + 3] = Math.round(Math.pow(depth, 1.05) * 220);
                 }
             }
@@ -184,6 +215,7 @@
         reducedMotion.addEventListener("change", refresh);
         targetWindow.addEventListener("pagehide", hidePage);
         targetWindow.addEventListener("pageshow", showPage);
+        targetWindow.addEventListener("site-theme-change", buildTexture);
         resize();
         refresh();
         const controller = {
@@ -203,6 +235,7 @@
                 reducedMotion.removeEventListener("change", refresh);
                 targetWindow.removeEventListener("pagehide", hidePage);
                 targetWindow.removeEventListener("pageshow", showPage);
+                targetWindow.removeEventListener("site-theme-change", buildTexture);
                 canvas.remove();
                 controllers.delete(scene);
             }

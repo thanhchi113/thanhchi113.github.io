@@ -45,23 +45,27 @@
     style.textContent = ':root{--theme-bg:'+palette[0]+';--theme-panel:'+palette[1]+';--theme-surface:'+palette[2]+';--theme-accent:'+palette[3]+';--theme-accent-2:'+palette[4]+';--theme-accent-3:'+palette[5]+';--theme-highlight:'+palette[6]+';--theme-text:'+palette[7]+';--theme-muted:'+palette[8]+'}'+
       'body{background-color:'+palette[0]+' !important;color:'+palette[7]+' !important}'+
       '.site-nav,.admin-nav,.evidence-nav,.navbar,.topbar{background:linear-gradient(110deg,'+palette[1]+'ee,'+palette[0]+'e8) !important;border-color:'+palette[3]+'55 !important}'+
-      '.card,.project-card,.document-card,.document-category-card,.evidence-card,.achievement-card,.achievement-card-large,.skill-card,.skill-item,.highlight-item,.about-content,.contact-item,.tikz-card,.tikz-project-card,.exam-student-card,.admin-card,.admin-doc,.modal-card,.workspace-tabs,.workspace-panel,.glass-card{background:linear-gradient(145deg,'+palette[1]+'ee,'+palette[0]+'dd) !important;border-color:'+palette[3]+'66 !important;color:'+palette[7]+' !important}'+
+      '.card,.project-card,.document-card,.document-category-card,.evidence-card,.achievement-card,.achievement-card-large,.skill-card,.skill-item,.highlight-item,.about-content,.contact-item,.tikz-card,.tikz-project-card,.exam-student-card,.admin-card,.admin-doc,.modal-card,.workspace-tabs,.glass-card{background:linear-gradient(145deg,'+palette[1]+'ee,'+palette[0]+'dd) !important;border-color:'+palette[3]+'66 !important;color:'+palette[7]+' !important}'+
       '.card h1,.card h2,.card h3,.card h4,.card p,.project-card h3,.project-card p,.document-card h3,.document-card p,.document-category-card h3,.document-category-card p,.achievement-card-large h3,.achievement-card-large p,.skill-item h3,.skill-item p,.admin-card h1,.admin-card h2,.admin-card h3,.admin-card p,.admin-doc h3,.admin-doc p{color:'+palette[7]+' !important}'+
       '.admin-taskbar,.admin-taskbar-btn,#siteHeader,.site-nav,.admin-nav,.topbar{background:linear-gradient(110deg,'+palette[1]+'f2,'+palette[0]+'e8) !important;border-color:'+palette[3]+'66 !important;color:'+palette[7]+' !important}'+
       '.admin-taskbar-btn,.admin-nav a,#siteHeader .nav-link{color:'+palette[7]+' !important}'+
       '.admin-taskbar-btn:hover,.admin-taskbar-btn.active,#siteHeader .nav-link.active{color:'+palette[6]+' !important;border-color:'+palette[3]+'aa !important}'+
       'a,.nav-link,.document-action,.project-link,.evidence-type,.kicker,.admin-section-title,.section-kicker{color:'+palette[3]+' !important}'+
-      'button,.btn,.admin-btn,.cta,.page-btn.active,.workspace-tab.active{background:linear-gradient(135deg,'+palette[3]+','+palette[5]+') !important;border-color:'+palette[3]+'99 !important;color:'+palette[7]+' !important}'+
-      'input,textarea,select,.admin-filter,.admin-search{background:'+palette[0]+'cc !important;color:'+palette[7]+' !important;border-color:'+palette[3]+'55 !important}'+
+      'button:not(.evidence-filter):not(.document-crumb):not(.document-page-btn):not(.evidence-page-button):not(.document-quick-btn):not(.evidence-zoom):not(.menu-toggle):not(.site-motion-toggle),.btn,.admin-btn,.cta,.page-btn.active,.workspace-tab.active,.evidence-filter.active,.document-crumb.active,.document-page-btn.active,.evidence-page-button.active{background:linear-gradient(135deg,'+palette[3]+','+palette[5]+') !important;border-color:'+palette[3]+'99 !important;color:'+palette[7]+' !important}'+
+      'input:not(#documentSearch):not(#tikzSearch),textarea,select:not(#documentSort),.admin-filter,.admin-search{background:'+palette[0]+'cc !important;color:'+palette[7]+' !important;border-color:'+palette[3]+'55 !important}'+
       '.muted,.admin-status,.document-card p,.evidence-content p,.stat-label,.section-title p,.admin-help,.admin-form label,.field-label{color:'+palette[8]+' !important}'+
       '.theme-switcher{background:'+palette[1]+'ee !important;border-color:'+palette[3]+'88 !important}';
     /* Keep glyphs readable against the themed gradient surfaces.  Legacy
        rules used a fixed cyan value, which became low-contrast on violet and
        ember palettes. */
-    style.textContent += '.hero-socials a,.contact-socials a{color:'+palette[7]+' !important;border-color:'+palette[3]+'99 !important;background:linear-gradient(145deg,'+palette[1]+'cc,'+palette[0]+'cc) !important}'+
-      '.hero-socials a:hover,.contact-socials a:hover{color:'+palette[6]+' !important;border-color:'+palette[6]+' !important;box-shadow:0 0 0 2px '+palette[3]+'55,0 0 18px '+palette[3]+'66 !important}'+
-      '.hero-socials a i,.contact-socials a i,.btn i,.evidence-button i,.contact-qr-button i,.tikz-open-button i,.tikz-contribution-submit i{color:'+palette[6]+' !important;-webkit-text-fill-color:'+palette[6]+' !important;background:none !important}'+
-      '.hero-socials a:hover i,.contact-socials a:hover i,.btn:hover i,.evidence-button:hover i,.contact-qr-button:hover i,.tikz-open-button:hover i,.tikz-contribution-submit:hover i{color:#fff !important;-webkit-text-fill-color:#fff !important}';
+    style.textContent += '.hero-socials a,.contact-socials a{color:'+palette[6]+' !important;border-color:'+palette[3]+'99 !important;background:linear-gradient(145deg,'+palette[1]+'e6,'+palette[2]+'d9) !important}'+
+      '.hero-socials a:hover,.contact-socials a:hover{color:#fff !important;border-color:'+palette[6]+' !important;background:linear-gradient(135deg,'+palette[3]+','+palette[5]+') !important;box-shadow:0 0 0 1px '+palette[6]+'66,0 0 20px '+palette[3]+'77 !important}'+
+      '.hero-socials a i,.contact-socials a i,.btn i,.evidence-button i,.contact-qr-button i,.tikz-contact-button i,.tikz-open-button i,.tikz-contribution-submit i{color:'+palette[6]+' !important;-webkit-text-fill-color:'+palette[6]+' !important;background:none !important}'+
+      '.hero-socials a:hover i,.contact-socials a:hover i,.btn:hover i,.evidence-button:hover i,.contact-qr-button:hover i,.tikz-contact-button:hover i,.tikz-open-button:hover i,.tikz-contribution-submit:hover i{color:#fff !important;-webkit-text-fill-color:#fff !important}'+
+      '.zalo-brand-svg .zalo-svg-bubble,.zalo-brand-svg path:nth-of-type(3){fill:'+palette[6]+' !important}'+
+      '.zalo-brand-svg .zalo-svg-wordmark,.zalo-brand-svg path:nth-of-type(4){fill:'+palette[1]+' !important}'+
+      '.hero-socials a:hover .zalo-brand-svg .zalo-svg-bubble,.contact-socials a:hover .zalo-brand-svg .zalo-svg-bubble,.contact-item:hover .contact-icon-zalo .zalo-brand-svg .zalo-svg-bubble{fill:#fff !important}'+
+      '.hero-socials a:hover .zalo-brand-svg .zalo-svg-wordmark,.contact-socials a:hover .zalo-brand-svg .zalo-svg-wordmark,.contact-item:hover .contact-icon-zalo .zalo-brand-svg .zalo-svg-wordmark{fill:'+palette[3]+' !important}';
     // Keep the runtime sheet as the final cascade layer.  The legacy pages
     // contain large inline style blocks (some with !important) after the
     // initial script tag; mounting at the end of body guarantees a selected
@@ -90,8 +94,25 @@
   function mount() {
     var current = getUser() || getDefault(); apply(current);
     var box = makeSwitcher(isAdmin);
-    if (isAdmin) { var target = document.querySelector('.admin-page') || document.querySelector('main') || document.body; target.insertBefore(box, target.firstChild); }
+    if (isAdmin) {
+      var headerActions = document.querySelector('.admin-header-actions');
+      if (headerActions) headerActions.insertBefore(box, headerActions.firstChild);
+      else {
+        var target = document.querySelector('.admin-page > .container') || document.querySelector('.admin-page') || document.querySelector('main') || document.body;
+        target.insertBefore(box, target.firstChild);
+      }
+    }
     else document.body.appendChild(box);
+    var adminNav = document.querySelector('.admin-nav');
+    if (adminNav && !adminNav.dataset.lightBound) {
+      adminNav.dataset.lightBound = 'true';
+      adminNav.addEventListener('pointermove', function (event) {
+        if (event.pointerType === 'touch') return;
+        var rect = adminNav.getBoundingClientRect();
+        adminNav.style.setProperty('--taskbar-spot-x', (event.clientX - rect.left).toFixed(1) + 'px');
+        adminNav.style.setProperty('--taskbar-spot-y', (event.clientY - rect.top).toFixed(1) + 'px');
+      }, { passive: true });
+    }
     window.addEventListener('storage', function (event) { if (event.key === defaultKey && !getUser()) apply(event.newValue || 'creative'); });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount); else mount();

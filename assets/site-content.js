@@ -107,7 +107,33 @@
         doc.documentElement.dataset.siteMotionAllowed = String(values?.["appearance.motionEnabled"] !== false);
         doc.dispatchEvent(new CustomEvent("site-appearance-change"));
     }
-    function applyHeroImage(doc, values) { const path=values?.["home.heroImagePath"]; const hero=doc.getElementById("home"); if(!hero)return; hero.querySelector(".hero-custom-image")?.remove(); if(!path)return; const base=String(path); const src=/^https?:/i.test(base)?base:`https://uiyqdqucqplifcvukwul.supabase.co/storage/v1/object/public/math-pdfs/${base.split("/").map(encodeURIComponent).join("/")}`; const box=doc.createElement("div");box.className="hero-custom-image";box.innerHTML=`<img src="${src}" alt="" aria-hidden="true">`;hero.prepend(box);}
+    function resolveStorageAssetUrl(raw) {
+        if (!raw) return "";
+        const base = String(raw).trim();
+        if (!base) return "";
+        if (/^(data:image\/|blob:|https?:\/\/|assets\/)/i.test(base)) return base;
+        return `https://uiyqdqucqplifcvukwul.supabase.co/storage/v1/object/public/math-pdfs/${base.replace(/^\/+/, "").split("/").map(encodeURIComponent).join("/")}`;
+    }
+    function applyHeroImage(doc, values) {
+        const hero = doc.getElementById("home");
+        if (!hero) return;
+        const avatarImg = hero.querySelector(".avatar img");
+        if (avatarImg) {
+            let localAvatar = "";
+            try { localAvatar = localStorage.getItem("thanhchi.hero.avatar") || ""; } catch (_) {}
+            const configuredAvatar = Object.hasOwn(values || {}, "home.avatarPath") ? values["home.avatarPath"] : localAvatar;
+            const avatarSrc = resolveStorageAssetUrl(configuredAvatar) || "assets/avatar.jpg";
+            if (avatarImg.getAttribute("src") !== avatarSrc) avatarImg.setAttribute("src", avatarSrc);
+        }
+        const path = values?.["home.heroImagePath"];
+        hero.querySelector(".hero-custom-image")?.remove();
+        if (!path) return;
+        const src = resolveStorageAssetUrl(path);
+        const box = doc.createElement("div");
+        box.className = "hero-custom-image";
+        box.innerHTML = `<img src="${src}" alt="" aria-hidden="true">`;
+        hero.prepend(box);
+    }
     function isVisible(id, doc = document) { return !hiddenByDocument.get(doc)?.has(id); }
     function firstVisible(doc = document) { return sections.find(([id]) => isVisible(id, doc))?.[0] || null; }
     function sectionForHash(hash, doc = document) {

@@ -22,7 +22,7 @@ body .evidence-card[tabindex="0"],body .exam-student-card[tabindex="0"]{cursor:p
 body > .site-pointer-glow{
     position:fixed;left:0;top:0;width:340px;height:340px;border-radius:50%;
     pointer-events:none;z-index:7000;opacity:0;will-change:transform;
-    background:radial-gradient(circle,rgba(115,172,255,.19),rgba(163,124,255,.08) 36%,transparent 70%);
+    background:radial-gradient(circle,color-mix(in srgb,var(--theme-accent,#73acff) 22%,transparent),color-mix(in srgb,var(--theme-accent-3,#a37cff) 10%,transparent) 38%,transparent 70%);
     filter:blur(12px);transition:opacity .18s ease;
 }
 body > .site-pointer-glow[data-active="true"]{opacity:1}

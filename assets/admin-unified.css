@@ -1,0 +1,1473 @@
+/* ==========================================================================
+   Unified Admin Design System (admin-unified.css)
+   Synchronizes layout, card surfaces, typography, form controls, buttons,
+   bulk toolbars, tables, and responsive behavior across all 8 workspaces.
+   ========================================================================== */
+
+:root {
+  --admin-bg: rgba(8, 15, 28, 0.78);
+  --admin-border: rgba(148, 163, 184, 0.16);
+  --admin-muted: #8e9fb5;
+  --admin-text: #eaf3ff;
+  --admin-accent: #7dd3fc;
+  --admin-card-radius: 18px;
+  --admin-item-radius: 14px;
+  --admin-control-radius: 10px;
+}
+
+/* 1. Page & Top Navigation Bar */
+.admin-page {
+  min-height: 100vh;
+  padding-top: 92px !important;
+  padding-bottom: 120px !important;
+  position: relative;
+  z-index: 2;
+}
+
+#adminPanel,
+#loginPanel {
+  padding: 0 !important;
+}
+
+.admin-nav {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1500 !important;
+  height: 68px;
+  background: color-mix(in srgb, var(--theme-panel, #0b1324) 92%, transparent) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 32%, rgba(255, 255, 255, 0.1)) !important;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--theme-bg, #050914) 55%, transparent) !important;
+}
+
+.admin-nav .container {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.admin-nav a {
+  color: var(--theme-text, #dcecff);
+}
+
+.admin-nav .back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 13px;
+  border-radius: var(--admin-control-radius);
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 38%, rgba(255, 255, 255, 0.14));
+  background: color-mix(in srgb, var(--theme-panel, #0f172a) 82%, var(--theme-accent, #38bdf8) 12%);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--theme-text, #eaf3ff) !important;
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.admin-nav .back:hover {
+  transform: translateY(-1px);
+  border-color: var(--theme-highlight, #7dd3fc);
+  color: #fff !important;
+  background: linear-gradient(135deg, var(--theme-accent, #38bdf8), var(--theme-accent-3, #6366f1));
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* 2. Login Panel & Session Authbar */
+.admin-login {
+  max-width: 460px;
+  margin: clamp(28px, 8vh, 72px) auto 0;
+}
+
+.admin-authbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: linear-gradient(125deg, color-mix(in srgb, var(--theme-panel, #0e172a) 95%, transparent), color-mix(in srgb, var(--theme-surface, #091020) 82%, transparent)) !important;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 38%, rgba(255, 255, 255, 0.14)) !important;
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--theme-bg, #050914) 48%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: var(--theme-text, #eaf3ff);
+  font-size: 13px;
+}
+
+.admin-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-session-actions {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.theme-switcher.admin-theme-switcher {
+  position: static !important;
+  margin: 0 !important;
+  width: max-content;
+  max-width: 100%;
+  border-radius: 11px !important;
+  padding: 4px 10px !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 900px) {
+  .admin-header-actions .theme-switcher.admin-theme-switcher {
+    display: none !important;
+  }
+}
+
+/* 3. KPI Overview Stats Ribbon (6-column desktop / 3-column tablet / 2-column mobile) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stats-grid .stat-box {
+  position: relative;
+  overflow: hidden;
+  min-height: 88px !important;
+  padding: 14px 15px !important;
+  border-radius: 16px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--theme-panel, #0e172a) 95%, transparent), color-mix(in srgb, var(--theme-surface, #091020) 80%, transparent)) !important;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 40%, rgba(255, 255, 255, 0.14)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 14px 32px color-mix(in srgb, var(--theme-bg, #050914) 50%, transparent) !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.stats-grid .stat-box i {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--theme-highlight, #7dd3fc) !important;
+}
+
+.stats-grid .stat-value {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--theme-text, #f5faff) !important;
+}
+
+.stats-grid .stat-label {
+  margin-top: 4px;
+  color: var(--theme-muted, #8e9fb5) !important;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* 4. Workspace Containers & Grid Rhythm */
+.workspace-panel {
+  display: none;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.workspace-panel.active {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.workspace-panel > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  min-width: 0;
+}
+
+.admin-shell,
+.exam-admin-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 20px !important;
+  align-items: start;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.admin-review-grid,
+.account-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* 5. Unified Card Surfaces Across All 8 Workspaces */
+.admin-card,
+.account-card,
+.site-content-editor,
+.score-options-admin,
+.exam-score-import,
+.score-submission-admin,
+.exam-statistics-settings {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  padding: 22px !important;
+  border-radius: var(--admin-card-radius) !important;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--theme-panel, #0e172a) 95%, transparent), color-mix(in srgb, var(--theme-surface, #08101f) 84%, transparent)) !important;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 38%, rgba(255, 255, 255, 0.14)) !important;
+  box-shadow: 0 20px 48px color-mix(in srgb, var(--theme-bg, #040812) 58%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--theme-text, #eaf3ff) !important;
+}
+
+.admin-card::after,
+.account-card::after,
+.site-content-editor::after,
+.score-options-admin::after,
+.exam-score-import::after,
+.score-submission-admin::after,
+.exam-statistics-settings::after {
+  content: "";
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  right: -90px;
+  top: -95px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--theme-accent, #38bdf8) 16%, transparent), transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.admin-card > *,
+.account-card > *,
+.site-content-editor > *,
+.score-options-admin > *,
+.exam-score-import > *,
+.score-submission-admin > *,
+.exam-statistics-settings > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 6. Unified Workspace Banners & Card Headers */
+#scoresWorkspace > .exam-admin-heading,
+#accountWorkspace > .account-workspace-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 18px 22px;
+  border-radius: var(--admin-card-radius);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--theme-panel, #0e172a) 95%, transparent), color-mix(in srgb, var(--theme-surface, #08101f) 84%, transparent)) !important;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 42%, rgba(255, 255, 255, 0.16)) !important;
+  border-left: 4px solid var(--theme-highlight, #7dd3fc) !important;
+  box-shadow: 0 14px 36px color-mix(in srgb, var(--theme-bg, #040812) 48%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+#scoresWorkspace > .exam-admin-heading h1,
+#accountWorkspace > .account-workspace-heading h1 {
+  margin: 0;
+  font-size: clamp(1.22rem, 1.9vw, 1.48rem);
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--theme-text, #f4f8ff) !important;
+}
+
+#accountWorkspace > .account-workspace-heading p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--theme-muted, #8e9fb5) !important;
+}
+
+.admin-title,
+.admin-card .exam-admin-heading,
+.score-import-heading,
+.score-submission-heading,
+.exam-settings-heading,
+.account-heading-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 22%, rgba(255, 255, 255, 0.08));
+}
+
+.admin-title > div:first-child,
+.score-import-heading > div:first-child,
+.score-submission-heading > div:first-child,
+.exam-settings-heading > div:first-child {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.admin-title h1,
+.admin-title h2,
+.exam-admin-form > h2,
+.admin-card .exam-admin-heading h2,
+.score-import-heading h3,
+.score-submission-heading h3,
+.exam-settings-heading h2,
+.account-card > h2,
+.account-heading-row h2,
+.site-content-editor > h1,
+.score-options-admin summary {
+  margin: 0;
+  font-size: clamp(1.15rem, 1.6vw, 1.35rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.01em;
+  color: var(--theme-text, #f4f8ff) !important;
+}
+
+.exam-admin-form > h2,
+.account-card > h2,
+.site-content-editor > h1 {
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 22%, rgba(255, 255, 255, 0.08));
+}
+
+.admin-title p,
+.score-import-heading p,
+.score-submission-heading p,
+.exam-settings-heading p,
+.site-content-editor > p,
+.score-options-intro {
+  margin: 6px 0 0;
+  color: var(--theme-muted, #8e9fb5) !important;
+  font-size: 13px !important;
+  line-height: 1.55;
+}
+
+.admin-title > i {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  font-size: 20px !important;
+  color: var(--theme-highlight, #7dd3fc) !important;
+  background: color-mix(in srgb, var(--theme-accent, #38bdf8) 16%, var(--theme-panel, #0f172a));
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 42%, transparent);
+  flex-shrink: 0;
+}
+
+.admin-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 22px 0 12px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--theme-highlight, #dbeafe) !important;
+}
+
+.admin-section-title::before {
+  content: "";
+  width: 4px;
+  height: 15px;
+  border-radius: 99px;
+  background: linear-gradient(180deg, var(--theme-accent, #38bdf8), var(--theme-highlight, #7dd3fc));
+}
+
+/* 7. Unified Form Controls (Labels, Inputs, Selects, Textareas) */
+.admin-form {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-form fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.admin-form label,
+.field-label,
+.account-form label,
+.score-options-grid > label,
+.score-import-defaults > label,
+.score-submission-grid > label,
+.site-content-fields > label:not(.site-content-visibility),
+.site-content-toolbar > label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11.5px;
+  color: var(--theme-muted, #a8b6c9) !important;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.admin-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.admin-form textarea,
+.admin-form select,
+.admin-search,
+.admin-filter,
+.account-form input:not([type="checkbox"]),
+.score-options-admin input:not([type="checkbox"]),
+.score-options-admin textarea,
+.exam-score-import input:not([type="checkbox"]):not([type="file"]),
+.exam-score-import select,
+.score-submission-admin input:not([type="checkbox"]),
+.score-submission-admin select,
+.site-content-editor input:not([type="checkbox"]),
+.site-content-editor textarea,
+.site-content-editor select,
+.evidence-bulk-tools input:not([type="checkbox"]),
+.evidence-bulk-tools select,
+.evidence-bulk-tools textarea,
+.score-bulk-tools input:not([type="checkbox"]),
+.score-bulk-tools select,
+.admin-bulk-select {
+  width: 100%;
+  min-height: 42px;
+  box-sizing: border-box;
+  background: color-mix(in srgb, var(--theme-bg, #050a14) 82%, var(--theme-panel, #0f172a)) !important;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 34%, rgba(255, 255, 255, 0.16)) !important;
+  color: var(--theme-text, #f1f7ff) !important;
+  border-radius: var(--admin-control-radius) !important;
+  padding: 9px 13px;
+  font: inherit;
+  font-size: 13.5px;
+  line-height: 1.4;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+/* Preserve right padding on password inputs for the eye toggle button */
+.account-password-control input {
+  padding-right: 54px !important;
+}
+
+.admin-form textarea,
+.score-options-admin textarea,
+.site-content-editor textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+:is(
+  .admin-form input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  .admin-form textarea,
+  .admin-form select,
+  .admin-search,
+  .admin-filter,
+  .account-form input,
+  .score-options-admin input,
+  .score-options-admin textarea,
+  .exam-score-import input,
+  .exam-score-import select,
+  .score-submission-admin input,
+  .score-submission-admin select,
+  .site-content-editor input,
+  .site-content-editor textarea,
+  .site-content-editor select,
+  .evidence-bulk-tools input,
+  .evidence-bulk-tools select,
+  .evidence-bulk-tools textarea,
+  .score-bulk-tools input,
+  .score-bulk-tools select,
+  .admin-bulk-select
+):focus {
+  border-color: var(--theme-highlight, #7dd3fc) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-accent, #38bdf8) 20%, transparent) !important;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.check-row {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0 !important;
+  color: var(--theme-text, #dbeafe) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  cursor: pointer;
+}
+
+.check-row input {
+  width: 17px !important;
+  height: 17px !important;
+  min-height: 17px !important;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* 8. Unified Buttons Across All 8 Workspaces */
+.admin-actions,
+.score-submission-actions,
+.site-content-actions,
+.score-bulk-apply-actions,
+.evidence-bulk-apply-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.admin-btn,
+.account-button,
+.score-submission-button,
+.admin-bulk-button,
+.exam-score-import button {
+  min-height: 40px;
+  padding: 9px 15px;
+  border-radius: var(--admin-control-radius) !important;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 52%, rgba(255, 255, 255, 0.18)) !important;
+  background: linear-gradient(135deg, var(--theme-accent, #38bdf8), var(--theme-accent-3, #6366f1)) !important;
+  color: #fff !important;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--theme-glow, rgba(56, 189, 248, 0.25)) 48%, transparent);
+  transition: transform 0.18s ease, border-color 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+}
+
+.admin-btn.ghost,
+.account-button.secondary,
+.score-submission-button.secondary,
+.admin-bulk-button:not(.admin-bulk-apply),
+.exam-score-import button.secondary {
+  background: color-mix(in srgb, var(--theme-panel, #0f172a) 84%, var(--theme-accent, #38bdf8) 14%) !important;
+  border-color: color-mix(in srgb, var(--theme-accent, #38bdf8) 38%, rgba(255, 255, 255, 0.14)) !important;
+  color: var(--theme-text, #eaf3ff) !important;
+  box-shadow: none;
+}
+
+.admin-btn.success,
+.score-submission-button:not(.secondary):not(.danger),
+.admin-bulk-apply:not(.admin-bulk-danger) {
+  background: linear-gradient(135deg, #0ea5a0, #0284c7) !important;
+  border-color: #7dd3fc !important;
+  color: #fff !important;
+}
+
+.admin-btn.danger,
+.account-button.danger,
+.score-submission-button.danger,
+.admin-bulk-apply.admin-bulk-danger {
+  background: linear-gradient(135deg, #e11d48, #9f1239) !important;
+  border-color: #fda4af !important;
+  color: #fff !important;
+}
+
+:is(.admin-btn, .account-button, .score-submission-button, .admin-bulk-button, .exam-score-import button):hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  border-color: var(--theme-highlight, #7dd3fc) !important;
+}
+
+:is(.admin-btn, .account-button, .score-submission-button, .admin-bulk-button, .exam-score-import button):disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.icon-btn {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 10px;
+}
+
+/* 9. Unified Dropzones (PDF, Cover, TikZ, Evidence, Score Image, Score File Import) */
+.admin-drop,
+.tikz-import-drop,
+.score-import-drop {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  min-height: 136px;
+  padding: 18px;
+  border: 1.5px dashed color-mix(in srgb, var(--theme-accent, #38bdf8) 52%, rgba(255, 255, 255, 0.22)) !important;
+  border-radius: 14px !important;
+  background: color-mix(in srgb, var(--theme-accent, #38bdf8) 7%, rgba(5, 10, 20, 0.45)) !important;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.admin-drop:hover,
+.tikz-import-drop:hover,
+.score-import-drop:hover,
+.admin-drop.is-dragging,
+.tikz-import-drop.is-dragging,
+.score-import-drop.drag-over {
+  border-color: var(--theme-highlight, #7dd3fc) !important;
+  background: color-mix(in srgb, var(--theme-accent, #38bdf8) 14%, rgba(5, 10, 20, 0.6)) !important;
+  transform: translateY(-2px);
+}
+
+.pdf-file-drop .drop-input,
+.evidence-file-drop .drop-input,
+.exam-score-drop .drop-input,
+.tikz-import-drop input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.pdf-drop-prompt,
+.evidence-drop-prompt,
+.exam-score-drop-prompt {
+  pointer-events: none;
+}
+
+.pdf-drop-prompt i,
+.evidence-drop-prompt i,
+.exam-score-drop-prompt i,
+.tikz-import-drop i {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--theme-highlight, #7dd3fc) !important;
+  font-size: 26px;
+}
+
+.pdf-drop-prompt strong,
+.evidence-drop-prompt strong,
+.exam-score-drop-prompt strong,
+.tikz-import-drop strong,
+.score-import-drop strong {
+  display: block;
+  color: var(--theme-text, #eaf5ff) !important;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.pdf-drop-prompt span,
+.evidence-drop-prompt span,
+.exam-score-drop-prompt span,
+.tikz-import-drop span,
+.score-import-drop span {
+  display: block;
+  margin-top: 4px;
+  color: var(--theme-muted, #8e9fb5) !important;
+  font-size: 11.5px;
+}
+
+.file-name {
+  color: var(--theme-highlight, #7dd3fc);
+  font-size: 12px;
+  word-break: break-word;
+}
+
+.file-name:empty,
+.bulk-preview:empty {
+  display: none;
+}
+
+/* PDF Cover Preview Box & Admin List Cover Thumbnail */
+.cover-preview-box {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 34%, rgba(255, 255, 255, 0.14));
+  background: color-mix(in srgb, var(--theme-panel, #0f172a) 84%, rgba(5, 10, 20, 0.6));
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.cover-preview-box.hidden {
+  display: none !important;
+}
+
+.cover-preview-thumb {
+  width: 78px;
+  height: 102px;
+  border-radius: 9px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 40%, rgba(255, 255, 255, 0.18));
+  background: #060d18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-preview-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cover-preview-meta {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cover-preview-meta strong {
+  font-size: 13px;
+  color: var(--theme-text, #eaf4ff);
+  word-break: break-word;
+}
+
+.cover-enable-check {
+  font-size: 12.5px !important;
+}
+
+.cover-preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cover-preview-actions .admin-btn {
+  min-height: 34px;
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.admin-doc-main.has-cover {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.admin-doc-cover-thumb {
+  width: 52px;
+  height: 68px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 38%, rgba(255, 255, 255, 0.16));
+  background: #060d18;
+  flex-shrink: 0;
+}
+
+.admin-doc-cover-thumb.is-disabled {
+  opacity: 0.48;
+  filter: grayscale(0.5);
+}
+
+.admin-doc-cover-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cover-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 10. Unified Bulk Toolbars (Documents/TikZ/Requests, Evidence, Exam Scores) */
+.admin-bulk-toolbar,
+.evidence-bulk-tools,
+.score-bulk-tools {
+  margin: 12px 0 14px !important;
+  padding: 14px 16px !important;
+  border-radius: var(--admin-item-radius) !important;
+  background: color-mix(in srgb, var(--theme-bg, #050a14) 56%, var(--theme-panel, #0f172a)) !important;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 32%, rgba(255, 255, 255, 0.12)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+.admin-bulk-count,
+.evidence-bulk-count,
+.score-bulk-count {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--theme-accent, #38bdf8) 18%, var(--theme-panel, #0f172a)) !important;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 44%, transparent) !important;
+  color: var(--theme-highlight, #7dd3fc) !important;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* 11. Unified Filter Bars & List Rows */
+.admin-list-toolbar,
+.evidence-admin-filters,
+.exam-admin-filters {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(150px, 0.8fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+#tikzWorkspace .admin-list-toolbar {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.review-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.admin-list,
+.review-list,
+.evidence-list,
+.account-list,
+.score-submission-list {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-doc,
+.review-item,
+.account-member,
+.score-submission-item,
+.category-item,
+.tikz-import-item {
+  position: relative;
+  border-radius: var(--admin-item-radius) !important;
+  padding: 14px 16px !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--theme-panel, #0e172a) 88%, transparent), color-mix(in srgb, var(--theme-surface, #08101f) 72%, transparent)) !important;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 28%, rgba(255, 255, 255, 0.1)) !important;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-bulk-row {
+  padding-left: 54px !important;
+}
+
+@media (max-width: 520px) {
+  .admin-bulk-row {
+    padding-left: 48px !important;
+  }
+}
+
+.admin-doc {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.review-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+}
+
+.evidence-list .review-item {
+  grid-template-columns: auto 80px minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.evidence-thumb {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 32%, rgba(255, 255, 255, 0.14));
+  border-radius: 12px;
+  background: #060c16;
+}
+
+.evidence-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-doc h3,
+.review-item h3,
+.score-submission-item h4,
+.tikz-import-item h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--theme-text, #eaf4ff) !important;
+}
+
+.admin-doc p,
+.review-item p {
+  margin: 4px 0 0;
+  color: var(--theme-muted, #99aabd) !important;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.admin-doc-meta,
+.review-item-meta,
+.tikz-import-meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: var(--theme-muted, #7f91a9) !important;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.status-pill.on {
+  color: #bbf7d0 !important;
+  background: rgba(34, 197, 94, 0.14) !important;
+  border: 1px solid rgba(74, 222, 128, 0.32) !important;
+}
+
+.status-pill.off {
+  color: #cbd5e1 !important;
+  background: rgba(148, 163, 184, 0.12) !important;
+  border: 1px solid rgba(148, 163, 184, 0.24) !important;
+}
+
+.doc-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* 12. Unified Pagination Bars */
+.admin-pagination,
+.score-import-pagination,
+.score-submission-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.page-btn {
+  min-width: 38px;
+  height: 38px;
+  padding: 0 11px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 32%, rgba(255, 255, 255, 0.12));
+  background: color-mix(in srgb, var(--theme-panel, #0f172a) 84%, transparent);
+  color: var(--theme-text, #dcecff);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--theme-highlight, #7dd3fc);
+  color: #fff;
+}
+
+.page-btn.active {
+  background: linear-gradient(135deg, var(--theme-accent, #38bdf8), var(--theme-accent-3, #6366f1)) !important;
+  border-color: var(--theme-highlight, #7dd3fc) !important;
+  color: #fff !important;
+  font-weight: 800;
+}
+
+.page-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.page-summary {
+  width: 100%;
+  text-align: center;
+  color: var(--theme-muted, #7f91a9);
+  font-size: 11.5px;
+  margin-top: 2px;
+}
+
+.pagination-jump {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+  color: var(--theme-muted, #7f91a9);
+  font-size: 11.5px;
+}
+
+.pagination-jump input {
+  width: 62px !important;
+  min-height: 36px !important;
+  padding: 6px 8px !important;
+  text-align: center;
+}
+
+/* 13. Category Fold, Empty States, Modals, Toasts, & Special Sub-panels */
+.category-fold {
+  margin: 16px 0 0;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 32%, rgba(255, 255, 255, 0.12));
+  border-radius: var(--admin-item-radius);
+  padding: 0 18px;
+  background: color-mix(in srgb, var(--theme-bg, #050a14) 48%, var(--theme-panel, #0f172a));
+}
+
+.category-fold[open] {
+  padding: 0 18px 18px;
+}
+
+.category-fold > summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+  padding: 10px 0;
+  margin: 0;
+  color: var(--theme-text, #e8f6ff);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.3;
+  list-style: none;
+  user-select: none;
+}
+
+.category-fold[open] > summary {
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 24%, rgba(255, 255, 255, 0.08));
+  margin-bottom: 14px;
+}
+
+.category-fold-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.category-fold > summary i {
+  color: var(--theme-highlight, #7dd3fc) !important;
+  -webkit-text-fill-color: var(--theme-highlight, #7dd3fc) !important;
+  font-size: 16px;
+}
+
+.category-fold > summary::-webkit-details-marker {
+  display: none;
+}
+
+.category-fold > summary::after {
+  content: "\f078";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 12px;
+  float: none;
+  margin-left: auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--theme-accent, #38bdf8) 16%, var(--theme-panel, #0f172a));
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 42%, transparent);
+  color: var(--theme-highlight, #7dd3fc);
+  transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+}
+
+.category-fold[open] > summary::after {
+  content: "\f078";
+  transform: rotate(180deg);
+}
+
+.category-fold:not([open]) > *:not(summary) {
+  display: none !important;
+}
+
+.category-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.category-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.category-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 14px !important;
+}
+
+.category-item-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.category-item-name .category-name-input {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.category-count {
+  margin-top: 0;
+  color: var(--theme-muted, #7f91a9) !important;
+  -webkit-text-fill-color: var(--theme-muted, #7f91a9) !important;
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+.evidence-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.evidence-facts,
+.evidence-visibility,
+.exam-settings-details,
+.score-options-grades {
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 28%, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: var(--admin-item-radius) !important;
+  background: color-mix(in srgb, var(--theme-bg, #040914) 52%, var(--theme-panel, #0f172a)) !important;
+}
+
+.evidence-facts-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.evidence-preview {
+  min-height: 320px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1.5px dashed color-mix(in srgb, var(--theme-accent, #38bdf8) 38%, rgba(255, 255, 255, 0.18));
+  border-radius: var(--admin-item-radius);
+  background: color-mix(in srgb, var(--theme-bg, #02060e) 70%, transparent);
+}
+
+.evidence-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 480px;
+  object-fit: contain;
+}
+
+.empty-admin,
+.review-empty,
+.tikz-import-empty {
+  padding: 28px 18px;
+  text-align: center;
+  color: var(--theme-muted, #7f91a9);
+  border: 1px dashed color-mix(in srgb, var(--theme-accent, #38bdf8) 28%, rgba(255, 255, 255, 0.14));
+  border-radius: var(--admin-item-radius);
+  background: color-mix(in srgb, var(--theme-bg, #050a14) 38%, transparent) !important;
+  font-size: 13px;
+}
+
+.admin-help,
+.edit-note,
+.workspace-note {
+  margin: 0 0 14px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border-left: 3px solid var(--theme-highlight, #7dd3fc);
+  background: color-mix(in srgb, var(--theme-accent, #38bdf8) 8%, rgba(5, 10, 20, 0.4));
+  color: var(--theme-muted, #9fb0c8);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.admin-status,
+.account-status,
+.score-import-status,
+.score-submission-status {
+  margin-top: 8px;
+  min-height: 20px;
+  color: var(--theme-muted, #8ea0b8);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.progress-box {
+  display: none;
+  margin-top: 10px;
+}
+.progress-box.show {
+  display: block;
+}
+.progress-track {
+  height: 7px;
+  border-radius: 99px;
+  background: rgba(148, 163, 184, 0.16);
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--theme-accent, #38bdf8), var(--theme-accent-3, #8b5cf6));
+  transition: width 0.2s ease;
+}
+.progress-text {
+  margin-top: 5px;
+  color: var(--theme-muted, #8ea0b8);
+  font-size: 11.5px;
+}
+
+/* Contributions & TikZ Queue */
+.contribution-admin-card {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+}
+.contrib-code,
+.tikz-import-code {
+  max-height: 220px;
+  overflow: auto;
+  white-space: pre-wrap;
+  background: #050a12;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: #cfe8ff;
+  font: 11px/1.55 Consolas, "Cascadia Code", monospace;
+  margin-top: 8px;
+}
+.tikz-import-queue {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+.tikz-import-item {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr) auto;
+  gap: 13px;
+  align-items: center;
+}
+.tikz-import-preview {
+  min-height: 92px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
+  background: #f8fafc;
+}
+.tikz-import-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 126px;
+  object-fit: contain;
+}
+
+/* Modal & Toast */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2600;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(2, 6, 14, 0.82);
+  backdrop-filter: blur(10px);
+}
+.modal.open {
+  display: flex;
+}
+.modal-card {
+  width: min(880px, 96vw);
+  max-height: 92vh;
+  overflow: auto;
+  border-radius: var(--admin-card-radius);
+  padding: 22px;
+}
+.modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.modal-close {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e8f2ff;
+  cursor: pointer;
+}
+.preview-frame {
+  width: 100%;
+  height: 70vh;
+  border: 0;
+  border-radius: 12px;
+  background: #111827;
+}
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 4000;
+  max-width: 380px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--theme-panel, #091322);
+  border: 1px solid color-mix(in srgb, var(--theme-accent, #38bdf8) 45%, rgba(255, 255, 255, 0.18));
+  color: var(--theme-text, #dceeff);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  display: none;
+}
+.toast.show {
+  display: block;
+}
+
+/* 14. Responsive Breakpoints */
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .admin-review-grid,
+  .account-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-list-toolbar,
+  .evidence-admin-filters,
+  .exam-admin-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+  .admin-list-toolbar .admin-search,
+  .evidence-admin-filters .admin-search,
+  .exam-admin-filters .admin-search {
+    grid-column: 1 / -1;
+  }
+  .evidence-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .admin-page {
+    padding-top: 84px;
+  }
+  .admin-card,
+  .account-card,
+  .site-content-editor,
+  .score-options-admin,
+  .exam-score-import,
+  .score-submission-admin,
+  .exam-statistics-settings {
+    padding: 16px !important;
+  }
+  #scoresWorkspace > .exam-admin-heading,
+  #accountWorkspace > .account-workspace-heading {
+    padding: 14px 16px;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .field-grid,
+  .admin-list-toolbar,
+  .evidence-admin-filters,
+  .exam-admin-filters {
+    grid-template-columns: 1fr !important;
+  }
+  .admin-doc {
+    grid-template-columns: 20px minmax(0, 1fr) !important;
+  }
+  .admin-doc .doc-actions {
+    grid-column: 2 !important;
+    justify-content: flex-start !important;
+  }
+  .review-item,
+  .evidence-list .review-item,
+  .contribution-admin-card,
+  .tikz-import-item {
+    grid-template-columns: 1fr !important;
+  }
+  .review-item .doc-actions,
+  .contribution-admin-card .doc-actions,
+  .tikz-import-item .doc-actions {
+    justify-content: flex-start !important;
+  }
+  .evidence-thumb {
+    width: 100%;
+    height: 170px;
+  }
+}

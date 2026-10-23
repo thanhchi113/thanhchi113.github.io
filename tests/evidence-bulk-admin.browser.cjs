@@ -46,7 +46,7 @@ function rows() {
         result_summary: `${7 + i % 3}`, description: 'Ghi chú', published: i % 3 !== 0,
         show_student_name: true, show_image: i % 2 === 0, show_course_name: true,
         show_school_name: true, show_result_summary: true, show_description: true,
-        image_path: i % 2 === 0 ? `evidence/${i + 1}.png` : null,
+        image_path: (i === 0 || i === 3) ? `evidence/${i + 1}.png` : null,
         created_at: new Date(Date.UTC(2026, 8, 14, 0, 0, 13 - i)).toISOString()
     }));
 }
@@ -101,7 +101,7 @@ function rows() {
         await page.locator('#evidenceAdminPagination [data-page="2"]').first().click(); await check(11).check(); await count(11);
         await page.locator('#evidenceAdminPagination [data-page="1"]').first().click(); assert.equal(await page.locator('[data-evidence-select]:checked').count(), 10);
         await page.click('#evidenceBulkSelectAll'); await count(13);
-        await page.selectOption('#evidenceAdminGroup', 'grade10'); await count(0);
+        await page.selectOption('#evidenceAdminGroup', 'grade10'); await count(6);
         await page.click('#evidenceBulkClear'); await page.selectOption('#evidenceAdminGroup', 'all');
         await check(1).check(); await page.locator('#evidenceAdminPagination [data-page="2"]').first().click(); await check(11).check();
         await page.locator('#evidenceBulkTools .evidence-bulk-editor summary').click();

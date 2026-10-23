@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quản trị tài liệu | Huỳnh Thanh Chí</title>
 <link rel="stylesheet" href="style.css?v=20260907-admin">
-<link rel="stylesheet" href="assets/theme-system.css?v=20260915">
-<link rel="stylesheet" href="assets/site-experience.css?v=20260913-unified">
+<link rel="stylesheet" href="assets/site-experience.css?v=20261029">
 <link rel="stylesheet" href="assets/exam-scores.css?v=20260913-horizontal">
 <link rel="stylesheet" href="assets/exam-scores-admin-cards.css?v=20260913-horizontal">
 <link rel="stylesheet" href="assets/exam-score-bulk-admin.css?v=20260914">
@@ -19,37 +18,18 @@
 <link rel="stylesheet" href="assets/site-content-admin.css?v=20260913-visibility">
 <link rel="stylesheet" href="assets/exam-score-options.css?v=20260913">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
-<style>
-:root{--admin-bg:rgba(8,15,28,.78);--admin-border:rgba(148,163,184,.14);--admin-muted:#8292a9;--admin-text:#eaf3ff;--admin-accent:#7dd3fc}
-.admin-page{min-height:100vh;padding:108px 0 70px;position:relative;z-index:2}.admin-nav{position:fixed;top:0;left:0;width:100%;z-index:1500;height:76px;background:rgba(7,11,20,.86);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.07)}.admin-nav .container{height:76px;display:flex;align-items:center;justify-content:space-between}.admin-nav a{color:#dcecff}.admin-nav .back{font-size:14px;color:#9fb0c8}.admin-card{background:linear-gradient(145deg,rgba(14,23,42,.85),rgba(7,12,24,.78));border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:22px;box-shadow:0 25px 70px rgba(0,0,0,.22)}.admin-shell{display:grid;grid-template-columns:minmax(330px,380px) 1fr;gap:22px}.admin-login{max-width:460px;margin:50px auto}.admin-title{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:20px}.admin-title h1{font-size:28px;line-height:1.1}.admin-title p{margin-top:7px;color:var(--admin-muted);font-size:13px}.admin-form{display:grid;gap:12px}.admin-form label,.field-label{display:block;margin-bottom:7px;font-size:11px;color:#a8b6c9;font-weight:800;letter-spacing:.65px;text-transform:uppercase}.admin-form input,.admin-form textarea,.admin-form select,.admin-search,.admin-filter{width:100%;background:rgba(5,10,19,.7);border:1px solid rgba(148,163,184,.18);color:#f1f7ff;border-radius:10px;padding:12px 13px;font:inherit;outline:none}.admin-form textarea{min-height:92px;resize:vertical}.admin-form input:focus,.admin-form textarea:focus,.admin-form select:focus,.admin-search:focus,.admin-filter:focus{border-color:rgba(125,211,252,.5)}.admin-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:4px}.admin-btn{border:1px solid rgba(96,165,250,.26);background:rgba(56,189,248,.09);color:#eaf7ff;border-radius:10px;padding:11px 14px;cursor:pointer;font:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:.2s ease}.admin-btn:hover{transform:translateY(-1px);border-color:rgba(125,211,252,.55)}.admin-btn.danger{color:#fecaca;background:rgba(239,68,68,.08);border-color:rgba(248,113,113,.16)}.admin-btn.ghost{background:rgba(255,255,255,.03);color:#cbd5e1;border-color:rgba(255,255,255,.09)}.admin-btn.success{color:#bbf7d0;background:rgba(34,197,94,.08);border-color:rgba(74,222,128,.16)}.admin-status{margin-top:8px;min-height:20px;color:#8ea0b8;font-size:12px;line-height:1.5}.hidden{display:none!important}.admin-authbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px;padding:11px 13px;border-radius:12px;background:rgba(56,189,248,.05);border:1px solid rgba(125,211,252,.12);color:#b9c8da;font-size:13px}.admin-user{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.admin-drop{border:1px dashed rgba(125,211,252,.25);padding:15px;border-radius:12px;background:rgba(56,189,248,.03)}.admin-drop input[type=file]{cursor:pointer}.file-name{color:#7dd3fc;font-size:12px;word-break:break-word}.muted{color:#73839a;font-size:11px;line-height:1.5}.check-row{display:flex;align-items:center;gap:8px;color:#b8c6d8;font-size:13px}.check-row input{width:auto}.admin-section-title{margin:25px 0 12px;font-size:15px;color:#dbeafe}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.stat-box{padding:15px;border:1px solid var(--admin-border);border-radius:14px;background:rgba(255,255,255,.025)}.stat-value{font-size:26px;font-weight:900;color:#f5faff}.stat-label{margin-top:3px;color:#7f91aa;font-size:11px}.admin-list-toolbar{display:grid;grid-template-columns:1fr 190px 190px;gap:10px;margin-bottom:14px}.admin-list{display:grid;gap:10px}.admin-doc{display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.025);transition:.2s ease}.admin-doc.dragging{opacity:.45;transform:scale(.995)}.admin-doc:hover{border-color:rgba(125,211,252,.18);background:rgba(255,255,255,.035)}.drag-handle{color:#64748b;cursor:grab}.drag-handle:active{cursor:grabbing}.admin-doc h3{font-size:16px;margin-bottom:4px}.admin-doc p{color:#8393aa;font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.admin-doc-meta{font-size:11px;color:#6f8097;margin-top:6px}.status-pill{display:inline-flex;align-items:center;gap:5px;min-height:24px;padding:0 8px;border-radius:999px;font-size:10px;font-weight:800}.status-pill.on{color:#bbf7d0;background:rgba(34,197,94,.08);border:1px solid rgba(74,222,128,.16)}.status-pill.off{color:#cbd5e1;background:rgba(148,163,184,.07);border:1px solid rgba(148,163,184,.13)}.doc-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}.icon-btn{min-width:38px;height:38px;padding:0 10px}.category-manager{display:grid;gap:9px}.category-line{display:grid;grid-template-columns:1fr auto;gap:8px}.category-list{display:grid;gap:8px;margin-top:10px}.category-item{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06)}.category-item-name{min-width:0}.category-item-name input{margin:0}.category-count{color:#74849b;font-size:10px}.bulk-preview{display:grid;gap:7px;margin-top:9px}.bulk-file{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:8px 10px;border-radius:9px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);font-size:11px}.progress-box{display:none;margin-top:10px}.progress-box.show{display:block}.progress-track{height:7px;border-radius:99px;background:rgba(148,163,184,.12);overflow:hidden}.progress-bar{height:100%;width:0;background:linear-gradient(90deg,#38bdf8,#8b5cf6);transition:width .2s ease}.progress-text{margin-top:5px;color:#8ea0b8;font-size:11px}.empty-admin{padding:30px;text-align:center;color:#71819a;border:1px dashed rgba(148,163,184,.12);border-radius:14px}.edit-note{padding:10px;border:1px solid rgba(125,211,252,.12);border-radius:10px;background:rgba(56,189,248,.04);color:#8ca0ba;font-size:11px;line-height:1.5}.modal{position:fixed;inset:0;z-index:2600;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,6,14,.82);backdrop-filter:blur(10px)}.modal.open{display:flex}.modal-card{width:min(860px,96vw);max-height:92vh;overflow:auto;border-radius:18px;border:1px solid rgba(255,255,255,.1);background:#08101c;box-shadow:0 30px 100px rgba(0,0,0,.55);padding:22px}.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px}.modal-head h2{font-size:22px}.modal-close{width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);color:#e8f2ff;cursor:pointer}.preview-frame{width:100%;height:68vh;border:0;border-radius:12px;background:#111827}.toast{position:fixed;right:20px;bottom:20px;z-index:4000;max-width:380px;padding:12px 14px;border-radius:12px;background:#091322;border:1px solid rgba(125,211,252,.18);color:#dceeff;box-shadow:0 20px 50px rgba(0,0,0,.3);display:none}.toast.show{display:block}.toast.ok{border-color:rgba(74,222,128,.22)}.toast.error{border-color:rgba(248,113,113,.22)}
-
-.workspace-tabs{display:flex;gap:8px;margin:0 0 18px;padding:6px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(8,15,28,.68);backdrop-filter:blur(14px);position:sticky;top:88px;z-index:20}.workspace-tab{flex:1;border:1px solid transparent;background:transparent;color:#8192aa;border-radius:10px;padding:12px 15px;cursor:pointer;font:inherit;font-weight:800;display:flex;align-items:center;justify-content:center;gap:9px;transition:.2s ease}.workspace-tab:hover{color:#dff5ff;background:rgba(255,255,255,.035)}.workspace-tab.active{color:#eaf8ff;background:linear-gradient(135deg,rgba(56,189,248,.13),rgba(139,92,246,.11));border-color:rgba(125,211,252,.18);box-shadow:0 8px 25px rgba(0,0,0,.15)}.workspace-panel{display:none}.workspace-panel.active{display:block}.admin-pagination{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:16px}.page-btn{min-width:36px;height:36px;padding:0 10px;border-radius:9px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);color:#aebdd0;cursor:pointer;font:inherit}.page-btn:hover{border-color:rgba(125,211,252,.3);color:#eaf8ff}.page-btn.active{background:rgba(56,189,248,.12);border-color:rgba(125,211,252,.3);color:#7dd3fc;font-weight:900}.page-btn:disabled{opacity:.35;cursor:not-allowed}.page-ellipsis{color:#60728a;padding:0 3px}.page-summary{width:100%;text-align:center;color:#71829a;font-size:11px;margin-top:2px}.pagination-jump{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;color:#7d8da4;font-size:11px}.pagination-jump input{width:58px!important;padding:8px 7px!important;text-align:center}.workspace-note{margin:0 0 14px;padding:11px 13px;border-radius:11px;border:1px solid rgba(125,211,252,.1);background:rgba(56,189,248,.035);color:#8192aa;font-size:11px;line-height:1.5}.workspace-panel .admin-shell{margin:0}.tikz-workspace-card{margin-top:0}
-.admin-taskbar{display:flex;align-items:center;gap:8px;margin-left:auto;margin-right:16px}.admin-taskbar-btn{border:1px solid rgba(125,211,252,.16);background:rgba(15,23,42,.72);color:#b8c7dc;border-radius:10px;padding:9px 13px;font:inherit;font-size:13px;cursor:pointer;transition:.2s ease}.admin-taskbar-btn:hover,.admin-taskbar-btn.active{color:#7dd3fc;border-color:rgba(125,211,252,.38);background:rgba(30,41,59,.9)}.admin-taskbar-btn i{margin-right:6px}@media(max-width:760px){.admin-taskbar{margin-left:auto;margin-right:8px}.admin-taskbar-btn{padding:8px 9px;font-size:12px}.admin-taskbar-btn i{margin-right:0}.admin-taskbar-btn{font-size:0}.admin-taskbar-btn i{font-size:14px}}
-@media(max-width:1100px){.admin-shell{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}.admin-list-toolbar{grid-template-columns:1fr 1fr}.admin-list-toolbar .admin-search{grid-column:1/-1}}@media(max-width:650px){.admin-page{padding-top:95px}.admin-card{padding:16px}.field-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr 1fr}.admin-doc{grid-template-columns:20px minmax(0,1fr)}.doc-actions{grid-column:2;justify-content:flex-start}.admin-list-toolbar{grid-template-columns:1fr}.admin-list-toolbar .admin-search{grid-column:auto}.category-line{grid-template-columns:1fr auto}.admin-title{align-items:flex-start}.preview-frame{height:72vh}.admin-nav .back{font-size:12px}}
-</style>
-
-<style id="contribution-admin-v33">
-.contribution-admin-card{grid-template-columns:minmax(0,1fr) auto;align-items:start}.contrib-code{max-height:260px;overflow:auto;white-space:pre-wrap;background:#050a12;border:1px solid rgba(255,255,255,.07);padding:12px;border-radius:10px;color:#cfe8ff;font:11px/1.55 Consolas,monospace;margin-top:8px}.contribution-admin-card details{margin-top:8px;color:#7dd3fc;font-size:11px}.contrib-description{margin:8px 0;color:#a3b2c5;font-size:11px;line-height:1.5}
-@media(max-width:650px){.contribution-admin-card{grid-template-columns:1fr}.contribution-admin-card .doc-actions{justify-content:flex-start}}
-</style>
-<style id="admin-card-glass-aurora-v1">
-.admin-card,.admin-doc,.admin-login,.admin-authbar,.workspace-panel>section{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018) 55%,rgba(56,189,248,.022));border-color:rgba(255,255,255,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 18px 45px rgba(0,0,0,.18);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-.admin-card::after,.admin-doc::after,.workspace-panel>section::after{content:"";position:absolute;width:180px;height:180px;right:-85px;top:-90px;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.12),rgba(124,58,237,.07) 45%,transparent 72%);filter:blur(18px);pointer-events:none;opacity:.7;transition:transform .4s ease,opacity .4s ease}
-.admin-card:hover::after,.admin-doc:hover::after{transform:scale(1.18);opacity:.95}
-.admin-card>*,.admin-doc>*,.workspace-panel>section>*{position:relative;z-index:2}
-</style>
-<style id="admin-review-workspaces-v1">
-.admin-nav .container{gap:14px}.admin-taskbar{flex-wrap:wrap;justify-content:center}.stats-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.stat-box{min-height:88px;display:flex;flex-direction:column;justify-content:center}.stat-box i{margin-bottom:7px;color:#7dd3fc;font-size:13px}.admin-review-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.review-toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:14px}.review-toolbar .admin-filter{flex:1 1 170px}.review-list{display:grid;gap:10px}.review-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:start;padding:15px;border:1px solid rgba(148,163,184,.12);border-radius:13px;background:rgba(255,255,255,.025)}.review-item h3{font-size:15px;line-height:1.35;color:#eaf4ff}.review-item p{margin:7px 0 0;color:#99aabd;font-size:12px;line-height:1.6;white-space:pre-line}.review-item-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;color:#74869f;font-size:10px}.review-item-meta strong{color:#b9dfff}.review-item .doc-actions{min-width:88px}.review-file{display:inline-flex;align-items:center;gap:7px;color:#f8b4b4;font-size:11px;margin-top:8px;word-break:break-word}.review-file i{color:#f87171}.review-empty{padding:26px 16px;border:1px dashed rgba(148,163,184,.16);border-radius:12px;color:#7f91a9;font-size:12px;text-align:center}.review-note{margin-top:9px;color:#e2e8f0;font-size:11px;line-height:1.55}.evidence-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.82fr);gap:18px;align-items:start;margin-top:15px}.evidence-facts{padding:15px;border:1px solid rgba(125,211,252,.14);border-radius:13px;background:rgba(3,10,20,.36)}.evidence-facts-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.evidence-facts-head strong{font-size:13px;color:#e8f5ff}.evidence-facts-head .muted{margin:0}.evidence-ocr{min-height:112px!important;font:11px/1.55 Consolas,"Cascadia Code",monospace!important;color:#aebfd1!important}.evidence-preview{min-height:340px;display:grid;place-items:center;overflow:hidden;border:1px dashed rgba(125,211,252,.24);border-radius:13px;background:rgba(2,6,14,.52)}.evidence-preview img{display:block;width:100%;height:100%;max-height:500px;object-fit:contain}.evidence-preview-empty{padding:28px;color:#71839a;text-align:center;font-size:12px}.evidence-preview-empty i{display:block;margin-bottom:9px;font-size:28px;color:#60a5fa}.evidence-list{display:grid;gap:10px;margin-top:18px}.evidence-list .review-item{grid-template-columns:76px minmax(0,1fr) auto}.evidence-thumb{width:76px;height:76px;overflow:hidden;border:1px solid rgba(125,211,252,.16);border-radius:10px;background:#060c16}.evidence-thumb img{width:100%;height:100%;object-fit:cover}.evidence-metadata{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.evidence-metadata span{padding:4px 7px;border:1px solid rgba(148,163,184,.12);border-radius:999px;color:#91a5be;font-size:10px}.admin-help{margin:0 0 15px;padding:10px 12px;border-left:2px solid rgba(125,211,252,.52);background:rgba(56,189,248,.045);color:#91a6bd;font-size:11px;line-height:1.6}@media(max-width:1100px){.admin-review-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:760px){.admin-nav{height:auto;min-height:68px}.admin-nav .container{min-height:68px;padding-top:8px;padding-bottom:8px}.admin-taskbar{display:none}.workspace-tabs{overflow-x:auto}.workspace-tab{min-width:max-content;flex:0 0 auto}.review-item,.evidence-list .review-item{grid-template-columns:1fr}.review-item .doc-actions{min-width:0;justify-content:flex-start}.evidence-thumb{width:100%;height:170px}.evidence-layout{grid-template-columns:1fr}.evidence-preview{min-height:260px}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-</style>
-<style id="admin-drop-and-tikz-queue-v1">
-.admin-drop{transition:border-color .2s ease,background .2s ease,transform .2s ease}.admin-drop.is-dragging,.tikz-import-drop.is-dragging{border-color:rgba(125,211,252,.68)!important;background:rgba(56,189,248,.1)!important;transform:translateY(-2px)}.pdf-file-drop{position:relative;display:grid;place-items:center;min-height:144px;text-align:center;cursor:pointer}.pdf-file-drop .drop-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:3}.pdf-drop-prompt{pointer-events:none}.pdf-drop-prompt i{display:block;margin-bottom:8px;color:#fca5a5;font-size:27px}.pdf-drop-prompt strong{display:block;color:#eaf5ff;font-size:14px}.pdf-drop-prompt span{display:block;margin-top:5px;color:#778aa2;font-size:11px}.pdf-file-drop .file-name,.pdf-file-drop .bulk-preview{position:relative;z-index:1;pointer-events:none}.pdf-file-drop .file-name:empty,.pdf-file-drop .bulk-preview:empty{display:none}.tikz-import-tool{margin:0 0 20px}.tikz-import-drop{position:relative;display:grid;place-items:center;gap:9px;min-height:142px;padding:18px;border:1px dashed rgba(125,211,252,.32);border-radius:13px;background:rgba(56,189,248,.035);color:#9eb1c9;text-align:center;cursor:pointer;transition:.2s ease}.tikz-import-drop:hover{border-color:rgba(125,211,252,.55);background:rgba(56,189,248,.07)}.tikz-import-drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}.tikz-import-drop i{color:#7dd3fc;font-size:25px}.tikz-import-drop strong{display:block;color:#e7f6ff;font-size:14px}.tikz-import-drop span{display:block;margin-top:4px;color:#71849c;font-size:11px}.tikz-import-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px}.tikz-import-actions .admin-actions{margin:0}.tikz-import-queue{display:grid;gap:10px;margin-top:14px}.tikz-import-item{display:grid;grid-template-columns:132px minmax(0,1fr) auto;gap:13px;align-items:center;padding:12px;border:1px solid rgba(148,163,184,.13);border-radius:12px;background:rgba(255,255,255,.025)}.tikz-import-preview{min-height:92px;display:grid;place-items:center;overflow:hidden;border:1px solid rgba(148,163,184,.15);border-radius:9px;background:#f8fafc}.tikz-import-preview img{display:block;width:100%;height:100%;max-height:126px;object-fit:contain}.tikz-import-preview .muted{text-align:center;padding:8px}.tikz-import-item h3{margin:0;color:#eaf4ff;font-size:14px;line-height:1.4}.tikz-import-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:7px;color:#7789a1;font-size:11px}.tikz-import-code{margin:9px 0 0;max-height:76px;overflow:auto;padding:8px;border:1px solid rgba(148,163,184,.1);border-radius:8px;background:rgba(2,6,14,.34);color:#aabbd0;font:10px/1.45 Consolas,"Cascadia Code",monospace;white-space:pre-wrap}.tikz-import-status{display:inline-flex;align-items:center;gap:5px;padding:4px 7px;border:1px solid rgba(125,211,252,.15);border-radius:999px;background:rgba(56,189,248,.06);color:#b9e8ff;font-size:10px;font-weight:800}.tikz-import-status.error{border-color:rgba(248,113,113,.2);background:rgba(239,68,68,.07);color:#fecaca}.tikz-import-empty{padding:21px;border:1px dashed rgba(148,163,184,.14);border-radius:12px;color:#75879e;font-size:12px;text-align:center}@media(max-width:760px){.tikz-import-item{grid-template-columns:1fr}.tikz-import-preview{min-height:180px}.tikz-import-item .doc-actions{justify-content:flex-start}}
-</style>
-<style id="admin-evidence-drop-zone-v1">
-.evidence-file-drop{position:relative;display:grid;place-items:center;min-height:144px;text-align:center;cursor:pointer}.evidence-file-drop .drop-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:3}.evidence-drop-prompt{pointer-events:none}.evidence-drop-prompt i{display:block;margin-bottom:8px;color:#7dd3fc;font-size:27px}.evidence-drop-prompt strong{display:block;color:#eaf5ff;font-size:14px}.evidence-drop-prompt span{display:block;margin-top:5px;color:#778aa2;font-size:11px}.evidence-file-drop .file-name{position:relative;z-index:1;pointer-events:none}.evidence-file-drop .file-name:empty{display:none}
-</style>
 <link rel="stylesheet" href="assets/admin-sidebar.css?v=20260908-sidebar">
+<link rel="stylesheet" href="assets/admin-controls.css?v=20261021">
+<link rel="stylesheet" href="assets/admin-bulk-actions.css?v=20261021">
+<link rel="stylesheet" href="assets/evidence-display.css?v=20261021">
+<link rel="stylesheet" href="assets/evidence-bulk-admin.css?v=20261021">
+<link rel="stylesheet" href="assets/liquid-glass.css?v=20261029">
+<link rel="stylesheet" href="assets/page-motion.css?v=20261029">
+<link rel="stylesheet" href="assets/theme-system.css?v=20261029">
+<link rel="stylesheet" href="assets/admin-unified.css?v=20261029">
 </head>
 <body>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 <div id="adminGalaxyScene" class="admin-galaxy-scene galaxy-scene" aria-hidden="true"><canvas id="adminGalaxyCanvas" class="milky-way-canvas"></canvas><div class="milky-way-shade"></div></div>
 <header class="admin-nav"><div class="container"><a class="logo" href="index.html">1H.<span>CH1</span></a><div class="admin-header-actions"><button id="adminSidebarOpen" class="admin-sidebar-control admin-sidebar-mobile-toggle" type="button" aria-label="Mở menu quản trị" aria-controls="adminSidebar" aria-expanded="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Menu</span></button><a class="back" href="index.html"><i class="fa-solid fa-arrow-left"></i> Về website</a></div></div></header>
 <div id="adminSidebarBackdrop" class="admin-sidebar-backdrop" hidden></div>
@@ -72,7 +52,7 @@
 <section id="loginPanel" class="admin-login"><div class="admin-card"><div class="admin-title"><div><h1>Đăng nhập</h1><p>Khu vực quản trị thư viện tài liệu</p></div><i class="fa-solid fa-shield-halved" style="font-size:30px;color:#7dd3fc"></i></div><form id="loginForm" class="admin-form"><div><label for="loginEmail">Email</label><input id="loginEmail" type="email" required autocomplete="email"></div><div><label for="loginPassword">Mật khẩu</label><input id="loginPassword" type="password" required autocomplete="current-password"></div><button class="admin-btn" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</button><div id="loginStatus" class="admin-status"></div></form><div id="accountRecoveryRequest"></div></div></section>
 
 <section id="adminPanel" class="hidden">
-<div class="admin-authbar"><div class="admin-user"><i class="fa-solid fa-user-shield"></i> <span id="userEmail">Đã đăng nhập</span></div><div class="admin-session-actions"><button class="admin-btn ghost" id="adminGalaxyToggle" type="button" aria-pressed="true" aria-label="Tắt nền thiên hà" aria-controls="adminGalaxyScene" title="Tắt nền thiên hà"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z"/></svg><span>Nền: <span data-galaxy-state>Bật</span></span></button><button class="admin-btn ghost" id="logoutBtn" type="button"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button></div></div>
+<div class="admin-authbar"><div class="admin-user"><i class="fa-solid fa-user-shield"></i> <span id="userEmail">Đã đăng nhập</span></div><div class="admin-session-actions"><button class="admin-btn ghost" id="adminHeroAvatarBtn" type="button" title="Đổi ảnh đại diện ở Hero"><i class="fa-solid fa-camera"></i> <span>Đổi ảnh đại diện Hero</span></button><input id="adminHeroAvatarInput" type="file" accept="image/jpeg,image/png,image/webp" hidden><button class="admin-btn ghost" id="adminGalaxyToggle" type="button" aria-pressed="true" aria-label="Tắt nền thiên hà" aria-controls="adminGalaxyScene" title="Tắt nền thiên hà"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z"/></svg><span>Nền: <span data-galaxy-state>Bật</span></span></button><button class="admin-btn ghost" id="logoutBtn" type="button"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button></div></div>
 
 <div class="stats-grid">
     <div class="stat-box"><i class="fa-regular fa-file-lines"></i><div class="stat-value" id="statDocs">0</div><div class="stat-label">TỔNG TÀI LIỆU</div></div>
@@ -89,7 +69,7 @@
 <div class="admin-title"><div><h1 id="formTitle">Thêm tài liệu</h1><p>Upload một hoặc nhiều PDF, chỉnh sửa thông tin và xuất bản trực tiếp.</p></div></div>
 
 <form id="docForm" class="admin-form">
-<div class="cover-upload-field"><label>Ảnh bìa PDF (không bắt buộc)</label><div id="coverDropZone" class="admin-drop cover-file-drop"><input id="coverInput" class="drop-input" type="file" accept="image/jpeg,image/png,image/webp"><div class="pdf-drop-prompt"><i class="fa-regular fa-image"></i><strong>Thêm ảnh bìa</strong><span>Kéo thả hoặc bấm để chọn · bỏ trống dùng trang 1 PDF</span></div><div id="selectedCover" class="file-name"></div></div></div>
+<div class="cover-upload-field"><label for="coverInput">Ảnh bìa PDF (không bắt buộc)</label><div id="coverDropZone" class="admin-drop cover-file-drop"><input id="coverInput" class="drop-input" type="file" accept="image/jpeg,image/png,image/webp"><div class="pdf-drop-prompt"><i class="fa-regular fa-image"></i><strong>Thêm hoặc kéo thả ảnh bìa vào đây</strong><span>JPG, PNG, WebP (tối đa 10 MB) · bỏ trống sẽ dùng trang 1 của PDF</span></div><div id="selectedCover" class="file-name"></div></div><div id="coverPreviewBox" class="cover-preview-box hidden"><div class="cover-preview-thumb"><img id="coverPreviewImg" alt="Xem trước ảnh bìa PDF"></div><div class="cover-preview-meta"><strong id="coverPreviewLabel">Ảnh bìa đã chọn</strong><label class="check-row cover-enable-check"><input id="coverEnabled" type="checkbox" checked> Hiển thị ảnh bìa này trên thẻ PDF (tắt để hiển thị trang 1 PDF)</label><div class="cover-preview-actions"><button id="changeCoverBtn" class="admin-btn ghost" type="button"><i class="fa-regular fa-image"></i> Đổi ảnh bìa</button><button id="removeCoverBtn" class="admin-btn danger" type="button"><i class="fa-solid fa-xmark"></i> Bỏ ảnh bìa</button></div></div></div><input id="quickCoverInput" type="file" accept="image/jpeg,image/png,image/webp" hidden></div>
 <input type="hidden" id="docId"><input type="hidden" id="oldFilePath"><input type="hidden" id="editingFileName">
 <div><label>Tiêu đề</label><input id="title" placeholder="Ví dụ: Chuyên đề Đạo hàm"></div>
 <div><label>Mô tả</label><textarea id="description" placeholder="Mô tả ngắn về tài liệu..."></textarea></div>
@@ -102,28 +82,32 @@
 <div id="uploadProgress" class="progress-box"><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div><div id="progressText" class="progress-text">Đang xử lý...</div></div>
 </form>
 
-<div class="admin-section-title">Quản lý danh mục</div>
+<details id="categoryFold" class="category-fold" open>
+<summary><span class="category-fold-title"><i class="fa-regular fa-folder-open"></i><span>Quản lý danh mục</span></span></summary>
+<div class="category-fold-body">
 <div class="muted">Thêm, đổi tên danh mục. Chỉ xóa được danh mục đang không có tài liệu.</div>
-<div class="category-manager" style="margin-top:9px"><div class="category-line"><input id="newCategoryName" class="admin-search" placeholder="Tên danh mục mới"><button class="admin-btn" id="addCategoryBtn" type="button"><i class="fa-solid fa-plus"></i> Thêm</button></div><div id="categoryStatus" class="admin-status"></div></div>
+<div class="category-manager" style="margin-top:10px"><div class="category-line"><input id="newCategoryName" class="admin-search" placeholder="Tên danh mục mới"><button class="admin-btn" id="addCategoryBtn" type="button"><i class="fa-solid fa-plus"></i> Thêm</button></div><div id="categoryStatus" class="admin-status"></div></div>
 <div id="categoryList" class="category-list"></div>
+</div>
+</details>
 </section>
 
 <section class="admin-card">
-<div class="admin-title"><div><h1>Tài liệu</h1><p id="countText">Đang tải...</p></div><button class="admin-btn ghost" id="refreshBtn" type="button"><i class="fa-solid fa-rotate"></i></button></div>
+<div class="admin-title"><div><h1>Tài liệu</h1><p id="countText">Đang tải...</p></div><button class="admin-btn ghost icon-btn" id="refreshBtn" type="button" title="Làm mới danh sách"><i class="fa-solid fa-rotate"></i></button></div>
 <div class="admin-list-toolbar">
     <input id="docSearch" class="admin-search" type="search" placeholder="Tìm theo tên, file hoặc mô tả...">
     <select id="docFilterCategory" class="admin-filter"><option value="all">Tất cả danh mục</option></select>
     <select id="docFilterStatus" class="admin-filter"><option value="all">Tất cả trạng thái</option><option value="published">Đang hiển thị</option><option value="hidden">Đang ẩn</option></select>
 </div>
 <div class="muted" style="margin-bottom:10px"><i class="fa-solid fa-grip-vertical"></i> Kéo thả tài liệu để sắp xếp. Thứ tự sẽ được lưu theo danh mục.</div>
-<div class="admin-actions" style="margin:12px 0"><button id="selectAllDocs" class="admin-btn ghost" type="button">Chọn tất cả</button><button id="toggleCoversDocs" class="admin-btn ghost" type="button">Bật/tắt ảnh bìa</button></div><div id="adminList" class="admin-list"></div><div id="docPagination" class="admin-pagination"></div>
+<div id="adminList" class="admin-list"></div><div id="docPagination" class="admin-pagination"></div>
 </section>
 </div>
 </div>
 
 <div id="tikzWorkspace" class="workspace-panel">
 <section class="admin-card tikz-workspace-card">
-<div class="admin-title"><div><h1 id="tikzFormTitle">Thêm hình vẽ TikZ/LaTeX</h1><p>Nhập code TikZ → hệ thống tự động render ngay sau khi lưu. Nút <b>Render</b> trong danh sách vẫn có sẵn để bạn render lại khi cần. Hệ thống tự nạp các thư viện TikZ/PGF cốt lõi và tự nhận diện nhiều package phổ biến.</p></div><i class="fa-solid fa-draw-polygon" style="font-size:30px;color:#7dd3fc"></i></div>
+<div class="admin-title"><div><h1 id="tikzFormTitle">Thêm hình vẽ TikZ/LaTeX</h1><p>Nhập code TikZ → hệ thống tự động render ngay sau khi lưu. Nút <b>Render</b> trong danh sách vẫn có sẵn để bạn render lại khi cần. Hệ thống tự nạp các thư viện TikZ/PGF cốt lõi và tự nhận diện nhiều package phổ biến.</p></div><i class="fa-solid fa-draw-polygon" style="font-size:28px;color:#7dd3fc"></i></div>
 <div class="tikz-import-tool" aria-labelledby="tikzImportHeading">
 <div class="admin-section-title" id="tikzImportHeading" style="margin-top:0">Hàng chờ nhập TikZ</div>
 <label id="tikzImportDropZone" class="tikz-import-drop"><input id="tikzImportInput" type="file" accept=".tex,.txt,text/plain,application/x-tex" multiple><i class="fa-solid fa-file-code"></i><div><strong>Thả file TEX hoặc TXT vào đây</strong><span>TikZ được trích xuất, đặt tên theo file và render trước khi duyệt.</span></div></label>
@@ -153,8 +137,10 @@
   </div>
 </div>
 </form>
-<div class="admin-section-title">Hình vẽ đã đăng</div>
-<div class="admin-list-toolbar"><input id="tikzAdminSearch" class="admin-search" type="search" placeholder="Tìm tên, mô tả hoặc tag..."><button class="admin-btn ghost" id="tikzRefreshBtn" type="button"><i class="fa-solid fa-rotate"></i> Làm mới</button></div>
+</section>
+<section class="admin-card">
+<div class="admin-title"><div><h1>Hình vẽ đã đăng</h1><p>Tìm kiếm, render lại, mở khóa code hoặc ẩn/hiện hình vẽ TikZ trên website.</p></div><button class="admin-btn ghost" id="tikzRefreshBtn" type="button"><i class="fa-solid fa-rotate"></i> Làm mới</button></div>
+<div class="admin-list-toolbar" style="grid-template-columns:1fr"><input id="tikzAdminSearch" class="admin-search" type="search" placeholder="Tìm tên, mô tả hoặc tag..."></div>
 <div id="tikzAdminList" class="admin-list"></div><div id="tikzAdminPagination" class="admin-pagination"></div>
 </section>
 </div>
@@ -252,7 +238,7 @@
 </div>
 <div id="evidenceWorkspace" class="workspace-panel">
 <section class="admin-card">
-<div class="admin-title"><div><h1 id="evidenceFormTitle">Đăng hình ảnh và kết quả</h1><p>Ảnh được phân tích cục bộ để gợi ý dữ liệu. Hãy kiểm tra và chỉnh lại trước khi xuất bản.</p></div><button class="admin-btn ghost icon-btn" id="evidenceRefreshBtn" type="button" title="Làm mới danh sách"><i class="fa-solid fa-rotate"></i></button></div>
+<div class="admin-title"><div><h1 id="evidenceFormTitle">Đăng hình ảnh và kết quả</h1><p>Ảnh được phân tích cục bộ để gợi ý dữ liệu. Hãy kiểm tra và chỉnh lại trước khi xuất bản.</p></div><i class="fa-solid fa-award" style="font-size:28px;color:#7dd3fc"></i></div>
 <p class="admin-help">Chọn ảnh chứng nhận, bảng điểm hoặc phản hồi. Cột trái chứa nội dung OCR và thông tin chuẩn hóa; cột phải là ảnh gốc để đối chiếu.</p>
 <form id="evidenceForm" class="admin-form">
 <input id="evidenceId" type="hidden"><input id="evidenceOldPath" type="hidden">
@@ -273,7 +259,9 @@
 <label class="check-row"><input id="evidencePublished" type="checkbox" checked> Hiển thị trên trang thành tích</label>
 <div class="admin-actions"><button class="admin-btn" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> <span id="evidenceSaveLabel">Đăng kết quả</span></button><button class="admin-btn ghost" id="evidenceResetBtn" type="button">Làm mới</button></div><div id="evidenceFormStatus" class="admin-status"></div>
 </form>
-<div class="admin-section-title">Hình ảnh và kết quả đã lưu</div>
+</section>
+<section class="admin-card">
+<div class="admin-title"><div><h1>Hình ảnh và kết quả đã lưu</h1><p>Tìm kiếm, lọc theo nhóm kết quả, bật/tắt thông tin công khai hoặc chỉnh sửa hàng loạt.</p></div><button class="admin-btn ghost icon-btn" id="evidenceRefreshBtn" type="button" title="Làm mới danh sách"><i class="fa-solid fa-rotate"></i></button></div>
 <div class="evidence-admin-filters"><input id="evidenceAdminSearch" class="admin-search" type="search" placeholder="Tìm tên, tiêu đề, lớp..." aria-label="Tìm hình ảnh minh chứng"><select id="evidenceAdminGroup" class="admin-filter" aria-label="Lọc nhóm"><option value="all">Tất cả nhóm</option><option value="grade10">Luyện thi vào 10</option><option value="grade12">Tốt nghiệp THPT</option><option value="feedback">Phản hồi</option></select><select id="evidenceAdminVisibility" class="admin-filter" aria-label="Lọc hiển thị"><option value="all">Tất cả trạng thái</option><option value="published">Đang hiển thị</option><option value="hidden">Đang ẩn</option></select></div>
 <div id="evidenceBulkTools"></div><div id="evidenceAdminList" class="evidence-list"></div><div id="evidenceAdminPagination" class="admin-pagination"></div>
 </section>
@@ -289,13 +277,13 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
 <script src="assets/exam-scores.js?v=20260913-fields"></script>
 <script src="assets/exam-score-options.js?v=20260913"></script>
-<script src="assets/site-experience.js?v=20260913-unified"></script>
+<script src="assets/site-experience.js?v=20261029"></script>
 <script src="assets/site-content.js?v=20260913-unified"></script>
-<script src="assets/theme-system.js?v=20260915"></script>
+<script src="assets/theme-system.js?v=20261024"></script>
 <script src="assets/site-content-admin.js?v=20260913-unified"></script>
 <script src="assets/admin-account.js?v=20260908-sidebar-led"></script>
 <script src="assets/exam-score-paper.js?v=20260908-math-cycle"></script>
-<link rel="stylesheet" href="assets/evidence-display.css?v=20260914-score-led">
+
 <script src="assets/evidence-display.js?v=20260914-score-led"></script>
 <script src="assets/score-submissions-admin.js?v=20260913-options"></script>
 <script src="assets/exam-score-settings-admin.js?v=20260913-options"></script>
@@ -355,7 +343,8 @@ async function compileTikzPdf(code,packages=""){const response=await fetch(TIKZ_
 async function showTikzPreview(blob){const box=$('tikzPreviewBox'),stateEl=$('tikzPreviewState');if(!box)return;box.innerHTML='<div class="muted" style="padding:40px;text-align:center;color:#64748b;">Đang dựng ảnh xem trước...</div>';stateEl.textContent='Đang render...';const url=URL.createObjectURL(blob);try{await ensurePdfJs();const pdf=await pdfjsLib.getDocument(url).promise;const page=await pdf.getPage(1);const viewport=page.getViewport({scale:1.5});const canvas=document.createElement('canvas');canvas.style.maxWidth='100%';canvas.style.height='auto';canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);box.innerHTML='';box.appendChild(canvas);await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;stateEl.textContent='✓ Đã render';}finally{setTimeout(()=>URL.revokeObjectURL(url),60000);}}
 async function renderAndStoreTikz(id,code,packages){setStatus('tikzFormStatus','Đang biên dịch TikZ và lưu bản render...');const {data:old}=await supabaseClient.from('tikz_drawings').select('render_path').eq('id',id).maybeSingle();const blob=await compileTikzPdf(code,packages);await showTikzPreview(blob);const path=`${id}-${Date.now()}.pdf`;const {error:uploadError}=await supabaseClient.storage.from(TIKZ_RENDER_BUCKET).upload(path,blob,{contentType:'application/pdf',upsert:true,cacheControl:'31536000'});if(uploadError)throw uploadError;const {error:updateError}=await supabaseClient.from('tikz_drawings').update({render_path:path,rendered_at:new Date().toISOString(),render_error:null,updated_at:new Date().toISOString()}).eq('id',id);if(updateError)throw updateError;if(old?.render_path&&old.render_path!==path)await supabaseClient.storage.from(TIKZ_RENDER_BUCKET).remove([old.render_path]);return path;}
 
-const state={categories:[],documents:[],tikz:[],contributions:[],materialRequests:[],documentContributions:[],evidence:[],tikzImportQueue:[],tikzImportSequence:0,tikzImportBusy:false,editingId:null,editingTikzId:null,editingEvidenceId:null,draggingId:null,docPage:1,tikzPage:1,contribPage:1,materialRequestPage:1,documentContributionPage:1,evidencePage:1,perPage:10,tikzPerPage:10,contribPerPage:10,reviewPerPage:10,requestSetupError:null,documentContributionSetupError:null,evidenceSetupError:null};
+const state={categories:[],documents:[],tikz:[],contributions:[],materialRequests:[],documentContributions:[],evidence:[],tikzImportQueue:[],tikzImportSequence:0,tikzImportBusy:false,editingId:null,editingTikzId:null,editingEvidenceId:null,draggingId:null,docPage:1,tikzPage:1,contribPage:1,materialRequestPage:1,documentContributionPage:1,evidencePage:1,perPage:10,tikzPerPage:10,contribPerPage:10,reviewPerPage:10,requestSetupError:null,documentContributionSetupError:null,evidenceSetupError:null,hasThumbnailColumn:true,hasCoverEnabledColumn:true,coverRemoved:false,quickCoverDocId:null};
+let coverPreviewObjectUrl='';
 let evidenceBulkPageIds=[], evidenceBulkBusy=false, evidenceBulkLoading=false, evidenceBulkEpoch=0;
 const $=id=>document.getElementById(id);
 function esc(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
@@ -395,17 +384,163 @@ function checkAdmin(){
 }
 async function loadCategories(){const {data,error}=await supabaseClient.from('math_categories').select('id,name,slug,description,sort_order,parent_id').order('sort_order',{ascending:true}).order('created_at',{ascending:true});if(error){throw error;}state.categories=data||[];populateCategorySelects();renderCategoryManager();}
 function populateCategorySelects(){const select=$('categoryId'),filter=$('docFilterCategory');const current=select.value;select.innerHTML=state.categories.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');if(current)select.value=current;filter.innerHTML='<option value="all">Tất cả danh mục</option>'+state.categories.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');}
-async function loadDocs(){let response=await supabaseClient.from('math_documents').select('id,title,description,category_id,file_path,file_name,sort_order,published,created_at,updated_at,thumbnail_path,cover_enabled,math_categories(name,slug)').order('sort_order',{ascending:true}).order('created_at',{ascending:false});if(response.error&&['42703','PGRST204'].includes(response.error.code)){response=await supabaseClient.from('math_documents').select('id,title,description,category_id,file_path,file_name,sort_order,published,created_at,updated_at,math_categories(name,slug)').order('sort_order',{ascending:true}).order('created_at',{ascending:false});}if(response.error)throw response.error;state.documents=response.data||[];renderDocs();updateStats();if(!state.editingId){const cat=$('categoryId')?.value;if(cat)suggestNextDocumentOrder(cat);}}
+function getDocCoverInfo(doc){
+  const raw=String(doc?.thumbnail_path||'').trim();
+  const disabledByPrefix=raw.startsWith('disabled:');
+  const path=disabledByPrefix?raw.slice(9):raw;
+  const enabled=Boolean(path)&&!disabledByPrefix&&doc?.cover_enabled!==false;
+  return {path,enabled,hasCover:Boolean(path),url:path?fileUrl(path):''};
+}
+function buildCoverColumns(path,enabled=true){
+  if(state.hasThumbnailColumn===false)return {};
+  if(!path)return state.hasCoverEnabledColumn?{thumbnail_path:null,cover_enabled:true}:{thumbnail_path:null};
+  if(state.hasCoverEnabledColumn)return {thumbnail_path:path,cover_enabled:Boolean(enabled)};
+  return {thumbnail_path:enabled?path:`disabled:${path}`};
+}
+async function writeDocWithCover(mutateFn,basePayload,coverPath,coverEnabled=true){
+  let result=await mutateFn({...basePayload,...buildCoverColumns(coverPath,coverEnabled)});
+  if(result.error&&['42703','PGRST204'].includes(result.error.code)&&state.hasCoverEnabledColumn){
+    state.hasCoverEnabledColumn=false;
+    result=await mutateFn({...basePayload,...buildCoverColumns(coverPath,coverEnabled)});
+  }
+  if(result.error&&['42703','PGRST204'].includes(result.error.code)&&state.hasThumbnailColumn){
+    state.hasThumbnailColumn=false;
+    result=await mutateFn({...basePayload});
+  }
+  return result;
+}
+async function uploadCoverImage(file){
+  if(!file)return null;
+  const validType=['image/jpeg','image/png','image/webp'].includes(file.type)||/\.(jpe?g|png|webp)$/i.test(file.name);
+  if(!validType)throw new Error(`Ảnh bìa “${file.name}” cần là định dạng JPG, PNG hoặc WebP.`);
+  if(file.size>10*1024*1024)throw new Error(`Ảnh bìa “${file.name}” vượt quá giới hạn 10 MB.`);
+  const safe=String(file.name||'cover.jpg').replace(/[^a-zA-Z0-9._-]+/g,'-').replace(/^-+|-+$/g,'')||'cover.jpg';
+  const path=`covers/${Date.now()}-${crypto.randomUUID()}-${safe}`;
+  const {error}=await supabaseClient.storage.from('math-pdfs').upload(path,file,{contentType:file.type||'image/jpeg',upsert:false});
+  if(error)throw error;
+  return path;
+}
+function clearCoverObjectUrl(){if(coverPreviewObjectUrl){URL.revokeObjectURL(coverPreviewObjectUrl);coverPreviewObjectUrl='';}}
+function syncCoverPreviewUI(){
+  const file=$('coverInput')?.files?.[0]||null;
+  const box=$('coverPreviewBox'),img=$('coverPreviewImg'),label=$('coverPreviewLabel'),selected=$('selectedCover'),enabledInput=$('coverEnabled');
+  if(!box||!img||!label||!selected)return;
+  if(file){
+    const validType=['image/jpeg','image/png','image/webp'].includes(file.type)||/\.(jpe?g|png|webp)$/i.test(file.name);
+    if(!validType||file.size>10*1024*1024){
+      $('coverInput').value='';
+      setStatus('formStatus','Ảnh bìa cần là JPG, PNG hoặc WebP và không quá 10 MB.');
+      toast('Ảnh bìa cần là JPG, PNG hoặc WebP (tối đa 10 MB).','error');
+      return;
+    }
+    clearCoverObjectUrl();
+    state.coverRemoved=false;
+    coverPreviewObjectUrl=URL.createObjectURL(file);
+    img.src=coverPreviewObjectUrl;
+    label.textContent=`Ảnh bìa mới: ${file.name} (${formatBytes(file.size)})`;
+    selected.textContent=`Ảnh bìa: ${file.name} · ${formatBytes(file.size)}`;
+    if(enabledInput)enabledInput.checked=true;
+    box.classList.remove('hidden');
+    return;
+  }
+  clearCoverObjectUrl();
+  if(state.editingId&&!state.coverRemoved){
+    const doc=state.documents.find(x=>x.id===state.editingId);
+    const cover=getDocCoverInfo(doc);
+    if(cover.hasCover){
+      img.src=cover.url;
+      label.textContent=cover.enabled?'Đang dùng ảnh bìa đã tải lên':'Ảnh bìa đang tắt (đang hiện trang 1 PDF)';
+      selected.textContent=cover.enabled?'Ảnh bìa hiện tại đang bật':'Ảnh bìa hiện tại đang tắt';
+      if(enabledInput)enabledInput.checked=cover.enabled;
+      box.classList.remove('hidden');
+      return;
+    }
+  }
+  img.removeAttribute('src');
+  box.classList.add('hidden');
+  selected.textContent=state.editingId&&state.coverRemoved?'Đã chọn bỏ ảnh bìa (sẽ dùng trang 1 PDF sau khi Cập nhật)':'';
+}
+function removeCoverFromForm(){
+  clearCoverObjectUrl();
+  if($('coverInput'))$('coverInput').value='';
+  state.coverRemoved=true;
+  syncCoverPreviewUI();
+}
+async function loadDocs(){
+  let response=await supabaseClient.from('math_documents').select('id,title,description,category_id,file_path,file_name,sort_order,published,created_at,updated_at,thumbnail_path,cover_enabled,math_categories(name,slug)').order('sort_order',{ascending:true}).order('created_at',{ascending:false});
+  if(!response.error){state.hasThumbnailColumn=true;state.hasCoverEnabledColumn=true;}
+  if(response.error&&['42703','PGRST204'].includes(response.error.code)){
+    state.hasCoverEnabledColumn=false;
+    response=await supabaseClient.from('math_documents').select('id,title,description,category_id,file_path,file_name,sort_order,published,created_at,updated_at,thumbnail_path,math_categories(name,slug)').order('sort_order',{ascending:true}).order('created_at',{ascending:false});
+    if(!response.error)state.hasThumbnailColumn=true;
+  }
+  if(response.error&&['42703','PGRST204'].includes(response.error.code)){
+    state.hasThumbnailColumn=false;
+    response=await supabaseClient.from('math_documents').select('id,title,description,category_id,file_path,file_name,sort_order,published,created_at,updated_at,math_categories(name,slug)').order('sort_order',{ascending:true}).order('created_at',{ascending:false});
+  }
+  if(response.error)throw response.error;
+  state.documents=response.data||[];
+  renderDocs();updateStats();
+  if(!state.editingId){const cat=$('categoryId')?.value;if(cat)suggestNextDocumentOrder(cat);}
+  else syncCoverPreviewUI();
+}
 async function loadAll(){try{await loadCategories();await loadDocs();await loadTikzAdmin();await loadReviewOverview();}catch(e){setStatus('formStatus',e.message||'Không tải được dữ liệu.');toast(e.message||'Không tải được dữ liệu.','error');}}
 function renderCategoryManager(){const root=$('categoryList');if(!root)return;const counts={};state.documents.forEach(d=>{counts[d.category_id]=(counts[d.category_id]||0)+1});root.innerHTML=state.categories.map(c=>`<div class="category-item"><div class="category-item-name"><input class="admin-search category-name-input" data-category-id="${c.id}" value="${esc(c.name)}"><div class="category-count">${counts[c.id]||0} tài liệu · slug: ${esc(c.slug||'')}</div></div><div class="doc-actions"><button class="admin-btn ghost icon-btn" data-category-save="${c.id}" title="Lưu tên"><i class="fa-solid fa-check"></i></button><button class="admin-btn danger icon-btn" data-category-delete="${c.id}" title="Xóa"><i class="fa-solid fa-trash"></i></button></div></div>`).join('');root.querySelectorAll('[data-category-save]').forEach(b=>b.addEventListener('click',()=>renameCategory(Number(b.dataset.categorySave))));root.querySelectorAll('[data-category-delete]').forEach(b=>b.addEventListener('click',()=>deleteCategory(Number(b.dataset.categoryDelete))));}
 function getFilteredDocs(){const q=$('docSearch').value.trim().toLowerCase(),cat=$('docFilterCategory').value,status=$('docFilterStatus').value;return state.documents.filter(d=>{const hay=[d.title,d.description,d.file_name,d.math_categories?.name].filter(Boolean).join(' ').toLowerCase();if(q&&!hay.includes(q))return false;if(cat!=='all'&&String(d.category_id)!==String(cat))return false;if(status==='published'&&!d.published)return false;if(status==='hidden'&&d.published)return false;return true;}).sort((a,b)=>(Number(a.sort_order)||0)-(Number(b.sort_order)||0));}
 function pageItems(list,page,perPage){const totalPages=Math.max(1,Math.ceil(list.length/perPage));const safe=Math.min(Math.max(1,page),totalPages);return {items:list.slice((safe-1)*perPage,safe*perPage),page:safe,totalPages};}
 function renderPagination(rootId,page,totalPages,onPage,totalItems,perPage){const root=$(rootId);if(!root)return;if(totalItems<perPage){root.innerHTML=totalItems?`<div class="page-summary">Hiển thị ${totalItems} mục</div>`:'';return;}const buttons=[];buttons.push(`<button class="page-btn" type="button" data-page="${page-1}" ${page<=1?'disabled':''} aria-label="Trang trước"><i class="fa-solid fa-chevron-left"></i></button>`);const pages=[];const add=p=>{if(!pages.includes(p))pages.push(p);};add(1);for(let p=Math.max(2,page-2);p<=Math.min(totalPages-1,page+2);p++)add(p);if(totalPages>1)add(totalPages);let last=0;for(const p of pages){if(last&&p-last>1)buttons.push('<span class="page-ellipsis">…</span>');buttons.push(`<button class="page-btn ${p===page?'active':''}" type="button" data-page="${p}" ${p===page?'aria-current="page"':''}>${p}</button>`);last=p;}buttons.push(`<button class="page-btn" type="button" data-page="${page+1}" ${page>=totalPages?'disabled':''} aria-label="Trang sau"><i class="fa-solid fa-chevron-right"></i></button>`);buttons.push(`<div class="page-summary">Trang ${page} / ${totalPages} · ${totalItems} mục</div><div class="pagination-jump">Tới trang: <input type="number" min="1" max="${totalPages}" value="${page}" aria-label="Số trang"><button class="page-btn" type="button" data-jump="1">Đi</button></div>`);root.innerHTML=buttons.join('');root.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.disabled)return;onPage(Number(b.dataset.page));}));const input=root.querySelector('input');root.querySelector('[data-jump]')?.addEventListener('click',()=>onPage(Number(input.value)||1));input?.addEventListener('keydown',e=>{if(e.key==='Enter')onPage(Number(input.value)||1);});}
-function renderDocs(){const root=$('adminList'),docs=getFilteredDocs();const pg=pageItems(docs,state.docPage,state.perPage);state.docPage=pg.page;if(!docs.length){root.innerHTML='<div class="empty-admin"><i class="fa-regular fa-folder-open" style="font-size:26px;margin-bottom:8px"></i><div>Không có tài liệu phù hợp.</div></div>';renderPagination('docPagination',1,1,()=>{},0,state.perPage);return;}root.innerHTML=pg.items.map(d=>{const cat=d.math_categories?.name||state.categories.find(c=>String(c.id)===String(d.category_id))?.name||'Chưa phân loại';return `<article class="admin-doc" draggable="true" data-doc-id="${d.id}"><div class="drag-handle" title="Kéo để sắp xếp"><i class="fa-solid fa-grip-vertical"></i></div><div><h3>${esc(d.title||d.file_name||'Không có tiêu đề')}</h3><p>${esc(d.description||d.file_name||'Không có mô tả.')}</p><div class="admin-doc-meta"><strong>${esc(cat)}</strong> · ${esc(d.file_name||'')} · thứ tự ${Number(d.sort_order)||0} · ${formatDate(d.created_at)} · <span class="status-pill ${d.published?'on':'off'}">${d.published?'● Đang hiển thị':'○ Đang ẩn'}</span></div></div><div class="doc-actions"><button class="admin-btn ghost icon-btn" data-preview="${d.id}" title="Xem PDF"><i class="fa-solid fa-eye"></i></button><button class="admin-btn ghost icon-btn" data-edit="${d.id}" title="Sửa"><i class="fa-solid fa-pen"></i></button><button class="admin-btn ${d.published?'danger':'success'} icon-btn" data-toggle="${d.id}" title="${d.published?'Ẩn':'Hiển thị'}"><i class="fa-solid ${d.published?'fa-eye-slash':'fa-eye'}"></i></button><button class="admin-btn danger icon-btn" data-delete="${d.id}" title="Xóa"><i class="fa-solid fa-trash"></i></button></div></article>`}).join('');bindDocActions();renderPagination('docPagination',pg.page,pg.totalPages,p=>{state.docPage=p;renderDocs();window.scrollTo({top:document.getElementById('adminList').getBoundingClientRect().top+window.scrollY-120,behavior:'auto'});},docs.length,state.perPage);}
-function bindDocActions(){const root=$('adminList');root.querySelectorAll('[data-preview]').forEach(b=>b.addEventListener('click',()=>previewDoc(Number(b.dataset.preview))));root.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>startEdit(Number(b.dataset.edit))));root.querySelectorAll('[data-toggle]').forEach(b=>b.addEventListener('click',()=>togglePublished(Number(b.dataset.toggle))));root.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>deleteDoc(Number(b.dataset.delete))));root.querySelectorAll('[draggable=true]').forEach(row=>{row.addEventListener('dragstart',e=>{state.draggingId=Number(row.dataset.docId);row.classList.add('dragging');e.dataTransfer.effectAllowed='move';});row.addEventListener('dragend',()=>{row.classList.remove('dragging');state.draggingId=null;});row.addEventListener('dragover',e=>e.preventDefault());row.addEventListener('drop',async e=>{e.preventDefault();const targetId=Number(row.dataset.docId);if(!state.draggingId||state.draggingId===targetId)return;await reorderDocuments(state.draggingId,targetId);});});}
+function renderDocs(){const root=$('adminList'),docs=getFilteredDocs();const pg=pageItems(docs,state.docPage,state.perPage);state.docPage=pg.page;if(!docs.length){root.innerHTML='<div class="empty-admin"><i class="fa-regular fa-folder-open" style="font-size:26px;margin-bottom:8px"></i><div>Không có tài liệu phù hợp.</div></div>';renderPagination('docPagination',1,1,()=>{},0,state.perPage);return;}root.innerHTML=pg.items.map(d=>{const cat=d.math_categories?.name||state.categories.find(c=>String(c.id)===String(d.category_id))?.name||'Chưa phân loại';const cover=getDocCoverInfo(d);const coverBadge=cover.hasCover?`<span class="status-pill ${cover.enabled?'on':'off'} cover-status-pill" title="${cover.enabled?'Đang hiển thị ảnh bìa tùy chỉnh':'Ảnh bìa đang tắt (hiển thị trang 1 PDF)'}"><i class="fa-regular fa-image"></i> ${cover.enabled?'Có ảnh bìa':'Bìa đang tắt'}</span>`:`<span class="status-pill off cover-status-pill" title="Chưa có ảnh bìa riêng, đang dùng trang 1 PDF">Trang 1 PDF</span>`;const thumbHtml=cover.hasCover?`<div class="admin-doc-cover-thumb ${cover.enabled?'':'is-disabled'}" title="${cover.enabled?'Ảnh bìa PDF đang hiển thị':'Ảnh bìa PDF đang tắt'}"><img src="${esc(cover.url)}" alt="Ảnh bìa ${esc(d.title||d.file_name||'')}" loading="lazy"></div>`:'';return `<article class="admin-doc" draggable="true" data-doc-id="${d.id}"><div class="drag-handle" title="Kéo để sắp xếp"><i class="fa-solid fa-grip-vertical"></i></div><div class="admin-doc-main ${cover.hasCover?'has-cover':''}">${thumbHtml}<div class="admin-doc-info"><h3>${esc(d.title||d.file_name||'Không có tiêu đề')}</h3><p>${esc(d.description||d.file_name||'Không có mô tả.')}</p><div class="admin-doc-meta"><strong>${esc(cat)}</strong> · ${esc(d.file_name||'')} · thứ tự ${Number(d.sort_order)||0} · ${formatDate(d.created_at)} · <span class="status-pill ${d.published?'on':'off'}">${d.published?'● Đang hiển thị':'○ Đang ẩn'}</span> · ${coverBadge}</div></div></div><div class="doc-actions"><button class="admin-btn ghost icon-btn" type="button" data-cover="${d.id}" title="${cover.hasCover?'Đổi ảnh bìa PDF':'Thêm ảnh bìa PDF'}"><i class="fa-regular fa-image"></i></button>${cover.hasCover?`<button class="admin-btn ${cover.enabled?'ghost':'success'} icon-btn" type="button" data-cover-toggle="${d.id}" title="${cover.enabled?'Tắt ảnh bìa (hiện trang 1 PDF)':'Bật hiển thị ảnh bìa'}"><i class="fa-solid ${cover.enabled?'fa-toggle-on':'fa-toggle-off'}"></i></button>`:''}<button class="admin-btn ghost icon-btn" type="button" data-preview="${d.id}" title="Xem PDF"><i class="fa-solid fa-eye"></i></button><button class="admin-btn ghost icon-btn" type="button" data-edit="${d.id}" title="Sửa"><i class="fa-solid fa-pen"></i></button><button class="admin-btn ${d.published?'danger':'success'} icon-btn" type="button" data-toggle="${d.id}" title="${d.published?'Ẩn':'Hiển thị'}"><i class="fa-solid ${d.published?'fa-eye-slash':'fa-eye'}"></i></button><button class="admin-btn danger icon-btn" type="button" data-delete="${d.id}" title="Xóa"><i class="fa-solid fa-trash"></i></button></div></article>`}).join('');bindDocActions();renderPagination('docPagination',pg.page,pg.totalPages,p=>{state.docPage=p;renderDocs();window.scrollTo({top:document.getElementById('adminList').getBoundingClientRect().top+window.scrollY-120,behavior:'auto'});},docs.length,state.perPage);}
+function bindDocActions(){const root=$('adminList');root.querySelectorAll('[data-cover]').forEach(b=>b.addEventListener('click',()=>openQuickCoverPicker(Number(b.dataset.cover))));root.querySelectorAll('[data-cover-toggle]').forEach(b=>b.addEventListener('click',()=>toggleDocCover(Number(b.dataset.coverToggle))));root.querySelectorAll('[data-preview]').forEach(b=>b.addEventListener('click',()=>previewDoc(Number(b.dataset.preview))));root.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>startEdit(Number(b.dataset.edit))));root.querySelectorAll('[data-toggle]').forEach(b=>b.addEventListener('click',()=>togglePublished(Number(b.dataset.toggle))));root.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>deleteDoc(Number(b.dataset.delete))));root.querySelectorAll('[draggable=true]').forEach(row=>{row.addEventListener('dragstart',e=>{state.draggingId=Number(row.dataset.docId);row.classList.add('dragging');e.dataTransfer.effectAllowed='move';});row.addEventListener('dragend',()=>{row.classList.remove('dragging');state.draggingId=null;});row.addEventListener('dragover',e=>e.preventDefault());row.addEventListener('drop',async e=>{e.preventDefault();const targetId=Number(row.dataset.docId);if(!state.draggingId||state.draggingId===targetId)return;await reorderDocuments(state.draggingId,targetId);});});}
+function openQuickCoverPicker(docId){
+  const d=state.documents.find(x=>x.id===docId);if(!d)return;
+  state.quickCoverDocId=docId;
+  const input=$('quickCoverInput');
+  if(!input)return;
+  input.value='';
+  input.click();
+}
+async function handleQuickCoverChange(){
+  const input=$('quickCoverInput');
+  const file=input?.files?.[0];
+  const docId=state.quickCoverDocId;
+  state.quickCoverDocId=null;
+  if(!file||!docId)return;
+  const d=state.documents.find(x=>x.id===docId);
+  if(!d)return;
+  const oldCover=getDocCoverInfo(d);
+  let uploadedPath='';
+  try{
+    toast(`Đang tải ảnh bìa cho “${d.title||d.file_name}”...`);
+    uploadedPath=await uploadCoverImage(file);
+    const {error}=await writeDocWithCover(payload=>supabaseClient.from('math_documents').update(payload).eq('id',docId),{updated_at:new Date().toISOString()},uploadedPath,true);
+    if(error){if(uploadedPath)await deleteStorage(uploadedPath);throw error;}
+    if(oldCover.path&&oldCover.path!==uploadedPath)await deleteStorage(oldCover.path);
+    await loadDocs();
+    toast(`Đã lưu ảnh bìa cho “${d.title||d.file_name}”.`,'ok');
+  }catch(err){
+    console.error(err);
+    toast(err.message||'Không lưu được ảnh bìa PDF.','error');
+  }finally{
+    if(input)input.value='';
+  }
+}
+async function toggleDocCover(docId){
+  const d=state.documents.find(x=>x.id===docId);if(!d)return;
+  const cover=getDocCoverInfo(d);
+  if(!cover.hasCover)return;
+  const nextEnabled=!cover.enabled;
+  try{
+    const {error}=await writeDocWithCover(payload=>supabaseClient.from('math_documents').update(payload).eq('id',docId),{updated_at:new Date().toISOString()},cover.path,nextEnabled);
+    if(error)throw error;
+    await loadDocs();
+    toast(nextEnabled?'Đã bật hiển thị ảnh bìa PDF.':'Đã tắt ảnh bìa (hiển thị trang 1 PDF).','ok');
+  }catch(err){
+    toast(err.message||'Không thể cập nhật trạng thái ảnh bìa.','error');
+  }
+}
 function formatDate(v){if(!v)return '';const d=new Date(v);return Number.isNaN(d.getTime())?'':new Intl.DateTimeFormat('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'}).format(d);}
-function resetForm(){state.editingId=null;$('docId').value='';$('oldFilePath').value='';$('editingFileName').value='';$('formTitle').textContent='Thêm tài liệu';$('saveLabel').textContent='Lưu tài liệu';$('docForm').reset();$('sortOrder').value='0';$('published').checked=true;setTimeout(()=>{const cat=$('categoryId')?.value;if(cat)suggestNextDocumentOrder(cat);},0);$('selectedFile').textContent='';$('bulkPreview').innerHTML='';$('editNote').classList.add('hidden');setStatus('formStatus','');$('fileInput').multiple=true;}
-function startEdit(id){const d=state.documents.find(x=>x.id===id);if(!d)return;state.editingId=id;$('docId').value=d.id;$('oldFilePath').value=d.file_path||'';$('editingFileName').value=d.file_name||'';$('title').value=d.title||'';$('description').value=d.description||'';$('categoryId').value=d.category_id||'';$('sortOrder').value=d.sort_order??0;$('published').checked=!!d.published;$('formTitle').textContent='Sửa tài liệu';$('saveLabel').textContent='Cập nhật';$('selectedFile').textContent=`Tệp hiện tại: ${d.file_name||''}`;$('editNote').classList.remove('hidden');$('fileInput').value='';$('fileInput').multiple=false;$('bulkPreview').innerHTML='';window.scrollTo({top:0,behavior:'smooth'});}
+function resetForm(){state.editingId=null;state.coverRemoved=false;clearCoverObjectUrl();$('docId').value='';$('oldFilePath').value='';$('editingFileName').value='';$('formTitle').textContent='Thêm tài liệu';$('saveLabel').textContent='Lưu tài liệu';$('docForm').reset();if($('coverInput'))$('coverInput').value='';if($('coverEnabled'))$('coverEnabled').checked=true;$('sortOrder').value='0';$('published').checked=true;setTimeout(()=>{const cat=$('categoryId')?.value;if(cat)suggestNextDocumentOrder(cat);},0);$('selectedFile').textContent='';$('selectedCover').textContent='';$('bulkPreview').innerHTML='';$('editNote').classList.add('hidden');syncCoverPreviewUI();setStatus('formStatus','');$('fileInput').multiple=true;}
+function startEdit(id){const d=state.documents.find(x=>x.id===id);if(!d)return;state.editingId=id;state.coverRemoved=false;clearCoverObjectUrl();if($('coverInput'))$('coverInput').value='';$('docId').value=d.id;$('oldFilePath').value=d.file_path||'';$('editingFileName').value=d.file_name||'';$('title').value=d.title||'';$('description').value=d.description||'';$('categoryId').value=d.category_id||'';$('sortOrder').value=d.sort_order??0;$('published').checked=!!d.published;const cover=getDocCoverInfo(d);if($('coverEnabled'))$('coverEnabled').checked=cover.hasCover?cover.enabled:true;$('formTitle').textContent='Sửa tài liệu';$('saveLabel').textContent='Cập nhật';$('selectedFile').textContent=`Tệp hiện tại: ${d.file_name||''}`;$('editNote').classList.remove('hidden');$('fileInput').value='';$('fileInput').multiple=false;$('bulkPreview').innerHTML='';syncCoverPreviewUI();window.scrollTo({top:0,behavior:'smooth'});}
 function filenameToTitle(name){return String(name||'').replace(/\.(?:pdf|tex|txt)$/i,'').replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim();}
 function renderSelectedFiles(){const files=[...$('fileInput').files];$('selectedFile').textContent=files.length?`${files.length} file PDF được chọn`:'';$('bulkPreview').innerHTML=files.map(f=>`<div class="bulk-file"><span><i class="fa-solid fa-file-pdf" style="color:#fca5a5"></i> ${esc(f.name)}</span><span>${formatBytes(f.size)}</span></div>`).join('');if(!state.editingId&&files.length&&!$('title').value.trim()){$('title').value=filenameToTitle(files[0].name);}}
 function formatBytes(bytes){if(!bytes)return '0 B';const units=['B','KB','MB','GB'];const i=Math.min(Math.floor(Math.log(bytes)/Math.log(1024)),units.length-1);return `${(bytes/1024**i).toFixed(i?1:0)} ${units[i]}`;}
@@ -414,12 +549,72 @@ async function deleteStorage(path){if(path)await supabaseClient.storage.from('ma
 function setProgress(done,total,label){const box=$('uploadProgress');const bar=$('progressBar');const text=$('progressText');box.classList.add('show');bar.style.width=`${total?Math.round(done/total*100):0}%`;text.textContent=label||`${done}/${total}`;}
 function suggestNextDocumentOrder(categoryId){if(state.editingId)return;const count=state.documents.filter(d=>String(d.category_id)===String(categoryId)).length;const input=$('sortOrder');if(input)input.value=String(count+1);}
 function suggestNextTikzOrder(){if(state.editingTikzId)return;const input=$('tikzSortOrder');if(input)input.value=String(state.tikz.length+1);}
-async function saveDoc(e){e.preventDefault();setStatus('formStatus','Đang xử lý...');try{const files=[...$('fileInput').files];const categoryId=Number($('categoryId').value)||null;if(!categoryId)throw new Error('Hãy chọn danh mục.');
-if(state.editingId){const current=state.documents.find(x=>x.id===state.editingId);if(!current)throw new Error('Không tìm thấy tài liệu.');let path=current.file_path,fileName=current.file_name;if(files[0]){path=await uploadOne(files[0]);fileName=files[0].name;}const payload={title:$('title').value.trim()||filenameToTitle(fileName),description:$('description').value.trim()||null,category_id:categoryId,sort_order:Number($('sortOrder').value)||0,published:$('published').checked,updated_at:new Date().toISOString(),file_path:path,file_name:fileName};const {error}=await supabaseClient.from('math_documents').update(payload).eq('id',state.editingId);if(error){if(files[0]&&path!==current.file_path)await deleteStorage(path);throw error;}if(files[0]&&current.file_path!==path)await deleteStorage(current.file_path);toast('Đã cập nhật tài liệu.','ok');}
-else{if(!files.length)throw new Error('Hãy chọn ít nhất một file PDF.');const baseTitle=$('title').value.trim(),description=$('description').value.trim()||null,published=$('published').checked,baseSort=Number($('sortOrder').value)||0;let done=0;setProgress(0,files.length,'Đang upload 0/'+files.length);for(const file of files){const path=await uploadOne(file);const payload={title:baseTitle&&files.length===1?baseTitle:filenameToTitle(file.name),description,category_id:categoryId,file_path:path,file_name:file.name,sort_order:baseSort+done,published,created_at:new Date().toISOString(),updated_at:new Date().toISOString()};const {error}=await supabaseClient.from('math_documents').insert(payload);if(error){await deleteStorage(path);throw error;}done++;setProgress(done,files.length,`Đã upload ${done}/${files.length}`);}toast(`Đã thêm ${files.length} tài liệu.`,'ok');}
-await loadAll();resetForm();$('uploadProgress').classList.remove('show');setStatus('formStatus','Hoàn tất.',true);}catch(err){console.error(err);setStatus('formStatus',err.message||'Có lỗi xảy ra.');$('uploadProgress').classList.remove('show');toast(err.message||'Có lỗi xảy ra.','error');}}
+async function saveDoc(e){
+  e.preventDefault();
+  const form=$('docForm');
+  if(form?.dataset.saving==='true')return;
+  if(form)form.dataset.saving='true';
+  setStatus('formStatus','Đang xử lý...');
+  try{
+    const files=[...$('fileInput').files];
+    const coverFile=$('coverInput')?.files?.[0]||null;
+    const coverEnabled=$('coverEnabled')?$('coverEnabled').checked:true;
+    const categoryId=Number($('categoryId').value)||null;
+    if(!categoryId)throw new Error('Hãy chọn danh mục.');
+    if(state.editingId){
+      const current=state.documents.find(x=>x.id===state.editingId);
+      if(!current)throw new Error('Không tìm thấy tài liệu.');
+      const oldCover=getDocCoverInfo(current);
+      let path=current.file_path,fileName=current.file_name,uploadedCoverPath='';
+      if(files[0]){path=await uploadOne(files[0]);fileName=files[0].name;}
+      if(coverFile){
+        setStatus('formStatus','Đang tải ảnh bìa PDF lên...');
+        uploadedCoverPath=await uploadCoverImage(coverFile);
+      }
+      const nextCoverPath=uploadedCoverPath||(state.coverRemoved?null:oldCover.path||null);
+      const basePayload={title:$('title').value.trim()||filenameToTitle(fileName),description:$('description').value.trim()||null,category_id:categoryId,sort_order:Number($('sortOrder').value)||0,published:$('published').checked,updated_at:new Date().toISOString(),file_path:path,file_name:fileName};
+      const {error}=await writeDocWithCover(payload=>supabaseClient.from('math_documents').update(payload).eq('id',state.editingId),basePayload,nextCoverPath,coverEnabled);
+      if(error){
+        if(files[0]&&path!==current.file_path)await deleteStorage(path);
+        if(uploadedCoverPath)await deleteStorage(uploadedCoverPath);
+        throw error;
+      }
+      if(files[0]&&current.file_path!==path)await deleteStorage(current.file_path);
+      if(oldCover.path&&oldCover.path!==nextCoverPath)await deleteStorage(oldCover.path);
+      toast(uploadedCoverPath?'Đã cập nhật tài liệu và ảnh bìa.':'Đã cập nhật tài liệu.','ok');
+    }else{
+      if(!files.length)throw new Error('Hãy chọn ít nhất một file PDF.');
+      const baseTitle=$('title').value.trim(),description=$('description').value.trim()||null,published=$('published').checked,baseSort=Number($('sortOrder').value)||0;
+      let uploadedCoverPath='';
+      if(coverFile){
+        setStatus('formStatus','Đang tải ảnh bìa PDF lên...');
+        uploadedCoverPath=await uploadCoverImage(coverFile);
+      }
+      let done=0;
+      setProgress(0,files.length,'Đang upload 0/'+files.length);
+      for(const file of files){
+        const path=await uploadOne(file);
+        const basePayload={title:baseTitle&&files.length===1?baseTitle:filenameToTitle(file.name),description,category_id:categoryId,file_path:path,file_name:file.name,sort_order:baseSort+done,published,created_at:new Date().toISOString(),updated_at:new Date().toISOString()};
+        const {error}=await writeDocWithCover(payload=>supabaseClient.from('math_documents').insert(payload),basePayload,uploadedCoverPath||null,coverEnabled);
+        if(error){
+          await deleteStorage(path);
+          if(done===0&&uploadedCoverPath)await deleteStorage(uploadedCoverPath);
+          throw error;
+        }
+        done++;
+        setProgress(done,files.length,`Đã upload ${done}/${files.length}`);
+      }
+      toast(uploadedCoverPath?`Đã thêm ${files.length} tài liệu kèm ảnh bìa.`:`Đã thêm ${files.length} tài liệu.`,'ok');
+    }
+    await loadAll();resetForm();$('uploadProgress').classList.remove('show');setStatus('formStatus','Hoàn tất.',true);
+  }catch(err){
+    console.error(err);setStatus('formStatus',err.message||'Có lỗi xảy ra.');$('uploadProgress').classList.remove('show');toast(err.message||'Có lỗi xảy ra.','error');
+  }finally{
+    if(form)delete form.dataset.saving;
+  }
+}
 async function togglePublished(id){const d=state.documents.find(x=>x.id===id);if(!d)return;const {error}=await supabaseClient.from('math_documents').update({published:!d.published,updated_at:new Date().toISOString()}).eq('id',id);if(error){toast(error.message,'error');return;}toast(d.published?'Đã ẩn tài liệu.':'Đã hiển thị tài liệu.','ok');await loadDocs();}
-async function deleteDoc(id){const d=state.documents.find(x=>x.id===id);if(!d)return;if(!confirm(`Xóa tài liệu “${d.title||d.file_name}”?\nFile PDF trong Storage cũng sẽ bị xóa.`))return;const {error}=await supabaseClient.from('math_documents').delete().eq('id',id);if(error){toast(error.message,'error');return;}await deleteStorage(d.file_path);if(state.editingId===id)resetForm();toast('Đã xóa tài liệu.','ok');await loadAll();}
+async function deleteDoc(id){const d=state.documents.find(x=>x.id===id);if(!d)return;if(!confirm(`Xóa tài liệu “${d.title||d.file_name}”?\nFile PDF trong Storage cũng sẽ bị xóa.`))return;const cover=getDocCoverInfo(d);const {error}=await supabaseClient.from('math_documents').delete().eq('id',id);if(error){toast(error.message,'error');return;}await deleteStorage(d.file_path);if(cover.path)await deleteStorage(cover.path);if(state.editingId===id)resetForm();toast('Đã xóa tài liệu.','ok');await loadAll();}
 async function addCategory(){const name=$('newCategoryName').value.trim();if(!name){setStatus('categoryStatus','Nhập tên danh mục.');return;}const slugBase=slugify(name)||`category-${Date.now()}`;let slug=slugBase;if(state.categories.some(c=>c.slug===slug)){slug=`${slugBase}-${Date.now()}`;}const maxSort=Math.max(0,...state.categories.map(c=>Number(c.sort_order)||0));const {error}=await supabaseClient.from('math_categories').insert({name,slug,sort_order:maxSort+10});if(error){setStatus('categoryStatus',error.message);return;}$('newCategoryName').value='';setStatus('categoryStatus','Đã thêm danh mục.',true);toast('Đã thêm danh mục.','ok');await loadCategories();}
 async function renameCategory(id){const input=document.querySelector(`.category-name-input[data-category-id="${id}"]`);const name=input?.value.trim();if(!name)return;const category=state.categories.find(c=>c.id===id);if(!category)return;if(name===category.name)return;const slugBase=slugify(name)||category.slug||`category-${id}`;const {error}=await supabaseClient.from('math_categories').update({name,slug:slugBase}).eq('id',id);if(error){toast(error.message,'error');return;}toast('Đã đổi tên danh mục.','ok');await loadCategories();}
 async function deleteCategory(id){const cat=state.categories.find(c=>c.id===id);if(!cat)return;const count=state.documents.filter(d=>Number(d.category_id)===Number(id)).length;if(count>0){toast(`Không thể xóa “${cat.name}” vì đang có ${count} tài liệu. Hãy chuyển hoặc xóa tài liệu trước.`,'error');return;}if(!confirm(`Xóa danh mục “${cat.name}”?`))return;const {error}=await supabaseClient.from('math_categories').delete().eq('id',id);if(error){toast(error.message,'error');return;}toast('Đã xóa danh mục.','ok');await loadCategories();}
@@ -442,7 +637,7 @@ async function toggleTikzCodeUnlocked(id){const d=state.tikz.find(x=>String(x.id
 async function deleteTikz(id){const d=state.tikz.find(x=>String(x.id)===String(id));if(!d)return;if(!confirm(`Xóa hình vẽ “${d.title||''}”?`))return;if(d.render_path)await supabaseClient.storage.from(TIKZ_RENDER_BUCKET).remove([d.render_path]);const {error}=await supabaseClient.from('tikz_drawings').delete().eq('id',d.id);if(error){toast(error.message,'error');return;}if(state.editingTikzId===d.id)resetTikzForm();toast('Đã xóa hình vẽ.','ok');await loadTikzAdmin();}
 
 function bindAdminDropZone(zoneId,inputId,acceptFiles,statusId,maxFiles=Infinity){const zone=$(zoneId),input=$(inputId);if(!zone||!input)return;const reset=()=>zone.classList.remove('is-dragging');['dragenter','dragover'].forEach(type=>zone.addEventListener(type,event=>{event.preventDefault();zone.classList.add('is-dragging');}));['dragleave','drop'].forEach(type=>zone.addEventListener(type,event=>{event.preventDefault();reset();}));zone.addEventListener('drop',event=>{const files=[...event.dataTransfer.files].filter(acceptFiles).slice(0,maxFiles);if(!files.length){setStatus(statusId,'Tệp được kéo thả không đúng định dạng hoặc vượt giới hạn dung lượng.');return;}const transfer=new DataTransfer();files.forEach(file=>transfer.items.add(file));input.files=transfer.files;input.dispatchEvent(new Event('change',{bubbles:true}));});}
-function bindAdminDropZones(){bindAdminDropZone('pdfDropZone','fileInput',file=>/\.pdf$/i.test(file.name)&&file.size<=15*1024*1024,'formStatus');bindAdminDropZone('evidenceDropZone','evidenceImageInput',file=>['image/jpeg','image/png','image/webp'].includes(file.type)&&file.size<=10*1024*1024,'evidenceFormStatus',1);const zone=$('tikzImportDropZone');if(!zone)return;const reset=()=>zone.classList.remove('is-dragging');['dragenter','dragover'].forEach(type=>zone.addEventListener(type,event=>{event.preventDefault();zone.classList.add('is-dragging');}));['dragleave','drop'].forEach(type=>zone.addEventListener(type,event=>{event.preventDefault();reset();}));zone.addEventListener('drop',event=>queueTikzImportFiles([...event.dataTransfer.files]));}
+function bindAdminDropZones(){bindAdminDropZone('pdfDropZone','fileInput',file=>/\.pdf$/i.test(file.name)&&file.size<=15*1024*1024,'formStatus');bindAdminDropZone('coverDropZone','coverInput',file=>(['image/jpeg','image/png','image/webp'].includes(file.type)||/\.(jpe?g|png|webp)$/i.test(file.name))&&file.size<=10*1024*1024,'formStatus',1);bindAdminDropZone('evidenceDropZone','evidenceImageInput',file=>['image/jpeg','image/png','image/webp'].includes(file.type)&&file.size<=10*1024*1024,'evidenceFormStatus',1);const zone=$('tikzImportDropZone');if(!zone)return;const reset=()=>zone.classList.remove('is-dragging');['dragenter','dragover'].forEach(type=>zone.addEventListener(type,event=>{event.preventDefault();zone.classList.add('is-dragging');}));['dragleave','drop'].forEach(type=>zone.addEventListener(type,event=>{event.preventDefault();reset();}));zone.addEventListener('drop',event=>queueTikzImportFiles([...event.dataTransfer.files]));}
 function tikzImportId(){state.tikzImportSequence+=1;return `import-${Date.now()}-${state.tikzImportSequence}`;}
 function cleanTikzImportTitle(value){return String(value||'').replace(/\\(?:textbf|textit|mathrm|mathit|text|emph)\s*\{([^}]*)\}/g,'$1').replace(/\\[A-Za-z]+/g,' ').replace(/[{}]/g,' ').replace(/\s+/g,' ').trim().slice(0,180);}
 function extractExercisePrompt(source,position){const starts=[...source.matchAll(/\\begin\s*\{ex\*?\}(?:\[[^\]]*\])?/gi)];for(const start of starts){const endPattern=/\\end\s*\{ex\*?\}/gi;endPattern.lastIndex=start.index+start[0].length;const end=endPattern.exec(source);if(!end||position<start.index||position>end.index)continue;const statement=source.slice(start.index+start[0].length,end.index).split(/\\(?:loigiai|choice|shortans|dapso)\b|\\begin\s*\{(?:solution|loigiai)\}/i)[0].replace(/\\begin\s*\{tikzpicture\}(?:\[[^\]]*\])?[\s\S]*?\\end\s*\{tikzpicture\}/gi,' ').replace(/\\(?:begin|end)\s*\{[^}]+\}(?:\[[^\]]*\])?/g,' ').replace(/\\(?:item|True|False|choice|loigiai|label|ref)\b/g,' ').replace(/[$~^_]/g,' ');return cleanTikzImportTitle(statement);}return '';}
@@ -664,9 +859,9 @@ function previewDoc(id){const d=state.documents.find(x=>x.id===id);if(!d)return;
 function closePreview(){const modal=$('previewModal');modal.classList.remove('open');modal.setAttribute('aria-hidden','true');$('previewFrame').src='about:blank';document.body.style.overflow='';}
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();setStatus('loginStatus','Đang đăng nhập...');const {error}=await supabaseClient.auth.signInWithPassword({email:$('loginEmail').value,password:$('loginPassword').value});if(error){setStatus('loginStatus',error.message);return;}await checkAdmin();});
 $('logoutBtn').addEventListener('click',async()=>{await supabaseClient.auth.signOut();location.reload();});
-$('docForm').addEventListener('submit',saveDoc);$('categoryId')?.addEventListener('change',()=>suggestNextDocumentOrder($('categoryId').value));$('resetBtn').addEventListener('click',resetForm);$('tikzForm').addEventListener('submit',saveTikz);$('tikzResetBtn').addEventListener('click',resetTikzForm);$('tikzAdminSearch').addEventListener('input',()=>{state.tikzPage=1;renderTikzAdmin();});$('tikzRefreshBtn').addEventListener('click',loadTikzAdmin);$('contribRefreshBtn')?.addEventListener('click',loadContributions);$('fileInput').addEventListener('change',renderSelectedFiles);$('addCategoryBtn').addEventListener('click',addCategory);$('refreshBtn').addEventListener('click',loadAll);
+$('docForm').addEventListener('submit',saveDoc);$('categoryId')?.addEventListener('change',()=>suggestNextDocumentOrder($('categoryId').value));$('resetBtn').addEventListener('click',resetForm);$('coverInput')?.addEventListener('change',syncCoverPreviewUI);$('changeCoverBtn')?.addEventListener('click',()=>$('coverInput')?.click());$('removeCoverBtn')?.addEventListener('click',removeCoverFromForm);$('quickCoverInput')?.addEventListener('change',handleQuickCoverChange);$('tikzForm').addEventListener('submit',saveTikz);$('tikzResetBtn').addEventListener('click',resetTikzForm);$('tikzAdminSearch').addEventListener('input',()=>{state.tikzPage=1;renderTikzAdmin();});$('tikzRefreshBtn').addEventListener('click',loadTikzAdmin);$('contribRefreshBtn')?.addEventListener('click',loadContributions);$('fileInput').addEventListener('change',renderSelectedFiles);$('addCategoryBtn').addEventListener('click',addCategory);$('refreshBtn').addEventListener('click',loadAll);
 $('docSearch').addEventListener('input',()=>{state.docPage=1;renderDocs();});$('docFilterCategory').addEventListener('change',()=>{state.docPage=1;renderDocs();});$('docFilterStatus').addEventListener('change',()=>{state.docPage=1;renderDocs();});
-$('requestRefreshBtn')?.addEventListener('click',loadMaterialRequests);$('pdfContributionRefreshBtn')?.addEventListener('click',loadDocumentContributions);$('materialRequestFilter')?.addEventListener('change',()=>{state.materialRequestPage=1;renderMaterialRequests();});$('pdfContributionFilter')?.addEventListener('change',()=>{state.documentContributionPage=1;renderDocumentContributions();});$('evidenceRefreshBtn')?.addEventListener('click',loadAchievementEvidence);$('evidenceForm')?.addEventListener('submit',saveEvidence);$('evidenceResetBtn')?.addEventListener('click',resetEvidenceForm);$('evidenceImageInput')?.addEventListener('change',previewEvidenceFile);$('extractEvidenceBtn')?.addEventListener('click',extractEvidenceImage);$('tikzImportInput')?.addEventListener('change',event=>queueTikzImportFiles([...event.target.files]));$('tikzImportApproveAll')?.addEventListener('click',approveAllTikzImports);$('tikzImportClear')?.addEventListener('click',clearTikzImports);bindAdminDropZones();renderTikzImportQueue();
+$('requestRefreshBtn')?.addEventListener('click',loadMaterialRequests);$('pdfContributionRefreshBtn')?.addEventListener('click',loadDocumentContributions);$('materialRequestFilter')?.addEventListener('change',()=>{state.materialRequestPage=1;renderMaterialRequests();});$('pdfContributionFilter')?.addEventListener('change',()=>{state.documentContributionPage=1;renderDocumentContributions();});$('evidenceRefreshBtn')?.addEventListener('click',loadAchievementEvidence);$('evidenceAdminSearch')?.addEventListener('input',()=>{state.evidencePage=1;renderAchievementEvidence();});$('evidenceAdminGroup')?.addEventListener('change',()=>{state.evidencePage=1;renderAchievementEvidence();});$('evidenceAdminVisibility')?.addEventListener('change',()=>{state.evidencePage=1;renderAchievementEvidence();});$('evidenceForm')?.addEventListener('submit',saveEvidence);$('evidenceResetBtn')?.addEventListener('click',resetEvidenceForm);$('evidenceImageInput')?.addEventListener('change',previewEvidenceFile);$('extractEvidenceBtn')?.addEventListener('click',extractEvidenceImage);$('tikzImportInput')?.addEventListener('change',event=>queueTikzImportFiles([...event.target.files]));$('tikzImportApproveAll')?.addEventListener('click',approveAllTikzImports);$('tikzImportClear')?.addEventListener('click',clearTikzImports);bindAdminDropZones();renderTikzImportQueue();
 const adminWorkspaceIds={content:'contentWorkspace',pdf:'pdfWorkspace',requests:'requestsWorkspace',evidence:'evidenceWorkspace',scores:'scoresWorkspace',account:'accountWorkspace',tikz:'tikzWorkspace',contributions:'contributionsWorkspace'};
 $('evidenceGroup').addEventListener('change',updateEvidenceTitleSuggestion);updateEvidenceTitleSuggestion();
 function activateAdminWorkspace(key,scroll){const workspaceId=adminWorkspaceIds[key]||adminWorkspaceIds.pdf;const activeKey=adminWorkspaceIds[key]?key:'pdf';document.querySelectorAll('[data-workspace-tab]').forEach(tab=>{const active=tab.dataset.workspaceTab===activeKey;tab.classList.toggle('active',active);tab.setAttribute('aria-selected',active?'true':'false');});Object.entries(adminWorkspaceIds).forEach(([name,id])=>$(id)?.classList.toggle('active',name===activeKey));if(activeKey==='tikz'&&!state.tikz.length)loadTikzAdmin();if(activeKey==='contributions')loadContributions();if(activeKey==='requests')Promise.all([loadMaterialRequests(),loadDocumentContributions()]);if(activeKey==='evidence')loadAchievementEvidence();if(activeKey==='scores'){window.examScoreOptionsAdmin?.load();window.examScoreAdmin?.load();window.scoreSubmissionAdmin?.load();window.examScoreSettingsAdmin?.load();window.examScoreImport?.load();}if(activeKey==='account')window.adminAccount?.load();if(activeKey==='content')window.siteContentAdmin?.load();history.replaceState(null,'',`${location.pathname}#admin-${activeKey}`);if(scroll)$(workspaceId)?.scrollIntoView({behavior:'auto',block:'start'});}
@@ -674,7 +869,7 @@ function revealActiveWorkspaceTab(){window.adminSidebar?.syncSelection();}
 function switchAdminWorkspace(key){activateAdminWorkspace(key,true);revealActiveWorkspaceTab();}
 document.querySelectorAll('[data-admin-nav]').forEach(button=>button.addEventListener('click',()=>switchAdminWorkspace(button.dataset.adminNav)));
 document.querySelectorAll('[data-workspace-tab]').forEach(tab=>tab.addEventListener('click',()=>activateAdminWorkspace(tab.dataset.workspaceTab,false)));
-$('previewClose').addEventListener('click',closePreview);$('previewModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closePreview();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePreview();});supabaseClient.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT')clearAdminSession();else if(event==='SIGNED_IN')adminAuthGeneration++;scheduleAdminCheck();});const initialWorkspace=(location.hash.match(/^#admin-([a-z]+)/)||[])[1];if(initialWorkspace&&adminWorkspaceIds[initialWorkspace])activateAdminWorkspace(initialWorkspace,false);scheduleAdminCheck();
+$('previewClose').addEventListener('click',closePreview);$('previewModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closePreview();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePreview();});supabaseClient.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){evidenceBulkEpoch++;window.dispatchEvent(new Event('evidence-admin-change'));clearAdminSession();}else{if(event==='SIGNED_IN'){evidenceBulkEpoch++;window.dispatchEvent(new Event('evidence-admin-change'));}adminAuthGeneration++;scheduleAdminCheck();}});const initialWorkspace=(location.hash.match(/^#admin-([a-z]+)/)||[])[1];if(initialWorkspace&&adminWorkspaceIds[initialWorkspace])activateAdminWorkspace(initialWorkspace,false);scheduleAdminCheck();
 </script>
 <script src="assets/exam-scores-admin.js?v=20260914-bulk"></script>
 <script src="assets/exam-score-bulk-admin.js?v=20260914"></script>
@@ -687,67 +882,31 @@ setEvidencePreview();
 <script>
 (function(){
   if(window.__pdfCoverBridgeV2)return; window.__pdfCoverBridgeV2=true;
-  let busy=false,loading=false,epoch=0,pageIds=[];
+  let busy=false;
   const flags=['show_student_name','show_image','show_course_name','show_school_name','show_result_summary','show_description'];
-  const filtered=()=>{const q=($('evidenceAdminSearch')?.value||'').trim().toLocaleLowerCase('vi'),g=$('evidenceAdminGroup')?.value||'all',v=$('evidenceAdminVisibility')?.value||'all';return state.evidence.filter(r=>(g==='all'||r.group_key===g)&&(v==='all'||r.published===(v==='published'))&&(!q||[r.title,r.student_name,r.course_name,r.school_name,r.result_summary,r.description].filter(Boolean).join(' ').toLocaleLowerCase('vi').includes(q)))};
+  const filtered=()=>{const q=($('evidenceAdminSearch')?.value||'').trim().toLocaleLowerCase('vi'),g=$('evidenceAdminGroup')?.value||'all',v=$('evidenceAdminVisibility')?.value||'all';return (state.evidence||[]).filter(r=>(g==='all'||r.group_key===g)&&(v==='all'||r.published===(v==='published'))&&(!q||[r.title,r.student_name,r.course_name,r.school_name,r.result_summary,r.description].filter(Boolean).join(' ').toLocaleLowerCase('vi').includes(q)))};
   const ready=()=>Boolean(verifiedAdminId)&&!state.evidenceSetupError&&!$('adminPanel').classList.contains('hidden');
   const notify=()=>window.dispatchEvent(new Event('evidence-admin-change'));
-  window.evidenceAdmin={getState:()=>({records:state.evidence,filtered:filtered(),pageIds:[...pageIds],ready:ready(),busy:busy||loading,epoch}),mutateRows:async(ids,values={},remove=false)=>{if(!ready()||busy||loading)throw new Error('Danh sách minh chứng chưa sẵn sàng.');const unique=[...new Set(ids.map(String))],rows=unique.map(id=>state.evidence.find(r=>String(r.id)===id));if(rows.some(r=>!r))throw new Error('Có minh chứng không còn trong danh sách.');const patch={};if(!remove){for(const [k,val] of Object.entries(values)){if(!['group_key','course_name','school_name','result_summary','description','published',...flags].includes(k))throw new Error('Trường thông tin không hỗ trợ chỉnh sửa.');if([...flags,'published'].includes(k)){if(typeof val!=='boolean')throw new Error('Giá trị hiện/ẩn không hợp lệ.');patch[k]=val;}else{const text=String(val).trim();if(!text)throw new Error('Thông tin cập nhật không được để trống.');patch[k]=text;}}if(!Object.keys(patch).length)throw new Error('Hãy chọn ít nhất một mục cần thay đổi.');}const result={succeeded:[],failed:[],skipped:[],warnings:[]},runEpoch=epoch;busy=true;notify();try{for(const row of rows){if(runEpoch!==epoch||!ready()){result.skipped.push(row.id);continue;}try{const query=remove?supabaseClient.from('achievement_evidence').delete():supabaseClient.from('achievement_evidence').update({...patch,updated_at:new Date().toISOString()});const {data,error}=await query.eq('id',row.id).select('id,image_path').single();if(error)throw error;if(!data||String(data.id)!==String(row.id))throw new Error('Bản ghi không còn tồn tại hoặc bạn không có quyền sửa.');if(remove){if(data.image_path){const clean=await supabaseClient.storage.from('achievement-evidence').remove([data.image_path]);if(clean.error)result.warnings.push('Đã xóa mục nhưng chưa dọn được ảnh.');}state.evidence=state.evidence.filter(x=>String(x.id)!==String(row.id));}else Object.assign(row,patch);result.succeeded.push(row.id);}catch(error){result.failed.push({id:row.id,name:row.title,message:error.message||'Chưa thể lưu.'});}}if(runEpoch===epoch)await loadAchievementEvidence();}finally{if(runEpoch===epoch){busy=false;notify();}}return result;}};
-  supabaseClient.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'||event==='SIGNED_IN'){epoch++;notify();}});
-  const originalRender=window.renderAchievementEvidence;
-  window.addEventListener('evidence-admin-change',()=>{const f=filtered();pageIds=f.slice((state.evidencePage-1)*state.reviewPerPage,state.evidencePage*state.reviewPerPage).map(r=>String(r.id));});
-  window.addEventListener('evidence-admin-change',()=>{const f=filtered();pageIds=f.slice((state.evidencePage-1)*state.reviewPerPage,state.evidencePage*state.reviewPerPage).map(r=>String(r.id));});
+  window.evidenceAdmin={getState:()=>{const f=filtered();return {records:state.evidence||[],filtered:f,pageIds:f.slice((state.evidencePage-1)*state.reviewPerPage,state.evidencePage*state.reviewPerPage).map(r=>String(r.id)),ready:ready(),busy:busy||evidenceBulkLoading,epoch:evidenceBulkEpoch};},mutateRows:async(ids,values={},remove=false)=>{if(!ready()||busy||evidenceBulkLoading)throw new Error('Danh sách minh chứng chưa sẵn sàng.');const unique=[...new Set(ids.map(String))],rows=unique.map(id=>state.evidence.find(r=>String(r.id)===id));if(rows.some(r=>!r))throw new Error('Có minh chứng không còn trong danh sách.');const patch={};if(!remove){for(const [k,val] of Object.entries(values)){if(!['group_key','course_name','school_name','result_summary','description','published',...flags].includes(k))throw new Error('Trường thông tin không hỗ trợ chỉnh sửa.');if([...flags,'published'].includes(k)){if(typeof val!=='boolean')throw new Error('Giá trị hiện/ẩn không hợp lệ.');patch[k]=val;}else{const text=String(val).trim();if(!text)throw new Error('Thông tin cập nhật không được để trống.');patch[k]=text;}}if(!Object.keys(patch).length)throw new Error('Hãy chọn ít nhất một mục cần thay đổi.');}const result={succeeded:[],failed:[],skipped:[],warnings:[]},runEpoch=evidenceBulkEpoch;busy=true;notify();try{for(const row of rows){if(runEpoch!==evidenceBulkEpoch||!ready()){result.skipped.push(row.id);continue;}try{const query=remove?supabaseClient.from('achievement_evidence').delete():supabaseClient.from('achievement_evidence').update({...patch,updated_at:new Date().toISOString()});const {data,error}=await query.eq('id',row.id).select('id,image_path').single();if(error)throw error;if(!data||String(data.id)!==String(row.id))throw new Error('Bản ghi không còn tồn tại hoặc bạn không có quyền sửa.');if(remove){if(data.image_path){const clean=await supabaseClient.storage.from('achievement-evidence').remove([data.image_path]);if(clean.error)result.warnings.push('Đã xóa mục nhưng chưa dọn được ảnh.');}state.evidence=state.evidence.filter(x=>String(x.id)!==String(row.id));}else Object.assign(row,patch);result.succeeded.push(row.id);}catch(error){result.failed.push({id:row.id,name:row.title,message:error.message||'Chưa thể lưu.'});}}if(runEpoch===evidenceBulkEpoch)await loadAchievementEvidence();}finally{if(runEpoch===evidenceBulkEpoch){busy=false;notify();}}return result;}};
   const fixEvidenceRows=()=>document.querySelectorAll('#evidenceAdminList [data-evidence-row]').forEach(row=>{const input=row.querySelector('[data-evidence-select]');if(input)input.value=row.dataset.evidenceRow;});
   new MutationObserver(fixEvidenceRows).observe($('evidenceAdminList'),{childList:true,subtree:true});
   document.addEventListener('click',event=>{const button=event.target.closest('[data-evidence-field][data-evidence-id]');if(!button||!ready()||busy)return;const row=state.evidence.find(item=>String(item.id)===String(button.dataset.evidenceId));if(!row)return;const key=button.dataset.evidenceField;const current=key==='show_student_name'?row.show_student_name!==false:row[key]!==false;window.evidenceAdmin.mutateRows([row.id],{[key]:!current}).catch(error=>toast(error.message||'Không thể cập nhật minh chứng.','error'));});
 }());
 </script>
-<link rel="stylesheet" href="assets/admin-bulk-actions.css?v=20260913">
 <script src="assets/admin-bulk-actions.js?v=20260913"></script>
 <script src="assets/admin-file-bulk.js?v=20260914-score-led"></script>
-<link rel="stylesheet" href="assets/evidence-bulk-admin.css?v=20260914">
+
 <script src="assets/evidence-bulk-admin.js?v=20260914"></script>
-<script>
-(function(){const api=window.evidenceAdmin;if(!api)return;const mutate=api.mutateRows;api.getState=()=>{const rows=state.evidence||[],q=($('evidenceAdminSearch')?.value||'').trim().toLocaleLowerCase('vi'),g=$('evidenceAdminGroup')?.value||'all',v=$('evidenceAdminVisibility')?.value||'all',filtered=rows.filter(r=>(g==='all'||r.group_key===g)&&(v==='all'||r.published===(v==='published'))&&(!q||[r.title,r.student_name,r.course_name,r.school_name,r.result_summary,r.description].filter(Boolean).join(' ').toLocaleLowerCase('vi').includes(q)));return {records:rows,filtered,pageIds:filtered.slice((state.evidencePage-1)*state.reviewPerPage,state.evidencePage*state.reviewPerPage).map(r=>String(r.id)),ready:Boolean(verifiedAdminId)&&!state.evidenceSetupError&&!$('adminPanel').classList.contains('hidden'),busy:Boolean(api._busy),epoch:api._epoch||0};};})();
-</script>
-<script>
-(function(){const api=window.evidenceAdmin;if(!api)return;const get=api.getState;api.getState=()=>{const s=get();return {...s,busy:s.busy||document.getElementById('evidenceBulkTools')?.getAttribute('aria-busy')==='true'};};const normalize=()=>document.querySelectorAll('#evidenceAdminList [data-evidence-select]').forEach(input=>{input.value=input.closest('[data-evidence-row]')?.dataset.evidenceRow||input.value;});normalize();new MutationObserver(normalize).observe(document.getElementById('evidenceAdminList'),{childList:true,subtree:true});const button=document.getElementById('evidenceBulkSelectPage');if(button)button.onclick=()=>{normalize();document.querySelectorAll('#evidenceAdminList [data-evidence-select]').forEach(input=>{if(!input.checked){input.checked=true;input.dispatchEvent(new Event('change',{bubbles:true}));}});};}());
-</script>
 <script src="assets/admin-galaxy.js?v=20260908-toggle"></script>
-<script>
-// Save an optional cover image after the existing PDF form finishes inserting
-// or updating the document. The cover is stored in the math-pdfs bucket and
-// referenced by math_documents.thumbnail_path.
-(function(){
-  const input=document.getElementById('coverInput');
-  const name=document.getElementById('selectedCover');
-  const form=document.getElementById('docForm');
-  if(!input||!form)return;
-  input.addEventListener('change',()=>{const f=input.files?.[0];if(name)name.textContent=f?`Ảnh bìa: ${f.name}`:'';});
-  form.addEventListener('submit',async()=>{
-    const cover=input.files?.[0]; if(!cover)return;
-    try{
-      const safe=cover.name.replace(/[^a-zA-Z0-9._-]+/g,'-');
-      const path=`covers/${Date.now()}-${crypto.randomUUID()}-${safe}`;
-      const up=await supabaseClient.storage.from('math-pdfs').upload(path,cover,{contentType:cover.type||'image/jpeg',upsert:false});
-      if(up.error)throw up.error;
-      await new Promise(r=>setTimeout(r,1200));
-      const id=document.getElementById('docId')?.value;
-      if(id){const result=await supabaseClient.from('math_documents').update({thumbnail_path:path,updated_at:new Date().toISOString()}).eq('id',id);if(result.error)throw result.error;}
-      else if(typeof loadDocs==='function'){await loadDocs();const fileName=document.getElementById('fileInput')?.files?.[0]?.name;if(fileName){const row=state.documents.find(d=>d.file_name===fileName);if(row){const result=await supabaseClient.from('math_documents').update({thumbnail_path:path,updated_at:new Date().toISOString()}).eq('id',row.id);if(result.error)throw result.error;}}}
-    }catch(error){console.error('Không lưu được ảnh bìa PDF',error);}
-  },{capture:true});
-})();
-</script>
 <script src="assets/galaxy-streaks.js?v=20260908-brighter-streaks"></script>
 <script src="assets/galaxy-clouds.js?v=20260913-performance"></script>
 <script src="assets/galaxy-background.js?v=20260913-unified"></script>
-<link rel="stylesheet" href="assets/page-motion.css?v=20260913-performance">
-<link rel="stylesheet" href="assets/admin-controls.css?v=20260913-checkboxes">
-<script src="assets/page-motion.js?v=20260913-performance"></script>
-<link rel="stylesheet" href="assets/theme-system.css?v=20260916-final" />
 
-<style id="admin-safe-folders-v1">.category-fold{margin:16px 0;border:1px solid rgba(125,211,252,.2);border-radius:13px;padding:0 14px 14px;background:rgba(56,189,248,.035)}.category-fold>summary{cursor:pointer;padding:14px 0;color:#e8f6ff;font-weight:800;list-style:none}.category-fold>summary::-webkit-details-marker{display:none}.category-fold>summary:after{content:'⌄';float:right;color:#7dd3fc}.category-fold[open]>summary:after{content:'⌃'}.category-fold:not([open])>*:not(summary){display:none}</style>
-<script id="admin-safe-folders-v1-script">document.addEventListener('DOMContentLoaded',()=>{const list=document.getElementById('categoryList'),line=document.getElementById('newCategory')?.closest('.category-line');if(!list||!line||list.closest('details'))return;const parent=line.parentElement,wrap=document.createElement('details'),summary=document.createElement('summary'),inside=document.createElement('div');wrap.className='category-fold';wrap.open=localStorage.getItem('category_fold_closed')!=='1';summary.textContent='Quản lý danh mục';parent.insertBefore(wrap,line);wrap.append(summary,inside);inside.append(line,list);wrap.addEventListener('toggle',()=>localStorage.setItem('category_fold_closed',wrap.open?'0':'1'));});</script>
+
+<script src="assets/page-motion.js?v=20260913-performance"></script>
+<script src="assets/liquid-glass.js?v=20261029"></script>
+
+
+<script id="admin-safe-folders-v1-script">document.addEventListener('DOMContentLoaded',()=>{const fold=document.getElementById('categoryFold');if(fold){fold.open=localStorage.getItem('category_fold_closed')!=='1';fold.addEventListener('toggle',()=>localStorage.setItem('category_fold_closed',fold.open?'0':'1'));}const heroBtn=document.getElementById('adminHeroAvatarBtn'),heroInput=document.getElementById('adminHeroAvatarInput');if(heroBtn&&heroInput){heroBtn.addEventListener('click',()=>heroInput.click());heroInput.addEventListener('change',async()=>{const file=heroInput.files?.[0];heroInput.value='';if(!file||!file.type.startsWith('image/'))return;const crop=f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),m=Math.min(im.width,im.height),s=Math.min(640,m||640);c.width=s;c.height=s;c.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,s,s);res(c.toDataURL('image/jpeg',0.88))};im.onerror=()=>res(r.result);im.src=r.result};r.onerror=rej;r.readAsDataURL(f)});try{const dataUrl=await crop(file);try{localStorage.setItem('thanhchi.hero.avatar',dataUrl)}catch(_){}let storedRef=dataUrl;if(typeof supabaseClient!=='undefined'&&supabaseClient){const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';const storagePath=`avatars/hero-avatar-${Date.now()}.${ext}`;const up=await supabaseClient.storage.from('math-pdfs').upload(storagePath,file,{contentType:file.type,upsert:true});if(!up.error)storedRef=storagePath;const {data:cfg}=await supabaseClient.from('site_configuration').select('value').eq('id','site_content').maybeSingle();const nextVal={...(cfg?.value||{}),'home.avatarPath':storedRef};await supabaseClient.from('site_configuration').update({value:nextVal}).eq('id','site_content');}const previewImg=document.querySelector('[data-hero-avatar-preview]');if(previewImg)previewImg.src=dataUrl;if(typeof toast==='function')toast('Đã cập nhật ảnh đại diện ở Hero.','ok');}catch(e){if(typeof toast==='function')toast('Không thể cập nhật ảnh đại diện Hero.','error');}});}});</script>
 </body>
 </html>

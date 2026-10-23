@@ -2,7 +2,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const scores = require('../assets/exam-scores.js');
 
-const row = (score, period = 'gk1', extra = {}) => ({ score, period, grade: 12, class_name: '12A1', school_year: '2026-2027', student_name:'Học sinh mẫu', published: true, hide_student_name:false, ...extra });
+const row = (score, period = 'gk1', extra = {}) => ({ score, period, grade: 12, class_name: '12A1', school_year: '2026-2027', student_name:'Học sinh mẫu', student_tag: null, published: true, hide_student_name:false, ...extra });
 
 test('accepts zero, ten and comma decimal scores; rejects missing and invalid input', () => {
     for (const [value, expected] of [[0, 0], ['0', 0], ['10', 10], [' 8,75 ', 8.75], ['6.5', 6.5]]) assert.equal(scores.parseScore(value), expected);

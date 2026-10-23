@@ -19,14 +19,38 @@
     background: linear-gradient(115deg, rgba(12, 25, 45, .95), rgba(19, 18, 39, .95)) !important;
     box-shadow: 0 14px 40px rgba(0, 0, 0, .32), inset 0 1px 0 rgba(231, 242, 255, .06) !important;
 }
+#siteHeader::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(220px 3px at var(--taskbar-spot-x, 50%) 0px, var(--theme-highlight, #7dd3fc), var(--theme-accent, #38bdf8) 55%, transparent 100%),
+        radial-gradient(280px 115px at var(--taskbar-spot-x, 50%) var(--taskbar-spot-y, 18px), color-mix(in srgb, var(--theme-highlight, #bae6fd) 30%, rgba(255, 255, 255, .16)), color-mix(in srgb, var(--theme-accent, #38bdf8) 16%, transparent) 48%, transparent 78%),
+        radial-gradient(180px 2px at var(--taskbar-spot-x, 50%) 100%, color-mix(in srgb, var(--theme-accent-3, #a855f7) 72%, transparent), transparent 100%);
+    opacity: .48;
+    transition: opacity .28s ease;
+}
+#siteHeader:is(:hover, [data-light-active="true"])::before {
+    opacity: 1;
+}
 #siteHeader::after {
-    left: 8%;
-    right: 8%;
-    top: -1px;
-    bottom: auto;
-    background: linear-gradient(90deg, transparent, rgba(115, 218, 255, .65), rgba(187, 151, 255, .65), transparent);
-    opacity: 0;
-    display:none;
+    content: "";
+    position: absolute;
+    inset: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    background: linear-gradient(108deg, transparent 34%, color-mix(in srgb, var(--theme-accent, #38bdf8) 14%, transparent) 44%, color-mix(in srgb, var(--theme-highlight, #e0f2fe) 36%, rgba(255, 255, 255, .28)) 50%, color-mix(in srgb, var(--theme-accent-3, #a855f7) 14%, transparent) 56%, transparent 66%);
+    background-size: 240% 100%;
+    opacity: .72;
+    animation: taskbar-light-sweep 7.5s cubic-bezier(.4, 0, .2, 1) infinite;
 }
 #siteHeader .navbar {
     position: relative;
@@ -99,15 +123,26 @@
     top: 0;
     z-index: 0;
     pointer-events: none;
-    border: 1px solid rgba(139, 197, 245, .25);
+    border: 1px solid color-mix(in srgb, var(--theme-highlight, #8bc5f5) 58%, rgba(255, 255, 255, .28));
     border-radius: 12px;
-    background: linear-gradient(110deg, rgba(60, 153, 222, .18), rgba(151, 108, 227, .18));
-    box-shadow: inset 0 1px 0 rgba(214, 233, 255, .08), 0 3px 16px rgba(73, 121, 225, .1);
-    opacity: 0 !important;
-    display:none !important;
+    background:
+        radial-gradient(90% 120% at 50% 0%, color-mix(in srgb, var(--theme-highlight, #bae6fd) 42%, rgba(255, 255, 255, .24)), transparent 70%),
+        linear-gradient(115deg, color-mix(in srgb, var(--theme-accent, #3c99de) 28%, transparent), color-mix(in srgb, var(--theme-accent-3, #976ce3) 24%, transparent));
+    box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--theme-highlight, #d6e9ff) 72%, rgba(255, 255, 255, .35)),
+        0 4px 20px color-mix(in srgb, var(--theme-glow, rgba(73, 121, 225, .28)) 65%, transparent);
+    opacity: 0;
+    visibility: hidden;
     transition: transform .36s cubic-bezier(.22, 1, .36, 1), width .3s ease, height .3s ease, opacity .2s ease;
 }
-.site-nav-indicator,.site-nav-indicator::before,.site-nav-indicator::after { display:none !important; visibility:hidden !important; opacity:0 !important; }
+.site-nav-indicator[data-visible="true"] {
+    opacity: 1;
+    visibility: visible;
+}
+@keyframes taskbar-light-sweep {
+    0% { background-position: 135% 0; }
+    55%, 100% { background-position: -65% 0; }
+}
 #siteHeader:not([data-nav-ready]) .nav-link.active { background: transparent !important; }
 #siteHeader .menu-toggle { border-color: rgba(168, 186, 229, .25); background: rgba(100, 122, 194, .12); }
 #siteHeader .menu-toggle i { display: none; }
@@ -176,5 +211,5 @@
 }
 @keyframes site-menu-reveal { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
-    #siteHeader, #siteHeader *, #siteHeader *::before, #siteHeader *::after { animation: none !important; transition: none !important; }
+    #siteHeader, #siteHeader::before, #siteHeader::after, #siteHeader *, #siteHeader *::before, #siteHeader *::after { animation: none !important; transition: none !important; }
 }
