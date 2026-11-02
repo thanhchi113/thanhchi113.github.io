@@ -42,4 +42,8 @@ assert.ok(html.includes('.draw-dash') && html.includes('class="draw-dash"'), 'Mi
 assert.ok(html.includes("Thiết diện (ACD')") && html.includes('M(x₀;y₀;z₀)') && html.includes("M'(x₀;y₀;0)"), 'Missing (ACD\') cross-section or 3-component Oxyz point M(x0;y0;z0)');
 assert.ok(html.includes('data-sheet-mode="pyramid"') && html.includes('Hình chóp tứ giác S.ABCD') && html.includes('BBT Hàm bậc 3'), 'Missing quadrilateral pyramid S.ABCD or cubic variation table (BBT)');
 
-console.log('PASS: All assertions passed (16 generic draft students, 1-line score rows, Admin auth/reset/CRUD/anonymize/card editor, full bento grid, ACD\' + 3D Oxyz + Pyramid S.ABCD + Cubic BBT).');
+// 6. Verify synchronized custom scrollbars, custom select dropdown, and custom checkboxes
+assert.ok(html.includes('::-webkit-scrollbar-thumb') && html.includes('scrollbar-color: var(--ink-soft) var(--paper-2)'), 'Missing custom synchronized scrollbar styles');
+assert.ok(html.includes('.custom-select-menu') && html.includes('initCustomClassSelect') && html.includes('input[type="checkbox"]:checked'), 'Missing custom notebook select dropdown or custom checkbox styles');
+
+console.log('PASS: All assertions passed (16 generic draft students, 1-line score rows, Admin auth/reset/CRUD/anonymize/card editor, full bento grid, ACD\' + 3D Oxyz + Pyramid S.ABCD + Cubic BBT, synchronized select boxes & scrollbars).');
