@@ -141,10 +141,20 @@ assert.ok(
   'Hero h1 must preserve its original 2-line structure and italic yellow-highlighted <em>'
 );
 
-// 10. Verify Strictly Zero Emojis or Text Arrows Across All Pages
+// 10. Verify Document Cards Default to File - Trang A4 - PDF Icon & Admin Can Select Optional Icon
+assert.ok(
+  html.includes('id="doc-svg-type-input"') &&
+  html.includes('<option value="pdf_a4" selected>File - Trang A4 - PDF (Mặc định)</option>') &&
+  html.includes('FILE · PDF') &&
+  html.includes('>A4</text>') &&
+  !html.includes('svgType: "cubic"'),
+  'Document cards must default to File - Trang A4 - PDF icon with Admin option to pick custom display'
+);
+
+// 11. Verify Strictly Zero Emojis or Text Arrows Across All Pages
 const emojiOrArrowRegex = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}→↻↔]/u;
 assert.ok(!emojiOrArrowRegex.test(html), 'index.html must not contain any emojis, dingbats, or text arrow symbols');
 assert.ok(!emojiOrArrowRegex.test(taiLieuHtml), 'tai-lieu.html must not contain any emojis, dingbats, or text arrow symbols');
 assert.ok(!emojiOrArrowRegex.test(adminHtml), 'admin.html must not contain any emojis, dingbats, or text arrow symbols');
 
-console.log('PASS: All assertions passed (Instant Card Click to View, 100% Vector Icons, Standalone Admin Studio with Font/Bold/Italic/Size/Line-break Sync, Clean Public Score UI, Fixed Taskbar, 3D Geometry + Shaded Integral + Solid of Revolution).');
+console.log('PASS: All assertions passed (Default File-A4-PDF Card Icon with Admin Selector, Instant Card Click to View, 100% Vector Icons, Standalone Admin Dashboard, 3D Geometry + Shaded Integral + Solid of Revolution).');

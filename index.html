@@ -2397,10 +2397,24 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
               <input type="number" id="doc-pages-input" min="1" max="200" value="4">
             </div>
           </div>
-          <div class="form-grid" style="grid-template-columns:1.3fr 1fr auto;align-items:end">
+          <div class="form-grid" style="grid-template-columns:1.1fr 0.9fr 1fr auto;align-items:end">
             <div class="form-field">
               <label for="doc-desc-input">Mô tả ngắn gọn</label>
               <input type="text" id="doc-desc-input" placeholder="Mô tả nội dung chính của tài liệu...">
+            </div>
+            <div class="form-field">
+              <label for="doc-svg-type-input">Biểu tượng hiển thị trên Card</label>
+              <select id="doc-svg-type-input">
+                <option value="pdf_a4">File - Trang A4 - PDF (Mặc định)</option>
+                <option value="exam_sheet">Tờ Đề Thi A4 Chuẩn 3 Phần</option>
+                <option value="book_doc">Tập Chuyên Đề / Sổ Tay A4</option>
+                <option value="custom_cubic">Đồ thị Hàm bậc 3 &amp; Cực trị</option>
+                <option value="custom_oxyz">Hình không gian &amp; Hệ trục Oxyz</option>
+                <option value="custom_circle">Đường tròn &amp; Tiếp tuyến</option>
+                <option value="custom_pyramid">Hình chóp tứ giác S.ABCD</option>
+                <option value="custom_integral">Tích phân &amp; Khối tròn xoay</option>
+                <option value="custom_parabola">Đường Parabol &amp; Conic</option>
+              </select>
             </div>
             <div class="form-field">
               <label for="doc-file-input">Chọn file PDF từ máy tính (.pdf)</label>
@@ -4548,7 +4562,7 @@ const DEFAULT_DOCS = [
     accent: "#a11e21",
     pages: 4,
     desc: "Hệ thống 30 câu Trắc nghiệm ABCD, Đúng/Sai 4 ý và Trả lời ngắn về hàm bậc 3, cực trị và đọc BBT.",
-    svgType: "cubic"
+    svgType: "pdf_a4"
   },
   {
     id: "DOC02",
@@ -4558,7 +4572,7 @@ const DEFAULT_DOCS = [
     accent: "#1f5fbf",
     pages: 4,
     desc: "Phương pháp dựng thiết diện hình hộp, chóp S.ABCD và tọa độ hóa Oxyz giải nhanh bài toán khoảng cách, góc.",
-    svgType: "oxyz"
+    svgType: "pdf_a4"
   },
   {
     id: "DOC03",
@@ -4568,7 +4582,7 @@ const DEFAULT_DOCS = [
     accent: "#2e7d4f",
     pages: 3,
     desc: "Đầy đủ Rút gọn căn thức, Hệ phương trình, Định lí Vi-ét, Toán thực tế và Hình học đường tròn 3 ý.",
-    svgType: "circle"
+    svgType: "pdf_a4"
   },
   {
     id: "DOC04",
@@ -4578,7 +4592,7 @@ const DEFAULT_DOCS = [
     accent: "#7a1b1e",
     pages: 4,
     desc: "Trọn bộ đề ôn luyện Giữa kì 1, Cuối kì 1, Giữa kì 2, Cuối kì 2 chuẩn cấu trúc mới kèm lời giải chi tiết.",
-    svgType: "pyramid"
+    svgType: "pdf_a4"
   },
   {
     id: "DOC05",
@@ -4588,7 +4602,7 @@ const DEFAULT_DOCS = [
     accent: "#b55b14",
     pages: 4,
     desc: "Ứng dụng tích phân tính diện tích hình phẳng, thể tích vật thể tròn xoay và bài toán chuyển động thực tế.",
-    svgType: "integral"
+    svgType: "pdf_a4"
   },
   {
     id: "DOC06",
@@ -4598,7 +4612,7 @@ const DEFAULT_DOCS = [
     accent: "#1f5fbf",
     pages: 3,
     desc: "Nắm chắc đỉnh Parabol I(-b/2a; -Δ/4a), sự biến thiên, tích vô hướng của hai vectơ và hệ thức lượng.",
-    svgType: "parabola"
+    svgType: "pdf_a4"
   },
   {
     id: "DOC07",
@@ -4608,27 +4622,65 @@ const DEFAULT_DOCS = [
     accent: "#2e7d4f",
     pages: 3,
     desc: "Các dạng toán tỉ lệ thức, đa thức, định lí Thales và các đường đồng quy trong tam giác.",
-    svgType: "trig"
+    svgType: "pdf_a4"
   }
 ];
 
-function getDocMiniSvg(type, accent) {
-  if (type === "oxyz") {
+function getDocMiniSvg(type, accent = "#a11e21") {
+  if (type === "exam_sheet") {
+    return `<svg viewBox="0 0 140 90" fill="none">
+      <rect x="40" y="7" width="60" height="76" rx="4" fill="#fffdf8" stroke="#cbb8a4" stroke-width="1.6"/>
+      <path d="M48 20H72M48 29H92M48 37H84" stroke="#6f625d" stroke-width="1.7" stroke-linecap="round"/>
+      <circle cx="85" cy="20" r="8" fill="rgba(198,40,40,0.12)" stroke="#c62828" stroke-width="1.4"/>
+      <text x="85" y="23.5" text-anchor="middle" font-size="8.5" font-weight="800" fill="#c62828">10đ</text>
+      <circle cx="52" cy="50" r="3.5" fill="${accent}"/><circle cx="64" cy="50" r="3.5" stroke="#9e8f85" stroke-width="1.3"/><circle cx="76" cy="50" r="3.5" stroke="#9e8f85" stroke-width="1.3"/><circle cx="88" cy="50" r="3.5" stroke="#9e8f85" stroke-width="1.3"/>
+      <circle cx="52" cy="61" r="3.5" stroke="#9e8f85" stroke-width="1.3"/><circle cx="64" cy="61" r="3.5" fill="#1f5fbf"/><circle cx="76" cy="61" r="3.5" stroke="#9e8f85" stroke-width="1.3"/><circle cx="88" cy="61" r="3.5" stroke="#9e8f85" stroke-width="1.3"/>
+      <rect x="46" y="69" width="48" height="10" rx="2.5" fill="${accent}"/>
+      <text x="70" y="76.5" text-anchor="middle" font-size="7.5" font-weight="800" fill="#fff">ĐỀ THI A4</text>
+    </svg>`;
+  }
+  if (type === "book_doc") {
+    return `<svg viewBox="0 0 140 90" fill="none">
+      <rect x="42" y="8" width="58" height="74" rx="5" fill="#fffdf8" stroke="${accent}" stroke-width="1.8"/>
+      <path d="M51 8V82" stroke="${accent}" stroke-width="1.6"/>
+      <path d="M38 20H45M38 36H45M38 52H45M38 68H45" stroke="#650f12" stroke-width="2.2" stroke-linecap="round"/>
+      <rect x="58" y="18" width="34" height="18" rx="3" fill="rgba(161,30,33,0.1)" stroke="${accent}" stroke-width="1.2"/>
+      <text x="75" y="30.5" text-anchor="middle" font-size="11" font-weight="800" fill="${accent}">π · ∑</text>
+      <path d="M58 46H92M58 55H88M58 64H82" stroke="#6f625d" stroke-width="1.7" stroke-linecap="round"/>
+    </svg>`;
+  }
+  if (type === "custom_cubic") {
+    return `<svg viewBox="0 0 140 90" fill="none"><path d="M16 46H124M68 80V12" stroke="#3b3534" stroke-width="1.5"/><path d="M24 72C36 20 48 20 68 46C88 72 100 72 112 20" stroke="${accent}" stroke-width="2.3"/><circle cx="45" cy="28" r="3.2" fill="#c62828"/><circle cx="91" cy="64" r="3.2" fill="#1f5fbf"/></svg>`;
+  }
+  if (type === "custom_oxyz") {
     return `<svg viewBox="0 0 140 90" fill="none"><polygon points="34,54 68,68 82,18" fill="rgba(198,40,40,0.14)"/><path d="M34 18V54M34 54L20 68M34 54H82" stroke="#6f625d" stroke-width="1.3" stroke-dasharray="3 3"/><path d="M34 18L20 32H68L82 18Z M20 32V68H68V32 M68 68L82 54V18" stroke="${accent}" stroke-width="1.7"/><path d="M68 68L82 18" stroke="#c62828" stroke-width="2"/><path d="M34 54L68 68M34 54L82 18" stroke="#c62828" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M106 62V20M106 62H134M106 62L90 78" stroke="#3b3534" stroke-width="1.5"/><circle cx="122" cy="36" r="3.5" fill="#c62828"/></svg>`;
   }
-  if (type === "circle") {
+  if (type === "custom_circle") {
     return `<svg viewBox="0 0 140 90" fill="none"><circle cx="70" cy="45" r="32" stroke="${accent}" stroke-width="2"/><polygon points="70,13 42,64 98,62" stroke="#1f5fbf" stroke-width="1.8" fill="rgba(31,95,191,0.08)"/><path d="M70 13L70 45L42 64M70 45L98 62" stroke="#c62828" stroke-width="1.3" stroke-dasharray="3 3"/><circle cx="70" cy="45" r="3" fill="#c62828"/></svg>`;
   }
-  if (type === "pyramid") {
+  if (type === "custom_pyramid") {
     return `<svg viewBox="0 0 140 90" fill="none"><polygon points="68,12 30,74 88,74 112,54" stroke="${accent}" stroke-width="1.8" fill="rgba(161,30,33,0.06)"/><path d="M68 12L88 74" stroke="${accent}" stroke-width="1.8"/><path d="M68 12V64M30 74L54 54H112M68 12L54 54" stroke="#6f625d" stroke-width="1.3" stroke-dasharray="3 3"/><circle cx="68" cy="12" r="3" fill="#c62828"/></svg>`;
   }
-  if (type === "integral") {
+  if (type === "custom_integral") {
     return `<svg viewBox="0 0 140 90" fill="none"><path d="M16 68H126M28 78V14" stroke="#3b3534" stroke-width="1.5"/><path d="M40 68V34C56 18 82 52 104 26V68Z" fill="rgba(181,91,20,0.18)"/><path d="M32 42C52 14 82 54 112 20" stroke="${accent}" stroke-width="2.2"/><text x="58" y="56" font-size="13" font-weight="bold" fill="${accent}">∫ f(x)dx</text></svg>`;
   }
-  if (type === "parabola") {
+  if (type === "custom_parabola") {
     return `<svg viewBox="0 0 140 90" fill="none"><path d="M16 44H124M68 82V12" stroke="#3b3534" stroke-width="1.5"/><path d="M36 16Q68 118 100 16" stroke="${accent}" stroke-width="2.3"/><circle cx="68" cy="67" r="3.5" fill="#c62828"/></svg>`;
   }
-  return `<svg viewBox="0 0 140 90" fill="none"><path d="M16 46H124M68 80V12" stroke="#3b3534" stroke-width="1.5"/><path d="M24 72C36 20 48 20 68 46C88 72 100 72 112 20" stroke="${accent}" stroke-width="2.3"/><circle cx="45" cy="28" r="3.2" fill="#c62828"/><circle cx="91" cy="64" r="3.2" fill="#1f5fbf"/></svg>`;
+  // Mặc định ("pdf_a4"): Biểu tượng File - Trang A4 - PDF chuyên nghiệp
+  return `<svg viewBox="0 0 140 90" fill="none">
+    <!-- Tờ giấy A4 xếp lớp phía sau -->
+    <rect x="46" y="6" width="54" height="72" rx="4" fill="#f3eadb" stroke="#d5c3ae" stroke-width="1.4"/>
+    <!-- Tờ giấy A4 chính phía trước có gấp góc trên phải -->
+    <path d="M39 11C39 8.8 40.8 7 43 7H79L95 23V79C95 81.2 93.2 83 91 83H43C40.8 83 39 81.2 39 79V11Z" fill="#fffdf9" stroke="#bfa891" stroke-width="1.7"/>
+    <path d="M79 7V19C79 21.2 80.8 23 83 23H95" fill="#efe3d1" stroke="#bfa891" stroke-width="1.6" stroke-linejoin="round"/>
+    <!-- Dòng kẻ nội dung trang A4 -->
+    <text x="47" y="22" font-size="9.5" font-weight="800" fill="#650f12">A4</text>
+    <path d="M47 30H86M47 38H86M47 46H78M47 54H70" stroke="#8a796d" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- Nhãn băng rôn PDF nổi bật -->
+    <rect x="33" y="59" width="68" height="18" rx="4.5" fill="${accent}"/>
+    <text x="67" y="71.5" text-anchor="middle" font-family="'Be Vietnam Pro', sans-serif" font-size="10.5" font-weight="800" letter-spacing="0.6" fill="#ffffff">FILE · PDF</text>
+  </svg>`;
 }
 
 // ============================================================================
@@ -4787,7 +4839,7 @@ async function upsertDocMetadataToSupabase(docEntry) {
         accent: docEntry.accent || "#a11e21",
         pages: docEntry.pages || 4,
         desc: docEntry.desc || "",
-        svg_type: docEntry.svgType || "cubic",
+        svg_type: docEntry.svgType || "pdf_a4",
         storage_path: docEntry.storagePath || null,
         allow_download: Boolean(docEntry.allowDownload),
         has_uploaded_pdf: Boolean(docEntry.hasUploadedPdf),
@@ -4817,7 +4869,7 @@ async function syncDocsFromSupabase() {
         accent: r.accent || "#a11e21",
         pages: r.pages || 4,
         desc: r.desc || "",
-        svgType: r.svg_type || "cubic",
+        svgType: r.svg_type || "pdf_a4",
         storagePath: r.storage_path || null,
         allowDownload: Boolean(r.allow_download),
         hasUploadedPdf: Boolean(r.has_uploaded_pdf || r.storage_path)
@@ -5101,7 +5153,7 @@ function buildLockerBays() {
             <span class="doc-card__pages">${doc.pages || 4} tr</span>
           </div>
           <div class="doc-card__title">${doc.title}</div>
-          <div class="doc-card__preview">${getDocMiniSvg(doc.svgType || "cubic", doc.accent || "#a11e21")}</div>
+          <div class="doc-card__preview">${getDocMiniSvg(doc.svgType || "pdf_a4", doc.accent || "#a11e21")}</div>
           <div class="doc-card__foot">
             <span>${doc.cat}</span>
             <span style="display:inline-flex;align-items:center;gap:3px">${canDl ? `${ico("download")}<span>Cho tải</span>` : `${ico("lock")}<span>Chỉ xem</span>`}</span>
@@ -5229,7 +5281,7 @@ function renderFullDocLibrary() {
             <span class="dl-status-pill ${canDl ? 'can-dl' : 'no-dl'}">${canDl ? `${ico("download")}<span>Cho phép tải</span>` : `${ico("lock")}<span>Chỉ xem</span>`}</span>
           </div>
           <div style="display:grid;grid-template-columns:84px 1fr;gap:12px;align-items:center;margin-top:10px">
-            <div class="doc-lib-thumb">${getDocMiniSvg(doc.svgType || "cubic", doc.accent || "#a11e21")}</div>
+            <div class="doc-lib-thumb">${getDocMiniSvg(doc.svgType || "pdf_a4", doc.accent || "#a11e21")}</div>
             <div>
               <h4>${doc.title}</h4>
               <div style="color:var(--muted);font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:4px">${srcHtml}<span>· ${doc.pages || 4} trang</span></div>
@@ -6077,6 +6129,11 @@ function populateDocFormForEdit(doc) {
   document.getElementById("doc-pages-input").value = doc.pages || 4;
   document.getElementById("doc-desc-input").value = doc.desc || "";
   document.getElementById("doc-allow-dl-input").checked = Boolean(doc.allowDownload);
+  const svgInp = document.getElementById("doc-svg-type-input");
+  if (svgInp) {
+    const validTypes = Array.from(svgInp.options).map(o => o.value);
+    svgInp.value = validTypes.includes(doc.svgType) ? doc.svgType : "pdf_a4";
+  }
   const submitBtn = document.getElementById("btn-submit-doc");
   if (submitBtn) submitBtn.innerHTML = `${ico("save")}<span>Lưu cập nhật tài liệu (${doc.id})</span>`;
   const cancelBtn = document.getElementById("btn-cancel-edit-doc");
@@ -6091,6 +6148,8 @@ function resetDocEditForm() {
   document.getElementById("doc-pages-input").value = 4;
   document.getElementById("doc-desc-input").value = "";
   document.getElementById("doc-allow-dl-input").checked = false;
+  const svgInp = document.getElementById("doc-svg-type-input");
+  if (svgInp) svgInp.value = "pdf_a4";
   const fileInp = document.getElementById("doc-file-input");
   if (fileInp) fileInp.value = "";
   const submitBtn = document.getElementById("btn-submit-doc");
@@ -6273,6 +6332,7 @@ document.getElementById("doc-upload-form").addEventListener("submit", async (e) 
   const badge = document.getElementById("doc-badge-input").value.trim() || "TÀI LIỆU MỚI";
   const pages = Math.max(1, Number(document.getElementById("doc-pages-input").value) || 4);
   const allowDownload = document.getElementById("doc-allow-dl-input").checked;
+  const svgType = (document.getElementById("doc-svg-type-input")?.value || "pdf_a4").trim();
   const desc = document.getElementById("doc-desc-input").value.trim() || "Tài liệu do Thầy Huỳnh Thanh Chí biên soạn và đăng tải.";
   const fileInput = document.getElementById("doc-file-input");
   const file = fileInput.files && fileInput.files[0];
@@ -6282,7 +6342,7 @@ document.getElementById("doc-upload-form").addEventListener("submit", async (e) 
   const baseEntry = existingIdx >= 0 ? docRecords[existingIdx] : {
     id: targetId,
     accent: "#a11e21",
-    svgType: "cubic",
+    svgType: "pdf_a4",
     storagePath: null,
     hasUploadedPdf: false
   };
@@ -6295,6 +6355,7 @@ document.getElementById("doc-upload-form").addEventListener("submit", async (e) 
     badge,
     pages,
     desc,
+    svgType,
     allowDownload,
     hasUploadedPdf: Boolean(file || baseEntry.hasUploadedPdf)
   };
