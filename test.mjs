@@ -123,7 +123,16 @@ assert.ok(
 );
 assert.match(html, /\[data-editable\]\s*\{\s*white-space:\s*pre-line;\s*\}/, '[data-editable] must support custom multi-line line breaks via white-space: pre-line');
 
-// 9. Verify Strictly Zero Emojis or Text Arrows Across All Pages
+// 9. Verify Hero h1 matches initial version (two lines + italic em with yellow swipe highlight) and is never stripped by live DOM storage
+assert.ok(
+  html.includes('<h1>Học hiểu bản chất.<br><em>Bứt phá điểm 9+ Toán.</em></h1>') &&
+  html.includes('font: 800 clamp(40px, 5.6vw, 70px)/1.03 var(--serif);') &&
+  html.includes('h1 em { font-style: italic; font-weight: 650; color: var(--ink); position: relative; white-space: nowrap; }') &&
+  html.includes('if (heroH1 && !heroH1.querySelector("em"))'),
+  'Hero h1 must preserve its original 2-line structure and italic yellow-highlighted <em>'
+);
+
+// 10. Verify Strictly Zero Emojis or Text Arrows Across All Pages
 const emojiOrArrowRegex = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}→↻↔]/u;
 assert.ok(!emojiOrArrowRegex.test(html), 'index.html must not contain any emojis, dingbats, or text arrow symbols');
 assert.ok(!emojiOrArrowRegex.test(taiLieuHtml), 'tai-lieu.html must not contain any emojis, dingbats, or text arrow symbols');

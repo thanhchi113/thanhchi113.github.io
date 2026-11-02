@@ -166,10 +166,10 @@ header.top {
 .eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 600 13px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
 .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--ink); }
 h1 {
-  margin: 18px 0 22px; font: 800 clamp(34px, 4.1vw, 52px)/1.08 var(--serif); letter-spacing: -.025em; color: var(--ink-deep);
+  margin: 18px 0 22px; font: 800 clamp(40px, 5.6vw, 70px)/1.03 var(--serif); letter-spacing: -.025em; color: var(--ink-deep);
   font-variation-settings: "opsz" 144;
 }
-h1 em { display: inline-block; font-style: italic; font-weight: 650; color: var(--ink); position: relative; white-space: nowrap; }
+h1 em { font-style: italic; font-weight: 650; color: var(--ink); position: relative; white-space: nowrap; }
 h1 em::after {
   content: ""; position: absolute; left: -2%; right: -2%; bottom: .06em; height: .18em; z-index: -1;
   background: var(--hl); border-radius: 40% 60% 50% 40%; transform: skewX(-12deg) scaleX(0); transform-origin: left;
@@ -5943,7 +5943,7 @@ document.getElementById("btn-reset-docs").addEventListener("click", () => {
 // CHẾ ĐỘ SỬA TRỰC TIẾP TRÊN TRANG WEB (LIVE INLINE EDITING) & LINK ADMIN
 // ============================================================================
 const LIVE_DOM_STORAGE_KEY = "lop_toan_anh_chi_live_dom_v1";
-const LIVE_EDIT_SELECTORS = "[data-editable], .hero h1, .hero-sub, .sec-head h2, .sec-head p, .eyebrow, .contact-box h2, .contact-box p, .c-item b, .c-item span";
+const LIVE_EDIT_SELECTORS = "[data-editable]";
 let isLiveEditMode = false;
 
 function getLiveEditableElements() {
@@ -5953,12 +5953,18 @@ function getLiveEditableElements() {
 }
 
 function applyLiveDomEdits() {
+  // Đảm bảo tiêu đề Hero luôn giữ đúng cấu trúc 2 dòng & chữ nghiêng gạch chân vàng như bản gốc ban đầu
+  const heroH1 = document.querySelector(".hero h1");
+  if (heroH1 && !heroH1.querySelector("em")) {
+    heroH1.innerHTML = "Học hiểu bản chất.<br><em>Bứt phá điểm 9+ Toán.</em>";
+  }
   try {
     const raw = localStorage.getItem(LIVE_DOM_STORAGE_KEY);
     if (!raw) return;
     const map = JSON.parse(raw) || {};
-    getLiveEditableElements().forEach((el, idx) => {
-      const key = el.dataset.editable ? `card_${el.dataset.editable}` : `dom_${idx}`;
+    getLiveEditableElements().forEach((el) => {
+      if (!el.dataset.editable) return;
+      const key = `card_${el.dataset.editable}`;
       if (map[key] !== undefined) {
         el.textContent = map[key];
       }
@@ -5969,14 +5975,11 @@ function applyLiveDomEdits() {
 function saveLiveDomEdits() {
   const cardSaved = loadSavedCards();
   const domMap = {};
-  getLiveEditableElements().forEach((el, idx) => {
+  getLiveEditableElements().forEach((el) => {
+    if (!el.dataset.editable) return;
     const txt = el.textContent.trim();
-    if (el.dataset.editable) {
-      cardSaved[el.dataset.editable] = txt;
-      domMap[`card_${el.dataset.editable}`] = txt;
-    } else {
-      domMap[`dom_${idx}`] = txt;
-    }
+    cardSaved[el.dataset.editable] = txt;
+    domMap[`card_${el.dataset.editable}`] = txt;
   });
   localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(cardSaved));
   localStorage.setItem(LIVE_DOM_STORAGE_KEY, JSON.stringify(domMap));
