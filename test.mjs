@@ -125,4 +125,28 @@ assert.ok(
 );
 assert.match(html, /h2 em\s*\{[^}]*display:\s*inline-block[^}]*white-space:\s*nowrap/s, 'h2 em must keep colored phrase unbroken on 1 line or cleanly wrap as a whole');
 
-console.log('PASS: All assertions passed (Auto-linked Supabase Cloud uiyqdqucqplifcvukwul, LTAC Vault Encryption, Anti-F12/DevTools Shield, Balanced Headings).');
+// 12. Verify Fixed Top Taskbar, Dedicated tai-lieu.html Page, Pagination (1, 2, 3... + Jump to Page), and Strictly Zero Emojis
+assert.match(html, /header\.top\s*\{[^}]*position:\s*fixed[^}]*top:\s*0[^}]*z-index:\s*950/s, 'header.top must be fixed at top with high z-index');
+assert.ok(fs.existsSync(new URL('./tai-lieu.html', import.meta.url)), 'Missing dedicated tai-lieu.html page');
+const taiLieuHtml = fs.readFileSync(new URL('./tai-lieu.html', import.meta.url), 'utf8');
+assert.ok(
+  taiLieuHtml.includes('doc-library-page') &&
+  taiLieuHtml.includes('window.IS_DOC_LIBRARY_PAGE = true') &&
+  html.includes('href="./tai-lieu.html"') &&
+  html.includes('MAX_LOCKER_DOCS = 7') &&
+  html.includes('id="doc-lib-pagination"') &&
+  html.includes('data-lib-page=') &&
+  html.includes('id="lib-goto-input"') &&
+  html.includes('id="lib-goto-btn"') &&
+  html.includes('id="pdf-page-nums"') &&
+  html.includes('data-pdf-page=') &&
+  html.includes('id="pdf-goto-input"') &&
+  html.includes('id="pdf-goto-btn"'),
+  'Missing dedicated tai-lieu.html configuration or full pagination controls (1, 2, 3... + Đến trang)'
+);
+const emojiRegex = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u;
+assert.ok(!emojiRegex.test(html), 'index.html must not contain any emojis or dingbat characters');
+assert.ok(!emojiRegex.test(taiLieuHtml), 'tai-lieu.html must not contain any emojis or dingbat characters');
+assert.ok(!emojiRegex.test(adminHtml), 'admin.html must not contain any emojis or dingbat characters');
+
+console.log('PASS: All assertions passed (Fixed Taskbar, Dedicated tai-lieu.html with Pagination 1,2,3... & Jump to Page, Zero Emojis, Synchronized SVG Icons).');
