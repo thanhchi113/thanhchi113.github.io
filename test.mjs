@@ -38,6 +38,8 @@ assert.ok(html.includes('id="btn-delete-student"') && html.includes('id="toggle-
 
 // 5. Verify bento grid gap is filled (c6 & c7 cards) and floating switchable math diagrams exist
 assert.ok(html.includes('data-editable="c6_title"') && html.includes('data-editable="c7_title"'), 'Missing c6/c7 cards to fill #gioi-thieu 3-column grid');
-assert.ok(html.includes('@keyframes sheet-float') && html.includes('data-sheet-mode="cubic"') && html.includes('data-sheet-mode="sin"') && html.includes('data-sheet-mode="cube"'), 'Missing floating animation or switchable math slides (cubic, sin, cube)');
+assert.ok(html.includes('.draw-dash') && html.includes('class="draw-dash"'), 'Missing .draw-dash class for true dashed lines in 3D geometry');
+assert.ok(html.includes("Thiết diện (ACD')") && html.includes('M(x₀;y₀;z₀)') && html.includes("M'(x₀;y₀;0)"), 'Missing (ACD\') cross-section or 3-component Oxyz point M(x0;y0;z0)');
+assert.ok(html.includes('data-sheet-mode="pyramid"') && html.includes('Hình chóp tứ giác S.ABCD') && html.includes('BBT Hàm bậc 3'), 'Missing quadrilateral pyramid S.ABCD or cubic variation table (BBT)');
 
-console.log('PASS: All assertions passed (16 generic draft students, 1-line score rows, Admin auth/reset/CRUD/anonymize/card editor, full bento grid, floating math graphs).');
+console.log('PASS: All assertions passed (16 generic draft students, 1-line score rows, Admin auth/reset/CRUD/anonymize/card editor, full bento grid, ACD\' + 3D Oxyz + Pyramid S.ABCD + Cubic BBT).');
