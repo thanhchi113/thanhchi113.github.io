@@ -1,0 +1,1598 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thầy Huỳnh Thanh Chí – Lớp Toán Anh Chí (Toán 6 – 12 · Luyện thi 9 vào 10 &amp; THPT QG)</title>
+<meta name="description" content="Trang thông tin cá nhân Thầy Huỳnh Thanh Chí – Lớp Toán Anh Chí: Giới thiệu phương pháp giảng dạy, lịch các lớp Toán 6–12, bảng vàng thành tích và cổng tra cứu điểm Giữa kì, Cuối kì, Thi 9 vào 10, Thi THPT Quốc gia.">
+<meta name="theme-color" content="#650f12">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23650f12'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='36' font-weight='800' font-style='italic' text-anchor='middle' fill='%23fbf7ef'%3E%CF%80%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,650;0,9..144,800;1,9..144,500;1,9..144,650&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #650f12;
+  --ink-deep: #3d0709;
+  --ink-soft: #8f2c30;
+  --paper: #fbf7ef;
+  --paper-2: #f4ede0;
+  --rule: #d8e3ef;
+  --margin: #e8a9ab;
+  --text: #2a211f;
+  --muted: #6f625d;
+  --line: #e6dbcd;
+  --blue: #1f5fbf;
+  --green: #2e7d4f;
+  --hl: #fff2a8;
+  --serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --sans: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  --hand: "Patrick Hand", "Segoe Print", cursive;
+  --radius: 18px;
+  --shadow: 0 1px 0 rgba(61, 7, 9, .05), 0 22px 50px -28px rgba(61, 7, 9, .45);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; color: var(--text); background: var(--paper); font: 400 17px/1.65 var(--sans);
+  overflow-x: hidden;
+}
+/* The whole site is a page of ruled math notebook paper. */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 35px, var(--rule) 35px 36px);
+  opacity: .55;
+}
+body::after {
+  content: ""; position: fixed; top: 0; bottom: 0; left: max(18px, calc(50% - 640px)); width: 2px; z-index: -1;
+  background: var(--margin); opacity: .7; pointer-events: none;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+.wrap { width: min(1180px, 100% - 48px); margin: 0 auto; }
+.hand { font-family: var(--hand); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* --- Buttons --- */
+.btn {
+  --bg: var(--ink); --fg: #fff;
+  display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px;
+  background: var(--bg); color: var(--fg); border: 1.5px solid var(--bg); text-decoration: none; font: 600 15.5px/1 var(--sans);
+  cursor: pointer; transition: transform .2s cubic-bezier(.3,.7,.3,1.4), box-shadow .2s, background .2s;
+  box-shadow: 0 10px 22px -14px rgba(101, 15, 18, .9);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -16px rgba(101, 15, 18, .9); }
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn small { font-weight: 500; opacity: .75; font-size: 12.5px; }
+.btn.ghost { --bg: transparent; --fg: var(--ink); box-shadow: none; border-color: rgba(101, 15, 18, .35); }
+.btn.ghost:hover { background: rgba(101, 15, 18, .06); }
+.btn.zalo { --bg: #0068ff; border-color: #0068ff; box-shadow: 0 10px 22px -14px rgba(0, 104, 255, .9); }
+.btn.sm { min-height: 38px; padding: 0 15px; font-size: 14px; gap: 7px; }
+
+/* --- Header --- */
+header.top {
+  position: sticky; top: 0; z-index: 30; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  background: rgba(251, 247, 239, .84); border-bottom: 1px solid rgba(230, 219, 205, .85);
+}
+.nav { display: flex; align-items: center; gap: 26px; height: 68px; }
+.brand { display: flex; align-items: center; gap: 11px; text-decoration: none; font: 650 20px/1 var(--serif); color: var(--ink); letter-spacing: -.01em; }
+.brand-badge {
+  width: 36px; height: 36px; border-radius: 10px; background: var(--ink); color: var(--paper);
+  display: grid; place-items: center; font: italic 800 22px/1 var(--serif);
+  box-shadow: 0 6px 14px -8px rgba(101, 15, 18, .85);
+}
+.brand-sub { display: block; font: 500 11.5px/1.1 var(--sans); color: var(--muted); letter-spacing: .02em; margin-top: 2px; }
+.nav ul { display: flex; gap: 22px; list-style: none; margin: 0 0 0 auto; padding: 0; }
+.nav ul a { text-decoration: none; font-weight: 500; font-size: 15px; color: var(--muted); transition: color .15s; }
+.nav ul a:hover { color: var(--ink); }
+.nav .btn { min-height: 40px; padding: 0 18px; font-size: 14.5px; }
+.menu-toggle { display: none; }
+
+/* --- Hero --- */
+.hero { position: relative; padding: 64px 0 40px; }
+.hero-grid { display: grid; grid-template-columns: 1.04fr 1fr; gap: 48px; align-items: center; }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 600 13px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--ink); }
+h1 {
+  margin: 18px 0 22px; font: 800 clamp(40px, 5.6vw, 70px)/1.03 var(--serif); letter-spacing: -.025em; color: var(--ink-deep);
+  font-variation-settings: "opsz" 144;
+}
+h1 em { font-style: italic; font-weight: 650; color: var(--ink); position: relative; white-space: nowrap; }
+h1 em::after {
+  content: ""; position: absolute; left: -2%; right: -2%; bottom: .06em; height: .18em; z-index: -1;
+  background: var(--hl); border-radius: 40% 60% 50% 40%; transform: skewX(-12deg) scaleX(0); transform-origin: left;
+  animation: swipe .7s 1.6s cubic-bezier(.6,.1,.3,1) forwards;
+}
+@keyframes swipe { to { transform: skewX(-12deg) scaleX(1); } }
+.lead { font-size: 18.5px; color: var(--muted); max-width: 34em; margin: 0 0 28px; }
+.lead b { color: var(--text); font-weight: 600; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.trial { margin-top: 16px; font-family: var(--hand); font-size: 21px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.trial svg { width: 34px; height: 22px; flex: none; }
+.platforms { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 26px; color: var(--muted); font-size: 14px; font-weight: 500; }
+.platforms span { display: inline-flex; align-items: center; gap: 7px; }
+.platforms svg { width: 17px; height: 17px; color: var(--ink); }
+
+/* The page that writes itself. */
+.sheet {
+  position: relative; aspect-ratio: 520 / 430; border-radius: 10px; background: #fffdf8; box-shadow: var(--shadow), 0 0 0 1px rgba(230, 219, 205, .9);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 27px, #dfe8f2 27px 28px); background-position: 0 14px;
+  transform: rotate(1.6deg); animation: sheet-in .9s cubic-bezier(.2,.8,.2,1) both;
+}
+.sheet::before { content: ""; position: absolute; top: 0; bottom: 0; left: 9%; width: 2px; background: var(--margin); }
+.sheet::after {
+  content: ""; position: absolute; left: -14px; top: 12%; bottom: 12%; width: 22px;
+  background: radial-gradient(circle at 50% 10px, var(--paper-2) 0 6px, transparent 7px) 0 0 / 22px 46px repeat-y;
+}
+@keyframes sheet-in { from { opacity: 0; transform: translateY(26px) rotate(4deg); } }
+.sheet svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.draw { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: var(--len); stroke-dashoffset: var(--len); animation: draw var(--dur, 1s) var(--at, 0s) cubic-bezier(.55,.1,.35,1) forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.pop { opacity: 0; transform-box: fill-box; transform-origin: center; animation: pop .35s var(--at) cubic-bezier(.3,.7,.3,1.6) forwards; }
+@keyframes pop { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: none; } }
+.write { clip-path: inset(0 100% 0 0); animation: write var(--dur, .9s) var(--at) steps(24, end) forwards; }
+@keyframes write { to { clip-path: inset(0 0 0 0); } }
+.sheet text { font-family: var(--hand); }
+.note-tag {
+  position: absolute; right: -10px; bottom: 26px; transform: rotate(-4deg); background: var(--ink); color: #fff;
+  font: 22px/1 var(--hand); padding: 10px 16px 9px; border-radius: 6px; box-shadow: 0 14px 26px -14px rgba(61, 7, 9, .9);
+  opacity: 0; animation: tag .5s 3.6s cubic-bezier(.3,.7,.3,1.5) forwards;
+}
+@keyframes tag { from { opacity: 0; transform: rotate(-12deg) scale(.6); } to { opacity: 1; transform: rotate(-4deg); } }
+
+/* --- Stats --- */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 36px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(251, 247, 239, .75); }
+.stats div { padding: 22px 24px; }
+.stats div + div { border-left: 1px dashed var(--line); }
+.stats b { display: block; font: 800 40px/1 var(--serif); color: var(--ink); letter-spacing: -.02em; }
+.stats span { color: var(--muted); font-size: 14.5px; }
+
+/* --- Sections --- */
+section { padding: 96px 0 0; scroll-margin-top: 72px; }
+.head { display: grid; grid-template-columns: 120px 1fr; gap: 0 28px; margin-bottom: 44px; }
+.head .num { font: 500 italic 54px/1 var(--serif); color: var(--margin); text-align: right; padding-top: 6px; }
+h2 { margin: 0; font: 800 clamp(32px, 4.2vw, 50px)/1.08 var(--serif); letter-spacing: -.02em; color: var(--ink-deep); }
+h2 em { font-style: italic; font-weight: 650; color: var(--ink); }
+.head p { grid-column: 2; margin: 14px 0 0; color: var(--muted); font-size: 18px; max-width: 42em; }
+
+/* --- Features / About cards --- */
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; grid-auto-flow: dense; }
+.card {
+  position: relative; padding: 26px 24px 24px; background: #fffdf8; border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: 0 1px 0 rgba(61, 7, 9, .04); transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.card:hover { transform: translateY(-4px) rotate(-.25deg); box-shadow: var(--shadow); border-color: #dccbb7; }
+.card .glyph { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: #f6e7e5; margin-bottom: 16px; }
+.card .glyph svg { width: 26px; height: 26px; fill: none; stroke: var(--ink); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.card h3 { margin: 0 0 6px; font: 650 21px/1.25 var(--serif); color: var(--ink-deep); }
+.card p { margin: 0; color: var(--muted); font-size: 15.5px; }
+.card .tag { position: absolute; top: 22px; right: 20px; font: 19px/1 var(--hand); color: var(--ink); transform: rotate(4deg); }
+.card.wide { grid-column: span 2; display: grid; grid-template-columns: 1.15fr 1fr; gap: 24px; align-items: center; padding: 28px; }
+.card.span2 { grid-column: span 2; }
+.card.dark { background: var(--ink); border-color: var(--ink); color: #f7e9e6; }
+.card.dark h3 { color: #fff; }
+.card.dark p { color: #e9cfcb; }
+.card.dark .glyph { background: rgba(255, 255, 255, .12); }
+.card.dark .glyph svg { stroke: #fff; }
+.card.dark .tag { color: var(--hl); }
+
+/* Teacher profile illustration box inside .card.wide */
+.teacher-card-visual {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 20px;
+  position: relative; box-shadow: inset 0 1px 0 #fff;
+}
+.teacher-card-visual .t-header { display: flex; align-items: center; gap: 14px; padding-bottom: 14px; border-bottom: 1px dashed var(--line); }
+.teacher-avatar {
+  width: 58px; height: 58px; border-radius: 16px; background: var(--ink); color: #fff;
+  display: grid; place-items: center; font: 800 24px/1 var(--serif); flex: none;
+  box-shadow: 0 10px 20px -10px rgba(101, 15, 18, .8);
+}
+.teacher-meta b { display: block; font: 700 18px/1.2 var(--serif); color: var(--ink-deep); }
+.teacher-meta span { font-size: 13.5px; color: var(--muted); }
+.teacher-badges { display: grid; gap: 8px; margin-top: 14px; font-size: 14px; }
+.teacher-badges div { display: flex; align-items: center; gap: 9px; color: var(--text); }
+.teacher-badges i {
+  width: 20px; height: 20px; border-radius: 50%; background: #e8f3ec; color: var(--green);
+  display: inline-grid; place-items: center; font-style: normal; font-size: 12px; font-weight: 700; flex: none;
+}
+
+/* --- Classes Section (.downloads style from NoteRenderer) --- */
+.downloads { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.dl {
+  display: flex; flex-direction: column; gap: 12px; padding: 26px 22px 22px; border-radius: var(--radius);
+  background: #fffdf8; border: 1px solid var(--line); position: relative;
+  transition: transform .25s, box-shadow .25s;
+}
+.dl:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.dl.main { background: linear-gradient(160deg, #fffdf8, #fbeeea); border-color: #e8c7c4; }
+.dl .os { display: flex; align-items: center; gap: 12px; }
+.dl .os-badge {
+  width: 40px; height: 40px; border-radius: 12px; background: var(--ink); color: #fff;
+  display: grid; place-items: center; font: 800 16px/1 var(--serif); flex: none;
+}
+.dl h3 { margin: 0; font: 650 21px/1.15 var(--serif); color: var(--ink-deep); }
+.dl .meta { color: var(--muted); font-size: 14.5px; margin: 0; line-height: 1.5; }
+.class-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.class-pill {
+  font: 600 12.5px/1 var(--sans); padding: 6px 10px; border-radius: 8px;
+  background: var(--paper-2); color: var(--ink-deep); border: 1px solid var(--line);
+}
+.dl .schedule-note {
+  margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--line);
+  font: 19px/1.2 var(--hand); color: var(--ink); display: flex; align-items: center; justify-content: space-between;
+}
+
+/* Detailed Class Schedule Table in Notebook Style */
+.schedule-board {
+  margin-top: 24px; padding: 26px 28px; border-radius: var(--radius); background: #fffdf8; border: 1px solid var(--line);
+  box-shadow: 0 1px 0 rgba(61, 7, 9, .04);
+}
+.schedule-board-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.schedule-board-head h3 { margin: 0; font: 650 22px/1.2 var(--serif); color: var(--ink-deep); }
+.schedule-board-head span { font: 20px/1 var(--hand); color: var(--ink); }
+.schedule-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.sch-item {
+  padding: 14px 16px; border-radius: 13px; background: var(--paper); border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.sch-item b { font: 700 15.5px/1.2 var(--sans); color: var(--ink-deep); display: block; }
+.sch-item small { color: var(--muted); font-size: 13px; }
+.sch-item .days {
+  font: 600 12.5px/1 var(--sans); padding: 6px 10px; border-radius: 999px;
+  background: #f6e7e5; color: var(--ink); white-space: nowrap;
+}
+
+/* --- Achievements: two tickets torn from the notebook (.prices / .ticket) --- */
+.prices { display: grid; grid-template-columns: 1.12fr 1fr; gap: 22px; align-items: stretch; }
+.ticket {
+  position: relative; padding: 34px 34px 30px; border-radius: 22px; background: #fffdf8; border: 1px solid var(--line);
+}
+.ticket.hot { background: var(--ink); border-color: var(--ink); color: #f6e6e3; box-shadow: 0 34px 60px -34px rgba(61, 7, 9, .9); }
+.ticket .plat { font: 600 13px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; opacity: .82; }
+.ticket h3 { margin: 10px 0 0; font: 650 26px/1.15 var(--serif); color: var(--ink-deep); }
+.ticket.hot h3 { color: #fff; }
+.price { display: flex; align-items: baseline; gap: 10px; margin: 18px 0 4px; }
+.price b { font: 800 clamp(44px, 5.4vw, 64px)/1 var(--serif); letter-spacing: -.03em; }
+.price span { font-size: 17px; opacity: .85; }
+.ticket .once { font: 23px/1.2 var(--hand); color: var(--hl); }
+.ticket.soon .once { color: var(--ink); }
+.ticket ul { list-style: none; padding: 22px 0 0; margin: 22px 0 24px; display: grid; gap: 11px; border-top: 1.5px dashed rgba(255, 255, 255, .25); }
+.ticket.soon ul { border-top-color: var(--line); }
+.ticket li { position: relative; padding-left: 28px; font-size: 15.5px; }
+.ticket li::before { content: ""; position: absolute; left: 2px; top: 6px; width: 14px; height: 8px; border: solid currentColor; border-width: 0 0 2.2px 2.2px; transform: rotate(-45deg); opacity: .9; }
+.ticket.hot .btn { --bg: #fff; --fg: var(--ink); border-color: #fff; }
+.stamp {
+  position: absolute; top: 24px; right: 24px; transform: rotate(8deg); border: 2.5px solid var(--ink); color: var(--ink);
+  border-radius: 8px; padding: 6px 12px 5px; font: 20px/1 var(--hand); opacity: .88;
+}
+.hall-of-fame {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 20px;
+}
+.hof-card {
+  padding: 18px 18px 16px; border-radius: 16px; background: #fffdf8; border: 1px solid var(--line);
+  position: relative;
+}
+.hof-score {
+  position: absolute; top: 14px; right: 14px; font: 800 22px/1 var(--serif); color: var(--ink);
+  background: var(--hl); padding: 4px 8px; border-radius: 8px; transform: rotate(3deg);
+}
+.hof-card b { display: block; font: 650 17px/1.25 var(--serif); color: var(--ink-deep); padding-right: 54px; }
+.hof-card small { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; }
+.hof-card p { margin: 10px 0 0; font-size: 13.5px; color: var(--text); border-top: 1px dashed var(--line); padding-top: 8px; }
+
+/* --- SCORE LOOKUP PORTAL (#tra-cuu-diem) --- */
+.score-shell {
+  background: #fffdf8; border: 1px solid var(--line); border-radius: 24px; padding: 30px;
+  box-shadow: var(--shadow); position: relative;
+}
+.score-tabs {
+  display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 20px; border-bottom: 1.5px dashed var(--line);
+}
+.score-tab {
+  appearance: none; border: 1.5px solid var(--line); background: var(--paper); color: var(--text);
+  padding: 10px 18px; border-radius: 999px; font: 600 14.5px/1 var(--sans); cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px; transition: all .18s;
+}
+.score-tab:hover { border-color: var(--ink-soft); color: var(--ink); }
+.score-tab.active {
+  background: var(--ink); color: #fff; border-color: var(--ink);
+  box-shadow: 0 8px 18px -10px rgba(101, 15, 18, .85);
+}
+.score-tab .cnt {
+  font-size: 12px; padding: 2px 7px; border-radius: 999px; background: rgba(0,0,0,.07);
+}
+.score-tab.active .cnt { background: rgba(255,255,255,.2); color: #fff; }
+
+.score-controls {
+  display: grid; grid-template-columns: 1.5fr .9fr auto; gap: 12px; margin-top: 20px; align-items: center;
+}
+.search-box { position: relative; }
+.search-box svg {
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  width: 19px; height: 19px; color: var(--muted); pointer-events: none;
+}
+.search-input, .class-select {
+  width: 100%; height: 48px; border-radius: 14px; border: 1.5px solid var(--line);
+  background: var(--paper); color: var(--text); font: 500 15.5px/1 var(--sans);
+  padding: 0 16px; outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.search-input { padding-left: 44px; }
+.search-input:focus, .class-select:focus {
+  border-color: var(--ink); box-shadow: 0 0 0 3px rgba(101, 15, 18, .12); background: #fff;
+}
+.quick-chips {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 12px; font-size: 13.5px; color: var(--muted);
+}
+.quick-chip {
+  appearance: none; border: 1px dashed #cdbba7; background: #fbf5e9; color: var(--ink-deep);
+  padding: 5px 11px; border-radius: 999px; font: 500 13px/1 var(--sans); cursor: pointer; transition: all .15s;
+}
+.quick-chip:hover { background: var(--hl); border-color: var(--ink); color: var(--ink); }
+
+/* Selected Student Report Card (Phiếu Báo Điểm Sổ Tay) */
+.report-card {
+  margin-top: 22px; padding: 26px 28px; border-radius: 18px;
+  background: linear-gradient(180deg, #fffdf9 0%, #fbf4e6 100%);
+  border: 2px solid var(--ink); position: relative;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(216, 227, 239, .55) 31px 32px);
+}
+.report-card[hidden] { display: none; }
+.report-top {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 16px;
+  padding-bottom: 16px; border-bottom: 1.5px dashed rgba(101, 15, 18, .28);
+}
+.report-student-title { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.report-code {
+  background: var(--ink); color: #fff; font: 700 13.5px/1 var(--sans);
+  padding: 6px 11px; border-radius: 8px; letter-spacing: .04em;
+}
+.report-name { margin: 0; font: 800 28px/1.1 var(--serif); color: var(--ink-deep); }
+.report-cls { font: 600 14.5px/1 var(--sans); color: var(--ink-soft); background: #f6e7e5; padding: 6px 12px; border-radius: 999px; }
+.report-stamp {
+  border: 3px solid #c62828; color: #c62828; border-radius: 12px; padding: 8px 16px 6px;
+  transform: rotate(-5deg); text-align: center; background: rgba(255, 253, 248, .92);
+  box-shadow: 0 8px 18px -10px rgba(198, 40, 40, .5);
+}
+.report-stamp b { display: block; font: 800 32px/1 var(--serif); }
+.report-stamp span { font: 18px/1 var(--hand); }
+
+.report-scores-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px;
+}
+.r-box {
+  background: rgba(255, 253, 248, .95); border: 1px solid var(--line); border-radius: 14px;
+  padding: 14px 16px; position: relative;
+}
+.r-box.highlight { border-color: var(--ink); background: #fffdf4; box-shadow: 0 8px 20px -14px rgba(101, 15, 18, .6); }
+.r-box .r-label { font: 600 12.5px/1.2 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.r-box .r-val { font: 800 30px/1.1 var(--serif); color: var(--ink-deep); margin: 8px 0 4px; }
+.r-box.highlight .r-val { color: var(--ink); }
+.r-box .r-sub { font-size: 13px; color: var(--muted); }
+
+.report-comment {
+  margin-top: 16px; padding-top: 14px; border-top: 1px dashed rgba(101, 15, 18, .25);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+}
+.report-comment p { margin: 0; font: 22px/1.3 var(--hand); color: var(--ink-deep); }
+.report-comment p b { color: var(--ink); }
+
+/* Score Table */
+.score-table-wrap {
+  margin-top: 22px; overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: #fff;
+}
+table.score-table {
+  width: 100%; border-collapse: collapse; font-size: 15px; text-align: left;
+}
+table.score-table th {
+  background: var(--paper-2); color: var(--ink-deep); font: 700 13.5px/1.2 var(--sans);
+  padding: 14px 14px; border-bottom: 1px solid var(--line); white-space: nowrap;
+}
+table.score-table td {
+  padding: 13px 14px; border-bottom: 1px solid #f0e8dc; vertical-align: middle;
+}
+table.score-table tbody tr { cursor: pointer; transition: background .12s; }
+table.score-table tbody tr:hover { background: #fdf6e9; }
+table.score-table tbody tr.selected { background: #fff6d6; }
+.code-pill {
+  font: 700 12.5px/1 var(--sans); color: var(--ink); background: #f6e7e5;
+  padding: 5px 8px; border-radius: 6px; display: inline-block;
+}
+.score-num { font: 700 16px/1 var(--serif); color: var(--text); }
+.score-num.high { color: var(--ink); background: var(--hl); padding: 3px 7px; border-radius: 6px; }
+.score-num.good { color: var(--green); }
+.rank-badge {
+  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px;
+  font: 600 12.5px/1 var(--sans);
+}
+.rank-badge.xs { background: #fde8e8; color: var(--ink); }
+.rank-badge.gioi { background: #e6f4ea; color: var(--green); }
+.rank-badge.kha { background: #e8f0fe; color: var(--blue); }
+
+.score-footer-bar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 16px; font-size: 14px; color: var(--muted);
+}
+
+/* Teacher Score Editor Modal */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 60; background: rgba(42, 33, 31, .55);
+  backdrop-filter: blur(4px); display: grid; place-items: center; padding: 20px;
+}
+.modal-backdrop[hidden] { display: none; }
+.modal-card {
+  width: min(760px, 100%); max-height: 90vh; overflow-y: auto;
+  background: var(--paper); border: 2px solid var(--ink); border-radius: 22px; padding: 28px;
+  box-shadow: 0 30px 70px -20px rgba(42, 33, 31, .6);
+}
+.modal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.modal-head h3 { margin: 0; font: 800 24px/1.15 var(--serif); color: var(--ink-deep); }
+.form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+.form-field label { display: block; font: 600 13px/1.2 var(--sans); color: var(--muted); margin-bottom: 6px; }
+.form-field input, .form-field select, .form-field textarea {
+  width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line);
+  background: #fff; font: 500 14.5px/1.4 var(--sans); color: var(--text);
+}
+
+/* --- Support / Contact Banner --- */
+.support {
+  position: relative; overflow: hidden; display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; align-items: center;
+  padding: 52px 56px; border-radius: 28px; background: var(--ink-deep); color: #f3e2df;
+  background-image: radial-gradient(120% 140% at 100% 0%, #7d1a1e 0%, transparent 55%), repeating-linear-gradient(to bottom, transparent 0 35px, rgba(255, 255, 255, .05) 35px 36px);
+}
+.support h2 { color: #fff; }
+.support h2 em { color: #ffd9d2; }
+.support p { color: #e6c9c4; font-size: 18px; margin: 16px 0 0; }
+.support .side { display: grid; gap: 12px; justify-items: start; }
+.support .btn.ghost { --fg: #fff; border-color: rgba(255, 255, 255, .4); }
+.support .btn.ghost:hover { background: rgba(255, 255, 255, .08); }
+.support .hand-note { font: 22px/1.3 var(--hand); color: #ffd9d2; transform: rotate(-2deg); margin-top: 6px; }
+
+footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); color: var(--muted); font-size: 14.5px; background: rgba(244, 237, 224, .7); }
+.foot { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; }
+.foot a { text-decoration: none; }
+.foot a:hover { color: var(--ink); text-decoration: underline; }
+.foot .brand { font-size: 18px; margin-right: auto; }
+.foot-contact { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding-top: 18px; border-top: 1px dashed rgba(101, 15, 18, .22); }
+.foot-label { font-family: var(--hand); font-size: 19px; color: var(--ink); margin-right: 4px; }
+.foot .contact { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; padding: 6px 16px 6px 8px; border: 1px solid var(--line); border-radius: 999px; background: #fffdf7; color: var(--ink); text-decoration: none; transition: transform .15s, box-shadow .15s, border-color .15s; }
+.foot .contact:hover { text-decoration: none; transform: translateY(-1px); border-color: currentColor; box-shadow: 0 6px 16px rgba(60, 20, 20, .1); }
+.foot .contact svg { width: 30px; height: 30px; padding: 6px; border-radius: 50%; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.foot .contact.zalo svg { background: #0068ff; }
+.foot .contact.mail svg { background: var(--ink); }
+.foot .contact b { font-weight: 600; margin-right: 4px; }
+
+/* Floating Zalo button */
+.float-zalo {
+  position: fixed; right: max(18px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); z-index: 40;
+  width: 60px; height: 60px; border-radius: 50%; background: #0068ff; display: grid; place-items: center;
+  box-shadow: 0 14px 30px -12px rgba(0, 104, 255, .9); text-decoration: none; color: #fff; font: 700 13px/1 var(--sans);
+}
+.float-zalo::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #0068ff; animation: ring 2.4s infinite; }
+@keyframes ring { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.6); opacity: 0; } }
+
+/* Reveal on scroll */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (max-width: 1020px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 56px; }
+  .sheet { max-width: 620px; margin: 0 auto; width: 100%; }
+  .features { grid-template-columns: repeat(2, 1fr); }
+  .card.wide { grid-column: span 2; }
+  .downloads { grid-template-columns: repeat(2, 1fr); }
+  .prices, .support { grid-template-columns: 1fr; }
+  .hall-of-fame { grid-template-columns: repeat(2, 1fr); }
+  .schedule-grid { grid-template-columns: repeat(2, 1fr); }
+  .score-controls { grid-template-columns: 1fr 1fr; }
+  .report-scores-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 760px) {
+  body { font-size: 16px; }
+  .wrap { width: calc(100% - 32px); }
+  body::after { left: 10px; }
+  .nav { gap: 12px; }
+  .nav ul { display: none; position: absolute; top: 68px; left: 0; right: 0; flex-direction: column; gap: 0; padding: 8px 16px 16px; background: var(--paper); border-bottom: 1px solid var(--line); }
+  .nav ul.open { display: flex; }
+  .nav ul a { display: block; padding: 12px 4px; font-size: 16px; border-bottom: 1px solid var(--line); }
+  .menu-toggle { display: grid; place-items: center; margin-left: auto; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 12px; background: #fffdf8; color: var(--ink); }
+  .menu-toggle svg { width: 22px; height: 22px; }
+  .nav > .btn { display: none; }
+  .hero { padding-top: 36px; }
+  .lead { font-size: 17px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats div:nth-child(3) { border-left: 0; }
+  .stats div:nth-child(n + 3) { border-top: 1px dashed var(--line); }
+  .stats b { font-size: 32px; }
+  section { padding-top: 72px; }
+  .head { grid-template-columns: 1fr; }
+  .head .num { text-align: left; font-size: 40px; padding: 0 0 6px; }
+  .head p { grid-column: 1; }
+  .features, .downloads, .hall-of-fame, .schedule-grid, .score-controls, .form-grid { grid-template-columns: 1fr; }
+  .card.wide, .card.span2 { grid-column: auto; grid-template-columns: 1fr; }
+  .ticket { padding: 28px 22px 24px; }
+  .score-shell { padding: 20px 16px; }
+  .report-card { padding: 20px 16px; }
+  .report-scores-grid { grid-template-columns: 1fr 1fr; }
+  .support { padding: 36px 24px; border-radius: 22px; }
+  .note-tag { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <nav class="wrap nav" aria-label="Chính">
+    <a class="brand" href="#">
+      <span class="brand-badge">π</span>
+      <span>
+        Thầy Huỳnh Thanh Chí
+        <small class="brand-sub">Lớp Toán Anh Chí · Khối 6 – 12</small>
+      </span>
+    </a>
+    <ul id="menu">
+      <li><a href="#gioi-thieu">Giới thiệu</a></li>
+      <li><a href="#lop-hoc">Lớp học</a></li>
+      <li><a href="#thanh-tich">Thành tích</a></li>
+      <li><a href="#tra-cuu-diem">Tra cứu điểm</a></li>
+      <li><a href="#lien-he">Liên hệ</a></li>
+    </ul>
+    <a class="btn" href="#tra-cuu-diem">Tra cứu điểm thi</a>
+    <button class="menu-toggle" aria-label="Mở menu" aria-controls="menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main>
+<!-- Hero -->
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Thầy Huỳnh Thanh Chí · Lớp Toán Anh Chí</span>
+      <h1>Học hiểu bản chất.<br><em>Bứt phá điểm 9+ Toán.</em></h1>
+      <p class="lead">Xin chào quý phụ huynh và các em học sinh! Tôi là <b>Huỳnh Thanh Chí</b> — người sáng lập và trực tiếp giảng dạy tại <b>Lớp Toán Anh Chí</b>. Lớp đồng hành cùng học sinh từ <b>lớp 6 đến lớp 12</b>, bứt phá điểm số <b>Giữa kì, Cuối kì</b>, chinh phục kỳ thi <b>Tuyển sinh 9 vào 10</b> và <b>Tốt nghiệp THPT Quốc gia</b>.</p>
+      <div class="cta">
+        <a class="btn" href="#tra-cuu-diem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <span>Tra cứu điểm thi ngay</span>
+        </a>
+        <a class="btn ghost" href="#lop-hoc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+          <span>Xem lịch các lớp</span>
+        </a>
+      </div>
+      <p class="trial">
+        <svg viewBox="0 0 34 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 12c6-5 14-8 26-6m-5-4 5 4-5 5"/></svg>
+        Theo sát từng học sinh · Bám sát cấu trúc đề 3 phần GDPT 2018
+      </p>
+      <div class="platforms" aria-label="Các bậc đào tạo">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="M2 13l10 5 10-5"/></svg>Toán 6 – 8 nền tảng</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg>Luyện thi 9 vào 10</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19h16M6 15l4-6 4 4 4-8"/></svg>Toán 10 – 11 chuyên sâu</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2l3 6 6.5.9-4.7 4.6 1.1 6.5L12 17l-5.9 3 1.1-6.5L2.5 8.9 9 8z"/></svg>Luyện thi THPT Quốc Gia</span>
+      </div>
+    </div>
+
+    <!-- A page of the teacher's notebook, written as the site opens -->
+    <div class="sheet" role="img" aria-label="Trang sổ bài giảng Lớp Toán Anh Chí: khảo sát hàm số y = x² − 2x − 3, hình học đường tròn ngoại tiếp tam giác ABC và điểm phê 9.5đ">
+      <svg viewBox="0 0 520 430">
+        <text class="write" x="62" y="44" font-size="24" fill="#650f12" style="--at:.4s;--dur:1s">Chuyên đề: Hàm số &amp; Hình học — Thầy Chí</text>
+        <path class="draw" d="M60 54c85-6 210-4 310 0" stroke="#650f12" stroke-width="2.4" style="--len:320;--at:1.2s;--dur:.5s"/>
+        <!-- axes -->
+        <path class="draw" d="M60 236H330" stroke="#3b3534" stroke-width="1.6" style="--len:270;--at:1.4s;--dur:.6s"/>
+        <path class="draw" d="M150 388V86" stroke="#3b3534" stroke-width="1.6" style="--len:310;--at:1.5s;--dur:.6s"/>
+        <path class="draw" d="m322 231 8 5-8 5M145 94l5-8 5 8" stroke="#3b3534" stroke-width="1.6" style="--len:40;--at:2.0s;--dur:.3s"/>
+        <text class="pop" x="324" y="256" font-size="20" fill="#3b3534" style="--at:2.1s">x</text>
+        <text class="pop" x="160" y="96" font-size="20" fill="#3b3534" style="--at:2.1s">y</text>
+        <text class="pop" x="134" y="254" font-size="17" fill="#6f625d" style="--at:2.1s">O</text>
+        <!-- parabola -->
+        <path class="draw" d="M102 153.2Q180 559.4 258 153.2" stroke="#1f5fbf" stroke-width="3" style="--len:520;--at:2.2s;--dur:1.3s"/>
+        <path class="draw" d="M180 356V236M150 356h30" stroke="#1f5fbf" stroke-width="1.4" stroke-dasharray="4 5" style="--len:160;--at:3.4s;--dur:.4s"/>
+        <circle class="pop" cx="120" cy="236" r="4.5" fill="#2a211f" style="--at:3.1s"/>
+        <circle class="pop" cx="240" cy="236" r="4.5" fill="#2a211f" style="--at:3.2s"/>
+        <circle class="pop" cx="180" cy="356" r="5" fill="#1f5fbf" style="--at:3.5s"/>
+        <text class="pop" x="104" y="226" font-size="17" fill="#3b3534" style="--at:3.1s">−1</text>
+        <text class="pop" x="244" y="226" font-size="17" fill="#3b3534" style="--at:3.2s">3</text>
+        <text class="pop" x="188" y="376" font-size="21" fill="#1f5fbf" style="--at:3.6s">I(1; −4)</text>
+        <!-- highlighted note -->
+        <rect class="pop" x="58" y="394" width="248" height="24" rx="8" fill="#fff2a8" style="--at:3.9s"/>
+        <text class="write" x="64" y="412" font-size="19.5" fill="#2a211f" style="--at:4.0s;--dur:.8s">✓ Lập luận chặt, nắm chắc bản chất!</text>
+        <!-- triangle in circle -->
+        <circle class="draw" cx="410" cy="178" r="68" stroke="#c62828" stroke-width="2.5" style="--len:440;--at:2.5s;--dur:1.1s"/>
+        <path class="draw" d="M392 112 346 204 474 202Z" stroke="#1f5fbf" stroke-width="2.5" style="--len:400;--at:3.3s;--dur:1s"/>
+        <path class="draw" d="M392 112 410 178M346 204 410 178M474 202 410 178" stroke="#2e7d4f" stroke-width="2" stroke-dasharray="6 6" style="--len:240;--at:4.1s;--dur:.7s"/>
+        <circle class="pop" cx="410" cy="178" r="4.2" fill="#1f5fbf" style="--at:4.3s"/>
+        <text class="pop" x="384" y="103" font-size="21" font-style="italic" fill="#2a211f" style="--at:3.5s">A</text>
+        <text class="pop" x="326" y="214" font-size="21" font-style="italic" fill="#2a211f" style="--at:3.6s">B</text>
+        <text class="pop" x="480" y="214" font-size="21" font-style="italic" fill="#2a211f" style="--at:3.7s">C</text>
+        <text class="pop" x="402" y="200" font-size="19" font-style="italic" fill="#2a211f" style="--at:4.4s">O</text>
+        <!-- Teacher's red score circle -->
+        <ellipse class="draw" cx="416" cy="322" rx="46" ry="34" stroke="#c62828" stroke-width="2.6" transform="rotate(-8 416 322)" style="--len:260;--at:4.5s;--dur:.6s"/>
+        <text class="pop" x="388" y="331" font-size="32" font-weight="bold" fill="#c62828" style="--at:4.7s">9.5đ</text>
+        <path class="draw" d="M376 348l78-6M384 355l62-5" stroke="#c62828" stroke-width="2" style="--len:150;--at:4.9s;--dur:.4s"/>
+      </svg>
+      <span class="note-tag">chấm chữa chi tiết từng bài ✎</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="stats reveal">
+      <div><b>130+</b><span>học sinh đang theo học Khối 6 – 12</span></div>
+      <div><b>13</b><span>lớp &amp; ca học phân hóa năng lực</span></div>
+      <div><b>9.2+</b><span>mục tiêu bứt phá kỳ thi chuyển cấp</span></div>
+      <div><b>100%</b><span>minh bạch điểm số GK, CK &amp; Thi thử</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- §1: Giới thiệu bản thân & Phương pháp giảng dạy -->
+<section id="gioi-thieu">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="num">§1</span>
+      <h2>Về bản thân tôi &amp; <em>triết lý đứng lớp</em></h2>
+      <p>Không dạy mẹo học vẹt để đối phó ngắn hạn. Mỗi buổi học tại Lớp Toán Anh Chí giúp học sinh hiểu rõ vì sao có công thức, tự tin phân tích đề và trình bày bài toán mạch lạc.</p>
+    </div>
+
+    <div class="features">
+      <article class="card wide reveal">
+        <div>
+          <span class="tag">Người đồng hành</span>
+          <div class="glyph"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M4 20a8 8 0 0 1 16 0"/></svg></div>
+          <h3>Thầy Huỳnh Thanh Chí</h3>
+          <p>Sáng lập và trực tiếp giảng dạy tại <b>Lớp Toán Anh Chí (Thanh Chí Edu)</b>. Với niềm đam mê Toán học và sự tận tâm với từng lứa học trò, tôi trực tiếp biên soạn toàn bộ hệ thống bài giảng, phiếu bài tập chuẩn LaTeX – TikZ và đồng hành sát sao cùng các em từ những kiến thức nền tảng đến các câu vận dụng cao.</p>
+        </div>
+        <div class="teacher-card-visual">
+          <div class="t-header">
+            <div class="teacher-avatar">TC</div>
+            <div class="teacher-meta">
+              <b>Thầy Huỳnh Thanh Chí</b>
+              <span>Giáo viên Toán THCS &amp; THPT · Thanh Chí Edu</span>
+            </div>
+          </div>
+          <div class="teacher-badges">
+            <div><i>✓</i><span>Chuyên luyện thi <b>Tốt nghiệp THPT Quốc Gia</b> (Khối 12)</span></div>
+            <div><i>✓</i><span>Chuyên luyện thi <b>Tuyển sinh 9 vào 10</b> (Toán tự luận &amp; thực tế)</span></div>
+            <div><i>✓</i><span>Bồi dưỡng Toán 6, 7, 8, 10, 11 bứt phá <b>Giữa kì &amp; Cuối kì</b></span></div>
+            <div><i>✓</i><span>Biên soạn đề chuẩn cấu trúc 3 phần &amp; chấm chữa từng bài</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24"><path d="M4 20c3-1 5-4 7-7l6-8a2 2 0 0 1 3 2l-6 8c-2 3-5 4-8 5z"/><path d="M14 7l3 2"/></svg></div>
+        <h3>Hiểu bản chất từ gốc</h3>
+        <p>Mỗi định lí đại số hay hình học đều được dẫn dắt trực quan từ hình vẽ và ví dụ thực tế. Học sinh nắm chắc gốc rễ nên không sợ biến tướng đề thi.</p>
+      </article>
+
+      <article class="card reveal">
+        <span class="tag">chuẩn Bộ GD&amp;ĐT</span>
+        <div class="glyph"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+        <h3>Làm chủ đề thi 3 phần mới</h3>
+        <p>Rèn luyện thành thạo cả 3 phần: Trắc nghiệm nhiều lựa chọn (Phần I), Trắc nghiệm Đúng/Sai 4 ý (Phần II) và Trắc nghiệm Trả lời ngắn (Phần III).</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24"><path d="M12 3 3 20h18z"/><path d="M12 3v17"/><circle cx="12" cy="3" r="1.2"/></svg></div>
+        <h3>Vững vàng Hình học &amp; Tự luận</h3>
+        <p>Hướng dẫn cách nhìn hình không gian, kẻ đường phụ hình học đường tròn lớp 9 và trình bày tự luận chặt chẽ từng bước để không mất điểm lẻ.</p>
+      </article>
+
+      <article class="card dark span2 reveal">
+        <span class="tag">kèm sát từng em</span>
+        <div class="glyph"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 21V3"/><path d="M6 16l4-5 4 3 5-7"/></svg></div>
+        <h3>Kiểm tra định kì &amp; Cổng tra cứu điểm minh bạch cho Phụ huynh</h3>
+        <p>Sau mỗi đợt kiểm tra Giữa kì, Cuối kì trên lớp cũng như các đợt Thi thử 9 vào 10 và Thi thử THPT Quốc gia tại trung tâm, điểm số và nhận xét từng học sinh đều được cập nhật lên hệ thống để phụ huynh theo dõi sát sự tiến bộ của con.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- §2: Lớp học & Lộ trình -->
+<section id="lop-hoc">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="num">§2</span>
+      <h2>Các lớp học đang giảng dạy, <em>từ Lớp 6 đến Lớp 12</em></h2>
+      <p>Lớp được tổ chức thành các ca học cố định trong tuần (Thứ 2–4–6 hoặc Thứ 3–5–7), phân loại đúng trình độ để học sinh dễ dàng theo kịp và phát huy tối đa năng lực.</p>
+    </div>
+
+    <div class="downloads">
+      <div class="dl main reveal">
+        <div class="os">
+          <span class="os-badge">12</span>
+          <div>
+            <h3>Khối 12 · THPT QG</h3>
+            <small style="color:var(--ink);font-weight:600">Khóa 2K9 · Luyện thi ĐH</small>
+          </div>
+        </div>
+        <p class="meta">Tổng ôn toàn diện chương trình Toán 12 (Hàm số, Nguyên hàm – Tích phân, Oxyz, Xác suất) &amp; Luyện đề thực chiến cấu trúc 3 phần.</p>
+        <div class="class-pills">
+          <span class="class-pill">Lớp 12A 2K9</span>
+          <span class="class-pill">Lớp 12B 2K9</span>
+          <span class="class-pill">Lớp 12D</span>
+        </div>
+        <div class="schedule-note">
+          <span>Ca T2–T4–T6 &amp; T3–T5–T7</span>
+          <a href="#tra-cuu-diem" onclick="filterByGrade(12)" style="font-size:16px">Xem điểm →</a>
+        </div>
+      </div>
+
+      <div class="dl reveal">
+        <div class="os">
+          <span class="os-badge">11</span>
+          <div>
+            <h3>Khối 11 · Chuyên sâu</h3>
+            <small style="color:var(--muted);font-weight:600">Khóa 2K10 · Bứt phá 9+</small>
+          </div>
+        </div>
+        <p class="meta">Làm chủ Lượng giác, Dãy số, Giới hạn, Đạo hàm, Mũ – Lôgarit và Hình không gian vuông góc. Tạo đà sớm cho năm lớp 12.</p>
+        <div class="class-pills">
+          <span class="class-pill">Lớp 11A 2K10</span>
+          <span class="class-pill">Lớp 11B 2K10</span>
+        </div>
+        <div class="schedule-note">
+          <span>Ca T2–T4–T6 &amp; T3–T5–T7</span>
+          <a href="#tra-cuu-diem" onclick="filterByGrade(11)" style="font-size:16px">Xem điểm →</a>
+        </div>
+      </div>
+
+      <div class="dl reveal">
+        <div class="os">
+          <span class="os-badge">10</span>
+          <div>
+            <h3>Khối 10 · Nền tảng THPT</h3>
+            <small style="color:var(--muted);font-weight:600">Khóa 2K11 · GDPT 2018</small>
+          </div>
+        </div>
+        <p class="meta">Bắt nhịp ngay cách học cấp 3: Hàm số bậc hai, Hệ thức lượng, Vectơ, Thống kê – Tổ hợp – Xác suất và Phương pháp tọa độ phẳng.</p>
+        <div class="class-pills">
+          <span class="class-pill">Lớp 10A 2K11</span>
+          <span class="class-pill">Lớp 10B 2K11</span>
+          <span class="class-pill">Lớp 10C 2K11</span>
+        </div>
+        <div class="schedule-note">
+          <span>3 ca linh hoạt trong tuần</span>
+          <a href="#tra-cuu-diem" onclick="filterByGrade(10)" style="font-size:16px">Xem điểm →</a>
+        </div>
+      </div>
+
+      <div class="dl main reveal">
+        <div class="os">
+          <span class="os-badge">6–9</span>
+          <div>
+            <h3>Khối 6–9 &amp; Thi vào 10</h3>
+            <small style="color:var(--ink);font-weight:600">2K12 · 2K13 · 2K14</small>
+          </div>
+        </div>
+        <p class="meta">Xây gốc Toán THCS vững chắc (Khối 6, 7, 8) và luyện thi chuyên sâu <b>Tuyển sinh 9 vào 10</b> (Căn thức, Vi-ét, Toán thực tế, Đường tròn).</p>
+        <div class="class-pills">
+          <span class="class-pill">Lớp 9 2K12</span>
+          <span class="class-pill">8A · 8B 2K13</span>
+          <span class="class-pill">7 2K14 &amp; 7 Onl</span>
+        </div>
+        <div class="schedule-note">
+          <span>Trực tiếp &amp; Online</span>
+          <a href="#tra-cuu-diem" onclick="filterByExamType('ts10')" style="font-size:16px">Xem điểm →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bảng lịch học các lớp thực tế -->
+    <div class="schedule-board reveal">
+      <div class="schedule-board-head">
+        <h3>Lịch sinh hoạt các lớp tiêu biểu tại Lớp Toán Anh Chí</h3>
+        <span>Hỗ trợ giải đáp bài tập mỗi ngày qua Zalo ✎</span>
+      </div>
+      <div class="schedule-grid">
+        <div class="sch-item">
+          <div><b>Lớp 12A 2K9 &amp; 12D</b><small>Luyện thi THPT QG · Toán 12</small></div>
+          <span class="days">Thứ 2 · 4 · 6</span>
+        </div>
+        <div class="sch-item">
+          <div><b>Lớp 12B 2K9</b><small>Luyện thi THPT QG · Toán 12</small></div>
+          <span class="days">Thứ 3 · 5 · 7</span>
+        </div>
+        <div class="sch-item">
+          <div><b>Lớp 11A 2K10</b><small>Toán 11 Chuyên sâu &amp; Luyện đề</small></div>
+          <span class="days">Thứ 2 · 4 · 6</span>
+        </div>
+        <div class="sch-item">
+          <div><b>Lớp 11B 2K10</b><small>Toán 11 Chuyên sâu &amp; Luyện đề</small></div>
+          <span class="days">Thứ 3 · 5 · 7</span>
+        </div>
+        <div class="sch-item">
+          <div><b>Lớp 10A 2K11</b><small>Toán 10 Nền tảng &amp; Vận dụng</small></div>
+          <span class="days">Thứ 2 · 4 · 6</span>
+        </div>
+        <div class="sch-item">
+          <div><b>Lớp 10B &amp; 10C 2K11</b><small>Toán 10 Nền tảng &amp; Vận dụng</small></div>
+          <span class="days">Thứ 3 · 5 · 7</span>
+        </div>
+        <div class="sch-item">
+          <div><b>Lớp 9 2K12</b><small>Luyện thi Tuyển sinh 9 vào 10</small></div>
+          <span class="days">Thứ 3 · 5 · 7</span>
+        </div>
+        <div class="sch-item">
+          <div><b>Lớp 8A &amp; 8B 2K13</b><small>Toán 8 Đại số &amp; Hình học phẳng</small></div>
+          <span class="days">T2·4·6 / T3·5·7</span>
+        </div>
+        <div class="sch-item">
+          <div><b>Lớp 7 2K14 &amp; 7 Onl</b><small>Toán 7 Trực tiếp &amp; Trực tuyến</small></div>
+          <span class="days">Thứ 2 · 4 · 6</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §3: Bảng vàng Thành tích -->
+<section id="thanh-tich">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="num">§3</span>
+      <h2>Thành tích học sinh, <em>minh chứng bằng điểm số</em></h2>
+      <p>Kết quả tự hào của các thế hệ học sinh Lớp Toán Anh Chí trong kỳ thi Tốt nghiệp THPT Quốc gia, Tuyển sinh lớp 9 vào lớp 10 và các kỳ thi Giữa kì, Cuối kì tại trường.</p>
+    </div>
+
+    <div class="prices">
+      <div class="ticket hot reveal">
+        <span class="plat">Kỳ thi Tốt nghiệp THPT Quốc Gia &amp; Đại học</span>
+        <h3>Bứt phá điểm 9+ môn Toán THPT</h3>
+        <div class="price"><b>8.8 – 9.6đ</b><span>/ phổ điểm mũi nhọn</span></div>
+        <span class="once">nắm chắc cấu trúc 3 phần mới · đỗ NV1 trường tốp đầu</span>
+        <ul>
+          <li>Làm chủ trọn vẹn Phần I (Trắc nghiệm ABCD) và Phần II (Đúng/Sai 4 mệnh đề) với độ chính xác cao</li>
+          <li>Chinh phục các câu Vận dụng thực tế &amp; Trả lời ngắn (Phần III): Tối ưu hóa, Hình không gian Oxyz, Xác suất</li>
+          <li>Nhiều học sinh xuất phát điểm 5.5 – 6.5 đầu năm bứt phá lên 8.6 – 9.4 điểm trong kỳ thi chính thức</li>
+          <li>Đỗ Nguyện vọng 1 vào các trường ĐH Bách Khoa, Kinh tế, Sư phạm, CNTT, Y Dược…</li>
+        </ul>
+        <div class="btns">
+          <a class="btn" href="#tra-cuu-diem" onclick="filterByExamType('thptqg')"><span>Xem bảng điểm THPT QG</span></a>
+        </div>
+      </div>
+
+      <div class="ticket soon reveal">
+        <span class="stamp">95%+ Đỗ NV1</span>
+        <span class="plat">Tuyển sinh 9 vào 10 &amp; Giữa kì · Cuối kì</span>
+        <h3>Vững vàng Chuyển cấp &amp; Đứng đầu lớp</h3>
+        <div class="price"><b style="color:var(--ink)">8.5 – 10đ</b><span>/ Giữa kì &amp; Cuối kì</span></div>
+        <span class="once">trình bày tự luận chuẩn mực · không mất điểm thành phần</span>
+        <ul>
+          <li>Hơn 95% học sinh lớp 9 đỗ Nguyện vọng 1 vào các trường THPT công lập trọng điểm</li>
+          <li>Ăn trọn điểm các câu Rút gọn căn thức, Hệ phương trình, Định lí Vi-ét và Toán thực tế</li>
+          <li>Giải quyết trọn vẹn bài toán Hình học đường tròn (chứng minh tứ giác nội tiếp, tiếp tuyến, đồng quy)</li>
+          <li>85%+ học sinh Khối 6 – 12 đạt từ 8.0 đến 10.0 điểm trong các kỳ thi Giữa kì 1, Cuối kì 1, Giữa kì 2, Cuối kì 2</li>
+        </ul>
+        <div class="btns">
+          <a class="btn ghost" href="#tra-cuu-diem" onclick="filterByExamType('ts10')"><span>Xem điểm Thi 9 vào 10 &amp; Học kì</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gương mặt tiêu biểu (Dữ liệu minh họa / Học sinh nháp) -->
+    <div class="hall-of-fame reveal">
+      <div class="hof-card">
+        <span class="hof-score">9.6đ</span>
+        <b>Nguyễn Minh Anh (Mẫu)</b>
+        <small>Lớp 12A 2K9 · Thi thử THPT QG</small>
+        <p>Đạt 9.6đ khảo sát cấu trúc 3 phần (Full điểm Phần I &amp; Phần II); Giữa kì 9.5đ – Cuối kì 9.8đ.</p>
+      </div>
+      <div class="hof-card">
+        <span class="hof-score">9.4đ</span>
+        <b>Trần Gia Huy (Mẫu)</b>
+        <small>Lớp 12B 2K9 · Thi thử THPT QG</small>
+        <p>Đạt 9.4đ Thi thử THPT QG; bứt phá mạnh mẽ ở mảng Hình Oxyz và Tích phân vận dụng.</p>
+      </div>
+      <div class="hof-card">
+        <span class="hof-score">9.5đ</span>
+        <b>Lê Bảo Ngọc (Mẫu)</b>
+        <small>Lớp 11A 2K10 · Cuối kì &amp; Khảo sát</small>
+        <p>Đạt 9.4đ Giữa kì &amp; 9.5đ Cuối kì Toán 11; nắm rất chắc Hình không gian và Đạo hàm.</p>
+      </div>
+      <div class="hof-card">
+        <span class="hof-score">9.25đ</span>
+        <b>Phạm Quốc Khánh (Mẫu)</b>
+        <small>Lớp 9 2K12 · Thi thử 9 vào 10</small>
+        <p>Đạt 9.25đ đề thi thử Tuyển sinh 9 vào 10; trình bày hoàn chỉnh bài Hình học đường tròn.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §4: Cổng Tra cứu Điểm Thi (Giữa kì, Cuối kì, Thi THPT QG, Thi 9 vào 10) -->
+<section id="tra-cuu-diem">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="num">§4</span>
+      <h2>Tra cứu điểm thi <em>Giữa kì, Cuối kì, 9 vào 10 &amp; THPT QG</em></h2>
+      <p>Nhập <b>Mã học sinh</b> (ví dụ: <i>HS001, HS002, HS005, HS011…</i>) hoặc <b>Họ tên học sinh</b> để xem Phiếu báo điểm chi tiết qua các kỳ kiểm tra Giữa kì, Cuối kì, Thi thử 9 vào 10 và Thi thử THPT Quốc gia <i>(hiện đang hiển thị danh sách học sinh nháp minh họa)</i>.</p>
+    </div>
+
+    <div class="score-shell reveal">
+      <!-- Tabs chọn kỳ thi -->
+      <div class="score-tabs" role="tablist" aria-label="Loại kỳ thi">
+        <button type="button" class="score-tab active" data-exam="all">
+          <span>Tất cả kỳ thi</span>
+          <span class="cnt" id="cnt-all">16</span>
+        </button>
+        <button type="button" class="score-tab" data-exam="giuaki">
+          <span>Điểm Giữa kì (GK1 · GK2)</span>
+          <span class="cnt" id="cnt-giuaki">16</span>
+        </button>
+        <button type="button" class="score-tab" data-exam="cuoiki">
+          <span>Điểm Cuối kì (CK1 · CK2)</span>
+          <span class="cnt" id="cnt-cuoiki">16</span>
+        </button>
+        <button type="button" class="score-tab" data-exam="thptqg">
+          <span>Thi THPT Quốc Gia</span>
+          <span class="cnt" id="cnt-thptqg">10</span>
+        </button>
+        <button type="button" class="score-tab" data-exam="ts10">
+          <span>Thi Tuyển sinh 9 vào 10</span>
+          <span class="cnt" id="cnt-ts10">6</span>
+        </button>
+      </div>
+
+      <!-- Thanh tìm kiếm & lọc lớp -->
+      <div class="score-controls">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" id="score-search" class="search-input" placeholder="Nhập Mã HS (VD: HS001, HS005, HS011) hoặc Họ tên học sinh nháp..." autocomplete="off">
+        </div>
+        <select id="score-class-filter" class="class-select" aria-label="Lọc theo lớp học">
+          <option value="ALL">Tất cả các lớp (Khối 7 – 12)</option>
+          <option value="GRADE_12">Khối 12 — Luyện thi THPT QG (12A, 12B, 12D)</option>
+          <option value="12A 2K9">Lớp 12A 2K9</option>
+          <option value="12B 2K9">Lớp 12B 2K9</option>
+          <option value="12D">Lớp 12D</option>
+          <option value="GRADE_11">Khối 11 — Chuyên sâu (11A, 11B)</option>
+          <option value="11A 2K10">Lớp 11A 2K10</option>
+          <option value="11B 2K10">Lớp 11B 2K10</option>
+          <option value="GRADE_10">Khối 10 — Nền tảng THPT (10A, 10B, 10C)</option>
+          <option value="10A 2K11">Lớp 10A 2K11</option>
+          <option value="10B 2K11">Lớp 10B 2K11</option>
+          <option value="10C 2K11">Lớp 10C 2K11</option>
+          <option value="GRADE_9">Khối 9 — Luyện thi 9 vào 10 (9 2K12)</option>
+          <option value="9 2K12">Lớp 9 2K12</option>
+          <option value="GRADE_THCS">Khối 7 &amp; 8 — Toán THCS (8A, 8B, 7 2K14, 7 Onl)</option>
+          <option value="8A 2K13">Lớp 8A 2K13</option>
+          <option value="8B 2K13">Lớp 8B 2K13</option>
+          <option value="7 2K14">Lớp 7 2K14</option>
+          <option value="7 Onl">Lớp 7 Onl</option>
+        </select>
+        <button type="button" class="btn ghost sm" id="open-editor-btn" title="Dành cho Thầy Chí cập nhật hoặc dán điểm từ Excel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          <span>Cập nhật điểm (GV)</span>
+        </button>
+      </div>
+
+      <!-- Gợi ý tra cứu nhanh (Học sinh nháp) -->
+      <div class="quick-chips">
+        <span>Tra cứu thử (Học sinh nháp):</span>
+        <button type="button" class="quick-chip" data-pick="HS001">HS001 · Nguyễn Minh Anh (12A)</button>
+        <button type="button" class="quick-chip" data-pick="HS002">HS002 · Trần Gia Huy (12B)</button>
+        <button type="button" class="quick-chip" data-pick="HS005">HS005 · Lê Bảo Ngọc (11A)</button>
+        <button type="button" class="quick-chip" data-pick="HS008">HS008 · Vũ Phương Thảo (10A)</button>
+        <button type="button" class="quick-chip" data-pick="HS011">HS011 · Phạm Quốc Khánh (Lớp 9 vào 10)</button>
+        <button type="button" class="quick-chip" data-pick="HS015">HS015 · Đặng Tuấn Kiệt (Lớp 7)</button>
+      </div>
+
+      <!-- Phiếu báo điểm chi tiết của Học sinh đang chọn -->
+      <div class="report-card" id="report-card">
+        <div class="report-top">
+          <div>
+            <div class="report-student-title">
+              <span class="report-code" id="rc-code">HS001</span>
+              <h3 class="report-name" id="rc-name">Nguyễn Minh Anh (Nháp)</h3>
+              <span class="report-cls" id="rc-cls">Lớp 12A 2K9</span>
+            </div>
+            <p style="margin:8px 0 0;color:var(--muted);font-size:14.5px" id="rc-subtitle">
+              Phiếu tổng hợp kết quả học tập &amp; khảo sát định kì (Dữ liệu mẫu minh họa) — Lớp Toán Anh Chí
+            </p>
+          </div>
+          <div class="report-stamp">
+            <b id="rc-main-score">9.6đ</b>
+            <span id="rc-main-label">Điểm Thi THPT QG</span>
+          </div>
+        </div>
+
+        <div class="report-scores-grid" id="rc-boxes">
+          <!-- Tự động điền bởi JS -->
+        </div>
+
+        <div class="report-comment">
+          <p>✎ Nhận xét của Thầy Chí: <b id="rc-note">Nắm rất vững bản chất hàm số và hình Oxyz, kỹ năng làm bài 3 phần sắc bén!</b></p>
+          <button type="button" class="btn ghost sm" id="rc-edit-this">Sửa điểm học sinh này</button>
+        </div>
+      </div>
+
+      <!-- Bảng điểm tổng hợp -->
+      <div class="score-table-wrap">
+        <table class="score-table" aria-label="Bảng điểm học sinh">
+          <thead>
+            <tr id="score-thead-row">
+              <th>Mã HS</th>
+              <th>Họ và tên</th>
+              <th>Lớp</th>
+              <th>Giữa kì (GK1 · GK2)</th>
+              <th>Cuối kì (CK1 · CK2)</th>
+              <th id="th-special-exam">Thi THPT QG / 9 vào 10</th>
+              <th>Đánh giá</th>
+              <th>Chi tiết</th>
+            </tr>
+          </thead>
+          <tbody id="score-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="score-footer-bar">
+        <span id="score-summary-text">Đang hiển thị 16 học sinh nháp minh họa. Bấm vào một dòng để xem Phiếu báo điểm chi tiết.</span>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button type="button" class="quick-chip" id="btn-export-csv">⬇ Xuất bảng điểm Excel (CSV)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §5: Liên hệ & Đồng hành -->
+<section id="lien-he">
+  <div class="wrap">
+    <div class="support reveal">
+      <div>
+        <h2>Đăng ký học hoặc cần tư vấn lộ trình? <em>Nhắn trực tiếp cho Thầy Chí</em></h2>
+        <p>Phụ huynh và các em học sinh cần tư vấn chọn ca học phù hợp (Khối 6 – 12, Luyện thi 9 vào 10, Luyện thi THPT Quốc gia) hoặc trao đổi về tình hình học tập của con, hãy nhắn qua Zalo hoặc gọi trực tiếp cho tôi.</p>
+      </div>
+      <div class="side">
+        <a class="btn zalo" href="https://zalo.me/0905957716" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>
+          <span>Nhắn Zalo: 0905 957 716</span>
+        </a>
+        <a class="btn ghost" href="mailto:badaoqn132@gmail.com?subject=Dang%20ky%20hoc%20Lop%20Toan%20Anh%20Chi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <span>Email: badaoqn132@gmail.com</span>
+        </a>
+        <span class="hand-note">luôn tận tâm đồng hành cùng các em ☺</span>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Modal Cập nhật điểm dành cho Giáo viên -->
+<div class="modal-backdrop" id="editor-modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-head">
+      <h3 id="modal-title">✎ Cập nhật Điểm Học Sinh (Dành cho Giáo viên)</h3>
+      <button type="button" class="btn ghost sm" id="close-editor-btn">Đóng ✕</button>
+    </div>
+    <p style="margin:0 0 14px;color:var(--muted);font-size:14.5px">
+      Chọn học sinh để cập nhật điểm <b>Giữa kì 1, Cuối kì 1, Giữa kì 2, Cuối kì 2, Thi THPT QG / Thi 9 vào 10</b> hoặc dán nhanh từ Excel/Google Sheets. Dữ liệu được lưu ngay trên trình duyệt.
+    </p>
+    <form id="score-edit-form">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="ed-code">Mã Học Sinh</label>
+          <input type="text" id="ed-code" placeholder="VD: HS001" required>
+        </div>
+        <div class="form-field">
+          <label for="ed-name">Họ và tên</label>
+          <input type="text" id="ed-name" placeholder="VD: Nguyễn Minh Anh (Nháp)" required>
+        </div>
+        <div class="form-field">
+          <label for="ed-cls">Lớp học</label>
+          <input type="text" id="ed-cls" placeholder="VD: 12A 2K9" required>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="ed-gk1">Điểm Giữa kì 1 (GK1)</label>
+          <input type="number" step="0.05" min="0" max="10" id="ed-gk1" required>
+        </div>
+        <div class="form-field">
+          <label for="ed-ck1">Điểm Cuối kì 1 (CK1)</label>
+          <input type="number" step="0.05" min="0" max="10" id="ed-ck1" required>
+        </div>
+        <div class="form-field">
+          <label for="ed-gk2">Điểm Giữa kì 2 (GK2)</label>
+          <input type="number" step="0.05" min="0" max="10" id="ed-gk2" required>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="ed-ck2">Điểm Cuối kì 2 (CK2)</label>
+          <input type="number" step="0.05" min="0" max="10" id="ed-ck2" required>
+        </div>
+        <div class="form-field">
+          <label for="ed-special">Điểm Thi THPT QG / 9 vào 10</label>
+          <input type="number" step="0.05" min="0" max="10" id="ed-special" required>
+        </div>
+        <div class="form-field">
+          <label for="ed-detail">Chi tiết thành phần (P1 / P2 / P3)</label>
+          <input type="text" id="ed-detail" placeholder="VD: P1: 3.0 · P2: 3.5 · P3: 2.5">
+        </div>
+      </div>
+      <div class="form-field" style="margin-bottom:14px">
+        <label for="ed-note">Lời phê / Nhận xét của Thầy Chí</label>
+        <input type="text" id="ed-note" placeholder="Nhận xét năng lực và định hướng ôn tập...">
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+        <button type="submit" class="btn sm">Lưu điểm học sinh</button>
+        <button type="button" class="btn ghost sm" id="btn-reset-default">Khôi phục dữ liệu nháp</button>
+      </div>
+    </form>
+
+    <hr style="border:0;border-top:1px dashed var(--line);margin:20px 0">
+    <div class="form-field">
+      <label for="bulk-tsv">Hoặc dán nhanh nhiều dòng từ Excel / Google Sheets (Mã HS [Tab] Họ tên [Tab] Lớp [Tab] GK1 [Tab] CK1 [Tab] GK2 [Tab] CK2 [Tab] Thi QG/9v10):</label>
+      <textarea id="bulk-tsv" rows="3" placeholder="HS001&#9;Nguyễn Minh Anh (Nháp)&#9;12A 2K9&#9;8.8&#9;9.0&#9;9.0&#9;9.2&#9;9.4"></textarea>
+      <button type="button" class="btn ghost sm" id="btn-import-tsv" style="margin-top:8px">Nhập dữ liệu dán từ Excel</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="#">
+      <span class="brand-badge" style="width:28px;height:28px;font-size:17px;border-radius:7px">π</span>
+      <span>Lớp Toán Anh Chí</span>
+    </a>
+    <a href="#gioi-thieu">Giới thiệu</a>
+    <a href="#lop-hoc">Lịch các lớp</a>
+    <a href="#thanh-tich">Thành tích</a>
+    <a href="#tra-cuu-diem">Tra cứu điểm</a>
+    <span>© <span id="year">2026</span> Thầy Huỳnh Thanh Chí · Thanh Chí Edu</span>
+    <div class="foot-contact">
+      <span class="foot-label">Liên hệ trực tiếp</span>
+      <a class="contact zalo" href="https://zalo.me/0905957716" target="_blank" rel="noopener" aria-label="Zalo 0905 957 716">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 13.5z"/><path d="M8 8h3.5L8 12.5h3.5M14 8v4.5"/></svg>
+        <span><b>Zalo / SĐT</b> 0905 957 716</span>
+      </a>
+      <a class="contact mail" href="mailto:badaoqn132@gmail.com" aria-label="Email badaoqn132@gmail.com">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        <span><b>Email</b> badaoqn132@gmail.com</span>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<a class="float-zalo" href="https://zalo.me/0905957716" target="_blank" rel="noopener" aria-label="Nhắn Zalo Thầy Chí">Zalo</a>
+
+<script>
+// Danh sách học sinh nháp minh họa (đã ẩn thông tin học sinh thật)
+const BASE_STUDENTS = [
+  { code: "HS001", name: "Nguyễn Minh Anh (Nháp)", cls: "12A 2K9", grade: 12 },
+  { code: "HS002", name: "Trần Gia Huy (Nháp)", cls: "12B 2K9", grade: 12 },
+  { code: "HS003", name: "Hoàng Quốc Việt (Nháp)", cls: "12B 2K9", grade: 12 },
+  { code: "HS004", name: "Đỗ Khánh Linh (Nháp)", cls: "12D", grade: 12 },
+  { code: "HS005", name: "Lê Hoàng Bảo Ngọc (Nháp)", cls: "11A 2K10", grade: 11 },
+  { code: "HS006", name: "Phan Đức Minh (Nháp)", cls: "11A 2K10", grade: 11 },
+  { code: "HS007", name: "Ngô Thanh Trúc (Nháp)", cls: "11B 2K10", grade: 11 },
+  { code: "HS008", name: "Vũ Phương Thảo (Nháp)", cls: "10A 2K11", grade: 10 },
+  { code: "HS009", name: "Bùi Tuấn Khang (Nháp)", cls: "10B 2K11", grade: 10 },
+  { code: "HS010", name: "Đinh Hà My (Nháp)", cls: "10C 2K11", grade: 10 },
+  { code: "HS011", name: "Phạm Quốc Khánh (Nháp)", cls: "9 2K12", grade: 9 },
+  { code: "HS012", name: "Trương Ngọc Hân (Nháp)", cls: "9 2K12", grade: 9 },
+  { code: "HS013", name: "Lý Gia Bảo (Nháp)", cls: "8A 2K13", grade: 8 },
+  { code: "HS014", name: "Hồ Thiên Ân (Nháp)", cls: "8B 2K13", grade: 8 },
+  { code: "HS015", name: "Đặng Tuấn Kiệt (Nháp)", cls: "7 2K14", grade: 7 },
+  { code: "HS016", name: "Mai Quỳnh Chi (Nháp)", cls: "7 Onl", grade: 7 }
+];
+
+const COMMENTS_POOL = [
+  "Nắm vững bản chất đại số & hình học, trình bày bài rất mạch lạc!",
+  "Kỹ năng xử lý câu hỏi Đúng/Sai (Phần II) và Trả lời ngắn (Phần III) tiến bộ rõ rệt.",
+  "Tư duy hình học tốt, cần rèn thêm tốc độ tính toán ở 5 câu vận dụng cuối.",
+  "Chăm chỉ, làm bài tập đầy đủ, điểm kiểm tra ổn định qua từng đợt.",
+  "Có bước bứt phá xuất sắc trong đợt thi vừa qua, giữ vững phong độ nhé!"
+];
+
+const OVERRIDE_RECORDS = {
+  HS001: { gk1: 9.5, ck1: 9.8, gk2: 9.5, ck2: 9.6, special: 9.6, detail: "P1: 3.0 · P2: 4.0 · P3: 2.6", note: "Học sinh nháp minh họa Khối 12: Nắm rất vững hàm số và hình Oxyz." },
+  HS002: { gk1: 9.0, ck1: 9.2, gk2: 9.3, ck2: 9.5, special: 9.4, detail: "P1: 3.0 · P2: 3.9 · P3: 2.5", note: "Học sinh nháp minh họa Khối 12: Bứt phá mạnh ở mảng Tích phân và Oxyz." },
+  HS005: { gk1: 9.4, ck1: 9.5, gk2: 9.3, ck2: 9.6, special: 9.3, detail: "P1: 3.0 · P2: 3.8 · P3: 2.5", note: "Học sinh nháp minh họa Khối 11: Hình học không gian và Đạo hàm chắc chắn." },
+  HS008: { gk1: 9.0, ck1: 9.2, gk2: 9.1, ck2: 9.4, special: 9.0, detail: "P1: 2.75 · P2: 3.75 · P3: 2.5", note: "Học sinh nháp minh họa Khối 10: Biến đổi vectơ và hàm bậc hai chuẩn xác." },
+  HS011: { gk1: 9.0, ck1: 9.3, gk2: 9.2, ck2: 9.5, special: 9.25, detail: "Đại số: 6.0 · Hình học: 3.25", note: "Học sinh nháp minh họa Lớp 9 vào 10: Trình bày tự luận chặt chẽ, ăn trọn câu Vi-ét." },
+  HS015: { gk1: 9.2, ck1: 9.5, gk2: 9.3, ck2: 9.5, special: 9.0, detail: "Đại số: 5.5 · Hình học: 3.5", note: "Học sinh nháp minh họa Khối 7: Tư duy suy luận hình học phẳng rất tốt." }
+};
+
+const STORAGE_KEY = "lop_toan_anh_chi_scores_draft_v2";
+
+function buildDefaultScores() {
+  return BASE_STUDENTS.map((s, idx) => {
+    if (OVERRIDE_RECORDS[s.code]) {
+      return { ...s, ...OVERRIDE_RECORDS[s.code] };
+    }
+    const seed = (idx * 7 + 3) % 15;
+    const base = 7.8 + (seed * 0.11);
+    const gk1 = Number(Math.min(9.8, base).toFixed(1));
+    const ck1 = Number(Math.min(9.8, base + 0.2).toFixed(1));
+    const gk2 = Number(Math.min(9.8, base + 0.1).toFixed(1));
+    const ck2 = Number(Math.min(9.9, base + 0.3).toFixed(1));
+    const special = Number(Math.min(9.6, base + 0.15).toFixed(2));
+    const isTHPT = s.grade >= 10;
+    const detail = isTHPT
+      ? `P1: 2.75 · P2: ${(special - 5.0).toFixed(2)} · P3: 2.25`
+      : `Đại số: ${(special * 0.65).toFixed(2)} · Hình: ${(special * 0.35).toFixed(2)}`;
+    return {
+      ...s,
+      gk1,
+      ck1,
+      gk2,
+      ck2,
+      special,
+      detail,
+      note: COMMENTS_POOL[idx % COMMENTS_POOL.length]
+    };
+  });
+}
+
+function loadScores() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length) return parsed;
+    }
+  } catch {}
+  return buildDefaultScores();
+}
+
+function saveScores(list) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  } catch {}
+}
+
+let studentRecords = loadScores();
+let activeExamTab = "all";
+let selectedCode = "HS001";
+
+function vnNorm(str) {
+  return String(str || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .toLowerCase()
+    .trim();
+}
+
+function getRankInfo(score) {
+  if (score >= 9.0) return { label: "Xuất sắc (9+)", cls: "xs" };
+  if (score >= 8.0) return { label: "Giỏi (8+)", cls: "gioi" };
+  return { label: "Khá – Tiến bộ", cls: "kha" };
+}
+
+function renderReportCard(st) {
+  const card = document.getElementById("report-card");
+  if (!st) {
+    card.hidden = true;
+    return;
+  }
+  card.hidden = false;
+  document.getElementById("rc-code").textContent = st.code;
+  document.getElementById("rc-name").textContent = st.name;
+  document.getElementById("rc-cls").textContent = `Lớp ${st.cls}`;
+
+  const isTHPT = st.grade >= 10;
+  const specialTitle = isTHPT ? "Thi thử THPT Quốc Gia" : "Thi thử Tuyển sinh 9 vào 10";
+
+  let stampScore = st.special;
+  let stampLabel = isTHPT ? "Thi THPT Quốc Gia" : "Thi 9 vào 10";
+  if (activeExamTab === "giuaki") {
+    stampScore = st.gk2;
+    stampLabel = "Điểm Giữa kì 2";
+  } else if (activeExamTab === "cuoiki") {
+    stampScore = st.ck2;
+    stampLabel = "Điểm Cuối kì 2";
+  }
+
+  document.getElementById("rc-main-score").textContent = `${stampScore}đ`;
+  document.getElementById("rc-main-label").textContent = stampLabel;
+  document.getElementById("rc-note").textContent = st.note || "Chăm chỉ, nắm vững kiến thức trọng tâm.";
+
+  const boxesEl = document.getElementById("rc-boxes");
+  boxesEl.innerHTML = `
+    <div class="r-box ${activeExamTab === 'giuaki' ? 'highlight' : ''}">
+      <div class="r-label">Điểm Giữa Kì</div>
+      <div class="r-val">${st.gk1} <span style="font-size:18px;color:var(--muted)">→</span> ${st.gk2}</div>
+      <div class="r-sub">GK1: <b>${st.gk1}đ</b> · GK2: <b>${st.gk2}đ</b></div>
+    </div>
+    <div class="r-box ${activeExamTab === 'cuoiki' ? 'highlight' : ''}">
+      <div class="r-label">Điểm Cuối Kì</div>
+      <div class="r-val">${st.ck1} <span style="font-size:18px;color:var(--muted)">→</span> ${st.ck2}</div>
+      <div class="r-sub">CK1: <b>${st.ck1}đ</b> · CK2: <b>${st.ck2}đ</b></div>
+    </div>
+    <div class="r-box ${(activeExamTab === 'thptqg' || activeExamTab === 'ts10' || activeExamTab === 'all') ? 'highlight' : ''}">
+      <div class="r-label">${specialTitle}</div>
+      <div class="r-val">${st.special}đ</div>
+      <div class="r-sub">${st.detail || (isTHPT ? 'Cấu trúc 3 phần Bộ GD&ĐT' : 'Tự luận Đại số & Hình học')}</div>
+    </div>
+    <div class="r-box">
+      <div class="r-label">Trung bình &amp; Xếp loại</div>
+      <div class="r-val">${((Number(st.gk2) + Number(st.ck2) + Number(st.special)) / 3).toFixed(2)}</div>
+      <div class="r-sub">${getRankInfo(st.special).label}</div>
+    </div>
+  `;
+}
+
+function getFilteredStudents() {
+  const q = vnNorm(document.getElementById("score-search").value);
+  const clsFilter = document.getElementById("score-class-filter").value;
+
+  return studentRecords.filter((st) => {
+    if (activeExamTab === "thptqg" && st.grade < 10) return false;
+    if (activeExamTab === "ts10" && st.grade >= 10) return false;
+
+    if (clsFilter === "GRADE_12" && st.grade !== 12) return false;
+    else if (clsFilter === "GRADE_11" && st.grade !== 11) return false;
+    else if (clsFilter === "GRADE_10" && st.grade !== 10) return false;
+    else if (clsFilter === "GRADE_9" && st.grade !== 9) return false;
+    else if (clsFilter === "GRADE_THCS" && st.grade >= 9) return false;
+    else if (!clsFilter.startsWith("GRADE_") && clsFilter !== "ALL" && st.cls !== clsFilter) return false;
+
+    if (q) {
+      const hay = vnNorm(`${st.code} ${st.name} ${st.cls}`);
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function renderScoreTable() {
+  const list = getFilteredStudents();
+  const tbody = document.getElementById("score-tbody");
+  const thSpecial = document.getElementById("th-special-exam");
+
+  if (activeExamTab === "thptqg") thSpecial.textContent = "Thi THPT Quốc Gia (3 Phần)";
+  else if (activeExamTab === "ts10") thSpecial.textContent = "Thi Tuyển sinh 9 vào 10";
+  else thSpecial.textContent = "Thi THPT QG / 9 vào 10";
+
+  // Update tab counters
+  document.getElementById("cnt-all").textContent = studentRecords.length;
+  document.getElementById("cnt-giuaki").textContent = studentRecords.length;
+  document.getElementById("cnt-cuoiki").textContent = studentRecords.length;
+  document.getElementById("cnt-thptqg").textContent = studentRecords.filter(s => s.grade >= 10).length;
+  document.getElementById("cnt-ts10").textContent = studentRecords.filter(s => s.grade < 10).length;
+
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--muted)">Không tìm thấy học sinh phù hợp với từ khóa hoặc bộ lọc. Hãy thử nhập mã HS (VD: HS001, HS011, HS080).</td></tr>`;
+    document.getElementById("score-summary-text").textContent = "Không có kết quả trùng khớp.";
+    return;
+  }
+
+  // If currently selected student isn't in filtered list, pick the first one
+  const activeSt = list.find(s => s.code === selectedCode) || list[0];
+  selectedCode = activeSt.code;
+  renderReportCard(activeSt);
+
+  tbody.innerHTML = list.map((st) => {
+    const isSel = st.code === selectedCode;
+    const isTHPT = st.grade >= 10;
+    const examBadge = isTHPT ? "THPT QG" : "9 vào 10";
+    const rk = getRankInfo(Math.max(st.ck2, st.special));
+    return `
+      <tr class="${isSel ? 'selected' : ''}" data-code="${st.code}">
+        <td><span class="code-pill">${st.code}</span></td>
+        <td><b style="color:var(--ink-deep)">${st.name}</b></td>
+        <td>${st.cls}</td>
+        <td><span class="score-num">${st.gk1}</span> · <span class="score-num ${st.gk2 >= 9 ? 'high' : 'good'}">${st.gk2}</span></td>
+        <td><span class="score-num">${st.ck1}</span> · <span class="score-num ${st.ck2 >= 9 ? 'high' : 'good'}">${st.ck2}</span></td>
+        <td>
+          <span class="score-num ${st.special >= 9 ? 'high' : 'good'}">${st.special}đ</span>
+          <small style="color:var(--muted);margin-left:6px">(${examBadge})</small>
+        </td>
+        <td><span class="rank-badge ${rk.cls}">${rk.label}</span></td>
+        <td><button type="button" class="btn ghost sm" style="min-height:32px;padding:0 12px;font-size:13px">Xem phiếu</button></td>
+      </tr>
+    `;
+  }).join("");
+
+  document.getElementById("score-summary-text").textContent =
+    `Đang hiển thị ${list.length} học sinh. Bấm vào bất kỳ học sinh nào để xem Phiếu báo điểm chi tiết phía trên.`;
+}
+
+// Event Listeners for Score Lookup
+document.querySelectorAll(".score-tab").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".score-tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeExamTab = btn.dataset.exam;
+    renderScoreTable();
+  });
+});
+
+document.getElementById("score-search").addEventListener("input", renderScoreTable);
+document.getElementById("score-class-filter").addEventListener("change", renderScoreTable);
+
+document.querySelectorAll(".quick-chip[data-pick]").forEach((chip) => {
+  chip.addEventListener("click", () => {
+    const code = chip.dataset.pick;
+    selectedCode = code;
+    document.getElementById("score-search").value = code;
+    document.querySelectorAll(".score-tab").forEach(b => b.classList.toggle("active", b.dataset.exam === "all"));
+    activeExamTab = "all";
+    document.getElementById("score-class-filter").value = "ALL";
+    renderScoreTable();
+  });
+});
+
+document.getElementById("score-tbody").addEventListener("click", (e) => {
+  const tr = e.target.closest("tr[data-code]");
+  if (!tr) return;
+  selectedCode = tr.dataset.code;
+  renderScoreTable();
+  document.getElementById("report-card").scrollIntoView({ behavior: "smooth", block: "nearest" });
+});
+
+// Helper functions linked from §2 and §3
+window.filterByGrade = function(grade) {
+  document.querySelectorAll(".score-tab").forEach(b => b.classList.toggle("active", b.dataset.exam === "all"));
+  activeExamTab = "all";
+  document.getElementById("score-search").value = "";
+  document.getElementById("score-class-filter").value = `GRADE_${grade}`;
+  renderScoreTable();
+};
+
+window.filterByExamType = function(type) {
+  document.querySelectorAll(".score-tab").forEach(b => b.classList.toggle("active", b.dataset.exam === type));
+  activeExamTab = type;
+  document.getElementById("score-search").value = "";
+  document.getElementById("score-class-filter").value = "ALL";
+  renderScoreTable();
+};
+
+// Teacher Editor Modal
+const modal = document.getElementById("editor-modal");
+function openEditorForStudent(st) {
+  modal.hidden = false;
+  if (st) {
+    document.getElementById("ed-code").value = st.code;
+    document.getElementById("ed-name").value = st.name;
+    document.getElementById("ed-cls").value = st.cls;
+    document.getElementById("ed-gk1").value = st.gk1;
+    document.getElementById("ed-ck1").value = st.ck1;
+    document.getElementById("ed-gk2").value = st.gk2;
+    document.getElementById("ed-ck2").value = st.ck2;
+    document.getElementById("ed-special").value = st.special;
+    document.getElementById("ed-detail").value = st.detail || "";
+    document.getElementById("ed-note").value = st.note || "";
+  }
+}
+
+document.getElementById("open-editor-btn").addEventListener("click", () => {
+  const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
+  openEditorForStudent(cur);
+});
+document.getElementById("rc-edit-this").addEventListener("click", () => {
+  const cur = studentRecords.find(s => s.code === selectedCode);
+  openEditorForStudent(cur);
+});
+document.getElementById("close-editor-btn").addEventListener("click", () => { modal.hidden = true; });
+modal.addEventListener("click", (e) => { if (e.target === modal) modal.hidden = true; });
+
+document.getElementById("score-edit-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const code = document.getElementById("ed-code").value.trim().toUpperCase();
+  const name = document.getElementById("ed-name").value.trim();
+  const cls = document.getElementById("ed-cls").value.trim();
+  const gMatch = cls.match(/^(\d+)/);
+  const grade = gMatch ? Number(gMatch[1]) : 12;
+
+  const entry = {
+    code,
+    name,
+    cls,
+    grade,
+    gk1: Number(document.getElementById("ed-gk1").value),
+    ck1: Number(document.getElementById("ed-ck1").value),
+    gk2: Number(document.getElementById("ed-gk2").value),
+    ck2: Number(document.getElementById("ed-ck2").value),
+    special: Number(document.getElementById("ed-special").value),
+    detail: document.getElementById("ed-detail").value.trim(),
+    note: document.getElementById("ed-note").value.trim()
+  };
+
+  const idx = studentRecords.findIndex(s => s.code.toUpperCase() === code);
+  if (idx >= 0) studentRecords[idx] = entry;
+  else studentRecords.unshift(entry);
+
+  saveScores(studentRecords);
+  selectedCode = code;
+  modal.hidden = true;
+  renderScoreTable();
+});
+
+document.getElementById("btn-reset-default").addEventListener("click", () => {
+  studentRecords = buildDefaultScores();
+  saveScores(studentRecords);
+  modal.hidden = true;
+  renderScoreTable();
+});
+
+document.getElementById("btn-import-tsv").addEventListener("click", () => {
+  const raw = document.getElementById("bulk-tsv").value.trim();
+  if (!raw) return;
+  const lines = raw.split(/\r?\n/);
+  let count = 0;
+  lines.forEach((line) => {
+    const parts = line.split(/\t|,/);
+    if (parts.length >= 5) {
+      const code = parts[0].trim().toUpperCase();
+      const name = parts[1].trim();
+      const cls = parts[2].trim();
+      const gMatch = cls.match(/^(\d+)/);
+      const grade = gMatch ? Number(gMatch[1]) : 12;
+      const gk1 = Number(parts[3]) || 8.0;
+      const ck1 = Number(parts[4]) || 8.5;
+      const gk2 = Number(parts[5]) || gk1;
+      const ck2 = Number(parts[6]) || ck1;
+      const special = Number(parts[7]) || ck2;
+      const note = parts[8] ? parts[8].trim() : "Đã cập nhật điểm mới.";
+      const entry = { code, name, cls, grade, gk1, ck1, gk2, ck2, special, detail: "", note };
+      const idx = studentRecords.findIndex(s => s.code.toUpperCase() === code);
+      if (idx >= 0) studentRecords[idx] = { ...studentRecords[idx], ...entry };
+      else studentRecords.push(entry);
+      count++;
+    }
+  });
+  if (count > 0) {
+    saveScores(studentRecords);
+    document.getElementById("bulk-tsv").value = "";
+    modal.hidden = true;
+    renderScoreTable();
+  }
+});
+
+// Export CSV
+document.getElementById("btn-export-csv").addEventListener("click", () => {
+  const header = ["MaHS", "HoTen", "Lop", "GK1", "CK1", "GK2", "CK2", "Thi_THPTQG_9vao10", "NhanXet"];
+  const rows = studentRecords.map(s => [
+    s.code, `"${s.name}"`, `"${s.cls}"`, s.gk1, s.ck1, s.gk2, s.ck2, s.special, `"${(s.note || "").replace(/"/g, '""')}"`
+  ].join(","));
+  const csv = "\uFEFF" + [header.join(","), ...rows].join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "BangDiem_LopToanAnhChi.csv";
+  a.click();
+});
+
+// Mobile menu toggle
+const toggle = document.querySelector(".menu-toggle");
+const menu = document.getElementById("menu");
+toggle.addEventListener("click", () => {
+  const open = menu.classList.toggle("open");
+  toggle.setAttribute("aria-expanded", String(open));
+});
+menu.addEventListener("click", (e) => {
+  if (e.target.closest("a")) {
+    menu.classList.remove("open");
+    toggle.setAttribute("aria-expanded", "false");
+  }
+});
+
+// Reveal on scroll
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+    if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+  }), { rootMargin: "0px 0px -8% 0px" });
+  document.querySelectorAll(".reveal").forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 3) * 70}ms`;
+    io.observe(el);
+  });
+} else {
+  document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
+renderScoreTable();
+</script>
+</body>
+</html>
