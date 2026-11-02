@@ -79,4 +79,37 @@ assert.ok(
   'Missing Supabase Storage & Database client integration'
 );
 
-console.log('PASS: All assertions passed (aodauvietnam.com WebP cursors, Mobile-first responsive optimization, Single-line navbar, Supabase Storage).');
+// 10. Verify Direct Admin Portal Link (admin.html + ?admin=1), Live Inline Editing, Full Document Library (#kho-tai-lieu), and Per-Doc/Global Download Toggles
+assert.ok(fs.existsSync(new URL('./admin.html', import.meta.url)), 'Missing dedicated admin.html portal link file');
+const adminHtml = fs.readFileSync(new URL('./admin.html', import.meta.url), 'utf8');
+assert.ok(adminHtml.includes('./?admin=1') && html.includes('checkDirectAdminLink'), 'Missing direct Admin URL redirect or handler');
+assert.ok(
+  html.includes('id="admin-live-bar"') &&
+  html.includes('id="btn-live-edit-toggle"') &&
+  html.includes('setLiveEditMode') &&
+  html.includes('saveLiveDomEdits'),
+  'Missing Live Inline Web Editing toolbar and functions'
+);
+assert.ok(
+  html.includes('id="kho-tai-lieu"') &&
+  html.includes('id="doc-lib-grid"') &&
+  html.includes('id="doc-lib-cats"') &&
+  html.includes('id="doc-lib-search"') &&
+  html.includes('renderFullDocLibrary'),
+  'Missing Full Document Library section (#kho-tai-lieu) and controls'
+);
+assert.ok(
+  html.includes('DOC_DL_POLICY_KEY') &&
+  html.includes('canPublicDownloadDoc') &&
+  html.includes('downloadDocPdf') &&
+  html.includes('id="doc-dl-policy-select"') &&
+  html.includes('id="btn-dl-allow-all"') &&
+  html.includes('id="btn-dl-block-all"') &&
+  html.includes('id="btn-dl-per-doc"') &&
+  html.includes('id="pdf-download-btn"') &&
+  html.includes('id="btn-download-active-doc"') &&
+  html.includes('data-doc-dl-toggle'),
+  'Missing per-document or global PDF download toggle controls and download handler'
+);
+
+console.log('PASS: All assertions passed (Direct Admin Portal link, Live Inline Web Editing, Full Document Library #kho-tai-lieu, Per-doc & Global PDF Download toggles).');
