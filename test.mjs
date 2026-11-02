@@ -112,4 +112,16 @@ assert.ok(
   'Missing per-document or global PDF download toggle controls and download handler'
 );
 
-console.log('PASS: All assertions passed (Direct Admin Portal link, Live Inline Web Editing, Full Document Library #kho-tai-lieu, Per-doc & Global PDF Download toggles).');
+// 11. Verify Automatic Zero-Config Supabase Cloud Connection (uiyqdqucqplifcvukwul) + LTAC Vault Binary Encryption + Anti-F12 / Anti-DevTools Shield
+assert.ok(
+  html.includes('https://uiyqdqucqplifcvukwul.supabase.co') &&
+  html.includes('DEFAULT_SUPABASE_CFG') &&
+  html.includes('encodePdfToVaultBytes') &&
+  html.includes('decodeVaultBytesToPdf') &&
+  html.includes('initAntiF12AndDownloadShield') &&
+  html.includes('e.key === "F12"') &&
+  html.includes('HTMLCanvasElement.prototype.toDataURL'),
+  'Missing automatic Supabase connection, LTAC Vault binary cipher, or Anti-F12/DevTools/Canvas security shield'
+);
+
+console.log('PASS: All assertions passed (Auto-linked Supabase Cloud uiyqdqucqplifcvukwul, LTAC Vault Encryption, Anti-F12/DevTools Shield, Live Edit & Full Library).');

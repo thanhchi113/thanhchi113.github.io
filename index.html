@@ -2156,30 +2156,30 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <div class="admin-pane" id="admin-pane-docs" hidden>
       <div class="admin-box" style="background:linear-gradient(135deg,#f3fbf7,#fbf6ec);border-color:rgba(30,107,69,0.28)">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
-          <h4 style="margin:0;color:#1e6b45">☁ Lưu trữ Đám mây Supabase Storage (https://supabase.com)</h4>
-          <span id="sb-conn-badge" class="pill-note" style="padding:4px 10px;font-size:12px">⚡ Chế độ: Đang kiểm tra...</span>
+          <h4 style="margin:0;color:#1e6b45">☁ Lưu trữ Đám mây Supabase Storage (Đã Tự Động Liên Kết 100%)</h4>
+          <span id="sb-conn-badge" class="pill-note" style="padding:4px 10px;font-size:12px;background:#e8f6ee;color:#1e6b45">☁ Đã tự động kết nối Supabase (uiyqdqucqplifcvukwul · Bucket: tai-lieu-pdf)</span>
         </div>
         <p style="margin:0 0 10px;color:var(--muted);font-size:13.5px">
-          Kết nối <b>Supabase Storage</b> (Bucket: <code>tai-lieu-pdf</code> &amp; Bảng: <code>pdf_documents</code>) để lưu trữ file PDF trên đám mây cho toàn bộ học sinh truy cập. File PDF được tải về dưới dạng luồng nhị phân (ArrayBuffer) vẽ trực tiếp lên <code>&lt;canvas&gt;</code> bảo mật chống tải.
+          Hệ thống đã được <b>tự động liên kết trực tiếp</b> với dự án Supabase của Thầy (<code>https://uiyqdqucqplifcvukwul.supabase.co</code> · Private Bucket: <code>tai-lieu-pdf</code> · Bảng: <code>pdf_documents</code>). Mọi tài liệu upload lên đều được <b>mã hóa nhị phân Vault (LTAC XOR)</b>, ẩn đường dẫn thực, khóa F12/DevTools/chuột phải và vẽ trực tiếp lên <code>&lt;canvas&gt;</code> chống tìm link &amp; chống tải.
         </p>
         <form id="supabase-config-form">
           <div class="form-grid" style="grid-template-columns:1.3fr 1.5fr 0.8fr">
             <div class="form-field">
-              <label for="sb-url-input">Supabase Project URL</label>
-              <input type="url" id="sb-url-input" placeholder="https://xxxx.supabase.co">
+              <label for="sb-url-input">Supabase Project URL (Đã cấu hình tự động)</label>
+              <input type="url" id="sb-url-input" value="https://uiyqdqucqplifcvukwul.supabase.co" placeholder="https://xxxx.supabase.co">
             </div>
             <div class="form-field">
-              <label for="sb-key-input">Supabase Publishable / Anon Key</label>
-              <input type="password" id="sb-key-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6... hoặc sb_publishable_...">
+              <label for="sb-key-input">Supabase Anon / Publishable Key (Đã cấu hình tự động)</label>
+              <input type="password" id="sb-key-input" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpeXFkcXVjcXBsaWZjdnVrd3VsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MzQyNTYsImV4cCI6MjEwNDAxMDI1Nn0.QFVahkLpgPklc5rQZnskLY1W5913nZ6Vn80T_As-he0" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6...">
             </div>
             <div class="form-field">
-              <label for="sb-bucket-input">Tên Storage Bucket</label>
+              <label for="sb-bucket-input">Tên Private Storage Bucket</label>
               <input type="text" id="sb-bucket-input" value="tai-lieu-pdf" placeholder="tai-lieu-pdf">
             </div>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-            <button type="submit" class="btn sm" style="background:#1e6b45;border-color:#1e6b45">☁ Lưu &amp; Kết nối Supabase</button>
-            <button type="button" class="btn ghost sm" id="btn-sb-sync">🔄 Đồng bộ danh sách từ Supabase</button>
+            <button type="submit" class="btn sm" style="background:#1e6b45;border-color:#1e6b45">☁ Lưu &amp; Kết nối lại Supabase</button>
+            <button type="button" class="btn ghost sm" id="btn-sb-sync">🔄 Đồng bộ ngay từ Supabase Cloud</button>
           </div>
           <div id="sb-config-status" class="status-msg" hidden></div>
         </form>
@@ -4013,23 +4013,54 @@ function getDocMiniSvg(type, accent) {
 }
 
 // ============================================================================
-// SUPABASE STORAGE & DATABASE CLIENT (https://supabase.com/)
+// SUPABASE STORAGE & DATABASE CLIENT (ĐÃ TỰ ĐỘNG LIÊN KẾT 100%)
 // ============================================================================
 const SUPABASE_CFG_KEY = "lop_toan_anh_chi_supabase_cfg_v1";
+const DEFAULT_SUPABASE_CFG = {
+  url: "https://uiyqdqucqplifcvukwul.supabase.co",
+  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpeXFkcXVjcXBsaWZjdnVrd3VsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MzQyNTYsImV4cCI6MjEwNDAxMDI1Nn0.QFVahkLpgPklc5rQZnskLY1W5913nZ6Vn80T_As-he0",
+  publishableKey: "sb_publishable_eVPODZoNRLiGD8Ldl2VjAg_eC_KTKDg",
+  bucket: "tai-lieu-pdf"
+};
+
+// Khóa mã hóa nhị phân Vault (LTAC XOR Stream Cipher) chống tải lén qua F12 / Network / IDM
+const VAULT_CIPHER_KEY = [0x4C, 0x54, 0x41, 0x43, 0x9A, 0x37, 0xE5, 0x6D, 0xB2, 0x19, 0x8F, 0xC4, 0x53, 0x71, 0xA8, 0x2E];
+
+function encodePdfToVaultBytes(arrayBuffer) {
+  const src = new Uint8Array(arrayBuffer);
+  // 4-byte magic header "LTAC" (0x4C, 0x54, 0x41, 0x43) + XOR-scrambled payload
+  const out = new Uint8Array(src.length + 4);
+  out[0] = 0x4C; out[1] = 0x54; out[2] = 0x41; out[3] = 0x43;
+  for (let i = 0; i < src.length; i++) {
+    out[i + 4] = src[i] ^ VAULT_CIPHER_KEY[i & 15] ^ ((i * 13) & 0xFF);
+  }
+  return out.buffer;
+}
+
+function decodeVaultBytesToPdf(arrayBuffer) {
+  const src = new Uint8Array(arrayBuffer);
+  if (src.length > 4 && src[0] === 0x4C && src[1] === 0x54 && src[2] === 0x41 && src[3] === 0x43) {
+    const out = new Uint8Array(src.length - 4);
+    for (let i = 0; i < out.length; i++) {
+      out[i] = src[i + 4] ^ VAULT_CIPHER_KEY[i & 15] ^ ((i * 13) & 0xFF);
+    }
+    return out.buffer;
+  }
+  return arrayBuffer;
+}
 
 function loadSupabaseCfg() {
   try {
     const raw = localStorage.getItem(SUPABASE_CFG_KEY);
     if (raw) {
       const p = JSON.parse(raw);
-      return {
-        url: String(p.url || "").trim().replace(/\/+$/, ""),
-        anonKey: String(p.anonKey || "").trim(),
-        bucket: String(p.bucket || "tai-lieu-pdf").trim() || "tai-lieu-pdf"
-      };
+      const url = String(p.url || "").trim().replace(/\/+$/, "") || DEFAULT_SUPABASE_CFG.url;
+      const anonKey = String(p.anonKey || "").trim() || DEFAULT_SUPABASE_CFG.anonKey;
+      const bucket = String(p.bucket || DEFAULT_SUPABASE_CFG.bucket).trim() || DEFAULT_SUPABASE_CFG.bucket;
+      return { url, anonKey, bucket };
     }
   } catch {}
-  return { url: "", anonKey: "", bucket: "tai-lieu-pdf" };
+  return { ...DEFAULT_SUPABASE_CFG };
 }
 
 function saveSupabaseCfg(cfg) {
@@ -4049,16 +4080,16 @@ function updateSupabaseBadgeUI() {
   const urlInp = document.getElementById("sb-url-input");
   const keyInp = document.getElementById("sb-key-input");
   const bucketInp = document.getElementById("sb-bucket-input");
-  if (urlInp && !urlInp.value) urlInp.value = supabaseCfg.url;
-  if (keyInp && !keyInp.value) keyInp.value = supabaseCfg.anonKey;
-  if (bucketInp && !bucketInp.value) bucketInp.value = supabaseCfg.bucket || "tai-lieu-pdf";
+  if (urlInp) urlInp.value = supabaseCfg.url;
+  if (keyInp) keyInp.value = supabaseCfg.anonKey;
+  if (bucketInp) bucketInp.value = supabaseCfg.bucket || "tai-lieu-pdf";
   if (!badge) return;
   if (isSupabaseConfigured()) {
-    badge.innerHTML = `☁ Đã kết nối Supabase (Bucket: <b>${supabaseCfg.bucket}</b>)`;
+    badge.innerHTML = `☁ Đã tự động kết nối Supabase Cloud (Private Bucket: <b>${supabaseCfg.bucket}</b> · Mã hóa LTAC)`;
     badge.style.background = "#e8f6ee";
     badge.style.color = "#1e6b45";
   } else {
-    badge.innerHTML = `💾 Chế độ chờ kết nối Supabase (Đang lưu dự phòng trình duyệt)`;
+    badge.innerHTML = `💾 Chế độ chờ kết nối Supabase`;
     badge.style.background = "#f7efe0";
     badge.style.color = "#6a5f5d";
   }
@@ -4066,37 +4097,41 @@ function updateSupabaseBadgeUI() {
 
 async function uploadPdfToSupabaseStorage(file, docId) {
   if (!isSupabaseConfigured() || !file) return null;
-  const safeName = `${docId}_${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-  const endpoint = `${supabaseCfg.url}/storage/v1/object/${encodeURIComponent(supabaseCfg.bucket)}/${encodeURIComponent(safeName)}`;
+  const randToken = Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+  const vaultName = `vault_${docId}_${randToken}.bin`;
+  const rawBuffer = await file.arrayBuffer();
+  const encryptedBuffer = encodePdfToVaultBytes(rawBuffer);
+  const endpoint = `${supabaseCfg.url}/storage/v1/object/${encodeURIComponent(supabaseCfg.bucket)}/${encodeURIComponent(vaultName)}`;
   const res = await fetch(endpoint, {
     method: "POST",
     headers: {
       "apikey": supabaseCfg.anonKey,
       "Authorization": `Bearer ${supabaseCfg.anonKey}`,
-      "Content-Type": "application/pdf",
+      "Content-Type": "application/octet-stream",
       "x-upsert": "true"
     },
-    body: file
+    body: encryptedBuffer
   });
   if (!res.ok) throw new Error(`Supabase Storage HTTP ${res.status}`);
-  return safeName;
+  return vaultName;
 }
 
 async function fetchPdfArrayBufferFromSupabase(storagePath) {
   if (!isSupabaseConfigured() || !storagePath) return null;
-  const pubUrl = `${supabaseCfg.url}/storage/v1/object/public/${encodeURIComponent(supabaseCfg.bucket)}/${encodeURIComponent(storagePath)}`;
-  let res = await fetch(pubUrl);
+  const authUrl = `${supabaseCfg.url}/storage/v1/object/${encodeURIComponent(supabaseCfg.bucket)}/${encodeURIComponent(storagePath)}`;
+  let res = await fetch(authUrl, {
+    headers: {
+      "apikey": supabaseCfg.anonKey,
+      "Authorization": `Bearer ${supabaseCfg.anonKey}`
+    }
+  });
   if (!res.ok) {
-    const authUrl = `${supabaseCfg.url}/storage/v1/object/authenticated/${encodeURIComponent(supabaseCfg.bucket)}/${encodeURIComponent(storagePath)}`;
-    res = await fetch(authUrl, {
-      headers: {
-        "apikey": supabaseCfg.anonKey,
-        "Authorization": `Bearer ${supabaseCfg.anonKey}`
-      }
-    });
+    const pubUrl = `${supabaseCfg.url}/storage/v1/object/public/${encodeURIComponent(supabaseCfg.bucket)}/${encodeURIComponent(storagePath)}`;
+    res = await fetch(pubUrl);
   }
   if (!res.ok) return null;
-  return await res.arrayBuffer();
+  const rawAb = await res.arrayBuffer();
+  return decodeVaultBytesToPdf(rawAb);
 }
 
 async function deletePdfFromSupabaseStorage(storagePath) {
@@ -4135,7 +4170,9 @@ async function upsertDocMetadataToSupabase(docEntry) {
         desc: docEntry.desc || "",
         svg_type: docEntry.svgType || "cubic",
         storage_path: docEntry.storagePath || null,
-        has_uploaded_pdf: Boolean(docEntry.hasUploadedPdf)
+        allow_download: Boolean(docEntry.allowDownload),
+        has_uploaded_pdf: Boolean(docEntry.hasUploadedPdf),
+        updated_at: new Date().toISOString()
       })
     });
   } catch {}
@@ -4144,7 +4181,7 @@ async function upsertDocMetadataToSupabase(docEntry) {
 async function syncDocsFromSupabase() {
   if (!isSupabaseConfigured()) return false;
   try {
-    const res = await fetch(`${supabaseCfg.url}/rest/v1/pdf_documents?select=*&order=created_at.desc`, {
+    const res = await fetch(`${supabaseCfg.url}/rest/v1/pdf_documents?select=*&order=id.asc`, {
       headers: {
         "apikey": supabaseCfg.anonKey,
         "Authorization": `Bearer ${supabaseCfg.anonKey}`
@@ -4163,6 +4200,7 @@ async function syncDocsFromSupabase() {
         desc: r.desc || "",
         svgType: r.svg_type || "cubic",
         storagePath: r.storage_path || null,
+        allowDownload: Boolean(r.allow_download),
         hasUploadedPdf: Boolean(r.has_uploaded_pdf || r.storage_path)
       }));
       saveDocsList(docRecords);
@@ -4174,12 +4212,34 @@ async function syncDocsFromSupabase() {
   return false;
 }
 
+async function saveSiteStateToSupabase(patch = {}) {
+  if (!isSupabaseConfigured()) return;
+  try {
+    await fetch(`${supabaseCfg.url}/rest/v1/lop_toan_site_state`, {
+      method: "POST",
+      headers: {
+        "apikey": supabaseCfg.anonKey,
+        "Authorization": `Bearer ${supabaseCfg.anonKey}`,
+        "Content-Type": "application/json",
+        "Prefer": "resolution=merge-duplicates"
+      },
+      body: JSON.stringify({
+        id: "main",
+        dl_policy: docDlPolicy,
+        privacy_config: privacyConfig,
+        ...patch,
+        updated_at: new Date().toISOString()
+      })
+    });
+  } catch {}
+}
+
 // IndexedDB dự phòng để lưu trữ file PDF thực tế trên trình duyệt
 const PDF_DB_NAME = "lop_toan_anh_chi_pdf_db";
 const PDF_STORE_NAME = "pdfs";
 
 function openPdfIdb() {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (!("indexedDB" in window)) return resolve(null);
     const req = indexedDB.open(PDF_DB_NAME, 1);
     req.onupgradeneeded = (e) => {
@@ -4233,13 +4293,14 @@ function loadDocDlPolicy() {
     const v = localStorage.getItem(DOC_DL_POLICY_KEY);
     if (v === "allow_all" || v === "block_all" || v === "per_doc") return v;
   } catch {}
-  return "per_doc";
+  return "block_all";
 }
 
 function saveDocDlPolicy(policy) {
   try {
     localStorage.setItem(DOC_DL_POLICY_KEY, policy);
   } catch {}
+  saveSiteStateToSupabase({ dl_policy: policy });
 }
 
 let docDlPolicy = loadDocDlPolicy();
@@ -4308,7 +4369,7 @@ function loadDocsList() {
       }
     }
   } catch {}
-  return DEFAULT_DOCS.map((d, i) => ({ allowDownload: i === 0 || i === 2, ...d }));
+  return DEFAULT_DOCS.map((d) => ({ allowDownload: false, ...d }));
 }
 
 function saveDocsList(list) {
@@ -4815,11 +4876,15 @@ async function renderProtectedPdfPages() {
   document.getElementById("pdf-zoom-readout").textContent = `${Math.round(currentPdfZoom * 100)}%`;
   pdfStage.innerHTML = "";
 
-  // Ưu tiên tải luồng nhị phân (ArrayBuffer) từ Supabase Storage hoặc IndexedDB để vẽ lên Canvas chống tải
+  // Ưu tiên tải luồng nhị phân mã hóa (LTAC Vault ArrayBuffer) từ Supabase Storage hoặc IndexedDB để vẽ lên Canvas chống tải
   let pdfSource = null;
+  let tempBufferRef = null;
   if (currentPdfDoc.storagePath && isSupabaseConfigured()) {
     const ab = await fetchPdfArrayBufferFromSupabase(currentPdfDoc.storagePath);
-    if (ab) pdfSource = { data: ab };
+    if (ab) {
+      tempBufferRef = new Uint8Array(ab);
+      pdfSource = { data: tempBufferRef };
+    }
   }
   if (!pdfSource && currentPdfDoc.hasUploadedPdf) {
     const dataUrl = await loadPdfBinaryFromIdb(currentPdfDoc.id);
@@ -4844,6 +4909,7 @@ async function renderProtectedPdfPages() {
           wrap.className = "pdf-page-wrap";
           wrap.dataset.pageNo = String(p);
           const canvas = document.createElement("canvas");
+          canvas.dataset.protectedPdf = "1";
           canvas.width = viewport.width;
           canvas.height = viewport.height;
           canvas.style.width = `${Math.round(baseVp.width * fitRatio * currentPdfZoom)}px`;
@@ -4854,6 +4920,10 @@ async function renderProtectedPdfPages() {
           wrap.appendChild(wm);
           pdfStage.appendChild(wrap);
           await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+        }
+        // Xóa ngay bộ đệm nhị phân giải mã trong RAM sau khi vẽ xong lên Canvas
+        if (tempBufferRef && !canPublicDownloadDoc(currentPdfDoc)) {
+          try { tempBufferRef.fill(0); } catch {}
         }
         return;
       } catch {}
@@ -4869,6 +4939,7 @@ async function renderProtectedPdfPages() {
     wrap.dataset.pageNo = String(p);
     const canvas = document.createElement("canvas");
     drawSampleMathPageOnCanvas(canvas, currentPdfDoc, p, currentPdfTotalPages, currentPdfZoom);
+    canvas.dataset.protectedPdf = "1";
     const wm = document.createElement("div");
     wm.className = "pdf-watermark";
     wrap.appendChild(canvas);
@@ -5064,18 +5135,125 @@ document.getElementById("pdf-next-page").addEventListener("click", () => {
   });
 })();
 
-// Bảo mật thông tin: Chặn phím tắt Ctrl+S, Ctrl+P khi đang mở tài liệu PDF (nếu tài liệu không cho phép tải)
-window.addEventListener("keydown", (e) => {
-  if (!pdfModal.hidden && (e.ctrlKey || e.metaKey)) {
-    const k = e.key.toLowerCase();
-    if ((k === "s" || k === "p" || k === "u") && !(currentPdfDoc && canPublicDownloadDoc(currentPdfDoc))) {
+// ============================================================================
+// LÁ CHẮN BẢO MẬT CHỐNG F12 / DEVTOOLS / VIEW-SOURCE / CHUỘT PHẢI / TẢI LÉN
+// ============================================================================
+let secToastTimer = null;
+function showSecurityToast(msg) {
+  let toast = document.getElementById("security-shield-toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "security-shield-toast";
+    toast.style.cssText = "position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:99999;background:rgba(101,15,18,0.96);color:#fffaf2;border:1px solid rgba(255,214,153,0.45);border-radius:999px;padding:10px 18px;font-size:13px;font-weight:700;box-shadow:0 16px 36px rgba(0,0,0,0.35);pointer-events:none;transition:opacity .2s ease;text-align:center;max-width:92vw";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = "1";
+  clearTimeout(secToastTimer);
+  secToastTimer = setTimeout(() => {
+    if (toast) toast.style.opacity = "0";
+  }, 2600);
+}
+
+(function initAntiF12AndDownloadShield() {
+  // 1. Khóa trích xuất dữ liệu ảnh từ Canvas tài liệu PDF qua Console (toDataURL / toBlob)
+  const origToDataURL = HTMLCanvasElement.prototype.toDataURL;
+  const origToBlob = HTMLCanvasElement.prototype.toBlob;
+  HTMLCanvasElement.prototype.toDataURL = function (...args) {
+    if (this.dataset && this.dataset.protectedPdf === "1" && !isAdminLoggedIn) {
+      showSecurityToast("🔒 Đã chặn trích xuất ảnh tài liệu PDF (Bảo mật bản quyền Lớp Toán Anh Chí).");
+      return "data:,";
+    }
+    return origToDataURL.apply(this, args);
+  };
+  HTMLCanvasElement.prototype.toBlob = function (cb, ...args) {
+    if (this.dataset && this.dataset.protectedPdf === "1" && !isAdminLoggedIn) {
+      showSecurityToast("🔒 Đã chặn tải Blob từ tài liệu PDF bảo mật.");
+      if (typeof cb === "function") cb(null);
+      return;
+    }
+    return origToBlob.apply(this, [cb, ...args]);
+  };
+
+  // 2. Chặn toàn bộ phím tắt F12, Ctrl+Shift+I/J/C/K, Ctrl+U (View Source), Ctrl+S (Save), Ctrl+P (Print), PrintScreen
+  window.addEventListener("keydown", (e) => {
+    const key = (e.key || "").toLowerCase();
+    const isCtrlOrCmd = e.ctrlKey || e.metaKey;
+    const isDevToolsShortcut =
+      e.key === "F12" ||
+      e.keyCode === 123 ||
+      (isCtrlOrCmd && e.shiftKey && (key === "i" || key === "j" || key === "c" || key === "k")) ||
+      (e.metaKey && e.altKey && (key === "i" || key === "j" || key === "c" || key === "u")) ||
+      (isCtrlOrCmd && key === "u");
+
+    if (isDevToolsShortcut) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!pdfModal.hidden) {
+        pdfModal.hidden = true;
+        if (pdfStage) pdfStage.innerHTML = "";
+      }
+      showSecurityToast("🔒 Hệ thống đã khóa F12 / DevTools & Xem mã nguồn để bảo mật tài liệu và thông tin học sinh!");
+      return false;
+    }
+
+    if (isCtrlOrCmd && (key === "s" || key === "p")) {
+      if (!currentPdfDoc || !canPublicDownloadDoc(currentPdfDoc)) {
+        e.preventDefault();
+        e.stopPropagation();
+        showSecurityToast("🔒 Tài liệu đang ở chế độ Chỉ Xem — Không cho phép Lưu trang (Ctrl+S) hoặc In (Ctrl+P)!");
+        return false;
+      }
+    }
+
+    if (e.key === "PrintScreen") {
+      if (!pdfModal.hidden && pdfStage) {
+        pdfStage.style.filter = "blur(18px)";
+        setTimeout(() => { if (pdfStage) pdfStage.style.filter = "none"; }, 1800);
+      }
+      try { navigator.clipboard.writeText("Bản quyền tài liệu Lớp Toán Anh Chí — Không cho phép chụp màn hình."); } catch {}
+      showSecurityToast("🔒 Đã khóa chụp màn hình tài liệu bảo mật!");
+    }
+
+    if (e.key === "Escape" && !pdfModal.hidden) {
+      pdfModal.hidden = true;
+    }
+  }, true);
+
+  // 3. Chặn Chuột phải (Context Menu), Kéo thả (Dragstart) và Copy trên vùng tài liệu & toàn trang
+  document.addEventListener("contextmenu", (e) => {
+    if (isAdminLoggedIn && isLiveEditMode) return;
+    e.preventDefault();
+    showSecurityToast("🔒 Đã khóa chuột phải để bảo vệ tài liệu & thông tin Lớp Toán Anh Chí.");
+  }, true);
+
+  document.addEventListener("dragstart", (e) => {
+    if (e.target.closest("#pdf-viewer-modal, #tai-lieu, #kho-tai-lieu, canvas, img")) {
       e.preventDefault();
     }
-  }
-  if (e.key === "Escape" && !pdfModal.hidden) {
-    pdfModal.hidden = true;
-  }
-});
+  }, true);
+
+  document.addEventListener("copy", (e) => {
+    const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
+    if (tag === "input" || tag === "textarea" || (isAdminLoggedIn && isLiveEditMode)) return;
+    if (!pdfModal.hidden || (e.target && e.target.closest("#tai-lieu, #kho-tai-lieu, #tra-cuu-diem"))) {
+      e.preventDefault();
+      showSecurityToast("🔒 Không cho phép sao chép nội dung tài liệu & dữ liệu học sinh.");
+    }
+  }, true);
+
+  // 4. Tự động phát hiện mở DevTools bằng menu trình duyệt và đóng ngay trình đọc PDF
+  setInterval(() => {
+    if (isAdminLoggedIn || window.innerWidth < 768) return;
+    const widthGap = window.outerWidth - window.innerWidth > 170;
+    const heightGap = window.outerHeight - window.innerHeight > 170;
+    if ((widthGap || heightGap) && !pdfModal.hidden) {
+      pdfModal.hidden = true;
+      if (pdfStage) pdfStage.innerHTML = "";
+      showSecurityToast("🔒 Phát hiện công cụ kiểm tra (DevTools/F12)! Đã tự động đóng tài liệu để bảo vệ bản quyền.");
+    }
+  }, 1000);
+})();
 
 // ============================================================================
 // ADMIN TAB 2: UPLOAD, SỬA & BẬT/TẮT TẢI TÀI LIỆU PDF
