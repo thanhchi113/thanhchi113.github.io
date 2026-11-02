@@ -112,7 +112,7 @@ assert.ok(
   'Missing per-document or global PDF download toggle controls and download handler'
 );
 
-// 11. Verify Automatic Zero-Config Supabase Cloud Connection (uiyqdqucqplifcvukwul) + LTAC Vault Binary Encryption + Anti-F12 / Anti-DevTools Shield
+// 11. Verify Automatic Zero-Config Supabase Cloud Connection (uiyqdqucqplifcvukwul) + LTAC Vault Binary Encryption + Anti-F12 / Anti-DevTools Shield + Balanced Single-Line/Color-Separated Headings
 assert.ok(
   html.includes('https://uiyqdqucqplifcvukwul.supabase.co') &&
   html.includes('DEFAULT_SUPABASE_CFG') &&
@@ -123,5 +123,6 @@ assert.ok(
   html.includes('HTMLCanvasElement.prototype.toDataURL'),
   'Missing automatic Supabase connection, LTAC Vault binary cipher, or Anti-F12/DevTools/Canvas security shield'
 );
+assert.match(html, /h2 em\s*\{[^}]*display:\s*inline-block[^}]*white-space:\s*nowrap/s, 'h2 em must keep colored phrase unbroken on 1 line or cleanly wrap as a whole');
 
-console.log('PASS: All assertions passed (Auto-linked Supabase Cloud uiyqdqucqplifcvukwul, LTAC Vault Encryption, Anti-F12/DevTools Shield, Live Edit & Full Library).');
+console.log('PASS: All assertions passed (Auto-linked Supabase Cloud uiyqdqucqplifcvukwul, LTAC Vault Encryption, Anti-F12/DevTools Shield, Balanced Headings).');

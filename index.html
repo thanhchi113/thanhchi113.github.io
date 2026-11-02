@@ -160,10 +160,10 @@ header.top {
 .eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 600 13px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
 .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--ink); }
 h1 {
-  margin: 18px 0 22px; font: 800 clamp(40px, 5.6vw, 70px)/1.03 var(--serif); letter-spacing: -.025em; color: var(--ink-deep);
+  margin: 18px 0 22px; font: 800 clamp(34px, 4.1vw, 52px)/1.08 var(--serif); letter-spacing: -.025em; color: var(--ink-deep);
   font-variation-settings: "opsz" 144;
 }
-h1 em { font-style: italic; font-weight: 650; color: var(--ink); position: relative; white-space: nowrap; }
+h1 em { display: inline-block; font-style: italic; font-weight: 650; color: var(--ink); position: relative; white-space: nowrap; }
 h1 em::after {
   content: ""; position: absolute; left: -2%; right: -2%; bottom: .06em; height: .18em; z-index: -1;
   background: var(--hl); border-radius: 40% 60% 50% 40%; transform: skewX(-12deg) scaleX(0); transform-origin: left;
@@ -240,11 +240,11 @@ h1 em::after {
 
 /* --- Sections --- */
 section { padding: 96px 0 0; scroll-margin-top: 72px; }
-.head { display: grid; grid-template-columns: 120px 1fr; gap: 0 28px; margin-bottom: 44px; }
-.head .num { font: 500 italic 54px/1 var(--serif); color: var(--margin); text-align: right; padding-top: 6px; }
-h2 { margin: 0; font: 800 clamp(32px, 4.2vw, 50px)/1.08 var(--serif); letter-spacing: -.02em; color: var(--ink-deep); }
-h2 em { font-style: italic; font-weight: 650; color: var(--ink); }
-.head p { grid-column: 2; margin: 14px 0 0; color: var(--muted); font-size: 18px; max-width: 42em; }
+.head { display: grid; grid-template-columns: 68px 1fr; gap: 0 20px; margin-bottom: 40px; align-items: baseline; }
+.head .num { font: 500 italic clamp(34px, 3.2vw, 44px)/1 var(--serif); color: var(--margin); text-align: right; padding-top: 0; white-space: nowrap; }
+h2 { margin: 0; font: 800 clamp(24px, 2.75vw, 35px)/1.18 var(--serif); letter-spacing: -.02em; color: var(--ink-deep); }
+h2 em { font-style: italic; font-weight: 650; color: var(--ink); display: inline-block; white-space: nowrap; }
+.head p { grid-column: 2; margin: 12px 0 0; color: var(--muted); font-size: 17.5px; max-width: 46em; }
 
 /* --- Features / About cards --- */
 .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; grid-auto-flow: dense; }
@@ -1010,8 +1010,8 @@ body.live-edit-active .live-editable:focus {
   padding: 52px 56px; border-radius: 28px; background: var(--ink-deep); color: #f3e2df;
   background-image: radial-gradient(120% 140% at 100% 0%, #7d1a1e 0%, transparent 55%), repeating-linear-gradient(to bottom, transparent 0 35px, rgba(255, 255, 255, .05) 35px 36px);
 }
-.support h2 { color: #fff; }
-.support h2 em { color: #ffd9d2; }
+.support h2 { color: #fff; font-size: clamp(23px, 2.5vw, 31px); line-height: 1.24; }
+.support h2 em { color: #ffd9d2; display: block; margin-top: 4px; white-space: normal; }
 .support p { color: #e6c9c4; font-size: 18px; margin: 16px 0 0; }
 .support .side { display: grid; gap: 12px; justify-items: start; }
 .support .btn.ghost { --fg: #fff; border-color: rgba(255, 255, 255, .4); }
@@ -1143,10 +1143,11 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   .stats div:nth-child(n + 3) { border-top: 1px dashed var(--line); }
   .stats b { font-size: 28px; }
   .stats span { font-size: 13px; }
-  .head { grid-template-columns: 1fr; margin-bottom: 26px; }
-  .head .num { text-align: left; font-size: 34px; padding: 0 0 4px; }
-  h2 { font-size: clamp(25px, 6.8vw, 34px); }
-  .head p { grid-column: 1; font-size: 15.5px; margin-top: 10px; }
+  .head { grid-template-columns: 1fr; margin-bottom: 24px; gap: 4px; }
+  .head .num { text-align: left; font-size: 30px; padding: 0; }
+  h2 { font-size: clamp(22px, 6.2vw, 30px); line-height: 1.22; }
+  h2 em { display: block; white-space: normal; margin-top: 2px; }
+  .head p { grid-column: 1; font-size: 15.5px; margin-top: 8px; }
 
   /* 4. Bento Cards, Classes & Achievements (Prevent Tag/Stamp Overlaps) */
   .features, .downloads, .hall-of-fame, .schedule-grid, .score-controls, .form-grid, .form-grid.two {
