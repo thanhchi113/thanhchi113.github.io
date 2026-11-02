@@ -166,8 +166,10 @@ h2 em { font-style: italic; font-weight: 650; color: var(--ink); }
 .card .glyph svg { width: 26px; height: 26px; fill: none; stroke: var(--ink); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .card h3 { margin: 0 0 6px; font: 650 21px/1.25 var(--serif); color: var(--ink-deep); }
 .card p { margin: 0; color: var(--muted); font-size: 15.5px; }
-.card .tag { position: absolute; top: 22px; right: 20px; font: 19px/1 var(--hand); color: var(--ink); transform: rotate(4deg); }
+.card .tag { position: absolute; top: 22px; right: 20px; font: 19px/1 var(--hand); color: var(--ink); transform: rotate(4deg); z-index: 2; }
 .card.wide { grid-column: span 2; display: grid; grid-template-columns: 1.15fr 1fr; gap: 24px; align-items: center; padding: 28px; }
+.card.wide > div:first-child { position: relative; }
+.card.wide .tag { top: 10px; right: 4px; }
 .card.span2 { grid-column: span 2; }
 .card.dark { background: var(--ink); border-color: var(--ink); color: #f7e9e6; }
 .card.dark h3 { color: #fff; }
