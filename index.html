@@ -366,10 +366,10 @@ h2 em { font-style: italic; font-weight: 650; color: var(--ink); }
   padding: 14px 16px; position: relative;
 }
 .r-box.highlight { border-color: var(--ink); background: #fffdf4; box-shadow: 0 8px 20px -14px rgba(101, 15, 18, .6); }
-.r-box .r-label { font: 600 12.5px/1.2 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-.r-box .r-val { font: 800 30px/1.1 var(--serif); color: var(--ink-deep); margin: 8px 0 4px; }
+.r-box .r-label { font: 600 12.5px/1.2 var(--sans); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); white-space: nowrap; }
+.r-box .r-val { font: 800 28px/1.1 var(--serif); color: var(--ink-deep); margin: 8px 0 4px; white-space: nowrap; }
 .r-box.highlight .r-val { color: var(--ink); }
-.r-box .r-sub { font-size: 13px; color: var(--muted); }
+.r-box .r-sub { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .report-comment {
   margin-top: 16px; padding-top: 14px; border-top: 1px dashed rgba(101, 15, 18, .25);
@@ -378,62 +378,94 @@ h2 em { font-style: italic; font-weight: 650; color: var(--ink); }
 .report-comment p { margin: 0; font: 22px/1.3 var(--hand); color: var(--ink-deep); }
 .report-comment p b { color: var(--ink); }
 
-/* Score Table */
+/* Score Table - Single-line cells */
 .score-table-wrap {
   margin-top: 22px; overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: #fff;
 }
 table.score-table {
-  width: 100%; border-collapse: collapse; font-size: 15px; text-align: left;
+  width: 100%; border-collapse: collapse; font-size: 14.5px; text-align: left;
 }
 table.score-table th {
   background: var(--paper-2); color: var(--ink-deep); font: 700 13.5px/1.2 var(--sans);
-  padding: 14px 14px; border-bottom: 1px solid var(--line); white-space: nowrap;
+  padding: 13px 14px; border-bottom: 1px solid var(--line); white-space: nowrap;
 }
 table.score-table td {
-  padding: 13px 14px; border-bottom: 1px solid #f0e8dc; vertical-align: middle;
+  padding: 12px 14px; border-bottom: 1px solid #f0e8dc; vertical-align: middle; white-space: nowrap;
 }
 table.score-table tbody tr { cursor: pointer; transition: background .12s; }
 table.score-table tbody tr:hover { background: #fdf6e9; }
 table.score-table tbody tr.selected { background: #fff6d6; }
 .code-pill {
   font: 700 12.5px/1 var(--sans); color: var(--ink); background: #f6e7e5;
-  padding: 5px 8px; border-radius: 6px; display: inline-block;
+  padding: 5px 8px; border-radius: 6px; display: inline-block; white-space: nowrap;
 }
-.score-num { font: 700 16px/1 var(--serif); color: var(--text); }
+.score-num { font: 700 15.5px/1 var(--serif); color: var(--text); white-space: nowrap; }
 .score-num.high { color: var(--ink); background: var(--hl); padding: 3px 7px; border-radius: 6px; }
 .score-num.good { color: var(--green); }
 .rank-badge {
-  display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px;
-  font: 600 12.5px/1 var(--sans);
+  display: inline-flex; align-items: center; padding: 5px 10px; border-radius: 999px;
+  font: 600 12.5px/1 var(--sans); white-space: nowrap;
 }
 .rank-badge.xs { background: #fde8e8; color: var(--ink); }
 .rank-badge.gioi { background: #e6f4ea; color: var(--green); }
 .rank-badge.kha { background: #e8f0fe; color: var(--blue); }
+.anon-pill {
+  display: inline-flex; align-items: center; gap: 4px; font: 600 11.5px/1 var(--sans);
+  padding: 3px 7px; border-radius: 999px; background: #efe6d8; color: var(--muted); margin-left: 6px; white-space: nowrap;
+}
 
 .score-footer-bar {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
   margin-top: 16px; font-size: 14px; color: var(--muted);
 }
 
-/* Teacher Score Editor Modal */
+/* Admin & Modals */
+.admin-only[hidden] { display: none !important; }
 .modal-backdrop {
-  position: fixed; inset: 0; z-index: 60; background: rgba(42, 33, 31, .55);
-  backdrop-filter: blur(4px); display: grid; place-items: center; padding: 20px;
+  position: fixed; inset: 0; z-index: 60; background: rgba(42, 33, 31, .58);
+  backdrop-filter: blur(4px); display: grid; place-items: center; padding: 18px;
 }
-.modal-backdrop[hidden] { display: none; }
+.modal-backdrop[hidden] { display: none !important; }
 .modal-card {
-  width: min(760px, 100%); max-height: 90vh; overflow-y: auto;
-  background: var(--paper); border: 2px solid var(--ink); border-radius: 22px; padding: 28px;
-  box-shadow: 0 30px 70px -20px rgba(42, 33, 31, .6);
+  width: min(940px, 100%); max-height: 92vh; overflow-y: auto;
+  background: var(--paper); border: 2px solid var(--ink); border-radius: 22px; padding: 26px 28px;
+  box-shadow: 0 30px 70px -20px rgba(42, 33, 31, .65);
 }
+.modal-card.narrow { width: min(460px, 100%); }
 .modal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
 .modal-head h3 { margin: 0; font: 800 24px/1.15 var(--serif); color: var(--ink-deep); }
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1.5px dashed var(--line); }
+.admin-tab {
+  appearance: none; border: 1.5px solid var(--line); background: #fffdf8; color: var(--text);
+  padding: 9px 16px; border-radius: 999px; font: 600 14px/1 var(--sans); cursor: pointer;
+}
+.admin-tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.admin-pane[hidden] { display: none !important; }
 .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+.form-grid.two { grid-template-columns: repeat(2, 1fr); }
 .form-field label { display: block; font: 600 13px/1.2 var(--sans); color: var(--muted); margin-bottom: 6px; }
 .form-field input, .form-field select, .form-field textarea {
   width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line);
   background: #fff; font: 500 14.5px/1.4 var(--sans); color: var(--text);
 }
+.admin-box {
+  background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin-bottom: 16px;
+}
+.admin-box h4 { margin: 0 0 12px; font: 700 17px/1.2 var(--serif); color: var(--ink-deep); }
+.admin-student-list {
+  max-height: 270px; overflow-y: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff;
+}
+.admin-student-list table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.admin-student-list th, .admin-student-list td {
+  padding: 9px 11px; border-bottom: 1px solid #f0e8dc; text-align: left; white-space: nowrap;
+}
+.admin-student-list th { background: var(--paper-2); position: sticky; top: 0; z-index: 1; }
+.status-msg {
+  padding: 10px 14px; border-radius: 10px; font: 500 14px/1.4 var(--sans); margin-top: 10px;
+  background: #e6f4ea; color: var(--green); border: 1px solid #b7dfc2;
+}
+.status-msg.err { background: #fde8e8; color: #b71c1c; border-color: #f5b5b5; }
+.status-msg[hidden] { display: none !important; }
 
 /* --- Support / Contact Banner --- */
 .support {
@@ -543,6 +575,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <li><a href="#lien-he">Liên hệ</a></li>
     </ul>
     <a class="btn" href="#tra-cuu-diem">Tra cứu điểm thi</a>
+    <button type="button" class="btn ghost sm" id="nav-admin-btn" title="Đăng nhập Quản trị viên (Dành cho Thầy Chí)">🔒 Admin</button>
     <button class="menu-toggle" aria-label="Mở menu" aria-controls="menu" aria-expanded="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
     </button>
@@ -622,11 +655,11 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   </div>
 
   <div class="wrap">
-    <div class="stats reveal">
-      <div><b>130+</b><span>học sinh đang theo học Khối 6 – 12</span></div>
-      <div><b>13</b><span>lớp &amp; ca học phân hóa năng lực</span></div>
-      <div><b>9.2+</b><span>mục tiêu bứt phá kỳ thi chuyển cấp</span></div>
-      <div><b>100%</b><span>minh bạch điểm số GK, CK &amp; Thi thử</span></div>
+    <div class="stats reveal" id="stats-container">
+      <div><b data-editable="stat1_val">130+</b><span data-editable="stat1_lbl">học sinh đang theo học Khối 6 – 12</span></div>
+      <div><b data-editable="stat2_val">13</b><span data-editable="stat2_lbl">lớp &amp; ca học phân hóa năng lực</span></div>
+      <div><b data-editable="stat3_val">9.2+</b><span data-editable="stat3_lbl">mục tiêu bứt phá kỳ thi chuyển cấp</span></div>
+      <div><b data-editable="stat4_val">100%</b><span data-editable="stat4_lbl">minh bạch điểm số GK, CK &amp; Thi thử</span></div>
     </div>
   </div>
 </div>
@@ -643,52 +676,52 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <div class="features">
       <article class="card wide reveal">
         <div>
-          <span class="tag">Người đồng hành</span>
+          <span class="tag" data-editable="c1_tag">Người đồng hành</span>
           <div class="glyph"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M4 20a8 8 0 0 1 16 0"/></svg></div>
-          <h3>Thầy Huỳnh Thanh Chí</h3>
-          <p>Sáng lập và trực tiếp giảng dạy tại <b>Lớp Toán Anh Chí (Thanh Chí Edu)</b>. Với niềm đam mê Toán học và sự tận tâm với từng lứa học trò, tôi trực tiếp biên soạn toàn bộ hệ thống bài giảng, phiếu bài tập chuẩn LaTeX – TikZ và đồng hành sát sao cùng các em từ những kiến thức nền tảng đến các câu vận dụng cao.</p>
+          <h3 data-editable="c1_title">Thầy Huỳnh Thanh Chí</h3>
+          <p data-editable="c1_desc">Sáng lập và trực tiếp giảng dạy tại Lớp Toán Anh Chí (Thanh Chí Edu). Với niềm đam mê Toán học và sự tận tâm với từng lứa học trò, tôi trực tiếp biên soạn toàn bộ hệ thống bài giảng, phiếu bài tập chuẩn LaTeX – TikZ và đồng hành sát sao cùng các em từ những kiến thức nền tảng đến các câu vận dụng cao.</p>
         </div>
         <div class="teacher-card-visual">
           <div class="t-header">
             <div class="teacher-avatar">TC</div>
             <div class="teacher-meta">
-              <b>Thầy Huỳnh Thanh Chí</b>
-              <span>Giáo viên Toán THCS &amp; THPT · Thanh Chí Edu</span>
+              <b data-editable="c1_box_name">Thầy Huỳnh Thanh Chí</b>
+              <span data-editable="c1_box_sub">Giáo viên Toán THCS &amp; THPT · Thanh Chí Edu</span>
             </div>
           </div>
           <div class="teacher-badges">
-            <div><i>✓</i><span>Chuyên luyện thi <b>Tốt nghiệp THPT Quốc Gia</b> (Khối 12)</span></div>
-            <div><i>✓</i><span>Chuyên luyện thi <b>Tuyển sinh 9 vào 10</b> (Toán tự luận &amp; thực tế)</span></div>
-            <div><i>✓</i><span>Bồi dưỡng Toán 6, 7, 8, 10, 11 bứt phá <b>Giữa kì &amp; Cuối kì</b></span></div>
-            <div><i>✓</i><span>Biên soạn đề chuẩn cấu trúc 3 phần &amp; chấm chữa từng bài</span></div>
+            <div><i>✓</i><span data-editable="c1_b1">Chuyên luyện thi Tốt nghiệp THPT Quốc Gia (Khối 12)</span></div>
+            <div><i>✓</i><span data-editable="c1_b2">Chuyên luyện thi Tuyển sinh 9 vào 10 (Toán tự luận &amp; thực tế)</span></div>
+            <div><i>✓</i><span data-editable="c1_b3">Bồi dưỡng Toán 6, 7, 8, 10, 11 bứt phá Giữa kì &amp; Cuối kì</span></div>
+            <div><i>✓</i><span data-editable="c1_b4">Biên soạn đề chuẩn cấu trúc 3 phần &amp; chấm chữa từng bài</span></div>
           </div>
         </div>
       </article>
 
       <article class="card reveal">
         <div class="glyph"><svg viewBox="0 0 24 24"><path d="M4 20c3-1 5-4 7-7l6-8a2 2 0 0 1 3 2l-6 8c-2 3-5 4-8 5z"/><path d="M14 7l3 2"/></svg></div>
-        <h3>Hiểu bản chất từ gốc</h3>
-        <p>Mỗi định lí đại số hay hình học đều được dẫn dắt trực quan từ hình vẽ và ví dụ thực tế. Học sinh nắm chắc gốc rễ nên không sợ biến tướng đề thi.</p>
+        <h3 data-editable="c2_title">Hiểu bản chất từ gốc</h3>
+        <p data-editable="c2_desc">Mỗi định lí đại số hay hình học đều được dẫn dắt trực quan từ hình vẽ và ví dụ thực tế. Học sinh nắm chắc gốc rễ nên không sợ biến tướng đề thi.</p>
       </article>
 
       <article class="card reveal">
-        <span class="tag">chuẩn Bộ GD&amp;ĐT</span>
+        <span class="tag" data-editable="c3_tag">chuẩn Bộ GD&amp;ĐT</span>
         <div class="glyph"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
-        <h3>Làm chủ đề thi 3 phần mới</h3>
-        <p>Rèn luyện thành thạo cả 3 phần: Trắc nghiệm nhiều lựa chọn (Phần I), Trắc nghiệm Đúng/Sai 4 ý (Phần II) và Trắc nghiệm Trả lời ngắn (Phần III).</p>
+        <h3 data-editable="c3_title">Làm chủ đề thi 3 phần mới</h3>
+        <p data-editable="c3_desc">Rèn luyện thành thạo cả 3 phần: Trắc nghiệm nhiều lựa chọn (Phần I), Trắc nghiệm Đúng/Sai 4 ý (Phần II) và Trắc nghiệm Trả lời ngắn (Phần III).</p>
       </article>
 
       <article class="card reveal">
         <div class="glyph"><svg viewBox="0 0 24 24"><path d="M12 3 3 20h18z"/><path d="M12 3v17"/><circle cx="12" cy="3" r="1.2"/></svg></div>
-        <h3>Vững vàng Hình học &amp; Tự luận</h3>
-        <p>Hướng dẫn cách nhìn hình không gian, kẻ đường phụ hình học đường tròn lớp 9 và trình bày tự luận chặt chẽ từng bước để không mất điểm lẻ.</p>
+        <h3 data-editable="c4_title">Vững vàng Hình học &amp; Tự luận</h3>
+        <p data-editable="c4_desc">Hướng dẫn cách nhìn hình không gian, kẻ đường phụ hình học đường tròn lớp 9 và trình bày tự luận chặt chẽ từng bước để không mất điểm lẻ.</p>
       </article>
 
       <article class="card dark span2 reveal">
-        <span class="tag">kèm sát từng em</span>
+        <span class="tag" data-editable="c5_tag">kèm sát từng em</span>
         <div class="glyph"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 21V3"/><path d="M6 16l4-5 4 3 5-7"/></svg></div>
-        <h3>Kiểm tra định kì &amp; Cổng tra cứu điểm minh bạch cho Phụ huynh</h3>
-        <p>Sau mỗi đợt kiểm tra Giữa kì, Cuối kì trên lớp cũng như các đợt Thi thử 9 vào 10 và Thi thử THPT Quốc gia tại trung tâm, điểm số và nhận xét từng học sinh đều được cập nhật lên hệ thống để phụ huynh theo dõi sát sự tiến bộ của con.</p>
+        <h3 data-editable="c5_title">Kiểm tra định kì &amp; Cổng tra cứu điểm minh bạch cho Phụ huynh</h3>
+        <p data-editable="c5_desc">Sau mỗi đợt kiểm tra Giữa kì, Cuối kì trên lớp cũng như các đợt Thi thử 9 vào 10 và Thi thử THPT Quốc gia tại trung tâm, điểm số và nhận xét từng học sinh đều được cập nhật lên hệ thống để phụ huynh theo dõi sát sự tiến bộ của con.</p>
       </article>
     </div>
   </div>
@@ -708,18 +741,18 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         <div class="os">
           <span class="os-badge">12</span>
           <div>
-            <h3>Khối 12 · THPT QG</h3>
-            <small style="color:var(--ink);font-weight:600">Khóa 2K9 · Luyện thi ĐH</small>
+            <h3 data-editable="dl1_title">Khối 12 · THPT QG</h3>
+            <small style="color:var(--ink);font-weight:600" data-editable="dl1_sub">Khóa 2K9 · Luyện thi ĐH</small>
           </div>
         </div>
-        <p class="meta">Tổng ôn toàn diện chương trình Toán 12 (Hàm số, Nguyên hàm – Tích phân, Oxyz, Xác suất) &amp; Luyện đề thực chiến cấu trúc 3 phần.</p>
+        <p class="meta" data-editable="dl1_desc">Tổng ôn toàn diện chương trình Toán 12 (Hàm số, Nguyên hàm – Tích phân, Oxyz, Xác suất) &amp; Luyện đề thực chiến cấu trúc 3 phần.</p>
         <div class="class-pills">
           <span class="class-pill">Lớp 12A 2K9</span>
           <span class="class-pill">Lớp 12B 2K9</span>
           <span class="class-pill">Lớp 12D</span>
         </div>
         <div class="schedule-note">
-          <span>Ca T2–T4–T6 &amp; T3–T5–T7</span>
+          <span data-editable="dl1_note">Ca T2–T4–T6 &amp; T3–T5–T7</span>
           <a href="#tra-cuu-diem" onclick="filterByGrade(12)" style="font-size:16px">Xem điểm →</a>
         </div>
       </div>
@@ -728,17 +761,17 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         <div class="os">
           <span class="os-badge">11</span>
           <div>
-            <h3>Khối 11 · Chuyên sâu</h3>
-            <small style="color:var(--muted);font-weight:600">Khóa 2K10 · Bứt phá 9+</small>
+            <h3 data-editable="dl2_title">Khối 11 · Chuyên sâu</h3>
+            <small style="color:var(--muted);font-weight:600" data-editable="dl2_sub">Khóa 2K10 · Bứt phá 9+</small>
           </div>
         </div>
-        <p class="meta">Làm chủ Lượng giác, Dãy số, Giới hạn, Đạo hàm, Mũ – Lôgarit và Hình không gian vuông góc. Tạo đà sớm cho năm lớp 12.</p>
+        <p class="meta" data-editable="dl2_desc">Làm chủ Lượng giác, Dãy số, Giới hạn, Đạo hàm, Mũ – Lôgarit và Hình không gian vuông góc. Tạo đà sớm cho năm lớp 12.</p>
         <div class="class-pills">
           <span class="class-pill">Lớp 11A 2K10</span>
           <span class="class-pill">Lớp 11B 2K10</span>
         </div>
         <div class="schedule-note">
-          <span>Ca T2–T4–T6 &amp; T3–T5–T7</span>
+          <span data-editable="dl2_note">Ca T2–T4–T6 &amp; T3–T5–T7</span>
           <a href="#tra-cuu-diem" onclick="filterByGrade(11)" style="font-size:16px">Xem điểm →</a>
         </div>
       </div>
@@ -747,18 +780,18 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         <div class="os">
           <span class="os-badge">10</span>
           <div>
-            <h3>Khối 10 · Nền tảng THPT</h3>
-            <small style="color:var(--muted);font-weight:600">Khóa 2K11 · GDPT 2018</small>
+            <h3 data-editable="dl3_title">Khối 10 · Nền tảng THPT</h3>
+            <small style="color:var(--muted);font-weight:600" data-editable="dl3_sub">Khóa 2K11 · GDPT 2018</small>
           </div>
         </div>
-        <p class="meta">Bắt nhịp ngay cách học cấp 3: Hàm số bậc hai, Hệ thức lượng, Vectơ, Thống kê – Tổ hợp – Xác suất và Phương pháp tọa độ phẳng.</p>
+        <p class="meta" data-editable="dl3_desc">Bắt nhịp ngay cách học cấp 3: Hàm số bậc hai, Hệ thức lượng, Vectơ, Thống kê – Tổ hợp – Xác suất và Phương pháp tọa độ phẳng.</p>
         <div class="class-pills">
           <span class="class-pill">Lớp 10A 2K11</span>
           <span class="class-pill">Lớp 10B 2K11</span>
           <span class="class-pill">Lớp 10C 2K11</span>
         </div>
         <div class="schedule-note">
-          <span>3 ca linh hoạt trong tuần</span>
+          <span data-editable="dl3_note">3 ca linh hoạt trong tuần</span>
           <a href="#tra-cuu-diem" onclick="filterByGrade(10)" style="font-size:16px">Xem điểm →</a>
         </div>
       </div>
@@ -767,18 +800,18 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         <div class="os">
           <span class="os-badge">6–9</span>
           <div>
-            <h3>Khối 6–9 &amp; Thi vào 10</h3>
-            <small style="color:var(--ink);font-weight:600">2K12 · 2K13 · 2K14</small>
+            <h3 data-editable="dl4_title">Khối 6–9 &amp; Thi vào 10</h3>
+            <small style="color:var(--ink);font-weight:600" data-editable="dl4_sub">2K12 · 2K13 · 2K14</small>
           </div>
         </div>
-        <p class="meta">Xây gốc Toán THCS vững chắc (Khối 6, 7, 8) và luyện thi chuyên sâu <b>Tuyển sinh 9 vào 10</b> (Căn thức, Vi-ét, Toán thực tế, Đường tròn).</p>
+        <p class="meta" data-editable="dl4_desc">Xây gốc Toán THCS vững chắc (Khối 6, 7, 8) và luyện thi chuyên sâu Tuyển sinh 9 vào 10 (Căn thức, Vi-ét, Toán thực tế, Đường tròn).</p>
         <div class="class-pills">
           <span class="class-pill">Lớp 9 2K12</span>
           <span class="class-pill">8A · 8B 2K13</span>
           <span class="class-pill">7 2K14 &amp; 7 Onl</span>
         </div>
         <div class="schedule-note">
-          <span>Trực tiếp &amp; Online</span>
+          <span data-editable="dl4_note">Trực tiếp &amp; Online</span>
           <a href="#tra-cuu-diem" onclick="filterByExamType('ts10')" style="font-size:16px">Xem điểm →</a>
         </div>
       </div>
@@ -787,45 +820,45 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <!-- Bảng lịch học các lớp thực tế -->
     <div class="schedule-board reveal">
       <div class="schedule-board-head">
-        <h3>Lịch sinh hoạt các lớp tiêu biểu tại Lớp Toán Anh Chí</h3>
-        <span>Hỗ trợ giải đáp bài tập mỗi ngày qua Zalo ✎</span>
+        <h3 data-editable="sch_heading">Lịch sinh hoạt các lớp tiêu biểu tại Lớp Toán Anh Chí</h3>
+        <span data-editable="sch_sub">Hỗ trợ giải đáp bài tập mỗi ngày qua Zalo ✎</span>
       </div>
       <div class="schedule-grid">
         <div class="sch-item">
-          <div><b>Lớp 12A 2K9 &amp; 12D</b><small>Luyện thi THPT QG · Toán 12</small></div>
-          <span class="days">Thứ 2 · 4 · 6</span>
+          <div><b data-editable="sch1_cls">Lớp 12A 2K9 &amp; 12D</b><small data-editable="sch1_desc">Luyện thi THPT QG · Toán 12</small></div>
+          <span class="days" data-editable="sch1_days">Thứ 2 · 4 · 6</span>
         </div>
         <div class="sch-item">
-          <div><b>Lớp 12B 2K9</b><small>Luyện thi THPT QG · Toán 12</small></div>
-          <span class="days">Thứ 3 · 5 · 7</span>
+          <div><b data-editable="sch2_cls">Lớp 12B 2K9</b><small data-editable="sch2_desc">Luyện thi THPT QG · Toán 12</small></div>
+          <span class="days" data-editable="sch2_days">Thứ 3 · 5 · 7</span>
         </div>
         <div class="sch-item">
-          <div><b>Lớp 11A 2K10</b><small>Toán 11 Chuyên sâu &amp; Luyện đề</small></div>
-          <span class="days">Thứ 2 · 4 · 6</span>
+          <div><b data-editable="sch3_cls">Lớp 11A 2K10</b><small data-editable="sch3_desc">Toán 11 Chuyên sâu &amp; Luyện đề</small></div>
+          <span class="days" data-editable="sch3_days">Thứ 2 · 4 · 6</span>
         </div>
         <div class="sch-item">
-          <div><b>Lớp 11B 2K10</b><small>Toán 11 Chuyên sâu &amp; Luyện đề</small></div>
-          <span class="days">Thứ 3 · 5 · 7</span>
+          <div><b data-editable="sch4_cls">Lớp 11B 2K10</b><small data-editable="sch4_desc">Toán 11 Chuyên sâu &amp; Luyện đề</small></div>
+          <span class="days" data-editable="sch4_days">Thứ 3 · 5 · 7</span>
         </div>
         <div class="sch-item">
-          <div><b>Lớp 10A 2K11</b><small>Toán 10 Nền tảng &amp; Vận dụng</small></div>
-          <span class="days">Thứ 2 · 4 · 6</span>
+          <div><b data-editable="sch5_cls">Lớp 10A 2K11</b><small data-editable="sch5_desc">Toán 10 Nền tảng &amp; Vận dụng</small></div>
+          <span class="days" data-editable="sch5_days">Thứ 2 · 4 · 6</span>
         </div>
         <div class="sch-item">
-          <div><b>Lớp 10B &amp; 10C 2K11</b><small>Toán 10 Nền tảng &amp; Vận dụng</small></div>
-          <span class="days">Thứ 3 · 5 · 7</span>
+          <div><b data-editable="sch6_cls">Lớp 10B &amp; 10C 2K11</b><small data-editable="sch6_desc">Toán 10 Nền tảng &amp; Vận dụng</small></div>
+          <span class="days" data-editable="sch6_days">Thứ 3 · 5 · 7</span>
         </div>
         <div class="sch-item">
-          <div><b>Lớp 9 2K12</b><small>Luyện thi Tuyển sinh 9 vào 10</small></div>
-          <span class="days">Thứ 3 · 5 · 7</span>
+          <div><b data-editable="sch7_cls">Lớp 9 2K12</b><small data-editable="sch7_desc">Luyện thi Tuyển sinh 9 vào 10</small></div>
+          <span class="days" data-editable="sch7_days">Thứ 3 · 5 · 7</span>
         </div>
         <div class="sch-item">
-          <div><b>Lớp 8A &amp; 8B 2K13</b><small>Toán 8 Đại số &amp; Hình học phẳng</small></div>
-          <span class="days">T2·4·6 / T3·5·7</span>
+          <div><b data-editable="sch8_cls">Lớp 8A &amp; 8B 2K13</b><small data-editable="sch8_desc">Toán 8 Đại số &amp; Hình học phẳng</small></div>
+          <span class="days" data-editable="sch8_days">T2·4·6 / T3·5·7</span>
         </div>
         <div class="sch-item">
-          <div><b>Lớp 7 2K14 &amp; 7 Onl</b><small>Toán 7 Trực tiếp &amp; Trực tuyến</small></div>
-          <span class="days">Thứ 2 · 4 · 6</span>
+          <div><b data-editable="sch9_cls">Lớp 7 2K14 &amp; 7 Onl</b><small data-editable="sch9_desc">Toán 7 Trực tiếp &amp; Trực tuyến</small></div>
+          <span class="days" data-editable="sch9_days">Thứ 2 · 4 · 6</span>
         </div>
       </div>
     </div>
@@ -843,15 +876,15 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 
     <div class="prices">
       <div class="ticket hot reveal">
-        <span class="plat">Kỳ thi Tốt nghiệp THPT Quốc Gia &amp; Đại học</span>
-        <h3>Bứt phá điểm 9+ môn Toán THPT</h3>
-        <div class="price"><b>8.8 – 9.6đ</b><span>/ phổ điểm mũi nhọn</span></div>
-        <span class="once">nắm chắc cấu trúc 3 phần mới · đỗ NV1 trường tốp đầu</span>
+        <span class="plat" data-editable="tk1_plat">Kỳ thi Tốt nghiệp THPT Quốc Gia &amp; Đại học</span>
+        <h3 data-editable="tk1_title">Bứt phá điểm 9+ môn Toán THPT</h3>
+        <div class="price"><b data-editable="tk1_score">8.8 – 9.6đ</b><span data-editable="tk1_unit">/ phổ điểm mũi nhọn</span></div>
+        <span class="once" data-editable="tk1_once">nắm chắc cấu trúc 3 phần mới · đỗ NV1 trường tốp đầu</span>
         <ul>
-          <li>Làm chủ trọn vẹn Phần I (Trắc nghiệm ABCD) và Phần II (Đúng/Sai 4 mệnh đề) với độ chính xác cao</li>
-          <li>Chinh phục các câu Vận dụng thực tế &amp; Trả lời ngắn (Phần III): Tối ưu hóa, Hình không gian Oxyz, Xác suất</li>
-          <li>Nhiều học sinh xuất phát điểm 5.5 – 6.5 đầu năm bứt phá lên 8.6 – 9.4 điểm trong kỳ thi chính thức</li>
-          <li>Đỗ Nguyện vọng 1 vào các trường ĐH Bách Khoa, Kinh tế, Sư phạm, CNTT, Y Dược…</li>
+          <li data-editable="tk1_li1">Làm chủ trọn vẹn Phần I (Trắc nghiệm ABCD) và Phần II (Đúng/Sai 4 mệnh đề) với độ chính xác cao</li>
+          <li data-editable="tk1_li2">Chinh phục các câu Vận dụng thực tế &amp; Trả lời ngắn (Phần III): Tối ưu hóa, Hình không gian Oxyz, Xác suất</li>
+          <li data-editable="tk1_li3">Nhiều học sinh xuất phát điểm 5.5 – 6.5 đầu năm bứt phá lên 8.6 – 9.4 điểm trong kỳ thi chính thức</li>
+          <li data-editable="tk1_li4">Đỗ Nguyện vọng 1 vào các trường ĐH Bách Khoa, Kinh tế, Sư phạm, CNTT, Y Dược…</li>
         </ul>
         <div class="btns">
           <a class="btn" href="#tra-cuu-diem" onclick="filterByExamType('thptqg')"><span>Xem bảng điểm THPT QG</span></a>
@@ -859,16 +892,16 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
 
       <div class="ticket soon reveal">
-        <span class="stamp">95%+ Đỗ NV1</span>
-        <span class="plat">Tuyển sinh 9 vào 10 &amp; Giữa kì · Cuối kì</span>
-        <h3>Vững vàng Chuyển cấp &amp; Đứng đầu lớp</h3>
-        <div class="price"><b style="color:var(--ink)">8.5 – 10đ</b><span>/ Giữa kì &amp; Cuối kì</span></div>
-        <span class="once">trình bày tự luận chuẩn mực · không mất điểm thành phần</span>
+        <span class="stamp" data-editable="tk2_stamp">95%+ Đỗ NV1</span>
+        <span class="plat" data-editable="tk2_plat">Tuyển sinh 9 vào 10 &amp; Giữa kì · Cuối kì</span>
+        <h3 data-editable="tk2_title">Vững vàng Chuyển cấp &amp; Đứng đầu lớp</h3>
+        <div class="price"><b style="color:var(--ink)" data-editable="tk2_score">8.5 – 10đ</b><span data-editable="tk2_unit">/ Giữa kì &amp; Cuối kì</span></div>
+        <span class="once" data-editable="tk2_once">trình bày tự luận chuẩn mực · không mất điểm thành phần</span>
         <ul>
-          <li>Hơn 95% học sinh lớp 9 đỗ Nguyện vọng 1 vào các trường THPT công lập trọng điểm</li>
-          <li>Ăn trọn điểm các câu Rút gọn căn thức, Hệ phương trình, Định lí Vi-ét và Toán thực tế</li>
-          <li>Giải quyết trọn vẹn bài toán Hình học đường tròn (chứng minh tứ giác nội tiếp, tiếp tuyến, đồng quy)</li>
-          <li>85%+ học sinh Khối 6 – 12 đạt từ 8.0 đến 10.0 điểm trong các kỳ thi Giữa kì 1, Cuối kì 1, Giữa kì 2, Cuối kì 2</li>
+          <li data-editable="tk2_li1">Hơn 95% học sinh lớp 9 đỗ Nguyện vọng 1 vào các trường THPT công lập trọng điểm</li>
+          <li data-editable="tk2_li2">Ăn trọn điểm các câu Rút gọn căn thức, Hệ phương trình, Định lí Vi-ét và Toán thực tế</li>
+          <li data-editable="tk2_li3">Giải quyết trọn vẹn bài toán Hình học đường tròn (chứng minh tứ giác nội tiếp, tiếp tuyến, đồng quy)</li>
+          <li data-editable="tk2_li4">85%+ học sinh Khối 6 – 12 đạt từ 8.0 đến 10.0 điểm trong các kỳ thi Giữa kì 1, Cuối kì 1, Giữa kì 2, Cuối kì 2</li>
         </ul>
         <div class="btns">
           <a class="btn ghost" href="#tra-cuu-diem" onclick="filterByExamType('ts10')"><span>Xem điểm Thi 9 vào 10 &amp; Học kì</span></a>
@@ -876,31 +909,31 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
     </div>
 
-    <!-- Gương mặt tiêu biểu (Dữ liệu minh họa / Học sinh nháp) -->
+    <!-- Gương mặt tiêu biểu (Chỉ hiển thị Học sinh nháp) -->
     <div class="hall-of-fame reveal">
       <div class="hof-card">
-        <span class="hof-score">9.6đ</span>
-        <b>Nguyễn Minh Anh (Mẫu)</b>
-        <small>Lớp 12A 2K9 · Thi thử THPT QG</small>
-        <p>Đạt 9.6đ khảo sát cấu trúc 3 phần (Full điểm Phần I &amp; Phần II); Giữa kì 9.5đ – Cuối kì 9.8đ.</p>
+        <span class="hof-score" data-editable="hof1_score">9.6đ</span>
+        <b data-editable="hof1_name">Học sinh Nháp 01</b>
+        <small data-editable="hof1_cls">Lớp 12A 2K9 · Thi thử THPT QG</small>
+        <p data-editable="hof1_desc">Đạt 9.6đ khảo sát cấu trúc 3 phần (Full điểm Phần I &amp; Phần II); Giữa kì 9.5đ – Cuối kì 9.8đ.</p>
       </div>
       <div class="hof-card">
-        <span class="hof-score">9.4đ</span>
-        <b>Trần Gia Huy (Mẫu)</b>
-        <small>Lớp 12B 2K9 · Thi thử THPT QG</small>
-        <p>Đạt 9.4đ Thi thử THPT QG; bứt phá mạnh mẽ ở mảng Hình Oxyz và Tích phân vận dụng.</p>
+        <span class="hof-score" data-editable="hof2_score">9.4đ</span>
+        <b data-editable="hof2_name">Học sinh Nháp 02</b>
+        <small data-editable="hof2_cls">Lớp 12B 2K9 · Thi thử THPT QG</small>
+        <p data-editable="hof2_desc">Đạt 9.4đ Thi thử THPT QG; bứt phá mạnh mẽ ở mảng Hình Oxyz và Tích phân vận dụng.</p>
       </div>
       <div class="hof-card">
-        <span class="hof-score">9.5đ</span>
-        <b>Lê Bảo Ngọc (Mẫu)</b>
-        <small>Lớp 11A 2K10 · Cuối kì &amp; Khảo sát</small>
-        <p>Đạt 9.4đ Giữa kì &amp; 9.5đ Cuối kì Toán 11; nắm rất chắc Hình không gian và Đạo hàm.</p>
+        <span class="hof-score" data-editable="hof3_score">9.5đ</span>
+        <b data-editable="hof3_name">Học sinh Nháp 05</b>
+        <small data-editable="hof3_cls">Lớp 11A 2K10 · Cuối kì &amp; Khảo sát</small>
+        <p data-editable="hof3_desc">Đạt 9.4đ Giữa kì &amp; 9.5đ Cuối kì Toán 11; nắm rất chắc Hình không gian và Đạo hàm.</p>
       </div>
       <div class="hof-card">
-        <span class="hof-score">9.25đ</span>
-        <b>Phạm Quốc Khánh (Mẫu)</b>
-        <small>Lớp 9 2K12 · Thi thử 9 vào 10</small>
-        <p>Đạt 9.25đ đề thi thử Tuyển sinh 9 vào 10; trình bày hoàn chỉnh bài Hình học đường tròn.</p>
+        <span class="hof-score" data-editable="hof4_score">9.25đ</span>
+        <b data-editable="hof4_name">Học sinh Nháp 11</b>
+        <small data-editable="hof4_cls">Lớp 9 2K12 · Thi thử 9 vào 10</small>
+        <p data-editable="hof4_desc">Đạt 9.25đ đề thi thử Tuyển sinh 9 vào 10; trình bày hoàn chỉnh bài Hình học đường tròn.</p>
       </div>
     </div>
   </div>
@@ -912,7 +945,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <div class="head reveal">
       <span class="num">§4</span>
       <h2>Tra cứu điểm thi <em>Giữa kì, Cuối kì, 9 vào 10 &amp; THPT QG</em></h2>
-      <p>Nhập <b>Mã học sinh</b> (ví dụ: <i>HS001, HS002, HS005, HS011…</i>) hoặc <b>Họ tên học sinh</b> để xem Phiếu báo điểm chi tiết qua các kỳ kiểm tra Giữa kì, Cuối kì, Thi thử 9 vào 10 và Thi thử THPT Quốc gia <i>(hiện đang hiển thị danh sách học sinh nháp minh họa)</i>.</p>
+      <p>Cổng tra cứu dành cho <b>Học sinh và Phụ huynh</b> tham khảo kết quả học tập qua các kỳ kiểm tra Giữa kì, Cuối kì, Thi thử 9 vào 10 và Thi thử THPT Quốc gia. Nhập <b>Mã học sinh</b> (ví dụ: <i>HS001, HS002, HS005, HS011…</i>) hoặc <b>Họ tên</b> để xem Phiếu báo điểm chi tiết.</p>
     </div>
 
     <div class="score-shell reveal">
@@ -967,21 +1000,21 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           <option value="7 2K14">Lớp 7 2K14</option>
           <option value="7 Onl">Lớp 7 Onl</option>
         </select>
-        <button type="button" class="btn ghost sm" id="open-editor-btn" title="Dành cho Thầy Chí cập nhật hoặc dán điểm từ Excel">
+        <button type="button" class="btn ghost sm admin-only" id="open-editor-btn" hidden title="Mở bảng Quản trị Admin">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
-          <span>Cập nhật điểm (GV)</span>
+          <span>Quản lý Điểm &amp; Card (Admin)</span>
         </button>
       </div>
 
       <!-- Gợi ý tra cứu nhanh (Học sinh nháp) -->
-      <div class="quick-chips">
-        <span>Tra cứu thử (Học sinh nháp):</span>
-        <button type="button" class="quick-chip" data-pick="HS001">HS001 · Nguyễn Minh Anh (12A)</button>
-        <button type="button" class="quick-chip" data-pick="HS002">HS002 · Trần Gia Huy (12B)</button>
-        <button type="button" class="quick-chip" data-pick="HS005">HS005 · Lê Bảo Ngọc (11A)</button>
-        <button type="button" class="quick-chip" data-pick="HS008">HS008 · Vũ Phương Thảo (10A)</button>
-        <button type="button" class="quick-chip" data-pick="HS011">HS011 · Phạm Quốc Khánh (Lớp 9 vào 10)</button>
-        <button type="button" class="quick-chip" data-pick="HS015">HS015 · Đặng Tuấn Kiệt (Lớp 7)</button>
+      <div class="quick-chips" id="quick-chips-bar">
+        <span>Tra cứu nhanh (Học sinh nháp):</span>
+        <button type="button" class="quick-chip" data-pick="HS001">HS001 · Học sinh Nháp 01 (12A)</button>
+        <button type="button" class="quick-chip" data-pick="HS002">HS002 · Học sinh Nháp 02 (12B)</button>
+        <button type="button" class="quick-chip" data-pick="HS005">HS005 · Học sinh Nháp 05 (11A)</button>
+        <button type="button" class="quick-chip" data-pick="HS008">HS008 · Học sinh Nháp 08 (10A)</button>
+        <button type="button" class="quick-chip" data-pick="HS011">HS011 · Học sinh Nháp 11 (Lớp 9)</button>
+        <button type="button" class="quick-chip" data-pick="HS015">HS015 · Học sinh Nháp 15 (Lớp 7)</button>
       </div>
 
       <!-- Phiếu báo điểm chi tiết của Học sinh đang chọn -->
@@ -990,11 +1023,11 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           <div>
             <div class="report-student-title">
               <span class="report-code" id="rc-code">HS001</span>
-              <h3 class="report-name" id="rc-name">Nguyễn Minh Anh (Nháp)</h3>
+              <h3 class="report-name" id="rc-name">Học sinh Nháp 01</h3>
               <span class="report-cls" id="rc-cls">Lớp 12A 2K9</span>
             </div>
             <p style="margin:8px 0 0;color:var(--muted);font-size:14.5px" id="rc-subtitle">
-              Phiếu tổng hợp kết quả học tập &amp; khảo sát định kì (Dữ liệu mẫu minh họa) — Lớp Toán Anh Chí
+              Phiếu tổng hợp kết quả học tập &amp; khảo sát định kì — Lớp Toán Anh Chí
             </p>
           </div>
           <div class="report-stamp">
@@ -1009,7 +1042,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 
         <div class="report-comment">
           <p>✎ Nhận xét của Thầy Chí: <b id="rc-note">Nắm rất vững bản chất hàm số và hình Oxyz, kỹ năng làm bài 3 phần sắc bén!</b></p>
-          <button type="button" class="btn ghost sm" id="rc-edit-this">Sửa điểm học sinh này</button>
+          <button type="button" class="btn ghost sm admin-only" id="rc-edit-this" hidden>Sửa học sinh này (Admin)</button>
         </div>
       </div>
 
@@ -1066,74 +1099,235 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 </section>
 </main>
 
-<!-- Modal Cập nhật điểm dành cho Giáo viên -->
+<!-- 1. Modal Đăng nhập Admin -->
+<div class="modal-backdrop" id="admin-login-modal" hidden>
+  <div class="modal-card narrow" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+    <div class="modal-head">
+      <h3 id="login-modal-title">🔒 Đăng nhập Quản trị (Admin)</h3>
+      <button type="button" class="btn ghost sm" id="close-login-btn">Đóng ✕</button>
+    </div>
+    <p style="margin:0 0 14px;color:var(--muted);font-size:14.5px">
+      Khu vực dành riêng cho Thầy Huỳnh Thanh Chí để chỉnh sửa nội dung các Card, quản lý điểm học sinh và bật/tắt chế độ ẩn danh tên học sinh.
+    </p>
+    <form id="admin-login-form">
+      <div class="form-field" style="margin-bottom:14px">
+        <label for="admin-pwd-input">Mật khẩu Admin</label>
+        <input type="password" id="admin-pwd-input" placeholder="Nhập mật khẩu Admin..." required autocomplete="current-password">
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+        <button type="submit" class="btn sm">Đăng nhập Admin</button>
+        <button type="button" class="btn ghost sm" id="btn-forgot-pwd">Gửi link đặt lại MK qua Gmail</button>
+      </div>
+      <div id="login-status-msg" class="status-msg" hidden></div>
+    </form>
+  </div>
+</div>
+
+<!-- 2. Modal Đặt lại mật khẩu từ Link Email -->
+<div class="modal-backdrop" id="admin-reset-modal" hidden>
+  <div class="modal-card narrow" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
+    <div class="modal-head">
+      <h3 id="reset-modal-title">🔑 Đặt lại mật khẩu Admin</h3>
+      <button type="button" class="btn ghost sm" id="close-reset-btn">Đóng ✕</button>
+    </div>
+    <p style="margin:0 0 14px;color:var(--muted);font-size:14.5px">
+      Xác nhận liên kết đặt lại mật khẩu gửi tới <b>badaoqn132@gmail.com</b>. Vui lòng nhập mật khẩu Admin mới bên dưới:
+    </p>
+    <form id="admin-reset-form">
+      <div class="form-field" style="margin-bottom:12px">
+        <label for="reset-new-pwd">Mật khẩu Admin mới</label>
+        <input type="password" id="reset-new-pwd" placeholder="Nhập mật khẩu mới..." required>
+      </div>
+      <div class="form-field" style="margin-bottom:14px">
+        <label for="reset-confirm-pwd">Nhập lại mật khẩu mới</label>
+        <input type="password" id="reset-confirm-pwd" placeholder="Xác nhận mật khẩu mới..." required>
+      </div>
+      <button type="submit" class="btn sm">Lưu mật khẩu mới &amp; Đăng nhập</button>
+      <div id="reset-status-msg" class="status-msg" hidden></div>
+    </form>
+  </div>
+</div>
+
+<!-- 3. Bảng điều khiển Admin (Quản lý Học sinh, Ẩn danh, Sửa Card, Đổi mật khẩu) -->
 <div class="modal-backdrop" id="editor-modal" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-head">
-      <h3 id="modal-title">✎ Cập nhật Điểm Học Sinh (Dành cho Giáo viên)</h3>
-      <button type="button" class="btn ghost sm" id="close-editor-btn">Đóng ✕</button>
+      <h3 id="modal-title">⚙ Bảng Quản Trị Website — Lớp Toán Anh Chí</h3>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button type="button" class="btn ghost sm" id="btn-admin-logout">Đăng xuất</button>
+        <button type="button" class="btn ghost sm" id="close-editor-btn">Đóng ✕</button>
+      </div>
     </div>
-    <p style="margin:0 0 14px;color:var(--muted);font-size:14.5px">
-      Chọn học sinh để cập nhật điểm <b>Giữa kì 1, Cuối kì 1, Giữa kì 2, Cuối kì 2, Thi THPT QG / Thi 9 vào 10</b> hoặc dán nhanh từ Excel/Google Sheets. Dữ liệu được lưu ngay trên trình duyệt.
-    </p>
-    <form id="score-edit-form">
-      <div class="form-grid">
-        <div class="form-field">
-          <label for="ed-code">Mã Học Sinh</label>
-          <input type="text" id="ed-code" placeholder="VD: HS001" required>
-        </div>
-        <div class="form-field">
-          <label for="ed-name">Họ và tên</label>
-          <input type="text" id="ed-name" placeholder="VD: Nguyễn Minh Anh (Nháp)" required>
-        </div>
-        <div class="form-field">
-          <label for="ed-cls">Lớp học</label>
-          <input type="text" id="ed-cls" placeholder="VD: 12A 2K9" required>
-        </div>
-      </div>
-      <div class="form-grid">
-        <div class="form-field">
-          <label for="ed-gk1">Điểm Giữa kì 1 (GK1)</label>
-          <input type="number" step="0.05" min="0" max="10" id="ed-gk1" required>
-        </div>
-        <div class="form-field">
-          <label for="ed-ck1">Điểm Cuối kì 1 (CK1)</label>
-          <input type="number" step="0.05" min="0" max="10" id="ed-ck1" required>
-        </div>
-        <div class="form-field">
-          <label for="ed-gk2">Điểm Giữa kì 2 (GK2)</label>
-          <input type="number" step="0.05" min="0" max="10" id="ed-gk2" required>
-        </div>
-      </div>
-      <div class="form-grid">
-        <div class="form-field">
-          <label for="ed-ck2">Điểm Cuối kì 2 (CK2)</label>
-          <input type="number" step="0.05" min="0" max="10" id="ed-ck2" required>
-        </div>
-        <div class="form-field">
-          <label for="ed-special">Điểm Thi THPT QG / 9 vào 10</label>
-          <input type="number" step="0.05" min="0" max="10" id="ed-special" required>
-        </div>
-        <div class="form-field">
-          <label for="ed-detail">Chi tiết thành phần (P1 / P2 / P3)</label>
-          <input type="text" id="ed-detail" placeholder="VD: P1: 3.0 · P2: 3.5 · P3: 2.5">
-        </div>
-      </div>
-      <div class="form-field" style="margin-bottom:14px">
-        <label for="ed-note">Lời phê / Nhận xét của Thầy Chí</label>
-        <input type="text" id="ed-note" placeholder="Nhận xét năng lực và định hướng ôn tập...">
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center">
-        <button type="submit" class="btn sm">Lưu điểm học sinh</button>
-        <button type="button" class="btn ghost sm" id="btn-reset-default">Khôi phục dữ liệu nháp</button>
-      </div>
-    </form>
 
-    <hr style="border:0;border-top:1px dashed var(--line);margin:20px 0">
-    <div class="form-field">
-      <label for="bulk-tsv">Hoặc dán nhanh nhiều dòng từ Excel / Google Sheets (Mã HS [Tab] Họ tên [Tab] Lớp [Tab] GK1 [Tab] CK1 [Tab] GK2 [Tab] CK2 [Tab] Thi QG/9v10):</label>
-      <textarea id="bulk-tsv" rows="3" placeholder="HS001&#9;Nguyễn Minh Anh (Nháp)&#9;12A 2K9&#9;8.8&#9;9.0&#9;9.0&#9;9.2&#9;9.4"></textarea>
-      <button type="button" class="btn ghost sm" id="btn-import-tsv" style="margin-top:8px">Nhập dữ liệu dán từ Excel</button>
+    <div class="admin-tabs" role="tablist">
+      <button type="button" class="admin-tab active" data-admin-tab="students">1. Quản lý Học sinh &amp; Ẩn danh</button>
+      <button type="button" class="admin-tab" data-admin-tab="cards">2. Sửa nội dung các Card hiển thị</button>
+      <button type="button" class="admin-tab" data-admin-tab="security">3. Mật khẩu Admin &amp; Gmail</button>
+    </div>
+
+    <!-- TAB 1: QUẢN LÝ HỌC SINH & ẨN DANH -->
+    <div class="admin-pane" id="admin-pane-students">
+      <div class="admin-box" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+        <div>
+          <b style="color:var(--ink-deep);font-size:15.5px">Chế độ Ẩn danh tên học sinh trên trang công khai</b>
+          <div style="color:var(--muted);font-size:13.5px">Khi bật, phụ huynh &amp; học sinh tra cứu vẫn thấy Mã HS, Lớp và Điểm nhưng tên được che ẩn danh.</div>
+        </div>
+        <label style="display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--ink);cursor:pointer;white-space:nowrap">
+          <input type="checkbox" id="toggle-anon-all" style="width:18px;height:18px">
+          <span>Ẩn danh tất cả học sinh</span>
+        </label>
+      </div>
+
+      <div class="admin-box">
+        <h4 id="student-form-heading">✎ Thêm mới hoặc Chỉnh sửa Học sinh</h4>
+        <form id="score-edit-form">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="ed-code">Mã Học Sinh</label>
+              <input type="text" id="ed-code" placeholder="VD: HS001" required>
+            </div>
+            <div class="form-field">
+              <label for="ed-name">Họ và tên học sinh</label>
+              <input type="text" id="ed-name" placeholder="VD: Học sinh Nháp 01" required>
+            </div>
+            <div class="form-field">
+              <label for="ed-cls">Lớp học</label>
+              <input type="text" id="ed-cls" placeholder="VD: 12A 2K9" required>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="ed-gk1">Điểm Giữa kì 1 (GK1)</label>
+              <input type="number" step="0.05" min="0" max="10" id="ed-gk1" required>
+            </div>
+            <div class="form-field">
+              <label for="ed-ck1">Điểm Cuối kì 1 (CK1)</label>
+              <input type="number" step="0.05" min="0" max="10" id="ed-ck1" required>
+            </div>
+            <div class="form-field">
+              <label for="ed-gk2">Điểm Giữa kì 2 (GK2)</label>
+              <input type="number" step="0.05" min="0" max="10" id="ed-gk2" required>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="ed-ck2">Điểm Cuối kì 2 (CK2)</label>
+              <input type="number" step="0.05" min="0" max="10" id="ed-ck2" required>
+            </div>
+            <div class="form-field">
+              <label for="ed-special">Điểm Thi THPT QG / 9 vào 10</label>
+              <input type="number" step="0.05" min="0" max="10" id="ed-special" required>
+            </div>
+            <div class="form-field">
+              <label for="ed-detail">Chi tiết thành phần (P1 / P2 / P3)</label>
+              <input type="text" id="ed-detail" placeholder="VD: P1: 3.0 · P2: 3.5 · P3: 2.5">
+            </div>
+          </div>
+          <div class="form-grid two" style="align-items:end">
+            <div class="form-field">
+              <label for="ed-note">Lời phê / Nhận xét của Thầy Chí</label>
+              <input type="text" id="ed-note" placeholder="Nhận xét năng lực và định hướng ôn tập...">
+            </div>
+            <div class="form-field">
+              <label style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;color:var(--ink-deep);padding:10px 0">
+                <input type="checkbox" id="ed-anon" style="width:18px;height:18px">
+                <span>Ẩn danh tên của học sinh này trên web</span>
+              </label>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="submit" class="btn sm">Lưu học sinh (Thêm / Cập nhật)</button>
+              <button type="button" class="btn ghost sm" id="btn-new-student">+ Tạo mã HS mới</button>
+              <button type="button" class="btn ghost sm" id="btn-delete-student" style="color:#b71c1c;border-color:#e5a5a5">Xóa học sinh này</button>
+            </div>
+            <button type="button" class="btn ghost sm" id="btn-reset-default">Khôi phục DS học sinh nháp</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="admin-box">
+        <h4>Danh sách học sinh hiện có (<span id="admin-st-count">16</span> học sinh)</h4>
+        <div class="admin-student-list">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã HS</th>
+                <th>Họ tên gốc (Admin)</th>
+                <th>Hiển thị công khai</th>
+                <th>Lớp</th>
+                <th>GK1·GK2</th>
+                <th>CK1·CK2</th>
+                <th>Thi QG/10</th>
+                <th>Ẩn danh</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="admin-student-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="admin-box">
+        <h4>Nhập nhanh nhiều học sinh từ Excel / Google Sheets</h4>
+        <div class="form-field">
+          <label for="bulk-tsv">Cấu trúc: Mã HS [Tab] Họ tên [Tab] Lớp [Tab] GK1 [Tab] CK1 [Tab] GK2 [Tab] CK2 [Tab] Thi QG/9v10:</label>
+          <textarea id="bulk-tsv" rows="2" placeholder="HS017&#9;Học sinh Nháp 17&#9;12A 2K9&#9;8.8&#9;9.0&#9;9.0&#9;9.2&#9;9.4"></textarea>
+          <button type="button" class="btn ghost sm" id="btn-import-tsv" style="margin-top:8px">Nhập dữ liệu dán từ Excel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: CHỈNH SỬA NỘI DUNG CÁC CARD HIỂN THỊ -->
+    <div class="admin-pane" id="admin-pane-cards" hidden>
+      <p style="margin:0 0 14px;color:var(--muted);font-size:14.5px">
+        Chỉnh sửa trực tiếp nội dung của tất cả các Card hiển thị trên trang chủ (Thống kê, §1 Giới thiệu, §2 Lớp học &amp; Lịch học, §3 Thành tích &amp; Gương mặt tiêu biểu). Bấm <b>Lưu nội dung các Card</b> để áp dụng ngay.
+      </p>
+      <form id="cards-edit-form">
+        <div id="cards-editor-fields"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:14px">
+          <button type="submit" class="btn sm">Lưu nội dung các Card</button>
+          <button type="button" class="btn ghost sm" id="btn-reset-cards">Khôi phục nội dung Card mặc định</button>
+        </div>
+        <div id="cards-status-msg" class="status-msg" hidden></div>
+      </form>
+    </div>
+
+    <!-- TAB 3: ĐỔI MẬT KHẨU ADMIN & GỬI LINK QUA GMAIL -->
+    <div class="admin-pane" id="admin-pane-security" hidden>
+      <div class="admin-box">
+        <h4>🔑 Đổi mật khẩu truy cập Admin</h4>
+        <p style="margin:0 0 12px;color:var(--muted);font-size:14px">Mật khẩu mặc định ban đầu là <b>123</b>. Bạn có thể đổi sang mật khẩu mới bên dưới:</p>
+        <form id="change-pwd-form">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="cp-old">Mật khẩu hiện tại</label>
+              <input type="password" id="cp-old" placeholder="Nhập mật khẩu hiện tại..." required>
+            </div>
+            <div class="form-field">
+              <label for="cp-new">Mật khẩu mới</label>
+              <input type="password" id="cp-new" placeholder="Nhập mật khẩu mới..." required>
+            </div>
+            <div class="form-field">
+              <label for="cp-confirm">Xác nhận mật khẩu mới</label>
+              <input type="password" id="cp-confirm" placeholder="Nhập lại mật khẩu mới..." required>
+            </div>
+          </div>
+          <button type="submit" class="btn sm">Cập nhật mật khẩu Admin</button>
+          <div id="cp-status-msg" class="status-msg" hidden></div>
+        </form>
+      </div>
+
+      <div class="admin-box">
+        <h4>📧 Gửi link đặt lại mật khẩu qua Gmail (badaoqn132@gmail.com)</h4>
+        <p style="margin:0 0 12px;color:var(--muted);font-size:14px">
+          Hệ thống sẽ tạo đường dẫn khôi phục mật khẩu duy nhất và gửi trực tiếp về hộp thư <b>badaoqn132@gmail.com</b> của Thầy Chí.
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <button type="button" class="btn ghost sm" id="btn-send-reset-inside">Gửi link đặt mật khẩu tới badaoqn132@gmail.com</button>
+        </div>
+        <div id="reset-mail-status" class="status-msg" hidden></div>
+      </div>
     </div>
   </div>
 </div>
@@ -1148,6 +1342,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <a href="#lop-hoc">Lịch các lớp</a>
     <a href="#thanh-tich">Thành tích</a>
     <a href="#tra-cuu-diem">Tra cứu điểm</a>
+    <a href="#admin" id="foot-admin-link">🔒 Admin</a>
     <span>© <span id="year">2026</span> Thầy Huỳnh Thanh Chí · Thanh Chí Edu</span>
     <div class="foot-contact">
       <span class="foot-label">Liên hệ trực tiếp</span>
@@ -1166,24 +1361,24 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 <a class="float-zalo" href="https://zalo.me/0905957716" target="_blank" rel="noopener" aria-label="Nhắn Zalo Thầy Chí">Zalo</a>
 
 <script>
-// Danh sách học sinh nháp minh họa (đã ẩn thông tin học sinh thật)
+// Danh sách học sinh nháp minh họa 100% (ẩn toàn bộ thông tin học sinh thật)
 const BASE_STUDENTS = [
-  { code: "HS001", name: "Nguyễn Minh Anh (Nháp)", cls: "12A 2K9", grade: 12 },
-  { code: "HS002", name: "Trần Gia Huy (Nháp)", cls: "12B 2K9", grade: 12 },
-  { code: "HS003", name: "Hoàng Quốc Việt (Nháp)", cls: "12B 2K9", grade: 12 },
-  { code: "HS004", name: "Đỗ Khánh Linh (Nháp)", cls: "12D", grade: 12 },
-  { code: "HS005", name: "Lê Hoàng Bảo Ngọc (Nháp)", cls: "11A 2K10", grade: 11 },
-  { code: "HS006", name: "Phan Đức Minh (Nháp)", cls: "11A 2K10", grade: 11 },
-  { code: "HS007", name: "Ngô Thanh Trúc (Nháp)", cls: "11B 2K10", grade: 11 },
-  { code: "HS008", name: "Vũ Phương Thảo (Nháp)", cls: "10A 2K11", grade: 10 },
-  { code: "HS009", name: "Bùi Tuấn Khang (Nháp)", cls: "10B 2K11", grade: 10 },
-  { code: "HS010", name: "Đinh Hà My (Nháp)", cls: "10C 2K11", grade: 10 },
-  { code: "HS011", name: "Phạm Quốc Khánh (Nháp)", cls: "9 2K12", grade: 9 },
-  { code: "HS012", name: "Trương Ngọc Hân (Nháp)", cls: "9 2K12", grade: 9 },
-  { code: "HS013", name: "Lý Gia Bảo (Nháp)", cls: "8A 2K13", grade: 8 },
-  { code: "HS014", name: "Hồ Thiên Ân (Nháp)", cls: "8B 2K13", grade: 8 },
-  { code: "HS015", name: "Đặng Tuấn Kiệt (Nháp)", cls: "7 2K14", grade: 7 },
-  { code: "HS016", name: "Mai Quỳnh Chi (Nháp)", cls: "7 Onl", grade: 7 }
+  { code: "HS001", name: "Học sinh Nháp 01", cls: "12A 2K9", grade: 12, anonymous: false },
+  { code: "HS002", name: "Học sinh Nháp 02", cls: "12B 2K9", grade: 12, anonymous: false },
+  { code: "HS003", name: "Học sinh Nháp 03", cls: "12B 2K9", grade: 12, anonymous: false },
+  { code: "HS004", name: "Học sinh Nháp 04", cls: "12D", grade: 12, anonymous: false },
+  { code: "HS005", name: "Học sinh Nháp 05", cls: "11A 2K10", grade: 11, anonymous: false },
+  { code: "HS006", name: "Học sinh Nháp 06", cls: "11A 2K10", grade: 11, anonymous: false },
+  { code: "HS007", name: "Học sinh Nháp 07", cls: "11B 2K10", grade: 11, anonymous: false },
+  { code: "HS008", name: "Học sinh Nháp 08", cls: "10A 2K11", grade: 10, anonymous: false },
+  { code: "HS009", name: "Học sinh Nháp 09", cls: "10B 2K11", grade: 10, anonymous: false },
+  { code: "HS010", name: "Học sinh Nháp 10", cls: "10C 2K11", grade: 10, anonymous: false },
+  { code: "HS011", name: "Học sinh Nháp 11", cls: "9 2K12", grade: 9, anonymous: false },
+  { code: "HS012", name: "Học sinh Nháp 12", cls: "9 2K12", grade: 9, anonymous: false },
+  { code: "HS013", name: "Học sinh Nháp 13", cls: "8A 2K13", grade: 8, anonymous: false },
+  { code: "HS014", name: "Học sinh Nháp 14", cls: "8B 2K13", grade: 8, anonymous: false },
+  { code: "HS015", name: "Học sinh Nháp 15", cls: "7 2K14", grade: 7, anonymous: false },
+  { code: "HS016", name: "Học sinh Nháp 16", cls: "7 Onl", grade: 7, anonymous: false }
 ];
 
 const COMMENTS_POOL = [
@@ -1203,7 +1398,20 @@ const OVERRIDE_RECORDS = {
   HS015: { gk1: 9.2, ck1: 9.5, gk2: 9.3, ck2: 9.5, special: 9.0, detail: "Đại số: 5.5 · Hình học: 3.5", note: "Học sinh nháp minh họa Khối 7: Tư duy suy luận hình học phẳng rất tốt." }
 };
 
-const STORAGE_KEY = "lop_toan_anh_chi_scores_draft_v2";
+const STORAGE_KEY = "lop_toan_anh_chi_scores_draft_v3";
+const ANON_ALL_KEY = "lop_toan_anh_chi_anon_all_v1";
+const CARDS_STORAGE_KEY = "lop_toan_anh_chi_cards_v1";
+const ADMIN_PWD_KEY = "lop_toan_anh_chi_admin_pwd";
+const ADMIN_SESSION_KEY = "lop_toan_anh_chi_admin_session";
+const RESET_TOKEN_KEY = "lop_toan_anh_chi_reset_token";
+const ADMIN_EMAIL = "badaoqn132@gmail.com";
+const DEFAULT_ADMIN_PWD = "123";
+
+// Xóa dữ liệu bộ nhớ đệm phiên bản cũ để đảm bảo không còn tên học sinh cũ
+try {
+  localStorage.removeItem("lop_toan_anh_chi_scores_v1");
+  localStorage.removeItem("lop_toan_anh_chi_scores_draft_v2");
+} catch {}
 
 function buildDefaultScores() {
   return BASE_STUDENTS.map((s, idx) => {
@@ -1252,8 +1460,32 @@ function saveScores(list) {
 }
 
 let studentRecords = loadScores();
+let anonAll = localStorage.getItem(ANON_ALL_KEY) === "1";
+let isAdminLoggedIn = sessionStorage.getItem(ADMIN_SESSION_KEY) === "1";
 let activeExamTab = "all";
-let selectedCode = "HS001";
+let selectedCode = studentRecords[0] ? studentRecords[0].code : "HS001";
+
+function getAdminPassword() {
+  return localStorage.getItem(ADMIN_PWD_KEY) || DEFAULT_ADMIN_PWD;
+}
+
+function setAdminPassword(newPwd) {
+  localStorage.setItem(ADMIN_PWD_KEY, String(newPwd));
+}
+
+function formatPublicStudentName(st) {
+  if (!st) return "";
+  if (anonAll || st.anonymous) {
+    const parts = String(st.name || "").trim().split(/\s+/);
+    if (parts.length >= 2) {
+      const first = parts[0].charAt(0) + "***";
+      const last = parts[parts.length - 1];
+      return `${first} ${last} (Ẩn danh)`;
+    }
+    return `Học sinh ẩn danh (${st.code})`;
+  }
+  return st.name;
+}
 
 function vnNorm(str) {
   return String(str || "")
@@ -1271,6 +1503,43 @@ function getRankInfo(score) {
   return { label: "Khá – Tiến bộ", cls: "kha" };
 }
 
+function updateAdminUIState() {
+  const navBtn = document.getElementById("nav-admin-btn");
+  const footLink = document.getElementById("foot-admin-link");
+  if (navBtn) {
+    navBtn.textContent = isAdminLoggedIn ? "⚙ Quản trị (Admin)" : "🔒 Admin";
+  }
+  if (footLink) {
+    footLink.textContent = isAdminLoggedIn ? "⚙ Mở bảng Admin" : "🔒 Admin";
+  }
+  document.querySelectorAll(".admin-only").forEach((el) => {
+    el.hidden = !isAdminLoggedIn;
+  });
+  const toggleAnonEl = document.getElementById("toggle-anon-all");
+  if (toggleAnonEl) toggleAnonEl.checked = anonAll;
+}
+
+function renderQuickChips() {
+  const bar = document.getElementById("quick-chips-bar");
+  if (!bar) return;
+  const picks = studentRecords.slice(0, 6);
+  bar.innerHTML = `<span>Tra cứu nhanh (Học sinh nháp):</span>` + picks.map((st) => {
+    const pubName = formatPublicStudentName(st);
+    return `<button type="button" class="quick-chip" data-pick="${st.code}">${st.code} · ${pubName}</button>`;
+  }).join("");
+  bar.querySelectorAll(".quick-chip[data-pick]").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const code = chip.dataset.pick;
+      selectedCode = code;
+      document.getElementById("score-search").value = code;
+      document.querySelectorAll(".score-tab").forEach(b => b.classList.toggle("active", b.dataset.exam === "all"));
+      activeExamTab = "all";
+      document.getElementById("score-class-filter").value = "ALL";
+      renderScoreTable();
+    });
+  });
+}
+
 function renderReportCard(st) {
   const card = document.getElementById("report-card");
   if (!st) {
@@ -1279,7 +1548,7 @@ function renderReportCard(st) {
   }
   card.hidden = false;
   document.getElementById("rc-code").textContent = st.code;
-  document.getElementById("rc-name").textContent = st.name;
+  document.getElementById("rc-name").textContent = formatPublicStudentName(st);
   document.getElementById("rc-cls").textContent = `Lớp ${st.cls}`;
 
   const isTHPT = st.grade >= 10;
@@ -1340,7 +1609,8 @@ function getFilteredStudents() {
     else if (!clsFilter.startsWith("GRADE_") && clsFilter !== "ALL" && st.cls !== clsFilter) return false;
 
     if (q) {
-      const hay = vnNorm(`${st.code} ${st.name} ${st.cls}`);
+      const pubName = formatPublicStudentName(st);
+      const hay = vnNorm(`${st.code} ${pubName} ${st.cls}`);
       if (!hay.includes(q)) return false;
     }
     return true;
@@ -1356,20 +1626,20 @@ function renderScoreTable() {
   else if (activeExamTab === "ts10") thSpecial.textContent = "Thi Tuyển sinh 9 vào 10";
   else thSpecial.textContent = "Thi THPT QG / 9 vào 10";
 
-  // Update tab counters
   document.getElementById("cnt-all").textContent = studentRecords.length;
   document.getElementById("cnt-giuaki").textContent = studentRecords.length;
   document.getElementById("cnt-cuoiki").textContent = studentRecords.length;
   document.getElementById("cnt-thptqg").textContent = studentRecords.filter(s => s.grade >= 10).length;
   document.getElementById("cnt-ts10").textContent = studentRecords.filter(s => s.grade < 10).length;
 
+  renderQuickChips();
+
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--muted)">Không tìm thấy học sinh phù hợp với từ khóa hoặc bộ lọc. Hãy thử nhập mã HS (VD: HS001, HS011, HS080).</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--muted)">Không tìm thấy học sinh phù hợp với từ khóa hoặc bộ lọc. Hãy thử nhập mã HS (VD: HS001, HS005, HS011).</td></tr>`;
     document.getElementById("score-summary-text").textContent = "Không có kết quả trùng khớp.";
     return;
   }
 
-  // If currently selected student isn't in filtered list, pick the first one
   const activeSt = list.find(s => s.code === selectedCode) || list[0];
   selectedCode = activeSt.code;
   renderReportCard(activeSt);
@@ -1379,10 +1649,11 @@ function renderScoreTable() {
     const isTHPT = st.grade >= 10;
     const examBadge = isTHPT ? "THPT QG" : "9 vào 10";
     const rk = getRankInfo(Math.max(st.ck2, st.special));
+    const displayName = formatPublicStudentName(st);
     return `
       <tr class="${isSel ? 'selected' : ''}" data-code="${st.code}">
         <td><span class="code-pill">${st.code}</span></td>
-        <td><b style="color:var(--ink-deep)">${st.name}</b></td>
+        <td><b style="color:var(--ink-deep)">${displayName}</b></td>
         <td>${st.cls}</td>
         <td><span class="score-num">${st.gk1}</span> · <span class="score-num ${st.gk2 >= 9 ? 'high' : 'good'}">${st.gk2}</span></td>
         <td><span class="score-num">${st.ck1}</span> · <span class="score-num ${st.ck2 >= 9 ? 'high' : 'good'}">${st.ck2}</span></td>
@@ -1391,13 +1662,13 @@ function renderScoreTable() {
           <small style="color:var(--muted);margin-left:6px">(${examBadge})</small>
         </td>
         <td><span class="rank-badge ${rk.cls}">${rk.label}</span></td>
-        <td><button type="button" class="btn ghost sm" style="min-height:32px;padding:0 12px;font-size:13px">Xem phiếu</button></td>
+        <td><button type="button" class="btn ghost sm" style="min-height:32px;padding:0 12px;font-size:13px;white-space:nowrap">Xem phiếu</button></td>
       </tr>
     `;
   }).join("");
 
   document.getElementById("score-summary-text").textContent =
-    `Đang hiển thị ${list.length} học sinh. Bấm vào bất kỳ học sinh nào để xem Phiếu báo điểm chi tiết phía trên.`;
+    `Đang hiển thị ${list.length} học sinh trên cùng 1 dòng gọn gàng. Bấm vào bất kỳ dòng nào để xem Phiếu báo điểm chi tiết.`;
 }
 
 // Event Listeners for Score Lookup
@@ -1413,18 +1684,6 @@ document.querySelectorAll(".score-tab").forEach((btn) => {
 document.getElementById("score-search").addEventListener("input", renderScoreTable);
 document.getElementById("score-class-filter").addEventListener("change", renderScoreTable);
 
-document.querySelectorAll(".quick-chip[data-pick]").forEach((chip) => {
-  chip.addEventListener("click", () => {
-    const code = chip.dataset.pick;
-    selectedCode = code;
-    document.getElementById("score-search").value = code;
-    document.querySelectorAll(".score-tab").forEach(b => b.classList.toggle("active", b.dataset.exam === "all"));
-    activeExamTab = "all";
-    document.getElementById("score-class-filter").value = "ALL";
-    renderScoreTable();
-  });
-});
-
 document.getElementById("score-tbody").addEventListener("click", (e) => {
   const tr = e.target.closest("tr[data-code]");
   if (!tr) return;
@@ -1433,7 +1692,6 @@ document.getElementById("score-tbody").addEventListener("click", (e) => {
   document.getElementById("report-card").scrollIntoView({ behavior: "smooth", block: "nearest" });
 });
 
-// Helper functions linked from §2 and §3
 window.filterByGrade = function(grade) {
   document.querySelectorAll(".score-tab").forEach(b => b.classList.toggle("active", b.dataset.exam === "all"));
   activeExamTab = "all";
@@ -1450,10 +1708,131 @@ window.filterByExamType = function(type) {
   renderScoreTable();
 };
 
-// Teacher Editor Modal
-const modal = document.getElementById("editor-modal");
+// ============================================================================
+// QUẢN LÝ NỘI DUNG CÁC CARD HIỂN THỊ TRÊN WEB (ADMIN TAB 2)
+// ============================================================================
+const CARD_LABELS = {
+  stat1_val: "Thống kê 1 – Số liệu", stat1_lbl: "Thống kê 1 – Nội dung",
+  stat2_val: "Thống kê 2 – Số liệu", stat2_lbl: "Thống kê 2 – Nội dung",
+  stat3_val: "Thống kê 3 – Số liệu", stat3_lbl: "Thống kê 3 – Nội dung",
+  stat4_val: "Thống kê 4 – Số liệu", stat4_lbl: "Thống kê 4 – Nội dung",
+  c1_tag: "§1 Card Giáo viên – Nhãn góc", c1_title: "§1 Card Giáo viên – Tiêu đề", c1_desc: "§1 Card Giáo viên – Mô tả",
+  c1_box_name: "§1 Khung phải – Tên Giáo viên", c1_box_sub: "§1 Khung phải – Chức danh",
+  c1_b1: "§1 Khung phải – Điểm nhấn 1", c1_b2: "§1 Khung phải – Điểm nhấn 2", c1_b3: "§1 Khung phải – Điểm nhấn 3", c1_b4: "§1 Khung phải – Điểm nhấn 4",
+  c2_title: "§1 Card 2 – Tiêu đề", c2_desc: "§1 Card 2 – Nội dung",
+  c3_tag: "§1 Card 3 – Nhãn góc", c3_title: "§1 Card 3 – Tiêu đề", c3_desc: "§1 Card 3 – Nội dung",
+  c4_title: "§1 Card 4 – Tiêu đề", c4_desc: "§1 Card 4 – Nội dung",
+  c5_tag: "§1 Card 5 – Nhãn góc", c5_title: "§1 Card 5 – Tiêu đề", c5_desc: "§1 Card 5 – Nội dung",
+  dl1_title: "§2 Card Khối 12 – Tiêu đề", dl1_sub: "§2 Card Khối 12 – Phụ đề", dl1_desc: "§2 Card Khối 12 – Mô tả", dl1_note: "§2 Card Khối 12 – Ca học",
+  dl2_title: "§2 Card Khối 11 – Tiêu đề", dl2_sub: "§2 Card Khối 11 – Phụ đề", dl2_desc: "§2 Card Khối 11 – Mô tả", dl2_note: "§2 Card Khối 11 – Ca học",
+  dl3_title: "§2 Card Khối 10 – Tiêu đề", dl3_sub: "§2 Card Khối 10 – Phụ đề", dl3_desc: "§2 Card Khối 10 – Mô tả", dl3_note: "§2 Card Khối 10 – Ca học",
+  dl4_title: "§2 Card Khối 6–9 – Tiêu đề", dl4_sub: "§2 Card Khối 6–9 – Phụ đề", dl4_desc: "§2 Card Khối 6–9 – Mô tả", dl4_note: "§2 Card Khối 6–9 – Ca học",
+  sch_heading: "§2 Bảng lịch học – Tiêu đề", sch_sub: "§2 Bảng lịch học – Ghi chú",
+  sch1_cls: "§2 Ca học 1 – Lớp", sch1_desc: "§2 Ca học 1 – Mô tả", sch1_days: "§2 Ca học 1 – Thứ",
+  sch2_cls: "§2 Ca học 2 – Lớp", sch2_desc: "§2 Ca học 2 – Mô tả", sch2_days: "§2 Ca học 2 – Thứ",
+  sch3_cls: "§2 Ca học 3 – Lớp", sch3_desc: "§2 Ca học 3 – Mô tả", sch3_days: "§2 Ca học 3 – Thứ",
+  sch4_cls: "§2 Ca học 4 – Lớp", sch4_desc: "§2 Ca học 4 – Mô tả", sch4_days: "§2 Ca học 4 – Thứ",
+  sch5_cls: "§2 Ca học 5 – Lớp", sch5_desc: "§2 Ca học 5 – Mô tả", sch5_days: "§2 Ca học 5 – Thứ",
+  sch6_cls: "§2 Ca học 6 – Lớp", sch6_desc: "§2 Ca học 6 – Mô tả", sch6_days: "§2 Ca học 6 – Thứ",
+  sch7_cls: "§2 Ca học 7 – Lớp", sch7_desc: "§2 Ca học 7 – Mô tả", sch7_days: "§2 Ca học 7 – Thứ",
+  sch8_cls: "§2 Ca học 8 – Lớp", sch8_desc: "§2 Ca học 8 – Mô tả", sch8_days: "§2 Ca học 8 – Thứ",
+  sch9_cls: "§2 Ca học 9 – Lớp", sch9_desc: "§2 Ca học 9 – Mô tả", sch9_days: "§2 Ca học 9 – Thứ",
+  tk1_plat: "§3 Vé Thành tích 1 – Nhãn trên", tk1_title: "§3 Vé Thành tích 1 – Tiêu đề", tk1_score: "§3 Vé Thành tích 1 – Điểm", tk1_unit: "§3 Vé Thành tích 1 – Đơn vị", tk1_once: "§3 Vé Thành tích 1 – Dòng chữ viết tay",
+  tk1_li1: "§3 Vé Thành tích 1 – Ý 1", tk1_li2: "§3 Vé Thành tích 1 – Ý 2", tk1_li3: "§3 Vé Thành tích 1 – Ý 3", tk1_li4: "§3 Vé Thành tích 1 – Ý 4",
+  tk2_stamp: "§3 Vé Thành tích 2 – Con dấu", tk2_plat: "§3 Vé Thành tích 2 – Nhãn trên", tk2_title: "§3 Vé Thành tích 2 – Tiêu đề", tk2_score: "§3 Vé Thành tích 2 – Điểm", tk2_unit: "§3 Vé Thành tích 2 – Đơn vị", tk2_once: "§3 Vé Thành tích 2 – Dòng chữ viết tay",
+  tk2_li1: "§3 Vé Thành tích 2 – Ý 1", tk2_li2: "§3 Vé Thành tích 2 – Ý 2", tk2_li3: "§3 Vé Thành tích 2 – Ý 3", tk2_li4: "§3 Vé Thành tích 2 – Ý 4",
+  hof1_score: "§3 Gương mặt 1 – Điểm", hof1_name: "§3 Gương mặt 1 – Tên", hof1_cls: "§3 Gương mặt 1 – Lớp", hof1_desc: "§3 Gương mặt 1 – Thành tích",
+  hof2_score: "§3 Gương mặt 2 – Điểm", hof2_name: "§3 Gương mặt 2 – Tên", hof2_cls: "§3 Gương mặt 2 – Lớp", hof2_desc: "§3 Gương mặt 2 – Thành tích",
+  hof3_score: "§3 Gương mặt 3 – Điểm", hof3_name: "§3 Gương mặt 3 – Tên", hof3_cls: "§3 Gương mặt 3 – Lớp", hof3_desc: "§3 Gương mặt 3 – Thành tích",
+  hof4_score: "§3 Gương mặt 4 – Điểm", hof4_name: "§3 Gương mặt 4 – Tên", hof4_cls: "§3 Gương mặt 4 – Lớp", hof4_desc: "§3 Gương mặt 4 – Thành tích"
+};
+
+const defaultCardTexts = {};
+document.querySelectorAll("[data-editable]").forEach((el) => {
+  defaultCardTexts[el.dataset.editable] = el.textContent.trim();
+});
+
+function loadSavedCards() {
+  try {
+    const raw = localStorage.getItem(CARDS_STORAGE_KEY);
+    if (raw) return JSON.parse(raw) || {};
+  } catch {}
+  return {};
+}
+
+function applySavedCards() {
+  const saved = loadSavedCards();
+  document.querySelectorAll("[data-editable]").forEach((el) => {
+    const key = el.dataset.editable;
+    if (saved[key] !== undefined) {
+      el.textContent = saved[key];
+    } else if (defaultCardTexts[key] !== undefined) {
+      el.textContent = defaultCardTexts[key];
+    }
+  });
+}
+
+function buildCardsEditorForm() {
+  const container = document.getElementById("cards-editor-fields");
+  if (!container) return;
+  const current = loadSavedCards();
+  const keys = Object.keys(defaultCardTexts);
+  container.innerHTML = `<div class="form-grid two">` + keys.map((key) => {
+    const label = CARD_LABELS[key] || key;
+    const val = (current[key] !== undefined ? current[key] : defaultCardTexts[key]).replace(/"/g, "&quot;");
+    return `
+      <div class="form-field">
+        <label for="card-ed-${key}">${label}</label>
+        <input type="text" id="card-ed-${key}" data-card-input="${key}" value="${val}">
+      </div>
+    `;
+  }).join("") + `</div>`;
+}
+
+// ============================================================================
+// HỆ THỐNG ĐĂNG NHẬP ADMIN, QUÊN MẬT KHẨU GỬI GMAIL & BẢNG QUẢN TRỊ
+// ============================================================================
+const loginModal = document.getElementById("admin-login-modal");
+const resetModal = document.getElementById("admin-reset-modal");
+const editorModal = document.getElementById("editor-modal");
+
+function showStatus(elId, msg, isErr = false) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.hidden = false;
+  el.textContent = msg;
+  el.classList.toggle("err", Boolean(isErr));
+}
+
+function renderAdminStudentList() {
+  const tbody = document.getElementById("admin-student-tbody");
+  const countEl = document.getElementById("admin-st-count");
+  if (!tbody) return;
+  if (countEl) countEl.textContent = studentRecords.length;
+  tbody.innerHTML = studentRecords.map((st) => `
+    <tr>
+      <td><span class="code-pill">${st.code}</span></td>
+      <td><b>${st.name}</b></td>
+      <td>${formatPublicStudentName(st)}</td>
+      <td>${st.cls}</td>
+      <td>${st.gk1} · ${st.gk2}</td>
+      <td>${st.ck1} · ${st.ck2}</td>
+      <td><b>${st.special}đ</b></td>
+      <td>
+        <input type="checkbox" data-anon-code="${st.code}" ${st.anonymous ? "checked" : ""} title="Ẩn danh học sinh này">
+      </td>
+      <td>
+        <button type="button" class="quick-chip" data-admin-edit="${st.code}">Sửa</button>
+        <button type="button" class="quick-chip" data-admin-del="${st.code}" style="color:#b71c1c;border-color:#e5a5a5">Xóa</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
 function openEditorForStudent(st) {
-  modal.hidden = false;
+  editorModal.hidden = false;
+  renderAdminStudentList();
+  buildCardsEditorForm();
   if (st) {
     document.getElementById("ed-code").value = st.code;
     document.getElementById("ed-name").value = st.name;
@@ -1465,19 +1844,242 @@ function openEditorForStudent(st) {
     document.getElementById("ed-special").value = st.special;
     document.getElementById("ed-detail").value = st.detail || "";
     document.getElementById("ed-note").value = st.note || "";
+    document.getElementById("ed-anon").checked = Boolean(st.anonymous);
   }
 }
 
-document.getElementById("open-editor-btn").addEventListener("click", () => {
-  const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
-  openEditorForStudent(cur);
-});
+function handleAdminTrigger(e) {
+  if (e) e.preventDefault();
+  if (isAdminLoggedIn) {
+    const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
+    openEditorForStudent(cur);
+  } else {
+    document.getElementById("admin-pwd-input").value = "";
+    document.getElementById("login-status-msg").hidden = true;
+    loginModal.hidden = false;
+    setTimeout(() => document.getElementById("admin-pwd-input").focus(), 50);
+  }
+}
+
+document.getElementById("nav-admin-btn").addEventListener("click", handleAdminTrigger);
+document.getElementById("foot-admin-link").addEventListener("click", handleAdminTrigger);
+document.getElementById("open-editor-btn").addEventListener("click", handleAdminTrigger);
 document.getElementById("rc-edit-this").addEventListener("click", () => {
   const cur = studentRecords.find(s => s.code === selectedCode);
   openEditorForStudent(cur);
 });
-document.getElementById("close-editor-btn").addEventListener("click", () => { modal.hidden = true; });
-modal.addEventListener("click", (e) => { if (e.target === modal) modal.hidden = true; });
+
+document.getElementById("close-login-btn").addEventListener("click", () => { loginModal.hidden = true; });
+document.getElementById("close-reset-btn").addEventListener("click", () => { resetModal.hidden = true; });
+document.getElementById("close-editor-btn").addEventListener("click", () => { editorModal.hidden = true; });
+
+[loginModal, resetModal, editorModal].forEach((m) => {
+  m.addEventListener("click", (e) => { if (e.target === m) m.hidden = true; });
+});
+
+// Đăng nhập Admin
+document.getElementById("admin-login-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const entered = document.getElementById("admin-pwd-input").value;
+  if (entered === getAdminPassword()) {
+    isAdminLoggedIn = true;
+    sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
+    updateAdminUIState();
+    loginModal.hidden = true;
+    const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
+    openEditorForStudent(cur);
+  } else {
+    showStatus("login-status-msg", "Mật khẩu không đúng! (Mật khẩu mặc định là 123 hoặc bấm gửi link đặt lại qua Gmail).", true);
+  }
+});
+
+// Đăng xuất Admin
+document.getElementById("btn-admin-logout").addEventListener("click", () => {
+  isAdminLoggedIn = false;
+  sessionStorage.removeItem(ADMIN_SESSION_KEY);
+  updateAdminUIState();
+  editorModal.hidden = true;
+});
+
+// Chuyển đổi các Tab trong bảng Admin
+document.querySelectorAll(".admin-tab").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".admin-tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    const target = tab.dataset.adminTab;
+    document.getElementById("admin-pane-students").hidden = target !== "students";
+    document.getElementById("admin-pane-cards").hidden = target !== "cards";
+    document.getElementById("admin-pane-security").hidden = target !== "security";
+  });
+});
+
+// Gửi link đặt lại mật khẩu về badaoqn132@gmail.com
+async function sendPasswordResetEmail(statusElId) {
+  const token = "rst_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+  localStorage.setItem(RESET_TOKEN_KEY, token);
+  const resetUrl = `${window.location.origin}${window.location.pathname}?reset_token=${encodeURIComponent(token)}#dat-lai-mat-khau`;
+
+  showStatus(statusElId, `Đang gửi link đặt lại mật khẩu về ${ADMIN_EMAIL}...`, false);
+
+  let sentOk = false;
+  try {
+    const res = await fetch(`https://formsubmit.co/ajax/${ADMIN_EMAIL}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        _subject: "Link dat lai mat khau Admin - Lop Toan Anh Chi",
+        email: ADMIN_EMAIL,
+        message: `Xin chào Thầy Huỳnh Thanh Chí,\n\nNhấn vào đường link sau để đặt lại mật khẩu Admin cho trang Lớp Toán Anh Chí:\n${resetUrl}\n\n(Hoặc mã khôi phục: ${token})`
+      })
+    });
+    if (res.ok) sentOk = true;
+  } catch {}
+
+  const el = document.getElementById(statusElId);
+  if (el) {
+    el.hidden = false;
+    el.classList.remove("err");
+    el.innerHTML = sentOk
+      ? `✓ Đã gửi yêu cầu đặt lại mật khẩu về <b>${ADMIN_EMAIL}</b>. Vui lòng kiểm tra hộp thư (hoặc Spam) để bấm vào link đặt mật khẩu mới.`
+      : `Đã tạo link đặt lại mật khẩu cho <b>${ADMIN_EMAIL}</b>. <a href="mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent('Link dat lai mat khau Admin - Lop Toan Anh Chi')}&body=${encodeURIComponent('Bấm vào link sau để đặt lại mật khẩu Admin:\n' + resetUrl)}" style="text-decoration:underline;font-weight:700">Bấm vào đây để gửi/mở qua Gmail (${ADMIN_EMAIL})</a> hoặc <a href="${resetUrl}" style="text-decoration:underline;font-weight:700">Mở trang đặt mật khẩu ngay</a>.`;
+  }
+}
+
+document.getElementById("btn-forgot-pwd").addEventListener("click", () => sendPasswordResetEmail("login-status-msg"));
+document.getElementById("btn-send-reset-inside").addEventListener("click", () => sendPasswordResetEmail("reset-mail-status"));
+
+// Kiểm tra nếu truy cập từ link đặt lại mật khẩu (?reset_token=...)
+(function checkResetTokenInUrl() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("reset_token");
+    if (token) {
+      resetModal.hidden = false;
+    }
+  } catch {}
+})();
+
+document.getElementById("admin-reset-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const p1 = document.getElementById("reset-new-pwd").value.trim();
+  const p2 = document.getElementById("reset-confirm-pwd").value.trim();
+  if (!p1 || p1 !== p2) {
+    showStatus("reset-status-msg", "Mật khẩu xác nhận không khớp!", true);
+    return;
+  }
+  setAdminPassword(p1);
+  localStorage.removeItem(RESET_TOKEN_KEY);
+  isAdminLoggedIn = true;
+  sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
+  updateAdminUIState();
+  showStatus("reset-status-msg", "Đã đặt mật khẩu mới thành công!", false);
+  try {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("reset_token");
+    window.history.replaceState({}, "", url.toString());
+  } catch {}
+  setTimeout(() => {
+    resetModal.hidden = true;
+    const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
+    openEditorForStudent(cur);
+  }, 600);
+});
+
+// Đổi mật khẩu trong Admin Tab 3
+document.getElementById("change-pwd-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const oldP = document.getElementById("cp-old").value;
+  const newP = document.getElementById("cp-new").value.trim();
+  const cfmP = document.getElementById("cp-confirm").value.trim();
+  if (oldP !== getAdminPassword()) {
+    showStatus("cp-status-msg", "Mật khẩu hiện tại không đúng!", true);
+    return;
+  }
+  if (!newP || newP !== cfmP) {
+    showStatus("cp-status-msg", "Mật khẩu mới và xác nhận mật khẩu không khớp!", true);
+    return;
+  }
+  setAdminPassword(newP);
+  document.getElementById("cp-old").value = "";
+  document.getElementById("cp-new").value = "";
+  document.getElementById("cp-confirm").value = "";
+  showStatus("cp-status-msg", "✓ Đã đổi mật khẩu Admin thành công!", false);
+});
+
+// ============================================================================
+// THÊM, SỬA, XÓA & ẨN DANH HỌC SINH TRONG ADMIN (TAB 1)
+// ============================================================================
+document.getElementById("toggle-anon-all").addEventListener("change", (e) => {
+  anonAll = e.target.checked;
+  localStorage.setItem(ANON_ALL_KEY, anonAll ? "1" : "0");
+  renderScoreTable();
+  renderAdminStudentList();
+});
+
+document.getElementById("btn-new-student").addEventListener("click", () => {
+  const nextNum = studentRecords.length + 1;
+  const nextCode = "HS" + String(nextNum).padStart(3, "0");
+  document.getElementById("ed-code").value = nextCode;
+  document.getElementById("ed-name").value = `Học sinh Nháp ${String(nextNum).padStart(2, "0")}`;
+  document.getElementById("ed-cls").value = "12A 2K9";
+  document.getElementById("ed-gk1").value = 8.5;
+  document.getElementById("ed-ck1").value = 8.8;
+  document.getElementById("ed-gk2").value = 9.0;
+  document.getElementById("ed-ck2").value = 9.2;
+  document.getElementById("ed-special").value = 9.0;
+  document.getElementById("ed-detail").value = "P1: 3.0 · P2: 3.5 · P3: 2.5";
+  document.getElementById("ed-note").value = "Chăm chỉ, nắm vững kiến thức trọng tâm.";
+  document.getElementById("ed-anon").checked = false;
+  document.getElementById("ed-name").focus();
+});
+
+document.getElementById("btn-delete-student").addEventListener("click", () => {
+  const code = document.getElementById("ed-code").value.trim().toUpperCase();
+  if (!code) return;
+  const idx = studentRecords.findIndex(s => s.code.toUpperCase() === code);
+  if (idx >= 0) {
+    studentRecords.splice(idx, 1);
+    saveScores(studentRecords);
+    selectedCode = studentRecords[0] ? studentRecords[0].code : "";
+    renderScoreTable();
+    renderAdminStudentList();
+    if (studentRecords[0]) openEditorForStudent(studentRecords[0]);
+  }
+});
+
+document.getElementById("admin-student-tbody").addEventListener("click", (e) => {
+  const editBtn = e.target.closest("[data-admin-edit]");
+  if (editBtn) {
+    const code = editBtn.dataset.adminEdit;
+    const st = studentRecords.find(s => s.code === code);
+    if (st) openEditorForStudent(st);
+    return;
+  }
+  const delBtn = e.target.closest("[data-admin-del]");
+  if (delBtn) {
+    const code = delBtn.dataset.adminDel;
+    studentRecords = studentRecords.filter(s => s.code !== code);
+    saveScores(studentRecords);
+    if (selectedCode === code) selectedCode = studentRecords[0] ? studentRecords[0].code : "";
+    renderScoreTable();
+    renderAdminStudentList();
+    return;
+  }
+  const anonChk = e.target.closest("[data-anon-code]");
+  if (anonChk) {
+    const code = anonChk.dataset.anonCode;
+    const st = studentRecords.find(s => s.code === code);
+    if (st) {
+      st.anonymous = anonChk.checked;
+      saveScores(studentRecords);
+      if (document.getElementById("ed-code").value.trim().toUpperCase() === code) {
+        document.getElementById("ed-anon").checked = st.anonymous;
+      }
+      renderScoreTable();
+      renderAdminStudentList();
+    }
+  }
+});
 
 document.getElementById("score-edit-form").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -1498,7 +2100,8 @@ document.getElementById("score-edit-form").addEventListener("submit", (e) => {
     ck2: Number(document.getElementById("ed-ck2").value),
     special: Number(document.getElementById("ed-special").value),
     detail: document.getElementById("ed-detail").value.trim(),
-    note: document.getElementById("ed-note").value.trim()
+    note: document.getElementById("ed-note").value.trim(),
+    anonymous: document.getElementById("ed-anon").checked
   };
 
   const idx = studentRecords.findIndex(s => s.code.toUpperCase() === code);
@@ -1507,15 +2110,20 @@ document.getElementById("score-edit-form").addEventListener("submit", (e) => {
 
   saveScores(studentRecords);
   selectedCode = code;
-  modal.hidden = true;
   renderScoreTable();
+  renderAdminStudentList();
 });
 
 document.getElementById("btn-reset-default").addEventListener("click", () => {
   studentRecords = buildDefaultScores();
+  anonAll = false;
+  localStorage.setItem(ANON_ALL_KEY, "0");
+  document.getElementById("toggle-anon-all").checked = false;
   saveScores(studentRecords);
-  modal.hidden = true;
+  selectedCode = studentRecords[0].code;
   renderScoreTable();
+  renderAdminStudentList();
+  openEditorForStudent(studentRecords[0]);
 });
 
 document.getElementById("btn-import-tsv").addEventListener("click", () => {
@@ -1537,7 +2145,7 @@ document.getElementById("btn-import-tsv").addEventListener("click", () => {
       const ck2 = Number(parts[6]) || ck1;
       const special = Number(parts[7]) || ck2;
       const note = parts[8] ? parts[8].trim() : "Đã cập nhật điểm mới.";
-      const entry = { code, name, cls, grade, gk1, ck1, gk2, ck2, special, detail: "", note };
+      const entry = { code, name, cls, grade, gk1, ck1, gk2, ck2, special, detail: "", note, anonymous: false };
       const idx = studentRecords.findIndex(s => s.code.toUpperCase() === code);
       if (idx >= 0) studentRecords[idx] = { ...studentRecords[idx], ...entry };
       else studentRecords.push(entry);
@@ -1547,16 +2155,35 @@ document.getElementById("btn-import-tsv").addEventListener("click", () => {
   if (count > 0) {
     saveScores(studentRecords);
     document.getElementById("bulk-tsv").value = "";
-    modal.hidden = true;
     renderScoreTable();
+    renderAdminStudentList();
   }
+});
+
+// Lưu & Khôi phục nội dung các Card trong Admin (Tab 2)
+document.getElementById("cards-edit-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const updated = {};
+  document.querySelectorAll("[data-card-input]").forEach((inp) => {
+    updated[inp.dataset.cardInput] = inp.value;
+  });
+  localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(updated));
+  applySavedCards();
+  showStatus("cards-status-msg", "✓ Đã lưu và cập nhật toàn bộ nội dung các Card trên trang web!", false);
+});
+
+document.getElementById("btn-reset-cards").addEventListener("click", () => {
+  localStorage.removeItem(CARDS_STORAGE_KEY);
+  applySavedCards();
+  buildCardsEditorForm();
+  showStatus("cards-status-msg", "✓ Đã khôi phục nội dung các Card về mặc định!", false);
 });
 
 // Export CSV
 document.getElementById("btn-export-csv").addEventListener("click", () => {
   const header = ["MaHS", "HoTen", "Lop", "GK1", "CK1", "GK2", "CK2", "Thi_THPTQG_9vao10", "NhanXet"];
   const rows = studentRecords.map(s => [
-    s.code, `"${s.name}"`, `"${s.cls}"`, s.gk1, s.ck1, s.gk2, s.ck2, s.special, `"${(s.note || "").replace(/"/g, '""')}"`
+    s.code, `"${formatPublicStudentName(s)}"`, `"${s.cls}"`, s.gk1, s.ck1, s.gk2, s.ck2, s.special, `"${(s.note || "").replace(/"/g, '""')}"`
   ].join(","));
   const csv = "\uFEFF" + [header.join(","), ...rows].join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -1594,6 +2221,8 @@ if ("IntersectionObserver" in window) {
 }
 
 document.getElementById("year").textContent = new Date().getFullYear();
+applySavedCards();
+updateAdminUIState();
 renderScoreTable();
 </script>
 </body>
