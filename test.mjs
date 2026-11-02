@@ -82,17 +82,23 @@ assert.ok(
   '#public-privacy-banner must be admin-only and hidden from public users'
 );
 
-// 6. Verify Hero Notebook Sheet: No figure titles, no switcher buttons, 3D solid/dashed edges, Shaded Integral Area & 3D Solid of Revolution
+// 6. Verify Hero Notebook Sheet: Sequential slides (cube, circle_parabola, conics, probability), click-to-switch, 100% flush integral area fill, 3D solid/dashed edges
 assert.ok(!html.includes('class="sheet-switcher"') && !html.includes('data-sheet-mode='), 'Must remove .sheet-switcher buttons below hero notebook sheet');
 assert.ok(!html.includes('id="hero-sheet-tag"'), 'Must remove #hero-sheet-tag title pill');
 assert.ok(
-  html.includes('id="integral-hatch"') &&
-  html.includes('S = ∫ₐᵇ |f(x)| dx') &&
-  html.includes('V = π ∫ₐᵇ [f(x)]² dx') &&
-  html.includes("M(x₀;y₀;z₀)") &&
-  html.includes("M'(x₀;y₀;0)") &&
-  html.includes('class="draw-dash"'),
-  'Hero notebook sheet must include 3D solid/dashed box cross-section ACD\', Oxyz 3 components, pyramid S.ABCD, cubic BBT, shaded integral area, and 3D solid of revolution'
+  html.includes('const SHEET_ORDER = ["cube", "circle_parabola", "conics", "probability"]') &&
+  html.includes('M98 376 L98 330 C118 294, 144 304, 162 376 Z') &&
+  html.includes('M162 376 C178 416, 202 412, 218 392 L218 376 Z') &&
+  html.includes('M82 352 Q90 341, 98 330 C118 294, 144 304, 162 376 C178 416, 202 412, 218 392 Q225 384, 232 372') &&
+  html.includes('MA = MB · OM ⊥ AB · OH·OM = R²') &&
+  html.includes('(P): y = x² − 2x − 3') &&
+  html.includes('Elip (E): x²/a² + y²/b² = 1') &&
+  html.includes('Hypebol (H): x²/a² − y²/b² = 1') &&
+  html.includes('3. Parabol: y² = 2px') &&
+  html.includes('Gieo 2 xúc xắc: n(Ω) = 6² = 36') &&
+  html.includes('P(A∪B) = P(A) + P(B) − P(A∩B)') &&
+  html.includes('advanceHeroSheet()'),
+  'Hero notebook sheet must include 100% flush integral area fill, sequential appearance, and click-to-switch slides for circle with 2 intersecting tangents, parabola, 3 conics, probability rules, and 3D dice'
 );
 
 // 7. Verify Instant Click on Any Card to Open Protected PDF Viewer Immediately
@@ -103,10 +109,13 @@ assert.ok(
   'Clicking anywhere on a document card must open the Protected PDF Viewer immediately'
 );
 
-// 8. Verify Standalone admin.html Studio Page + Rich Text / Typography (Font, Bold, Italic, Size, Color, Multi-line) & User Web Sync
+// 8. Verify Dedicated Full-Page admin.html Dashboard (No small modal on user page) + Rich Text / Typography & User Web Sync
 assert.ok(
   adminHtml.includes('class="admin-studio-page"') &&
   adminHtml.includes('window.IS_ADMIN_STUDIO_PAGE = true') &&
+  html.includes('body.admin-studio-page > main') &&
+  html.includes('id="admin-overview-cards"') &&
+  html.includes('window.location.href = `./admin.html${q}`') &&
   html.includes('id="global-font-select"') &&
   html.includes('id="global-size-select"') &&
   html.includes('data-rt-font=') &&
@@ -119,7 +128,7 @@ assert.ok(
   html.includes('GLOBAL_TYPO_STORAGE_KEY') &&
   html.includes('syncSiteStateFromSupabase') &&
   html.includes('window.addEventListener("storage"'),
-  'Missing standalone admin.html Rich Text & Typography Studio or real-time sync to user web'
+  'Missing dedicated full-page admin.html Dashboard or real-time sync to user web'
 );
 assert.match(html, /\[data-editable\]\s*\{\s*white-space:\s*pre-line;\s*\}/, '[data-editable] must support custom multi-line line breaks via white-space: pre-line');
 
