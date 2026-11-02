@@ -55,11 +55,22 @@ assert.ok(students.filter(s => s.publicVisible).length === 4 && students.filter(
 assert.ok(html.includes('id="tai-lieu"') && html.includes('class="locker__stage"') && html.includes('class="locker__cubby"') && html.includes('class="locker__rail"'), 'Missing 3D Locker PDF Document Carousel');
 assert.ok(html.includes('id="doc-upload-form"') && html.includes('id="doc-file-input"') && html.includes('savePdfBinaryToIdb'), 'Missing Admin-only PDF upload form and IndexedDB storage');
 assert.ok(html.includes('id="pdf-viewer-modal"') && html.includes('id="pdf-zoom-in"') && html.includes('pdf-watermark') && html.includes('@media print'), 'Missing Protected PDF Viewer with zoom/scroll/watermark and print blocker');
-assert.ok(html.includes('--cursor-grab:') && html.includes('--cursor-hover:') && html.includes('id="cursor-follower"'), 'Missing custom cursors and contextual cursor follower');
+assert.ok(
+  html.includes('--cursor: -webkit-image-set(url(./cursor/arrow.webp) 1x, url(./cursor/arrow-2x.webp) 2x)') &&
+  html.includes('--cursor-hover: -webkit-image-set(url(./cursor/hand.webp) 1x, url(./cursor/hand-2x.webp) 2x)') &&
+  html.includes('--cursor-grab: -webkit-image-set(url(./cursor/grab.webp) 1x, url(./cursor/grab-2x.webp) 2x)') &&
+  html.includes('--cursor-grabbing: -webkit-image-set(url(./cursor/grabbing.webp) 1x, url(./cursor/grabbing-2x.webp) 2x)') &&
+  fs.existsSync(new URL('./cursor/arrow.webp', import.meta.url)) &&
+  fs.existsSync(new URL('./cursor/hand.webp', import.meta.url)) &&
+  fs.existsSync(new URL('./cursor/grab.webp', import.meta.url)) &&
+  fs.existsSync(new URL('./cursor/grabbing.webp', import.meta.url)),
+  'Missing exact aodauvietnam.com WebP cursor rules or cursor files'
+);
 
-// 9. Verify single-line top navbar with compact 1-logo Admin icon & Supabase Storage integration
+// 9. Verify single-line top navbar with compact 1-logo Admin icon, Supabase Storage integration & Mobile Responsive rules
 assert.match(html, /\.nav\s*\{[^}]*flex-wrap:\s*nowrap[^}]*white-space:\s*nowrap/s, '.nav must enforce flex-wrap: nowrap and white-space: nowrap');
 assert.ok(html.includes('class="nav-icon-btn" id="nav-admin-btn"'), 'Admin button in navbar must be a compact .nav-icon-btn logo icon');
+assert.ok(html.includes('class="mobile-quick-nav"'), 'Missing .mobile-quick-nav quick access strip for mobile users');
 assert.ok(
   html.includes('id="supabase-config-form"') &&
   html.includes('uploadPdfToSupabaseStorage') &&
@@ -68,4 +79,4 @@ assert.ok(
   'Missing Supabase Storage & Database client integration'
 );
 
-console.log('PASS: All assertions passed (Single-line navbar with compact Admin logo, Supabase Storage integration, 3D Locker PDF Carousel, No-download PDF Viewer).');
+console.log('PASS: All assertions passed (aodauvietnam.com WebP cursors, Mobile-first responsive optimization, Single-line navbar, Supabase Storage).');

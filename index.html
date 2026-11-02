@@ -30,24 +30,29 @@
   --hand: "Patrick Hand", "Segoe Print", cursive;
   --radius: 18px;
   --shadow: 0 1px 0 rgba(61, 7, 9, .05), 0 22px 50px -28px rgba(61, 7, 9, .45);
-  /* Custom Cursors inspired by aodauvietnam.com & math notebook aesthetic */
-  --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 3l14 7.5-6.2 1.8L9 18.5z' fill='%23650f12' stroke='%23fffdf8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E") 4 3, default;
-  --cursor-hover: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cpath d='M9 3.5a2 2 0 0 1 4 0v6.2h1.2a2 2 0 0 1 2 1.6l1.3 6.2a4.5 4.5 0 0 1-4.4 5.5H9.6a4.5 4.5 0 0 1-4.1-2.7l-2.1-4.6a1.7 1.7 0 0 1 2.9-1.6L8 16V3.5z' fill='%23650f12' stroke='%23fffdf8' stroke-width='1.7' stroke-linejoin='round'/%3E%3C/svg%3E") 10 3, pointer;
-  --cursor-grab: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Crect x='5' y='8' width='18' height='15' rx='6' fill='%23650f12' stroke='%23fffdf8' stroke-width='1.8'/%3E%3Cpath d='M9 9V5.5M13 8V4.5M17 8.5V5.5M20 11v-2' stroke='%23fffdf8' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 14 14, grab;
-  --cursor-grabbing: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Crect x='5' y='10' width='18' height='13' rx='6' fill='%233d0709' stroke='%23fff2a8' stroke-width='2'/%3E%3Cpath d='M9 11h10' stroke='%23fff2a8' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 14 14, grabbing;
-  --cursor-text: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 20 24'%3E%3Cpath d='M7 4h6M10 4v16M7 20h6' stroke='%23650f12' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") 10 12, text;
+  /* Custom Cursors from aodauvietnam.com (1x & 2x Retina WebP + SVG text cursor) */
+  --cursor: -webkit-image-set(url(./cursor/arrow.webp) 1x, url(./cursor/arrow-2x.webp) 2x) 16 12, url(./cursor/arrow.webp) 16 12, default;
+  --cursor-hover: -webkit-image-set(url(./cursor/hand.webp) 1x, url(./cursor/hand-2x.webp) 2x) 23 12, url(./cursor/hand.webp) 23 12, pointer;
+  --cursor-grab: -webkit-image-set(url(./cursor/grab.webp) 1x, url(./cursor/grab-2x.webp) 2x) 24 24, url(./cursor/grab.webp) 24 24, grab;
+  --cursor-grabbing: -webkit-image-set(url(./cursor/grabbing.webp) 1x, url(./cursor/grabbing-2x.webp) 2x) 24 24, url(./cursor/grabbing.webp) 24 24, grabbing;
+  --cursor-text: url(./cursor-text.svg) 12 12, text;
 }
 * { box-sizing: border-box; }
 html {
   scroll-behavior: smooth; -webkit-text-size-adjust: 100%;
   scrollbar-width: thin; scrollbar-color: var(--ink-soft) var(--paper-2);
-  cursor: var(--cursor);
+  cursor: var(--cursor); overflow-x: clip;
 }
-a, button, [role="button"], select, .class-select, .custom-select-trigger, .custom-select-opt, input[type="checkbox"], label, .sheet, .score-table tbody tr {
+a[href], button:not(:disabled), [role="button"], [role="tab"], select, .class-select, .custom-select-trigger, .custom-select-opt, input[type="checkbox"], label:has(input[type="checkbox"]), .sheet, .score-table tbody tr {
   cursor: var(--cursor-hover) !important;
 }
-input[type="text"], input[type="search"], input[type="password"], input[type="number"], textarea {
+input:not([type="checkbox"], [type="radio"], [type="range"], [type="button"], [type="submit"]), textarea, [contenteditable="true"] {
   cursor: var(--cursor-text) !important;
+}
+@media (hover: none), (pointer: coarse) {
+  html, a[href], button, [role="button"], select, input, textarea, .sheet, .locker__stage, .pdf-viewport {
+    cursor: auto !important;
+  }
 }
 ::selection { background: var(--hl); color: var(--ink-deep); }
 /* Custom synchronized scrollbars across the entire site & containers */
@@ -882,25 +887,12 @@ input[type="checkbox"]:checked::before { transform: scale(1); }
   font-size: 12.5px; color: #c7b8b3;
 }
 
-/* --- Interactive Contextual Cursor Follower (Desktop) --- */
-.cursor-follower {
-  position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 14px; height: 14px; border-radius: 999px;
-  background: rgba(161, 30, 33, .18); border: 1.5px solid rgba(101, 15, 18, .55);
-  color: #fff; font: 700 11.5px/1 var(--sans); white-space: nowrap;
-  transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
-  transition: width .2s ease, height .2s ease, background .2s ease, border-color .2s ease, padding .2s ease, opacity .2s ease;
-  opacity: 0;
-}
-.cursor-follower.visible { opacity: 1; }
-.cursor-follower.has-label {
-  width: auto; height: 28px; padding: 0 11px;
-  background: rgba(101, 15, 18, .92); border-color: #fff2a8;
-  box-shadow: 0 8px 20px -6px rgba(61, 7, 9, .6);
-}
-@media (hover: none), (pointer: coarse) {
-  .cursor-follower { display: none !important; }
+/* --- Clean Native-Feel Custom Cursor (Exact aodauvietnam.com WebP Cursors, No Trailing Dot) --- */
+.cursor-follower { display: none !important; }
+
+/* --- Mobile Quick Navigation Strip (Visible on Phones & Tablets <= 960px) --- */
+.mobile-quick-nav {
+  display: none;
 }
 @media print {
   body * { visibility: hidden !important; }
@@ -952,7 +944,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 .reveal.in { opacity: 1; transform: none; }
 
 @media (max-width: 1020px) {
-  .hero-grid { grid-template-columns: 1fr; gap: 56px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
   .sheet { max-width: 620px; margin: 0 auto; width: 100%; }
   .features { grid-template-columns: repeat(2, 1fr); }
   .card.wide { grid-column: span 2; }
@@ -962,37 +954,211 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   .schedule-grid { grid-template-columns: repeat(2, 1fr); }
   .score-controls { grid-template-columns: 1fr 1fr; }
   .report-scores-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 760px) {
-  body { font-size: 16px; }
-  .wrap { width: calc(100% - 32px); }
-  body::after { left: 10px; }
-  .nav { gap: 12px; }
-  .nav ul { display: none; position: absolute; top: 68px; left: 0; right: 0; flex-direction: column; gap: 0; padding: 8px 16px 16px; background: var(--paper); border-bottom: 1px solid var(--line); }
+  .nav { gap: 10px; height: 58px; }
+  .nav ul {
+    display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 50;
+    flex-direction: column; align-items: stretch; gap: 0; padding: 8px 16px 14px;
+    background: var(--paper); border-bottom: 1.5px solid var(--line);
+    box-shadow: 0 18px 34px -16px rgba(61, 7, 9, .35);
+  }
   .nav ul.open { display: flex; }
-  .nav ul a { display: block; padding: 12px 4px; font-size: 16px; border-bottom: 1px solid var(--line); }
-  .menu-toggle { display: grid; place-items: center; margin-left: auto; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 12px; background: #fffdf8; color: var(--ink); }
-  .menu-toggle svg { width: 22px; height: 22px; }
+  .nav ul a { display: block; padding: 11px 6px; font-size: 15.5px; border-bottom: 1px dashed var(--line); }
+  .menu-toggle {
+    display: grid; place-items: center; width: 38px; height: 38px; flex-shrink: 0;
+    border: 1.5px solid rgba(101, 15, 18, .28); border-radius: 10px; background: #fffdf8; color: var(--ink);
+  }
+  .menu-toggle svg { width: 20px; height: 20px; }
   .nav > .btn { display: none; }
-  .hero { padding-top: 36px; }
-  .lead { font-size: 17px; }
-  .stats { grid-template-columns: repeat(2, 1fr); }
+  .nav-icon-btn { margin-left: auto; width: 36px; height: 36px; }
+  .mobile-quick-nav {
+    display: flex; align-items: center; gap: 6px; overflow-x: auto; white-space: nowrap;
+    padding: 0 16px 8px; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .mobile-quick-nav::-webkit-scrollbar { display: none; }
+  .mobile-quick-nav a {
+    display: inline-flex; align-items: center; gap: 4px; padding: 5px 11px; border-radius: 999px;
+    background: #fffdf8; border: 1px solid var(--line); color: var(--ink-deep);
+    font: 600 12px/1 var(--sans); text-decoration: none; flex-shrink: 0;
+  }
+  .mobile-quick-nav a.hot-pill {
+    background: var(--ink); color: #fff; border-color: var(--ink);
+  }
+}
+
+@media (max-width: 760px) {
+  body { font-size: 15.5px; line-height: 1.6; overflow-x: clip; }
+  .wrap { width: calc(100% - 28px); }
+  body::after { left: 8px; }
+  section { padding-top: 56px; scroll-margin-top: 104px; }
+
+  /* 1. Header & Brand on Mobile */
+  .nav { height: 54px; gap: 8px; }
+  .brand { min-width: 0; flex: 1 1 auto; gap: 8px; font-size: 16px; overflow: hidden; }
+  .brand > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .brand-badge { width: 32px; height: 32px; font-size: 17px; border-radius: 8px; }
+  .brand-sub { font-size: 10.5px; overflow: hidden; text-overflow: ellipsis; }
+  .nav-icon-btn { width: 35px; height: 35px; }
+  .menu-toggle { width: 35px; height: 35px; }
+
+  /* 2. Hero, CTA Buttons & Math Sheet */
+  .hero { padding: 24px 0 28px; }
+  .hero-grid { gap: 28px; }
+  .eyebrow { font-size: 11.5px; letter-spacing: .1em; }
+  h1 { margin: 12px 0 14px; font-size: clamp(28px, 7.8vw, 38px); line-height: 1.1; }
+  h1 em { white-space: normal; }
+  .lead { font-size: 15.5px; margin-bottom: 20px; }
+  .hero .cta {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%;
+  }
+  .hero .cta .btn {
+    width: 100%; justify-content: center; min-height: 44px; padding: 0 12px;
+    font-size: 13.5px; gap: 6px; text-align: center;
+  }
+  .hero .cta .btn svg { width: 17px; height: 17px; }
+  .trial { font-size: 17.5px; margin-top: 12px; line-height: 1.25; }
+  .platforms {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px;
+    margin-top: 16px; font-size: 12.5px;
+  }
+  .sheet {
+    transform: none !important; animation: none !important;
+    width: 100%; max-width: 100%; border-radius: 12px;
+  }
+  .sheet::after, .note-tag { display: none; }
+  .sheet-switcher {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 12px;
+  }
+  .sheet-pill {
+    width: 100%; padding: 8px 8px; font-size: 12px; text-align: center;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  /* 3. Stats & Section Headers */
+  .stats { grid-template-columns: repeat(2, 1fr); margin-top: 24px; }
+  .stats div { padding: 16px 14px; }
   .stats div:nth-child(3) { border-left: 0; }
   .stats div:nth-child(n + 3) { border-top: 1px dashed var(--line); }
-  .stats b { font-size: 32px; }
-  section { padding-top: 72px; }
-  .head { grid-template-columns: 1fr; }
-  .head .num { text-align: left; font-size: 40px; padding: 0 0 6px; }
-  .head p { grid-column: 1; }
-  .features, .downloads, .hall-of-fame, .schedule-grid, .score-controls, .form-grid { grid-template-columns: 1fr; }
-  .card.wide, .card.span2 { grid-column: auto; grid-template-columns: 1fr; }
-  .ticket { padding: 28px 22px 24px; }
-  .score-shell { padding: 20px 16px; }
-  .report-card { padding: 20px 16px; }
-  .report-scores-grid { grid-template-columns: 1fr 1fr; }
-  .support { padding: 36px 24px; border-radius: 22px; }
-  .note-tag { display: none; }
+  .stats b { font-size: 28px; }
+  .stats span { font-size: 13px; }
+  .head { grid-template-columns: 1fr; margin-bottom: 26px; }
+  .head .num { text-align: left; font-size: 34px; padding: 0 0 4px; }
+  h2 { font-size: clamp(25px, 6.8vw, 34px); }
+  .head p { grid-column: 1; font-size: 15.5px; margin-top: 10px; }
+
+  /* 4. Bento Cards, Classes & Achievements (Prevent Tag/Stamp Overlaps) */
+  .features, .downloads, .hall-of-fame, .schedule-grid, .score-controls, .form-grid, .form-grid.two {
+    grid-template-columns: 1fr !important;
+  }
+  .card, .card.wide, .card.span2 {
+    grid-column: auto; grid-template-columns: 1fr; padding: 20px 18px; gap: 16px;
+  }
+  .card .tag, .card.wide .tag {
+    position: static; display: inline-block; transform: none; margin: 0 0 8px 0; font-size: 17px;
+  }
+  .teacher-card-visual { padding: 14px; }
+  .teacher-avatar { width: 48px; height: 48px; font-size: 20px; border-radius: 12px; }
+  .dl { padding: 20px 18px; }
+  .schedule-board { padding: 18px 16px; }
+  .sch-item { padding: 12px 14px; flex-wrap: wrap; gap: 6px; }
+  .ticket { padding: 22px 18px; border-radius: 18px; }
+  .ticket .stamp {
+    position: static; display: inline-block; transform: none; margin-bottom: 10px; font-size: 17px;
+  }
+  .ticket .btn { width: 100%; justify-content: center; text-align: center; padding: 0 14px; font-size: 14px; }
+  .price b { font-size: 40px; }
+
+  /* 5. 3D Locker PDF Document Carousel on Mobile (Matching aodauvietnam.com) */
+  .doc-spotlight { padding: 24px 12px 18px; border-radius: 20px; }
+  .doc-spotlight__title { font-size: clamp(21px, 6.2vw, 28px); }
+  .doc-spotlight__sub { font-size: 13.5px; line-height: 1.45; padding: 0 4px; }
+  .locker { --gap: 124px; --bay-w: 172px; --bay-r: 13px; }
+  .locker__stage { height: 256px; min-height: 250px; }
+  .locker__doc { padding: 8px 8px 6px; }
+  .doc-card__top, .doc-card__foot { font-size: 9px; }
+  .doc-card__badge { padding: 2px 5px; }
+  .doc-card__title { font-size: 11.5px; margin: 4px 0 2px; }
+  .doc-card__preview { min-height: 50px; margin: 2px 0; }
+  .locker__nav { width: 38px; height: 38px; top: 42%; }
+  .locker__nav--prev { left: 6px; }
+  .locker__nav--next { right: 6px; }
+  .doc-active-bar {
+    flex-direction: column; align-items: stretch; padding: 14px; gap: 12px; border-radius: 14px;
+  }
+  .doc-active-info h3 { font-size: 16.5px; }
+  .doc-active-info p { font-size: 13px; }
+  .doc-active-bar .btn { width: 100%; justify-content: center; min-height: 44px; font-size: 14px; }
+
+  /* 6. Score Lookup Portal & Report Card on Mobile */
+  .score-shell { padding: 18px 14px; border-radius: 18px; }
+  .score-tabs {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding-bottom: 14px;
+  }
+  .score-tab {
+    width: 100%; justify-content: space-between; padding: 9px 11px; font-size: 12.5px;
+  }
+  .score-tab:first-child { grid-column: span 2; justify-content: center; }
+  .score-controls { gap: 8px; margin-top: 14px; }
+  #btn-reset-filter { width: 100%; justify-content: center; min-height: 42px; }
+  .quick-chips { gap: 6px; font-size: 12.5px; }
+  .quick-chip { padding: 5px 9px; font-size: 12px; }
+  .privacy-banner { flex-direction: column; align-items: flex-start; padding: 10px 12px; font-size: 12.5px; gap: 6px; }
+  .report-card { padding: 16px 14px; border-radius: 16px; }
+  .report-top { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .report-name { font-size: 21px; }
+  .report-stamp {
+    transform: none; width: 100%; display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 14px; border-width: 2px;
+  }
+  .report-stamp b { font-size: 24px; }
+  .report-scores-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
+  .r-box { padding: 10px 12px; }
+  .r-box .r-label { font-size: 11px; white-space: normal; }
+  .r-box .r-val { font-size: 21px; margin: 5px 0 2px; }
+  .r-box .r-sub { font-size: 11.5px; }
+  .report-comment p { font-size: 18px; }
+  table.score-table th, table.score-table td { padding: 10px 10px; font-size: 13px; }
+
+  /* 7. Protected PDF Viewer Modal on Mobile (No Overlapping Toolbar Buttons) */
+  .modal-backdrop { padding: 8px; }
+  .pdf-modal-card { height: 94dvh; border-radius: 16px; }
+  .pdf-toolbar {
+    padding: 10px 12px; flex-direction: column; align-items: stretch; gap: 8px;
+  }
+  .pdf-toolbar__title { width: 100%; justify-content: space-between; gap: 8px; }
+  .pdf-toolbar__title b { max-width: 100%; font-size: 13px; }
+  .pdf-sec-badge { font-size: 10.5px; padding: 3px 7px; }
+  .pdf-controls {
+    width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px;
+  }
+  .pdf-controls > span[style*="width:1px"] { display: none; }
+  .pdf-ctrl-btn, .pdf-ctrl-readout {
+    width: 100%; justify-content: center; height: 32px; padding: 0 4px;
+    font-size: 11.5px; min-width: 0; white-space: nowrap; display: inline-flex; align-items: center;
+  }
+  .pdf-viewport { padding: 12px 6px; }
+  .pdf-footer-note { padding: 8px 12px; font-size: 11px; gap: 4px; }
+
+  /* 8. Admin Modals, Contact & Footer on Mobile */
+  .modal-card { padding: 16px 14px; border-radius: 16px; max-height: 94dvh; }
+  .modal-head { flex-wrap: wrap; gap: 8px; }
+  .modal-head h3 { font-size: 18px; }
+  .admin-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .admin-tab { padding: 8px 8px; font-size: 12px; text-align: center; }
+  .support { padding: 24px 18px; gap: 18px; border-radius: 20px; }
+  .support p { font-size: 15.5px; }
+  .support .side { width: 100%; justify-items: stretch; }
+  .support .side .btn { width: 100%; justify-content: center; font-size: 14px; padding: 0 14px; }
+  footer { margin-top: 60px; padding-top: 26px; }
+  .foot-contact .contact { width: 100%; font-size: 13.5px; }
+  .float-zalo { width: 50px; height: 50px; right: 12px; bottom: 12px; font-size: 11.5px; }
 }
+
+@media (max-width: 420px) {
+  .hero .cta { grid-template-columns: 1fr; }
+  .platforms { grid-template-columns: 1fr; }
+  .admin-tabs { grid-template-columns: 1fr; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition: none !important; }
   .reveal { opacity: 1; transform: none; }
@@ -1026,6 +1192,15 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
     </button>
   </nav>
+  <!-- Thanh truy cập nhanh trên Điện thoại (80% Phụ huynh & Học sinh dùng Mobile) -->
+  <div class="mobile-quick-nav" aria-label="Truy cập nhanh trên điện thoại">
+    <a class="hot-pill" href="#tra-cuu-diem">🔎 Tra cứu điểm</a>
+    <a href="#tai-lieu">📚 Tài liệu PDF</a>
+    <a href="#lop-hoc">📅 Lịch các lớp</a>
+    <a href="#thanh-tich">🏆 Thành tích</a>
+    <a href="#gioi-thieu">👨‍🏫 Thầy Chí</a>
+    <a href="#lien-he">💬 Zalo Tư vấn</a>
+  </div>
 </header>
 
 <main>
@@ -4038,11 +4213,15 @@ function loadPdfJsLibrary() {
 function drawSampleMathPageOnCanvas(canvas, doc, pageNum, totalPages, scale) {
   const baseW = 680;
   const baseH = 940;
+  const availW = Math.max(260, (pdfViewport ? pdfViewport.clientWidth : window.innerWidth) - 20);
+  const fitRatio = Math.min(1, availW / baseW);
+  const cssW = Math.round(baseW * fitRatio * scale);
+  const cssH = Math.round(baseH * fitRatio * scale);
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   canvas.width = Math.round(baseW * scale * dpr);
   canvas.height = Math.round(baseH * scale * dpr);
-  canvas.style.width = `${Math.round(baseW * scale)}px`;
-  canvas.style.height = `${Math.round(baseH * scale)}px`;
+  canvas.style.width = `${cssW}px`;
+  canvas.style.height = `${cssH}px`;
 
   const ctx = canvas.getContext("2d");
   ctx.save();
@@ -4263,6 +4442,9 @@ async function renderProtectedPdfPages() {
         document.getElementById("pdf-page-readout").textContent = `Trang 1 / ${currentPdfTotalPages}`;
         for (let p = 1; p <= pdf.numPages; p++) {
           const page = await pdf.getPage(p);
+          const baseVp = page.getViewport({ scale: 1.15 });
+          const availW = Math.max(260, (pdfViewport ? pdfViewport.clientWidth : window.innerWidth) - 20);
+          const fitRatio = Math.min(1, availW / baseVp.width);
           const viewport = page.getViewport({ scale: currentPdfZoom * 1.35 });
           const wrap = document.createElement("div");
           wrap.className = "pdf-page-wrap";
@@ -4270,8 +4452,8 @@ async function renderProtectedPdfPages() {
           const canvas = document.createElement("canvas");
           canvas.width = viewport.width;
           canvas.height = viewport.height;
-          canvas.style.width = `${Math.round(viewport.width / 1.15)}px`;
-          canvas.style.height = `${Math.round(viewport.height / 1.15)}px`;
+          canvas.style.width = `${Math.round(baseVp.width * fitRatio * currentPdfZoom)}px`;
+          canvas.style.height = `${Math.round(baseVp.height * fitRatio * currentPdfZoom)}px`;
           const wm = document.createElement("div");
           wm.className = "pdf-watermark";
           wrap.appendChild(canvas);
