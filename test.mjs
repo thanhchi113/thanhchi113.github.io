@@ -36,4 +36,8 @@ assert.ok(html.includes('const ADMIN_EMAIL = "badaoqn132@gmail.com"'), 'Admin re
 assert.ok(html.includes('id="cards-edit-form"') && html.includes('data-editable='), 'Missing Admin card content editor');
 assert.ok(html.includes('id="btn-delete-student"') && html.includes('id="toggle-anon-all"') && html.includes('formatPublicStudentName'), 'Missing student delete / anonymize controls');
 
-console.log('PASS: All assertions passed (16 generic draft students, 1-line score rows, Admin auth/reset/CRUD/anonymize/card editor).');
+// 5. Verify bento grid gap is filled (c6 & c7 cards) and floating switchable math diagrams exist
+assert.ok(html.includes('data-editable="c6_title"') && html.includes('data-editable="c7_title"'), 'Missing c6/c7 cards to fill #gioi-thieu 3-column grid');
+assert.ok(html.includes('@keyframes sheet-float') && html.includes('data-sheet-mode="cubic"') && html.includes('data-sheet-mode="sin"') && html.includes('data-sheet-mode="cube"'), 'Missing floating animation or switchable math slides (cubic, sin, cube)');
+
+console.log('PASS: All assertions passed (16 generic draft students, 1-line score rows, Admin auth/reset/CRUD/anonymize/card editor, full bento grid, floating math graphs).');
