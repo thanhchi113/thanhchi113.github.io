@@ -220,22 +220,8 @@ h1 em::after {
 .write { clip-path: inset(0 100% 0 0); animation: write var(--dur, .9s) var(--at) steps(24, end) forwards; }
 @keyframes write { to { clip-path: inset(0 0 0 0); } }
 .sheet text { font-family: var(--hand); }
-.note-tag {
-  position: absolute; right: -10px; bottom: 14px; transform: rotate(-4deg); background: var(--ink); color: #fff;
-  font: 20px/1 var(--hand); padding: 9px 14px 8px; border-radius: 6px; box-shadow: 0 14px 26px -14px rgba(61, 7, 9, .9);
-  opacity: 0; animation: tag .5s 1.8s cubic-bezier(.3,.7,.3,1.5) forwards; pointer-events: none;
-}
-@keyframes tag { from { opacity: 0; transform: rotate(-12deg) scale(.6); } to { opacity: 1; transform: rotate(-4deg); } }
-.sheet-switcher {
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; margin-top: 16px;
-}
-.sheet-pill {
-  appearance: none; border: 1px solid var(--line); background: #fffdf8; color: var(--muted);
-  padding: 6px 12px; border-radius: 999px; font: 600 12.5px/1 var(--sans); cursor: pointer;
-  transition: all .18s; box-shadow: 0 2px 6px rgba(61, 7, 9, .05);
-}
-.sheet-pill:hover { border-color: var(--ink-soft); color: var(--ink); transform: translateY(-1px); }
-.sheet-pill.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+[data-editable] { white-space: pre-line; }
+.note-tag, .sheet-switcher { display: none !important; }
 
 /* --- Stats --- */
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 36px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(251, 247, 239, .75); }
@@ -876,6 +862,7 @@ input[type="checkbox"]:checked::before { transform: scale(1); }
   display: flex; flex-direction: column; justify-content: space-between; gap: 12px;
   padding: 18px; border-radius: 18px; background: var(--paper); border: 1.5px solid var(--line);
   transition: transform .22s, box-shadow .22s, border-color .22s; position: relative; overflow: hidden;
+  cursor: var(--cursor-hover) !important;
 }
 .doc-lib-card::before {
   content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
@@ -967,6 +954,59 @@ body.doc-library-page #kho-tai-lieu {
   order: -1;
   margin-top: 0;
   margin-bottom: 36px;
+}
+
+/* --- Rich Typography Toolbar & Standalone Admin Studio Page (admin.html) --- */
+.typo-global-bar {
+  display: grid; grid-template-columns: 1.3fr 1fr auto; gap: 12px; align-items: end;
+  padding: 16px; border-radius: 14px; background: linear-gradient(135deg, #fbf4e6, #fffdf8);
+  border: 1.5px solid #dec8ad; margin-bottom: 16px;
+}
+.rich-cards-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;
+}
+.rich-card-item {
+  background: #fffdf9; border: 1.5px solid var(--line); border-radius: 14px; padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.rich-card-item__head {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.rich-card-item__head label {
+  font: 700 13px/1.2 var(--sans); color: var(--ink-deep); margin: 0;
+}
+.rich-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  padding: 6px 8px; border-radius: 10px; background: var(--paper-2); border: 1px solid var(--line);
+}
+.rich-toolbar select {
+  height: 30px; padding: 0 26px 0 8px; border-radius: 7px; border: 1px solid #cdbba7;
+  background-color: #fffdf8; font: 600 12px/1 var(--sans); color: var(--text);
+  background-position: right 7px center; background-size: 13px 13px; width: auto; min-width: 92px;
+}
+.rt-btn {
+  appearance: none; width: 30px; height: 30px; border-radius: 7px; border: 1px solid #cdbba7;
+  background: #fffdf8; color: var(--ink-deep); font: 700 13px/1 var(--serif);
+  display: inline-grid; place-items: center; padding: 0; transition: all .14s;
+}
+.rt-btn:hover { border-color: var(--ink); color: var(--ink); }
+.rt-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.rich-card-item textarea {
+  width: 100%; min-height: 58px; resize: vertical; padding: 9px 11px; border-radius: 10px;
+  border: 1.5px solid var(--line); background: #fff; font: 500 14px/1.45 var(--sans); color: var(--text);
+}
+body.admin-studio-page #editor-modal {
+  position: static !important; inset: auto !important; background: transparent !important;
+  backdrop-filter: none !important; display: block !important; padding: 24px 0 36px !important; z-index: 10 !important;
+}
+body.admin-studio-page #editor-modal .modal-card {
+  width: min(1180px, 100% - 40px); max-height: none; overflow: visible; margin: 0 auto;
+  box-shadow: var(--shadow);
+}
+body.admin-studio-page #close-editor-btn { display: none !important; }
+@media (max-width: 760px) {
+  .typo-global-bar, .rich-cards-grid { grid-template-columns: 1fr !important; }
+  body.admin-studio-page #editor-modal .modal-card { width: calc(100% - 24px); padding: 16px 12px; }
 }
 
 /* --- Floating Admin Live Edit & Quick Portal Bar --- */
@@ -1367,11 +1407,10 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </span>
     </a>
     <ul id="menu">
-      <li><a href="./index.html">Trang chủ</a></li><li><a href="./index.html#gioi-thieu">Giới thiệu</a></li>
+      <li><a href="./index.html#gioi-thieu">Giới thiệu</a></li>
       <li><a href="./index.html#lop-hoc">Lớp học</a></li>
       <li><a href="./index.html#thanh-tich">Thành tích</a></li>
-      <li><a href="#tai-lieu">Tài liệu PDF</a></li>
-      <li><a href="./index.html#tra-cuu-diem">Tra cứu điểm</a></li>
+      <li><a href="./tai-lieu.html">Tài liệu</a></li>
       <li><a href="./index.html#lien-he">Liên hệ</a></li>
     </ul>
     <a class="btn" href="./index.html#tra-cuu-diem">Tra cứu điểm</a>
@@ -1385,7 +1424,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   <!-- Thanh truy cập nhanh trên Điện thoại (80% Phụ huynh & Học sinh dùng Mobile) -->
   <div class="mobile-quick-nav" aria-label="Truy cập nhanh trên điện thoại">
     <a class="hot-pill" href="./index.html#tra-cuu-diem"><svg class="ui-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Tra cứu điểm</span></a>
-    <a href="./tai-lieu.html"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Tài liệu PDF</span></a>
+    <a href="./tai-lieu.html"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Tài liệu</span></a>
     <a href="./index.html#lop-hoc"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><span>Lịch các lớp</span></a>
     <a href="./index.html#thanh-tich"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 2l3 6 6.5.9-4.7 4.6 1.1 6.5L12 17l-5.9 3 1.1-6.5L2.5 8.9 9 8z"/></svg><span>Thành tích</span></a>
     <a href="./index.html#gioi-thieu"><svg class="ui-ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><span>Thầy Chí</span></a>
@@ -1398,9 +1437,9 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 <div class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow">Thầy Huỳnh Thanh Chí · Lớp Toán Anh Chí</span>
+      <span class="eyebrow" data-editable="hero_eyebrow">Thầy Huỳnh Thanh Chí · Lớp Toán Anh Chí</span>
       <h1>Học hiểu bản chất.<br><em>Bứt phá điểm 9+ Toán.</em></h1>
-      <p class="lead">Xin chào quý phụ huynh và các em học sinh! Tôi là <b>Huỳnh Thanh Chí</b> — người sáng lập và trực tiếp giảng dạy tại <b>Lớp Toán Anh Chí</b>. Lớp đồng hành cùng học sinh từ <b>lớp 6 đến lớp 12</b>, bứt phá điểm số <b>Giữa kì, Cuối kì</b>, chinh phục kỳ thi <b>Tuyển sinh 9 vào 10</b> và <b>Tốt nghiệp THPT Quốc gia</b>.</p>
+      <p class="lead" data-editable="hero_lead">Xin chào quý phụ huynh và các em học sinh! Tôi là <b>Huỳnh Thanh Chí</b> — người sáng lập và trực tiếp giảng dạy tại <b>Lớp Toán Anh Chí</b>. Lớp đồng hành cùng học sinh từ <b>lớp 6 đến lớp 12</b>, bứt phá điểm số <b>Giữa kì, Cuối kì</b>, chinh phục kỳ thi <b>Tuyển sinh 9 vào 10</b> và <b>Tốt nghiệp THPT Quốc gia</b>.</p>
       <div class="cta">
         <a class="btn" href="./index.html#tra-cuu-diem">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -1413,7 +1452,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
       <p class="trial">
         <svg viewBox="0 0 34 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 12c6-5 14-8 26-6m-5-4 5 4-5 5"/></svg>
-        Theo sát từng học sinh · Bám sát cấu trúc đề 3 phần GDPT 2018
+        <span data-editable="hero_trial">Theo sát từng học sinh · Bám sát cấu trúc đề 3 phần GDPT 2018</span>
       </p>
       <div class="platforms" aria-label="Các bậc đào tạo">
         <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="M2 13l10 5 10-5"/></svg>Toán 6 – 8 nền tảng</span>
@@ -1423,18 +1462,10 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
     </div>
 
-    <!-- A page of the teacher's notebook, with floating & switchable math diagrams -->
+    <!-- A page of the teacher's notebook, with floating math diagrams (no title labels, no switcher buttons) -->
     <div class="sheet-stage">
-      <div class="sheet" id="hero-sheet" role="img" data-cursor-label="↻ Đổi đồ thị" title="Bấm vào trang vở để đổi chuyên đề đồ thị & hình học" aria-label="Trang sổ bài giảng Lớp Toán Anh Chí với đồ thị hàm bậc 3, hàm sin x, hình lập phương 3D và parabol">
+      <div class="sheet" id="hero-sheet" role="img" data-cursor-label="Bấm đổi hình vẽ" title="Bấm vào trang vở để xem thêm mô hình toán học" aria-label="Trang sổ bài giảng Lớp Toán Anh Chí">
         <svg viewBox="0 0 520 430" id="hero-sheet-svg"></svg>
-        <span class="note-tag" id="hero-sheet-tag">chấm chữa chi tiết từng bài</span>
-      </div>
-      <div class="sheet-switcher" role="tablist" aria-label="Chọn mô hình toán học trên trang vở">
-        <button type="button" class="sheet-pill active" data-sheet-mode="cube">Thiết diện ACD' &amp; Oxyz</button>
-        <button type="button" class="sheet-pill" data-sheet-mode="cubic">Hàm bậc 3 &amp; Bảng biến thiên</button>
-        <button type="button" class="sheet-pill" data-sheet-mode="pyramid">Hình chóp tứ giác S.ABCD</button>
-        <button type="button" class="sheet-pill" data-sheet-mode="sin">Đồ thị y = sin x</button>
-        <button type="button" class="sheet-pill" data-sheet-mode="parabola">Parabol &amp; Đường tròn</button>
       </div>
     </div>
   </div>
@@ -1532,7 +1563,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <div class="head reveal">
       <span class="num">§2</span>
       <h2>Các lớp học đang giảng dạy, <em>từ Lớp 6 đến Lớp 12</em></h2>
-      <p>Lớp được tổ chức thành các ca học cố định trong tuần (Thứ 2–4–6 hoặc Thứ 3–5–7), phân loại đúng trình độ để học sinh dễ dàng theo kịp và phát huy tối đa năng lực.</p>
+      <p data-editable="sec2_desc">Lớp được tổ chức thành các ca học cố định trong tuần (Thứ 2–4–6 hoặc Thứ 3–5–7), phân loại đúng trình độ để học sinh dễ dàng theo kịp và phát huy tối đa năng lực.</p>
     </div>
 
     <div class="downloads">
@@ -1552,7 +1583,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
         <div class="schedule-note">
           <span data-editable="dl1_note">Ca T2–T4–T6 &amp; T3–T5–T7</span>
-          <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(12)" style="font-size:16px">Xem điểm →</a>
+          <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(12)" style="font-size:16px;display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
         </div>
       </div>
 
@@ -1571,7 +1602,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
         <div class="schedule-note">
           <span data-editable="dl2_note">Ca T2–T4–T6 &amp; T3–T5–T7</span>
-          <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(11)" style="font-size:16px">Xem điểm →</a>
+          <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(11)" style="font-size:16px;display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
         </div>
       </div>
 
@@ -1591,7 +1622,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
         <div class="schedule-note">
           <span data-editable="dl3_note">3 ca linh hoạt trong tuần</span>
-          <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(10)" style="font-size:16px">Xem điểm →</a>
+          <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(10)" style="font-size:16px;display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
         </div>
       </div>
 
@@ -1611,7 +1642,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
         <div class="schedule-note">
           <span data-editable="dl4_note">Trực tiếp &amp; Online</span>
-          <a href="./index.html#tra-cuu-diem" onclick="filterByExamType('ts10')" style="font-size:16px">Xem điểm →</a>
+          <a href="./index.html#tra-cuu-diem" onclick="filterByExamType('ts10')" style="font-size:16px;display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
         </div>
       </div>
     </div>
@@ -1760,7 +1791,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
 
       <div class="locker" id="doc-locker">
-        <div class="locker__stage" id="doc-locker-stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Kéo hoặc vuốt để lướt xem các tài liệu PDF" data-cursor-label="↔ Kéo / Lướt kệ 3D">
+        <div class="locker__stage" id="doc-locker-stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Kéo hoặc vuốt để lướt xem các tài liệu" data-cursor-label="Kéo / Lướt kệ 3D">
           <span class="locker__light" aria-hidden="true"></span>
           <div class="locker__row" id="doc-locker-row"></div>
           <span class="locker__floor" aria-hidden="true"></span>
@@ -1908,18 +1939,18 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </button>
       </div>
 
-      <!-- Thanh trạng thái Bảo mật Danh sách Học sinh -->
-      <div class="privacy-banner" id="public-privacy-banner">
+      <!-- Thanh trạng thái Bảo mật Danh sách Học sinh (Chỉ hiển thị cho Admin) -->
+      <div class="privacy-banner admin-only" id="public-privacy-banner" hidden>
         <div>
-          <span class="privacy-pill"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Bảo mật thông tin học sinh</span></span>
-          <span id="privacy-status-text" style="margin-left:6px">Danh sách đầy đủ được bảo mật. Chỉ hiển thị một số học sinh tiêu biểu &amp; chỉ tra cứu được các mã HS đã được Thầy Chí cấp quyền.</span>
+          <span class="privacy-pill"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Cấu hình hiển thị danh sách (Admin)</span></span>
+          <span id="privacy-status-text" style="margin-left:6px">Chế độ quản lý danh sách học sinh dành cho Admin.</span>
         </div>
         <button type="button" class="quick-chip admin-only" id="btn-quick-privacy-admin" hidden><svg class="ui-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span>Cài đặt ẩn/hiện &amp; quyền tìm kiếm</span></button>
       </div>
 
-      <!-- Gợi ý tra cứu nhanh (Học sinh nháp) -->
+      <!-- Gợi ý tra cứu nhanh (Học sinh tiêu biểu) -->
       <div class="quick-chips" id="quick-chips-bar">
-        <span>Tra cứu nhanh (Học sinh nháp):</span>
+        <span>Tra cứu nhanh tiêu biểu:</span>
         <button type="button" class="quick-chip" data-pick="HS001">HS001 · Học sinh Nháp 01 (12A)</button>
         <button type="button" class="quick-chip" data-pick="HS002">HS002 · Học sinh Nháp 02 (12B)</button>
         <button type="button" class="quick-chip" data-pick="HS005">HS005 · Học sinh Nháp 05 (11A)</button>
@@ -1977,7 +2008,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
 
       <div class="score-footer-bar">
-        <span id="score-summary-text">Đang hiển thị các học sinh được phép công khai. Nhập đúng Mã HS được cấp quyền để tra cứu.</span>
+        <span id="score-summary-text">Nhập Mã học sinh hoặc chọn Lớp học để xem Phiếu báo điểm chi tiết từng kỳ.</span>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
           <button type="button" class="quick-chip admin-only" id="btn-export-csv" hidden><svg class="ui-ico" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Xuất bảng điểm Excel (CSV · Admin)</span></button>
         </div>
@@ -2072,7 +2103,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 
     <div class="admin-tabs" role="tablist">
       <button type="button" class="admin-tab active" data-admin-tab="students">1. Quản lý Học sinh &amp; Quyền Tìm kiếm</button>
-      <button type="button" class="admin-tab" data-admin-tab="docs">2. Upload &amp; Quản lý Tài liệu PDF</button>
+      <button type="button" class="admin-tab" data-admin-tab="docs">2. Upload &amp; Quản lý Tài liệu</button>
       <button type="button" class="admin-tab" data-admin-tab="cards">3. Sửa nội dung các Card hiển thị</button>
       <button type="button" class="admin-tab" data-admin-tab="security">4. Mật khẩu Admin &amp; Gmail</button>
     </div>
@@ -2281,9 +2312,9 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
 
       <div class="admin-box">
-        <h4 id="doc-form-heading"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><span>Tải lên hoặc Chỉnh sửa Tài liệu PDF (Chỉ Admin được phép)</span></h4>
+        <h4 id="doc-form-heading"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><span>Tải lên hoặc Chỉnh sửa Tài liệu (Chỉ Admin được phép)</span></h4>
         <p style="margin:0 0 12px;color:var(--muted);font-size:14px">
-          Tài liệu PDF sau khi lưu sẽ được đẩy lên <b>Supabase Storage</b>, kệ 3D và <b>Kho Tài Liệu Đầy Đủ</b>. Bạn có thể tích chọn <b>Cho phép tải về</b> hoặc khóa chỉ xem cho tài liệu này.
+          Tài liệu sau khi lưu sẽ được đẩy lên <b>Supabase Storage</b>, kệ 3D và <b>Kho Tài Liệu Đầy Đủ</b>. Bạn có thể tích chọn <b>Cho phép tải về</b> hoặc khóa chỉ xem cho tài liệu này.
         </p>
         <form id="doc-upload-form">
           <input type="hidden" id="doc-edit-id-input" value="">
@@ -2359,25 +2390,56 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
     </div>
 
-    <!-- TAB 3: CHỈNH SỬA NỘI DUNG CÁC CARD HIỂN THỊ -->
+    <!-- TAB 3: CHỈNH SỬA NỘI DUNG, FONT CHỮ, ĐẬM/NGHIÊNG, CỠ CHỮ & LÊN XUỐNG DÒNG -->
     <div class="admin-pane" id="admin-pane-cards" hidden>
       <div class="admin-box" style="background:linear-gradient(135deg,#fff8e6,#fffdf8);border-color:#e2c68d">
         <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px">
           <div>
-            <h4 style="margin:0 0 4px"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Chế độ Sửa Trực Tiếp Trên Trang Web (Live Edit)</span></h4>
-            <p style="margin:0;font-size:13.5px;color:var(--muted)">Bật chế độ này để đóng bảng và nhấp chuột sửa trực tiếp bất kỳ dòng chữ, tiêu đề, lịch học, thống kê nào ngay trên giao diện trang web.</p>
+            <h4 style="margin:0 0 4px"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Studio Chỉnh sửa Nội dung, Định dạng Chữ &amp; Đồng bộ Web Người Dùng</span></h4>
+            <p style="margin:0;font-size:13.5px;color:var(--muted)">Chọn <b>Font chữ, Cỡ chữ, In đậm (B), In nghiêng (I), Gạch chân (U), Màu sắc</b> và nhấn <b>Enter để lên/xuống dòng tùy chỉnh</b>. Mọi thay đổi được đồng bộ trực tiếp sang trang người dùng.</p>
           </div>
-          <button type="button" class="btn sm" id="btn-activate-live-from-modal"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Bật Sửa Trực Tiếp Trên Web</span></button>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <a class="btn ghost sm" href="./admin.html"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg><span>Trang Admin Riêng (admin.html)</span></a>
+            <a class="btn ghost sm" href="./index.html"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Xem Web Chính</span></a>
+            <button type="button" class="btn sm" id="btn-activate-live-from-modal"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Bật Sửa Trực Tiếp Trên Web</span></button>
+          </div>
         </div>
       </div>
-      <p style="margin:0 0 14px;color:var(--muted);font-size:14.5px">
-        Hoặc chỉnh sửa theo biểu mẫu của tất cả các Card hiển thị bên dưới (Thống kê, §1 Giới thiệu, §2 Lớp học &amp; Lịch học, §3 Thành tích &amp; Kho tài liệu). Bấm <b>Lưu nội dung các Card</b> để áp dụng ngay.
-      </p>
+
       <form id="cards-edit-form">
+        <div class="typo-global-bar">
+          <div class="form-field">
+            <label for="global-font-select">Font chữ chung toàn trang Web</label>
+            <select id="global-font-select">
+              <option value="">Mặc định (Fraunces + Be Vietnam Pro)</option>
+              <option value="'Be Vietnam Pro', system-ui, sans-serif">Be Vietnam Pro (Hiện đại, gọn gàng)</option>
+              <option value="'Fraunces', Georgia, serif">Fraunces / Georgia (Học thuật, cổ điển)</option>
+              <option value="'Times New Roman', Times, serif">Times New Roman (Chuẩn đề thi Toán)</option>
+              <option value="'Segoe UI', system-ui, sans-serif">Segoe UI / System (Rõ nét trên điện thoại)</option>
+              <option value="'Patrick Hand', cursive">Patrick Hand (Chữ viết tay sổ toán)</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="global-size-select">Cỡ chữ cơ sở toàn trang</label>
+            <select id="global-size-select">
+              <option value="">Mặc định (17px)</option>
+              <option value="15px">Nhỏ gọn (15px)</option>
+              <option value="16px">Vừa phải (16px)</option>
+              <option value="17px">Tiêu chuẩn (17px)</option>
+              <option value="18px">Rõ ràng (18px)</option>
+              <option value="19px">Lớn (19px)</option>
+              <option value="20px">Rất lớn (20px)</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="submit" class="btn sm"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg><span>Lưu &amp; Đồng bộ lên Web Chính</span></button>
+          </div>
+        </div>
+
         <div id="cards-editor-fields"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:14px">
-          <button type="submit" class="btn sm">Lưu nội dung các Card</button>
-          <button type="button" class="btn ghost sm" id="btn-reset-cards">Khôi phục nội dung Card mặc định</button>
+          <button type="submit" class="btn sm"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg><span>Lưu nội dung &amp; Định dạng Font/Chữ</span></button>
+          <button type="button" class="btn ghost sm" id="btn-reset-cards">Khôi phục nội dung &amp; định dạng mặc định</button>
         </div>
         <div id="cards-status-msg" class="status-msg" hidden></div>
       </form>
@@ -2493,9 +2555,9 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <a href="./index.html#lop-hoc">Lịch các lớp</a>
     <a href="./index.html#thanh-tich">Thành tích</a>
     <a href="#tai-lieu">Kệ 3D Tài liệu</a>
-    <a href="./tai-lieu.html">Kho Tài liệu đầy đủ</a>
+    <a href="./tai-lieu.html">Tài liệu</a>
     <a href="./index.html#tra-cuu-diem">Tra cứu điểm</a>
-    <a href="./admin.html" id="foot-admin-link"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Admin</span></a>
+    <a href="./admin.html" id="foot-admin-link"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Trang Admin Studio</span></a>
     <span>© <span id="year">2026</span> Thầy Huỳnh Thanh Chí · Thanh Chí Edu</span>
     <div class="foot-contact">
       <span class="foot-label">Liên hệ trực tiếp</span>
@@ -2514,6 +2576,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 <a class="float-zalo" href="https://zalo.me/0905957716" target="_blank" rel="noopener" aria-label="Nhắn Zalo Thầy Chí">Zalo</a>
 
 <script>
+window.IS_DOC_LIBRARY_PAGE = true;
 // Danh sách học sinh nháp minh họa 100% (ẩn toàn bộ thông tin học sinh thật)
 // publicVisible: chỉ hiện 4 HS tiêu biểu trên bảng; searchable: chỉ cho phép tìm 6 HS được cấp quyền
 const BASE_STUDENTS = [
@@ -2690,7 +2753,8 @@ const UI_ICONS = {
   check: `<svg class="ui-ico" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>`,
   save: `<svg class="ui-ico" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>`,
   prev: `<svg class="ui-ico" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>`,
-  next: `<svg class="ui-ico" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>`
+  next: `<svg class="ui-ico" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>`,
+  arrowRight: `<svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>`
 };
 
 function ico(name) {
@@ -2743,25 +2807,7 @@ function updatePrivacyBannerUI() {
 
   const visCount = studentRecords.filter(s => canPublicSeeInTable(s)).length;
   const searchCount = studentRecords.filter(s => canPublicSearchStudent(s)).length;
-
-  let listMsg = "";
-  if (privacyConfig.listMode === "hidden_all") {
-    listMsg = "Toàn bộ danh sách học sinh đang được ẩn bảo mật";
-  } else if (privacyConfig.listMode === "selected") {
-    listMsg = `Chỉ hiển thị ${visCount} học sinh tiêu biểu trên bảng (ẩn ${studentRecords.length - visCount} HS)`;
-  } else {
-    listMsg = `Đang hiển thị công khai ${visCount} học sinh`;
-  }
-
-  let searchMsg = "";
-  if (privacyConfig.searchMode === "none") {
-    searchMsg = "Khóa tìm kiếm các học sinh ẩn.";
-  } else if (privacyConfig.searchMode === "allowed_only") {
-    searchMsg = `Chỉ cho phép tìm kiếm ${searchCount} học sinh đã được cấp quyền.`;
-  } else {
-    searchMsg = "Cho phép tra cứu tất cả học sinh theo Mã HS / Họ tên.";
-  }
-  statusEl.innerHTML = `${listMsg} · <b>${searchMsg}</b>`;
+  statusEl.innerHTML = `Cấu hình bảng điểm (Admin): Hiển thị <b>${visCount}</b> HS · Cho phép tìm mã <b>${searchCount}</b> HS.`;
 }
 
 function renderQuickChips() {
@@ -2769,10 +2815,10 @@ function renderQuickChips() {
   if (!bar) return;
   const allowedPicks = studentRecords.filter(st => canPublicSeeInTable(st) || canPublicSearchStudent(st)).slice(0, 6);
   if (!allowedPicks.length) {
-    bar.innerHTML = `<span style="display:inline-flex;align-items:center;gap:4px">${ico("lock")}<span>Danh sách tra cứu nhanh đang được khóa bảo mật bởi Admin.</span></span>`;
+    bar.innerHTML = "";
     return;
   }
-  bar.innerHTML = `<span>Tra cứu nhanh (HS được phép):</span>` + allowedPicks.map((st) => {
+  bar.innerHTML = `<span>Tra cứu nhanh:</span>` + allowedPicks.map((st) => {
     const pubName = formatPublicStudentName(st);
     return `<button type="button" class="quick-chip" data-pick="${st.code}">${st.code} · ${pubName}</button>`;
   }).join("");
@@ -2821,12 +2867,12 @@ function renderReportCard(st) {
   boxesEl.innerHTML = `
     <div class="r-box ${activeExamTab === 'giuaki' ? 'highlight' : ''}">
       <div class="r-label">Điểm Giữa Kì</div>
-      <div class="r-val">${st.gk1} <span style="font-size:18px;color:var(--muted)">→</span> ${st.gk2}</div>
+      <div class="r-val" style="display:inline-flex;align-items:center;gap:6px">${st.gk1} <span style="display:inline-flex;align-items:center;color:var(--muted)">${ico("arrowRight")}</span> ${st.gk2}</div>
       <div class="r-sub">GK1: <b>${st.gk1}đ</b> · GK2: <b>${st.gk2}đ</b></div>
     </div>
     <div class="r-box ${activeExamTab === 'cuoiki' ? 'highlight' : ''}">
       <div class="r-label">Điểm Cuối Kì</div>
-      <div class="r-val">${st.ck1} <span style="font-size:18px;color:var(--muted)">→</span> ${st.ck2}</div>
+      <div class="r-val" style="display:inline-flex;align-items:center;gap:6px">${st.ck1} <span style="display:inline-flex;align-items:center;color:var(--muted)">${ico("arrowRight")}</span> ${st.ck2}</div>
       <div class="r-sub">CK1: <b>${st.ck1}đ</b> · CK2: <b>${st.ck2}đ</b></div>
     </div>
     <div class="r-box ${(activeExamTab === 'thptqg' || activeExamTab === 'ts10' || activeExamTab === 'all') ? 'highlight' : ''}">
@@ -2896,12 +2942,9 @@ function renderScoreTable() {
 
   if (!list.length) {
     renderReportCard(null);
-    const qVal = document.getElementById("score-search").value.trim();
-    const emptyMsg = privacyConfig.listMode === "hidden_all" && !qVal
-      ? `${ico("lock")}<span>Danh sách học sinh đang được ẩn bảo mật. Vui lòng nhập đúng Mã HS (tối thiểu 2 ký tự) đã được cấp quyền vào ô tìm kiếm để xem điểm.</span>`
-      : `${ico("lock")}<span>Không tìm thấy học sinh hoặc học sinh này đang được bảo mật / chưa được cấp quyền tra cứu công khai.</span>`;
+    const emptyMsg = `<span style="display:inline-flex;align-items:center;gap:6px">${ico("eye")}<span>Nhập Mã học sinh hoặc Họ tên vào ô tìm kiếm để xem phiếu điểm chi tiết.</span></span>`;
     tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--muted)">${emptyMsg}</td></tr>`;
-    document.getElementById("score-summary-text").textContent = "Danh sách được bảo vệ theo cài đặt quyền riêng tư của Lớp Toán Anh Chí.";
+    document.getElementById("score-summary-text").textContent = "Nhập Mã học sinh hoặc chọn lớp để tra cứu kết quả học tập.";
     return;
   }
 
@@ -2933,7 +2976,7 @@ function renderScoreTable() {
   }).join("");
 
   document.getElementById("score-summary-text").textContent =
-    `Đang hiển thị ${list.length} học sinh trên cùng 1 dòng gọn gàng. Bấm vào bất kỳ dòng nào để xem Phiếu báo điểm chi tiết.`;
+    "Bấm vào dòng học sinh bất kỳ để xem Phiếu báo điểm chi tiết.";
 }
 
 // Event Listeners for Score Lookup
@@ -3069,7 +3112,13 @@ initCustomClassSelect();
 // ============================================================================
 // QUẢN LÝ NỘI DUNG CÁC CARD HIỂN THỊ TRÊN WEB (ADMIN TAB 2)
 // ============================================================================
+const CARD_STYLES_STORAGE_KEY = "lop_toan_anh_chi_card_styles_v1";
+const GLOBAL_TYPO_STORAGE_KEY = "lop_toan_anh_chi_global_typo_v1";
+
 const CARD_LABELS = {
+  hero_eyebrow: "Mở đầu – Nhãn giới thiệu trên cùng",
+  hero_lead: "Mở đầu – Đoạn giới thiệu chính (Hỗ trợ xuống dòng)",
+  hero_trial: "Mở đầu – Dòng học thử miễn phí",
   stat1_val: "Thống kê 1 – Số liệu", stat1_lbl: "Thống kê 1 – Nội dung",
   stat2_val: "Thống kê 2 – Số liệu", stat2_lbl: "Thống kê 2 – Nội dung",
   stat3_val: "Thống kê 3 – Số liệu", stat3_lbl: "Thống kê 3 – Nội dung",
@@ -3083,6 +3132,7 @@ const CARD_LABELS = {
   c6_tag: "§1 Card 5 (LaTeX–TikZ) – Nhãn góc", c6_title: "§1 Card 5 (LaTeX–TikZ) – Tiêu đề", c6_desc: "§1 Card 5 (LaTeX–TikZ) – Nội dung",
   c5_tag: "§1 Card 6 (Đậm) – Nhãn góc", c5_title: "§1 Card 6 (Đậm) – Tiêu đề", c5_desc: "§1 Card 6 (Đậm) – Nội dung",
   c7_tag: "§1 Card 7 (Hỗ trợ 24/7) – Nhãn góc", c7_title: "§1 Card 7 (Hỗ trợ 24/7) – Tiêu đề", c7_desc: "§1 Card 7 (Hỗ trợ 24/7) – Nội dung",
+  sec2_desc: "§2 Các lớp học – Đoạn mô tả",
   dl1_title: "§2 Card Khối 12 – Tiêu đề", dl1_sub: "§2 Card Khối 12 – Phụ đề", dl1_desc: "§2 Card Khối 12 – Mô tả", dl1_note: "§2 Card Khối 12 – Ca học",
   dl2_title: "§2 Card Khối 11 – Tiêu đề", dl2_sub: "§2 Card Khối 11 – Phụ đề", dl2_desc: "§2 Card Khối 11 – Mô tả", dl2_note: "§2 Card Khối 11 – Ca học",
   dl3_title: "§2 Card Khối 10 – Tiêu đề", dl3_sub: "§2 Card Khối 10 – Phụ đề", dl3_desc: "§2 Card Khối 10 – Mô tả", dl3_note: "§2 Card Khối 10 – Ca học",
@@ -3104,7 +3154,8 @@ const CARD_LABELS = {
   hof1_score: "§3 Gương mặt 1 – Điểm", hof1_name: "§3 Gương mặt 1 – Tên", hof1_cls: "§3 Gương mặt 1 – Lớp", hof1_desc: "§3 Gương mặt 1 – Thành tích",
   hof2_score: "§3 Gương mặt 2 – Điểm", hof2_name: "§3 Gương mặt 2 – Tên", hof2_cls: "§3 Gương mặt 2 – Lớp", hof2_desc: "§3 Gương mặt 2 – Thành tích",
   hof3_score: "§3 Gương mặt 3 – Điểm", hof3_name: "§3 Gương mặt 3 – Tên", hof3_cls: "§3 Gương mặt 3 – Lớp", hof3_desc: "§3 Gương mặt 3 – Thành tích",
-  hof4_score: "§3 Gương mặt 4 – Điểm", hof4_name: "§3 Gương mặt 4 – Tên", hof4_cls: "§3 Gương mặt 4 – Lớp", hof4_desc: "§3 Gương mặt 4 – Thành tích"
+  hof4_score: "§3 Gương mặt 4 – Điểm", hof4_name: "§3 Gương mặt 4 – Tên", hof4_cls: "§3 Gương mặt 4 – Lớp", hof4_desc: "§3 Gương mặt 4 – Thành tích",
+  lib_heading: "Trang Tài liệu – Tiêu đề chính", lib_sub: "Trang Tài liệu – Mô tả phụ"
 };
 
 const defaultCardTexts = {};
@@ -3120,8 +3171,53 @@ function loadSavedCards() {
   return {};
 }
 
+function loadSavedCardStyles() {
+  try {
+    const raw = localStorage.getItem(CARD_STYLES_STORAGE_KEY);
+    if (raw) return JSON.parse(raw) || {};
+  } catch {}
+  return {};
+}
+
+function saveCardStyles(styles) {
+  try {
+    localStorage.setItem(CARD_STYLES_STORAGE_KEY, JSON.stringify(styles));
+  } catch {}
+}
+
+function loadGlobalTypo() {
+  try {
+    const raw = localStorage.getItem(GLOBAL_TYPO_STORAGE_KEY);
+    if (raw) return JSON.parse(raw) || {};
+  } catch {}
+  return { fontFamily: "", fontSize: "" };
+}
+
+function saveGlobalTypo(cfg) {
+  try {
+    localStorage.setItem(GLOBAL_TYPO_STORAGE_KEY, JSON.stringify(cfg));
+  } catch {}
+}
+
 function applySavedCards() {
   const saved = loadSavedCards();
+  const styles = loadSavedCardStyles();
+  const globalTypo = loadGlobalTypo();
+
+  if (globalTypo.fontFamily) {
+    document.documentElement.style.setProperty("--site-font", globalTypo.fontFamily);
+    document.body.style.fontFamily = globalTypo.fontFamily;
+  } else {
+    document.documentElement.style.removeProperty("--site-font");
+    document.body.style.fontFamily = "";
+  }
+  document.body.style.fontSize = globalTypo.fontSize || "";
+
+  const gFontEl = document.getElementById("global-font-select");
+  const gSizeEl = document.getElementById("global-size-select");
+  if (gFontEl) gFontEl.value = globalTypo.fontFamily || "";
+  if (gSizeEl) gSizeEl.value = globalTypo.fontSize || "";
+
   document.querySelectorAll("[data-editable]").forEach((el) => {
     const key = el.dataset.editable;
     if (saved[key] !== undefined) {
@@ -3129,21 +3225,90 @@ function applySavedCards() {
     } else if (defaultCardTexts[key] !== undefined) {
       el.textContent = defaultCardTexts[key];
     }
+    const st = styles[key] || {};
+    el.style.fontFamily = st.fontFamily || "";
+    el.style.fontSize = st.fontSize || "";
+    el.style.fontWeight = st.bold ? "700" : "";
+    el.style.fontStyle = st.italic ? "italic" : "";
+    el.style.textDecoration = st.underline ? "underline" : "";
+    el.style.color = st.color || "";
   });
+}
+
+function escapeHtmlAttr(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 function buildCardsEditorForm() {
   const container = document.getElementById("cards-editor-fields");
   if (!container) return;
   const current = loadSavedCards();
+  const styles = loadSavedCardStyles();
+  const globalTypo = loadGlobalTypo();
+  const gFontEl = document.getElementById("global-font-select");
+  const gSizeEl = document.getElementById("global-size-select");
+  if (gFontEl) gFontEl.value = globalTypo.fontFamily || "";
+  if (gSizeEl) gSizeEl.value = globalTypo.fontSize || "";
+
   const keys = Object.keys(defaultCardTexts);
-  container.innerHTML = `<div class="form-grid two">` + keys.map((key) => {
+  const fontOpts = [
+    { val: "", lbl: "Font mặc định" },
+    { val: "'Be Vietnam Pro', sans-serif", lbl: "Be Vietnam Pro" },
+    { val: "'Fraunces', Georgia, serif", lbl: "Fraunces (Serif)" },
+    { val: "'Plus Jakarta Sans', sans-serif", lbl: "Plus Jakarta Sans" },
+    { val: "'Times New Roman', Times, serif", lbl: "Times New Roman" },
+    { val: "Georgia, serif", lbl: "Georgia" },
+    { val: "'Patrick Hand', cursive", lbl: "Patrick Hand (Viết tay)" }
+  ];
+  const sizeOpts = ["", "13px", "14px", "15px", "16px", "18px", "20px", "22px", "24px", "28px", "32px", "36px", "42px"];
+  const colorOpts = [
+    { val: "", lbl: "Màu mặc định" },
+    { val: "#650f12", lbl: "Đỏ đô chủ đạo" },
+    { val: "#c62828", lbl: "Đỏ tươi nhấn" },
+    { val: "#2a211f", lbl: "Đen mực" },
+    { val: "#1f5fbf", lbl: "Xanh Toán học" },
+    { val: "#2e7d4f", lbl: "Xanh lá" },
+    { val: "#6f625d", lbl: "Nâu trầm" }
+  ];
+
+  container.innerHTML = `<div class="rich-cards-grid">` + keys.map((key) => {
     const label = CARD_LABELS[key] || key;
-    const val = (current[key] !== undefined ? current[key] : defaultCardTexts[key]).replace(/"/g, "&quot;");
+    const rawVal = current[key] !== undefined ? current[key] : defaultCardTexts[key];
+    const st = styles[key] || {};
+    const rows = Math.max(2, Math.min(5, String(rawVal).split("\n").length + (String(rawVal).length > 70 ? 1 : 0)));
+    const inlinePreviewStyle = [
+      st.fontFamily ? `font-family:${st.fontFamily}` : "",
+      st.fontSize ? `font-size:${st.fontSize}` : "",
+      st.bold ? "font-weight:700" : "",
+      st.italic ? "font-style:italic" : "",
+      st.underline ? "text-decoration:underline" : "",
+      st.color ? `color:${st.color}` : ""
+    ].filter(Boolean).join(";");
+
     return `
-      <div class="form-field">
-        <label for="card-ed-${key}">${label}</label>
-        <input type="text" id="card-ed-${key}" data-card-input="${key}" value="${val}">
+      <div class="rich-card-item" data-rich-item="${key}">
+        <div class="rich-card-head">
+          <label for="card-ed-${key}">${label}</label>
+          <div class="rich-toolbar">
+            <select data-rt-font="${key}" aria-label="Chọn font chữ cho ${label}">
+              ${fontOpts.map(o => `<option value="${escapeHtmlAttr(o.val)}" ${st.fontFamily === o.val ? "selected" : ""}>${o.lbl}</option>`).join("")}
+            </select>
+            <select data-rt-size="${key}" aria-label="Chọn cỡ chữ cho ${label}">
+              ${sizeOpts.map(sz => `<option value="${sz}" ${(st.fontSize || "") === sz ? "selected" : ""}>${sz || "Cỡ mặc định"}</option>`).join("")}
+            </select>
+            <button type="button" class="rt-btn ${st.bold ? 'active' : ''}" data-rt-cmd="bold" data-rt-key="${key}" title="In đậm (Bold)"><b>B</b></button>
+            <button type="button" class="rt-btn ${st.italic ? 'active' : ''}" data-rt-cmd="italic" data-rt-key="${key}" title="In nghiêng (Italic)"><i style="font-family:Georgia,serif">I</i></button>
+            <button type="button" class="rt-btn ${st.underline ? 'active' : ''}" data-rt-cmd="underline" data-rt-key="${key}" title="Gạch chân (Underline)"><u>U</u></button>
+            <select data-rt-color="${key}" aria-label="Chọn màu chữ cho ${label}">
+              ${colorOpts.map(c => `<option value="${c.val}" ${(st.color || "") === c.val ? "selected" : ""}>${c.lbl}</option>`).join("")}
+            </select>
+          </div>
+        </div>
+        <textarea id="card-ed-${key}" rows="${rows}" data-card-input="${key}" style="${escapeHtmlAttr(inlinePreviewStyle)}" placeholder="Nhập nội dung (Nhấn Enter để xuống dòng)...">${escapeHtmlAttr(rawVal)}</textarea>
       </div>
     `;
   }).join("") + `</div>`;
@@ -3238,7 +3403,6 @@ function handleAdminTrigger(e) {
 }
 
 document.getElementById("nav-admin-btn").addEventListener("click", handleAdminTrigger);
-document.getElementById("foot-admin-link").addEventListener("click", handleAdminTrigger);
 document.getElementById("open-editor-btn").addEventListener("click", handleAdminTrigger);
 document.getElementById("rc-edit-this").addEventListener("click", () => {
   const cur = studentRecords.find(s => s.code === selectedCode);
@@ -3644,23 +3808,102 @@ document.getElementById("btn-import-tsv").addEventListener("click", () => {
   }
 });
 
-// Lưu & Khôi phục nội dung các Card trong Admin (Tab 2)
+// Sự kiện Rich Toolbar (Font chữ, Cỡ chữ, In đậm, In nghiêng, Gạch chân, Màu chữ & Xuống dòng)
+function collectAndSaveCardsAndStyles() {
+  const updatedTexts = {};
+  document.querySelectorAll("[data-card-input]").forEach((inp) => {
+    updatedTexts[inp.dataset.cardInput] = inp.value;
+  });
+  const styles = loadSavedCardStyles();
+  document.querySelectorAll("[data-rich-item]").forEach((item) => {
+    const key = item.dataset.richItem;
+    const fontEl = item.querySelector(`[data-rt-font="${key}"]`);
+    const sizeEl = item.querySelector(`[data-rt-size="${key}"]`);
+    const colorEl = item.querySelector(`[data-rt-color="${key}"]`);
+    const boldBtn = item.querySelector(`[data-rt-cmd="bold"][data-rt-key="${key}"]`);
+    const italicBtn = item.querySelector(`[data-rt-cmd="italic"][data-rt-key="${key}"]`);
+    const underBtn = item.querySelector(`[data-rt-cmd="underline"][data-rt-key="${key}"]`);
+    styles[key] = {
+      fontFamily: fontEl ? fontEl.value : "",
+      fontSize: sizeEl ? sizeEl.value : "",
+      color: colorEl ? colorEl.value : "",
+      bold: Boolean(boldBtn && boldBtn.classList.contains("active")),
+      italic: Boolean(italicBtn && italicBtn.classList.contains("active")),
+      underline: Boolean(underBtn && underBtn.classList.contains("active"))
+    };
+    const ta = item.querySelector("textarea");
+    if (ta) {
+      ta.style.fontFamily = styles[key].fontFamily || "";
+      ta.style.fontSize = styles[key].fontSize || "";
+      ta.style.fontWeight = styles[key].bold ? "700" : "";
+      ta.style.fontStyle = styles[key].italic ? "italic" : "";
+      ta.style.textDecoration = styles[key].underline ? "underline" : "";
+      ta.style.color = styles[key].color || "";
+    }
+  });
+  const gFontEl = document.getElementById("global-font-select");
+  const gSizeEl = document.getElementById("global-size-select");
+  const globalTypo = {
+    fontFamily: gFontEl ? gFontEl.value : "",
+    fontSize: gSizeEl ? gSizeEl.value : ""
+  };
+  localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(updatedTexts));
+  saveCardStyles(styles);
+  saveGlobalTypo(globalTypo);
+  applySavedCards();
+  if (typeof saveSiteStateToSupabase === "function") {
+    saveSiteStateToSupabase({
+      cards_data: updatedTexts,
+      live_dom_data: { styles, globalTypo }
+    });
+  }
+}
+
+document.getElementById("cards-editor-fields")?.addEventListener("click", (e) => {
+  const cmdBtn = e.target.closest("[data-rt-cmd]");
+  if (!cmdBtn) return;
+  cmdBtn.classList.toggle("active");
+  collectAndSaveCardsAndStyles();
+});
+
+document.getElementById("cards-editor-fields")?.addEventListener("change", (e) => {
+  if (e.target.matches("[data-rt-font], [data-rt-size], [data-rt-color]")) {
+    collectAndSaveCardsAndStyles();
+  }
+});
+
+document.getElementById("cards-editor-fields")?.addEventListener("input", (e) => {
+  if (e.target.matches("[data-card-input]")) {
+    const key = e.target.dataset.cardInput;
+    const saved = loadSavedCards();
+    saved[key] = e.target.value;
+    localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(saved));
+    document.querySelectorAll(`[data-editable="${key}"]`).forEach((el) => {
+      el.textContent = e.target.value;
+    });
+  }
+});
+
+document.getElementById("global-font-select")?.addEventListener("change", collectAndSaveCardsAndStyles);
+document.getElementById("global-size-select")?.addEventListener("change", collectAndSaveCardsAndStyles);
+
+// Lưu & Khôi phục nội dung các Card trong Admin (Tab 3)
 document.getElementById("cards-edit-form").addEventListener("submit", (e) => {
   e.preventDefault();
-  const updated = {};
-  document.querySelectorAll("[data-card-input]").forEach((inp) => {
-    updated[inp.dataset.cardInput] = inp.value;
-  });
-  localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(updated));
-  applySavedCards();
-  showStatus("cards-status-msg", "Đã lưu và cập nhật toàn bộ nội dung các Card trên trang web!", false);
+  collectAndSaveCardsAndStyles();
+  showStatus("cards-status-msg", "Đã lưu & đồng bộ nội dung, định dạng Font chữ, Đậm/Nghiêng, Cỡ chữ và Dòng sang trang người dùng!", false);
 });
 
 document.getElementById("btn-reset-cards").addEventListener("click", () => {
   localStorage.removeItem(CARDS_STORAGE_KEY);
+  localStorage.removeItem(CARD_STYLES_STORAGE_KEY);
+  localStorage.removeItem(GLOBAL_TYPO_STORAGE_KEY);
   applySavedCards();
   buildCardsEditorForm();
-  showStatus("cards-status-msg", "Đã khôi phục nội dung các Card về mặc định!", false);
+  if (typeof saveSiteStateToSupabase === "function") {
+    saveSiteStateToSupabase({ cards_data: {}, live_dom_data: {} });
+  }
+  showStatus("cards-status-msg", "Đã khôi phục nội dung và định dạng chữ về mặc định!", false);
 });
 
 // Export CSV
@@ -3705,316 +3948,180 @@ if ("IntersectionObserver" in window) {
 }
 
 // ============================================================================
-// TRANG VỞ ĐỘNG LƠ LỬNG & CHUYỂN ĐỔI ĐỒ THỊ (THIẾT DIỆN ACD' & OXYZ, BBT BẬC 3, CHÓP S.ABCD, SIN X, PARABOL)
+// TRANG VỞ TOÁN HỌC MINH HỌA TRỰC QUAN (HÌNH HỘP THIẾT DIỆN ACD', HỆ TRỤC OXYZ,
+// HÌNH CHÓP S.ABCD, BBT BẬC 3, TÍCH PHÂN DIỆN TÍCH & THỂ TÍCH KHỐI TRÒN XOAY)
 // ============================================================================
 const SHEET_SLIDES = {
   cube: {
-    tag: "hình không gian & tọa độ Oxyz",
     svg: `
-      <text class="write" x="62" y="42" font-size="22" fill="#650f12" style="--at:.1s;--dur:.7s">Chuyên đề: Thiết diện (ACD') &amp; Hệ trục Oxyz</text>
-      <path class="draw" d="M60 52c85-5 215-4 335 0" stroke="#650f12" stroke-width="2.2" style="--len:350;--at:.3s;--dur:.4s"/>
-      <!-- Hình hộp ABCD.A'B'C'D' với thiết diện (ACD'): AD' nét liền, AC & CD' nét đứt -->
+      <defs>
+        <pattern id="integral-hatch" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#c62828" stroke-width="1.2" stroke-opacity="0.45"/>
+        </pattern>
+        <pattern id="rot-hatch" width="6" height="6" patternTransform="rotate(-45 0 0)" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#1f5fbf" stroke-width="1.15" stroke-opacity="0.38"/>
+        </pattern>
+      </defs>
+
+      <!-- 1. HÌNH HỘP ABCD.A'B'C'D' & THIẾT DIỆN (ACD') CHUẨN NÉT LIỀN / NÉT ĐỨT -->
+      <!-- Đỉnh khuất A(96,98) phía sau bên trái; B(64,130), C(164,130), D(196,98);
+           A'(96,30), B'(64,62), C'(164,62), D'(196,30).
+           Cạnh khuất xuất phát từ A: AB, AD, AA' (nét đứt).
+           Thiết diện (ACD'): CD' thuộc mặt phải nhìn thấy (nét liền); AC & AD' thuộc mặt đáy/sau khuất (nét đứt). -->
       <g class="float-slow">
-        <polygon class="pop" points="82,248 236,198 126,94" fill="rgba(198,40,40,0.14)" style="--at:.95s"/>
-        <!-- Cạnh khuất của hình hộp xuất phát từ D(126,198): DA, DC, DD' (Nét đứt) -->
-        <path class="draw-dash" d="M126 94V198M82 248L126 198H236" stroke="#6f625d" stroke-width="1.65" style="--at:.65s"/>
-        <!-- Cạnh nhìn thấy của hình hộp (Nét liền) -->
-        <path class="draw" d="M82 144H192L236 94H126Z M82 144V248H192V144 M192 248L236 198V94" stroke="#1f5fbf" stroke-width="2.4" style="--len:820;--at:.25s;--dur:.9s"/>
-        <!-- Thiết diện (ACD'): AD' thuộc mặt trái nhìn thấy nên NÉT LIỀN; AC (mặt đáy) & CD' (mặt sau) bị che nên NÉT ĐỨT -->
-        <path class="draw" d="M82 248L126 94" stroke="#c62828" stroke-width="2.7" style="--len:190;--at:.85s;--dur:.45s"/>
-        <path class="draw-dash" d="M82 248L236 198L126 94" stroke="#c62828" stroke-width="2.3" style="--at:.95s"/>
-        <circle class="pop" cx="82" cy="248" r="4.3" fill="#c62828" style="--at:1.1s"/>
-        <circle class="pop" cx="236" cy="198" r="4.3" fill="#c62828" style="--at:1.1s"/>
-        <circle class="pop" cx="126" cy="94" r="4.3" fill="#c62828" style="--at:1.1s"/>
-        <circle class="pop" cx="126" cy="198" r="3.6" fill="#6f625d" style="--at:1.1s"/>
-        <text class="pop" x="61" y="144" font-size="17.5" font-style="italic" fill="#2a211f" style="--at:1.15s">A'</text>
-        <text class="pop" x="197" y="148" font-size="17.5" font-style="italic" fill="#2a211f" style="--at:1.15s">B'</text>
-        <text class="pop" x="242" y="96" font-size="17.5" font-style="italic" fill="#2a211f" style="--at:1.15s">C'</text>
-        <text class="pop" x="110" y="88" font-size="17.5" font-style="italic" fill="#c62828" font-weight="bold" style="--at:1.15s">D'</text>
-        <text class="pop" x="64" y="264" font-size="17.5" font-style="italic" fill="#c62828" font-weight="bold" style="--at:1.2s">A</text>
-        <text class="pop" x="196" y="266" font-size="17.5" font-style="italic" fill="#2a211f" style="--at:1.2s">B</text>
-        <text class="pop" x="243" y="206" font-size="17.5" font-style="italic" fill="#c62828" font-weight="bold" style="--at:1.2s">C</text>
-        <text class="pop" x="113" y="193" font-size="16.5" font-style="italic" fill="#6f625d" style="--at:1.2s">D</text>
-        <text class="pop" x="68" y="294" font-size="16.5" fill="#c62828" style="--at:1.25s">Thiết diện (ACD'): AD' liền, AC &amp; CD' đứt</text>
+        <polygon class="pop" points="96,98 164,130 196,30" fill="rgba(198,40,40,0.16)" style="--at:.65s"/>
+        <path class="draw-dash" d="M96 30V98M96 98L64 130M96 98H196" stroke="#6f625d" stroke-width="1.6" style="--at:.45s"/>
+        <path class="draw" d="M96 30L64 62H164L196 30Z M64 62V130H164V62 M164 130L196 98V30" stroke="#1f5fbf" stroke-width="2.2" style="--len:720;--at:.15s;--dur:.8s"/>
+        <path class="draw" d="M164 130L196 30" stroke="#c62828" stroke-width="2.5" style="--len:140;--at:.6s;--dur:.35s"/>
+        <path class="draw-dash" d="M96 98L164 130M96 98L196 30" stroke="#c62828" stroke-width="2.1" style="--at:.7s"/>
+        <circle class="pop" cx="96" cy="98" r="3.6" fill="#c62828" style="--at:.8s"/>
+        <circle class="pop" cx="164" cy="130" r="3.8" fill="#c62828" style="--at:.8s"/>
+        <circle class="pop" cx="196" cy="30" r="3.8" fill="#c62828" style="--at:.8s"/>
+        <text class="pop" x="80" y="28" font-size="14" font-style="italic" fill="#2a211f" style="--at:.85s">A'</text>
+        <text class="pop" x="47" y="65" font-size="14" font-style="italic" fill="#2a211f" style="--at:.85s">B'</text>
+        <text class="pop" x="168" y="62" font-size="14" font-style="italic" fill="#2a211f" style="--at:.85s">C'</text>
+        <text class="pop" x="201" y="29" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.85s">D'</text>
+        <text class="pop" x="82" y="95" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.9s">A</text>
+        <text class="pop" x="50" y="138" font-size="14" font-style="italic" fill="#2a211f" style="--at:.9s">B</text>
+        <text class="pop" x="168" y="139" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.9s">C</text>
+        <text class="pop" x="201" y="103" font-size="14" font-style="italic" fill="#2a211f" style="--at:.9s">D</text>
       </g>
-      <!-- Hệ trục tọa độ không gian Oxyz biểu diễn đầy đủ 3 thành phần (x0; y0; z0) -->
+
+      <!-- 2. HỆ TRỤC KHÔNG GIAN OXYZ ĐẦY ĐỦ 3 THÀNH PHẦN M(x₀; y₀; z₀) -->
       <g class="float-alt">
-        <!-- 3 trục Ox, Oy, Oz -->
-        <path class="draw" d="M380 192V76M380 192H498M380 192L312 260" stroke="#3b3534" stroke-width="1.8" style="--len:340;--at:.45s;--dur:.6s"/>
-        <path class="draw" d="m375 84 5-8 5 8m105 103 8 5-8 5m-169 60-9 3 3-9" stroke="#3b3534" stroke-width="1.6" style="--len:60;--at:.9s;--dur:.25s"/>
-        <!-- Đường gióng nét đứt 3 thành phần:
-             Mx(344,228) trên Ox; My(456,192) trên Oy -> M'(420,228) thuộc (Oxy)
-             Mz(380,120) trên Oz -> M(420,156) trong không gian (độ cao z0 = 72) -->
-        <path class="draw-dash" d="M344 228H420L456 192M380 192L420 228V156L380 120" stroke="#2e7d4f" stroke-width="1.55" style="--at:1.0s"/>
-        <!-- Vectơ OM nét liền -->
-        <path class="draw" d="M380 192L420 156" stroke="#c62828" stroke-width="2.5" style="--len:80;--at:1.1s;--dur:.35s"/>
-        <!-- Các điểm chiếu trên 3 trục & điểm M -->
-        <circle class="pop" cx="344" cy="228" r="3.6" fill="#2e7d4f" style="--at:1.15s"/>
-        <circle class="pop" cx="456" cy="192" r="3.6" fill="#2e7d4f" style="--at:1.15s"/>
-        <circle class="pop" cx="380" cy="120" r="3.6" fill="#2e7d4f" style="--at:1.15s"/>
-        <circle class="pop" cx="420" cy="228" r="3.8" fill="#1f5fbf" style="--at:1.2s"/>
-        <circle class="pop" cx="420" cy="156" r="5" fill="#c62828" style="--at:1.25s"/>
-        <!-- Nhãn tên trục & 3 thành phần x0, y0, z0 -->
-        <text class="pop" x="390" y="86" font-size="18" font-style="italic" fill="#3b3534" style="--at:.95s">z</text>
-        <text class="pop" x="490" y="183" font-size="18" font-style="italic" fill="#3b3534" style="--at:.95s">y</text>
-        <text class="pop" x="298" y="258" font-size="18" font-style="italic" fill="#3b3534" style="--at:.95s">x</text>
-        <text class="pop" x="364" y="190" font-size="15.5" fill="#6f625d" style="--at:.95s">O</text>
-        <text class="pop" x="320" y="226" font-size="16" font-style="italic" fill="#2e7d4f" style="--at:1.2s">x₀</text>
-        <text class="pop" x="450" y="182" font-size="16" font-style="italic" fill="#2e7d4f" style="--at:1.2s">y₀</text>
-        <text class="pop" x="357" y="124" font-size="16" font-style="italic" fill="#2e7d4f" style="--at:1.2s">z₀</text>
-        <text class="pop" x="426" y="242" font-size="15.5" font-style="italic" fill="#1f5fbf" style="--at:1.25s">M'(x₀;y₀;0)</text>
-        <text class="pop" x="427" y="152" font-size="17" font-weight="bold" fill="#c62828" style="--at:1.3s">M(x₀;y₀;z₀)</text>
+        <path class="draw" d="M352 96V20M352 96H482M352 96L298 140" stroke="#3b3534" stroke-width="1.7" style="--len:320;--at:.25s;--dur:.5s"/>
+        <path class="draw" d="m348 27 4-7 4 7m123 65 7 4-7 4m-173 36-8 2 2-8" stroke="#3b3534" stroke-width="1.5" style="--len:50;--at:.6s;--dur:.25s"/>
+        <path class="draw-dash" d="M320 122H398L430 96M352 96L398 122V66L352 40" stroke="#2e7d4f" stroke-width="1.5" style="--at:.7s"/>
+        <path class="draw" d="M352 96L398 66" stroke="#c62828" stroke-width="2.3" style="--len:70;--at:.8s;--dur:.3s"/>
+        <circle class="pop" cx="320" cy="122" r="3.2" fill="#2e7d4f" style="--at:.85s"/>
+        <circle class="pop" cx="430" cy="96" r="3.2" fill="#2e7d4f" style="--at:.85s"/>
+        <circle class="pop" cx="352" cy="40" r="3.2" fill="#2e7d4f" style="--at:.85s"/>
+        <circle class="pop" cx="398" cy="122" r="3.4" fill="#1f5fbf" style="--at:.9s"/>
+        <circle class="pop" cx="398" cy="66" r="4.3" fill="#c62828" style="--at:.95s"/>
+        <text class="pop" x="360" y="26" font-size="14.5" font-style="italic" fill="#3b3534" style="--at:.7s">z</text>
+        <text class="pop" x="484" y="92" font-size="14.5" font-style="italic" fill="#3b3534" style="--at:.7s">y</text>
+        <text class="pop" x="285" y="142" font-size="14.5" font-style="italic" fill="#3b3534" style="--at:.7s">x</text>
+        <text class="pop" x="338" y="93" font-size="13.5" fill="#6f625d" style="--at:.7s">O</text>
+        <text class="pop" x="301" y="120" font-size="13.5" font-style="italic" fill="#2e7d4f" style="--at:.9s">x₀</text>
+        <text class="pop" x="425" y="88" font-size="13.5" font-style="italic" fill="#2e7d4f" style="--at:.9s">y₀</text>
+        <text class="pop" x="332" y="44" font-size="13.5" font-style="italic" fill="#2e7d4f" style="--at:.9s">z₀</text>
+        <text class="pop" x="404" y="134" font-size="13" font-style="italic" fill="#1f5fbf" style="--at:.95s">M'(x₀;y₀;0)</text>
+        <text class="pop" x="405" y="64" font-size="14" font-weight="bold" fill="#c62828" style="--at:1.0s">M(x₀;y₀;z₀)</text>
       </g>
-      <rect class="pop" x="58" y="388" width="188" height="24" rx="8" fill="#fff2a8" style="--at:1.35s"/>
-      <text class="write" x="64" y="406" font-size="17.5" fill="#2a211f" style="--at:1.4s;--dur:.5s">Chuẩn nét đứt &amp; 3 tọa độ!</text>
+
+      <!-- 3. HÌNH CHÓP TỨ GIÁC S.ABCD & ĐƯỜNG CAO SO ⊥ (ABCD) CHUẨN NÉT LIỀN / NÉT ĐỨT -->
+      <!-- Đáy hình bình hành ABCD với A(104,234) khuất, B(64,272), C(184,272), D(224,234).
+           Tâm O = AC ∩ BD = (144,253). Đỉnh S(144,158) thẳng đứng trên O.
+           Nét đứt: SA, AB, AD, AC, BD, SO. Nét liền: SB, SC, SD, BC, CD. -->
       <g class="float-slow">
-        <ellipse class="draw" cx="412" cy="316" rx="44" ry="31" stroke="#c62828" stroke-width="2.5" transform="rotate(-8 412 316)" style="--len:260;--at:1.45s;--dur:.45s"/>
-        <text class="pop" x="384" y="325" font-size="30" font-weight="bold" fill="#c62828" style="--at:1.55s">9.8đ</text>
-        <path class="draw" d="M372 340l76-6M380 347l60-5" stroke="#c62828" stroke-width="2" style="--len:150;--at:1.65s;--dur:.3s"/>
+        <polygon class="pop" points="144,158 184,272 224,234" fill="rgba(31,95,191,0.09)" style="--at:.75s"/>
+        <path class="draw-dash" d="M104 234L64 272M104 234H224M144 158L104 234" stroke="#6f625d" stroke-width="1.55" style="--at:.55s"/>
+        <path class="draw-dash" d="M104 234L184 272M64 272L224 234" stroke="#2e7d4f" stroke-width="1.4" style="--at:.65s"/>
+        <path class="draw-dash" d="M144 158V253" stroke="#c62828" stroke-width="2" style="--at:.7s"/>
+        <path class="draw" d="M144 244H153V253" stroke="#c62828" stroke-width="1.35" style="--len:25;--at:.8s;--dur:.2s"/>
+        <path class="draw" d="M144 158L64 272H184L224 234Z M144 158L184 272" stroke="#1f5fbf" stroke-width="2.2" style="--len:680;--at:.3s;--dur:.8s"/>
+        <circle class="pop" cx="144" cy="158" r="3.8" fill="#c62828" style="--at:.85s"/>
+        <circle class="pop" cx="144" cy="253" r="3.5" fill="#c62828" style="--at:.85s"/>
+        <circle class="pop" cx="104" cy="234" r="3.2" fill="#6f625d" style="--at:.85s"/>
+        <circle class="pop" cx="64" cy="272" r="3.5" fill="#1f5fbf" style="--at:.85s"/>
+        <circle class="pop" cx="184" cy="272" r="3.5" fill="#1f5fbf" style="--at:.85s"/>
+        <circle class="pop" cx="224" cy="234" r="3.5" fill="#1f5fbf" style="--at:.85s"/>
+        <text class="pop" x="139" y="152" font-size="14.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.9s">S</text>
+        <text class="pop" x="91" y="230" font-size="13.5" font-style="italic" fill="#6f625d" style="--at:.9s">A</text>
+        <text class="pop" x="50" y="278" font-size="14" font-style="italic" fill="#2a211f" style="--at:.9s">B</text>
+        <text class="pop" x="188" y="280" font-size="14" font-style="italic" fill="#2a211f" style="--at:.9s">C</text>
+        <text class="pop" x="229" y="238" font-size="14" font-style="italic" fill="#2a211f" style="--at:.9s">D</text>
+        <text class="pop" x="133" y="268" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.95s">O</text>
       </g>
-    `
-  },
-  cubic: {
-    tag: "hàm bậc 3 & bảng biến thiên",
-    svg: `
-      <text class="write" x="62" y="42" font-size="22" fill="#650f12" style="--at:.1s;--dur:.7s">Chuyên đề: Khảo sát &amp; BBT Hàm bậc 3 y = x³ − 3x</text>
-      <path class="draw" d="M60 52c85-5 215-4 335 0" stroke="#650f12" stroke-width="2.2" style="--len:350;--at:.3s;--dur:.4s"/>
-      <!-- Đồ thị hàm bậc 3 y = x^3 - 3x bên trái -->
-      <g class="float-slow">
-        <path class="draw" d="M56 228H264" stroke="#3b3534" stroke-width="1.6" style="--len:220;--at:.3s;--dur:.45s"/>
-        <path class="draw" d="M152 362V86" stroke="#3b3534" stroke-width="1.6" style="--len:290;--at:.35s;--dur:.45s"/>
-        <path class="draw" d="m256 223 8 5-8 5M147 94l5-8 5 8" stroke="#3b3534" stroke-width="1.6" style="--len:40;--at:.6s;--dur:.25s"/>
-        <text class="pop" x="256" y="248" font-size="18" fill="#3b3534" style="--at:.65s">x</text>
-        <text class="pop" x="161" y="96" font-size="18" fill="#3b3534" style="--at:.65s">y</text>
-        <text class="pop" x="137" y="245" font-size="15.5" fill="#6f625d" style="--at:.65s">O</text>
-        <path class="draw" d="M78 308 C 92 206, 104 162, 116 162 C 134 162, 170 294, 188 294 C 200 294, 212 250, 226 148" stroke="#1f5fbf" stroke-width="3" style="--len:460;--at:.5s;--dur:1s"/>
-        <path class="draw-dash" d="M116 228V162H152M188 228V294H152" stroke="#c62828" stroke-width="1.4" style="--at:1.05s"/>
-        <circle class="pop" cx="116" cy="162" r="4.6" fill="#c62828" style="--at:1.15s"/>
-        <circle class="pop" cx="152" cy="228" r="4" fill="#2a211f" style="--at:1.2s"/>
-        <circle class="pop" cx="188" cy="294" r="4.6" fill="#1f5fbf" style="--at:1.25s"/>
-        <text class="pop" x="72" y="154" font-size="16" fill="#c62828" style="--at:1.25s">CĐ(−1;2)</text>
-        <text class="pop" x="192" y="312" font-size="16" fill="#1f5fbf" style="--at:1.3s">CT(1;−2)</text>
-        <text class="pop" x="108" y="246" font-size="15" fill="#3b3534" style="--at:1.2s">−1</text>
-        <text class="pop" x="184" y="222" font-size="15" fill="#3b3534" style="--at:1.2s">1</text>
-        <text class="pop" x="157" y="167" font-size="15" fill="#c62828" style="--at:1.2s">2</text>
-        <text class="pop" x="128" y="299" font-size="15" fill="#1f5fbf" style="--at:1.2s">−2</text>
-      </g>
-      <!-- Bảng biến thiên (BBT) chuẩn mực bên phải -->
+
+      <!-- 4. BẢNG BIẾN THIÊN HÀM BẬC 3 -->
       <g class="float-alt">
-        <rect class="pop" x="278" y="92" width="222" height="172" rx="6" fill="rgba(255,253,248,0.94)" stroke="#3b3534" stroke-width="1.7" style="--at:.65s"/>
-        <path class="draw" d="M278 124H500M278 156H500M310 92V264" stroke="#3b3534" stroke-width="1.5" style="--len:640;--at:.7s;--dur:.6s"/>
-        <!-- Dòng x -->
-        <text class="pop" x="290" y="114" font-size="17" font-style="italic" font-weight="bold" fill="#650f12" style="--at:.9s">x</text>
-        <text class="pop" x="316" y="114" font-size="15.5" fill="#2a211f" style="--at:.95s">−∞</text>
-        <text class="pop" x="372" y="114" font-size="16" font-weight="bold" fill="#2a211f" style="--at:.95s">−1</text>
-        <text class="pop" x="428" y="114" font-size="16" font-weight="bold" fill="#2a211f" style="--at:.95s">1</text>
-        <text class="pop" x="470" y="114" font-size="15.5" fill="#2a211f" style="--at:.95s">+∞</text>
-        <!-- Dòng y' -->
-        <text class="pop" x="287" y="146" font-size="17" font-style="italic" font-weight="bold" fill="#650f12" style="--at:1.0s">y'</text>
-        <text class="pop" x="348" y="146" font-size="18" font-weight="bold" fill="#c62828" style="--at:1.05s">+</text>
-        <text class="pop" x="376" y="146" font-size="16.5" font-weight="bold" fill="#2a211f" style="--at:1.05s">0</text>
-        <text class="pop" x="404" y="146" font-size="18" font-weight="bold" fill="#1f5fbf" style="--at:1.05s">−</text>
-        <text class="pop" x="429" y="146" font-size="16.5" font-weight="bold" fill="#2a211f" style="--at:1.05s">0</text>
-        <text class="pop" x="456" y="146" font-size="18" font-weight="bold" fill="#c62828" style="--at:1.05s">+</text>
-        <!-- Dòng y và các mũi tên biến thiên -->
-        <text class="pop" x="290" y="214" font-size="17" font-style="italic" font-weight="bold" fill="#650f12" style="--at:1.1s">y</text>
-        <text class="pop" x="315" y="252" font-size="15" fill="#2a211f" style="--at:1.15s">−∞</text>
-        <text class="pop" x="375" y="178" font-size="17" font-weight="bold" fill="#c62828" style="--at:1.2s">2</text>
-        <text class="pop" x="423" y="252" font-size="17" font-weight="bold" fill="#1f5fbf" style="--at:1.25s">−2</text>
-        <text class="pop" x="470" y="178" font-size="15" fill="#2a211f" style="--at:1.3s">+∞</text>
-        <!-- 3 mũi tên trong BBT -->
-        <path class="draw" d="M336 238L369 182m-7 2 7-2-1 7" stroke="#c62828" stroke-width="2" style="--len:90;--at:1.15s;--dur:.35s"/>
-        <path class="draw" d="M388 182L420 236m-7-2 7 2 1-7" stroke="#1f5fbf" stroke-width="2" style="--len:90;--at:1.25s;--dur:.35s"/>
-        <path class="draw" d="M442 238L472 184m-7 2 7-2-1 7" stroke="#c62828" stroke-width="2" style="--len:90;--at:1.35s;--dur:.35s"/>
+        <rect class="pop" x="282" y="158" width="218" height="116" rx="5" fill="rgba(255,253,248,0.95)" stroke="#3b3534" stroke-width="1.55" style="--at:.5s"/>
+        <path class="draw" d="M282 182H500M282 206H500M310 158V274" stroke="#3b3534" stroke-width="1.35" style="--len:580;--at:.55s;--dur:.5s"/>
+        <text class="pop" x="292" y="175" font-size="14" font-style="italic" font-weight="bold" fill="#650f12" style="--at:.7s">x</text>
+        <text class="pop" x="316" y="175" font-size="13" fill="#2a211f" style="--at:.75s">−∞</text>
+        <text class="pop" x="370" y="175" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:.75s">−1</text>
+        <text class="pop" x="426" y="175" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:.75s">1</text>
+        <text class="pop" x="470" y="175" font-size="13" fill="#2a211f" style="--at:.75s">+∞</text>
+        <text class="pop" x="289" y="199" font-size="14" font-style="italic" font-weight="bold" fill="#650f12" style="--at:.8s">y'</text>
+        <text class="pop" x="346" y="199" font-size="15" font-weight="bold" fill="#c62828" style="--at:.85s">+</text>
+        <text class="pop" x="374" y="199" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:.85s">0</text>
+        <text class="pop" x="401" y="199" font-size="15" font-weight="bold" fill="#1f5fbf" style="--at:.85s">−</text>
+        <text class="pop" x="427" y="199" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:.85s">0</text>
+        <text class="pop" x="454" y="199" font-size="15" font-weight="bold" fill="#c62828" style="--at:.85s">+</text>
+        <text class="pop" x="292" y="244" font-size="14" font-style="italic" font-weight="bold" fill="#650f12" style="--at:.9s">y</text>
+        <text class="pop" x="315" y="266" font-size="13" fill="#2a211f" style="--at:.95s">−∞</text>
+        <text class="pop" x="373" y="222" font-size="14" font-weight="bold" fill="#c62828" style="--at:.95s">2</text>
+        <text class="pop" x="421" y="266" font-size="14" font-weight="bold" fill="#1f5fbf" style="--at:.95s">−2</text>
+        <text class="pop" x="470" y="222" font-size="13" fill="#2a211f" style="--at:.95s">+∞</text>
+        <path class="draw" d="M336 256L367 224m-6 1 6-1-1 6" stroke="#c62828" stroke-width="1.8" style="--len:70;--at:.95s;--dur:.3s"/>
+        <path class="draw" d="M386 224L418 256m-6-1 6 1 1-6" stroke="#1f5fbf" stroke-width="1.8" style="--len:70;--at:1.0s;--dur:.3s"/>
+        <path class="draw" d="M440 256L470 224m-6 1 6-1-1 6" stroke="#c62828" stroke-width="1.8" style="--len:70;--at:1.05s;--dur:.3s"/>
       </g>
-      <rect class="pop" x="58" y="388" width="188" height="24" rx="8" fill="#fff2a8" style="--at:1.4s"/>
-      <text class="write" x="64" y="406" font-size="17.5" fill="#2a211f" style="--at:1.45s;--dur:.5s">Đọc chuẩn BBT &amp; cực trị!</text>
+
+      <!-- 5. TÔ MÀU DIỆN TÍCH HÌNH PHẲNG BẰNG TÍCH PHÂN S = ∫ₐᵇ |f(x)| dx -->
       <g class="float-slow">
-        <ellipse class="draw" cx="412" cy="316" rx="44" ry="31" stroke="#c62828" stroke-width="2.5" transform="rotate(-8 412 316)" style="--len:260;--at:1.5s;--dur:.45s"/>
-        <text class="pop" x="384" y="325" font-size="30" font-weight="bold" fill="#c62828" style="--at:1.6s">9.6đ</text>
-        <path class="draw" d="M372 340l76-6M380 347l60-5" stroke="#c62828" stroke-width="2" style="--len:150;--at:1.7s;--dur:.3s"/>
+        <!-- Miền diện tích tô màu + gạch sọc chéo từ x = a đến x = b -->
+        <path class="pop" d="M98 376V328 C116 302, 142 310, 162 376 Z" fill="rgba(198,40,40,0.20)" style="--at:.75s"/>
+        <path class="pop" d="M98 376V328 C116 302, 142 310, 162 376 Z" fill="url(#integral-hatch)" style="--at:.8s"/>
+        <path class="pop" d="M162 376 C180 412, 202 408, 218 390 V376 Z" fill="rgba(31,95,191,0.18)" style="--at:.8s"/>
+        <path class="pop" d="M162 376 C180 412, 202 408, 218 390 V376 Z" fill="url(#rot-hatch)" style="--at:.85s"/>
+        <!-- Hệ trục tọa độ Oxy -->
+        <path class="draw" d="M58 376H252M76 416V296" stroke="#3b3534" stroke-width="1.55" style="--len:320;--at:.4s;--dur:.45s"/>
+        <path class="draw" d="m245 372 7 4-7 4M72 303l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.65s;--dur:.2s"/>
+        <!-- Đường cong y = f(x) và cận tích phân x = a, x = b (nét đứt) -->
+        <path class="draw-dash" d="M98 328V376M218 390V376" stroke="#c62828" stroke-width="1.5" style="--at:.75s"/>
+        <path class="draw" d="M84 348 C98 328, 116 302, 136 312 C150 320, 156 356, 162 376 C180 412, 202 408, 228 380" stroke="#1f5fbf" stroke-width="2.4" style="--len:240;--at:.55s;--dur:.65s"/>
+        <circle class="pop" cx="98" cy="376" r="3" fill="#c62828" style="--at:.85s"/>
+        <circle class="pop" cx="162" cy="376" r="3" fill="#2a211f" style="--at:.85s"/>
+        <circle class="pop" cx="218" cy="376" r="3" fill="#c62828" style="--at:.85s"/>
+        <text class="pop" x="82" y="306" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:.8s">y</text>
+        <text class="pop" x="246" y="392" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:.8s">x</text>
+        <text class="pop" x="63" y="390" font-size="12.5" fill="#6f625d" style="--at:.8s">O</text>
+        <text class="pop" x="93" y="392" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.9s">a</text>
+        <text class="pop" x="214" y="371" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.9s">b</text>
+        <text class="pop" x="142" y="308" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:.95s">S = ∫ₐᵇ |f(x)| dx</text>
       </g>
-    `
-  },
-  pyramid: {
-    tag: "hình chóp tứ giác S.ABCD",
-    svg: `
-      <text class="write" x="62" y="42" font-size="22" fill="#650f12" style="--at:.1s;--dur:.7s">Chuyên đề: Hình chóp tứ giác S.ABCD &amp; Đường cao</text>
-      <path class="draw" d="M60 52c85-5 215-4 335 0" stroke="#650f12" stroke-width="2.2" style="--len:350;--at:.3s;--dur:.4s"/>
-      <!-- Hình chóp tứ giác S.ABCD chuẩn nét liền / nét đứt -->
-      <g class="float-slow">
-        <polygon class="pop" points="168,84 214,262 266,204" fill="rgba(31,95,191,0.09)" style="--at:.9s"/>
-        <!-- Cạnh khuất (Nét đứt): SA, AB, AD, hai đường chéo đáy AC, BD và đường cao SO -->
-        <path class="draw-dash" d="M126 204L74 262M126 204H266M168 84L126 204" stroke="#6f625d" stroke-width="1.7" style="--at:.65s"/>
-        <path class="draw-dash" d="M126 204L214 262M74 262L266 204" stroke="#2e7d4f" stroke-width="1.5" style="--at:.75s"/>
-        <path class="draw-dash" d="M168 84V233" stroke="#c62828" stroke-width="2.2" style="--at:.85s"/>
-        <!-- Kí hiệu góc vuông tại chân đường cao O(168,233) -->
-        <path class="draw" d="M168 223H178V233" stroke="#c62828" stroke-width="1.5" style="--len:30;--at:1.0s;--dur:.25s"/>
-        <!-- Cạnh nhìn thấy (Nét liền): SB, SC, SD và BC, CD -->
-        <path class="draw" d="M168 84L74 262L214 262L266 204Z M168 84L214 262" stroke="#1f5fbf" stroke-width="2.5" style="--len:780;--at:.3s;--dur:.95s"/>
-        <!-- Các đỉnh S, A, B, C, D, O -->
-        <circle class="pop" cx="168" cy="84" r="4.5" fill="#c62828" style="--at:1.05s"/>
-        <circle class="pop" cx="168" cy="233" r="4.2" fill="#c62828" style="--at:1.1s"/>
-        <circle class="pop" cx="126" cy="204" r="3.8" fill="#6f625d" style="--at:1.1s"/>
-        <circle class="pop" cx="74" cy="262" r="4.2" fill="#1f5fbf" style="--at:1.1s"/>
-        <circle class="pop" cx="214" cy="262" r="4.2" fill="#1f5fbf" style="--at:1.1s"/>
-        <circle class="pop" cx="266" cy="204" r="4.2" fill="#1f5fbf" style="--at:1.1s"/>
-        <text class="pop" x="162" y="74" font-size="19" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.15s">S</text>
-        <text class="pop" x="112" y="198" font-size="17.5" font-style="italic" fill="#6f625d" style="--at:1.15s">A</text>
-        <text class="pop" x="56" y="272" font-size="18" font-style="italic" fill="#2a211f" style="--at:1.2s">B</text>
-        <text class="pop" x="218" y="276" font-size="18" font-style="italic" fill="#2a211f" style="--at:1.2s">C</text>
-        <text class="pop" x="272" y="208" font-size="18" font-style="italic" fill="#2a211f" style="--at:1.2s">D</text>
-        <text class="pop" x="155" y="252" font-size="17" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.25s">O</text>
-        <text class="pop" x="174" y="162" font-size="16.5" font-style="italic" fill="#c62828" style="--at:1.25s">h</text>
-      </g>
-      <!-- Ghi chú công thức Hình chóp bên phải -->
+
+      <!-- 6. THỂ TÍCH KHỐI TRÒN XOAY V = π ∫ₐᵇ [f(x)]² dx CHUẨN NÉT LIỀN / NÉT ĐỨT -->
+      <!-- Khối tròn xoay quanh trục Ox từ x = a(318) đến x = b(452):
+           - Trục Ox đi xuyên bên trong khối (318..452) vẽ NÉT ĐỨT; ngoài khối vẽ NÉT LIỀN.
+           - Thiết diện tròn tại x = a và x = x₀: nửa elip phía trước nhìn thấy vẽ NÉT LIỀN, nửa elip khuất phía sau vẽ NÉT ĐỨT. -->
       <g class="float-alt">
-        <rect class="pop" x="296" y="96" width="204" height="162" rx="10" fill="rgba(255,253,248,0.95)" stroke="#dccbb7" stroke-width="1.5" style="--at:.75s"/>
-        <text class="pop" x="310" y="122" font-size="18" font-weight="bold" fill="#650f12" style="--at:.9s">Hình chóp S.ABCD:</text>
-        <text class="pop" x="310" y="148" font-size="16" fill="#2a211f" style="--at:1.0s">• O = AC ∩ BD (nét đứt)</text>
-        <text class="pop" x="310" y="172" font-size="16" fill="#c62828" style="--at:1.1s">• Đường cao SO ⊥ (ABCD)</text>
-        <text class="pop" x="310" y="196" font-size="16" fill="#1f5fbf" style="--at:1.2s">• Nét liền: SB, SC, SD, BC, CD</text>
-        <text class="pop" x="310" y="220" font-size="16" fill="#6f625d" style="--at:1.25s">• Nét đứt: SA, AB, AD, SO</text>
-        <text class="pop" x="310" y="246" font-size="17.5" font-weight="bold" fill="#2e7d4f" style="--at:1.3s">V = ⅓ · S(ABCD) · SO</text>
-      </g>
-      <rect class="pop" x="58" y="388" width="188" height="24" rx="8" fill="#fff2a8" style="--at:1.4s"/>
-      <text class="write" x="64" y="406" font-size="17.5" fill="#2a211f" style="--at:1.45s;--dur:.5s">Vẽ chuẩn hình chóp 3D!</text>
-      <g class="float-slow">
-        <ellipse class="draw" cx="412" cy="316" rx="44" ry="31" stroke="#c62828" stroke-width="2.5" transform="rotate(-8 412 316)" style="--len:260;--at:1.5s;--dur:.45s"/>
-        <text class="pop" x="384" y="325" font-size="30" font-weight="bold" fill="#c62828" style="--at:1.6s">9.6đ</text>
-        <path class="draw" d="M372 340l76-6M380 347l60-5" stroke="#c62828" stroke-width="2" style="--len:150;--at:1.7s;--dur:.3s"/>
-      </g>
-    `
-  },
-  sin: {
-    tag: "lượng giác & đường tròn đơn vị",
-    svg: `
-      <text class="write" x="62" y="42" font-size="22" fill="#650f12" style="--at:.1s;--dur:.7s">Chuyên đề: Đồ thị y = sin x &amp; Lượng giác</text>
-      <path class="draw" d="M60 52c85-5 215-4 335 0" stroke="#650f12" stroke-width="2.2" style="--len:350;--at:.3s;--dur:.4s"/>
-      <g class="float-slow">
-        <path class="draw" d="M56 232H328" stroke="#3b3534" stroke-width="1.6" style="--len:280;--at:.3s;--dur:.45s"/>
-        <path class="draw" d="M96 356V102" stroke="#3b3534" stroke-width="1.6" style="--len:260;--at:.35s;--dur:.45s"/>
-        <path class="draw" d="m320 227 8 5-8 5M91 110l5-8 5 8" stroke="#3b3534" stroke-width="1.6" style="--len:40;--at:.6s;--dur:.25s"/>
-        <text class="pop" x="320" y="252" font-size="19" fill="#3b3534" style="--at:.65s">x</text>
-        <text class="pop" x="106" y="112" font-size="19" fill="#3b3534" style="--at:.65s">y</text>
-        <text class="pop" x="80" y="250" font-size="16" fill="#6f625d" style="--at:.65s">O</text>
-        <path class="draw-dash" d="M60 166H312M60 298H312" stroke="#9e9189" stroke-width="1.2" style="--at:.55s"/>
-        <path class="draw" d="M60 288 C 72 272, 84 252, 96 232 C 112 202, 124 166, 140 166 C 156 166, 168 202, 184 232 C 200 262, 212 298, 228 298 C 244 298, 256 262, 272 232 C 288 202, 300 166, 316 166" stroke="#1f5fbf" stroke-width="3" style="--len:460;--at:.55s;--dur:1.1s"/>
-        <path class="draw-dash" d="M140 166V232M228 298V232" stroke="#c62828" stroke-width="1.5" style="--at:1.1s"/>
-        <circle class="pop" cx="140" cy="166" r="4.8" fill="#c62828" style="--at:1.25s"/>
-        <circle class="pop" cx="184" cy="232" r="4.2" fill="#2a211f" style="--at:1.3s"/>
-        <circle class="pop" cx="228" cy="298" r="4.8" fill="#1f5fbf" style="--at:1.35s"/>
-        <circle class="pop" cx="272" cy="232" r="4.2" fill="#2a211f" style="--at:1.4s"/>
-        <text class="pop" x="78" y="162" font-size="16" fill="#c62828" style="--at:1.3s">1</text>
-        <text class="pop" x="72" y="304" font-size="16" fill="#1f5fbf" style="--at:1.3s">−1</text>
-        <text class="pop" x="128" y="252" font-size="16" fill="#3b3534" style="--at:1.35s">π/2</text>
-        <text class="pop" x="180" y="252" font-size="16" fill="#3b3534" style="--at:1.35s">π</text>
-        <text class="pop" x="214" y="224" font-size="16" fill="#3b3534" style="--at:1.4s">3π/2</text>
-        <text class="pop" x="266" y="252" font-size="16" fill="#3b3534" style="--at:1.4s">2π</text>
-      </g>
-      <g class="float-alt">
-        <circle class="draw" cx="416" cy="172" r="58" stroke="#1f5fbf" stroke-width="2.3" style="--len:380;--at:.7s;--dur:.9s"/>
-        <path class="draw" d="M346 172H486M416 242V102" stroke="#3b3534" stroke-width="1.4" style="--len:290;--at:.8s;--dur:.5s"/>
-        <path class="draw" d="M416 172L457 131" stroke="#c62828" stroke-width="2.5" style="--len:80;--at:1.1s;--dur:.4s"/>
-        <path class="draw-dash" d="M457 131V172M457 131H416" stroke="#2e7d4f" stroke-width="1.5" style="--at:1.2s"/>
-        <circle class="pop" cx="457" cy="131" r="4.8" fill="#c62828" style="--at:1.3s"/>
-        <text class="pop" x="463" y="128" font-size="17" font-style="italic" fill="#c62828" style="--at:1.35s">M(α)</text>
-        <text class="pop" x="424" y="190" font-size="15.5" fill="#2e7d4f" style="--at:1.4s">cos α</text>
-        <text class="pop" x="378" y="148" font-size="15.5" fill="#2e7d4f" style="--at:1.4s">sin α</text>
-      </g>
-      <rect class="pop" x="58" y="388" width="188" height="24" rx="8" fill="#fff2a8" style="--at:1.4s"/>
-      <text class="write" x="64" y="406" font-size="17.5" fill="#2a211f" style="--at:1.45s;--dur:.5s">Hiểu chu kì lượng giác!</text>
-      <g class="float-slow">
-        <ellipse class="draw" cx="412" cy="316" rx="44" ry="31" stroke="#c62828" stroke-width="2.5" transform="rotate(-8 412 316)" style="--len:260;--at:1.5s;--dur:.45s"/>
-        <text class="pop" x="384" y="325" font-size="30" font-weight="bold" fill="#c62828" style="--at:1.6s">9.5đ</text>
-        <path class="draw" d="M372 340l76-6M380 347l60-5" stroke="#c62828" stroke-width="2" style="--len:150;--at:1.7s;--dur:.3s"/>
-      </g>
-    `
-  },
-  parabola: {
-    tag: "chấm chữa chi tiết từng bài",
-    svg: `
-      <text class="write" x="62" y="42" font-size="22" fill="#650f12" style="--at:.1s;--dur:.7s">Chuyên đề: Parabol y = x² − 2x − 3 &amp; Đường tròn</text>
-      <path class="draw" d="M60 52c85-5 215-4 335 0" stroke="#650f12" stroke-width="2.2" style="--len:350;--at:.3s;--dur:.4s"/>
-      <g class="float-slow">
-        <path class="draw" d="M60 232H324" stroke="#3b3534" stroke-width="1.6" style="--len:270;--at:.35s;--dur:.45s"/>
-        <path class="draw" d="M150 378V86" stroke="#3b3534" stroke-width="1.6" style="--len:300;--at:.4s;--dur:.45s"/>
-        <path class="draw" d="m316 227 8 5-8 5M145 94l5-8 5 8" stroke="#3b3534" stroke-width="1.6" style="--len:40;--at:.65s;--dur:.25s"/>
-        <text class="pop" x="316" y="252" font-size="19" fill="#3b3534" style="--at:.7s">x</text>
-        <text class="pop" x="160" y="96" font-size="19" fill="#3b3534" style="--at:.7s">y</text>
-        <text class="pop" x="134" y="250" font-size="16" fill="#6f625d" style="--at:.7s">O</text>
-        <path class="draw" d="M102 150Q180 548 258 150" stroke="#1f5fbf" stroke-width="3" style="--len:520;--at:.55s;--dur:1.05s"/>
-        <path class="draw-dash" d="M180 349V232M150 349h30" stroke="#1f5fbf" stroke-width="1.5" style="--at:1.15s"/>
-        <circle class="pop" cx="120" cy="232" r="4.5" fill="#2a211f" style="--at:1.2s"/>
-        <circle class="pop" cx="240" cy="232" r="4.5" fill="#2a211f" style="--at:1.25s"/>
-        <circle class="pop" cx="180" cy="349" r="5" fill="#1f5fbf" style="--at:1.3s"/>
-        <text class="pop" x="104" y="222" font-size="16.5" fill="#3b3534" style="--at:1.25s">−1</text>
-        <text class="pop" x="244" y="222" font-size="16.5" fill="#3b3534" style="--at:1.25s">3</text>
-        <text class="pop" x="188" y="366" font-size="19.5" fill="#1f5fbf" style="--at:1.35s">I(1; −4)</text>
-      </g>
-      <g class="float-alt">
-        <circle class="draw" cx="412" cy="174" r="64" stroke="#c62828" stroke-width="2.4" style="--len:420;--at:.65s;--dur:.9s"/>
-        <path class="draw" d="M394 111 351 200 473 198Z" stroke="#1f5fbf" stroke-width="2.4" style="--len:380;--at:.95s;--dur:.8s"/>
-        <path class="draw-dash" d="M394 111 412 174M351 200 412 174M473 198 412 174" stroke="#2e7d4f" stroke-width="1.8" style="--at:1.2s"/>
-        <circle class="pop" cx="412" cy="174" r="4.2" fill="#1f5fbf" style="--at:1.35s"/>
-        <text class="pop" x="386" y="103" font-size="19.5" font-style="italic" fill="#2a211f" style="--at:1.3s">A</text>
-        <text class="pop" x="332" y="208" font-size="19.5" font-style="italic" fill="#2a211f" style="--at:1.35s">B</text>
-        <text class="pop" x="479" y="208" font-size="19.5" font-style="italic" fill="#2a211f" style="--at:1.4s">C</text>
-        <text class="pop" x="404" y="195" font-size="17.5" font-style="italic" fill="#2a211f" style="--at:1.4s">O</text>
-      </g>
-      <rect class="pop" x="58" y="388" width="188" height="24" rx="8" fill="#fff2a8" style="--at:1.4s"/>
-      <text class="write" x="64" y="406" font-size="17.5" fill="#2a211f" style="--at:1.45s;--dur:.5s">Lập luận chặt, nắm gốc!</text>
-      <g class="float-slow">
-        <ellipse class="draw" cx="412" cy="316" rx="44" ry="31" stroke="#c62828" stroke-width="2.5" transform="rotate(-8 412 316)" style="--len:260;--at:1.5s;--dur:.45s"/>
-        <text class="pop" x="384" y="325" font-size="30" font-weight="bold" fill="#c62828" style="--at:1.6s">9.5đ</text>
-        <path class="draw" d="M372 340l76-6M380 347l60-5" stroke="#c62828" stroke-width="2" style="--len:150;--at:1.7s;--dur:.3s"/>
+        <!-- Tô màu thân khối tròn xoay & mặt đáy phải -->
+        <path class="pop" d="M318 338 C355 335, 405 314, 452 322 A12 36 0 0 1 452 394 C405 402, 355 381, 318 378 A7 20 0 0 1 318 338 Z" fill="rgba(31,95,191,0.13)" style="--at:.75s"/>
+        <ellipse class="pop" cx="452" cy="358" rx="12" ry="36" fill="rgba(198,40,40,0.18)" style="--at:.8s"/>
+        <ellipse class="pop" cx="386" cy="358" rx="9.5" ry="29" fill="url(#rot-hatch)" style="--at:.85s"/>
+        <!-- Trục Oy và phần trục Ox bên ngoài khối (Nét liền) -->
+        <path class="draw" d="M282 358H318M452 358H502M296 416V296" stroke="#3b3534" stroke-width="1.55" style="--len:240;--at:.4s;--dur:.45s"/>
+        <path class="draw" d="m495 354 7 4-7 4M292 303l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.65s;--dur:.2s"/>
+        <!-- Phần trục Ox nằm bên trong khối tròn xoay & các nửa cung elip khuất phía sau (Nét đứt) -->
+        <path class="draw-dash" d="M318 358H452" stroke="#3b3534" stroke-width="1.45" style="--at:.7s"/>
+        <path class="draw-dash" d="M318 338 A7 20 0 0 1 318 378 M386 329 A9.5 29 0 0 1 386 387" stroke="#1f5fbf" stroke-width="1.55" style="--at:.75s"/>
+        <path class="draw-dash" d="M386 358V329M452 358V322" stroke="#c62828" stroke-width="1.5" style="--at:.8s"/>
+        <!-- Nửa cung elip phía trước nhìn thấy & hai đường sinh trên/dưới (Nét liền) -->
+        <path class="draw" d="M318 338 A7 20 0 0 0 318 378 M386 329 A9.5 29 0 0 0 386 387" stroke="#1f5fbf" stroke-width="2" style="--len:180;--at:.75s;--dur:.45s"/>
+        <path class="draw" d="M318 338 C355 335, 405 314, 452 322 M318 378 C355 381, 405 402, 452 394" stroke="#1f5fbf" stroke-width="2.3" style="--len:320;--at:.55s;--dur:.65s"/>
+        <ellipse class="draw" cx="452" cy="358" rx="12" ry="36" stroke="#c62828" stroke-width="2.1" style="--len:170;--at:.7s;--dur:.45s"/>
+        <circle class="pop" cx="318" cy="358" r="2.8" fill="#3b3534" style="--at:.85s"/>
+        <circle class="pop" cx="386" cy="358" r="3" fill="#c62828" style="--at:.85s"/>
+        <circle class="pop" cx="452" cy="358" r="3" fill="#c62828" style="--at:.85s"/>
+        <text class="pop" x="302" y="306" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:.8s">y</text>
+        <text class="pop" x="494" y="374" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:.8s">x</text>
+        <text class="pop" x="313" y="393" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.9s">a</text>
+        <text class="pop" x="448" y="408" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.9s">b</text>
+        <text class="pop" x="352" y="306" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:.95s">V = π ∫ₐᵇ [f(x)]² dx</text>
       </g>
     `
   }
 };
 
-const SHEET_MODES = ["cube", "cubic", "pyramid", "sin", "parabola"];
-let currentSheetMode = "cube";
-let sheetCycleTimer = null;
-
-function renderHeroSheet(mode) {
-  const slide = SHEET_SLIDES[mode] || SHEET_SLIDES.cubic;
-  currentSheetMode = mode;
+function renderHeroSheet() {
   const svgEl = document.getElementById("hero-sheet-svg");
-  const tagEl = document.getElementById("hero-sheet-tag");
-  if (svgEl) svgEl.innerHTML = slide.svg;
-  if (tagEl) tagEl.textContent = slide.tag;
-  document.querySelectorAll(".sheet-pill").forEach((btn) => {
-    btn.classList.toggle("active", btn.dataset.sheetMode === mode);
-  });
+  if (svgEl) svgEl.innerHTML = SHEET_SLIDES.cube.svg;
 }
 
-document.querySelectorAll(".sheet-pill").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    renderHeroSheet(btn.dataset.sheetMode);
-    resetSheetAutoCycle();
-  });
-});
-
-const heroSheetEl = document.getElementById("hero-sheet");
-if (heroSheetEl) {
-  heroSheetEl.addEventListener("click", () => {
-    const nextIdx = (SHEET_MODES.indexOf(currentSheetMode) + 1) % SHEET_MODES.length;
-    renderHeroSheet(SHEET_MODES[nextIdx]);
-    resetSheetAutoCycle();
-  });
-}
-
-function resetSheetAutoCycle() {
-  if (sheetCycleTimer) clearInterval(sheetCycleTimer);
-  sheetCycleTimer = setInterval(() => {
-    const nextIdx = (SHEET_MODES.indexOf(currentSheetMode) + 1) % SHEET_MODES.length;
-    renderHeroSheet(SHEET_MODES[nextIdx]);
-  }, 6800);
-}
-
-renderHeroSheet("cube");
-resetSheetAutoCycle();
+renderHeroSheet();
 
 // ============================================================================
 // KỆ TÀI LIỆU PDF 3D LOCKER CAROUSEL (THEO PHONG CÁCH AODÁUVIETNAM.COM)
@@ -4095,7 +4202,7 @@ const DEFAULT_DOCS = [
 
 function getDocMiniSvg(type, accent) {
   if (type === "oxyz") {
-    return `<svg viewBox="0 0 140 90" fill="none"><path d="M22 68V22H68V68Z" stroke="${accent}" stroke-width="1.8"/><path d="M22 22L38 10H84V56L68 68" stroke="${accent}" stroke-width="1.6"/><path d="M22 68L38 10" stroke="#c62828" stroke-width="2"/><path d="M22 68L84 56L38 10" stroke="#c62828" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M104 62V20M104 62H134M104 62L88 78" stroke="#3b3534" stroke-width="1.5"/><circle cx="122" cy="36" r="3.5" fill="#c62828"/></svg>`;
+    return `<svg viewBox="0 0 140 90" fill="none"><polygon points="34,54 68,68 82,18" fill="rgba(198,40,40,0.14)"/><path d="M34 18V54M34 54L20 68M34 54H82" stroke="#6f625d" stroke-width="1.3" stroke-dasharray="3 3"/><path d="M34 18L20 32H68L82 18Z M20 32V68H68V32 M68 68L82 54V18" stroke="${accent}" stroke-width="1.7"/><path d="M68 68L82 18" stroke="#c62828" stroke-width="2"/><path d="M34 54L68 68M34 54L82 18" stroke="#c62828" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M106 62V20M106 62H134M106 62L90 78" stroke="#3b3534" stroke-width="1.5"/><circle cx="122" cy="36" r="3.5" fill="#c62828"/></svg>`;
   }
   if (type === "circle") {
     return `<svg viewBox="0 0 140 90" fill="none"><circle cx="70" cy="45" r="32" stroke="${accent}" stroke-width="2"/><polygon points="70,13 42,64 98,62" stroke="#1f5fbf" stroke-width="1.8" fill="rgba(31,95,191,0.08)"/><path d="M70 13L70 45L42 64M70 45L98 62" stroke="#c62828" stroke-width="1.3" stroke-dasharray="3 3"/><circle cx="70" cy="45" r="3" fill="#c62828"/></svg>`;
@@ -4315,6 +4422,11 @@ async function syncDocsFromSupabase() {
 async function saveSiteStateToSupabase(patch = {}) {
   if (!isSupabaseConfigured()) return;
   try {
+    const cardsData = loadSavedCards();
+    const stylesData = loadSavedCardStyles();
+    const globalTypo = loadGlobalTypo();
+    let domMap = {};
+    try { domMap = JSON.parse(localStorage.getItem("lop_toan_anh_chi_live_dom_v1") || "{}") || {}; } catch {}
     await fetch(`${supabaseCfg.url}/rest/v1/lop_toan_site_state`, {
       method: "POST",
       headers: {
@@ -4327,11 +4439,52 @@ async function saveSiteStateToSupabase(patch = {}) {
         id: "main",
         dl_policy: docDlPolicy,
         privacy_config: privacyConfig,
+        cards_data: cardsData,
+        live_dom_data: { styles: stylesData, globalTypo, domMap },
         ...patch,
         updated_at: new Date().toISOString()
       })
     });
   } catch {}
+}
+
+async function syncSiteStateFromSupabase() {
+  if (!isSupabaseConfigured()) return false;
+  try {
+    const res = await fetch(`${supabaseCfg.url}/rest/v1/lop_toan_site_state?id=eq.main&select=*`, {
+      headers: {
+        "apikey": supabaseCfg.anonKey,
+        "Authorization": `Bearer ${supabaseCfg.anonKey}`
+      }
+    });
+    if (!res.ok) return false;
+    const rows = await res.json();
+    const row = Array.isArray(rows) && rows[0] ? rows[0] : null;
+    if (!row) return false;
+    if (row.dl_policy) {
+      docDlPolicy = row.dl_policy;
+      localStorage.setItem(DOC_DL_POLICY_KEY, docDlPolicy);
+    }
+    if (row.privacy_config && typeof row.privacy_config === "object" && row.privacy_config.listMode) {
+      privacyConfig = row.privacy_config;
+      savePrivacyConfig(privacyConfig);
+    }
+    if (row.cards_data && typeof row.cards_data === "object" && Object.keys(row.cards_data).length) {
+      localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(row.cards_data));
+    }
+    if (row.live_dom_data && typeof row.live_dom_data === "object") {
+      if (row.live_dom_data.styles) saveCardStyles(row.live_dom_data.styles);
+      if (row.live_dom_data.globalTypo) saveGlobalTypo(row.live_dom_data.globalTypo);
+      if (row.live_dom_data.domMap) localStorage.setItem("lop_toan_anh_chi_live_dom_v1", JSON.stringify(row.live_dom_data.domMap));
+    }
+    applySavedCards();
+    applyLiveDomEdits();
+    updateLockerPositions();
+    renderFullDocLibrary();
+    renderScoreTable();
+    return true;
+  } catch {}
+  return false;
 }
 
 // IndexedDB dự phòng để lưu trữ file PDF thực tế trên trình duyệt
@@ -4483,7 +4636,6 @@ let activeDocIndex = Math.min(3, Math.floor(Math.min(7, docRecords.length) / 2))
 const MAX_LOCKER_DOCS = 7;
 const DOCS_PER_PAGE = 6;
 let currentDocLibPage = 1;
-window.IS_DOC_LIBRARY_PAGE = true;
 const IS_DOC_LIBRARY_PAGE = Boolean(
   window.IS_DOC_LIBRARY_PAGE ||
   window.location.pathname.endsWith("tai-lieu.html") ||
@@ -4496,10 +4648,6 @@ function getLockerDocs() {
 
 function handleDocOpenRequest(doc) {
   if (!doc) return;
-  if (!IS_DOC_LIBRARY_PAGE) {
-    window.location.href = `./tai-lieu.html?doc=${encodeURIComponent(doc.id)}`;
-    return;
-  }
   openProtectedPdfViewer(doc);
 }
 
@@ -4659,10 +4807,10 @@ function renderFullDocLibrary() {
   grid.innerHTML = pageItems.map((doc) => {
     const canDl = canPublicDownloadDoc(doc);
     const srcHtml = doc.hasUploadedPdf || doc.storagePath
-      ? `${ico("cloud")}<span>File PDF Thầy Chí Upload</span>`
-      : `${ico("edit")}<span>Tài liệu Thầy Chí biên soạn</span>`;
+      ? `<span style="display:inline-flex;align-items:center;gap:4px">${ico("cloud")}<span>File PDF Thầy Chí Upload</span></span>`
+      : `<span style="display:inline-flex;align-items:center;gap:4px">${ico("edit")}<span>Tài liệu Thầy Chí biên soạn</span></span>`;
     return `
-      <article class="doc-lib-card" style="--doc-accent:${doc.accent || '#a11e21'}">
+      <article class="doc-lib-card" data-lib-card="${doc.id}" data-cursor-label="Bấm để xem ngay" style="--doc-accent:${doc.accent || '#a11e21'}">
         <div>
           <div class="doc-lib-card__top">
             <span class="code-pill">${doc.id} · ${doc.cat}</span>
@@ -4672,7 +4820,7 @@ function renderFullDocLibrary() {
             <div class="doc-lib-thumb">${getDocMiniSvg(doc.svgType || "cubic", doc.accent || "#a11e21")}</div>
             <div>
               <h4>${doc.title}</h4>
-              <small style="color:var(--muted);font-weight:600;display:inline-flex;align-items:center;gap:4px;margin-bottom:4px">${srcHtml} · ${doc.pages || 4} trang</small>
+              <div style="color:var(--muted);font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:4px">${srcHtml}<span>· ${doc.pages || 4} trang</span></div>
             </div>
           </div>
           <p style="margin-top:8px">${doc.desc || "Tài liệu chuẩn cấu trúc 3 phần Bộ GD&ĐT."}</p>
@@ -4780,11 +4928,10 @@ document.getElementById("doc-pager-dots")?.addEventListener("click", (e) => {
         if (cardBtn) {
           const clickedIdx = Number(cardBtn.dataset.docCard);
           const lockerDocs = getLockerDocs();
-          if (clickedIdx === activeDocIndex) {
+          activeDocIndex = clickedIdx;
+          updateLockerPositions(0);
+          if (lockerDocs[activeDocIndex]) {
             handleDocOpenRequest(lockerDocs[activeDocIndex]);
-          } else {
-            activeDocIndex = clickedIdx;
-            updateLockerPositions(0);
           }
         }
       }
@@ -4930,7 +5077,7 @@ function drawSampleMathPageOnCanvas(canvas, doc, pageNum, totalPages, scale) {
     {
       q: `Câu ${qStart + 1} (Phần II & III - Hình không gian & Oxyz). Cho hình hộp ABCD.A'B'C'D' và hệ trục Oxyz.`,
       sub: "Xác định thiết diện cắt bởi mặt phẳng (ACD') và tọa độ hình chiếu của điểm M(x₀; y₀; z₀) lên (Oxy):",
-      opts: ["a) Thiết diện (ACD') là tam giác với cạnh AD' nhìn thấy (nét liền), AC và CD' khuất (nét đứt).", "b) Hình chiếu vuông góc của M(x₀; y₀; z₀) lên mặt phẳng (Oxy) là điểm M'(x₀; y₀; 0).", "c) Thể tích khối chóp tứ giác S.ABCD có đường cao SO ⊥ (ABCD) là V = 1/3 · S(ABCD) · SO.", "d) Khoảng cách từ gốc tọa độ O đến điểm M bằng √(x₀² + y₀² + z₀²)."],
+      opts: ["a) Thiết diện (ACD') là tam giác với cạnh CD' nhìn thấy (nét liền), AC và AD' khuất (nét đứt).", "b) Hình chiếu vuông góc của M(x₀; y₀; z₀) lên mặt phẳng (Oxy) là điểm M'(x₀; y₀; 0).", "c) Thể tích khối chóp tứ giác S.ABCD có đường cao SO ⊥ (ABCD) là V = 1/3 · S(ABCD) · SO.", "d) Thể tích khối tròn xoay quanh trục Ox trên đoạn [a; b] là V = π ∫ₐᵇ [f(x)]² dx."],
       sol: "Lời giải: Áp dụng quy tắc biểu diễn hình học không gian và công thức tọa độ Oxyz, cả 4 mệnh đề a, b, c, d đều chuẩn xác."
     }
   ];
@@ -4998,14 +5145,15 @@ function drawSampleMathPageOnCanvas(canvas, doc, pageNum, totalPages, scale) {
   ctx.strokeStyle = "#c62828";
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(86, boxY + 160); ctx.lineTo(214, boxY + 134); ctx.lineTo(122, boxY + 42);
+  ctx.moveTo(122, boxY + 134); ctx.lineTo(178, boxY + 160);
+  ctx.moveTo(122, boxY + 134); ctx.lineTo(214, boxY + 42);
   ctx.stroke();
   ctx.restore();
 
   ctx.strokeStyle = "#c62828";
   ctx.lineWidth = 2.4;
   ctx.beginPath();
-  ctx.moveTo(86, boxY + 160); ctx.lineTo(122, boxY + 42);
+  ctx.moveTo(178, boxY + 160); ctx.lineTo(214, boxY + 42);
   ctx.stroke();
 
   // Vẽ bảng biến thiên hàm bậc 3 bên phải hộp minh họa
@@ -5230,12 +5378,6 @@ if (docLibPagerEl) {
 const docLibGridEl = document.getElementById("doc-lib-grid");
 if (docLibGridEl) {
   docLibGridEl.addEventListener("click", (e) => {
-    const viewBtn = e.target.closest("[data-lib-view]");
-    if (viewBtn) {
-      const doc = docRecords.find(d => d.id === viewBtn.dataset.libView) || docRecords[Number(viewBtn.dataset.libView)];
-      if (doc) handleDocOpenRequest(doc);
-      return;
-    }
     const dlBtn = e.target.closest("[data-lib-dl]");
     if (dlBtn) {
       const doc = docRecords.find(d => d.id === dlBtn.dataset.libDl) || docRecords[Number(dlBtn.dataset.libDl)];
@@ -5267,6 +5409,18 @@ if (docLibGridEl) {
         openEditorForStudent(curSt, "docs");
         populateDocFormForEdit(doc);
       }
+      return;
+    }
+    const viewBtn = e.target.closest("[data-lib-view]");
+    if (viewBtn) {
+      const doc = docRecords.find(d => d.id === viewBtn.dataset.libView) || docRecords[Number(viewBtn.dataset.libView)];
+      if (doc) handleDocOpenRequest(doc);
+      return;
+    }
+    const cardEl = e.target.closest(".doc-lib-card[data-lib-card]");
+    if (cardEl) {
+      const doc = docRecords.find(d => d.id === cardEl.dataset.libCard);
+      if (doc) handleDocOpenRequest(doc);
     }
   });
 }
@@ -5707,7 +5861,7 @@ document.getElementById("doc-upload-form").addEventListener("submit", async (e) 
   const badge = document.getElementById("doc-badge-input").value.trim() || "TÀI LIỆU MỚI";
   const pages = Math.max(1, Number(document.getElementById("doc-pages-input").value) || 4);
   const allowDownload = document.getElementById("doc-allow-dl-input").checked;
-  const desc = document.getElementById("doc-desc-input").value.trim() || "Tài liệu PDF do Thầy Huỳnh Thanh Chí biên soạn và đăng tải.";
+  const desc = document.getElementById("doc-desc-input").value.trim() || "Tài liệu do Thầy Huỳnh Thanh Chí biên soạn và đăng tải.";
   const fileInput = document.getElementById("doc-file-input");
   const file = fileInput.files && fileInput.files[0];
 
@@ -5826,6 +5980,10 @@ function saveLiveDomEdits() {
   });
   localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(cardSaved));
   localStorage.setItem(LIVE_DOM_STORAGE_KEY, JSON.stringify(domMap));
+  saveSiteStateToSupabase({
+    cards_data: cardSaved,
+    live_dom_data: { styles: loadSavedCardStyles(), globalTypo: loadGlobalTypo(), domMap }
+  });
 }
 
 function setLiveEditMode(enable) {
@@ -5910,7 +6068,31 @@ if (btnCopyAdminUrl) {
 
 updateSupabaseBadgeUI();
 syncDocsFromSupabase();
+syncSiteStateFromSupabase();
 buildLockerBays();
+
+// Đồng bộ tức thì giữa trang Admin (admin.html) và trang Người dùng (index.html, tai-lieu.html)
+window.addEventListener("storage", (e) => {
+  if (!e.key) return;
+  if (
+    e.key === CARDS_STORAGE_KEY ||
+    e.key === CARD_STYLES_STORAGE_KEY ||
+    e.key === GLOBAL_TYPO_STORAGE_KEY ||
+    e.key === LIVE_DOM_STORAGE_KEY
+  ) {
+    applySavedCards();
+    applyLiveDomEdits();
+  } else if (e.key === STORAGE_KEY || e.key === PRIVACY_CONFIG_KEY || e.key === ANON_ALL_KEY) {
+    studentRecords = loadScores();
+    privacyConfig = loadPrivacyConfig();
+    anonAll = localStorage.getItem(ANON_ALL_KEY) === "1";
+    renderScoreTable();
+  } else if (e.key === DOCS_STORAGE_KEY || e.key === DOC_DL_POLICY_KEY) {
+    docRecords = loadDocsList();
+    docDlPolicy = loadDocDlPolicy();
+    buildLockerBays();
+  }
+});
 
 // Tự động mở tài liệu PDF nếu có tham số ?doc=DOCxx trên URL (ví dụ trên trang tai-lieu.html?doc=DOC01)
 (function checkDirectDocLink() {
@@ -5958,12 +6140,26 @@ applyLiveDomEdits();
 updateAdminUIState();
 renderScoreTable();
 
-// Tự động mở cổng Admin nếu truy cập qua link ?admin=1 hoặc #admin
+// Tự động mở cổng Admin Studio nếu truy cập trang admin.html hoặc qua link ?admin=1 / #admin
+const IS_ADMIN_STUDIO_PAGE = Boolean(
+  window.IS_ADMIN_STUDIO_PAGE ||
+  window.location.pathname.endsWith("admin.html")
+);
+
 (function checkDirectAdminLink() {
   try {
     const params = new URLSearchParams(window.location.search);
-    const isAdminParam = params.get("admin") === "1" || window.location.hash === "#admin";
-    const tabParam = params.get("tab") || "docs";
+    const isAdminParam = IS_ADMIN_STUDIO_PAGE || params.get("admin") === "1" || window.location.hash === "#admin";
+    const tabParam = params.get("tab") || (IS_ADMIN_STUDIO_PAGE ? "cards" : "docs");
+    if (IS_ADMIN_STUDIO_PAGE) {
+      document.body.classList.add("admin-studio-page");
+      isAdminLoggedIn = true;
+      sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
+      updateAdminUIState();
+      const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
+      openEditorForStudent(cur, tabParam);
+      return;
+    }
     if (isAdminParam) {
       if (isAdminLoggedIn) {
         const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
