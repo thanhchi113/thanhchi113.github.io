@@ -57,4 +57,15 @@ assert.ok(html.includes('id="doc-upload-form"') && html.includes('id="doc-file-i
 assert.ok(html.includes('id="pdf-viewer-modal"') && html.includes('id="pdf-zoom-in"') && html.includes('pdf-watermark') && html.includes('@media print'), 'Missing Protected PDF Viewer with zoom/scroll/watermark and print blocker');
 assert.ok(html.includes('--cursor-grab:') && html.includes('--cursor-hover:') && html.includes('id="cursor-follower"'), 'Missing custom cursors and contextual cursor follower');
 
-console.log('PASS: All assertions passed (Privacy list & search permissions, 3D Locker PDF Carousel, Admin PDF upload, No-download Zoom/Scroll PDF Viewer, Custom Cursors).');
+// 9. Verify single-line top navbar with compact 1-logo Admin icon & Supabase Storage integration
+assert.match(html, /\.nav\s*\{[^}]*flex-wrap:\s*nowrap[^}]*white-space:\s*nowrap/s, '.nav must enforce flex-wrap: nowrap and white-space: nowrap');
+assert.ok(html.includes('class="nav-icon-btn" id="nav-admin-btn"'), 'Admin button in navbar must be a compact .nav-icon-btn logo icon');
+assert.ok(
+  html.includes('id="supabase-config-form"') &&
+  html.includes('uploadPdfToSupabaseStorage') &&
+  html.includes('fetchPdfArrayBufferFromSupabase') &&
+  html.includes('upsertDocMetadataToSupabase'),
+  'Missing Supabase Storage & Database client integration'
+);
+
+console.log('PASS: All assertions passed (Single-line navbar with compact Admin logo, Supabase Storage integration, 3D Locker PDF Carousel, No-download PDF Viewer).');

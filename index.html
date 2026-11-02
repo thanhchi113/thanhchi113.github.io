@@ -106,23 +106,47 @@ a { color: inherit; }
 .btn.zalo { --bg: #0068ff; border-color: #0068ff; box-shadow: 0 10px 22px -14px rgba(0, 104, 255, .9); }
 .btn.sm { min-height: 38px; padding: 0 15px; font-size: 14px; gap: 7px; }
 
-/* --- Header --- */
+/* --- Header (Single-line compact taskbar) --- */
 header.top {
   position: sticky; top: 0; z-index: 30; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  background: rgba(251, 247, 239, .84); border-bottom: 1px solid rgba(230, 219, 205, .85);
+  background: rgba(251, 247, 239, .88); border-bottom: 1px solid rgba(230, 219, 205, .85);
 }
-.nav { display: flex; align-items: center; gap: 26px; height: 68px; }
-.brand { display: flex; align-items: center; gap: 11px; text-decoration: none; font: 650 20px/1 var(--serif); color: var(--ink); letter-spacing: -.01em; }
+.nav { display: flex; align-items: center; gap: 14px; height: 66px; flex-wrap: nowrap; white-space: nowrap; }
+.brand {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+  font: 700 18.5px/1.05 var(--serif); color: var(--ink); letter-spacing: -.01em;
+  white-space: nowrap; flex-shrink: 0;
+}
 .brand-badge {
-  width: 36px; height: 36px; border-radius: 10px; background: var(--ink); color: var(--paper);
-  display: grid; place-items: center; font: italic 800 22px/1 var(--serif);
+  width: 34px; height: 34px; border-radius: 9px; background: var(--ink); color: var(--paper);
+  display: grid; place-items: center; font: italic 800 20px/1 var(--serif); flex: none;
   box-shadow: 0 6px 14px -8px rgba(101, 15, 18, .85);
 }
-.brand-sub { display: block; font: 500 11.5px/1.1 var(--sans); color: var(--muted); letter-spacing: .02em; margin-top: 2px; }
-.nav ul { display: flex; gap: 22px; list-style: none; margin: 0 0 0 auto; padding: 0; }
-.nav ul a { text-decoration: none; font-weight: 500; font-size: 15px; color: var(--muted); transition: color .15s; }
+.brand-sub { display: block; font: 500 11px/1.1 var(--sans); color: var(--muted); letter-spacing: .01em; margin-top: 2px; white-space: nowrap; }
+.nav ul {
+  display: flex; align-items: center; gap: 16px; list-style: none;
+  margin: 0 0 0 auto; padding: 0; flex-wrap: nowrap; white-space: nowrap;
+}
+.nav ul li { white-space: nowrap; flex-shrink: 0; }
+.nav ul a {
+  text-decoration: none; font-weight: 500; font-size: 14.5px; color: var(--muted);
+  transition: color .15s; white-space: nowrap; display: inline-block;
+}
 .nav ul a:hover { color: var(--ink); }
-.nav .btn { min-height: 40px; padding: 0 18px; font-size: 14.5px; }
+.nav .btn { min-height: 36px; padding: 0 15px; font-size: 13.5px; white-space: nowrap; flex-shrink: 0; }
+.nav-icon-btn {
+  width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid rgba(101, 15, 18, .3);
+  background: #fffdf8; color: var(--ink); padding: 0; display: inline-grid; place-items: center;
+  flex-shrink: 0; position: relative; transition: transform .18s, background .18s, color .18s, border-color .18s;
+}
+.nav-icon-btn svg { width: 17px; height: 17px; }
+.nav-icon-btn:hover, .nav-icon-btn.is-admin {
+  background: var(--ink); color: #fff; border-color: var(--ink); transform: translateY(-1px);
+}
+.nav-icon-btn.is-admin::after {
+  content: ""; position: absolute; right: -1px; top: -1px; width: 10px; height: 10px;
+  border-radius: 50%; background: #2e7d4f; border: 2px solid var(--paper);
+}
 .menu-toggle { display: none; }
 
 /* --- Hero --- */
@@ -994,8 +1018,10 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <li><a href="#tra-cuu-diem">Tra cứu điểm</a></li>
       <li><a href="#lien-he">Liên hệ</a></li>
     </ul>
-    <a class="btn" href="#tra-cuu-diem">Tra cứu điểm thi</a>
-    <button type="button" class="btn ghost sm" id="nav-admin-btn" title="Đăng nhập Quản trị viên (Dành cho Thầy Chí)">🔒 Admin</button>
+    <a class="btn" href="#tra-cuu-diem">Tra cứu điểm</a>
+    <button type="button" class="nav-icon-btn" id="nav-admin-btn" aria-label="Quản trị viên (Admin)" title="Quản trị viên (Admin)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </button>
     <button class="menu-toggle" aria-label="Mở menu" aria-controls="menu" aria-expanded="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
     </button>
@@ -1794,10 +1820,41 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 
     <!-- TAB 2: UPLOAD & QUẢN LÝ TÀI LIỆU PDF (CHỈ ADMIN ĐƯỢC UPLOAD) -->
     <div class="admin-pane" id="admin-pane-docs" hidden>
+      <div class="admin-box" style="background:linear-gradient(135deg,#f3fbf7,#fbf6ec);border-color:rgba(30,107,69,0.28)">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+          <h4 style="margin:0;color:#1e6b45">☁ Lưu trữ Đám mây Supabase Storage (https://supabase.com)</h4>
+          <span id="sb-conn-badge" class="pill-note" style="padding:4px 10px;font-size:12px">⚡ Chế độ: Đang kiểm tra...</span>
+        </div>
+        <p style="margin:0 0 10px;color:var(--muted);font-size:13.5px">
+          Kết nối <b>Supabase Storage</b> (Bucket: <code>tai-lieu-pdf</code> &amp; Bảng: <code>pdf_documents</code>) để lưu trữ file PDF trên đám mây cho toàn bộ học sinh truy cập. File PDF được tải về dưới dạng luồng nhị phân (ArrayBuffer) vẽ trực tiếp lên <code>&lt;canvas&gt;</code> bảo mật chống tải.
+        </p>
+        <form id="supabase-config-form">
+          <div class="form-grid" style="grid-template-columns:1.3fr 1.5fr 0.8fr">
+            <div class="form-field">
+              <label for="sb-url-input">Supabase Project URL</label>
+              <input type="url" id="sb-url-input" placeholder="https://xxxx.supabase.co">
+            </div>
+            <div class="form-field">
+              <label for="sb-key-input">Supabase Publishable / Anon Key</label>
+              <input type="password" id="sb-key-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6... hoặc sb_publishable_...">
+            </div>
+            <div class="form-field">
+              <label for="sb-bucket-input">Tên Storage Bucket</label>
+              <input type="text" id="sb-bucket-input" value="tai-lieu-pdf" placeholder="tai-lieu-pdf">
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <button type="submit" class="btn sm" style="background:#1e6b45;border-color:#1e6b45">☁ Lưu &amp; Kết nối Supabase</button>
+            <button type="button" class="btn ghost sm" id="btn-sb-sync">🔄 Đồng bộ danh sách từ Supabase</button>
+          </div>
+          <div id="sb-config-status" class="status-msg" hidden></div>
+        </form>
+      </div>
+
       <div class="admin-box">
-        <h4>📤 Tải lên Tài liệu PDF mới (Chỉ Admin được phép Upload)</h4>
+        <h4>📤 Tải lên Tài liệu PDF mới lên Supabase (Chỉ Admin được phép Upload)</h4>
         <p style="margin:0 0 12px;color:var(--muted);font-size:14px">
-          Tài liệu PDF sau khi tải lên sẽ hiển thị trên kệ 3D ở mục <b>Tài liệu PDF</b>. Học sinh và phụ huynh chỉ có thể <b>Xem trực tuyến, Lướt trang &amp; Phóng to</b> trên khung bảo mật (Canvas chống tải, chống chuột phải &amp; chống in).
+          Tài liệu PDF sau khi tải lên sẽ được đẩy lên <b>Supabase Storage</b> và hiển thị trên kệ 3D ở mục <b>Tài liệu PDF</b>. Học sinh và phụ huynh chỉ có thể <b>Xem trực tuyến, Lướt trang &amp; Phóng to</b> trên khung bảo mật (Canvas chống tải, chống chuột phải &amp; chống in).
         </p>
         <form id="doc-upload-form">
           <div class="form-grid">
@@ -2143,7 +2200,11 @@ function updateAdminUIState() {
   const navBtn = document.getElementById("nav-admin-btn");
   const footLink = document.getElementById("foot-admin-link");
   if (navBtn) {
-    navBtn.textContent = isAdminLoggedIn ? "⚙ Quản trị (Admin)" : "🔒 Admin";
+    navBtn.classList.toggle("is-admin", isAdminLoggedIn);
+    navBtn.title = isAdminLoggedIn ? "Bảng Quản trị (Admin đang đăng nhập)" : "Đăng nhập Quản trị viên (Admin)";
+    navBtn.innerHTML = isAdminLoggedIn
+      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.77 1.02 1.41 1.09H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`;
   }
   if (footLink) {
     footLink.textContent = isAdminLoggedIn ? "⚙ Mở bảng Admin" : "🔒 Admin";
@@ -3546,7 +3607,169 @@ function getDocMiniSvg(type, accent) {
   return `<svg viewBox="0 0 140 90" fill="none"><path d="M16 46H124M68 80V12" stroke="#3b3534" stroke-width="1.5"/><path d="M24 72C36 20 48 20 68 46C88 72 100 72 112 20" stroke="${accent}" stroke-width="2.3"/><circle cx="45" cy="28" r="3.2" fill="#c62828"/><circle cx="91" cy="64" r="3.2" fill="#1f5fbf"/></svg>`;
 }
 
-// IndexedDB để lưu trữ file PDF thực tế do Admin upload
+// ============================================================================
+// SUPABASE STORAGE & DATABASE CLIENT (https://supabase.com/)
+// ============================================================================
+const SUPABASE_CFG_KEY = "lop_toan_anh_chi_supabase_cfg_v1";
+
+function loadSupabaseCfg() {
+  try {
+    const raw = localStorage.getItem(SUPABASE_CFG_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      return {
+        url: String(p.url || "").trim().replace(/\/+$/, ""),
+        anonKey: String(p.anonKey || "").trim(),
+        bucket: String(p.bucket || "tai-lieu-pdf").trim() || "tai-lieu-pdf"
+      };
+    }
+  } catch {}
+  return { url: "", anonKey: "", bucket: "tai-lieu-pdf" };
+}
+
+function saveSupabaseCfg(cfg) {
+  try {
+    localStorage.setItem(SUPABASE_CFG_KEY, JSON.stringify(cfg));
+  } catch {}
+}
+
+let supabaseCfg = loadSupabaseCfg();
+
+function isSupabaseConfigured() {
+  return Boolean(supabaseCfg.url && supabaseCfg.anonKey && supabaseCfg.url.startsWith("http"));
+}
+
+function updateSupabaseBadgeUI() {
+  const badge = document.getElementById("sb-conn-badge");
+  const urlInp = document.getElementById("sb-url-input");
+  const keyInp = document.getElementById("sb-key-input");
+  const bucketInp = document.getElementById("sb-bucket-input");
+  if (urlInp && !urlInp.value) urlInp.value = supabaseCfg.url;
+  if (keyInp && !keyInp.value) keyInp.value = supabaseCfg.anonKey;
+  if (bucketInp && !bucketInp.value) bucketInp.value = supabaseCfg.bucket || "tai-lieu-pdf";
+  if (!badge) return;
+  if (isSupabaseConfigured()) {
+    badge.innerHTML = `☁ Đã kết nối Supabase (Bucket: <b>${supabaseCfg.bucket}</b>)`;
+    badge.style.background = "#e8f6ee";
+    badge.style.color = "#1e6b45";
+  } else {
+    badge.innerHTML = `💾 Chế độ chờ kết nối Supabase (Đang lưu dự phòng trình duyệt)`;
+    badge.style.background = "#f7efe0";
+    badge.style.color = "#6a5f5d";
+  }
+}
+
+async function uploadPdfToSupabaseStorage(file, docId) {
+  if (!isSupabaseConfigured() || !file) return null;
+  const safeName = `${docId}_${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
+  const endpoint = `${supabaseCfg.url}/storage/v1/object/${encodeURIComponent(supabaseCfg.bucket)}/${encodeURIComponent(safeName)}`;
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "apikey": supabaseCfg.anonKey,
+      "Authorization": `Bearer ${supabaseCfg.anonKey}`,
+      "Content-Type": "application/pdf",
+      "x-upsert": "true"
+    },
+    body: file
+  });
+  if (!res.ok) throw new Error(`Supabase Storage HTTP ${res.status}`);
+  return safeName;
+}
+
+async function fetchPdfArrayBufferFromSupabase(storagePath) {
+  if (!isSupabaseConfigured() || !storagePath) return null;
+  const pubUrl = `${supabaseCfg.url}/storage/v1/object/public/${encodeURIComponent(supabaseCfg.bucket)}/${encodeURIComponent(storagePath)}`;
+  let res = await fetch(pubUrl);
+  if (!res.ok) {
+    const authUrl = `${supabaseCfg.url}/storage/v1/object/authenticated/${encodeURIComponent(supabaseCfg.bucket)}/${encodeURIComponent(storagePath)}`;
+    res = await fetch(authUrl, {
+      headers: {
+        "apikey": supabaseCfg.anonKey,
+        "Authorization": `Bearer ${supabaseCfg.anonKey}`
+      }
+    });
+  }
+  if (!res.ok) return null;
+  return await res.arrayBuffer();
+}
+
+async function deletePdfFromSupabaseStorage(storagePath) {
+  if (!isSupabaseConfigured() || !storagePath) return;
+  try {
+    await fetch(`${supabaseCfg.url}/storage/v1/object/${encodeURIComponent(supabaseCfg.bucket)}`, {
+      method: "DELETE",
+      headers: {
+        "apikey": supabaseCfg.anonKey,
+        "Authorization": `Bearer ${supabaseCfg.anonKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prefixes: [storagePath] })
+    });
+  } catch {}
+}
+
+async function upsertDocMetadataToSupabase(docEntry) {
+  if (!isSupabaseConfigured()) return;
+  try {
+    await fetch(`${supabaseCfg.url}/rest/v1/pdf_documents`, {
+      method: "POST",
+      headers: {
+        "apikey": supabaseCfg.anonKey,
+        "Authorization": `Bearer ${supabaseCfg.anonKey}`,
+        "Content-Type": "application/json",
+        "Prefer": "resolution=merge-duplicates"
+      },
+      body: JSON.stringify({
+        id: docEntry.id,
+        title: docEntry.title,
+        cat: docEntry.cat,
+        badge: docEntry.badge,
+        accent: docEntry.accent || "#a11e21",
+        pages: docEntry.pages || 4,
+        desc: docEntry.desc || "",
+        svg_type: docEntry.svgType || "cubic",
+        storage_path: docEntry.storagePath || null,
+        has_uploaded_pdf: Boolean(docEntry.hasUploadedPdf)
+      })
+    });
+  } catch {}
+}
+
+async function syncDocsFromSupabase() {
+  if (!isSupabaseConfigured()) return false;
+  try {
+    const res = await fetch(`${supabaseCfg.url}/rest/v1/pdf_documents?select=*&order=created_at.desc`, {
+      headers: {
+        "apikey": supabaseCfg.anonKey,
+        "Authorization": `Bearer ${supabaseCfg.anonKey}`
+      }
+    });
+    if (!res.ok) return false;
+    const rows = await res.json();
+    if (Array.isArray(rows) && rows.length) {
+      docRecords = rows.map(r => ({
+        id: r.id,
+        title: r.title,
+        cat: r.cat,
+        badge: r.badge || "TÀI LIỆU MỚI",
+        accent: r.accent || "#a11e21",
+        pages: r.pages || 4,
+        desc: r.desc || "",
+        svgType: r.svg_type || "cubic",
+        storagePath: r.storage_path || null,
+        hasUploadedPdf: Boolean(r.has_uploaded_pdf || r.storage_path)
+      }));
+      saveDocsList(docRecords);
+      buildLockerBays();
+      renderAdminDocList();
+      return true;
+    }
+  } catch {}
+  return false;
+}
+
+// IndexedDB dự phòng để lưu trữ file PDF thực tế trên trình duyệt
 const PDF_DB_NAME = "lop_toan_anh_chi_pdf_db";
 const PDF_STORE_NAME = "pdfs";
 
@@ -4019,17 +4242,22 @@ async function renderProtectedPdfPages() {
   document.getElementById("pdf-zoom-readout").textContent = `${Math.round(currentPdfZoom * 100)}%`;
   pdfStage.innerHTML = "";
 
-  // Kiểm tra xem tài liệu có file PDF thực tế được Admin upload trong IndexedDB không
-  let pdfDataUrl = null;
-  if (currentPdfDoc.hasUploadedPdf) {
-    pdfDataUrl = await loadPdfBinaryFromIdb(currentPdfDoc.id);
+  // Ưu tiên tải luồng nhị phân (ArrayBuffer) từ Supabase Storage hoặc IndexedDB để vẽ lên Canvas chống tải
+  let pdfSource = null;
+  if (currentPdfDoc.storagePath && isSupabaseConfigured()) {
+    const ab = await fetchPdfArrayBufferFromSupabase(currentPdfDoc.storagePath);
+    if (ab) pdfSource = { data: ab };
+  }
+  if (!pdfSource && currentPdfDoc.hasUploadedPdf) {
+    const dataUrl = await loadPdfBinaryFromIdb(currentPdfDoc.id);
+    if (dataUrl) pdfSource = dataUrl;
   }
 
-  if (pdfDataUrl) {
+  if (pdfSource) {
     const pdfjs = await loadPdfJsLibrary();
     if (pdfjs) {
       try {
-        const loadingTask = pdfjs.getDocument(pdfDataUrl);
+        const loadingTask = pdfjs.getDocument(pdfSource);
         const pdf = await loadingTask.promise;
         currentPdfTotalPages = pdf.numPages;
         document.getElementById("pdf-page-readout").textContent = `Trang 1 / ${currentPdfTotalPages}`;
@@ -4173,13 +4401,18 @@ function renderAdminDocList() {
   const countEl = document.getElementById("admin-doc-count");
   if (!tbody) return;
   if (countEl) countEl.textContent = docRecords.length;
+  updateSupabaseBadgeUI();
   tbody.innerHTML = docRecords.map((doc, idx) => `
     <tr>
       <td><span class="code-pill">${doc.id}</span></td>
       <td><b>${doc.title}</b></td>
       <td>${doc.cat}</td>
       <td>${doc.pages || 4} trang</td>
-      <td>${doc.hasUploadedPdf ? '<span style="color:var(--green);font-weight:700">✓ File PDF đã Upload</span>' : '<span style="color:var(--muted)">Tài liệu mẫu hệ thống</span>'}</td>
+      <td>${doc.storagePath
+        ? `<span style="color:#1e6b45;font-weight:700">☁ Supabase Storage (${doc.storagePath})</span>`
+        : (doc.hasUploadedPdf
+            ? '<span style="color:var(--green);font-weight:700">💾 Đã Upload (Bộ nhớ trình duyệt)</span>'
+            : '<span style="color:var(--muted)">Tài liệu mẫu hệ thống</span>')}</td>
       <td>
         <button type="button" class="quick-chip" data-doc-preview="${idx}">👁 Xem</button>
         <button type="button" class="quick-chip" data-doc-del="${doc.id}" style="color:#b71c1c;border-color:#e5a5a5">Xóa</button>
@@ -4187,6 +4420,35 @@ function renderAdminDocList() {
     </tr>
   `).join("");
 }
+
+document.getElementById("supabase-config-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (!isAdminLoggedIn) return;
+  supabaseCfg = {
+    url: document.getElementById("sb-url-input").value.trim().replace(/\/+$/, ""),
+    anonKey: document.getElementById("sb-key-input").value.trim(),
+    bucket: document.getElementById("sb-bucket-input").value.trim() || "tai-lieu-pdf"
+  };
+  saveSupabaseCfg(supabaseCfg);
+  updateSupabaseBadgeUI();
+  if (isSupabaseConfigured()) {
+    await syncDocsFromSupabase();
+    showStatus("sb-config-status", `✓ Đã lưu kết nối Supabase Storage (Bucket: ${supabaseCfg.bucket}) thành công!`, false);
+  } else {
+    showStatus("sb-config-status", "✓ Đã chuyển về chế độ lưu trữ dự phòng trên trình duyệt.", false);
+  }
+});
+
+document.getElementById("btn-sb-sync").addEventListener("click", async () => {
+  if (!isSupabaseConfigured()) {
+    showStatus("sb-config-status", "Vui lòng nhập Supabase Project URL và Publishable/Anon Key trước khi đồng bộ.", true);
+    return;
+  }
+  const ok = await syncDocsFromSupabase();
+  showStatus("sb-config-status", ok
+    ? "✓ Đã đồng bộ danh sách tài liệu từ bảng pdf_documents trên Supabase!"
+    : "Đã kết nối Supabase. Hiện bảng pdf_documents chưa có bản ghi mới.", false);
+});
 
 document.getElementById("admin-doc-tbody").addEventListener("click", async (e) => {
   const prevBtn = e.target.closest("[data-doc-preview]");
@@ -4198,7 +4460,11 @@ document.getElementById("admin-doc-tbody").addEventListener("click", async (e) =
   const delBtn = e.target.closest("[data-doc-del]");
   if (delBtn) {
     const id = delBtn.dataset.docDel;
+    const targetDoc = docRecords.find(d => d.id === id);
     docRecords = docRecords.filter(d => d.id !== id);
+    if (targetDoc && targetDoc.storagePath) {
+      await deletePdfFromSupabaseStorage(targetDoc.storagePath);
+    }
     await deletePdfBinaryFromIdb(id);
     saveDocsList(docRecords);
     activeDocIndex = Math.max(0, Math.min(activeDocIndex, docRecords.length - 1));
@@ -4207,7 +4473,7 @@ document.getElementById("admin-doc-tbody").addEventListener("click", async (e) =
   }
 });
 
-document.getElementById("doc-upload-form").addEventListener("submit", (e) => {
+document.getElementById("doc-upload-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!isAdminLoggedIn) return;
   const title = document.getElementById("doc-title-input").value.trim();
@@ -4227,13 +4493,21 @@ document.getElementById("doc-upload-form").addEventListener("submit", (e) => {
     pages: 4,
     desc,
     svgType: "cubic",
+    storagePath: null,
     hasUploadedPdf: Boolean(file)
   };
 
   if (file) {
+    if (isSupabaseConfigured()) {
+      try {
+        const uploadedPath = await uploadPdfToSupabaseStorage(file, newId);
+        if (uploadedPath) newEntry.storagePath = uploadedPath;
+      } catch {}
+    }
     const reader = new FileReader();
     reader.onload = async () => {
       await savePdfBinaryToIdb(newId, reader.result);
+      await upsertDocMetadataToSupabase(newEntry);
       docRecords.unshift(newEntry);
       saveDocsList(docRecords);
       activeDocIndex = 0;
@@ -4242,10 +4516,12 @@ document.getElementById("doc-upload-form").addEventListener("submit", (e) => {
       document.getElementById("doc-title-input").value = "";
       document.getElementById("doc-desc-input").value = "";
       fileInput.value = "";
-      showStatus("doc-upload-status", `✓ Đã tải lên file "${file.name}" và đưa lên Kệ 3D ở chế độ bảo mật chống tải!`, false);
+      const storageLabel = newEntry.storagePath ? `☁ Supabase Storage (${newEntry.storagePath})` : "Bộ nhớ bảo mật";
+      showStatus("doc-upload-status", `✓ Đã tải lên file "${file.name}" vào ${storageLabel} và đưa lên Kệ 3D ở chế độ chống tải!`, false);
     };
     reader.readAsDataURL(file);
   } else {
+    await upsertDocMetadataToSupabase(newEntry);
     docRecords.unshift(newEntry);
     saveDocsList(docRecords);
     activeDocIndex = 0;
@@ -4266,6 +4542,8 @@ document.getElementById("btn-reset-docs").addEventListener("click", () => {
   showStatus("doc-upload-status", "✓ Đã khôi phục 7 tài liệu mẫu mặc định trên Kệ 3D!", false);
 });
 
+updateSupabaseBadgeUI();
+syncDocsFromSupabase();
 buildLockerBays();
 
 // ============================================================================
