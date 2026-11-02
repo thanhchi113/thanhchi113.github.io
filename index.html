@@ -30,11 +30,24 @@
   --hand: "Patrick Hand", "Segoe Print", cursive;
   --radius: 18px;
   --shadow: 0 1px 0 rgba(61, 7, 9, .05), 0 22px 50px -28px rgba(61, 7, 9, .45);
+  /* Custom Cursors inspired by aodauvietnam.com & math notebook aesthetic */
+  --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 3l14 7.5-6.2 1.8L9 18.5z' fill='%23650f12' stroke='%23fffdf8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E") 4 3, default;
+  --cursor-hover: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cpath d='M9 3.5a2 2 0 0 1 4 0v6.2h1.2a2 2 0 0 1 2 1.6l1.3 6.2a4.5 4.5 0 0 1-4.4 5.5H9.6a4.5 4.5 0 0 1-4.1-2.7l-2.1-4.6a1.7 1.7 0 0 1 2.9-1.6L8 16V3.5z' fill='%23650f12' stroke='%23fffdf8' stroke-width='1.7' stroke-linejoin='round'/%3E%3C/svg%3E") 10 3, pointer;
+  --cursor-grab: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Crect x='5' y='8' width='18' height='15' rx='6' fill='%23650f12' stroke='%23fffdf8' stroke-width='1.8'/%3E%3Cpath d='M9 9V5.5M13 8V4.5M17 8.5V5.5M20 11v-2' stroke='%23fffdf8' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 14 14, grab;
+  --cursor-grabbing: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Crect x='5' y='10' width='18' height='13' rx='6' fill='%233d0709' stroke='%23fff2a8' stroke-width='2'/%3E%3Cpath d='M9 11h10' stroke='%23fff2a8' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 14 14, grabbing;
+  --cursor-text: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 20 24'%3E%3Cpath d='M7 4h6M10 4v16M7 20h6' stroke='%23650f12' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") 10 12, text;
 }
 * { box-sizing: border-box; }
 html {
   scroll-behavior: smooth; -webkit-text-size-adjust: 100%;
   scrollbar-width: thin; scrollbar-color: var(--ink-soft) var(--paper-2);
+  cursor: var(--cursor);
+}
+a, button, [role="button"], select, .class-select, .custom-select-trigger, .custom-select-opt, input[type="checkbox"], label, .sheet, .score-table tbody tr {
+  cursor: var(--cursor-hover) !important;
+}
+input[type="text"], input[type="search"], input[type="password"], input[type="number"], textarea {
+  cursor: var(--cursor-text) !important;
 }
 ::selection { background: var(--hl); color: var(--ink-deep); }
 /* Custom synchronized scrollbars across the entire site & containers */
@@ -43,6 +56,7 @@ html {
 .modal-card::-webkit-scrollbar,
 .admin-student-list::-webkit-scrollbar,
 .custom-select-menu::-webkit-scrollbar,
+.pdf-viewport::-webkit-scrollbar,
 textarea::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track {
   background: var(--paper-2); border-radius: 999px; border: 1px solid var(--line);
@@ -53,7 +67,7 @@ textarea::-webkit-scrollbar { width: 8px; height: 8px; }
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--ink-deep); }
 ::-webkit-scrollbar-corner { background: var(--paper-2); }
-.score-table-wrap, .modal-card, .admin-student-list, .custom-select-menu, textarea {
+.score-table-wrap, .modal-card, .admin-student-list, .custom-select-menu, .pdf-viewport, textarea {
   scrollbar-width: thin; scrollbar-color: var(--ink-soft) var(--paper-2);
 }
 body {
@@ -594,6 +608,284 @@ input[type="checkbox"]:checked::before { transform: scale(1); }
 .status-msg.err { background: #fde8e8; color: #b71c1c; border-color: #f5b5b5; }
 .status-msg[hidden] { display: none !important; }
 
+/* --- Student Privacy & Search Permission Banner --- */
+.privacy-banner {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+  margin-top: 14px; padding: 10px 16px; border-radius: 12px;
+  background: linear-gradient(90deg, #fbf3e4, #fffdf8); border: 1px dashed #cdb79e;
+  font-size: 13.5px; color: var(--ink-deep);
+}
+.privacy-banner b { color: var(--ink); }
+.privacy-pill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px;
+  background: #f6e7e5; color: var(--ink); font: 600 12px/1 var(--sans);
+}
+
+/* --- §3.5: 3D Locker Document Carousel (Inspired by aodauvietnam.com) --- */
+.doc-spotlight {
+  position: relative; border-radius: 28px; padding: 44px 24px 36px;
+  background: radial-gradient(90% 75% at 50% 32%, #fffdf9 0%, #ede6da 85%);
+  border: 1.5px solid var(--line); box-shadow: var(--shadow); overflow: hidden;
+}
+.doc-spotlight__head { text-align: center; position: relative; z-index: 5; margin-bottom: 10px; }
+.doc-spotlight__title {
+  margin: 0; font: 900 clamp(28px, 4.2vw, 50px)/1.05 var(--sans);
+  letter-spacing: .03em; text-transform: uppercase; color: var(--ink-deep);
+}
+.doc-spotlight__sub {
+  margin: 8px auto 0; max-width: 44em; font-size: 15px; color: var(--muted);
+}
+.doc-spotlight__pager {
+  display: inline-flex; align-items: center; gap: 12px; margin-top: 14px;
+}
+.doc-spotlight__step {
+  width: 28px; height: 28px; border-radius: 50%; border: 0; background: transparent;
+  color: var(--muted); display: grid; place-items: center; transition: color .15s, background .15s;
+}
+.doc-spotlight__step:hover { color: var(--ink); background: rgba(101, 15, 18, .08); }
+.doc-spotlight__dots { display: inline-flex; align-items: center; gap: 7px; }
+.doc-spotlight__dot {
+  width: 8px; height: 8px; border-radius: 999px; border: 0; padding: 0;
+  background: #cdc4b8; transition: width .25s cubic-bezier(.22,1,.36,1), background .2s;
+}
+.doc-spotlight__dot[aria-selected="true"] {
+  width: 26px; background: #a11e21;
+}
+
+.locker {
+  --gap: clamp(130px, 15.5vw, 205px);
+  --bay-w: clamp(195px, 21vw, 256px);
+  --fade: .22;
+  --bay-r: 16px;
+  position: relative; margin-top: 6px;
+}
+.locker__stage {
+  height: calc(var(--bay-w) * 1.38); min-height: 310px;
+  position: relative; overflow: hidden;
+  cursor: var(--cursor-grab) !important; user-select: none; -webkit-user-select: none; touch-action: pan-y;
+}
+.locker__stage[data-dragging="true"] { cursor: var(--cursor-grabbing) !important; }
+.locker__light {
+  position: absolute; top: -18%; left: 50%; transform: translateX(-50%);
+  width: calc(var(--bay-w) * 2.5); height: 120%; pointer-events: none;
+  background: radial-gradient(50% 60% at 50% 28%, rgba(255, 244, 222, .9), transparent 76%);
+}
+.locker__floor {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 20%; pointer-events: none;
+  background: linear-gradient(180deg, rgba(61, 7, 9, .09), transparent 2px), radial-gradient(55% 100% at 50% 0%, rgba(61, 7, 9, .08), transparent 72%);
+}
+.locker__row {
+  perspective: 1600px; perspective-origin: 0 42%;
+  position: absolute; top: 0; bottom: 0; left: 50%; width: 0; z-index: 2;
+}
+.locker__bay {
+  position: absolute; top: 3%; left: calc(var(--bay-w) / -2); width: var(--bay-w);
+  transition: transform .52s cubic-bezier(.22, 1, .36, 1), opacity .4s ease;
+  will-change: transform;
+}
+.locker__stage[data-dragging="true"] .locker__bay { transition: none; }
+.locker__dim {
+  position: absolute; inset: 0; z-index: 5; border-radius: var(--bay-r);
+  background: #221815; opacity: 0; pointer-events: none; transition: opacity .4s;
+}
+.locker__haze {
+  position: absolute; inset: 0; z-index: 6; border-radius: var(--bay-r);
+  background: #ede6da; opacity: 0; pointer-events: none; transition: opacity .4s;
+}
+.locker__cubby {
+  aspect-ratio: .76; border-radius: var(--bay-r); position: relative; overflow: hidden;
+  background: linear-gradient(180deg, #fdfcfa 0%, #efebe3 62%, #e2dcd1 100%);
+  border: 1px solid rgba(101, 15, 18, .14);
+  box-shadow:
+    inset 7px 0 10px -5px rgba(60, 45, 30, .08),
+    inset -7px 0 10px -5px rgba(60, 45, 30, .08),
+    inset 0 18px 22px -14px rgba(0, 0, 0, .18),
+    0 22px 38px -26px rgba(40, 20, 14, .45);
+}
+.locker__bay[data-active="true"] .locker__cubby {
+  border-color: rgba(161, 30, 33, .42);
+  box-shadow:
+    inset 7px 0 10px -5px rgba(60, 45, 30, .08),
+    inset -7px 0 10px -5px rgba(60, 45, 30, .08),
+    inset 0 18px 22px -14px rgba(0, 0, 0, .16),
+    0 28px 54px -26px rgba(101, 15, 18, .55);
+}
+.locker__lamp {
+  position: absolute; top: 3.4%; left: 16%; right: 16%; height: 4px; border-radius: 4px;
+  background: rgba(61, 7, 9, .14); z-index: 2;
+}
+.locker__bay[data-active="true"] .locker__lamp {
+  background: #fff8eb; box-shadow: 0 0 10px 2px rgba(255, 232, 180, .95);
+}
+/* Ventilation dots on top of each locker bay exactly like aodauvietnam.com */
+.locker__vents {
+  position: absolute; top: 7.4%; left: 50%; transform: translateX(-50%);
+  display: grid; grid-template-columns: repeat(13, 3px); gap: 3px 4px; opacity: .35; pointer-events: none;
+}
+.locker__vents i { width: 3px; height: 3px; border-radius: 50%; background: #4a3b36; display: block; }
+/* Metallic Chrome Hanging Rail */
+.locker__rail {
+  position: absolute; top: 14.5%; left: 6%; right: 6%; height: 5px; border-radius: 5px; z-index: 2;
+  background: linear-gradient(180deg, #b8b8be 0%, #ededf0 30%, #d0d0d6 55%, #9c9ca3 100%);
+  box-shadow: 0 2px 3px rgba(0,0,0,.22);
+}
+.locker__rail::before, .locker__rail::after {
+  content: ""; position: absolute; top: -3px; width: 4px; height: 11px; border-radius: 2px;
+  background: linear-gradient(180deg, #c2c2c7, #e4e4e7 40%, #9898a0);
+  box-shadow: 0 1px 2px rgba(0,0,0,.25);
+}
+.locker__rail::before { left: -2px; }
+.locker__rail::after { right: -2px; }
+.locker__hanger {
+  position: absolute; top: 12.2%; left: 50%; transform: translateX(-50%);
+  width: 44px; height: 26px; z-index: 4; pointer-events: none;
+}
+
+/* The Hanging PDF Document Sheet inside the locker bay */
+@keyframes doc-sway {
+  0%, 100% { transform: rotate(-.5deg) translateY(0); }
+  50% { transform: rotate(.6deg) translateY(-3px); }
+}
+.locker__doc {
+  position: absolute; top: 19.5%; left: 8.5%; right: 8.5%; bottom: 5.5%; z-index: 3;
+  background: #fffdf8; border-radius: 10px; border: 1.5px solid #d8c7b4;
+  box-shadow: 0 14px 24px -12px rgba(42, 20, 16, .42);
+  padding: 12px 12px 10px; display: flex; flex-direction: column; justify-content: space-between;
+  text-align: left; overflow: hidden; transform-origin: 50% 0;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 21px, rgba(216, 227, 239, .5) 21px 22px);
+}
+.locker__doc::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+  background: var(--doc-accent, #a11e21);
+}
+.locker__bay[data-active="true"] .locker__doc {
+  animation: doc-sway 5.5s ease-in-out infinite;
+  border-color: var(--doc-accent, #a11e21);
+}
+.doc-card__top { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 10.5px; font-weight: 700; }
+.doc-card__badge {
+  padding: 3px 7px; border-radius: 999px; background: var(--doc-accent, #a11e21); color: #fff;
+  letter-spacing: .03em; text-transform: uppercase; white-space: nowrap;
+}
+.doc-card__pages { color: var(--muted); font-weight: 600; white-space: nowrap; }
+.doc-card__title {
+  margin: 6px 0 4px; font: 800 14px/1.22 var(--serif); color: var(--ink-deep);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.doc-card__preview {
+  flex: 1; min-height: 82px; border-radius: 7px; border: 1px dashed #dccab6;
+  background: rgba(255, 253, 248, .9); display: grid; place-items: center; padding: 4px; margin: 4px 0;
+  overflow: hidden;
+}
+.doc-card__preview svg { width: 100%; height: 100%; max-height: 96px; }
+.doc-card__foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 4px;
+  padding-top: 5px; border-top: 1px dashed rgba(101, 15, 18, .18); font-size: 10.5px; color: var(--ink); font-weight: 700;
+}
+.locker__nav {
+  position: absolute; top: 44%; z-index: 30; width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(255, 253, 248, .92); border: 1px solid rgba(101, 15, 18, .18);
+  color: var(--ink-deep); display: grid; place-items: center;
+  box-shadow: 0 10px 24px -10px rgba(42, 20, 16, .35);
+  transition: background .2s, color .2s, transform .2s cubic-bezier(.22,1,.36,1);
+}
+.locker__nav:hover { background: #a11e21; color: #fff; transform: scale(1.08); }
+.locker__nav--prev { left: max(12px, calc(50% - var(--gap) * 2.65)); }
+.locker__nav--next { right: max(12px, calc(50% - var(--gap) * 2.65)); }
+
+.doc-active-bar {
+  margin-top: 14px; padding: 16px 22px; border-radius: 18px;
+  background: #fffdf8; border: 1.5px solid var(--line);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;
+}
+.doc-active-info h3 { margin: 0; font: 800 20px/1.2 var(--serif); color: var(--ink-deep); }
+.doc-active-info p { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+
+/* --- Protected PDF Reader Modal (View, Scroll, Zoom Only — No Download) --- */
+.pdf-modal-card {
+  width: min(1040px, 100%); height: min(92vh, 860px);
+  background: #26211f; color: #f7efe4; border: 2px solid var(--ink); border-radius: 22px;
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 32px 80px -20px rgba(0, 0, 0, .75);
+  user-select: none; -webkit-user-select: none;
+}
+.pdf-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 12px 18px; background: #1b1615; border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+.pdf-toolbar__title {
+  display: flex; align-items: center; gap: 10px; min-width: 0;
+}
+.pdf-toolbar__title b {
+  font: 700 15.5px/1.2 var(--serif); color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 340px;
+}
+.pdf-sec-badge {
+  padding: 4px 9px; border-radius: 999px; background: rgba(198, 40, 40, .28); border: 1px solid rgba(255, 180, 180, .35);
+  color: #ffd9d2; font: 600 11.5px/1 var(--sans); white-space: nowrap;
+}
+.pdf-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.pdf-ctrl-btn {
+  appearance: none; border: 1px solid rgba(255, 255, 255, .2); background: rgba(255, 255, 255, .08);
+  color: #fff; height: 34px; padding: 0 11px; border-radius: 9px; font: 600 13px/1 var(--sans);
+  display: inline-flex; align-items: center; gap: 5px; transition: background .15s, border-color .15s;
+}
+.pdf-ctrl-btn:hover { background: var(--ink); border-color: #ff9e9e; }
+.pdf-ctrl-readout {
+  font: 700 13px/1 var(--sans); color: #ffd9d2; padding: 0 8px; min-width: 64px; text-align: center;
+}
+.pdf-viewport {
+  flex: 1; position: relative; overflow: auto; padding: 24px 16px;
+  background: radial-gradient(circle at 50% 20%, #38302d, #1f1a18);
+  cursor: var(--cursor-grab) !important;
+}
+.pdf-viewport.panning { cursor: var(--cursor-grabbing) !important; }
+.pdf-pages-stage {
+  display: flex; flex-direction: column; align-items: center; gap: 22px;
+  min-width: min-content; margin: 0 auto;
+}
+.pdf-page-wrap {
+  position: relative; background: #fffdf9; border-radius: 8px;
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, .65); overflow: hidden;
+}
+.pdf-page-wrap canvas { display: block; pointer-events: none; }
+.pdf-watermark {
+  position: absolute; inset: 0; pointer-events: none; z-index: 4; overflow: hidden;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='180' viewBox='0 0 280 180'%3E%3Cg transform='rotate(-24 140 90)' fill='rgba(101,15,18,0.065)' font-family='sans-serif' font-size='12' font-weight='700'%3E%3Ctext x='12' y='60'%3ELỚP TOÁN ANH CHÍ • CẤM TẢI XUỐNG%3C/text%3E%3Ctext x='24' y='130'%3EBẢO MẬT TÀI LIỆU • CHỈ XEM ONLINE%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+.pdf-footer-note {
+  padding: 9px 18px; background: #181312; border-top: 1px solid rgba(255, 255, 255, .1);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;
+  font-size: 12.5px; color: #c7b8b3;
+}
+
+/* --- Interactive Contextual Cursor Follower (Desktop) --- */
+.cursor-follower {
+  position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 14px; height: 14px; border-radius: 999px;
+  background: rgba(161, 30, 33, .18); border: 1.5px solid rgba(101, 15, 18, .55);
+  color: #fff; font: 700 11.5px/1 var(--sans); white-space: nowrap;
+  transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+  transition: width .2s ease, height .2s ease, background .2s ease, border-color .2s ease, padding .2s ease, opacity .2s ease;
+  opacity: 0;
+}
+.cursor-follower.visible { opacity: 1; }
+.cursor-follower.has-label {
+  width: auto; height: 28px; padding: 0 11px;
+  background: rgba(101, 15, 18, .92); border-color: #fff2a8;
+  box-shadow: 0 8px 20px -6px rgba(61, 7, 9, .6);
+}
+@media (hover: none), (pointer: coarse) {
+  .cursor-follower { display: none !important; }
+}
+@media print {
+  body * { visibility: hidden !important; }
+  body::before {
+    visibility: visible !important; content: "Tài liệu & dữ liệu học sinh của Lớp Toán Anh Chí được bảo mật. Không được phép in hoặc tải xuống.";
+    font: 700 22px sans-serif; color: #650f12; padding: 40px; display: block;
+  }
+}
+
 /* --- Support / Contact Banner --- */
 .support {
   position: relative; overflow: hidden; display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; align-items: center;
@@ -698,6 +990,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <li><a href="#gioi-thieu">Giới thiệu</a></li>
       <li><a href="#lop-hoc">Lớp học</a></li>
       <li><a href="#thanh-tich">Thành tích</a></li>
+      <li><a href="#tai-lieu">Tài liệu PDF</a></li>
       <li><a href="#tra-cuu-diem">Tra cứu điểm</a></li>
       <li><a href="#lien-he">Liên hệ</a></li>
     </ul>
@@ -741,7 +1034,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 
     <!-- A page of the teacher's notebook, with floating & switchable math diagrams -->
     <div class="sheet-stage">
-      <div class="sheet" id="hero-sheet" role="img" title="Bấm vào trang vở để đổi chuyên đề đồ thị & hình học" aria-label="Trang sổ bài giảng Lớp Toán Anh Chí với đồ thị hàm bậc 3, hàm sin x, hình lập phương 3D và parabol">
+      <div class="sheet" id="hero-sheet" role="img" data-cursor-label="↻ Đổi đồ thị" title="Bấm vào trang vở để đổi chuyên đề đồ thị & hình học" aria-label="Trang sổ bài giảng Lớp Toán Anh Chí với đồ thị hàm bậc 3, hàm sin x, hình lập phương 3D và parabol">
         <svg viewBox="0 0 520 430" id="hero-sheet-svg"></svg>
         <span class="note-tag" id="hero-sheet-tag">chấm chữa chi tiết từng bài ✎</span>
       </div>
@@ -1054,6 +1347,65 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   </div>
 </section>
 
+<!-- §3.5: Thư viện Tài liệu & Đề thi PDF (3D Locker Carousel theo phong cách aodauvietnam.com) -->
+<section id="tai-lieu">
+  <div class="wrap">
+    <div class="doc-spotlight reveal">
+      <div class="doc-spotlight__head">
+        <span class="eyebrow" style="justify-content:center;margin-bottom:8px">Thư viện Đề thi &amp; Chuyên đề Bảo mật</span>
+        <h2 class="doc-spotlight__title" id="doc-shelf-heading">TÀI LIỆU ÔN LUYỆN CHỌN LỌC</h2>
+        <p class="doc-spotlight__sub">
+          Kéo ngang, lướt hoặc bấm vào từng thẻ tài liệu để xoay kệ 3D. Học sinh chỉ được phép <b>Xem trực tuyến, Lướt trang &amp; Phóng to</b> — hệ thống khóa tải xuống &amp; chống sao chép.
+        </p>
+        <div class="doc-spotlight__pager" aria-label="Chọn kệ tài liệu">
+          <button type="button" class="doc-spotlight__step" id="doc-prev-top" aria-label="Tài liệu trước" title="Tài liệu trước">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+          </button>
+          <div class="doc-spotlight__dots" id="doc-pager-dots" role="tablist"></div>
+          <button type="button" class="doc-spotlight__step" id="doc-next-top" aria-label="Tài liệu tiếp theo" title="Tài liệu tiếp theo">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="locker" id="doc-locker">
+        <div class="locker__stage" id="doc-locker-stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Kéo hoặc vuốt để lướt xem các tài liệu PDF" data-cursor-label="↔ Kéo / Lướt kệ 3D">
+          <span class="locker__light" aria-hidden="true"></span>
+          <div class="locker__row" id="doc-locker-row"></div>
+          <span class="locker__floor" aria-hidden="true"></span>
+        </div>
+        <button type="button" class="locker__nav locker__nav--prev" id="doc-nav-prev" aria-label="Lướt sang trái">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+        </button>
+        <button type="button" class="locker__nav locker__nav--next" id="doc-nav-next" aria-label="Lướt sang phải">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+      </div>
+
+      <div class="doc-active-bar">
+        <div class="doc-active-info">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+            <span class="privacy-pill" id="doc-active-cat">Khối 12 · THPT QG</span>
+            <span style="font-size:13px;color:var(--muted)" id="doc-active-pages">4 trang · 🔒 Chế độ bảo mật (Chống tải)</span>
+          </div>
+          <h3 id="doc-active-title">Chuyên đề Hàm số &amp; Bảng biến thiên Vận dụng cao</h3>
+          <p id="doc-active-desc">Tài liệu biên soạn chuẩn LaTeX – TikZ của Thầy Huỳnh Thanh Chí. Bấm mở để xem trực tiếp và phóng to chi tiết.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <button type="button" class="btn" id="btn-open-active-doc" data-cursor-label="👁 Xem PDF">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Xem &amp; Phóng to Tài liệu</span>
+          </button>
+          <button type="button" class="btn ghost sm admin-only" id="btn-admin-upload-doc" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>Upload PDF (Admin)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- §4: Cổng Tra cứu Điểm Thi (Giữa kì, Cuối kì, Thi THPT QG, Thi 9 vào 10) -->
 <section id="tra-cuu-diem">
   <div class="wrap">
@@ -1121,6 +1473,15 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </button>
       </div>
 
+      <!-- Thanh trạng thái Bảo mật Danh sách Học sinh -->
+      <div class="privacy-banner" id="public-privacy-banner">
+        <div>
+          <span class="privacy-pill">🔒 Bảo mật thông tin học sinh</span>
+          <span id="privacy-status-text" style="margin-left:6px">Danh sách đầy đủ được bảo mật. Chỉ hiển thị một số học sinh tiêu biểu &amp; chỉ tra cứu được các mã HS đã được Thầy Chí cấp quyền.</span>
+        </div>
+        <button type="button" class="quick-chip admin-only" id="btn-quick-privacy-admin" hidden>⚙ Cài đặt ẩn/hiện &amp; quyền tìm kiếm</button>
+      </div>
+
       <!-- Gợi ý tra cứu nhanh (Học sinh nháp) -->
       <div class="quick-chips" id="quick-chips-bar">
         <span>Tra cứu nhanh (Học sinh nháp):</span>
@@ -1181,9 +1542,9 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
 
       <div class="score-footer-bar">
-        <span id="score-summary-text">Đang hiển thị 16 học sinh nháp minh họa. Bấm vào một dòng để xem Phiếu báo điểm chi tiết.</span>
+        <span id="score-summary-text">Đang hiển thị các học sinh được phép công khai. Nhập đúng Mã HS được cấp quyền để tra cứu.</span>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button type="button" class="quick-chip" id="btn-export-csv">⬇ Xuất bảng điểm Excel (CSV)</button>
+          <button type="button" class="quick-chip admin-only" id="btn-export-csv" hidden>⬇ Xuất bảng điểm Excel (CSV · Admin)</button>
         </div>
       </div>
     </div>
@@ -1275,22 +1636,50 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     </div>
 
     <div class="admin-tabs" role="tablist">
-      <button type="button" class="admin-tab active" data-admin-tab="students">1. Quản lý Học sinh &amp; Ẩn danh</button>
-      <button type="button" class="admin-tab" data-admin-tab="cards">2. Sửa nội dung các Card hiển thị</button>
-      <button type="button" class="admin-tab" data-admin-tab="security">3. Mật khẩu Admin &amp; Gmail</button>
+      <button type="button" class="admin-tab active" data-admin-tab="students">1. Quản lý Học sinh &amp; Quyền Tìm kiếm</button>
+      <button type="button" class="admin-tab" data-admin-tab="docs">2. Upload &amp; Quản lý Tài liệu PDF</button>
+      <button type="button" class="admin-tab" data-admin-tab="cards">3. Sửa nội dung các Card hiển thị</button>
+      <button type="button" class="admin-tab" data-admin-tab="security">4. Mật khẩu Admin &amp; Gmail</button>
     </div>
 
-    <!-- TAB 1: QUẢN LÝ HỌC SINH & ẨN DANH -->
+    <!-- TAB 1: QUẢN LÝ HỌC SINH, ẨN DANH SÁCH & PHÂN QUYỀN TÌM KIẾM -->
     <div class="admin-pane" id="admin-pane-students">
-      <div class="admin-box" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
-        <div>
-          <b style="color:var(--ink-deep);font-size:15.5px">Chế độ Ẩn danh tên học sinh trên trang công khai</b>
-          <div style="color:var(--muted);font-size:13.5px">Khi bật, phụ huynh &amp; học sinh tra cứu vẫn thấy Mã HS, Lớp và Điểm nhưng tên được che ẩn danh.</div>
+      <div class="admin-box">
+        <h4>🔒 Bảo mật Danh sách Học sinh &amp; Phân quyền Tra cứu trên Web</h4>
+        <div class="form-grid" style="margin-bottom:10px">
+          <div class="form-field">
+            <label for="privacy-list-mode">Chế độ hiển thị danh sách trên bảng</label>
+            <select id="privacy-list-mode">
+              <option value="selected">Chỉ hiển thị 1 số học sinh được tích chọn (Mặc định)</option>
+              <option value="hidden_all">Ẩn toàn bộ danh sách học sinh trên bảng</option>
+              <option value="show_all">Hiển thị toàn bộ danh sách học sinh</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="privacy-search-mode">Quyền tìm kiếm / tra cứu học sinh</label>
+            <select id="privacy-search-mode">
+              <option value="allowed_only">Chỉ cho phép tìm 1 số HS được tích "Cho tìm"</option>
+              <option value="none">Khóa tìm kiếm HS ẩn (Không thể tìm bất kỳ HS ẩn nào)</option>
+              <option value="all">Cho phép tìm thấy tất cả học sinh khi nhập đúng mã/tên</option>
+            </select>
+          </div>
+          <div class="form-field" style="display:flex;align-items:end">
+            <label style="display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--ink);cursor:pointer;padding:10px 0;margin:0">
+              <input type="checkbox" id="toggle-anon-all">
+              <span>Ẩn danh tên tất cả học sinh</span>
+            </label>
+          </div>
         </div>
-        <label style="display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--ink);cursor:pointer;white-space:nowrap">
-          <input type="checkbox" id="toggle-anon-all">
-          <span>Ẩn danh tất cả học sinh</span>
-        </label>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px dashed var(--line)">
+          <span style="font-size:13px;color:var(--muted)">Thao tác nhanh cho toàn bộ danh sách:</span>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <button type="button" class="quick-chip" id="btn-vis-hide-all">Ẩn toàn bộ DS trên bảng</button>
+            <button type="button" class="quick-chip" id="btn-vis-featured">Chỉ hiện 4 HS tiêu biểu</button>
+            <button type="button" class="quick-chip" id="btn-search-lock-all">Khóa tìm kiếm tất cả</button>
+            <button type="button" class="quick-chip" id="btn-search-allow-some">Chỉ cho tìm 6 HS mẫu</button>
+            <button type="button" class="quick-chip" id="btn-search-allow-all">Cho phép tìm tất cả</button>
+          </div>
+        </div>
       </div>
 
       <div class="admin-box">
@@ -1343,10 +1732,18 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
               <label for="ed-note">Lời phê / Nhận xét của Thầy Chí</label>
               <input type="text" id="ed-note" placeholder="Nhận xét năng lực và định hướng ôn tập...">
             </div>
-            <div class="form-field">
-              <label style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;color:var(--ink-deep);padding:10px 0">
+            <div class="form-field" style="display:flex;flex-wrap:wrap;gap:14px;padding:8px 0">
+              <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;color:var(--ink-deep);margin:0">
+                <input type="checkbox" id="ed-visible" checked>
+                <span>Hiển thị trên bảng</span>
+              </label>
+              <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;color:var(--green);margin:0">
+                <input type="checkbox" id="ed-searchable" checked>
+                <span>Cho phép tìm thấy</span>
+              </label>
+              <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;color:var(--ink);margin:0">
                 <input type="checkbox" id="ed-anon">
-                <span>Ẩn danh tên của học sinh này trên web</span>
+                <span>Ẩn danh tên</span>
               </label>
             </div>
           </div>
@@ -1374,6 +1771,8 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
                 <th>GK1·GK2</th>
                 <th>CK1·CK2</th>
                 <th>Thi QG/10</th>
+                <th>Hiện bảng</th>
+                <th>Cho tìm</th>
                 <th>Ẩn danh</th>
                 <th>Thao tác</th>
               </tr>
@@ -1393,7 +1792,73 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
     </div>
 
-    <!-- TAB 2: CHỈNH SỬA NỘI DUNG CÁC CARD HIỂN THỊ -->
+    <!-- TAB 2: UPLOAD & QUẢN LÝ TÀI LIỆU PDF (CHỈ ADMIN ĐƯỢC UPLOAD) -->
+    <div class="admin-pane" id="admin-pane-docs" hidden>
+      <div class="admin-box">
+        <h4>📤 Tải lên Tài liệu PDF mới (Chỉ Admin được phép Upload)</h4>
+        <p style="margin:0 0 12px;color:var(--muted);font-size:14px">
+          Tài liệu PDF sau khi tải lên sẽ hiển thị trên kệ 3D ở mục <b>Tài liệu PDF</b>. Học sinh và phụ huynh chỉ có thể <b>Xem trực tuyến, Lướt trang &amp; Phóng to</b> trên khung bảo mật (Canvas chống tải, chống chuột phải &amp; chống in).
+        </p>
+        <form id="doc-upload-form">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="doc-title-input">Tên tài liệu / Đề thi</label>
+              <input type="text" id="doc-title-input" placeholder="VD: Đề thi thử THPT QG 2026 - Đề số 01" required>
+            </div>
+            <div class="form-field">
+              <label for="doc-cat-input">Khối lớp / Chuyên mục</label>
+              <select id="doc-cat-input">
+                <option value="Khối 12 · THPT QG">Khối 12 · THPT QG</option>
+                <option value="Khối 9 · Thi vào 10">Khối 9 · Thi vào 10</option>
+                <option value="Toán 11 · Chuyên sâu">Toán 11 · Chuyên sâu</option>
+                <option value="Toán 10 · Nền tảng">Toán 10 · Nền tảng</option>
+                <option value="Toán THCS · Khối 6–8">Toán THCS · Khối 6–8</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="doc-badge-input">Nhãn nổi bật trên bìa</label>
+              <input type="text" id="doc-badge-input" placeholder="VD: ĐỀ CHUẨN 3 PHẦN" value="TÀI LIỆU MỚI">
+            </div>
+          </div>
+          <div class="form-grid two" style="align-items:end">
+            <div class="form-field">
+              <label for="doc-desc-input">Mô tả ngắn gọn</label>
+              <input type="text" id="doc-desc-input" placeholder="Mô tả nội dung chính của tài liệu...">
+            </div>
+            <div class="form-field">
+              <label for="doc-file-input">Chọn file PDF từ máy tính (.pdf)</label>
+              <input type="file" id="doc-file-input" accept="application/pdf,.pdf" style="padding:7px 10px;background:#fffdf8">
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+            <button type="submit" class="btn sm">📤 Tải lên &amp; Đưa lên Kệ 3D</button>
+            <button type="button" class="btn ghost sm" id="btn-reset-docs">Khôi phục 7 tài liệu mẫu mặc định</button>
+          </div>
+          <div id="doc-upload-status" class="status-msg" hidden></div>
+        </form>
+      </div>
+
+      <div class="admin-box">
+        <h4>📚 Danh sách Tài liệu trên Kệ 3D (<span id="admin-doc-count">7</span> tài liệu)</h4>
+        <div class="admin-student-list">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã</th>
+                <th>Tên tài liệu</th>
+                <th>Phân loại</th>
+                <th>Số trang</th>
+                <th>Nguồn file</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="admin-doc-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: CHỈNH SỬA NỘI DUNG CÁC CARD HIỂN THỊ -->
     <div class="admin-pane" id="admin-pane-cards" hidden>
       <p style="margin:0 0 14px;color:var(--muted);font-size:14.5px">
         Chỉnh sửa trực tiếp nội dung của tất cả các Card hiển thị trên trang chủ (Thống kê, §1 Giới thiệu, §2 Lớp học &amp; Lịch học, §3 Thành tích &amp; Gương mặt tiêu biểu). Bấm <b>Lưu nội dung các Card</b> để áp dụng ngay.
@@ -1447,6 +1912,39 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   </div>
 </div>
 
+<!-- 4. Modal Xem Tài Liệu PDF Bảo Mật (Chỉ Xem, Lướt, Phóng To — Khóa Tải Xuống) -->
+<div class="modal-backdrop" id="pdf-viewer-modal" hidden oncontextmenu="return false">
+  <div class="pdf-modal-card" role="dialog" aria-modal="true" aria-labelledby="pdf-viewer-title" oncontextmenu="return false">
+    <div class="pdf-toolbar">
+      <div class="pdf-toolbar__title">
+        <span class="pdf-sec-badge">🔒 Bảo mật · Chống tải</span>
+        <b id="pdf-viewer-title">Tài liệu Ôn tập Toán — Thầy Huỳnh Thanh Chí</b>
+      </div>
+      <div class="pdf-controls">
+        <button type="button" class="pdf-ctrl-btn" id="pdf-prev-page" title="Trang trước">◀</button>
+        <span class="pdf-ctrl-readout" id="pdf-page-readout">Trang 1 / 4</span>
+        <button type="button" class="pdf-ctrl-btn" id="pdf-next-page" title="Trang sau">▶</button>
+        <span style="width:1px;height:20px;background:rgba(255,255,255,.15);margin:0 4px"></span>
+        <button type="button" class="pdf-ctrl-btn" id="pdf-zoom-out" title="Thu nhỏ">− Thu nhỏ</button>
+        <span class="pdf-ctrl-readout" id="pdf-zoom-readout">100%</span>
+        <button type="button" class="pdf-ctrl-btn" id="pdf-zoom-in" title="Phóng to">+ Phóng to</button>
+        <button type="button" class="pdf-ctrl-btn" id="pdf-zoom-reset" title="Đặt lại 100%">100%</button>
+        <button type="button" class="pdf-ctrl-btn" id="close-pdf-viewer-btn" style="background:#a11e21;border-color:#ff8a80">Đóng ✕</button>
+      </div>
+    </div>
+    <div class="pdf-viewport" id="pdf-viewport" oncontextmenu="return false" data-cursor-label="↕ Cuộn / Kéo để xem">
+      <div class="pdf-pages-stage" id="pdf-pages-stage"></div>
+    </div>
+    <div class="pdf-footer-note">
+      <span>💡 Mẹo: Cuộn con lăn chuột để lướt trang, bấm <b>+ Phóng to</b> (tối đa 220%) hoặc giữ chuột kéo để di chuyển mặt giấy.</span>
+      <span>🔒 Bản quyền tài liệu thuộc <b>Lớp Toán Anh Chí</b> — Đã vô hiệu hóa tính năng tải file &amp; in ấn.</span>
+    </div>
+  </div>
+</div>
+
+<!-- Con trỏ tương tác thông minh (Cursor Follower) -->
+<div class="cursor-follower" id="cursor-follower" aria-hidden="true"></div>
+
 <footer>
   <div class="wrap foot">
     <a class="brand" href="#">
@@ -1456,6 +1954,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <a href="#gioi-thieu">Giới thiệu</a>
     <a href="#lop-hoc">Lịch các lớp</a>
     <a href="#thanh-tich">Thành tích</a>
+    <a href="#tai-lieu">Tài liệu PDF</a>
     <a href="#tra-cuu-diem">Tra cứu điểm</a>
     <a href="#admin" id="foot-admin-link">🔒 Admin</a>
     <span>© <span id="year">2026</span> Thầy Huỳnh Thanh Chí · Thanh Chí Edu</span>
@@ -1477,23 +1976,24 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 
 <script>
 // Danh sách học sinh nháp minh họa 100% (ẩn toàn bộ thông tin học sinh thật)
+// publicVisible: chỉ hiện 4 HS tiêu biểu trên bảng; searchable: chỉ cho phép tìm 6 HS được cấp quyền
 const BASE_STUDENTS = [
-  { code: "HS001", name: "Học sinh Nháp 01", cls: "12A 2K9", grade: 12, anonymous: false },
-  { code: "HS002", name: "Học sinh Nháp 02", cls: "12B 2K9", grade: 12, anonymous: false },
-  { code: "HS003", name: "Học sinh Nháp 03", cls: "12B 2K9", grade: 12, anonymous: false },
-  { code: "HS004", name: "Học sinh Nháp 04", cls: "12D", grade: 12, anonymous: false },
-  { code: "HS005", name: "Học sinh Nháp 05", cls: "11A 2K10", grade: 11, anonymous: false },
-  { code: "HS006", name: "Học sinh Nháp 06", cls: "11A 2K10", grade: 11, anonymous: false },
-  { code: "HS007", name: "Học sinh Nháp 07", cls: "11B 2K10", grade: 11, anonymous: false },
-  { code: "HS008", name: "Học sinh Nháp 08", cls: "10A 2K11", grade: 10, anonymous: false },
-  { code: "HS009", name: "Học sinh Nháp 09", cls: "10B 2K11", grade: 10, anonymous: false },
-  { code: "HS010", name: "Học sinh Nháp 10", cls: "10C 2K11", grade: 10, anonymous: false },
-  { code: "HS011", name: "Học sinh Nháp 11", cls: "9 2K12", grade: 9, anonymous: false },
-  { code: "HS012", name: "Học sinh Nháp 12", cls: "9 2K12", grade: 9, anonymous: false },
-  { code: "HS013", name: "Học sinh Nháp 13", cls: "8A 2K13", grade: 8, anonymous: false },
-  { code: "HS014", name: "Học sinh Nháp 14", cls: "8B 2K13", grade: 8, anonymous: false },
-  { code: "HS015", name: "Học sinh Nháp 15", cls: "7 2K14", grade: 7, anonymous: false },
-  { code: "HS016", name: "Học sinh Nháp 16", cls: "7 Onl", grade: 7, anonymous: false }
+  { code: "HS001", name: "Học sinh Nháp 01", cls: "12A 2K9", grade: 12, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS002", name: "Học sinh Nháp 02", cls: "12B 2K9", grade: 12, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS003", name: "Học sinh Nháp 03", cls: "12B 2K9", grade: 12, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS004", name: "Học sinh Nháp 04", cls: "12D", grade: 12, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS005", name: "Học sinh Nháp 05", cls: "11A 2K10", grade: 11, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS006", name: "Học sinh Nháp 06", cls: "11A 2K10", grade: 11, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS007", name: "Học sinh Nháp 07", cls: "11B 2K10", grade: 11, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS008", name: "Học sinh Nháp 08", cls: "10A 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: true },
+  { code: "HS009", name: "Học sinh Nháp 09", cls: "10B 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS010", name: "Học sinh Nháp 10", cls: "10C 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS011", name: "Học sinh Nháp 11", cls: "9 2K12", grade: 9, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS012", name: "Học sinh Nháp 12", cls: "9 2K12", grade: 9, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS013", name: "Học sinh Nháp 13", cls: "8A 2K13", grade: 8, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS014", name: "Học sinh Nháp 14", cls: "8B 2K13", grade: 8, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS015", name: "Học sinh Nháp 15", cls: "7 2K14", grade: 7, anonymous: false, publicVisible: false, searchable: true },
+  { code: "HS016", name: "Học sinh Nháp 16", cls: "7 Onl", grade: 7, anonymous: false, publicVisible: false, searchable: false }
 ];
 
 const COMMENTS_POOL = [
@@ -1513,9 +2013,11 @@ const OVERRIDE_RECORDS = {
   HS015: { gk1: 9.2, ck1: 9.5, gk2: 9.3, ck2: 9.5, special: 9.0, detail: "Đại số: 5.5 · Hình học: 3.5", note: "Học sinh nháp minh họa Khối 7: Tư duy suy luận hình học phẳng rất tốt." }
 };
 
-const STORAGE_KEY = "lop_toan_anh_chi_scores_draft_v3";
+const STORAGE_KEY = "lop_toan_anh_chi_scores_draft_v4";
+const PRIVACY_CONFIG_KEY = "lop_toan_anh_chi_privacy_v1";
 const ANON_ALL_KEY = "lop_toan_anh_chi_anon_all_v1";
 const CARDS_STORAGE_KEY = "lop_toan_anh_chi_cards_v1";
+const DOCS_STORAGE_KEY = "lop_toan_anh_chi_docs_v1";
 const ADMIN_PWD_KEY = "lop_toan_anh_chi_admin_pwd";
 const ADMIN_SESSION_KEY = "lop_toan_anh_chi_admin_session";
 const RESET_TOKEN_KEY = "lop_toan_anh_chi_reset_token";
@@ -1527,6 +2029,25 @@ try {
   localStorage.removeItem("lop_toan_anh_chi_scores_v1");
   localStorage.removeItem("lop_toan_anh_chi_scores_draft_v2");
 } catch {}
+
+function loadPrivacyConfig() {
+  try {
+    const raw = localStorage.getItem(PRIVACY_CONFIG_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.listMode && parsed.searchMode) return parsed;
+    }
+  } catch {}
+  return { listMode: "selected", searchMode: "allowed_only" };
+}
+
+function savePrivacyConfig(cfg) {
+  try {
+    localStorage.setItem(PRIVACY_CONFIG_KEY, JSON.stringify(cfg));
+  } catch {}
+}
+
+let privacyConfig = loadPrivacyConfig();
 
 function buildDefaultScores() {
   return BASE_STUDENTS.map((s, idx) => {
@@ -1634,11 +2155,58 @@ function updateAdminUIState() {
   if (toggleAnonEl) toggleAnonEl.checked = anonAll;
 }
 
+function canPublicSeeInTable(st) {
+  if (privacyConfig.listMode === "show_all") return true;
+  if (privacyConfig.listMode === "hidden_all") return false;
+  return Boolean(st.publicVisible);
+}
+
+function canPublicSearchStudent(st) {
+  if (privacyConfig.searchMode === "all") return true;
+  if (privacyConfig.searchMode === "none") return canPublicSeeInTable(st);
+  return Boolean(st.searchable || st.publicVisible);
+}
+
+function updatePrivacyBannerUI() {
+  const statusEl = document.getElementById("privacy-status-text");
+  const listSel = document.getElementById("privacy-list-mode");
+  const searchSel = document.getElementById("privacy-search-mode");
+  if (listSel) listSel.value = privacyConfig.listMode;
+  if (searchSel) searchSel.value = privacyConfig.searchMode;
+  if (!statusEl) return;
+
+  const visCount = studentRecords.filter(s => canPublicSeeInTable(s)).length;
+  const searchCount = studentRecords.filter(s => canPublicSearchStudent(s)).length;
+
+  let listMsg = "";
+  if (privacyConfig.listMode === "hidden_all") {
+    listMsg = "Toàn bộ danh sách học sinh đang được ẩn bảo mật";
+  } else if (privacyConfig.listMode === "selected") {
+    listMsg = `Chỉ hiển thị ${visCount} học sinh tiêu biểu trên bảng (ẩn ${studentRecords.length - visCount} HS)`;
+  } else {
+    listMsg = `Đang hiển thị công khai ${visCount} học sinh`;
+  }
+
+  let searchMsg = "";
+  if (privacyConfig.searchMode === "none") {
+    searchMsg = "Khóa tìm kiếm các học sinh ẩn.";
+  } else if (privacyConfig.searchMode === "allowed_only") {
+    searchMsg = `Chỉ cho phép tìm kiếm ${searchCount} học sinh đã được cấp quyền.`;
+  } else {
+    searchMsg = "Cho phép tra cứu tất cả học sinh theo Mã HS / Họ tên.";
+  }
+  statusEl.innerHTML = `${listMsg} · <b>${searchMsg}</b>`;
+}
+
 function renderQuickChips() {
   const bar = document.getElementById("quick-chips-bar");
   if (!bar) return;
-  const picks = studentRecords.slice(0, 6);
-  bar.innerHTML = `<span>Tra cứu nhanh (Học sinh nháp):</span>` + picks.map((st) => {
+  const allowedPicks = studentRecords.filter(st => canPublicSeeInTable(st) || canPublicSearchStudent(st)).slice(0, 6);
+  if (!allowedPicks.length) {
+    bar.innerHTML = `<span>🔒 Danh sách tra cứu nhanh đang được khóa bảo mật bởi Admin.</span>`;
+    return;
+  }
+  bar.innerHTML = `<span>Tra cứu nhanh (HS được phép):</span>` + allowedPicks.map((st) => {
     const pubName = formatPublicStudentName(st);
     return `<button type="button" class="quick-chip" data-pick="${st.code}">${st.code} · ${pubName}</button>`;
   }).join("");
@@ -1711,8 +2279,16 @@ function renderReportCard(st) {
 function getFilteredStudents() {
   const q = vnNorm(document.getElementById("score-search").value);
   const clsFilter = document.getElementById("score-class-filter").value;
+  const isSearching = q.length >= 2;
 
   return studentRecords.filter((st) => {
+    // Kiểm tra quyền hiển thị trên bảng & quyền được tìm kiếm
+    if (isSearching) {
+      if (!canPublicSearchStudent(st)) return false;
+    } else {
+      if (!canPublicSeeInTable(st)) return false;
+    }
+
     if (activeExamTab === "thptqg" && st.grade < 10) return false;
     if (activeExamTab === "ts10" && st.grade >= 10) return false;
 
@@ -1733,6 +2309,7 @@ function getFilteredStudents() {
 }
 
 function renderScoreTable() {
+  updatePrivacyBannerUI();
   const list = getFilteredStudents();
   const tbody = document.getElementById("score-tbody");
   const thSpecial = document.getElementById("th-special-exam");
@@ -1741,18 +2318,24 @@ function renderScoreTable() {
   else if (activeExamTab === "ts10") thSpecial.textContent = "Thi Tuyển sinh 9 vào 10";
   else thSpecial.textContent = "Thi THPT QG / 9 vào 10";
 
-  document.getElementById("cnt-all").textContent = studentRecords.length;
-  document.getElementById("cnt-giuaki").textContent = studentRecords.length;
-  document.getElementById("cnt-cuoiki").textContent = studentRecords.length;
-  document.getElementById("cnt-thptqg").textContent = studentRecords.filter(s => s.grade >= 10).length;
-  document.getElementById("cnt-ts10").textContent = studentRecords.filter(s => s.grade < 10).length;
+  const publicPool = studentRecords.filter(s => canPublicSeeInTable(s) || canPublicSearchStudent(s));
+  document.getElementById("cnt-all").textContent = publicPool.length;
+  document.getElementById("cnt-giuaki").textContent = publicPool.length;
+  document.getElementById("cnt-cuoiki").textContent = publicPool.length;
+  document.getElementById("cnt-thptqg").textContent = publicPool.filter(s => s.grade >= 10).length;
+  document.getElementById("cnt-ts10").textContent = publicPool.filter(s => s.grade < 10).length;
 
   renderQuickChips();
   syncCustomClassSelect();
 
   if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--muted)">Không tìm thấy học sinh phù hợp với từ khóa hoặc bộ lọc. Hãy thử nhập mã HS (VD: HS001, HS005, HS011).</td></tr>`;
-    document.getElementById("score-summary-text").textContent = "Không có kết quả trùng khớp.";
+    renderReportCard(null);
+    const qVal = document.getElementById("score-search").value.trim();
+    const emptyMsg = privacyConfig.listMode === "hidden_all" && !qVal
+      ? "🔒 Danh sách học sinh đang được ẩn bảo mật. Vui lòng nhập đúng Mã HS (tối thiểu 2 ký tự) đã được cấp quyền vào ô tìm kiếm để xem điểm."
+      : "🔒 Không tìm thấy học sinh hoặc học sinh này đang được bảo mật / chưa được cấp quyền tra cứu công khai.";
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--muted)">${emptyMsg}</td></tr>`;
+    document.getElementById("score-summary-text").textContent = "Danh sách được bảo vệ theo cài đặt quyền riêng tư của Lớp Toán Anh Chí.";
     return;
   }
 
@@ -2030,6 +2613,12 @@ function renderAdminStudentList() {
       <td>${st.ck1} · ${st.ck2}</td>
       <td><b>${st.special}đ</b></td>
       <td>
+        <input type="checkbox" data-vis-code="${st.code}" ${st.publicVisible ? "checked" : ""} title="Hiển thị học sinh này trên bảng công khai">
+      </td>
+      <td>
+        <input type="checkbox" data-search-code="${st.code}" ${(st.searchable || st.publicVisible) ? "checked" : ""} title="Cho phép tìm kiếm học sinh này">
+      </td>
+      <td>
         <input type="checkbox" data-anon-code="${st.code}" ${st.anonymous ? "checked" : ""} title="Ẩn danh học sinh này">
       </td>
       <td>
@@ -2040,10 +2629,18 @@ function renderAdminStudentList() {
   `).join("");
 }
 
-function openEditorForStudent(st) {
+function openEditorForStudent(st, tabName) {
   editorModal.hidden = false;
   renderAdminStudentList();
   buildCardsEditorForm();
+  if (typeof renderAdminDocList === "function") renderAdminDocList();
+  if (tabName) {
+    document.querySelectorAll(".admin-tab").forEach(t => t.classList.toggle("active", t.dataset.adminTab === tabName));
+    document.getElementById("admin-pane-students").hidden = tabName !== "students";
+    document.getElementById("admin-pane-docs").hidden = tabName !== "docs";
+    document.getElementById("admin-pane-cards").hidden = tabName !== "cards";
+    document.getElementById("admin-pane-security").hidden = tabName !== "security";
+  }
   if (st) {
     document.getElementById("ed-code").value = st.code;
     document.getElementById("ed-name").value = st.name;
@@ -2055,6 +2652,8 @@ function openEditorForStudent(st) {
     document.getElementById("ed-special").value = st.special;
     document.getElementById("ed-detail").value = st.detail || "";
     document.getElementById("ed-note").value = st.note || "";
+    document.getElementById("ed-visible").checked = Boolean(st.publicVisible);
+    document.getElementById("ed-searchable").checked = Boolean(st.searchable || st.publicVisible);
     document.getElementById("ed-anon").checked = Boolean(st.anonymous);
   }
 }
@@ -2119,10 +2718,19 @@ document.querySelectorAll(".admin-tab").forEach((tab) => {
     tab.classList.add("active");
     const target = tab.dataset.adminTab;
     document.getElementById("admin-pane-students").hidden = target !== "students";
+    document.getElementById("admin-pane-docs").hidden = target !== "docs";
     document.getElementById("admin-pane-cards").hidden = target !== "cards";
     document.getElementById("admin-pane-security").hidden = target !== "security";
   });
 });
+
+const quickPrivBtn = document.getElementById("btn-quick-privacy-admin");
+if (quickPrivBtn) {
+  quickPrivBtn.addEventListener("click", () => {
+    const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
+    openEditorForStudent(cur, "students");
+  });
+}
 
 // Gửi link đặt lại mật khẩu về badaoqn132@gmail.com
 async function sendPasswordResetEmail(statusElId) {
@@ -2218,8 +2826,67 @@ document.getElementById("change-pwd-form").addEventListener("submit", (e) => {
 });
 
 // ============================================================================
-// THÊM, SỬA, XÓA & ẨN DANH HỌC SINH TRONG ADMIN (TAB 1)
+// THÊM, SỬA, XÓA, ẨN DANH SÁCH & PHÂN QUYỀN TÌM KIẾM HỌC SINH (TAB 1)
 // ============================================================================
+document.getElementById("privacy-list-mode").addEventListener("change", (e) => {
+  privacyConfig.listMode = e.target.value;
+  savePrivacyConfig(privacyConfig);
+  renderScoreTable();
+});
+
+document.getElementById("privacy-search-mode").addEventListener("change", (e) => {
+  privacyConfig.searchMode = e.target.value;
+  savePrivacyConfig(privacyConfig);
+  renderScoreTable();
+});
+
+document.getElementById("btn-vis-hide-all").addEventListener("click", () => {
+  privacyConfig.listMode = "hidden_all";
+  studentRecords.forEach(s => { s.publicVisible = false; });
+  savePrivacyConfig(privacyConfig);
+  saveScores(studentRecords);
+  renderScoreTable();
+  renderAdminStudentList();
+});
+
+document.getElementById("btn-vis-featured").addEventListener("click", () => {
+  const featured = new Set(["HS001", "HS002", "HS005", "HS011"]);
+  privacyConfig.listMode = "selected";
+  studentRecords.forEach(s => { s.publicVisible = featured.has(s.code); });
+  savePrivacyConfig(privacyConfig);
+  saveScores(studentRecords);
+  renderScoreTable();
+  renderAdminStudentList();
+});
+
+document.getElementById("btn-search-lock-all").addEventListener("click", () => {
+  privacyConfig.searchMode = "none";
+  studentRecords.forEach(s => { s.searchable = false; });
+  savePrivacyConfig(privacyConfig);
+  saveScores(studentRecords);
+  renderScoreTable();
+  renderAdminStudentList();
+});
+
+document.getElementById("btn-search-allow-some").addEventListener("click", () => {
+  const allowed = new Set(["HS001", "HS002", "HS005", "HS008", "HS011", "HS015"]);
+  privacyConfig.searchMode = "allowed_only";
+  studentRecords.forEach(s => { s.searchable = allowed.has(s.code); });
+  savePrivacyConfig(privacyConfig);
+  saveScores(studentRecords);
+  renderScoreTable();
+  renderAdminStudentList();
+});
+
+document.getElementById("btn-search-allow-all").addEventListener("click", () => {
+  privacyConfig.searchMode = "all";
+  studentRecords.forEach(s => { s.searchable = true; });
+  savePrivacyConfig(privacyConfig);
+  saveScores(studentRecords);
+  renderScoreTable();
+  renderAdminStudentList();
+});
+
 document.getElementById("toggle-anon-all").addEventListener("change", (e) => {
   anonAll = e.target.checked;
   localStorage.setItem(ANON_ALL_KEY, anonAll ? "1" : "0");
@@ -2240,6 +2907,8 @@ document.getElementById("btn-new-student").addEventListener("click", () => {
   document.getElementById("ed-special").value = 9.0;
   document.getElementById("ed-detail").value = "P1: 3.0 · P2: 3.5 · P3: 2.5";
   document.getElementById("ed-note").value = "Chăm chỉ, nắm vững kiến thức trọng tâm.";
+  document.getElementById("ed-visible").checked = false;
+  document.getElementById("ed-searchable").checked = true;
   document.getElementById("ed-anon").checked = false;
   document.getElementById("ed-name").focus();
 });
@@ -2274,6 +2943,40 @@ document.getElementById("admin-student-tbody").addEventListener("click", (e) => 
     if (selectedCode === code) selectedCode = studentRecords[0] ? studentRecords[0].code : "";
     renderScoreTable();
     renderAdminStudentList();
+    return;
+  }
+  const visChk = e.target.closest("[data-vis-code]");
+  if (visChk) {
+    const code = visChk.dataset.visCode;
+    const st = studentRecords.find(s => s.code === code);
+    if (st) {
+      st.publicVisible = visChk.checked;
+      if (st.publicVisible) st.searchable = true;
+      saveScores(studentRecords);
+      if (document.getElementById("ed-code").value.trim().toUpperCase() === code) {
+        document.getElementById("ed-visible").checked = st.publicVisible;
+        document.getElementById("ed-searchable").checked = Boolean(st.searchable);
+      }
+      renderScoreTable();
+      renderAdminStudentList();
+    }
+    return;
+  }
+  const searchChk = e.target.closest("[data-search-code]");
+  if (searchChk) {
+    const code = searchChk.dataset.searchCode;
+    const st = studentRecords.find(s => s.code === code);
+    if (st) {
+      st.searchable = searchChk.checked;
+      if (!st.searchable) st.publicVisible = false;
+      saveScores(studentRecords);
+      if (document.getElementById("ed-code").value.trim().toUpperCase() === code) {
+        document.getElementById("ed-visible").checked = Boolean(st.publicVisible);
+        document.getElementById("ed-searchable").checked = st.searchable;
+      }
+      renderScoreTable();
+      renderAdminStudentList();
+    }
     return;
   }
   const anonChk = e.target.closest("[data-anon-code]");
@@ -2312,6 +3015,8 @@ document.getElementById("score-edit-form").addEventListener("submit", (e) => {
     special: Number(document.getElementById("ed-special").value),
     detail: document.getElementById("ed-detail").value.trim(),
     note: document.getElementById("ed-note").value.trim(),
+    publicVisible: document.getElementById("ed-visible").checked,
+    searchable: document.getElementById("ed-searchable").checked || document.getElementById("ed-visible").checked,
     anonymous: document.getElementById("ed-anon").checked
   };
 
@@ -2327,6 +3032,8 @@ document.getElementById("score-edit-form").addEventListener("submit", (e) => {
 
 document.getElementById("btn-reset-default").addEventListener("click", () => {
   studentRecords = buildDefaultScores();
+  privacyConfig = { listMode: "selected", searchMode: "allowed_only" };
+  savePrivacyConfig(privacyConfig);
   anonAll = false;
   localStorage.setItem(ANON_ALL_KEY, "0");
   document.getElementById("toggle-anon-all").checked = false;
@@ -2742,6 +3449,850 @@ function resetSheetAutoCycle() {
 
 renderHeroSheet("cube");
 resetSheetAutoCycle();
+
+// ============================================================================
+// KỆ TÀI LIỆU PDF 3D LOCKER CAROUSEL (THEO PHONG CÁCH AODÁUVIETNAM.COM)
+// & TRÌNH XEM PDF BẢO MẬT (CHỈ XEM, LƯỚT, PHÓNG TO — CHỐNG TẢI XUỐNG)
+// ============================================================================
+const DEFAULT_DOCS = [
+  {
+    id: "DOC01",
+    title: "Chuyên đề Khảo sát Hàm bậc 3 & Bảng biến thiên Vận dụng cao",
+    cat: "Khối 12 · THPT QG",
+    badge: "CHUẨN 3 PHẦN",
+    accent: "#a11e21",
+    pages: 4,
+    desc: "Hệ thống 30 câu Trắc nghiệm ABCD, Đúng/Sai 4 ý và Trả lời ngắn về hàm bậc 3, cực trị và đọc BBT.",
+    svgType: "cubic"
+  },
+  {
+    id: "DOC02",
+    title: "Hình học Không gian & Hệ trục tọa độ Oxyz — Thiết diện (ACD')",
+    cat: "Khối 12 · THPT QG",
+    badge: "HÌNH OXYZ 3D",
+    accent: "#1f5fbf",
+    pages: 4,
+    desc: "Phương pháp dựng thiết diện hình hộp, chóp S.ABCD và tọa độ hóa Oxyz giải nhanh bài toán khoảng cách, góc.",
+    svgType: "oxyz"
+  },
+  {
+    id: "DOC03",
+    title: "Đề Thi Thử Tuyển Sinh Lớp 9 vào Lớp 10 — Đề Chuẩn Tự Luận",
+    cat: "Khối 9 · Thi vào 10",
+    badge: "ĐỀ 9 VÀO 10",
+    accent: "#2e7d4f",
+    pages: 3,
+    desc: "Đầy đủ Rút gọn căn thức, Hệ phương trình, Định lí Vi-ét, Toán thực tế và Hình học đường tròn 3 ý.",
+    svgType: "circle"
+  },
+  {
+    id: "DOC04",
+    title: "Bộ Đề Kiểm Tra Giữa Kì & Cuối Kì Toán 11 — Hình Chóp & Đạo Hàm",
+    cat: "Toán 11 · Chuyên sâu",
+    badge: "GIỮA & CUỐI KÌ",
+    accent: "#7a1b1e",
+    pages: 4,
+    desc: "Trọn bộ đề ôn luyện Giữa kì 1, Cuối kì 1, Giữa kì 2, Cuối kì 2 chuẩn cấu trúc mới kèm lời giải chi tiết.",
+    svgType: "pyramid"
+  },
+  {
+    id: "DOC05",
+    title: "Chuyên đề Nguyên hàm – Tích phân & Ứng dụng Diện tích, Thể tích",
+    cat: "Khối 12 · THPT QG",
+    badge: "TÍCH PHÂN 9+",
+    accent: "#b55b14",
+    pages: 4,
+    desc: "Ứng dụng tích phân tính diện tích hình phẳng, thể tích vật thể tròn xoay và bài toán chuyển động thực tế.",
+    svgType: "integral"
+  },
+  {
+    id: "DOC06",
+    title: "Toán 10 — Hàm số Bậc hai Parabol, Vectơ & Bất phương trình",
+    cat: "Toán 10 · Nền tảng",
+    badge: "TOÁN 10 MỚI",
+    accent: "#1f5fbf",
+    pages: 3,
+    desc: "Nắm chắc đỉnh Parabol I(-b/2a; -Δ/4a), sự biến thiên, tích vô hướng của hai vectơ và hệ thức lượng.",
+    svgType: "parabola"
+  },
+  {
+    id: "DOC07",
+    title: "Tuyển tập Toán Thực Tế & Hình Học Phẳng Khối 7 – 8 THCS",
+    cat: "Toán THCS · Khối 6–8",
+    badge: "BỒI DƯỠNG THCS",
+    accent: "#2e7d4f",
+    pages: 3,
+    desc: "Các dạng toán tỉ lệ thức, đa thức, định lí Thales và các đường đồng quy trong tam giác.",
+    svgType: "trig"
+  }
+];
+
+function getDocMiniSvg(type, accent) {
+  if (type === "oxyz") {
+    return `<svg viewBox="0 0 140 90" fill="none"><path d="M22 68V22H68V68Z" stroke="${accent}" stroke-width="1.8"/><path d="M22 22L38 10H84V56L68 68" stroke="${accent}" stroke-width="1.6"/><path d="M22 68L38 10" stroke="#c62828" stroke-width="2"/><path d="M22 68L84 56L38 10" stroke="#c62828" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M104 62V20M104 62H134M104 62L88 78" stroke="#3b3534" stroke-width="1.5"/><circle cx="122" cy="36" r="3.5" fill="#c62828"/></svg>`;
+  }
+  if (type === "circle") {
+    return `<svg viewBox="0 0 140 90" fill="none"><circle cx="70" cy="45" r="32" stroke="${accent}" stroke-width="2"/><polygon points="70,13 42,64 98,62" stroke="#1f5fbf" stroke-width="1.8" fill="rgba(31,95,191,0.08)"/><path d="M70 13L70 45L42 64M70 45L98 62" stroke="#c62828" stroke-width="1.3" stroke-dasharray="3 3"/><circle cx="70" cy="45" r="3" fill="#c62828"/></svg>`;
+  }
+  if (type === "pyramid") {
+    return `<svg viewBox="0 0 140 90" fill="none"><polygon points="68,12 30,74 88,74 112,54" stroke="${accent}" stroke-width="1.8" fill="rgba(161,30,33,0.06)"/><path d="M68 12L88 74" stroke="${accent}" stroke-width="1.8"/><path d="M68 12V64M30 74L54 54H112M68 12L54 54" stroke="#6f625d" stroke-width="1.3" stroke-dasharray="3 3"/><circle cx="68" cy="12" r="3" fill="#c62828"/></svg>`;
+  }
+  if (type === "integral") {
+    return `<svg viewBox="0 0 140 90" fill="none"><path d="M16 68H126M28 78V14" stroke="#3b3534" stroke-width="1.5"/><path d="M40 68V34C56 18 82 52 104 26V68Z" fill="rgba(181,91,20,0.18)"/><path d="M32 42C52 14 82 54 112 20" stroke="${accent}" stroke-width="2.2"/><text x="58" y="56" font-size="13" font-weight="bold" fill="${accent}">∫ f(x)dx</text></svg>`;
+  }
+  if (type === "parabola") {
+    return `<svg viewBox="0 0 140 90" fill="none"><path d="M16 44H124M68 82V12" stroke="#3b3534" stroke-width="1.5"/><path d="M36 16Q68 118 100 16" stroke="${accent}" stroke-width="2.3"/><circle cx="68" cy="67" r="3.5" fill="#c62828"/></svg>`;
+  }
+  return `<svg viewBox="0 0 140 90" fill="none"><path d="M16 46H124M68 80V12" stroke="#3b3534" stroke-width="1.5"/><path d="M24 72C36 20 48 20 68 46C88 72 100 72 112 20" stroke="${accent}" stroke-width="2.3"/><circle cx="45" cy="28" r="3.2" fill="#c62828"/><circle cx="91" cy="64" r="3.2" fill="#1f5fbf"/></svg>`;
+}
+
+// IndexedDB để lưu trữ file PDF thực tế do Admin upload
+const PDF_DB_NAME = "lop_toan_anh_chi_pdf_db";
+const PDF_STORE_NAME = "pdfs";
+
+function openPdfIdb() {
+  return new Promise((resolve, reject) => {
+    if (!("indexedDB" in window)) return resolve(null);
+    const req = indexedDB.open(PDF_DB_NAME, 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(PDF_STORE_NAME)) {
+        db.createObjectStore(PDF_STORE_NAME);
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => resolve(null);
+  });
+}
+
+async function savePdfBinaryToIdb(docId, dataUrl) {
+  const db = await openPdfIdb();
+  if (!db) return;
+  return new Promise((resolve) => {
+    const tx = db.transaction(PDF_STORE_NAME, "readwrite");
+    tx.objectStore(PDF_STORE_NAME).put(dataUrl, docId);
+    tx.oncomplete = () => resolve(true);
+    tx.onerror = () => resolve(false);
+  });
+}
+
+async function loadPdfBinaryFromIdb(docId) {
+  const db = await openPdfIdb();
+  if (!db) return null;
+  return new Promise((resolve) => {
+    const tx = db.transaction(PDF_STORE_NAME, "readonly");
+    const req = tx.objectStore(PDF_STORE_NAME).get(docId);
+    req.onsuccess = () => resolve(req.result || null);
+    req.onerror = () => resolve(null);
+  });
+}
+
+async function deletePdfBinaryFromIdb(docId) {
+  const db = await openPdfIdb();
+  if (!db) return;
+  return new Promise((resolve) => {
+    const tx = db.transaction(PDF_STORE_NAME, "readwrite");
+    tx.objectStore(PDF_STORE_NAME).delete(docId);
+    tx.oncomplete = () => resolve(true);
+    tx.onerror = () => resolve(false);
+  });
+}
+
+function loadDocsList() {
+  try {
+    const raw = localStorage.getItem(DOCS_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length) return parsed;
+    }
+  } catch {}
+  return DEFAULT_DOCS.map(d => ({ ...d }));
+}
+
+function saveDocsList(list) {
+  try {
+    localStorage.setItem(DOCS_STORAGE_KEY, JSON.stringify(list));
+  } catch {}
+}
+
+let docRecords = loadDocsList();
+let activeDocIndex = Math.min(3, Math.floor(docRecords.length / 2));
+
+function buildLockerBays() {
+  const rowEl = document.getElementById("doc-locker-row");
+  const dotsEl = document.getElementById("doc-pager-dots");
+  if (!rowEl || !dotsEl) return;
+
+  const ventsHtml = Array.from({ length: 26 }, () => `<i></i>`).join("");
+
+  rowEl.innerHTML = docRecords.map((doc, idx) => `
+    <div class="locker__bay" data-doc-idx="${idx}" style="--doc-accent:${doc.accent || '#a11e21'}">
+      <span class="locker__dim" aria-hidden="true"></span>
+      <span class="locker__haze" aria-hidden="true"></span>
+      <div class="locker__cubby">
+        <span class="locker__lamp" aria-hidden="true"></span>
+        <span class="locker__vents" aria-hidden="true">${ventsHtml}</span>
+        <span class="locker__rail" aria-hidden="true"></span>
+        <svg class="locker__hanger" viewBox="0 0 60 34" aria-hidden="true">
+          <path d="M30 22V4a4 4 0 0 1 7 2" fill="none" stroke="#8c8c94" stroke-width="2.4" stroke-linecap="round"/>
+          <rect x="23" y="19" width="14" height="9" rx="2.5" fill="#d4d4dc" stroke="#686870" stroke-width="1"/>
+        </svg>
+        <button type="button" class="locker__doc" data-doc-card="${idx}" aria-label="${doc.title}" data-cursor-label="👁 Xem tài liệu">
+          <div class="doc-card__top">
+            <span class="doc-card__badge">${doc.badge || "TÀI LIỆU"}</span>
+            <span class="doc-card__pages">${doc.pages || 4} tr</span>
+          </div>
+          <div class="doc-card__title">${doc.title}</div>
+          <div class="doc-card__preview">${getDocMiniSvg(doc.svgType || "cubic", doc.accent || "#a11e21")}</div>
+          <div class="doc-card__foot">
+            <span>${doc.cat}</span>
+            <span>🔒 Xem</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  `).join("");
+
+  dotsEl.innerHTML = docRecords.map((doc, idx) => `
+    <button type="button" role="tab" class="doc-spotlight__dot" data-doc-dot="${idx}" aria-selected="${idx === activeDocIndex}" aria-label="${doc.title}" title="${doc.title}"></button>
+  `).join("");
+
+  updateLockerPositions(0);
+}
+
+function updateLockerPositions(dragOffsetPx = 0) {
+  const rowEl = document.getElementById("doc-locker-row");
+  if (!rowEl || !docRecords.length) return;
+  const n = docRecords.length;
+  if (activeDocIndex >= n) activeDocIndex = 0;
+  if (activeDocIndex < 0) activeDocIndex = n - 1;
+
+  const dragStep = dragOffsetPx / 170;
+
+  rowEl.querySelectorAll(".locker__bay").forEach((bay) => {
+    const idx = Number(bay.dataset.docIdx);
+    let d = idx - activeDocIndex + dragStep;
+    if (n >= 5) {
+      while (d > n / 2) d -= n;
+      while (d < -n / 2) d += n;
+    }
+    const abs = Math.abs(d);
+    const isAct = Math.round(idx - activeDocIndex) === 0 && Math.abs(dragStep) < 0.35;
+    bay.setAttribute("data-active", isAct ? "true" : "false");
+    bay.style.zIndex = String(100 - Math.round(abs * 10));
+    bay.style.visibility = abs > 3.35 ? "hidden" : "visible";
+    bay.style.transform = `translate3d(calc(var(--gap) * ${d.toFixed(3)}), 0, ${(-165 * abs).toFixed(1)}px) rotateY(${(15 * -d).toFixed(2)}deg)`;
+    const dimEl = bay.querySelector(".locker__dim");
+    const hazeEl = bay.querySelector(".locker__haze");
+    if (dimEl) dimEl.style.opacity = String(Math.min(0.35, abs * 0.08));
+    if (hazeEl) hazeEl.style.opacity = String(Math.min(0.72, abs * 0.2));
+  });
+
+  document.querySelectorAll(".doc-spotlight__dot").forEach((dot) => {
+    dot.setAttribute("aria-selected", String(Number(dot.dataset.docDot) === activeDocIndex));
+  });
+
+  const activeDoc = docRecords[activeDocIndex];
+  if (activeDoc) {
+    document.getElementById("doc-active-cat").textContent = activeDoc.cat;
+    document.getElementById("doc-active-pages").textContent = `${activeDoc.pages || 4} trang · 🔒 Chỉ xem & Phóng to (Chống tải)`;
+    document.getElementById("doc-active-title").textContent = activeDoc.title;
+    document.getElementById("doc-active-desc").textContent = activeDoc.desc || "Tài liệu biên soạn chuẩn LaTeX – TikZ của Thầy Huỳnh Thanh Chí.";
+  }
+}
+
+function stepLocker(delta) {
+  if (!docRecords.length) return;
+  activeDocIndex = (activeDocIndex + delta + docRecords.length) % docRecords.length;
+  updateLockerPositions(0);
+}
+
+document.getElementById("doc-nav-prev").addEventListener("click", () => stepLocker(-1));
+document.getElementById("doc-nav-next").addEventListener("click", () => stepLocker(1));
+document.getElementById("doc-prev-top").addEventListener("click", () => stepLocker(-1));
+document.getElementById("doc-next-top").addEventListener("click", () => stepLocker(1));
+
+document.getElementById("doc-pager-dots").addEventListener("click", (e) => {
+  const dot = e.target.closest("[data-doc-dot]");
+  if (!dot) return;
+  activeDocIndex = Number(dot.dataset.docDot);
+  updateLockerPositions(0);
+});
+
+// Drag / Swipe / Click trên kệ 3D
+(function initLockerInteractions() {
+  const stage = document.getElementById("doc-locker-stage");
+  if (!stage) return;
+  let pointerDown = false;
+  let startX = 0;
+  let deltaX = 0;
+  let moved = false;
+
+  stage.addEventListener("pointerdown", (e) => {
+    pointerDown = true;
+    moved = false;
+    startX = e.clientX;
+    deltaX = 0;
+    stage.setAttribute("data-dragging", "true");
+  });
+
+  window.addEventListener("pointermove", (e) => {
+    if (!pointerDown) return;
+    deltaX = e.clientX - startX;
+    if (Math.abs(deltaX) > 6) moved = true;
+    updateLockerPositions(deltaX);
+  });
+
+  window.addEventListener("pointerup", (e) => {
+    if (!pointerDown) return;
+    pointerDown = false;
+    stage.removeAttribute("data-dragging");
+    if (Math.abs(deltaX) > 48) {
+      stepLocker(deltaX < 0 ? 1 : -1);
+    } else {
+      updateLockerPositions(0);
+      if (!moved) {
+        const cardBtn = e.target.closest("[data-doc-card]");
+        if (cardBtn) {
+          const clickedIdx = Number(cardBtn.dataset.docCard);
+          if (clickedIdx === activeDocIndex) {
+            openProtectedPdfViewer(docRecords[activeDocIndex]);
+          } else {
+            activeDocIndex = clickedIdx;
+            updateLockerPositions(0);
+          }
+        }
+      }
+    }
+    deltaX = 0;
+  });
+
+  stage.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") { e.preventDefault(); stepLocker(-1); }
+    else if (e.key === "ArrowRight") { e.preventDefault(); stepLocker(1); }
+    else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      if (docRecords[activeDocIndex]) openProtectedPdfViewer(docRecords[activeDocIndex]);
+    }
+  });
+})();
+
+document.getElementById("btn-open-active-doc").addEventListener("click", () => {
+  if (docRecords[activeDocIndex]) openProtectedPdfViewer(docRecords[activeDocIndex]);
+});
+
+document.getElementById("btn-admin-upload-doc").addEventListener("click", () => {
+  const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
+  openEditorForStudent(cur, "docs");
+});
+
+// ============================================================================
+// TRÌNH XEM PDF BẢO MẬT (CANVAS CHỐNG TẢI, CUỘN TRANG & PHÓNG TO 60% - 220%)
+// ============================================================================
+const pdfModal = document.getElementById("pdf-viewer-modal");
+const pdfViewport = document.getElementById("pdf-viewport");
+const pdfStage = document.getElementById("pdf-pages-stage");
+let currentPdfDoc = null;
+let currentPdfZoom = 1.0;
+let currentPdfTotalPages = 4;
+
+function loadPdfJsLibrary() {
+  if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  return new Promise((resolve) => {
+    const s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+    s.onload = () => {
+      if (window.pdfjsLib) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      }
+      resolve(window.pdfjsLib || null);
+    };
+    s.onerror = () => resolve(null);
+    document.head.appendChild(s);
+  });
+}
+
+function drawSampleMathPageOnCanvas(canvas, doc, pageNum, totalPages, scale) {
+  const baseW = 680;
+  const baseH = 940;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = Math.round(baseW * scale * dpr);
+  canvas.height = Math.round(baseH * scale * dpr);
+  canvas.style.width = `${Math.round(baseW * scale)}px`;
+  canvas.style.height = `${Math.round(baseH * scale)}px`;
+
+  const ctx = canvas.getContext("2d");
+  ctx.save();
+  ctx.scale(scale * dpr, scale * dpr);
+
+  // Nền giấy kem chuẩn đề thi LaTeX
+  ctx.fillStyle = "#fffdf8";
+  ctx.fillRect(0, 0, baseW, baseH);
+
+  // Kẻ dòng mờ vở học toán
+  ctx.strokeStyle = "rgba(216, 227, 239, 0.55)";
+  ctx.lineWidth = 1;
+  for (let y = 90; y < baseH - 50; y += 28) {
+    ctx.beginPath();
+    ctx.moveTo(42, y);
+    ctx.lineTo(baseW - 42, y);
+    ctx.stroke();
+  }
+
+  // Viền khung trang đề thi
+  ctx.strokeStyle = "#d8c7b4";
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(28, 24, baseW - 56, baseH - 48);
+
+  // Header đề thi
+  ctx.fillStyle = "#650f12";
+  ctx.font = "bold 14px 'Be Vietnam Pro', sans-serif";
+  ctx.fillText("LỚP TOÁN ANH CHÍ • THẦY HUỲNH THANH CHÍ", 48, 54);
+  ctx.fillStyle = "#6f625d";
+  ctx.font = "600 12.5px 'Be Vietnam Pro', sans-serif";
+  ctx.fillText(`${doc.cat}  |  Tài liệu lưu hành nội bộ (Chống tải)`, 48, 74);
+
+  ctx.textAlign = "right";
+  ctx.fillStyle = "#a11e21";
+  ctx.font = "bold 13px 'Be Vietnam Pro', sans-serif";
+  ctx.fillText(`Mã TL: ${doc.id} • Trang ${pageNum}/${totalPages}`, baseW - 48, 54);
+  ctx.textAlign = "left";
+
+  ctx.strokeStyle = "#650f12";
+  ctx.lineWidth = 1.8;
+  ctx.beginPath();
+  ctx.moveTo(48, 86);
+  ctx.lineTo(baseW - 48, 86);
+  ctx.stroke();
+
+  // Tiêu đề chuyên đề ở trang 1
+  let curY = 122;
+  if (pageNum === 1) {
+    ctx.fillStyle = "#2a211f";
+    ctx.font = "bold 20px Georgia, serif";
+    ctx.fillText(doc.title.slice(0, 52), 48, curY);
+    if (doc.title.length > 52) {
+      curY += 26;
+      ctx.fillText(doc.title.slice(52), 48, curY);
+    }
+    curY += 24;
+    ctx.fillStyle = "#6f625d";
+    ctx.font = "italic 13.5px Georgia, serif";
+    ctx.fillText(doc.desc || "Biên soạn chuẩn cấu trúc 3 phần Bộ GD&ĐT kèm hình vẽ TikZ.", 48, curY);
+    curY += 32;
+  } else {
+    ctx.fillStyle = "#650f12";
+    ctx.font = "bold 16px Georgia, serif";
+    ctx.fillText(`Phần tiếp theo — Trang ${pageNum}: Bài tập vận dụng & Lời giải chi tiết`, 48, curY);
+    curY += 30;
+  }
+
+  // Các câu hỏi toán học minh họa trên từng trang
+  const qStart = (pageNum - 1) * 2 + 1;
+  const questions = [
+    {
+      q: `Câu ${qStart} (Phần I - Trắc nghiệm). Cho hàm số y = f(x) = x³ − 3x + 2 có đồ thị (C).`,
+      sub: "Khẳng định nào sau đây đúng về điểm cực đại và cực tiểu của đồ thị hàm số (C)?",
+      opts: ["A. Điểm cực đại A(−1; 4), điểm cực tiểu B(1; 0).", "B. Hàm số đồng biến trên khoảng (−1; 1).", "C. Đồ thị cắt trục hoành tại 4 điểm phân biệt.", "D. Giá trị cực đại của hàm số bằng −1."],
+      sol: "Lời giải: Ta có y' = 3x² − 3 = 0 ⇔ x = −1 (y = 4) hoặc x = 1 (y = 0). Bảng biến thiên suy ra chọn A."
+    },
+    {
+      q: `Câu ${qStart + 1} (Phần II & III - Hình không gian & Oxyz). Cho hình hộp ABCD.A'B'C'D' và hệ trục Oxyz.`,
+      sub: "Xác định thiết diện cắt bởi mặt phẳng (ACD') và tọa độ hình chiếu của điểm M(x₀; y₀; z₀) lên (Oxy):",
+      opts: ["a) Thiết diện (ACD') là tam giác với cạnh AD' nhìn thấy (nét liền), AC và CD' khuất (nét đứt).", "b) Hình chiếu vuông góc của M(x₀; y₀; z₀) lên mặt phẳng (Oxy) là điểm M'(x₀; y₀; 0).", "c) Thể tích khối chóp tứ giác S.ABCD có đường cao SO ⊥ (ABCD) là V = 1/3 · S(ABCD) · SO.", "d) Khoảng cách từ gốc tọa độ O đến điểm M bằng √(x₀² + y₀² + z₀²)."],
+      sol: "Lời giải: Áp dụng quy tắc biểu diễn hình học không gian và công thức tọa độ Oxyz, cả 4 mệnh đề a, b, c, d đều chuẩn xác."
+    }
+  ];
+
+  questions.forEach((item, idx) => {
+    ctx.fillStyle = "#650f12";
+    ctx.font = "bold 14.5px 'Be Vietnam Pro', sans-serif";
+    ctx.fillText(item.q, 48, curY);
+    curY += 24;
+    ctx.fillStyle = "#2a211f";
+    ctx.font = "14px 'Be Vietnam Pro', sans-serif";
+    ctx.fillText(item.sub, 48, curY);
+    curY += 24;
+
+    item.opts.forEach((op) => {
+      ctx.fillStyle = "#3b3534";
+      ctx.font = "13.5px 'Be Vietnam Pro', sans-serif";
+      ctx.fillText("   " + op, 54, curY);
+      curY += 23;
+    });
+
+    // Khung lời giải mẫu
+    curY += 4;
+    ctx.fillStyle = "rgba(255, 242, 168, 0.35)";
+    ctx.fillRect(48, curY - 16, baseW - 96, 34);
+    ctx.strokeStyle = "#d8c7b4";
+    ctx.strokeRect(48, curY - 16, baseW - 96, 34);
+    ctx.fillStyle = "#3d0709";
+    ctx.font = "italic 13px Georgia, serif";
+    ctx.fillText("✎ " + item.sol, 58, curY + 5);
+    curY += 46;
+  });
+
+  // Hộp hình minh họa trực quan ở nửa dưới trang
+  const boxY = curY + 6;
+  const boxH = 220;
+  ctx.fillStyle = "rgba(255, 253, 248, 0.96)";
+  ctx.fillRect(48, boxY, baseW - 96, boxH);
+  ctx.strokeStyle = "#bda894";
+  ctx.lineWidth = 1.4;
+  ctx.strokeRect(48, boxY, baseW - 96, boxH);
+
+  ctx.fillStyle = "#650f12";
+  ctx.font = "bold 13.5px 'Be Vietnam Pro', sans-serif";
+  ctx.fillText(`Hình minh họa trực quan TikZ — Trang ${pageNum} (Bảng biến thiên & Hình không gian Oxyz):`, 64, boxY + 24);
+
+  // Vẽ đồ thị / hình hộp bên trái hộp minh họa
+  ctx.strokeStyle = "#1f5fbf";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(86, boxY + 68, 92, 92);
+  ctx.beginPath();
+  ctx.moveTo(86, boxY + 68); ctx.lineTo(122, boxY + 42); ctx.lineTo(214, boxY + 42); ctx.lineTo(214, boxY + 134); ctx.lineTo(178, boxY + 160);
+  ctx.moveTo(178, boxY + 68); ctx.lineTo(214, boxY + 42);
+  ctx.stroke();
+
+  // Cạnh đứt hình hộp & thiết diện (ACD')
+  ctx.save();
+  ctx.setLineDash([5, 5]);
+  ctx.strokeStyle = "#6f625d";
+  ctx.beginPath();
+  ctx.moveTo(122, boxY + 42); ctx.lineTo(122, boxY + 134);
+  ctx.moveTo(86, boxY + 160); ctx.lineTo(122, boxY + 134); ctx.lineTo(214, boxY + 134);
+  ctx.stroke();
+
+  ctx.strokeStyle = "#c62828";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(86, boxY + 160); ctx.lineTo(214, boxY + 134); ctx.lineTo(122, boxY + 42);
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.strokeStyle = "#c62828";
+  ctx.lineWidth = 2.4;
+  ctx.beginPath();
+  ctx.moveTo(86, boxY + 160); ctx.lineTo(122, boxY + 42);
+  ctx.stroke();
+
+  // Vẽ bảng biến thiên hàm bậc 3 bên phải hộp minh họa
+  const tx = 310, ty = boxY + 44, tw = 290, th = 140;
+  ctx.strokeStyle = "#3b3534";
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(tx, ty, tw, th);
+  ctx.beginPath();
+  ctx.moveTo(tx, ty + 32); ctx.lineTo(tx + tw, ty + 32);
+  ctx.moveTo(tx, ty + 64); ctx.lineTo(tx + tw, ty + 64);
+  ctx.moveTo(tx + 42, ty); ctx.lineTo(tx + 42, ty + th);
+  ctx.stroke();
+
+  ctx.fillStyle = "#650f12";
+  ctx.font = "bold 14px Georgia, serif";
+  ctx.fillText("x", tx + 16, ty + 21);
+  ctx.fillText("y'", tx + 14, ty + 53);
+  ctx.fillText("y", tx + 16, ty + 108);
+
+  ctx.fillStyle = "#2a211f";
+  ctx.font = "13.5px 'Be Vietnam Pro', sans-serif";
+  ctx.fillText("−∞          −1             1          +∞", tx + 56, ty + 21);
+  ctx.fillText("      +      0      −      0      +", tx + 56, ty + 53);
+  ctx.fillText("−∞", tx + 54, ty + 128);
+  ctx.fillStyle = "#c62828";
+  ctx.fillText("4 (CĐ)", tx + 118, ty + 84);
+  ctx.fillStyle = "#1f5fbf";
+  ctx.fillText("0 (CT)", tx + 190, ty + 128);
+  ctx.fillStyle = "#2a211f";
+  ctx.fillText("+∞", tx + 256, ty + 84);
+
+  // Footer bản quyền
+  ctx.fillStyle = "#6f625d";
+  ctx.font = "12px 'Be Vietnam Pro', sans-serif";
+  ctx.fillText("© Lớp Toán Anh Chí — Zalo: 0905 957 716 • Tài liệu bảo mật chỉ xem trực tuyến", 48, baseH - 36);
+
+  ctx.restore();
+}
+
+async function renderProtectedPdfPages() {
+  if (!currentPdfDoc || !pdfStage) return;
+  document.getElementById("pdf-zoom-readout").textContent = `${Math.round(currentPdfZoom * 100)}%`;
+  pdfStage.innerHTML = "";
+
+  // Kiểm tra xem tài liệu có file PDF thực tế được Admin upload trong IndexedDB không
+  let pdfDataUrl = null;
+  if (currentPdfDoc.hasUploadedPdf) {
+    pdfDataUrl = await loadPdfBinaryFromIdb(currentPdfDoc.id);
+  }
+
+  if (pdfDataUrl) {
+    const pdfjs = await loadPdfJsLibrary();
+    if (pdfjs) {
+      try {
+        const loadingTask = pdfjs.getDocument(pdfDataUrl);
+        const pdf = await loadingTask.promise;
+        currentPdfTotalPages = pdf.numPages;
+        document.getElementById("pdf-page-readout").textContent = `Trang 1 / ${currentPdfTotalPages}`;
+        for (let p = 1; p <= pdf.numPages; p++) {
+          const page = await pdf.getPage(p);
+          const viewport = page.getViewport({ scale: currentPdfZoom * 1.35 });
+          const wrap = document.createElement("div");
+          wrap.className = "pdf-page-wrap";
+          wrap.dataset.pageNo = String(p);
+          const canvas = document.createElement("canvas");
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          canvas.style.width = `${Math.round(viewport.width / 1.15)}px`;
+          canvas.style.height = `${Math.round(viewport.height / 1.15)}px`;
+          const wm = document.createElement("div");
+          wm.className = "pdf-watermark";
+          wrap.appendChild(canvas);
+          wrap.appendChild(wm);
+          pdfStage.appendChild(wrap);
+          await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+        }
+        return;
+      } catch {}
+    }
+  }
+
+  // Mặc định hoặc fallback: Kết xuất trang đề thi Toán độ nét cao lên Canvas bảo mật
+  currentPdfTotalPages = Number(currentPdfDoc.pages) || 4;
+  document.getElementById("pdf-page-readout").textContent = `Trang 1 / ${currentPdfTotalPages}`;
+  for (let p = 1; p <= currentPdfTotalPages; p++) {
+    const wrap = document.createElement("div");
+    wrap.className = "pdf-page-wrap";
+    wrap.dataset.pageNo = String(p);
+    const canvas = document.createElement("canvas");
+    drawSampleMathPageOnCanvas(canvas, currentPdfDoc, p, currentPdfTotalPages, currentPdfZoom);
+    const wm = document.createElement("div");
+    wm.className = "pdf-watermark";
+    wrap.appendChild(canvas);
+    wrap.appendChild(wm);
+    pdfStage.appendChild(wrap);
+  }
+}
+
+function openProtectedPdfViewer(doc) {
+  if (!doc) return;
+  currentPdfDoc = doc;
+  currentPdfZoom = 1.0;
+  document.getElementById("pdf-viewer-title").textContent = doc.title;
+  pdfModal.hidden = false;
+  pdfViewport.scrollTop = 0;
+  renderProtectedPdfPages();
+}
+
+document.getElementById("close-pdf-viewer-btn").addEventListener("click", () => { pdfModal.hidden = true; });
+pdfModal.addEventListener("click", (e) => { if (e.target === pdfModal) pdfModal.hidden = true; });
+
+document.getElementById("pdf-zoom-in").addEventListener("click", () => {
+  currentPdfZoom = Math.min(2.2, Number((currentPdfZoom + 0.2).toFixed(2)));
+  renderProtectedPdfPages();
+});
+document.getElementById("pdf-zoom-out").addEventListener("click", () => {
+  currentPdfZoom = Math.max(0.6, Number((currentPdfZoom - 0.2).toFixed(2)));
+  renderProtectedPdfPages();
+});
+document.getElementById("pdf-zoom-reset").addEventListener("click", () => {
+  currentPdfZoom = 1.0;
+  renderProtectedPdfPages();
+});
+
+function scrollToPdfPage(pageNo) {
+  const target = pdfStage.querySelector(`[data-page-no="${pageNo}"]`);
+  if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function getCurrentVisiblePdfPage() {
+  const wraps = Array.from(pdfStage.querySelectorAll(".pdf-page-wrap"));
+  if (!wraps.length) return 1;
+  const vRect = pdfViewport.getBoundingClientRect();
+  for (let i = 0; i < wraps.length; i++) {
+    const r = wraps[i].getBoundingClientRect();
+    if (r.bottom > vRect.top + 80) return i + 1;
+  }
+  return wraps.length;
+}
+
+pdfViewport.addEventListener("scroll", () => {
+  const p = getCurrentVisiblePdfPage();
+  document.getElementById("pdf-page-readout").textContent = `Trang ${p} / ${currentPdfTotalPages}`;
+});
+
+document.getElementById("pdf-prev-page").addEventListener("click", () => {
+  const p = Math.max(1, getCurrentVisiblePdfPage() - 1);
+  scrollToPdfPage(p);
+});
+document.getElementById("pdf-next-page").addEventListener("click", () => {
+  const p = Math.min(currentPdfTotalPages, getCurrentVisiblePdfPage() + 1);
+  scrollToPdfPage(p);
+});
+
+// Kéo chuột (Drag-to-pan) bên trong khung xem PDF khi phóng to
+(function initPdfViewportPan() {
+  let isPanning = false;
+  let startX = 0, startY = 0, scrollL = 0, scrollT = 0;
+  pdfViewport.addEventListener("mousedown", (e) => {
+    isPanning = true;
+    pdfViewport.classList.add("panning");
+    startX = e.clientX;
+    startY = e.clientY;
+    scrollL = pdfViewport.scrollLeft;
+    scrollT = pdfViewport.scrollTop;
+  });
+  window.addEventListener("mousemove", (e) => {
+    if (!isPanning) return;
+    pdfViewport.scrollLeft = scrollL - (e.clientX - startX);
+    pdfViewport.scrollTop = scrollT - (e.clientY - startY);
+  });
+  window.addEventListener("mouseup", () => {
+    isPanning = false;
+    pdfViewport.classList.remove("panning");
+  });
+})();
+
+// Bảo mật thông tin: Chặn phím tắt Ctrl+S, Ctrl+P khi đang mở tài liệu PDF
+window.addEventListener("keydown", (e) => {
+  if (!pdfModal.hidden && (e.ctrlKey || e.metaKey)) {
+    const k = e.key.toLowerCase();
+    if (k === "s" || k === "p" || k === "u") {
+      e.preventDefault();
+    }
+  }
+  if (e.key === "Escape" && !pdfModal.hidden) {
+    pdfModal.hidden = true;
+  }
+});
+
+// ============================================================================
+// ADMIN TAB 2: UPLOAD & QUẢN LÝ TÀI LIỆU PDF (CHỈ ADMIN ĐƯỢC UPLOAD)
+// ============================================================================
+function renderAdminDocList() {
+  const tbody = document.getElementById("admin-doc-tbody");
+  const countEl = document.getElementById("admin-doc-count");
+  if (!tbody) return;
+  if (countEl) countEl.textContent = docRecords.length;
+  tbody.innerHTML = docRecords.map((doc, idx) => `
+    <tr>
+      <td><span class="code-pill">${doc.id}</span></td>
+      <td><b>${doc.title}</b></td>
+      <td>${doc.cat}</td>
+      <td>${doc.pages || 4} trang</td>
+      <td>${doc.hasUploadedPdf ? '<span style="color:var(--green);font-weight:700">✓ File PDF đã Upload</span>' : '<span style="color:var(--muted)">Tài liệu mẫu hệ thống</span>'}</td>
+      <td>
+        <button type="button" class="quick-chip" data-doc-preview="${idx}">👁 Xem</button>
+        <button type="button" class="quick-chip" data-doc-del="${doc.id}" style="color:#b71c1c;border-color:#e5a5a5">Xóa</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+document.getElementById("admin-doc-tbody").addEventListener("click", async (e) => {
+  const prevBtn = e.target.closest("[data-doc-preview]");
+  if (prevBtn) {
+    const idx = Number(prevBtn.dataset.docPreview);
+    if (docRecords[idx]) openProtectedPdfViewer(docRecords[idx]);
+    return;
+  }
+  const delBtn = e.target.closest("[data-doc-del]");
+  if (delBtn) {
+    const id = delBtn.dataset.docDel;
+    docRecords = docRecords.filter(d => d.id !== id);
+    await deletePdfBinaryFromIdb(id);
+    saveDocsList(docRecords);
+    activeDocIndex = Math.max(0, Math.min(activeDocIndex, docRecords.length - 1));
+    buildLockerBays();
+    renderAdminDocList();
+  }
+});
+
+document.getElementById("doc-upload-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (!isAdminLoggedIn) return;
+  const title = document.getElementById("doc-title-input").value.trim();
+  const cat = document.getElementById("doc-cat-input").value;
+  const badge = document.getElementById("doc-badge-input").value.trim() || "TÀI LIỆU MỚI";
+  const desc = document.getElementById("doc-desc-input").value.trim() || "Tài liệu PDF được Thầy Huỳnh Thanh Chí đăng tải (Chế độ chỉ xem, chống tải).";
+  const fileInput = document.getElementById("doc-file-input");
+  const file = fileInput.files && fileInput.files[0];
+
+  const newId = "DOC" + String(Date.now()).slice(-4);
+  const newEntry = {
+    id: newId,
+    title,
+    cat,
+    badge,
+    accent: "#a11e21",
+    pages: 4,
+    desc,
+    svgType: "cubic",
+    hasUploadedPdf: Boolean(file)
+  };
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = async () => {
+      await savePdfBinaryToIdb(newId, reader.result);
+      docRecords.unshift(newEntry);
+      saveDocsList(docRecords);
+      activeDocIndex = 0;
+      buildLockerBays();
+      renderAdminDocList();
+      document.getElementById("doc-title-input").value = "";
+      document.getElementById("doc-desc-input").value = "";
+      fileInput.value = "";
+      showStatus("doc-upload-status", `✓ Đã tải lên file "${file.name}" và đưa lên Kệ 3D ở chế độ bảo mật chống tải!`, false);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    docRecords.unshift(newEntry);
+    saveDocsList(docRecords);
+    activeDocIndex = 0;
+    buildLockerBays();
+    renderAdminDocList();
+    document.getElementById("doc-title-input").value = "";
+    document.getElementById("doc-desc-input").value = "";
+    showStatus("doc-upload-status", `✓ Đã thêm thẻ tài liệu "${title}" lên Kệ 3D!`, false);
+  }
+});
+
+document.getElementById("btn-reset-docs").addEventListener("click", () => {
+  docRecords = DEFAULT_DOCS.map(d => ({ ...d }));
+  saveDocsList(docRecords);
+  activeDocIndex = 3;
+  buildLockerBays();
+  renderAdminDocList();
+  showStatus("doc-upload-status", "✓ Đã khôi phục 7 tài liệu mẫu mặc định trên Kệ 3D!", false);
+});
+
+buildLockerBays();
+
+// ============================================================================
+// CON TRỎ TƯƠNG TÁC THÔNG MINH (CONTEXTUAL CURSOR FOLLOWER)
+// ============================================================================
+(function initCursorFollower() {
+  const follower = document.getElementById("cursor-follower");
+  if (!follower || window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
+
+  window.addEventListener("mousemove", (e) => {
+    follower.classList.add("visible");
+    follower.style.transform = `translate3d(${e.clientX + 16}px, ${e.clientY + 16}px, 0)`;
+    const labeled = e.target.closest("[data-cursor-label]");
+    if (labeled) {
+      const txt = labeled.getAttribute("data-cursor-label");
+      if (follower.textContent !== txt) follower.textContent = txt;
+      follower.classList.add("has-label");
+    } else {
+      follower.textContent = "";
+      follower.classList.remove("has-label");
+    }
+  });
+
+  document.addEventListener("mouseleave", () => {
+    follower.classList.remove("visible");
+  });
+})();
 
 document.getElementById("year").textContent = new Date().getFullYear();
 applySavedCards();

@@ -46,4 +46,15 @@ assert.ok(html.includes('data-sheet-mode="pyramid"') && html.includes('HÃ¬nh chÃ
 assert.ok(html.includes('::-webkit-scrollbar-thumb') && html.includes('scrollbar-color: var(--ink-soft) var(--paper-2)'), 'Missing custom synchronized scrollbar styles');
 assert.ok(html.includes('.custom-select-menu') && html.includes('initCustomClassSelect') && html.includes('input[type="checkbox"]:checked'), 'Missing custom notebook select dropdown or custom checkbox styles');
 
-console.log('PASS: All assertions passed (16 generic draft students, 1-line score rows, Admin auth/reset/CRUD/anonymize/card editor, full bento grid, ACD\' + 3D Oxyz + Pyramid S.ABCD + Cubic BBT, synchronized select boxes & scrollbars).');
+// 7. Verify Student List Privacy (Hide all / Show selected) & Search Permissions (Allow none / Allow selected / Allow all)
+assert.ok(html.includes('id="privacy-list-mode"') && html.includes('id="privacy-search-mode"'), 'Missing privacy list mode or search permission controls in Admin');
+assert.ok(html.includes('canPublicSeeInTable') && html.includes('canPublicSearchStudent'), 'Missing student list visibility & search permission guard functions');
+assert.ok(students.filter(s => s.publicVisible).length === 4 && students.filter(s => s.searchable).length === 6, 'Default students must only expose 4 visible and 6 searchable records');
+
+// 8. Verify 3D Locker PDF Document Carousel (inspired by aodauvietnam.com), Admin PDF Upload, Protected No-Download Viewer & Custom Cursors
+assert.ok(html.includes('id="tai-lieu"') && html.includes('class="locker__stage"') && html.includes('class="locker__cubby"') && html.includes('class="locker__rail"'), 'Missing 3D Locker PDF Document Carousel');
+assert.ok(html.includes('id="doc-upload-form"') && html.includes('id="doc-file-input"') && html.includes('savePdfBinaryToIdb'), 'Missing Admin-only PDF upload form and IndexedDB storage');
+assert.ok(html.includes('id="pdf-viewer-modal"') && html.includes('id="pdf-zoom-in"') && html.includes('class="pdf-watermark"') && html.includes('@media print'), 'Missing Protected PDF Viewer with zoom/scroll/watermark and print blocker');
+assert.ok(html.includes('--cursor-grab:') && html.includes('--cursor-hover:') && html.includes('id="cursor-follower"'), 'Missing custom cursors and contextual cursor follower');
+
+console.log('PASS: All assertions passed (Privacy list & search permissions, 3D Locker PDF Carousel, Admin PDF upload, No-download Zoom/Scroll PDF Viewer, Custom Cursors).');
