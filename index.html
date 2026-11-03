@@ -2522,7 +2522,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           Lưu lại các đường link dưới đây để mở thẳng bảng Quản trị Admin, sửa thông tin trên web và upload tài liệu từ điện thoại hoặc máy tính:
         </p>
         <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-          <input type="text" id="admin-direct-url-box" readonly value="https://thanhchi113.github.io/Chi-GV-Toan/admin.html" style="flex:1 1 280px;padding:9px 12px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font:600 13.5px var(--sans);color:var(--ink)">
+          <input type="text" id="admin-direct-url-box" readonly value="https://thanhchi113.github.io/admin.html" style="flex:1 1 280px;padding:9px 12px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font:600 13.5px var(--sans);color:var(--ink)">
           <button type="button" class="btn sm" id="btn-copy-admin-url"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Sao chép Link Admin</span></button>
         </div>
         <div id="copy-admin-url-status" class="status-msg" hidden></div>
@@ -6540,6 +6540,11 @@ if (btnCopyAdminUrl) {
     } catch {}
     showStatus("copy-admin-url-status", `Đã sao chép link Admin: ${url}`, false);
   });
+}
+
+const adminBoxEl = document.getElementById("admin-direct-url-box");
+if (adminBoxEl && window.location.protocol.startsWith("http")) {
+  try { adminBoxEl.value = new URL("admin.html", window.location.href).href; } catch {}
 }
 
 updateSupabaseBadgeUI();

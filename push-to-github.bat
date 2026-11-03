@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 echo ============================================================
-echo   ĐỒNG BỘ VÀ ĐẨY CODE LÊN GITHUB (thanhchi113/Chi-GV-Toan)
+echo   ĐỒNG BỘ VÀ ĐẨY CODE LÊN GITHUB (thanhchi113.github.io)
 echo ============================================================
 
 cd /d "%~dp0"
@@ -16,7 +16,7 @@ git push -u origin main
 
 if %ERRORLEVEL% equ 0 (
     echo.
-    echo [THÀNH CÔNG] Đã đẩy lên: https://thanhchi113.github.io/Chi-GV-Toan/
+    echo [THÀNH CÔNG] Đã đẩy lên: https://thanhchi113.github.io/
 ) else (
     echo.
     echo [LỖI] Đẩy code thất bại. Vui lòng kiểm tra kết nối mạng.
