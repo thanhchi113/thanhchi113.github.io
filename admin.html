@@ -223,12 +223,21 @@ h1 em::after {
 [data-editable] { white-space: pre-line; }
 .note-tag, .sheet-switcher { display: none !important; }
 
-/* --- Stats --- */
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 36px 0 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(251, 247, 239, .75); }
-.stats div { padding: 22px 24px; }
-.stats div + div { border-left: 1px dashed var(--line); }
-.stats b { display: block; font: 800 40px/1 var(--serif); color: var(--ink); letter-spacing: -.02em; }
-.stats span { color: var(--muted); font-size: 14.5px; }
+/* --- Stats (Crimson & Gold Banner) --- */
+.stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); margin: 36px 0 0;
+  background: linear-gradient(135deg, #4f090c 0%, #681115 50%, #46080b 100%);
+  border-radius: 20px; border: 1.5px solid #8e2329;
+  box-shadow: 0 20px 45px -12px rgba(79, 9, 12, .42), inset 0 1px 0 rgba(255, 255, 255, .18);
+  overflow: hidden;
+}
+.stats div { padding: 24px 28px; }
+.stats div + div { border-left: 1px dashed rgba(255, 255, 255, .18); }
+.stats b {
+  display: block; font: 800 44px/1 var(--serif); color: #ffe27d;
+  letter-spacing: -.02em; text-shadow: 0 2px 12px rgba(0, 0, 0, .35);
+}
+.stats span { color: #f7ebe0; font-size: 14px; font-weight: 500; margin-top: 6px; display: block; line-height: 1.4; opacity: .95; }
 
 /* --- Sections --- */
 section { padding: 96px 0 0; scroll-margin-top: 72px; }
@@ -1277,10 +1286,10 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   }
 
   /* 3. Stats & Section Headers */
-  .stats { grid-template-columns: repeat(2, 1fr); margin-top: 24px; }
+  .stats { grid-template-columns: repeat(2, 1fr); margin-top: 24px; border-radius: 16px; }
   .stats div { padding: 16px 14px; }
   .stats div:nth-child(3) { border-left: 0; }
-  .stats div:nth-child(n + 3) { border-top: 1px dashed var(--line); }
+  .stats div:nth-child(n + 3) { border-top: 1px dashed rgba(255, 255, 255, .18); }
   .stats b { font-size: 28px; }
   .stats span { font-size: 13px; }
   .head { grid-template-columns: 1fr; margin-bottom: 24px; gap: 4px; }
