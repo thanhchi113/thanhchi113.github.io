@@ -806,7 +806,16 @@ input[type="checkbox"]:checked::before { transform: scale(1); }
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
   gap: 14px; padding-bottom: 18px; border-bottom: 1.5px dashed var(--line);
 }
-.doc-lib-head h3 { margin: 4px 0 0; font: 800 26px/1.15 var(--serif); color: var(--ink-deep); }
+.doc-lib-head h3 { margin: 6px 0 0; font: 800 26px/1.18 var(--serif); color: var(--ink-deep); }
+.doc-lib-head h3.doc-lib-title { display: inline-flex; align-items: center; gap: 11px; }
+.doc-lib-title__ico {
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  background: linear-gradient(135deg, #650f12 0%, #43080a 100%);
+  color: #ffe27d; border: 1px solid rgba(255, 226, 125, .42);
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 18px -8px rgba(101, 15, 18, .45);
+}
+.doc-lib-title__ico svg { width: 19px; height: 19px; }
 .doc-lib-head p { margin: 6px 0 0; font-size: 14.5px; color: var(--muted); }
 .doc-lib-controls {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
@@ -1842,7 +1851,12 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <div class="doc-lib-head">
         <div>
           <span class="eyebrow">Danh mục đầy đủ · Cập nhật liên tục</span>
-          <h3 data-editable="lib_heading">Kho Tài Liệu &amp; Đề Thi Do Thầy Huỳnh Thanh Chí Biên Soạn</h3>
+          <h3 class="doc-lib-title">
+            <span class="doc-lib-title__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h8"/><path d="M8 11h6"/></svg>
+            </span>
+            <span data-editable="lib_heading">Kho Tài Liệu &amp; Đề Thi Do Thầy Huỳnh Thanh Chí Biên Soạn</span>
+          </h3>
           <p data-editable="lib_sub">Toàn bộ chuyên đề, phiếu bài tập và đề thi thử chuẩn cấu trúc 3 phần do Thầy Chí biên soạn và đăng tải. Bạn có thể lọc theo khối lớp, chuyển trang, xem trực tuyến độ nét cao hoặc tải về các tài liệu được Thầy mở quyền tải.</p>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
@@ -3204,10 +3218,22 @@ document.querySelectorAll("[data-editable]").forEach((el) => {
   defaultCardTexts[el.dataset.editable] = el.textContent.trim();
 });
 
+function stripAnyEmoji(str) {
+  return String(str || "")
+    .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE00}-\u{FE0F}]/gu, "")
+    .replace(/^\s+/, "");
+}
+
 function loadSavedCards() {
   try {
     const raw = localStorage.getItem(CARDS_STORAGE_KEY);
-    if (raw) return JSON.parse(raw) || {};
+    if (raw) {
+      const parsed = JSON.parse(raw) || {};
+      Object.keys(parsed).forEach((k) => {
+        if (typeof parsed[k] === "string") parsed[k] = stripAnyEmoji(parsed[k]);
+      });
+      return parsed;
+    }
   } catch {}
   return {};
 }
@@ -4908,12 +4934,32 @@ async function syncSiteStateFromSupabase() {
       savePrivacyConfig(privacyConfig);
     }
     if (row.cards_data && typeof row.cards_data === "object" && Object.keys(row.cards_data).length) {
+      let hadEmoji = false;
+      Object.keys(row.cards_data).forEach((k) => {
+        if (typeof row.cards_data[k] === "string") {
+          const cleaned = stripAnyEmoji(row.cards_data[k]);
+          if (cleaned !== row.cards_data[k]) hadEmoji = true;
+          row.cards_data[k] = cleaned;
+        }
+      });
       localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(row.cards_data));
+      if (hadEmoji) saveSiteStateToSupabase({ cards_data: row.cards_data });
     }
     if (row.live_dom_data && typeof row.live_dom_data === "object") {
       if (row.live_dom_data.styles) saveCardStyles(row.live_dom_data.styles);
       if (row.live_dom_data.globalTypo) saveGlobalTypo(row.live_dom_data.globalTypo);
-      if (row.live_dom_data.domMap) localStorage.setItem("lop_toan_anh_chi_live_dom_v1", JSON.stringify(row.live_dom_data.domMap));
+      if (row.live_dom_data.domMap && typeof row.live_dom_data.domMap === "object") {
+        let hadDomEmoji = false;
+        Object.keys(row.live_dom_data.domMap).forEach((k) => {
+          if (typeof row.live_dom_data.domMap[k] === "string") {
+            const cleaned = stripAnyEmoji(row.live_dom_data.domMap[k]);
+            if (cleaned !== row.live_dom_data.domMap[k]) hadDomEmoji = true;
+            row.live_dom_data.domMap[k] = cleaned;
+          }
+        });
+        localStorage.setItem("lop_toan_anh_chi_live_dom_v1", JSON.stringify(row.live_dom_data.domMap));
+        if (hadDomEmoji) saveSiteStateToSupabase({ live_dom_data: row.live_dom_data });
+      }
     }
     applySavedCards();
     applyLiveDomEdits();
@@ -6460,7 +6506,7 @@ function applyLiveDomEdits() {
       if (!el.dataset.editable) return;
       const key = `card_${el.dataset.editable}`;
       if (map[key] !== undefined) {
-        el.textContent = map[key];
+        el.textContent = stripAnyEmoji(map[key]);
       }
     });
   } catch {}
