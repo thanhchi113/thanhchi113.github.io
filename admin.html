@@ -710,17 +710,17 @@ input[type="checkbox"]:checked::before { transform: scale(1); }
 }
 .locker__bay {
   position: absolute; top: 3%; left: calc(var(--bay-w) / -2); width: var(--bay-w);
-  transition: transform .52s cubic-bezier(.22, 1, .36, 1), opacity .4s ease;
+  transition: opacity .35s ease;
   will-change: transform;
 }
 .locker__stage[data-dragging="true"] .locker__bay { transition: none; }
 .locker__dim {
   position: absolute; inset: 0; z-index: 5; border-radius: var(--bay-r);
-  background: #221815; opacity: 0; pointer-events: none; transition: opacity .4s;
+  background: #221815; opacity: 0; pointer-events: none;
 }
 .locker__haze {
   position: absolute; inset: 0; z-index: 6; border-radius: var(--bay-r);
-  background: #ede6da; opacity: 0; pointer-events: none; transition: opacity .4s;
+  background: #ede6da; opacity: 0; pointer-events: none;
 }
 .locker__cubby {
   aspect-ratio: .76; border-radius: 18px; position: relative; overflow: hidden;
@@ -5135,32 +5135,38 @@ function buildLockerBays() {
     <button type="button" role="tab" class="doc-spotlight__dot" data-doc-dot="${idx}" aria-selected="${idx === activeDocIndex}" aria-label="${doc.title}" title="${doc.title}"></button>
   `).join("");
 
-  updateLockerPositions(0);
+  lastRenderedActiveIdx = -1;
+  updateLockerPositions(0, true);
   renderFullDocLibrary();
 }
 
-function updateLockerPositions(dragOffsetPx = 0) {
+let conveyorPos = activeDocIndex;
+let lastRenderedActiveIdx = -1;
+let conveyorPauseUntil = 0;
+let manualTargetPos = null;
+
+function updateLockerPositions(dragOffsetPx = 0, forceMeta = false) {
   const rowEl = document.getElementById("doc-locker-row");
   const lockerDocs = getLockerDocs();
   if (!rowEl || !lockerDocs.length) return;
   const n = lockerDocs.length;
-  if (activeDocIndex >= n) activeDocIndex = 0;
-  if (activeDocIndex < 0) activeDocIndex = n - 1;
 
-  const dragStep = dragOffsetPx / 170;
+  const dragStep = dragOffsetPx / 180;
+  const effectivePos = (((conveyorPos - dragStep) % n) + n) % n;
+  activeDocIndex = ((Math.round(effectivePos) % n) + n) % n;
 
   rowEl.querySelectorAll(".locker__bay").forEach((bay) => {
     const idx = Number(bay.dataset.docIdx);
-    let d = idx - activeDocIndex + dragStep;
-    if (n >= 5) {
+    let d = idx - effectivePos;
+    if (n >= 3) {
       while (d > n / 2) d -= n;
       while (d < -n / 2) d += n;
     }
     const abs = Math.abs(d);
-    const isAct = Math.round(idx - activeDocIndex) === 0 && Math.abs(dragStep) < 0.35;
+    const isAct = abs < 0.5;
     bay.setAttribute("data-active", isAct ? "true" : "false");
     bay.style.zIndex = String(100 - Math.round(abs * 10));
-    bay.style.visibility = abs > 3.35 ? "hidden" : "visible";
+    bay.style.visibility = abs > 3.45 ? "hidden" : "visible";
     bay.style.transform = `translate3d(calc(var(--gap) * ${d.toFixed(3)}), 0, ${(-165 * abs).toFixed(1)}px) rotateY(${(15 * -d).toFixed(2)}deg)`;
     const dimEl = bay.querySelector(".locker__dim");
     const hazeEl = bay.querySelector(".locker__haze");
@@ -5168,21 +5174,24 @@ function updateLockerPositions(dragOffsetPx = 0) {
     if (hazeEl) hazeEl.style.opacity = String(Math.min(0.72, abs * 0.2));
   });
 
-  document.querySelectorAll(".doc-spotlight__dot").forEach((dot) => {
-    dot.setAttribute("aria-selected", String(Number(dot.dataset.docDot) === activeDocIndex));
-  });
+  if (activeDocIndex !== lastRenderedActiveIdx || forceMeta) {
+    lastRenderedActiveIdx = activeDocIndex;
+    document.querySelectorAll(".doc-spotlight__dot").forEach((dot) => {
+      dot.setAttribute("aria-selected", String(Number(dot.dataset.docDot) === activeDocIndex));
+    });
 
-  const activeDoc = lockerDocs[activeDocIndex];
-  if (activeDoc) {
-    const canDl = canPublicDownloadDoc(activeDoc);
-    document.getElementById("doc-active-cat").textContent = activeDoc.cat;
-    document.getElementById("doc-active-pages").innerHTML = canDl
-      ? `${activeDoc.pages || 4} trang · ${ico("unlock")}<span>Cho phép Xem &amp; Tải PDF</span>`
-      : `${activeDoc.pages || 4} trang · ${ico("lock")}<span>Chỉ xem &amp; Phóng to (Chống tải)</span>`;
-    document.getElementById("doc-active-title").textContent = activeDoc.title;
-    document.getElementById("doc-active-desc").textContent = activeDoc.desc || "Tài liệu biên soạn chuẩn LaTeX – TikZ của Thầy Huỳnh Thanh Chí.";
-    const dlBtn = document.getElementById("btn-download-active-doc");
-    if (dlBtn) dlBtn.hidden = !canDl;
+    const activeDoc = lockerDocs[activeDocIndex];
+    if (activeDoc) {
+      const canDl = canPublicDownloadDoc(activeDoc);
+      document.getElementById("doc-active-cat").textContent = activeDoc.cat;
+      document.getElementById("doc-active-pages").innerHTML = canDl
+        ? `${activeDoc.pages || 4} trang · ${ico("unlock")}<span>Cho phép Xem &amp; Tải PDF</span>`
+        : `${activeDoc.pages || 4} trang · ${ico("lock")}<span>Chỉ xem &amp; Phóng to (Chống tải)</span>`;
+      document.getElementById("doc-active-title").textContent = activeDoc.title;
+      document.getElementById("doc-active-desc").textContent = activeDoc.desc || "Tài liệu biên soạn chuẩn LaTeX – TikZ của Thầy Huỳnh Thanh Chí.";
+      const dlBtn = document.getElementById("btn-download-active-doc");
+      if (dlBtn) dlBtn.hidden = !canDl;
+    }
   }
 }
 
@@ -5306,8 +5315,11 @@ function renderFullDocLibrary() {
 function stepLocker(delta) {
   const lockerDocs = getLockerDocs();
   if (!lockerDocs.length) return;
-  activeDocIndex = (activeDocIndex + delta + lockerDocs.length) % lockerDocs.length;
-  updateLockerPositions(0);
+  const n = lockerDocs.length;
+  const base = manualTargetPos !== null ? manualTargetPos : Math.round(conveyorPos);
+  manualTargetPos = base + delta;
+  activeDocIndex = ((Math.round(manualTargetPos) % n) + n) % n;
+  conveyorPauseUntil = performance.now() + 1400;
 }
 
 document.getElementById("doc-nav-prev")?.addEventListener("click", () => stepLocker(-1));
@@ -5318,24 +5330,65 @@ document.getElementById("doc-next-top")?.addEventListener("click", () => stepLoc
 document.getElementById("doc-pager-dots")?.addEventListener("click", (e) => {
   const dot = e.target.closest("[data-doc-dot]");
   if (!dot) return;
-  activeDocIndex = Number(dot.dataset.docDot);
-  updateLockerPositions(0);
+  const targetIdx = Number(dot.dataset.docDot);
+  const lockerDocs = getLockerDocs();
+  const n = lockerDocs.length || 1;
+  const currentWrapped = ((conveyorPos % n) + n) % n;
+  let diff = targetIdx - currentWrapped;
+  if (diff > n / 2) diff -= n;
+  if (diff < -n / 2) diff += n;
+  manualTargetPos = conveyorPos + diff;
+  activeDocIndex = targetIdx;
+  conveyorPauseUntil = performance.now() + 1400;
 });
 
-// Drag / Swipe / Click trên kệ 3D
+// Drag / Swipe / Click + Băng chuyền tự động (Auto-scroll Conveyor) trên kệ 3D
 (function initLockerInteractions() {
   const stage = document.getElementById("doc-locker-stage");
   if (!stage) return;
   let pointerDown = false;
   let startX = 0;
   let deltaX = 0;
+  let dragStartPos = 0;
   let moved = false;
+  let lastFrameTime = performance.now();
+  const CONVEYOR_SPEED = 0.22; // ~0.22 ô/giây (~4.5 giây mỗi tài liệu, chậm vừa phải & mượt mà)
+
+  function tickConveyor(now) {
+    const dt = Math.min(0.08, Math.max(0, (now - lastFrameTime) / 1000));
+    lastFrameTime = now;
+    const lockerDocs = getLockerDocs();
+    const n = lockerDocs.length;
+    const pdfModal = document.getElementById("pdf-viewer-modal");
+    const isModalOpen = pdfModal && !pdfModal.hidden;
+
+    if (!pointerDown && n > 1 && !document.hidden && !isModalOpen) {
+      if (manualTargetPos !== null) {
+        const diff = manualTargetPos - conveyorPos;
+        if (Math.abs(diff) < 0.006) {
+          conveyorPos = (((manualTargetPos % n) + n) % n);
+          manualTargetPos = null;
+        } else {
+          conveyorPos += diff * Math.min(1, dt * 8.5);
+        }
+        updateLockerPositions(0, false);
+      } else if (now >= conveyorPauseUntil) {
+        conveyorPos = (conveyorPos + dt * CONVEYOR_SPEED) % n;
+        updateLockerPositions(0, false);
+      }
+    }
+    requestAnimationFrame(tickConveyor);
+  }
+  requestAnimationFrame(tickConveyor);
 
   stage.addEventListener("pointerdown", (e) => {
+    if (e.target.closest(".locker__arrow")) return;
     pointerDown = true;
     moved = false;
     startX = e.clientX;
     deltaX = 0;
+    dragStartPos = conveyorPos;
+    manualTargetPos = null;
     stage.setAttribute("data-dragging", "true");
   });
 
@@ -5343,32 +5396,34 @@ document.getElementById("doc-pager-dots")?.addEventListener("click", (e) => {
     if (!pointerDown) return;
     deltaX = e.clientX - startX;
     if (Math.abs(deltaX) > 6) moved = true;
-    updateLockerPositions(deltaX);
+    const n = getLockerDocs().length || 1;
+    conveyorPos = (((dragStartPos - deltaX / 180) % n) + n) % n;
+    updateLockerPositions(0, false);
   });
 
-  window.addEventListener("pointerup", (e) => {
+  function endDrag(e) {
     if (!pointerDown) return;
     pointerDown = false;
     stage.removeAttribute("data-dragging");
-    if (Math.abs(deltaX) > 48) {
-      stepLocker(deltaX < 0 ? 1 : -1);
-    } else {
-      updateLockerPositions(0);
-      if (!moved) {
-        const cardBtn = e.target.closest("[data-doc-card]");
-        if (cardBtn) {
-          const clickedIdx = Number(cardBtn.dataset.docCard);
-          const lockerDocs = getLockerDocs();
-          activeDocIndex = clickedIdx;
-          updateLockerPositions(0);
-          if (lockerDocs[activeDocIndex]) {
-            handleDocOpenRequest(lockerDocs[activeDocIndex]);
-          }
+    conveyorPauseUntil = performance.now() + 650;
+    if (!moved && e) {
+      const cardBtn = e.target.closest("[data-doc-card]");
+      if (cardBtn) {
+        const clickedIdx = Number(cardBtn.dataset.docCard);
+        const lockerDocs = getLockerDocs();
+        conveyorPos = clickedIdx;
+        activeDocIndex = clickedIdx;
+        updateLockerPositions(0, true);
+        if (lockerDocs[clickedIdx]) {
+          handleDocOpenRequest(lockerDocs[clickedIdx]);
         }
       }
     }
     deltaX = 0;
-  });
+  }
+
+  window.addEventListener("pointerup", endDrag);
+  window.addEventListener("pointercancel", endDrag);
 
   stage.addEventListener("keydown", (e) => {
     const lockerDocs = getLockerDocs();
