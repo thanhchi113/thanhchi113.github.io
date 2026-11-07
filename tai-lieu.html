@@ -1339,18 +1339,18 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 
   /* 5. 3D Locker PDF Document Carousel on Mobile (Matching aodauvietnam.com) */
   .doc-spotlight { padding: 24px 12px 18px; border-radius: 20px; }
-  .doc-spotlight__title { font-size: clamp(21px, 6.2vw, 28px); }
+  .doc-spotlight__title { font-size: clamp(20px, 5.8vw, 28px); }
   .doc-spotlight__sub { font-size: 13.5px; line-height: 1.45; padding: 0 4px; }
-  .locker { --gap: 124px; --bay-w: 172px; --bay-r: 13px; }
-  .locker__stage { height: 256px; min-height: 250px; }
+  .locker { --gap: clamp(98px, 28vw, 126px); --bay-w: clamp(144px, 44vw, 172px); --bay-r: 12px; }
+  .locker__stage { height: 248px; min-height: 235px; }
   .locker__doc { padding: 8px 8px 6px; }
   .doc-card__top, .doc-card__foot { font-size: 9px; }
   .doc-card__badge { padding: 2px 5px; }
   .doc-card__title { font-size: 11.5px; margin: 4px 0 2px; }
   .doc-card__preview { min-height: 50px; margin: 2px 0; }
-  .locker__nav { width: 38px; height: 38px; top: 42%; }
-  .locker__nav--prev { left: 6px; }
-  .locker__nav--next { right: 6px; }
+  .locker__nav { width: 34px; height: 34px; top: 40%; }
+  .locker__nav--prev { left: 4px; }
+  .locker__nav--next { right: 4px; }
   .doc-active-bar {
     flex-direction: column; align-items: stretch; padding: 14px; gap: 12px; border-radius: 14px;
   }
@@ -1359,6 +1359,8 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   .doc-active-bar .btn { width: 100%; justify-content: center; min-height: 44px; font-size: 14px; }
   .doc-lib-shell { padding: 18px 14px; border-radius: 18px; margin-top: 18px; }
   .doc-lib-head h3 { font-size: 21px; }
+  .doc-lib-head h3.doc-lib-title { display: flex; align-items: flex-start; gap: 10px; font-size: 19px; line-height: 1.25; }
+  .doc-lib-title__ico { width: 32px; height: 32px; flex-shrink: 0; margin-top: 2px; }
   .doc-lib-cats {
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; width: 100%;
   }
@@ -1369,7 +1371,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   .doc-lib-search-wrap { max-width: 100%; width: 100%; }
   .doc-lib-grid { grid-template-columns: 1fr; gap: 12px; }
   .admin-live-bar {
-    left: 10px; right: 10px; bottom: 10px; transform: none; border-radius: 16px;
+    left: 10px; right: 10px; bottom: max(10px, calc(8px + env(safe-area-inset-bottom))); transform: none; border-radius: 16px;
     padding: 8px 10px; justify-content: center; gap: 6px;
   }
   .admin-live-bar button { flex: 1 1 calc(50% - 6px); justify-content: center; font-size: 11.5px; padding: 0 8px; }
@@ -1380,7 +1382,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding-bottom: 14px;
   }
   .score-tab {
-    width: 100%; justify-content: space-between; padding: 9px 11px; font-size: 12.5px;
+    width: 100%; justify-content: space-between; padding: 9px 11px; font-size: 12px;
   }
   .score-tab:first-child { grid-column: span 2; justify-content: center; }
   .score-controls { gap: 8px; margin-top: 14px; }
@@ -1402,11 +1404,12 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   .r-box .r-val { font-size: 21px; margin: 5px 0 2px; }
   .r-box .r-sub { font-size: 11.5px; }
   .report-comment p { font-size: 18px; }
-  table.score-table th, table.score-table td { padding: 10px 10px; font-size: 13px; }
+  .score-table-wrap { -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+  table.score-table th, table.score-table td { padding: 10px 8px; font-size: 12.5px; }
 
-  /* 7. Protected PDF Viewer Modal on Mobile (No Overlapping Toolbar Buttons) */
+  /* 7. Protected PDF Viewer Modal on Mobile (No Overlapping Toolbar Buttons, Touch-Optimized) */
   .modal-backdrop { padding: 8px; }
-  .pdf-modal-card { height: 94dvh; border-radius: 16px; }
+  .pdf-modal-card { height: 95dvh; border-radius: 16px; }
   .pdf-toolbar {
     padding: 10px 12px; flex-direction: column; align-items: stretch; gap: 8px;
   }
@@ -1414,12 +1417,21 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   .pdf-toolbar__title b { max-width: 100%; font-size: 13px; }
   .pdf-sec-badge { font-size: 10.5px; padding: 3px 7px; }
   .pdf-controls {
-    width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px;
+    width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px;
   }
   .pdf-controls > span.pdf-ctrl-sep { display: none; }
-  .pdf-ctrl-btn, .pdf-ctrl-readout {
-    width: 100%; justify-content: center; height: 32px; padding: 0 4px;
-    font-size: 11.5px; min-width: 0; white-space: nowrap; display: inline-flex; align-items: center;
+  .pdf-ctrl-btn {
+    flex: 1 1 auto; height: 34px; padding: 0 10px; font-size: 12px; min-width: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .pdf-ctrl-readout {
+    font-size: 12px; min-width: 50px; padding: 0 4px; text-align: center;
+  }
+  .pdf-jump-wrap {
+    flex: 1 1 100%; justify-content: center; margin: 2px 0; padding: 3px 6px 3px 10px;
+  }
+  .pdf-page-nums {
+    display: inline-flex; max-width: 150px;
   }
   .pdf-viewport { padding: 12px 6px; }
   .pdf-footer-note { padding: 8px 12px; font-size: 11px; gap: 4px; }
@@ -1433,16 +1445,35 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   .support { padding: 24px 18px; gap: 18px; border-radius: 20px; }
   .support p { font-size: 15.5px; }
   .support .side { width: 100%; justify-items: stretch; }
-  .support .side .btn { width: 100%; justify-content: center; font-size: 14px; padding: 0 14px; }
-  footer { margin-top: 60px; padding-top: 26px; }
-  .foot-contact .contact { width: 100%; font-size: 13.5px; }
-  .float-zalo { width: 50px; height: 50px; right: 12px; bottom: 12px; font-size: 11.5px; }
+  .support .side .btn {
+    width: 100%; justify-content: center; font-size: clamp(12.5px, 3.6vw, 14px);
+    padding: 0 10px; min-height: 46px; word-break: break-all;
+  }
+  .support .side .btn span { line-height: 1.25; text-align: center; }
+  footer { margin-top: 60px; padding-top: 26px; padding-bottom: max(36px, calc(30px + env(safe-area-inset-bottom))); }
+  .foot-contact .contact { width: 100%; font-size: 13.5px; min-height: 44px; }
+  .float-zalo { width: 50px; height: 50px; right: 12px; bottom: max(14px, calc(10px + env(safe-area-inset-bottom))); font-size: 11.5px; }
 }
 
 @media (max-width: 420px) {
   .hero .cta { grid-template-columns: 1fr; }
   .platforms { grid-template-columns: 1fr; }
   .admin-tabs { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 380px) {
+  .wrap { width: calc(100% - 20px); }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stats div { padding: 12px 10px; }
+  .stats b { font-size: 24px; }
+  .stats span { font-size: 11.5px; }
+  .brand b { font-size: 14.5px; }
+  .brand-badge { width: 28px; height: 28px; font-size: 15px; }
+  .score-tabs { grid-template-columns: 1fr; }
+  .doc-lib-cats { grid-template-columns: 1fr; }
+  .doc-active-bar { padding: 12px 10px; }
+  .support { padding: 20px 14px; }
+  .support .side .btn { font-size: 12px; padding: 0 8px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2089,11 +2120,11 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <div class="side">
         <a class="btn zalo" href="https://zalo.me/0905957716" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>
-          <span>Nhắn Zalo: 0905 957 716</span>
+          <span>Nhắn Zalo: 090 595 7716</span>
         </a>
-        <a class="btn ghost" href="mailto:badaoqn132@gmail.com?subject=Dang%20ky%20hoc%20Lop%20Toan%20Anh%20Chi">
+        <a class="btn ghost" href="mailto:chithanhhuynh11@gmail.com?subject=Dang%20ky%20hoc%20Lop%20Toan%20Anh%20Chi">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-          <span>Email: badaoqn132@gmail.com</span>
+          <span>Email: chithanhhuynh11@gmail.com</span>
         </a>
         <span class="hand-note">luôn tận tâm đồng hành cùng các em</span>
       </div>
@@ -2134,7 +2165,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <button type="button" class="btn ghost sm" id="close-reset-btn"><span>Đóng</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <p style="margin:0 0 14px;color:var(--muted);font-size:14.5px">
-      Xác nhận liên kết đặt lại mật khẩu gửi tới <b>badaoqn132@gmail.com</b>. Vui lòng nhập mật khẩu Admin mới bên dưới:
+      Xác nhận liên kết đặt lại mật khẩu gửi tới <b>chithanhhuynh11@gmail.com</b>. Vui lòng nhập mật khẩu Admin mới bên dưới:
     </p>
     <form id="admin-reset-form">
       <div class="form-field" style="margin-bottom:12px">
@@ -2183,7 +2214,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <button type="button" class="admin-ov-card" data-admin-tab-jump="security">
         <span class="admin-ov-card__top"><span>4. Bảo mật &amp; Tài khoản</span><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
         <b class="admin-ov-card__val">Chống tải &amp; F12</b>
-        <span class="admin-ov-card__sub">Gmail: badaoqn132@gmail.com</span>
+        <span class="admin-ov-card__sub">Gmail: chithanhhuynh11@gmail.com</span>
       </button>
     </div>
 
@@ -2583,12 +2614,12 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
 
       <div class="admin-box">
-        <h4><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>Gửi link đặt lại mật khẩu qua Gmail (badaoqn132@gmail.com)</span></h4>
+        <h4><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>Gửi link đặt lại mật khẩu qua Gmail (chithanhhuynh11@gmail.com)</span></h4>
         <p style="margin:0 0 12px;color:var(--muted);font-size:14px">
-          Hệ thống sẽ tạo đường dẫn khôi phục mật khẩu duy nhất và gửi trực tiếp về hộp thư <b>badaoqn132@gmail.com</b> của Thầy Chí.
+          Hệ thống sẽ tạo đường dẫn khôi phục mật khẩu duy nhất và gửi trực tiếp về hộp thư <b>chithanhhuynh11@gmail.com</b> của Thầy Chí.
         </p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-          <button type="button" class="btn ghost sm" id="btn-send-reset-inside">Gửi link đặt mật khẩu tới badaoqn132@gmail.com</button>
+          <button type="button" class="btn ghost sm" id="btn-send-reset-inside">Gửi link đặt mật khẩu tới chithanhhuynh11@gmail.com</button>
         </div>
         <div id="reset-mail-status" class="status-msg" hidden></div>
       </div>
@@ -2661,13 +2692,13 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <span>© <span id="year">2026</span> Thầy Huỳnh Thanh Chí · Thanh Chí Edu</span>
     <div class="foot-contact">
       <span class="foot-label">Liên hệ trực tiếp</span>
-      <a class="contact zalo" href="https://zalo.me/0905957716" target="_blank" rel="noopener" aria-label="Zalo 0905 957 716">
+      <a class="contact zalo" href="https://zalo.me/0905957716" target="_blank" rel="noopener" aria-label="Zalo 090 595 7716">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 13.5z"/><path d="M8 8h3.5L8 12.5h3.5M14 8v4.5"/></svg>
-        <span><b>Zalo / SĐT</b> 0905 957 716</span>
+        <span><b>Zalo / SĐT</b> 090 595 7716</span>
       </a>
-      <a class="contact mail" href="mailto:badaoqn132@gmail.com" aria-label="Email badaoqn132@gmail.com">
+      <a class="contact mail" href="mailto:chithanhhuynh11@gmail.com" aria-label="Email chithanhhuynh11@gmail.com">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-        <span><b>Email</b> badaoqn132@gmail.com</span>
+        <span><b>Email</b> chithanhhuynh11@gmail.com</span>
       </a>
     </div>
   </div>
@@ -2723,7 +2754,7 @@ const DOCS_STORAGE_KEY = "lop_toan_anh_chi_docs_v1";
 const ADMIN_PWD_KEY = "lop_toan_anh_chi_admin_pwd";
 const ADMIN_SESSION_KEY = "lop_toan_anh_chi_admin_session";
 const RESET_TOKEN_KEY = "lop_toan_anh_chi_reset_token";
-const ADMIN_EMAIL = "badaoqn132@gmail.com";
+const ADMIN_EMAIL = "chithanhhuynh11@gmail.com";
 const DEFAULT_ADMIN_PWD = "123";
 
 // Xóa dữ liệu bộ nhớ đệm phiên bản cũ để đảm bảo không còn tên học sinh cũ
@@ -3644,7 +3675,7 @@ if (quickPrivBtn) {
   });
 }
 
-// Gửi link đặt lại mật khẩu về badaoqn132@gmail.com
+// Gửi link đặt lại mật khẩu về chithanhhuynh11@gmail.com
 async function sendPasswordResetEmail(statusElId) {
   const token = "rst_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
   localStorage.setItem(RESET_TOKEN_KEY, token);
@@ -5764,7 +5795,7 @@ function drawSampleMathPageOnCanvas(canvas, doc, pageNum, totalPages, scale) {
   // Footer bản quyền
   ctx.fillStyle = "#6f625d";
   ctx.font = "12px 'Be Vietnam Pro', sans-serif";
-  ctx.fillText("© Lớp Toán Anh Chí — Zalo: 0905 957 716 • Tài liệu bảo mật chỉ xem trực tuyến", 48, baseH - 36);
+  ctx.fillText("© Lớp Toán Anh Chí — Zalo: 090 595 7716 • Tài liệu bảo mật chỉ xem trực tuyến", 48, baseH - 36);
 
   ctx.restore();
 }
