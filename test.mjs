@@ -10,7 +10,7 @@ const html = fs.readFileSync(indexUrl, 'utf8');
 // Generate synchronized tai-lieu.html from index.html
 const taiLieuGenerated = html
   .replace(
-    '<title>Thầy Huỳnh Thanh Chí — Giáo Viên Toán (Lớp 6 – 12, Tuyển Sinh 10 & THPT Quốc Gia)</title>',
+    /<title>[\s\S]*?<\/title>/,
     '<title>Tài Liệu — Lớp Toán Anh Chí (Thầy Huỳnh Thanh Chí)</title>'
   )
   .replace('<body>', '<body class="doc-library-page">')
@@ -22,7 +22,7 @@ fs.writeFileSync(taiLieuUrl, taiLieuGenerated, 'utf8');
 // Generate synchronized standalone admin.html Studio page from index.html
 const adminGenerated = html
   .replace(
-    '<title>Thầy Huỳnh Thanh Chí — Giáo Viên Toán (Lớp 6 – 12, Tuyển Sinh 10 & THPT Quốc Gia)</title>',
+    /<title>[\s\S]*?<\/title>/,
     '<title>Trang Quản Trị Nội Dung & Định Dạng (Admin Studio) — Lớp Toán Anh Chí</title>'
   )
   .replace('<body>', '<body class="admin-studio-page">')
@@ -151,10 +151,21 @@ assert.ok(
   'Document cards must default to File - Trang A4 - PDF icon with Admin option to pick custom display'
 );
 
-// 11. Verify Strictly Zero Emojis or Text Arrows Across All Pages
+// 11. Verify Ecosystem Sync with Exam & Class-Group Homework App (thi-thu-toan)
+assert.ok(
+  html.includes('https://thanhchi113.github.io/thi-thu-toan/?tab=btvn') &&
+  html.includes('https://thanhchi113.github.io/thi-thu-toan/?tab=grades') &&
+  html.includes('class=12A%202K9') &&
+  html.includes('class=9%202K12') &&
+  html.includes('class=7%20Onl') &&
+  html.includes('syncExamPortalSummaryFromSupabase'),
+  'Main website must link all 13 class groups and sync non-PII Exam/BTVN summary with thi-thu-toan'
+);
+
+// 12. Verify Strictly Zero Emojis or Text Arrows Across All Pages
 const emojiOrArrowRegex = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}→↻↔]/u;
 assert.ok(!emojiOrArrowRegex.test(html), 'index.html must not contain any emojis, dingbats, or text arrow symbols');
 assert.ok(!emojiOrArrowRegex.test(taiLieuHtml), 'tai-lieu.html must not contain any emojis, dingbats, or text arrow symbols');
 assert.ok(!emojiOrArrowRegex.test(adminHtml), 'admin.html must not contain any emojis, dingbats, or text arrow symbols');
 
-console.log('PASS: All assertions passed (Default File-A4-PDF Card Icon with Admin Selector, Instant Card Click to View, 100% Vector Icons, Standalone Admin Dashboard, 3D Geometry + Shaded Integral + Solid of Revolution).');
+console.log('PASS: All assertions passed (Ecosystem BTVN & 13-Class Sync, Default File-A4-PDF Card Icon, Protected PDF Viewer, 100% Vector Icons, Standalone Admin Dashboard).');

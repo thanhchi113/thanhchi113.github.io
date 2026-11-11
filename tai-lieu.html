@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Thầy Huỳnh Thanh Chí – Lớp Toán Anh Chí (Toán 6 – 12 · Luyện thi 9 vào 10 &amp; THPT QG)</title>
+<title>Tài Liệu — Lớp Toán Anh Chí (Thầy Huỳnh Thanh Chí)</title>
 <meta name="description" content="Trang thông tin cá nhân Thầy Huỳnh Thanh Chí – Lớp Toán Anh Chí: Giới thiệu phương pháp giảng dạy, lịch các lớp Toán 6–12, bảng vàng thành tích và cổng tra cứu điểm Giữa kì, Cuối kì, Thi 9 vào 10, Thi THPT Quốc gia.">
 <meta name="theme-color" content="#650f12">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23650f12'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='36' font-weight='800' font-style='italic' text-anchor='middle' fill='%23fbf7ef'%3E%CF%80%3C/text%3E%3C/svg%3E">
@@ -310,7 +310,19 @@ h2 em { font-style: italic; font-weight: 650; color: var(--ink); display: inline
 .class-pill {
   font: 600 12.5px/1 var(--sans); padding: 6px 10px; border-radius: 8px;
   background: var(--paper-2); color: var(--ink-deep); border: 1px solid var(--line);
+  text-decoration: none; display: inline-flex; align-items: center; gap: 5px;
+  transition: background .15s, border-color .15s, color .15s, transform .15s;
 }
+a.class-pill:hover {
+  background: var(--hl); border-color: var(--ink); color: var(--ink); transform: translateY(-1px);
+}
+.live-sync-pill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px;
+  background: #e6f4ea; color: var(--green); border: 1px solid #b7dfc2;
+  font: 600 12.5px/1.2 var(--sans); text-decoration: none; transition: transform .15s, box-shadow .15s;
+}
+.live-sync-pill:hover { transform: translateY(-1px); box-shadow: 0 6px 14px -8px rgba(46, 125, 79, .45); }
+.live-sync-pill[hidden] { display: none !important; }
 .dl .schedule-note {
   margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--line);
   font: 19px/1.2 var(--hand); color: var(--ink); display: flex; align-items: center; justify-content: space-between;
@@ -1498,6 +1510,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <li><a href="./index.html#lop-hoc">Lớp học</a></li>
       <li><a href="./index.html#thanh-tich">Thành tích</a></li>
       <li><a href="./tai-lieu.html">Tài liệu</a></li>
+      <li><a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn" target="_blank" rel="noopener">Phòng thi &amp; BTVN</a></li>
       <li><a href="./index.html#lien-he">Liên hệ</a></li>
     </ul>
     <a class="btn" href="./index.html#tra-cuu-diem">Tra cứu điểm</a>
@@ -1511,6 +1524,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   <!-- Thanh truy cập nhanh trên Điện thoại (80% Phụ huynh & Học sinh dùng Mobile) -->
   <div class="mobile-quick-nav" aria-label="Truy cập nhanh trên điện thoại">
     <a class="hot-pill" href="./index.html#tra-cuu-diem"><svg class="ui-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Tra cứu điểm</span></a>
+    <a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn" target="_blank" rel="noopener"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Làm Đề &amp; BTVN</span></a>
     <a href="./tai-lieu.html"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Tài liệu</span></a>
     <a href="./index.html#lop-hoc"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><span>Lịch các lớp</span></a>
     <a href="./index.html#thanh-tich"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 2l3 6 6.5.9-4.7 4.6 1.1 6.5L12 17l-5.9 3 1.1-6.5L2.5 8.9 9 8z"/></svg><span>Thành tích</span></a>
@@ -1532,9 +1546,17 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           <span>Tra cứu điểm thi ngay</span>
         </a>
+        <a class="btn ghost" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>Làm Đề Thi &amp; Nộp BTVN</span>
+        </a>
         <a class="btn ghost" href="./index.html#lop-hoc">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
           <span>Xem lịch các lớp</span>
+        </a>
+        <a class="live-sync-pill" id="hero-live-exam-badge" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn" target="_blank" rel="noopener" hidden>
+          <svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+          <span id="hero-live-exam-text">Đồng bộ Phòng thi &amp; BTVN</span>
         </a>
       </div>
       <p class="trial">
@@ -1664,13 +1686,16 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
         <p class="meta" data-editable="dl1_desc">Tổng ôn toàn diện chương trình Toán 12 (Hàm số, Nguyên hàm – Tích phân, Oxyz, Xác suất) &amp; Luyện đề thực chiến cấu trúc 3 phần.</p>
         <div class="class-pills">
-          <span class="class-pill">Lớp 12A 2K9</span>
-          <span class="class-pill">Lớp 12B 2K9</span>
-          <span class="class-pill">Lớp 12D</span>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12A%202K9" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 12A 2K9">Lớp 12A 2K9</a>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12B%202K9" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 12B 2K9">Lớp 12B 2K9</a>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12D" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 12D">Lớp 12D</a>
         </div>
         <div class="schedule-note">
           <span data-editable="dl1_note">Ca T2–T4–T6 &amp; T3–T5–T7</span>
-          <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(12)" style="font-size:16px;display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          <span style="display:inline-flex;align-items:center;gap:10px;font-size:16px">
+            <a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px"><span>BTVN</span></a>
+            <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(12)" style="display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          </span>
         </div>
       </div>
 
@@ -1684,12 +1709,15 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
         <p class="meta" data-editable="dl2_desc">Làm chủ Lượng giác, Dãy số, Giới hạn, Đạo hàm, Mũ – Lôgarit và Hình không gian vuông góc. Tạo đà sớm cho năm lớp 12.</p>
         <div class="class-pills">
-          <span class="class-pill">Lớp 11A 2K10</span>
-          <span class="class-pill">Lớp 11B 2K10</span>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11A%202K10" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 11A 2K10">Lớp 11A 2K10</a>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11B%202K10" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 11B 2K10">Lớp 11B 2K10</a>
         </div>
         <div class="schedule-note">
           <span data-editable="dl2_note">Ca T2–T4–T6 &amp; T3–T5–T7</span>
-          <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(11)" style="font-size:16px;display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          <span style="display:inline-flex;align-items:center;gap:10px;font-size:16px">
+            <a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px"><span>BTVN</span></a>
+            <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(11)" style="display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          </span>
         </div>
       </div>
 
@@ -1703,13 +1731,16 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
         <p class="meta" data-editable="dl3_desc">Bắt nhịp ngay cách học cấp 3: Hàm số bậc hai, Hệ thức lượng, Vectơ, Thống kê – Tổ hợp – Xác suất và Phương pháp tọa độ phẳng.</p>
         <div class="class-pills">
-          <span class="class-pill">Lớp 10A 2K11</span>
-          <span class="class-pill">Lớp 10B 2K11</span>
-          <span class="class-pill">Lớp 10C 2K11</span>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10A%202K11" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 10A 2K11">Lớp 10A 2K11</a>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10B%202K11" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 10B 2K11">Lớp 10B 2K11</a>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10C%202K11" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 10C 2K11">Lớp 10C 2K11</a>
         </div>
         <div class="schedule-note">
           <span data-editable="dl3_note">3 ca linh hoạt trong tuần</span>
-          <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(10)" style="font-size:16px;display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          <span style="display:inline-flex;align-items:center;gap:10px;font-size:16px">
+            <a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px"><span>BTVN</span></a>
+            <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(10)" style="display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          </span>
         </div>
       </div>
 
@@ -1723,13 +1754,18 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
         <p class="meta" data-editable="dl4_desc">Xây gốc Toán THCS vững chắc (Khối 6, 7, 8) và luyện thi chuyên sâu Tuyển sinh 9 vào 10 (Căn thức, Vi-ét, Toán thực tế, Đường tròn).</p>
         <div class="class-pills">
-          <span class="class-pill">Lớp 9 2K12</span>
-          <span class="class-pill">8A · 8B 2K13</span>
-          <span class="class-pill">7 2K14 &amp; 7 Onl</span>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=9&amp;class=9%202K12" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 9 2K12">Lớp 9 2K12</a>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=8&amp;class=8A%202K13" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 8A 2K13">8A 2K13</a>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=8&amp;class=8B%202K13" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 8B 2K13">8B 2K13</a>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=7&amp;class=7%202K14" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 7 2K14">7 2K14</a>
+          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=7&amp;class=7%20Onl" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 7 Onl">7 Onl</a>
         </div>
         <div class="schedule-note">
           <span data-editable="dl4_note">Trực tiếp &amp; Online</span>
-          <a href="./index.html#tra-cuu-diem" onclick="filterByExamType('ts10')" style="font-size:16px;display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          <span style="display:inline-flex;align-items:center;gap:10px;font-size:16px">
+            <a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=9" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px"><span>BTVN</span></a>
+            <a href="./index.html#tra-cuu-diem" onclick="filterByExamType('ts10')" style="display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          </span>
         </div>
       </div>
     </div>
@@ -1738,7 +1774,13 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <div class="schedule-board reveal">
       <div class="schedule-board-head">
         <h3 data-editable="sch_heading">Lịch sinh hoạt các lớp tiêu biểu tại Lớp Toán Anh Chí</h3>
-        <span data-editable="sch_sub">Hỗ trợ giải đáp bài tập mỗi ngày qua Zalo</span>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+          <span data-editable="sch_sub">Hỗ trợ giải đáp bài tập mỗi ngày qua Zalo</span>
+          <a class="btn ghost sm" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn" target="_blank" rel="noopener">
+            <svg class="ui-ico" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span id="live-btvn-summary-pill">Cổng Bài Tập Về Nhà theo Nhóm Lớp</span>
+          </a>
+        </div>
       </div>
       <div class="schedule-grid">
         <div class="sch-item">
@@ -2101,7 +2143,11 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 
       <div class="score-footer-bar">
         <span id="score-summary-text">Nhập Mã học sinh hoặc chọn Lớp học để xem Phiếu báo điểm chi tiết từng kỳ.</span>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <a class="btn ghost sm" href="https://thanhchi113.github.io/thi-thu-toan/?tab=grades" target="_blank" rel="noopener">
+            <svg class="ui-ico" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span>Xem Điểm Đề Thi Thử &amp; BTVN Của Tôi</span>
+          </a>
           <button type="button" class="quick-chip admin-only" id="btn-export-csv" hidden><svg class="ui-ico" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Xuất bảng điểm Excel (CSV · Admin)</span></button>
         </div>
       </div>
@@ -2188,6 +2234,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <div class="modal-head">
       <h3 id="modal-title"><svg class="ui-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span>Trung Tâm Quản Trị &amp; Kiểm Tra Hệ Thống — Lớp Toán Anh Chí</span></h3>
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+        <a class="btn sm" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn" target="_blank" rel="noopener"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Giao Đề &amp; BTVN</span></a>
         <a class="btn ghost sm" href="./index.html"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Xem Trang Chủ</span></a>
         <a class="btn ghost sm" href="./tai-lieu.html"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Xem Trang Tài Liệu</span></a>
         <button type="button" class="btn ghost sm" id="btn-admin-logout">Đăng xuất</button>
@@ -2687,6 +2734,8 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <a href="./index.html#thanh-tich">Thành tích</a>
     <a href="#tai-lieu">Kệ 3D Tài liệu</a>
     <a href="./tai-lieu.html">Tài liệu</a>
+    <a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn" target="_blank" rel="noopener">Phòng thi &amp; BTVN</a>
+    <a href="https://thanhchi113.github.io/Chi-GV-Toan/" target="_blank" rel="noopener">Hồ sơ giảng dạy</a>
     <a href="./index.html#tra-cuu-diem">Tra cứu điểm</a>
     <a href="./admin.html" id="foot-admin-link"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Trang Admin Studio</span></a>
     <span>© <span id="year">2026</span> Thầy Huỳnh Thanh Chí · Thanh Chí Edu</span>
@@ -6691,9 +6740,47 @@ if (adminBoxEl && window.location.protocol.startsWith("http")) {
   try { adminBoxEl.value = new URL("admin.html", window.location.href).href; } catch {}
 }
 
+async function syncExamPortalSummaryFromSupabase() {
+  if (!isSupabaseConfigured()) return false;
+  try {
+    const res = await fetch(`${supabaseCfg.url}/rest/v1/khao_thi_state?id=eq.main&select=exams,homeworks`, {
+      headers: {
+        "apikey": supabaseCfg.anonKey,
+        "Authorization": `Bearer ${supabaseCfg.anonKey}`
+      }
+    });
+    if (!res.ok) return false;
+    const rows = await res.json();
+    const row = Array.isArray(rows) && rows[0] ? rows[0] : null;
+    if (!row) return false;
+    const activeExams = Array.isArray(row.exams) ? row.exams.filter(e => e && e.is_active !== false).length : 0;
+    const hwItems = Array.isArray(row.homeworks) ? row.homeworks.filter(h => h && h.is_active !== false) : [];
+    const activeBtvn = hwItems.filter(h => h.itemKind === "homework" || h.hwMode === "photo" || h.hwMode === "interactive").length;
+    const activeDocs = Math.max(0, hwItems.length - activeBtvn);
+
+    const heroBadge = document.getElementById("hero-live-exam-badge");
+    const heroText = document.getElementById("hero-live-exam-text");
+    const schPill = document.getElementById("live-btvn-summary-pill");
+
+    const parts = [];
+    if (activeExams > 0) parts.push(`${activeExams} đề thi`);
+    if (activeBtvn > 0) parts.push(`${activeBtvn} BTVN`);
+    if (!parts.length && activeDocs > 0) parts.push(`${activeDocs} chuyên đề`);
+
+    if (parts.length > 0) {
+      if (heroText) heroText.textContent = `Đang mở: ${parts.join(" · ")}`;
+      if (heroBadge) heroBadge.hidden = false;
+      if (schPill) schPill.textContent = `Giao & Nộp BTVN (${parts.join(" · ")})`;
+    }
+    return true;
+  } catch {}
+  return false;
+}
+
 updateSupabaseBadgeUI();
 syncDocsFromSupabase();
 syncSiteStateFromSupabase();
+syncExamPortalSummaryFromSupabase();
 buildLockerBays();
 
 // Đồng bộ tức thì giữa trang Admin (admin.html) và trang Người dùng (index.html, tai-lieu.html)
