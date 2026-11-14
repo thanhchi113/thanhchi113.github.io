@@ -579,6 +579,49 @@ table.score-table tbody tr.selected { background: #fff6d6; }
   margin-top: 16px; font-size: 14px; color: var(--muted);
 }
 
+/* Student Score Submission Box (Inside #tra-cuu-diem, Pending Admin Review) */
+.score-submit-shell {
+  margin-top: 22px; background: #fffdf8; border: 1.5px solid var(--line); border-radius: 24px;
+  padding: 28px 30px; box-shadow: var(--shadow); position: relative;
+  background-image: linear-gradient(180deg, #fffdf9 0%, #fbf5e9 100%);
+}
+.score-submit-head {
+  display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 14px;
+  margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1.5px dashed var(--line);
+}
+.score-submit-title-wrap { display: flex; align-items: flex-start; gap: 13px; max-width: 780px; }
+.score-submit-ico {
+  width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+  background: var(--ink); color: #ffe27d; border: 1.5px solid rgba(255, 226, 125, .5);
+  display: grid; place-items: center; box-shadow: 0 8px 18px -10px rgba(101, 15, 18, .75);
+}
+.score-submit-ico svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.score-submit-head h3 { margin: 0 0 4px; font: 800 22px/1.2 var(--serif); color: var(--ink-deep); }
+.score-submit-head p { margin: 0; font-size: 14.5px; color: var(--muted); line-height: 1.5; }
+.score-submit-foot {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px;
+}
+.score-submit-note { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+.sub-status-pill {
+  display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px;
+  font: 700 12px/1 var(--sans); white-space: nowrap;
+}
+.sub-status-pill.pending { background: #fff4db; color: #8a4b08; border: 1px solid #efd396; }
+.sub-status-pill.approved { background: #e6f4ea; color: var(--green); border: 1px solid #b7dfc2; }
+.editing-sub-banner {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 11px 14px; margin-bottom: 14px; border-radius: 12px;
+  background: #fff6dc; border: 1.5px solid #e6c16c; color: var(--ink-deep); font-size: 13.5px;
+}
+.editing-sub-banner[hidden] { display: none !important; }
+.admin-tab-badge {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px;
+  padding: 0 6px; margin-left: 6px; border-radius: 999px; font: 700 11.5px/1 var(--sans);
+  background: #ffe27d; color: var(--ink-deep);
+}
+.admin-tab:not(.active) .admin-tab-badge { background: var(--ink); color: #ffe27d; }
+.admin-tab-badge[hidden] { display: none !important; }
+
 /* Admin & Modals */
 .admin-only[hidden] { display: none !important; }
 .modal-backdrop {
@@ -1418,6 +1461,10 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   .report-comment p { font-size: 18px; }
   .score-table-wrap { -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
   table.score-table th, table.score-table td { padding: 10px 8px; font-size: 12.5px; }
+  .score-submit-shell { padding: 18px 14px; border-radius: 18px; margin-top: 16px; }
+  .score-submit-head h3 { font-size: 18.5px; }
+  .score-submit-head p { font-size: 13.5px; }
+  .score-submit-foot .btn { width: 100%; justify-content: center; }
 
   /* 7. Protected PDF Viewer Modal on Mobile (No Overlapping Toolbar Buttons, Touch-Optimized) */
   .modal-backdrop { padding: 8px; }
@@ -2152,6 +2199,104 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
       </div>
     </div>
+
+    <!-- Mục Học sinh / Phụ huynh điền thông tin & báo điểm gửi về Thầy Chí (Admin chỉnh sửa & xét duyệt hiển thị) -->
+    <div class="score-submit-shell reveal" id="gui-diem-thi">
+      <div class="score-submit-head">
+        <div class="score-submit-title-wrap">
+          <span class="score-submit-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+          </span>
+          <div>
+            <h3>Gửi thông tin &amp; Báo điểm thi về Thầy Chí</h3>
+            <p>Học sinh hoặc Phụ huynh điền thông tin kỳ thi và điểm số bên dưới để gửi về cho Thầy Chí. Sau khi Admin kiểm tra, chỉnh sửa lại (nếu cần) và xét duyệt, kết quả sẽ được hiển thị lên bảng điểm.</p>
+          </div>
+        </div>
+        <button type="button" class="btn ghost sm admin-only" id="btn-jump-approve-admin" hidden>
+          <svg class="ui-ico" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>
+          <span id="btn-jump-approve-text">Xét duyệt báo điểm (Admin)</span>
+        </button>
+      </div>
+
+      <form id="score-submit-form" autocomplete="on">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="sub-name">Họ và tên học sinh *</label>
+            <input type="text" id="sub-name" maxlength="80" placeholder="VD: Nguyễn Văn An" required>
+          </div>
+          <div class="form-field">
+            <label for="sub-code">Mã học sinh (nếu đã có)</label>
+            <input type="text" id="sub-code" maxlength="20" placeholder="VD: HS001 (để trống nếu chưa có)">
+          </div>
+          <div class="form-field">
+            <label for="sub-cls">Lớp đang học *</label>
+            <select id="sub-cls" required>
+              <option value="12A 2K9">Lớp 12A 2K9</option>
+              <option value="12B 2K9">Lớp 12B 2K9</option>
+              <option value="12D">Lớp 12D</option>
+              <option value="11A 2K10">Lớp 11A 2K10</option>
+              <option value="11B 2K10">Lớp 11B 2K10</option>
+              <option value="10A 2K11">Lớp 10A 2K11</option>
+              <option value="10B 2K11">Lớp 10B 2K11</option>
+              <option value="10C 2K11">Lớp 10C 2K11</option>
+              <option value="9 2K12">Lớp 9 2K12</option>
+              <option value="8A 2K13">Lớp 8A 2K13</option>
+              <option value="8B 2K13">Lớp 8B 2K13</option>
+              <option value="7 2K14">Lớp 7 2K14</option>
+              <option value="7 Onl">Lớp 7 Onl</option>
+              <option value="Lớp khác">Lớp khác / Học sinh mới</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="sub-exam">Kỳ thi báo điểm *</label>
+            <select id="sub-exam" required>
+              <option value="gk1">Giữa kì 1 (GK1)</option>
+              <option value="ck1">Cuối kì 1 (CK1)</option>
+              <option value="gk2">Giữa kì 2 (GK2)</option>
+              <option value="ck2">Cuối kì 2 (CK2)</option>
+              <option value="thptqg">Thi THPT Quốc Gia</option>
+              <option value="ts10">Thi Tuyển sinh 9 vào 10</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="sub-score">Điểm đạt được (thang 10) *</label>
+            <input type="number" id="sub-score" min="0" max="10" step="0.01" placeholder="VD: 9.25" required>
+          </div>
+          <div class="form-field">
+            <label for="sub-detail">Chi tiết điểm thành phần (nếu có)</label>
+            <input type="text" id="sub-detail" maxlength="100" placeholder="VD: P1: 3.0 · P2: 3.75 · P3: 2.5">
+          </div>
+        </div>
+
+        <div class="form-grid two" style="align-items:end">
+          <div class="form-field">
+            <label for="sub-note">Ghi chú / Trường học / Lời nhắn gửi Thầy Chí</label>
+            <input type="text" id="sub-note" maxlength="200" placeholder="VD: Điểm kiểm tra tại trường, nhờ Thầy cập nhật giúp em...">
+          </div>
+          <div class="form-field" style="padding:8px 0">
+            <label style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;color:var(--ink-deep);font-weight:600;margin:0">
+              <input type="checkbox" id="sub-anon">
+              <span>Đề nghị ẩn danh tên khi hiển thị trên bảng công khai</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="score-submit-foot">
+          <button type="submit" class="btn" id="btn-submit-score">
+            <svg class="ui-ico" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+            <span>Gửi thông tin &amp; điểm thi về Thầy Chí</span>
+          </button>
+          <span class="score-submit-note">
+            <svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>Dữ liệu được gửi riêng về Thầy Chí và chỉ hiển thị lên Web sau khi Admin xét duyệt.</span>
+          </span>
+        </div>
+        <div id="score-submit-status" class="status-msg" hidden></div>
+      </form>
+    </div>
   </div>
 </section>
 
@@ -2266,14 +2411,47 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     </div>
 
     <div class="admin-tabs" role="tablist">
-      <button type="button" class="admin-tab active" data-admin-tab="students">1. Quản lý Học sinh &amp; Quyền Tìm kiếm</button>
+      <button type="button" class="admin-tab active" data-admin-tab="students"><span>1. Quản lý Học sinh &amp; Duyệt điểm</span><span class="admin-tab-badge" id="admin-tab-sub-badge" hidden>0</span></button>
       <button type="button" class="admin-tab" data-admin-tab="docs">2. Upload &amp; Quản lý Tài liệu</button>
       <button type="button" class="admin-tab" data-admin-tab="cards">3. Sửa nội dung các Card hiển thị</button>
       <button type="button" class="admin-tab" data-admin-tab="security">4. Mật khẩu Admin &amp; Gmail</button>
     </div>
 
-    <!-- TAB 1: QUẢN LÝ HỌC SINH, ẨN DANH SÁCH & PHÂN QUYỀN TÌM KIẾM -->
+    <!-- TAB 1: QUẢN LÝ HỌC SINH, DUYỆT BÁO ĐIỂM, ẨN DANH SÁCH & PHÂN QUYỀN TÌM KIẾM -->
     <div class="admin-pane" id="admin-pane-students">
+      <div class="admin-box" id="admin-submissions-box" style="background:linear-gradient(135deg,#fffaf0,#fffdf8);border-color:#dfc496">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px">
+          <h4 style="margin:0;display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <svg class="ui-ico" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+            <span>Báo điểm Học sinh gửi về Chờ Xét Duyệt (<span id="admin-sub-pending-count">0</span> chờ duyệt · <span id="admin-sub-total-count">0</span> tổng)</span>
+          </h4>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <button type="button" class="quick-chip" id="btn-sync-subs-cloud"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Làm mới từ Cloud</span></button>
+            <button type="button" class="quick-chip" id="btn-clear-approved-subs">Xóa lịch sử mục đã duyệt</button>
+          </div>
+        </div>
+        <p style="margin:0 0 10px;font-size:13px;color:var(--muted)">
+          Bấm <b>Chỉnh sửa &amp; Duyệt</b> để nạp thông tin vào biểu mẫu bên dưới (tự động ghép mã HS hoặc tạo mã mới, cho phép sửa lại điểm, lời phê, ẩn danh trước khi lên Web), hoặc bấm <b>Duyệt nhanh</b> để hiển thị ngay.
+        </p>
+        <div class="admin-student-list" style="max-height:240px">
+          <table>
+            <thead>
+              <tr>
+                <th>Trạng thái</th>
+                <th>Thời gian</th>
+                <th>Học sinh</th>
+                <th>Lớp</th>
+                <th>Kỳ thi &amp; Điểm báo</th>
+                <th>Chi tiết / Ghi chú HS gửi</th>
+                <th>Thao tác Admin</th>
+              </tr>
+            </thead>
+            <tbody id="admin-submissions-tbody"></tbody>
+          </table>
+        </div>
+        <div id="admin-sub-status-msg" class="status-msg" hidden></div>
+      </div>
+
       <div class="admin-box">
         <h4><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Bảo mật Danh sách Học sinh &amp; Phân quyền Tra cứu trên Web</span></h4>
         <div class="form-grid" style="margin-bottom:10px">
@@ -2313,7 +2491,11 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
 
       <div class="admin-box">
-        <h4 id="student-form-heading"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Thêm mới hoặc Chỉnh sửa Học sinh</span></h4>
+        <h4 id="student-form-heading"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Thêm mới, Chỉnh sửa hoặc Xét duyệt Học sinh</span></h4>
+        <div class="editing-sub-banner" id="editing-sub-banner" hidden>
+          <span id="editing-sub-banner-text">Đang chỉnh sửa báo điểm chờ xét duyệt...</span>
+          <button type="button" class="quick-chip" id="btn-cancel-sub-edit">Bỏ chế độ duyệt mục này</button>
+        </div>
         <form id="score-edit-form">
           <div class="form-grid">
             <div class="form-field">
@@ -2332,25 +2514,25 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           <div class="form-grid">
             <div class="form-field">
               <label for="ed-gk1">Điểm Giữa kì 1 (GK1)</label>
-              <input type="number" step="0.05" min="0" max="10" id="ed-gk1" required>
+              <input type="number" step="0.01" min="0" max="10" id="ed-gk1" required>
             </div>
             <div class="form-field">
               <label for="ed-ck1">Điểm Cuối kì 1 (CK1)</label>
-              <input type="number" step="0.05" min="0" max="10" id="ed-ck1" required>
+              <input type="number" step="0.01" min="0" max="10" id="ed-ck1" required>
             </div>
             <div class="form-field">
               <label for="ed-gk2">Điểm Giữa kì 2 (GK2)</label>
-              <input type="number" step="0.05" min="0" max="10" id="ed-gk2" required>
+              <input type="number" step="0.01" min="0" max="10" id="ed-gk2" required>
             </div>
           </div>
           <div class="form-grid">
             <div class="form-field">
               <label for="ed-ck2">Điểm Cuối kì 2 (CK2)</label>
-              <input type="number" step="0.05" min="0" max="10" id="ed-ck2" required>
+              <input type="number" step="0.01" min="0" max="10" id="ed-ck2" required>
             </div>
             <div class="form-field">
               <label for="ed-special">Điểm Thi THPT QG / 9 vào 10</label>
-              <input type="number" step="0.05" min="0" max="10" id="ed-special" required>
+              <input type="number" step="0.01" min="0" max="10" id="ed-special" required>
             </div>
             <div class="form-field">
               <label for="ed-detail">Chi tiết thành phần (P1 / P2 / P3)</label>
@@ -2379,7 +2561,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center">
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button type="submit" class="btn sm">Lưu học sinh (Thêm / Cập nhật)</button>
+              <button type="submit" class="btn sm" id="score-edit-submit-btn">Lưu học sinh (Thêm / Cập nhật)</button>
               <button type="button" class="btn ghost sm" id="btn-new-student">+ Tạo mã HS mới</button>
               <button type="button" class="btn ghost sm" id="btn-delete-student" style="color:#b71c1c;border-color:#e5a5a5">Xóa học sinh này</button>
             </div>
@@ -2795,6 +2977,7 @@ const OVERRIDE_RECORDS = {
 };
 
 const STORAGE_KEY = "lop_toan_anh_chi_scores_draft_v4";
+const SCORE_SUBMISSIONS_KEY = "lop_toan_anh_chi_score_submissions_v1";
 const PRIVACY_CONFIG_KEY = "lop_toan_anh_chi_privacy_v1";
 const ANON_ALL_KEY = "lop_toan_anh_chi_anon_all_v1";
 const CARDS_STORAGE_KEY = "lop_toan_anh_chi_cards_v1";
@@ -2804,6 +2987,15 @@ const ADMIN_SESSION_KEY = "lop_toan_anh_chi_admin_session";
 const RESET_TOKEN_KEY = "lop_toan_anh_chi_reset_token";
 const ADMIN_EMAIL = "chithanhhuynh11@gmail.com";
 const DEFAULT_ADMIN_PWD = "123";
+
+const EXAM_SUBMISSION_LABELS = {
+  gk1: "Giữa kì 1 (GK1)",
+  ck1: "Cuối kì 1 (CK1)",
+  gk2: "Giữa kì 2 (GK2)",
+  ck2: "Cuối kì 2 (CK2)",
+  thptqg: "Thi THPT Quốc Gia",
+  ts10: "Thi Tuyển sinh 9 vào 10"
+};
 
 // Xóa dữ liệu bộ nhớ đệm phiên bản cũ để đảm bảo không còn tên học sinh cũ
 try {
@@ -2822,10 +3014,13 @@ function loadPrivacyConfig() {
   return { listMode: "selected", searchMode: "allowed_only" };
 }
 
-function savePrivacyConfig(cfg) {
+function savePrivacyConfig(cfg, syncCloud = true) {
   try {
     localStorage.setItem(PRIVACY_CONFIG_KEY, JSON.stringify(cfg));
   } catch {}
+  if (syncCloud && typeof saveSiteStateToSupabase === "function") {
+    saveSiteStateToSupabase({ privacy_config: cfg });
+  }
 }
 
 let privacyConfig = loadPrivacyConfig();
@@ -2870,13 +3065,47 @@ function loadScores() {
   return buildDefaultScores();
 }
 
-function saveScores(list) {
+function saveScores(list, syncCloud = true) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
   } catch {}
+  if (syncCloud && typeof saveSiteStateToSupabase === "function") {
+    saveSiteStateToSupabase();
+  }
+}
+
+function loadScoreSubmissions() {
+  try {
+    const raw = localStorage.getItem(SCORE_SUBMISSIONS_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch {}
+  return [];
+}
+
+function saveScoreSubmissions(list, syncCloud = true) {
+  try {
+    localStorage.setItem(SCORE_SUBMISSIONS_KEY, JSON.stringify(list));
+  } catch {}
+  if (syncCloud && typeof saveSiteStateToSupabase === "function") {
+    saveSiteStateToSupabase();
+  }
+}
+
+function generateNextStudentCode() {
+  let maxNum = 0;
+  studentRecords.forEach((s) => {
+    const m = String(s.code || "").toUpperCase().match(/^HS(\d+)$/);
+    if (m) maxNum = Math.max(maxNum, Number(m[1]));
+  });
+  return "HS" + String(Math.max(maxNum + 1, studentRecords.length + 1)).padStart(3, "0");
 }
 
 let studentRecords = loadScores();
+let scoreSubmissions = loadScoreSubmissions();
+let editingSubmissionId = "";
 let anonAll = localStorage.getItem(ANON_ALL_KEY) === "1";
 let isAdminLoggedIn = sessionStorage.getItem(ADMIN_SESSION_KEY) === "1";
 let activeExamTab = "all";
@@ -2999,7 +3228,7 @@ function renderQuickChips() {
   }
   bar.innerHTML = `<span>Tra cứu nhanh:</span>` + allowedPicks.map((st) => {
     const pubName = formatPublicStudentName(st);
-    return `<button type="button" class="quick-chip" data-pick="${st.code}">${st.code} · ${pubName}</button>`;
+    return `<button type="button" class="quick-chip" data-pick="${escapeHtmlAttr(st.code)}">${escapeHtmlAttr(st.code)} · ${escapeHtmlAttr(pubName)}</button>`;
   }).join("");
   bar.querySelectorAll(".quick-chip[data-pick]").forEach((chip) => {
     chip.addEventListener("click", () => {
@@ -3057,7 +3286,7 @@ function renderReportCard(st) {
     <div class="r-box ${(activeExamTab === 'thptqg' || activeExamTab === 'ts10' || activeExamTab === 'all') ? 'highlight' : ''}">
       <div class="r-label">${specialTitle}</div>
       <div class="r-val">${st.special}đ</div>
-      <div class="r-sub">${st.detail || (isTHPT ? 'Cấu trúc 3 phần Bộ GD&ĐT' : 'Tự luận Đại số & Hình học')}</div>
+      <div class="r-sub">${escapeHtmlAttr(st.detail || (isTHPT ? 'Cấu trúc 3 phần Bộ GD&ĐT' : 'Tự luận Đại số & Hình học'))}</div>
     </div>
     <div class="r-box">
       <div class="r-label">Trung bình &amp; Xếp loại</div>
@@ -3138,10 +3367,10 @@ function renderScoreTable() {
     const rk = getRankInfo(Math.max(st.ck2, st.special));
     const displayName = formatPublicStudentName(st);
     return `
-      <tr class="${isSel ? 'selected' : ''}" data-code="${st.code}">
-        <td><span class="code-pill">${st.code}</span></td>
-        <td><b style="color:var(--ink-deep)">${displayName}</b></td>
-        <td>${st.cls}</td>
+      <tr class="${isSel ? 'selected' : ''}" data-code="${escapeHtmlAttr(st.code)}">
+        <td><span class="code-pill">${escapeHtmlAttr(st.code)}</span></td>
+        <td><b style="color:var(--ink-deep)">${escapeHtmlAttr(displayName)}</b></td>
+        <td>${escapeHtmlAttr(st.cls)}</td>
         <td><span class="score-num">${st.gk1}</span> · <span class="score-num ${st.gk2 >= 9 ? 'high' : 'good'}">${st.gk2}</span></td>
         <td><span class="score-num">${st.ck1}</span> · <span class="score-num ${st.ck2 >= 9 ? 'high' : 'good'}">${st.ck2}</span></td>
         <td>
@@ -3527,28 +3756,123 @@ function renderAdminStudentList() {
   if (countEl) countEl.textContent = studentRecords.length;
   tbody.innerHTML = studentRecords.map((st) => `
     <tr>
-      <td><span class="code-pill">${st.code}</span></td>
-      <td><b>${st.name}</b></td>
-      <td>${formatPublicStudentName(st)}</td>
-      <td>${st.cls}</td>
+      <td><span class="code-pill">${escapeHtmlAttr(st.code)}</span></td>
+      <td><b>${escapeHtmlAttr(st.name)}</b></td>
+      <td>${escapeHtmlAttr(formatPublicStudentName(st))}</td>
+      <td>${escapeHtmlAttr(st.cls)}</td>
       <td>${st.gk1} · ${st.gk2}</td>
       <td>${st.ck1} · ${st.ck2}</td>
       <td><b>${st.special}đ</b></td>
       <td>
-        <input type="checkbox" data-vis-code="${st.code}" ${st.publicVisible ? "checked" : ""} title="Hiển thị học sinh này trên bảng công khai">
+        <input type="checkbox" data-vis-code="${escapeHtmlAttr(st.code)}" ${st.publicVisible ? "checked" : ""} title="Hiển thị học sinh này trên bảng công khai">
       </td>
       <td>
-        <input type="checkbox" data-search-code="${st.code}" ${(st.searchable || st.publicVisible) ? "checked" : ""} title="Cho phép tìm kiếm học sinh này">
+        <input type="checkbox" data-search-code="${escapeHtmlAttr(st.code)}" ${(st.searchable || st.publicVisible) ? "checked" : ""} title="Cho phép tìm kiếm học sinh này">
       </td>
       <td>
-        <input type="checkbox" data-anon-code="${st.code}" ${st.anonymous ? "checked" : ""} title="Ẩn danh học sinh này">
+        <input type="checkbox" data-anon-code="${escapeHtmlAttr(st.code)}" ${st.anonymous ? "checked" : ""} title="Ẩn danh học sinh này">
       </td>
       <td>
-        <button type="button" class="quick-chip" data-admin-edit="${st.code}">Sửa</button>
-        <button type="button" class="quick-chip" data-admin-del="${st.code}" style="color:#b71c1c;border-color:#e5a5a5">Xóa</button>
+        <button type="button" class="quick-chip" data-admin-edit="${escapeHtmlAttr(st.code)}">Sửa</button>
+        <button type="button" class="quick-chip" data-admin-del="${escapeHtmlAttr(st.code)}" style="color:#b71c1c;border-color:#e5a5a5">Xóa</button>
       </td>
     </tr>
   `).join("");
+}
+
+function formatShortViTime(isoStr) {
+  try {
+    const d = new Date(isoStr);
+    if (Number.isNaN(d.getTime())) return "";
+    const pad = n => String(n).padStart(2, "0");
+    return `${pad(d.getHours())}:${pad(d.getMinutes())} ${pad(d.getDate())}/${pad(d.getMonth() + 1)}`;
+  } catch {
+    return "";
+  }
+}
+
+function updateSubmissionBadgesUI() {
+  const pendingCnt = scoreSubmissions.filter(s => s && s.status !== "approved").length;
+  const totalCnt = scoreSubmissions.length;
+  const pEl = document.getElementById("admin-sub-pending-count");
+  const tEl = document.getElementById("admin-sub-total-count");
+  const tabBadge = document.getElementById("admin-tab-sub-badge");
+  const jumpTxt = document.getElementById("btn-jump-approve-text");
+
+  if (pEl) pEl.textContent = pendingCnt;
+  if (tEl) tEl.textContent = totalCnt;
+  if (tabBadge) {
+    tabBadge.textContent = pendingCnt;
+    tabBadge.hidden = pendingCnt === 0;
+  }
+  if (jumpTxt) {
+    jumpTxt.textContent = pendingCnt > 0
+      ? `Xét duyệt báo điểm (${pendingCnt} chờ duyệt)`
+      : "Xét duyệt báo điểm (Admin)";
+  }
+}
+
+function renderAdminSubmissionsList() {
+  updateSubmissionBadgesUI();
+  const tbody = document.getElementById("admin-submissions-tbody");
+  if (!tbody) return;
+
+  if (!scoreSubmissions.length) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:18px;color:var(--muted);white-space:normal">Chưa có báo điểm mới từ học sinh. Khi học sinh gửi thông tin &amp; điểm ở mục Tra cứu điểm, dữ liệu sẽ hiển thị tại đây để Thầy chỉnh sửa và xét duyệt.</td></tr>`;
+    return;
+  }
+
+  const sorted = [...scoreSubmissions].sort((a, b) => {
+    const ap = a.status === "approved" ? 1 : 0;
+    const bp = b.status === "approved" ? 1 : 0;
+    if (ap !== bp) return ap - bp;
+    return String(b.createdAt || "").localeCompare(String(a.createdAt || ""));
+  });
+
+  tbody.innerHTML = sorted.map((sub) => {
+    const isApproved = sub.status === "approved";
+    const statusBadge = isApproved
+      ? `<span class="sub-status-pill approved">${ico("check")}<span>Đã duyệt${sub.approvedCode ? ` (${escapeHtmlAttr(sub.approvedCode)})` : ""}</span></span>`
+      : `<span class="sub-status-pill pending">Chờ duyệt</span>`;
+    const codeTag = sub.studentCode
+      ? `<span class="code-pill" style="margin-right:6px">${escapeHtmlAttr(sub.studentCode)}</span>`
+      : `<span class="anon-pill" style="margin:0 6px 0 0">HS mới</span>`;
+    const anonNote = sub.anonymous ? `<span class="anon-pill">Xin ẩn danh</span>` : "";
+    const detailAndNote = [sub.detail, sub.note].filter(Boolean).join(" · ") || "—";
+    return `
+      <tr>
+        <td>${statusBadge}</td>
+        <td style="color:var(--muted);font-size:12.5px">${escapeHtmlAttr(formatShortViTime(sub.createdAt))}</td>
+        <td>${codeTag}<b>${escapeHtmlAttr(sub.name)}</b>${anonNote}</td>
+        <td>${escapeHtmlAttr(sub.cls)}</td>
+        <td><b style="color:var(--ink)">${escapeHtmlAttr(sub.examLabel || sub.examKey)}: ${Number(sub.score)}đ</b></td>
+        <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis" title="${escapeHtmlAttr(detailAndNote)}">${escapeHtmlAttr(detailAndNote)}</td>
+        <td>
+          <button type="button" class="quick-chip" data-sub-edit="${escapeHtmlAttr(sub.id)}" style="border-color:var(--ink);color:var(--ink);font-weight:600">Chỉnh sửa &amp; Duyệt</button>
+          ${!isApproved ? `<button type="button" class="quick-chip" data-sub-approve="${escapeHtmlAttr(sub.id)}" style="background:#e6f4ea;border-color:#9ad0ac;color:#1e6b45;font-weight:700">Duyệt nhanh</button>` : ""}
+          <button type="button" class="quick-chip" data-sub-del="${escapeHtmlAttr(sub.id)}" style="color:#b71c1c;border-color:#e5a5a5">Xóa</button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function setEditingSubmissionBanner(sub) {
+  const banner = document.getElementById("editing-sub-banner");
+  const txt = document.getElementById("editing-sub-banner-text");
+  const submitBtn = document.getElementById("score-edit-submit-btn");
+  if (!sub) {
+    editingSubmissionId = "";
+    if (banner) banner.hidden = true;
+    if (submitBtn) submitBtn.textContent = "Lưu học sinh (Thêm / Cập nhật)";
+    return;
+  }
+  editingSubmissionId = sub.id;
+  if (banner && txt) {
+    banner.hidden = false;
+    txt.innerHTML = `Đang chỉnh sửa báo điểm của <b>${escapeHtmlAttr(sub.name)}</b> (${escapeHtmlAttr(sub.examLabel || sub.examKey)}: <b>${Number(sub.score)}đ</b>) — Kiểm tra các cột điểm, nhận xét rồi bấm <b>Lưu &amp; Xét duyệt hiển thị lên Web</b>.`;
+  }
+  if (submitBtn) submitBtn.textContent = "Lưu & Xét duyệt hiển thị lên Web";
 }
 
 function updateAdminOverviewStats() {
@@ -3559,11 +3883,16 @@ function updateAdminOverviewStats() {
   const typoTotalEl = document.getElementById("ov-typo-total");
   const typoSubEl = document.getElementById("ov-typo-sub");
 
+  updateSubmissionBadgesUI();
+  const pendingCnt = scoreSubmissions.filter(s => s && s.status !== "approved").length;
+
   if (stTotalEl) stTotalEl.textContent = `${studentRecords.length} học sinh`;
   if (stSubEl) {
     const visCnt = studentRecords.filter(s => s.publicVisible).length;
     const searchCnt = studentRecords.filter(s => s.searchable || s.publicVisible).length;
-    stSubEl.textContent = `Hiện bảng: ${visCnt} · Cho tìm: ${searchCnt}`;
+    stSubEl.textContent = pendingCnt > 0
+      ? `Chờ duyệt: ${pendingCnt} · Hiện bảng: ${visCnt}`
+      : `Hiện bảng: ${visCnt} · Cho tìm: ${searchCnt}`;
   }
   if (docTotalEl && typeof docRecords !== "undefined") {
     docTotalEl.textContent = `${docRecords.length} tài liệu`;
@@ -3604,6 +3933,7 @@ function openEditorForStudent(st, tabName) {
     return;
   }
   editorModal.hidden = false;
+  renderAdminSubmissionsList();
   renderAdminStudentList();
   buildCardsEditorForm();
   if (typeof renderAdminDocList === "function") renderAdminDocList();
@@ -3612,6 +3942,7 @@ function openEditorForStudent(st, tabName) {
     switchAdminTab(tabName);
   }
   if (st) {
+    setEditingSubmissionBanner(null);
     document.getElementById("ed-code").value = st.code;
     document.getElementById("ed-name").value = st.name;
     document.getElementById("ed-cls").value = st.cls;
@@ -3881,13 +4212,293 @@ document.getElementById("btn-search-allow-all").addEventListener("click", () => 
 document.getElementById("toggle-anon-all").addEventListener("change", (e) => {
   anonAll = e.target.checked;
   localStorage.setItem(ANON_ALL_KEY, anonAll ? "1" : "0");
+  if (typeof saveSiteStateToSupabase === "function") saveSiteStateToSupabase();
   renderScoreTable();
   renderAdminStudentList();
 });
 
+function buildStudentDraftFromSubmission(sub) {
+  const codeHint = String(sub.studentCode || "").trim().toUpperCase();
+  let matched = codeHint
+    ? studentRecords.find(s => s.code.toUpperCase() === codeHint)
+    : null;
+  if (!matched) {
+    matched = studentRecords.find(
+      s => vnNorm(s.name) === vnNorm(sub.name) && vnNorm(s.cls) === vnNorm(sub.cls)
+    );
+  }
+  const code = matched ? matched.code : (codeHint || generateNextStudentCode());
+  const cls = String(sub.cls || (matched ? matched.cls : "12A 2K9")).trim();
+  const gMatch = cls.match(/^(\d+)/);
+  const grade = gMatch ? Number(gMatch[1]) : (matched ? matched.grade : 12);
+  const val = Number(sub.score);
+
+  const draft = {
+    code,
+    name: String(sub.name || (matched ? matched.name : "")).trim(),
+    cls,
+    grade,
+    gk1: matched ? Number(matched.gk1) : val,
+    ck1: matched ? Number(matched.ck1) : val,
+    gk2: matched ? Number(matched.gk2) : val,
+    ck2: matched ? Number(matched.ck2) : val,
+    special: matched ? Number(matched.special) : val,
+    detail: String(sub.detail || (matched ? matched.detail : "") || "").trim(),
+    note: matched && matched.note
+      ? matched.note
+      : (sub.note ? `Cập nhật ${sub.examLabel || sub.examKey}: ${sub.note}` : `Đã xét duyệt điểm ${sub.examLabel || sub.examKey} (${val}đ).`),
+    publicVisible: true,
+    searchable: true,
+    anonymous: matched ? Boolean(matched.anonymous || sub.anonymous) : Boolean(sub.anonymous)
+  };
+
+  if (sub.examKey === "gk1") draft.gk1 = val;
+  else if (sub.examKey === "ck1") draft.ck1 = val;
+  else if (sub.examKey === "gk2") draft.gk2 = val;
+  else if (sub.examKey === "ck2") draft.ck2 = val;
+  else draft.special = val;
+
+  return draft;
+}
+
+function ensurePublicVisibilityModeUnlocked(entry) {
+  let privChanged = false;
+  if (entry.publicVisible && privacyConfig.listMode === "hidden_all") {
+    privacyConfig.listMode = "selected";
+    privChanged = true;
+  }
+  if (entry.searchable && privacyConfig.searchMode === "none") {
+    privacyConfig.searchMode = "allowed_only";
+    privChanged = true;
+  }
+  if (privChanged) savePrivacyConfig(privacyConfig, false);
+}
+
+document.getElementById("btn-jump-approve-admin")?.addEventListener("click", (e) => {
+  handleAdminTrigger(e, "students");
+});
+
+document.getElementById("btn-cancel-sub-edit")?.addEventListener("click", () => {
+  setEditingSubmissionBanner(null);
+});
+
+document.getElementById("btn-sync-subs-cloud")?.addEventListener("click", async () => {
+  showStatus("admin-sub-status-msg", "Đang đồng bộ danh sách báo điểm mới nhất từ Supabase Cloud...", false);
+  const ok = await syncSiteStateFromSupabase();
+  renderAdminSubmissionsList();
+  renderAdminStudentList();
+  updateAdminOverviewStats();
+  showStatus(
+    "admin-sub-status-msg",
+    ok ? "Đã cập nhật danh sách báo điểm mới nhất từ Cloud!" : "Đang hiển thị dữ liệu lưu trên trình duyệt.",
+    false
+  );
+});
+
+document.getElementById("btn-clear-approved-subs")?.addEventListener("click", () => {
+  const before = scoreSubmissions.length;
+  scoreSubmissions = scoreSubmissions.filter(s => s && s.status !== "approved");
+  if (scoreSubmissions.length !== before) {
+    saveScoreSubmissions(scoreSubmissions);
+    renderAdminSubmissionsList();
+    updateAdminOverviewStats();
+    showStatus("admin-sub-status-msg", "Đã dọn sạch các mục báo điểm đã duyệt khỏi danh sách chờ.", false);
+  }
+});
+
+document.getElementById("admin-submissions-tbody")?.addEventListener("click", (e) => {
+  const editBtn = e.target.closest("[data-sub-edit]");
+  if (editBtn) {
+    const sub = scoreSubmissions.find(s => s && s.id === editBtn.dataset.subEdit);
+    if (!sub) return;
+    const draft = buildStudentDraftFromSubmission(sub);
+    setEditingSubmissionBanner(sub);
+    document.getElementById("ed-code").value = draft.code;
+    document.getElementById("ed-name").value = draft.name;
+    document.getElementById("ed-cls").value = draft.cls;
+    document.getElementById("ed-gk1").value = draft.gk1;
+    document.getElementById("ed-ck1").value = draft.ck1;
+    document.getElementById("ed-gk2").value = draft.gk2;
+    document.getElementById("ed-ck2").value = draft.ck2;
+    document.getElementById("ed-special").value = draft.special;
+    document.getElementById("ed-detail").value = draft.detail || "";
+    document.getElementById("ed-note").value = draft.note || "";
+    document.getElementById("ed-visible").checked = true;
+    document.getElementById("ed-searchable").checked = true;
+    document.getElementById("ed-anon").checked = Boolean(draft.anonymous);
+    document.getElementById("score-edit-form")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("ed-note")?.focus();
+    return;
+  }
+
+  const approveBtn = e.target.closest("[data-sub-approve]");
+  if (approveBtn) {
+    const sub = scoreSubmissions.find(s => s && s.id === approveBtn.dataset.subApprove);
+    if (!sub) return;
+    const draft = buildStudentDraftFromSubmission(sub);
+    const idx = studentRecords.findIndex(s => s.code.toUpperCase() === draft.code.toUpperCase());
+    if (idx >= 0) studentRecords[idx] = draft;
+    else studentRecords.unshift(draft);
+
+    sub.status = "approved";
+    sub.approvedCode = draft.code;
+    if (editingSubmissionId === sub.id) setEditingSubmissionBanner(null);
+
+    ensurePublicVisibilityModeUnlocked(draft);
+    saveScores(studentRecords, false);
+    saveScoreSubmissions(scoreSubmissions, true);
+    selectedCode = draft.code;
+    renderScoreTable();
+    renderAdminSubmissionsList();
+    renderAdminStudentList();
+    updateAdminOverviewStats();
+    showStatus("admin-sub-status-msg", `Đã xét duyệt và hiển thị điểm của ${draft.name} (${draft.code}) lên bảng điểm Web!`, false);
+    return;
+  }
+
+  const delBtn = e.target.closest("[data-sub-del]");
+  if (delBtn) {
+    const id = delBtn.dataset.subDel;
+    scoreSubmissions = scoreSubmissions.filter(s => s && s.id !== id);
+    if (editingSubmissionId === id) setEditingSubmissionBanner(null);
+    saveScoreSubmissions(scoreSubmissions, true);
+    renderAdminSubmissionsList();
+    updateAdminOverviewStats();
+  }
+});
+
+let lastPublicScoreSubmitTs = 0;
+
+async function appendScoreSubmissionToSupabase(newSub) {
+  if (!isSupabaseConfigured()) return false;
+  try {
+    const getRes = await fetch(`${supabaseCfg.url}/rest/v1/lop_toan_site_state?id=eq.main&select=live_dom_data`, {
+      headers: {
+        "apikey": supabaseCfg.anonKey,
+        "Authorization": `Bearer ${supabaseCfg.anonKey}`
+      }
+    });
+    let remoteLiveDom = {};
+    if (getRes.ok) {
+      const rows = await getRes.json();
+      if (Array.isArray(rows) && rows[0] && rows[0].live_dom_data && typeof rows[0].live_dom_data === "object") {
+        remoteLiveDom = rows[0].live_dom_data;
+      }
+    }
+    const existingSubs = Array.isArray(remoteLiveDom.scoreSubmissions) ? remoteLiveDom.scoreSubmissions : [];
+    const mergedSubs = [newSub, ...existingSubs.filter(s => s && s.id !== newSub.id)].slice(0, 300);
+    scoreSubmissions = mergedSubs;
+    saveScoreSubmissions(scoreSubmissions, false);
+    const patchRes = await fetch(`${supabaseCfg.url}/rest/v1/lop_toan_site_state?id=eq.main`, {
+      method: "PATCH",
+      headers: {
+        "apikey": supabaseCfg.anonKey,
+        "Authorization": `Bearer ${supabaseCfg.anonKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        live_dom_data: {
+          ...remoteLiveDom,
+          scoreSubmissions: mergedSubs
+        },
+        updated_at: new Date().toISOString()
+      })
+    });
+    return patchRes.ok;
+  } catch {}
+  return false;
+}
+
+document.getElementById("score-submit-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const now = Date.now();
+  if (now - lastPublicScoreSubmitTs < 3500) {
+    showStatus("score-submit-status", "Thông tin vừa được gửi, vui lòng đợi vài giây trước khi gửi tiếp.", false);
+    return;
+  }
+
+  const rawName = stripAnyEmoji(document.getElementById("sub-name").value).trim();
+  const rawCode = stripAnyEmoji(document.getElementById("sub-code").value).trim().toUpperCase();
+  const rawCls = stripAnyEmoji(document.getElementById("sub-cls").value).trim();
+  const examKey = document.getElementById("sub-exam").value;
+  const scoreVal = Number(document.getElementById("sub-score").value);
+  const rawDetail = stripAnyEmoji(document.getElementById("sub-detail").value).trim();
+  const rawNote = stripAnyEmoji(document.getElementById("sub-note").value).trim();
+  const wantAnon = Boolean(document.getElementById("sub-anon").checked);
+
+  if (!rawName || rawName.length < 2) {
+    showStatus("score-submit-status", "Vui lòng nhập đầy đủ Họ và tên học sinh.", true);
+    return;
+  }
+  if (!Number.isFinite(scoreVal) || scoreVal < 0 || scoreVal > 10) {
+    showStatus("score-submit-status", "Điểm số không hợp lệ! Vui lòng nhập điểm trong khoảng từ 0 đến 10.", true);
+    return;
+  }
+
+  lastPublicScoreSubmitTs = now;
+  const submitBtn = document.getElementById("btn-submit-score");
+  if (submitBtn) submitBtn.disabled = true;
+  showStatus("score-submit-status", "Đang gửi thông tin và điểm thi về cho Thầy Chí...", false);
+
+  const examLabel = EXAM_SUBMISSION_LABELS[examKey] || examKey;
+  const newSub = {
+    id: "SUB_" + now.toString(36).toUpperCase() + "_" + Math.random().toString(36).slice(2, 6).toUpperCase(),
+    createdAt: new Date(now).toISOString(),
+    studentCode: rawCode,
+    name: rawName,
+    cls: rawCls,
+    examKey,
+    examLabel,
+    score: Number(scoreVal.toFixed(2)),
+    detail: rawDetail,
+    note: rawNote,
+    anonymous: wantAnon,
+    status: "pending"
+  };
+
+  scoreSubmissions = [newSub, ...scoreSubmissions].slice(0, 300);
+  saveScoreSubmissions(scoreSubmissions, false);
+  updateSubmissionBadgesUI();
+  renderAdminSubmissionsList();
+
+  await appendScoreSubmissionToSupabase(newSub);
+  updateSubmissionBadgesUI();
+  renderAdminSubmissionsList();
+
+  const adminReviewUrl = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, "")}admin.html?tab=students`;
+  fetch(`https://formsubmit.co/ajax/${ADMIN_EMAIL}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify({
+      _subject: `[Bao diem moi] ${rawName} (${rawCls}) - ${examLabel}: ${newSub.score}d`,
+      Ho_va_ten: rawName,
+      Ma_HS: rawCode || "Chua co (HS moi)",
+      Lop: rawCls,
+      Ky_thi: examLabel,
+      Diem_so: `${newSub.score} / 10`,
+      Chi_tiet: rawDetail || "-",
+      Ghi_chu: rawNote || "-",
+      An_danh: wantAnon ? "Co de nghi an danh" : "Hien thi binh thuong",
+      Link_xet_duyet_Admin: adminReviewUrl
+    })
+  }).catch(() => {});
+
+  if (submitBtn) submitBtn.disabled = false;
+  document.getElementById("sub-score").value = "";
+  document.getElementById("sub-detail").value = "";
+  document.getElementById("sub-note").value = "";
+
+  showStatus(
+    "score-submit-status",
+    `Đã gửi báo điểm ${examLabel} (${newSub.score}đ) của ${rawName} về cho Thầy Chí! Kết quả đang chờ Admin kiểm tra và xét duyệt trước khi hiển thị lên Web.`,
+    false
+  );
+});
+
 document.getElementById("btn-new-student").addEventListener("click", () => {
-  const nextNum = studentRecords.length + 1;
-  const nextCode = "HS" + String(nextNum).padStart(3, "0");
+  setEditingSubmissionBanner(null);
+  const nextCode = generateNextStudentCode();
+  const nextNum = Number(nextCode.replace(/\D+/g, "")) || (studentRecords.length + 1);
   document.getElementById("ed-code").value = nextCode;
   document.getElementById("ed-name").value = `Học sinh Nháp ${String(nextNum).padStart(2, "0")}`;
   document.getElementById("ed-cls").value = "12A 2K9";
@@ -3905,6 +4516,7 @@ document.getElementById("btn-new-student").addEventListener("click", () => {
 });
 
 document.getElementById("btn-delete-student").addEventListener("click", () => {
+  setEditingSubmissionBanner(null);
   const code = document.getElementById("ed-code").value.trim().toUpperCase();
   if (!code) return;
   const idx = studentRecords.findIndex(s => s.code.toUpperCase() === code);
@@ -3914,6 +4526,7 @@ document.getElementById("btn-delete-student").addEventListener("click", () => {
     selectedCode = studentRecords[0] ? studentRecords[0].code : "";
     renderScoreTable();
     renderAdminStudentList();
+    updateAdminOverviewStats();
     if (studentRecords[0]) openEditorForStudent(studentRecords[0]);
   }
 });
@@ -3934,6 +4547,7 @@ document.getElementById("admin-student-tbody").addEventListener("click", (e) => 
     if (selectedCode === code) selectedCode = studentRecords[0] ? studentRecords[0].code : "";
     renderScoreTable();
     renderAdminStudentList();
+    updateAdminOverviewStats();
     return;
   }
   const visChk = e.target.closest("[data-vis-code]");
@@ -3950,6 +4564,7 @@ document.getElementById("admin-student-tbody").addEventListener("click", (e) => 
       }
       renderScoreTable();
       renderAdminStudentList();
+      updateAdminOverviewStats();
     }
     return;
   }
@@ -3967,6 +4582,7 @@ document.getElementById("admin-student-tbody").addEventListener("click", (e) => 
       }
       renderScoreTable();
       renderAdminStudentList();
+      updateAdminOverviewStats();
     }
     return;
   }
@@ -3988,9 +4604,9 @@ document.getElementById("admin-student-tbody").addEventListener("click", (e) => 
 
 document.getElementById("score-edit-form").addEventListener("submit", (e) => {
   e.preventDefault();
-  const code = document.getElementById("ed-code").value.trim().toUpperCase();
-  const name = document.getElementById("ed-name").value.trim();
-  const cls = document.getElementById("ed-cls").value.trim();
+  const code = stripAnyEmoji(document.getElementById("ed-code").value).trim().toUpperCase();
+  const name = stripAnyEmoji(document.getElementById("ed-name").value).trim();
+  const cls = stripAnyEmoji(document.getElementById("ed-cls").value).trim();
   const gMatch = cls.match(/^(\d+)/);
   const grade = gMatch ? Number(gMatch[1]) : 12;
 
@@ -4004,8 +4620,8 @@ document.getElementById("score-edit-form").addEventListener("submit", (e) => {
     gk2: Number(document.getElementById("ed-gk2").value),
     ck2: Number(document.getElementById("ed-ck2").value),
     special: Number(document.getElementById("ed-special").value),
-    detail: document.getElementById("ed-detail").value.trim(),
-    note: document.getElementById("ed-note").value.trim(),
+    detail: stripAnyEmoji(document.getElementById("ed-detail").value).trim(),
+    note: stripAnyEmoji(document.getElementById("ed-note").value).trim(),
     publicVisible: document.getElementById("ed-visible").checked,
     searchable: document.getElementById("ed-searchable").checked || document.getElementById("ed-visible").checked,
     anonymous: document.getElementById("ed-anon").checked
@@ -4015,10 +4631,29 @@ document.getElementById("score-edit-form").addEventListener("submit", (e) => {
   if (idx >= 0) studentRecords[idx] = entry;
   else studentRecords.unshift(entry);
 
-  saveScores(studentRecords);
+  ensurePublicVisibilityModeUnlocked(entry);
+
+  let approvedFromSub = false;
+  if (editingSubmissionId) {
+    const sub = scoreSubmissions.find(s => s && s.id === editingSubmissionId);
+    if (sub) {
+      sub.status = "approved";
+      sub.approvedCode = code;
+      approvedFromSub = true;
+    }
+    setEditingSubmissionBanner(null);
+    saveScoreSubmissions(scoreSubmissions, false);
+  }
+
+  saveScores(studentRecords, true);
   selectedCode = code;
   renderScoreTable();
+  renderAdminSubmissionsList();
   renderAdminStudentList();
+  updateAdminOverviewStats();
+  if (approvedFromSub) {
+    showStatus("admin-sub-status-msg", `Đã lưu chỉnh sửa và xét duyệt hiển thị học sinh ${name} (${code}) lên Web!`, false);
+  }
 });
 
 document.getElementById("btn-reset-default").addEventListener("click", () => {
@@ -4159,10 +4794,11 @@ document.getElementById("btn-reset-cards").addEventListener("click", () => {
   localStorage.removeItem(CARDS_STORAGE_KEY);
   localStorage.removeItem(CARD_STYLES_STORAGE_KEY);
   localStorage.removeItem(GLOBAL_TYPO_STORAGE_KEY);
+  localStorage.removeItem("lop_toan_anh_chi_live_dom_v1");
   applySavedCards();
   buildCardsEditorForm();
   if (typeof saveSiteStateToSupabase === "function") {
-    saveSiteStateToSupabase({ cards_data: {}, live_dom_data: {} });
+    saveSiteStateToSupabase({ cards_data: {}, live_dom_data: { styles: {}, globalTypo: {}, domMap: {} } });
   }
   showStatus("cards-status-msg", "Đã khôi phục nội dung và định dạng chữ về mặc định!", false);
 });
@@ -5015,6 +5651,18 @@ async function saveSiteStateToSupabase(patch = {}) {
     const globalTypo = loadGlobalTypo();
     let domMap = {};
     try { domMap = JSON.parse(localStorage.getItem("lop_toan_anh_chi_live_dom_v1") || "{}") || {}; } catch {}
+    const baseLiveDom = {
+      styles: stylesData,
+      globalTypo,
+      domMap,
+      studentRecords,
+      scoreSubmissions,
+      anonAll
+    };
+    const mergedLiveDom = patch.live_dom_data && typeof patch.live_dom_data === "object"
+      ? { ...baseLiveDom, ...patch.live_dom_data }
+      : baseLiveDom;
+    const { live_dom_data: _ignored, ...restPatch } = patch;
     await fetch(`${supabaseCfg.url}/rest/v1/lop_toan_site_state`, {
       method: "POST",
       headers: {
@@ -5028,8 +5676,8 @@ async function saveSiteStateToSupabase(patch = {}) {
         dl_policy: docDlPolicy,
         privacy_config: privacyConfig,
         cards_data: cardsData,
-        live_dom_data: { styles: stylesData, globalTypo, domMap },
-        ...patch,
+        live_dom_data: mergedLiveDom,
+        ...restPatch,
         updated_at: new Date().toISOString()
       })
     });
@@ -5055,7 +5703,7 @@ async function syncSiteStateFromSupabase() {
     }
     if (row.privacy_config && typeof row.privacy_config === "object" && row.privacy_config.listMode) {
       privacyConfig = row.privacy_config;
-      savePrivacyConfig(privacyConfig);
+      savePrivacyConfig(privacyConfig, false);
     }
     if (row.cards_data && typeof row.cards_data === "object" && Object.keys(row.cards_data).length) {
       let hadEmoji = false;
@@ -5072,6 +5720,20 @@ async function syncSiteStateFromSupabase() {
     if (row.live_dom_data && typeof row.live_dom_data === "object") {
       if (row.live_dom_data.styles) saveCardStyles(row.live_dom_data.styles);
       if (row.live_dom_data.globalTypo) saveGlobalTypo(row.live_dom_data.globalTypo);
+      if (typeof row.live_dom_data.anonAll === "boolean") {
+        anonAll = row.live_dom_data.anonAll;
+        localStorage.setItem(ANON_ALL_KEY, anonAll ? "1" : "0");
+        const toggleAnonEl = document.getElementById("toggle-anon-all");
+        if (toggleAnonEl) toggleAnonEl.checked = anonAll;
+      }
+      if (Array.isArray(row.live_dom_data.studentRecords) && row.live_dom_data.studentRecords.length) {
+        studentRecords = row.live_dom_data.studentRecords;
+        saveScores(studentRecords, false);
+      }
+      if (Array.isArray(row.live_dom_data.scoreSubmissions)) {
+        scoreSubmissions = row.live_dom_data.scoreSubmissions;
+        saveScoreSubmissions(scoreSubmissions, false);
+      }
       if (row.live_dom_data.domMap && typeof row.live_dom_data.domMap === "object") {
         let hadDomEmoji = false;
         Object.keys(row.live_dom_data.domMap).forEach((k) => {
@@ -5090,6 +5752,9 @@ async function syncSiteStateFromSupabase() {
     updateLockerPositions();
     renderFullDocLibrary();
     renderScoreTable();
+    renderAdminSubmissionsList();
+    renderAdminStudentList();
+    updateAdminOverviewStats();
     return true;
   } catch {}
   return false;
@@ -6793,11 +7458,20 @@ window.addEventListener("storage", (e) => {
   ) {
     applySavedCards();
     applyLiveDomEdits();
-  } else if (e.key === STORAGE_KEY || e.key === PRIVACY_CONFIG_KEY || e.key === ANON_ALL_KEY) {
+  } else if (
+    e.key === STORAGE_KEY ||
+    e.key === SCORE_SUBMISSIONS_KEY ||
+    e.key === PRIVACY_CONFIG_KEY ||
+    e.key === ANON_ALL_KEY
+  ) {
     studentRecords = loadScores();
+    scoreSubmissions = loadScoreSubmissions();
     privacyConfig = loadPrivacyConfig();
     anonAll = localStorage.getItem(ANON_ALL_KEY) === "1";
     renderScoreTable();
+    renderAdminSubmissionsList();
+    renderAdminStudentList();
+    updateAdminOverviewStats();
   } else if (e.key === DOCS_STORAGE_KEY || e.key === DOC_DL_POLICY_KEY) {
     docRecords = loadDocsList();
     docDlPolicy = loadDocDlPolicy();
@@ -6849,7 +7523,14 @@ document.getElementById("year").textContent = new Date().getFullYear();
 applySavedCards();
 applyLiveDomEdits();
 updateAdminUIState();
+updateSubmissionBadgesUI();
 renderScoreTable();
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" && isOnAdminPage()) {
+    syncSiteStateFromSupabase();
+  }
+});
 
 // Tự động mở cổng Admin Studio nếu truy cập trang admin.html hoặc qua link ?admin=1 / #admin
 const IS_ADMIN_STUDIO_PAGE = Boolean(

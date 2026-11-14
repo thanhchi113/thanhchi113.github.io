@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import vm from 'node:vm';
 
 const indexUrl = new URL('./index.html', import.meta.url);
 const taiLieuUrl = new URL('./tai-lieu.html', import.meta.url);
@@ -168,4 +169,28 @@ assert.ok(!emojiOrArrowRegex.test(html), 'index.html must not contain any emojis
 assert.ok(!emojiOrArrowRegex.test(taiLieuHtml), 'tai-lieu.html must not contain any emojis, dingbats, or text arrow symbols');
 assert.ok(!emojiOrArrowRegex.test(adminHtml), 'admin.html must not contain any emojis, dingbats, or text arrow symbols');
 
-console.log('PASS: All assertions passed (Ecosystem BTVN & 13-Class Sync, Default File-A4-PDF Card Icon, Protected PDF Viewer, 100% Vector Icons, Standalone Admin Dashboard).');
+// 13. Verify Student Score Submission Form (#gui-diem-thi) & Admin Edit/Approve Workflow + Valid JS Syntax
+assert.ok(
+  html.includes('id="gui-diem-thi"') &&
+  html.includes('id="score-submit-form"') &&
+  html.includes('id="sub-name"') &&
+  html.includes('id="sub-exam"') &&
+  html.includes('id="sub-score"') &&
+  html.includes('SCORE_SUBMISSIONS_KEY') &&
+  html.includes('appendScoreSubmissionToSupabase') &&
+  html.includes('id="admin-submissions-box"') &&
+  html.includes('id="admin-submissions-tbody"') &&
+  html.includes('data-sub-edit=') &&
+  html.includes('data-sub-approve=') &&
+  html.includes('buildStudentDraftFromSubmission') &&
+  adminHtml.includes('id="admin-submissions-box"'),
+  'Missing student score submission form or Admin edit/approval workflow'
+);
+
+const inlineScripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+assert.ok(inlineScripts.length >= 1, 'Expected inline <script> block');
+for (const [, code] of inlineScripts) {
+  new vm.Script(code);
+}
+
+console.log('PASS: All assertions passed (Score Submission & Admin Approval, Ecosystem BTVN & 13-Class Sync, Protected PDF Viewer, 100% Vector Icons, Standalone Admin Dashboard).');
