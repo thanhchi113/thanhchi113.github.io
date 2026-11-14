@@ -510,6 +510,8 @@ select option {
 }
 .report-name { margin: 0; font: 800 28px/1.1 var(--serif); color: var(--ink-deep); }
 .report-cls { font: 600 14.5px/1 var(--sans); color: var(--ink-soft); background: #f6e7e5; padding: 6px 12px; border-radius: 999px; }
+.report-school { font: 600 13.5px/1 var(--sans); color: var(--ink-deep); background: #fbf1dc; border: 1px solid #e5cc99; padding: 6px 12px; border-radius: 999px; }
+.report-school[hidden] { display: none !important; }
 .report-stamp {
   border: 3px solid #c62828; color: #c62828; border-radius: 12px; padding: 8px 16px 6px;
   transform: rotate(-5deg); text-align: center; background: rgba(255, 253, 248, .92);
@@ -646,6 +648,7 @@ table.score-table tbody tr.selected { background: #fff6d6; }
 .admin-pane[hidden] { display: none !important; }
 .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
 .form-grid.two { grid-template-columns: repeat(2, 1fr); }
+.form-grid.four { grid-template-columns: repeat(4, 1fr); }
 .form-field label { display: block; font: 600 13px/1.2 var(--sans); color: var(--muted); margin-bottom: 6px; }
 .form-field input:not([type="checkbox"]), .form-field select, .form-field textarea {
   width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line);
@@ -1276,6 +1279,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   .schedule-grid { grid-template-columns: repeat(2, 1fr); }
   .doc-lib-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .score-controls { grid-template-columns: 1fr 1fr; }
+  .form-grid.four { grid-template-columns: repeat(2, 1fr); }
   .report-scores-grid { grid-template-columns: repeat(2, 1fr); }
   body { padding-top: 98px; }
   .nav { gap: 10px; height: 58px; }
@@ -1371,7 +1375,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   .head p { grid-column: 1; font-size: 15.5px; margin-top: 8px; }
 
   /* 4. Bento Cards, Classes & Achievements (Prevent Tag/Stamp Overlaps) */
-  .features, .downloads, .hall-of-fame, .schedule-grid, .score-controls, .form-grid, .form-grid.two {
+  .features, .downloads, .hall-of-fame, .schedule-grid, .score-controls, .form-grid, .form-grid.two, .form-grid.four {
     grid-template-columns: 1fr !important;
   }
   .card, .card.wide, .card.span2 {
@@ -2091,7 +2095,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <div class="score-controls">
         <div class="search-box">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input type="search" id="score-search" class="search-input" placeholder="Nhập Mã HS (VD: HS001, HS005, HS011) hoặc Họ tên học sinh nháp..." autocomplete="off">
+          <input type="search" id="score-search" class="search-input" placeholder="Nhập Mã HS, Họ tên hoặc Trường (VD: Lê Quý Đôn, Quốc Học, Trưng Vương)..." autocomplete="off">
         </div>
         <select id="score-class-filter" class="class-select" aria-label="Lọc theo lớp học">
           <option value="ALL">Tất cả các lớp (Khối 7 – 12)</option>
@@ -2148,6 +2152,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
               <span class="report-code" id="rc-code">HS001</span>
               <h3 class="report-name" id="rc-name">Học sinh Nháp 01</h3>
               <span class="report-cls" id="rc-cls">Lớp 12A 2K9</span>
+              <span class="report-school" id="rc-school" hidden></span>
             </div>
             <p style="margin:8px 0 0;color:var(--muted);font-size:14.5px" id="rc-subtitle">
               Phiếu tổng hợp kết quả học tập &amp; khảo sát định kì — Lớp Toán Anh Chí
@@ -2176,7 +2181,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
             <tr id="score-thead-row">
               <th>Mã HS</th>
               <th>Họ và tên</th>
-              <th>Lớp</th>
+              <th>Lớp · Trường</th>
               <th>Giữa kì (GK1 · GK2)</th>
               <th>Cuối kì (CK1 · CK2)</th>
               <th id="th-special-exam">Thi THPT QG / 9 vào 10</th>
@@ -2225,8 +2230,35 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
             <input type="text" id="sub-name" maxlength="80" placeholder="VD: Nguyễn Văn An" required>
           </div>
           <div class="form-field">
-            <label for="sub-code">Mã học sinh (nếu đã có)</label>
-            <input type="text" id="sub-code" maxlength="20" placeholder="VD: HS001 (để trống nếu chưa có)">
+            <label for="sub-school">Trường đang học *</label>
+            <select id="sub-school" required>
+              <optgroup label="Khối THPT (Quy Nhơn — Bình Định)">
+                <option value="THPT Chuyên Lê Quý Đôn">THPT Chuyên Lê Quý Đôn</option>
+                <option value="THPT Quốc Học Quy Nhơn">THPT Quốc Học Quy Nhơn</option>
+                <option value="THPT Trưng Vương">THPT Trưng Vương</option>
+                <option value="THPT Trần Cao Vân">THPT Trần Cao Vân</option>
+                <option value="THPT Quy Nhơn">THPT Quy Nhơn</option>
+                <option value="THPT Hùng Vương">THPT Hùng Vương</option>
+                <option value="THPT Nguyễn Thái Học">THPT Nguyễn Thái Học</option>
+                <option value="THPT Bùi Thị Xuân">THPT Bùi Thị Xuân</option>
+                <option value="THPT FPT Quy Nhơn">THPT FPT Quy Nhơn</option>
+                <option value="iSchool Quy Nhơn">iSchool Quy Nhơn</option>
+              </optgroup>
+              <optgroup label="Khối THCS (Quy Nhơn — Bình Định)">
+                <option value="THCS Lê Hồng Phong">THCS Lê Hồng Phong</option>
+                <option value="THCS Lương Thế Vinh">THCS Lương Thế Vinh</option>
+                <option value="THCS Quang Trung">THCS Quang Trung</option>
+                <option value="THCS Tây Sơn">THCS Tây Sơn</option>
+                <option value="THCS Ngô Mây">THCS Ngô Mây</option>
+                <option value="THCS Trần Hưng Đạo">THCS Trần Hưng Đạo</option>
+                <option value="THCS Lê Lợi">THCS Lê Lợi</option>
+                <option value="THCS Nguyễn Huệ">THCS Nguyễn Huệ</option>
+                <option value="THCS Hải Cảng">THCS Hải Cảng</option>
+                <option value="THCS Đống Đa">THCS Đống Đa</option>
+              </optgroup>
+              <option value="OTHER">Trường khác (Tự nhập tên trường...)</option>
+            </select>
+            <input type="text" id="sub-school-other" maxlength="80" placeholder="Nhập tên trường của em..." style="margin-top:8px" hidden>
           </div>
           <div class="form-field">
             <label for="sub-cls">Lớp đang học *</label>
@@ -2251,6 +2283,10 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 
         <div class="form-grid">
           <div class="form-field">
+            <label for="sub-code">Mã học sinh (nếu đã có)</label>
+            <input type="text" id="sub-code" maxlength="20" placeholder="VD: HS001 (để trống nếu chưa có)">
+          </div>
+          <div class="form-field">
             <label for="sub-exam">Kỳ thi báo điểm *</label>
             <select id="sub-exam" required>
               <option value="gk1">Giữa kì 1 (GK1)</option>
@@ -2265,15 +2301,15 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
             <label for="sub-score">Điểm đạt được (thang 10) *</label>
             <input type="number" id="sub-score" min="0" max="10" step="0.01" placeholder="VD: 9.25" required>
           </div>
+        </div>
+
+        <div class="form-grid" style="align-items:end">
           <div class="form-field">
             <label for="sub-detail">Chi tiết điểm thành phần (nếu có)</label>
             <input type="text" id="sub-detail" maxlength="100" placeholder="VD: P1: 3.0 · P2: 3.75 · P3: 2.5">
           </div>
-        </div>
-
-        <div class="form-grid two" style="align-items:end">
           <div class="form-field">
-            <label for="sub-note">Ghi chú / Trường học / Lời nhắn gửi Thầy Chí</label>
+            <label for="sub-note">Ghi chú / Lời nhắn gửi Thầy Chí</label>
             <input type="text" id="sub-note" maxlength="200" placeholder="VD: Điểm kiểm tra tại trường, nhờ Thầy cập nhật giúp em...">
           </div>
           <div class="form-field" style="padding:8px 0">
@@ -2440,7 +2476,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
                 <th>Trạng thái</th>
                 <th>Thời gian</th>
                 <th>Học sinh</th>
-                <th>Lớp</th>
+                <th>Lớp · Trường</th>
                 <th>Kỳ thi &amp; Điểm báo</th>
                 <th>Chi tiết / Ghi chú HS gửi</th>
                 <th>Thao tác Admin</th>
@@ -2497,7 +2533,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           <button type="button" class="quick-chip" id="btn-cancel-sub-edit">Bỏ chế độ duyệt mục này</button>
         </div>
         <form id="score-edit-form">
-          <div class="form-grid">
+          <div class="form-grid four">
             <div class="form-field">
               <label for="ed-code">Mã Học Sinh</label>
               <input type="text" id="ed-code" placeholder="VD: HS001" required>
@@ -2505,6 +2541,38 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
             <div class="form-field">
               <label for="ed-name">Họ và tên học sinh</label>
               <input type="text" id="ed-name" placeholder="VD: Học sinh Nháp 01" required>
+            </div>
+            <div class="form-field">
+              <label for="ed-school-select">Trường học</label>
+              <select id="ed-school-select">
+                <option value="">-- Chưa chọn trường --</option>
+                <optgroup label="Khối THPT (Quy Nhơn — Bình Định)">
+                  <option value="THPT Chuyên Lê Quý Đôn">THPT Chuyên Lê Quý Đôn</option>
+                  <option value="THPT Quốc Học Quy Nhơn">THPT Quốc Học Quy Nhơn</option>
+                  <option value="THPT Trưng Vương">THPT Trưng Vương</option>
+                  <option value="THPT Trần Cao Vân">THPT Trần Cao Vân</option>
+                  <option value="THPT Quy Nhơn">THPT Quy Nhơn</option>
+                  <option value="THPT Hùng Vương">THPT Hùng Vương</option>
+                  <option value="THPT Nguyễn Thái Học">THPT Nguyễn Thái Học</option>
+                  <option value="THPT Bùi Thị Xuân">THPT Bùi Thị Xuân</option>
+                  <option value="THPT FPT Quy Nhơn">THPT FPT Quy Nhơn</option>
+                  <option value="iSchool Quy Nhơn">iSchool Quy Nhơn</option>
+                </optgroup>
+                <optgroup label="Khối THCS (Quy Nhơn — Bình Định)">
+                  <option value="THCS Lê Hồng Phong">THCS Lê Hồng Phong</option>
+                  <option value="THCS Lương Thế Vinh">THCS Lương Thế Vinh</option>
+                  <option value="THCS Quang Trung">THCS Quang Trung</option>
+                  <option value="THCS Tây Sơn">THCS Tây Sơn</option>
+                  <option value="THCS Ngô Mây">THCS Ngô Mây</option>
+                  <option value="THCS Trần Hưng Đạo">THCS Trần Hưng Đạo</option>
+                  <option value="THCS Lê Lợi">THCS Lê Lợi</option>
+                  <option value="THCS Nguyễn Huệ">THCS Nguyễn Huệ</option>
+                  <option value="THCS Hải Cảng">THCS Hải Cảng</option>
+                  <option value="THCS Đống Đa">THCS Đống Đa</option>
+                </optgroup>
+                <option value="OTHER">Trường khác (Tự nhập tên trường...)</option>
+              </select>
+              <input type="text" id="ed-school-other" maxlength="80" placeholder="Nhập tên trường học..." style="margin-top:8px" hidden>
             </div>
             <div class="form-field">
               <label for="ed-cls">Lớp học</label>
@@ -2579,7 +2647,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
                 <th>Mã HS</th>
                 <th>Họ tên gốc (Admin)</th>
                 <th>Hiển thị công khai</th>
-                <th>Lớp</th>
+                <th>Lớp · Trường</th>
                 <th>GK1·GK2</th>
                 <th>CK1·CK2</th>
                 <th>Thi QG/10</th>
@@ -2941,23 +3009,33 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 // Danh sách học sinh nháp minh họa 100% (ẩn toàn bộ thông tin học sinh thật)
 // publicVisible: chỉ hiện 4 HS tiêu biểu trên bảng; searchable: chỉ cho phép tìm 6 HS được cấp quyền
 const BASE_STUDENTS = [
-  { code: "HS001", name: "Học sinh Nháp 01", cls: "12A 2K9", grade: 12, anonymous: false, publicVisible: true, searchable: true },
-  { code: "HS002", name: "Học sinh Nháp 02", cls: "12B 2K9", grade: 12, anonymous: false, publicVisible: true, searchable: true },
-  { code: "HS003", name: "Học sinh Nháp 03", cls: "12B 2K9", grade: 12, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS004", name: "Học sinh Nháp 04", cls: "12D", grade: 12, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS005", name: "Học sinh Nháp 05", cls: "11A 2K10", grade: 11, anonymous: false, publicVisible: true, searchable: true },
-  { code: "HS006", name: "Học sinh Nháp 06", cls: "11A 2K10", grade: 11, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS007", name: "Học sinh Nháp 07", cls: "11B 2K10", grade: 11, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS008", name: "Học sinh Nháp 08", cls: "10A 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: true },
-  { code: "HS009", name: "Học sinh Nháp 09", cls: "10B 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS010", name: "Học sinh Nháp 10", cls: "10C 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS011", name: "Học sinh Nháp 11", cls: "9 2K12", grade: 9, anonymous: false, publicVisible: true, searchable: true },
-  { code: "HS012", name: "Học sinh Nháp 12", cls: "9 2K12", grade: 9, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS013", name: "Học sinh Nháp 13", cls: "8A 2K13", grade: 8, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS014", name: "Học sinh Nháp 14", cls: "8B 2K13", grade: 8, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS015", name: "Học sinh Nháp 15", cls: "7 2K14", grade: 7, anonymous: false, publicVisible: false, searchable: true },
-  { code: "HS016", name: "Học sinh Nháp 16", cls: "7 Onl", grade: 7, anonymous: false, publicVisible: false, searchable: false }
+  { code: "HS001", name: "Học sinh Nháp 01", school: "THPT Chuyên Lê Quý Đôn", cls: "12A 2K9", grade: 12, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS002", name: "Học sinh Nháp 02", school: "THPT Quốc Học Quy Nhơn", cls: "12B 2K9", grade: 12, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS003", name: "Học sinh Nháp 03", school: "THPT Trưng Vương", cls: "12B 2K9", grade: 12, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS004", name: "Học sinh Nháp 04", school: "THPT Trần Cao Vân", cls: "12D", grade: 12, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS005", name: "Học sinh Nháp 05", school: "THPT Chuyên Lê Quý Đôn", cls: "11A 2K10", grade: 11, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS006", name: "Học sinh Nháp 06", school: "THPT Quy Nhơn", cls: "11A 2K10", grade: 11, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS007", name: "Học sinh Nháp 07", school: "THPT Quốc Học Quy Nhơn", cls: "11B 2K10", grade: 11, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS008", name: "Học sinh Nháp 08", school: "THPT Trưng Vương", cls: "10A 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: true },
+  { code: "HS009", name: "Học sinh Nháp 09", school: "THPT Trần Cao Vân", cls: "10B 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS010", name: "Học sinh Nháp 10", school: "THPT Hùng Vương", cls: "10C 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS011", name: "Học sinh Nháp 11", school: "THCS Lê Hồng Phong", cls: "9 2K12", grade: 9, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS012", name: "Học sinh Nháp 12", school: "THCS Lương Thế Vinh", cls: "9 2K12", grade: 9, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS013", name: "Học sinh Nháp 13", school: "THCS Quang Trung", cls: "8A 2K13", grade: 8, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS014", name: "Học sinh Nháp 14", school: "THCS Tây Sơn", cls: "8B 2K13", grade: 8, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS015", name: "Học sinh Nháp 15", school: "THCS Lê Hồng Phong", cls: "7 2K14", grade: 7, anonymous: false, publicVisible: false, searchable: true },
+  { code: "HS016", name: "Học sinh Nháp 16", school: "THCS Ngô Mây", cls: "7 Onl", grade: 7, anonymous: false, publicVisible: false, searchable: false }
 ];
+
+const DEFAULT_SCHOOL_BY_CODE = Object.fromEntries(BASE_STUDENTS.map(s => [s.code, s.school]));
+
+function backfillDefaultSchools(list) {
+  if (!Array.isArray(list)) return list;
+  return list.map(st => (st && st.school === undefined && DEFAULT_SCHOOL_BY_CODE[st.code])
+    ? { ...st, school: DEFAULT_SCHOOL_BY_CODE[st.code] }
+    : st
+  );
+}
 
 const COMMENTS_POOL = [
   "Nắm vững bản chất đại số & hình học, trình bày bài rất mạch lạc!",
@@ -3059,7 +3137,7 @@ function loadScores() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length) return parsed;
+      if (Array.isArray(parsed) && parsed.length) return backfillDefaultSchools(parsed);
     }
   } catch {}
   return buildDefaultScores();
@@ -3253,6 +3331,11 @@ function renderReportCard(st) {
   document.getElementById("rc-code").textContent = st.code;
   document.getElementById("rc-name").textContent = formatPublicStudentName(st);
   document.getElementById("rc-cls").textContent = `Lớp ${st.cls}`;
+  const rcSchoolEl = document.getElementById("rc-school");
+  if (rcSchoolEl) {
+    rcSchoolEl.textContent = st.school || "";
+    rcSchoolEl.hidden = !st.school;
+  }
 
   const isTHPT = st.grade >= 10;
   const specialTitle = isTHPT ? "Thi thử THPT Quốc Gia" : "Thi thử Tuyển sinh 9 vào 10";
@@ -3321,7 +3404,7 @@ function getFilteredStudents() {
 
     if (q) {
       const pubName = formatPublicStudentName(st);
-      const hay = vnNorm(`${st.code} ${pubName} ${st.cls}`);
+      const hay = vnNorm(`${st.code} ${pubName} ${st.cls} ${st.school || ""}`);
       if (!hay.includes(q)) return false;
     }
     return true;
@@ -3370,7 +3453,7 @@ function renderScoreTable() {
       <tr class="${isSel ? 'selected' : ''}" data-code="${escapeHtmlAttr(st.code)}">
         <td><span class="code-pill">${escapeHtmlAttr(st.code)}</span></td>
         <td><b style="color:var(--ink-deep)">${escapeHtmlAttr(displayName)}</b></td>
-        <td>${escapeHtmlAttr(st.cls)}</td>
+        <td>${escapeHtmlAttr(st.cls)}${st.school ? `<span style="color:var(--muted)"> · ${escapeHtmlAttr(st.school)}</span>` : ""}</td>
         <td><span class="score-num">${st.gk1}</span> · <span class="score-num ${st.gk2 >= 9 ? 'high' : 'good'}">${st.gk2}</span></td>
         <td><span class="score-num">${st.ck1}</span> · <span class="score-num ${st.ck2 >= 9 ? 'high' : 'good'}">${st.ck2}</span></td>
         <td>
@@ -3759,7 +3842,7 @@ function renderAdminStudentList() {
       <td><span class="code-pill">${escapeHtmlAttr(st.code)}</span></td>
       <td><b>${escapeHtmlAttr(st.name)}</b></td>
       <td>${escapeHtmlAttr(formatPublicStudentName(st))}</td>
-      <td>${escapeHtmlAttr(st.cls)}</td>
+      <td>${escapeHtmlAttr(st.cls)}${st.school ? `<span style="color:var(--muted)"> · ${escapeHtmlAttr(st.school)}</span>` : ""}</td>
       <td>${st.gk1} · ${st.gk2}</td>
       <td>${st.ck1} · ${st.ck2}</td>
       <td><b>${st.special}đ</b></td>
@@ -3844,7 +3927,7 @@ function renderAdminSubmissionsList() {
         <td>${statusBadge}</td>
         <td style="color:var(--muted);font-size:12.5px">${escapeHtmlAttr(formatShortViTime(sub.createdAt))}</td>
         <td>${codeTag}<b>${escapeHtmlAttr(sub.name)}</b>${anonNote}</td>
-        <td>${escapeHtmlAttr(sub.cls)}</td>
+        <td>${escapeHtmlAttr(sub.cls)}${sub.school ? `<span style="color:var(--muted)"> · ${escapeHtmlAttr(sub.school)}</span>` : ""}</td>
         <td><b style="color:var(--ink)">${escapeHtmlAttr(sub.examLabel || sub.examKey)}: ${Number(sub.score)}đ</b></td>
         <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis" title="${escapeHtmlAttr(detailAndNote)}">${escapeHtmlAttr(detailAndNote)}</td>
         <td>
@@ -3926,6 +4009,59 @@ function isOnAdminPage() {
 
 let pendingAdminTabRedirect = "";
 
+function setSchoolFieldUI(selId, otherId, schoolVal) {
+  const selEl = document.getElementById(selId);
+  const otherEl = document.getElementById(otherId);
+  if (!selEl) return;
+  const clean = stripAnyEmoji(schoolVal || "").trim();
+  const hasOpt = Array.from(selEl.options).some(o => o.value !== "OTHER" && o.value === clean);
+  if (hasOpt) {
+    selEl.value = clean;
+    if (otherEl) {
+      otherEl.hidden = true;
+      otherEl.required = false;
+      otherEl.value = "";
+    }
+  } else if (clean) {
+    selEl.value = "OTHER";
+    if (otherEl) {
+      otherEl.hidden = false;
+      otherEl.value = clean;
+    }
+  } else {
+    selEl.value = selEl.options[0] ? selEl.options[0].value : "";
+    if (otherEl) {
+      otherEl.hidden = true;
+      otherEl.required = false;
+      otherEl.value = "";
+    }
+  }
+}
+
+function readSchoolFieldValue(selId, otherId) {
+  const selEl = document.getElementById(selId);
+  const otherEl = document.getElementById(otherId);
+  if (!selEl) return "";
+  if (selEl.value === "OTHER") {
+    return stripAnyEmoji(otherEl ? otherEl.value : "").trim();
+  }
+  return stripAnyEmoji(selEl.value || "").trim();
+}
+
+function wireSchoolSelectToggle(selId, otherId, requireWhenOther = false) {
+  const selEl = document.getElementById(selId);
+  const otherEl = document.getElementById(otherId);
+  if (!selEl || !otherEl) return;
+  selEl.addEventListener("change", () => {
+    const isOther = selEl.value === "OTHER";
+    otherEl.hidden = !isOther;
+    otherEl.required = Boolean(requireWhenOther && isOther);
+    if (isOther) otherEl.focus();
+  });
+}
+wireSchoolSelectToggle("sub-school", "sub-school-other", true);
+wireSchoolSelectToggle("ed-school-select", "ed-school-other", false);
+
 function openEditorForStudent(st, tabName) {
   if (!isOnAdminPage()) {
     const q = tabName ? `?tab=${encodeURIComponent(tabName)}` : "";
@@ -3945,6 +4081,7 @@ function openEditorForStudent(st, tabName) {
     setEditingSubmissionBanner(null);
     document.getElementById("ed-code").value = st.code;
     document.getElementById("ed-name").value = st.name;
+    setSchoolFieldUI("ed-school-select", "ed-school-other", st.school || "");
     document.getElementById("ed-cls").value = st.cls;
     document.getElementById("ed-gk1").value = st.gk1;
     document.getElementById("ed-ck1").value = st.ck1;
@@ -4236,6 +4373,7 @@ function buildStudentDraftFromSubmission(sub) {
   const draft = {
     code,
     name: String(sub.name || (matched ? matched.name : "")).trim(),
+    school: String(sub.school || (matched ? (matched.school || "") : "")).trim(),
     cls,
     grade,
     gk1: matched ? Number(matched.gk1) : val,
@@ -4315,6 +4453,7 @@ document.getElementById("admin-submissions-tbody")?.addEventListener("click", (e
     setEditingSubmissionBanner(sub);
     document.getElementById("ed-code").value = draft.code;
     document.getElementById("ed-name").value = draft.name;
+    setSchoolFieldUI("ed-school-select", "ed-school-other", draft.school || "");
     document.getElementById("ed-cls").value = draft.cls;
     document.getElementById("ed-gk1").value = draft.gk1;
     document.getElementById("ed-ck1").value = draft.ck1;
@@ -4418,6 +4557,7 @@ document.getElementById("score-submit-form")?.addEventListener("submit", async (
   }
 
   const rawName = stripAnyEmoji(document.getElementById("sub-name").value).trim();
+  const rawSchool = readSchoolFieldValue("sub-school", "sub-school-other");
   const rawCode = stripAnyEmoji(document.getElementById("sub-code").value).trim().toUpperCase();
   const rawCls = stripAnyEmoji(document.getElementById("sub-cls").value).trim();
   const examKey = document.getElementById("sub-exam").value;
@@ -4428,6 +4568,10 @@ document.getElementById("score-submit-form")?.addEventListener("submit", async (
 
   if (!rawName || rawName.length < 2) {
     showStatus("score-submit-status", "Vui lòng nhập đầy đủ Họ và tên học sinh.", true);
+    return;
+  }
+  if (!rawSchool) {
+    showStatus("score-submit-status", "Vui lòng chọn hoặc nhập tên Trường đang học.", true);
     return;
   }
   if (!Number.isFinite(scoreVal) || scoreVal < 0 || scoreVal > 10) {
@@ -4446,6 +4590,7 @@ document.getElementById("score-submit-form")?.addEventListener("submit", async (
     createdAt: new Date(now).toISOString(),
     studentCode: rawCode,
     name: rawName,
+    school: rawSchool,
     cls: rawCls,
     examKey,
     examLabel,
@@ -4470,9 +4615,10 @@ document.getElementById("score-submit-form")?.addEventListener("submit", async (
     method: "POST",
     headers: { "Content-Type": "application/json", "Accept": "application/json" },
     body: JSON.stringify({
-      _subject: `[Bao diem moi] ${rawName} (${rawCls}) - ${examLabel}: ${newSub.score}d`,
+      _subject: `[Bao diem moi] ${rawName} (${rawCls} - ${rawSchool}) - ${examLabel}: ${newSub.score}d`,
       Ho_va_ten: rawName,
       Ma_HS: rawCode || "Chua co (HS moi)",
+      Truong_hoc: rawSchool,
       Lop: rawCls,
       Ky_thi: examLabel,
       Diem_so: `${newSub.score} / 10`,
@@ -4501,6 +4647,7 @@ document.getElementById("btn-new-student").addEventListener("click", () => {
   const nextNum = Number(nextCode.replace(/\D+/g, "")) || (studentRecords.length + 1);
   document.getElementById("ed-code").value = nextCode;
   document.getElementById("ed-name").value = `Học sinh Nháp ${String(nextNum).padStart(2, "0")}`;
+  setSchoolFieldUI("ed-school-select", "ed-school-other", "THPT Chuyên Lê Quý Đôn");
   document.getElementById("ed-cls").value = "12A 2K9";
   document.getElementById("ed-gk1").value = 8.5;
   document.getElementById("ed-ck1").value = 8.8;
@@ -4606,6 +4753,7 @@ document.getElementById("score-edit-form").addEventListener("submit", (e) => {
   e.preventDefault();
   const code = stripAnyEmoji(document.getElementById("ed-code").value).trim().toUpperCase();
   const name = stripAnyEmoji(document.getElementById("ed-name").value).trim();
+  const school = readSchoolFieldValue("ed-school-select", "ed-school-other");
   const cls = stripAnyEmoji(document.getElementById("ed-cls").value).trim();
   const gMatch = cls.match(/^(\d+)/);
   const grade = gMatch ? Number(gMatch[1]) : 12;
@@ -4613,6 +4761,7 @@ document.getElementById("score-edit-form").addEventListener("submit", (e) => {
   const entry = {
     code,
     name,
+    school,
     cls,
     grade,
     gk1: Number(document.getElementById("ed-gk1").value),
@@ -4805,9 +4954,9 @@ document.getElementById("btn-reset-cards").addEventListener("click", () => {
 
 // Export CSV
 document.getElementById("btn-export-csv").addEventListener("click", () => {
-  const header = ["MaHS", "HoTen", "Lop", "GK1", "CK1", "GK2", "CK2", "Thi_THPTQG_9vao10", "NhanXet"];
+  const header = ["MaHS", "HoTen", "Truong", "Lop", "GK1", "CK1", "GK2", "CK2", "Thi_THPTQG_9vao10", "NhanXet"];
   const rows = studentRecords.map(s => [
-    s.code, `"${formatPublicStudentName(s)}"`, `"${s.cls}"`, s.gk1, s.ck1, s.gk2, s.ck2, s.special, `"${(s.note || "").replace(/"/g, '""')}"`
+    s.code, `"${formatPublicStudentName(s)}"`, `"${(s.school || "").replace(/"/g, '""')}"`, `"${s.cls}"`, s.gk1, s.ck1, s.gk2, s.ck2, s.special, `"${(s.note || "").replace(/"/g, '""')}"`
   ].join(","));
   const csv = "\uFEFF" + [header.join(","), ...rows].join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -5727,7 +5876,7 @@ async function syncSiteStateFromSupabase() {
         if (toggleAnonEl) toggleAnonEl.checked = anonAll;
       }
       if (Array.isArray(row.live_dom_data.studentRecords) && row.live_dom_data.studentRecords.length) {
-        studentRecords = row.live_dom_data.studentRecords;
+        studentRecords = backfillDefaultSchools(row.live_dom_data.studentRecords);
         saveScores(studentRecords, false);
       }
       if (Array.isArray(row.live_dom_data.scoreSubmissions)) {

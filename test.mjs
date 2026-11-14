@@ -169,11 +169,22 @@ assert.ok(!emojiOrArrowRegex.test(html), 'index.html must not contain any emojis
 assert.ok(!emojiOrArrowRegex.test(taiLieuHtml), 'tai-lieu.html must not contain any emojis, dingbats, or text arrow symbols');
 assert.ok(!emojiOrArrowRegex.test(adminHtml), 'admin.html must not contain any emojis, dingbats, or text arrow symbols');
 
-// 13. Verify Student Score Submission Form (#gui-diem-thi) & Admin Edit/Approve Workflow + Valid JS Syntax
+// 13. Verify Student Score Submission Form (#gui-diem-thi), Quy Nhơn Schools & Admin Edit/Approve Workflow + Valid JS Syntax
 assert.ok(
   html.includes('id="gui-diem-thi"') &&
   html.includes('id="score-submit-form"') &&
   html.includes('id="sub-name"') &&
+  html.includes('id="sub-school"') &&
+  html.includes('id="sub-school-other"') &&
+  html.includes('id="ed-school-select"') &&
+  html.includes('id="ed-school-other"') &&
+  html.includes('id="rc-school"') &&
+  html.includes('THPT Chuyên Lê Quý Đôn') &&
+  html.includes('THPT Quốc Học Quy Nhơn') &&
+  html.includes('THPT Trưng Vương') &&
+  html.includes('THPT Trần Cao Vân') &&
+  html.includes('THPT Quy Nhơn') &&
+  html.includes('THCS Lê Hồng Phong') &&
   html.includes('id="sub-exam"') &&
   html.includes('id="sub-score"') &&
   html.includes('SCORE_SUBMISSIONS_KEY') &&
@@ -183,8 +194,9 @@ assert.ok(
   html.includes('data-sub-edit=') &&
   html.includes('data-sub-approve=') &&
   html.includes('buildStudentDraftFromSubmission') &&
-  adminHtml.includes('id="admin-submissions-box"'),
-  'Missing student score submission form or Admin edit/approval workflow'
+  adminHtml.includes('id="admin-submissions-box"') &&
+  adminHtml.includes('id="ed-school-select"'),
+  'Missing student score submission form, Quy Nhon school options, or Admin edit/approval workflow'
 );
 
 const inlineScripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
