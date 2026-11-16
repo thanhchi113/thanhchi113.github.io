@@ -1,9 +1,9 @@
 {
-  // Cloudflare Worker API & Storage Vault for Lớp Toán Anh Chí
+  // Cloudflare Worker API & Max-Free-Pool Storage Cluster (10x D1 = 5GB + 1GB KV + Edge Cache + R2 Ready)
   // Secrets (UPLOAD_API_KEY) are bound as encrypted Worker Secrets — never stored in git.
   "name": "docs",
   "main": "src/index.js",
-  "compatibility_date": "2026-11-16",
+  "compatibility_date": "2026-04-01",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true,
@@ -22,6 +22,51 @@
       "binding": "DOCS_DB",
       "database_name": "lop-toan-anh-chi-db",
       "database_id": "b373b04a-5a3b-4b9a-a496-3f6e55558043"
+    },
+    {
+      "binding": "DOCS_SHARD_1",
+      "database_name": "lop-toan-pdf-shard-1",
+      "database_id": "649f9d8b-d77a-4fd0-8357-7e232c39eb27"
+    },
+    {
+      "binding": "DOCS_SHARD_2",
+      "database_name": "lop-toan-pdf-shard-2",
+      "database_id": "58a39717-e7fd-41a4-9758-1aaad23d9bfd"
+    },
+    {
+      "binding": "DOCS_SHARD_3",
+      "database_name": "lop-toan-pdf-shard-3",
+      "database_id": "c2f9deb1-21dc-4ee6-9e26-1a4cbbb683d5"
+    },
+    {
+      "binding": "DOCS_SHARD_4",
+      "database_name": "lop-toan-pdf-shard-4",
+      "database_id": "46073173-2ae8-4396-a423-f27e020bcd47"
+    },
+    {
+      "binding": "DOCS_SHARD_5",
+      "database_name": "lop-toan-pdf-shard-5",
+      "database_id": "26e99d29-6a01-45d8-b01b-fd427ca910b3"
+    },
+    {
+      "binding": "DOCS_SHARD_6",
+      "database_name": "lop-toan-pdf-shard-6",
+      "database_id": "e839fe55-8b58-49de-835b-71c156d9b237"
+    },
+    {
+      "binding": "DOCS_SHARD_7",
+      "database_name": "lop-toan-pdf-shard-7",
+      "database_id": "626928ca-83e4-46d6-a8b2-42c94e8bab3b"
+    },
+    {
+      "binding": "DOCS_SHARD_8",
+      "database_name": "lop-toan-pdf-shard-8",
+      "database_id": "f934b7fd-a3b6-452c-93aa-feb6205a8ecb"
+    },
+    {
+      "binding": "DOCS_SHARD_9",
+      "database_name": "lop-toan-pdf-shard-9",
+      "database_id": "3d22c16a-39d3-4e2f-9eaa-67392cd4aad1"
     }
   ],
   "kv_namespaces": [

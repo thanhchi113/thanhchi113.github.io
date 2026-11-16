@@ -2676,12 +2676,24 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <div class="admin-pane" id="admin-pane-docs" hidden>
       <div class="admin-box" id="cloudflare-config-box" style="background:linear-gradient(135deg,#fff6ec,#fffdf8);border-color:rgba(194,94,14,0.34)">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
-          <h4 style="margin:0;color:#9a3f06"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Lưu trữ Đám mây Cloudflare Edge Vault (KV / R2 + D1 — Kho Chính Tốc Độ Cao)</span></h4>
-          <span id="cf-conn-badge" class="pill-note" style="padding:4px 10px;font-size:12px;background:#fff0dc;color:#9a3f06"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Đang kiểm tra kết nối Cloudflare Edge...</span></span>
+          <h4 style="margin:0;color:#9a3f06"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Cụm Lưu Trữ Miễn Phí Tối Đa Cloudflare (6.0 GB Cluster: 10x D1 + KV + Nén Gzip + Edge Cache)</span></h4>
+          <span id="cf-conn-badge" class="pill-note" style="padding:4px 10px;font-size:12px;background:#fff0dc;color:#9a3f06"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Đang kiểm tra kết nối Cloudflare Cluster...</span></span>
         </div>
         <p style="margin:0 0 10px;color:var(--muted);font-size:13.5px">
-          Website kết nối trực tiếp với <b>Cloudflare Edge Worker + D1 + KV/R2 Vault</b> (<code>https://docs.lop-toan-anh-chi.workers.dev</code>). Toàn bộ file PDF upload từ trang Admin hoặc đẩy tự động từ <b>Mục Tự động hóa tài liệu</b> đều được mã hóa nhị phân <b>LTAC Vault</b> chống tải lén và phân phối qua CDN toàn cầu. Nhập <b>Khóa API Quản trị Cloudflare</b> một lần trên trình duyệt này để mở quyền Upload / Duyệt / Xóa trực tiếp.
+          Đã kích hoạt tối đa 100% hạn mức miễn phí trên tài khoản Cloudflare: <b>10 cơ sở dữ liệu D1 phân mảnh (5.0 GB · 100.000 lượt ghi/ngày) + 1.0 GB Workers KV + Nén Gzip tự động + Bộ nhớ đệm Edge Cache không giới hạn</b> (cộng thêm <b>1.0 GB Supabase</b> dự phòng = <b>7.0 GB Miễn phí</b>, sức chứa ~8.000 – 12.000 đề PDF LaTeX).
         </p>
+        <div id="cf-pool-meter-box" style="padding:11px 14px;margin-bottom:12px;border-radius:12px;background:#fffdf9;border:1px solid #ead4b8">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;margin-bottom:6px">
+            <b style="color:var(--ink-deep)" id="cf-pool-title-text">Tổng hạn mức Miễn phí đã kết nối: 6.0 GB Cloudflare + 1.0 GB Supabase (7.0 GB)</b>
+            <span style="color:#9a3f06;font-weight:700" id="cf-pool-stats-text">Đang tải thông số dung lượng...</span>
+          </div>
+          <div style="height:8px;border-radius:999px;background:#f2e6d5;overflow:hidden">
+            <div id="cf-pool-progress-fill" style="height:100%;width:1%;background:linear-gradient(90deg,#c96418,#650f12);border-radius:999px;transition:width .3s ease"></div>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-top:6px" id="cf-pool-shards-text">
+            Cân bằng tải tự động qua 9 phân mảnh D1 (Shard 1 – Shard 9 · 4.5 GB) + D1 Catalog (0.5 GB) + KV Vault (1.0 GB) + Edge Cache.
+          </div>
+        </div>
         <form id="cloudflare-config-form">
           <div class="form-grid two">
             <div class="form-field">
@@ -5733,7 +5745,8 @@ const DEFAULT_CLOUDFLARE_CFG = {
 let cloudflareDocsSynced = false;
 let cfAutomationState = {
   authenticated: false,
-  storageBackend: "cloudflare-kv-d1",
+  storageBackend: "cloudflare-max-free-cluster",
+  storagePool: null,
   config: {
     publishMode: "published",
     variantMode: "de_only",
@@ -5780,11 +5793,48 @@ function isCloudflareWriteReady() {
 
 function isCloudflareVaultDoc(doc) {
   if (!doc) return false;
+  const be = String(doc.storageBackend || "");
   return Boolean(
     (doc.storagePath && String(doc.storagePath).startsWith("cfvault_")) ||
-    doc.storageBackend === "kv" ||
-    doc.storageBackend === "r2"
+    be === "kv" ||
+    be === "r2" ||
+    be.startsWith("d1_shard_")
   );
+}
+
+function formatBackendBadgeLabel(backend) {
+  const b = String(backend || "");
+  if (b === "r2") return "R2 10GB";
+  if (b.startsWith("d1_shard_")) return `D1 Shard ${b.replace("d1_shard_", "")}`;
+  return "KV Vault";
+}
+
+function renderStoragePoolMeterUI() {
+  const pool = cfAutomationState.storagePool;
+  const statsEl = document.getElementById("cf-pool-stats-text");
+  const fillEl = document.getElementById("cf-pool-progress-fill");
+  const shardsEl = document.getElementById("cf-pool-shards-text");
+  const titleEl = document.getElementById("cf-pool-title-text");
+  if (!pool || !statsEl) return;
+
+  const usedMB = (Number(pool.totalStoredBytes || 0) / (1024 * 1024));
+  const savedMB = (Number(pool.savedByCompressionBytes || 0) / (1024 * 1024));
+  const safeMB = Number(pool.safeUsableMB || 4970);
+  const totalQuotaGB = ((Number(pool.totalQuotaMB || 6000) + 1000) / 1000).toFixed(1);
+  const pct = Math.min(100, Math.max(0.6, (usedMB / safeMB) * 100));
+  const estDocsLeft = Math.max(0, Math.floor((safeMB - usedMB) / 0.55));
+
+  if (titleEl) {
+    titleEl.textContent = `Tổng hạn mức Miễn phí đã kết nối: ${(Number(pool.totalQuotaMB || 6000) / 1000).toFixed(1)} GB Cloudflare + 1.0 GB Supabase (${totalQuotaGB} GB)`;
+  }
+  statsEl.textContent = `Đã dùng ${usedMB.toFixed(2)} MB / ${safeMB} MB khả dụng (~còn chứa được ${estDocsLeft.toLocaleString("vi-VN")}+ đề PDF)`;
+  if (fillEl) fillEl.style.width = `${pct.toFixed(2)}%`;
+
+  if (shardsEl && Array.isArray(pool.shards)) {
+    const activeShards = pool.shards.filter(s => s.files > 0).length;
+    const savedNote = savedMB >= 0.05 ? ` · Đã tiết kiệm ${savedMB.toFixed(2)} MB nhờ nén Gzip` : " · Nén Gzip & Edge Cache đang bật";
+    shardsEl.textContent = `Cụm ${pool.shards.length} phân mảnh D1 (${activeShards}/${pool.shards.length} shard đang chứa file) + KV 1 GB${savedNote}.`;
+  }
 }
 
 function getPipelineDisplayName(pipe) {
@@ -5908,6 +5958,10 @@ async function uploadDocToCloudflare(meta, file) {
   });
   if (!res.ok) throw new Error(`Cloudflare HTTP ${res.status}`);
   const data = await res.json();
+  if (data && data.storagePool) {
+    cfAutomationState.storagePool = data.storagePool;
+    renderStoragePoolMeterUI();
+  }
   return data && data.ok ? data.doc : null;
 }
 
@@ -6003,6 +6057,7 @@ async function syncDocsFromCloudflare() {
     if (!payload || !payload.ok || !Array.isArray(payload.docs)) return false;
 
     cloudflareDocsSynced = true;
+    if (payload.storagePool) cfAutomationState.storagePool = payload.storagePool;
     if (payload.config) {
       cfAutomationState.authenticated = wantAdmin;
       cfAutomationState.config = payload.config;
@@ -6013,6 +6068,7 @@ async function syncDocsFromCloudflare() {
         if (autoRes.ok) {
           const autoJson = await autoRes.json();
           if (autoJson && autoJson.ok) {
+            if (autoJson.storagePool) cfAutomationState.storagePool = autoJson.storagePool;
             cfAutomationState.config = autoJson.config || cfAutomationState.config;
             cfAutomationState.recentRuns = autoJson.recentRuns || [];
           }
@@ -6027,6 +6083,7 @@ async function syncDocsFromCloudflare() {
       saveDocsList(docRecords);
     }
     updateCloudflareBadgeUI();
+    renderStoragePoolMeterUI();
     renderAutomationHubUI();
     buildLockerBays();
     renderAdminDocList();
@@ -7646,7 +7703,7 @@ function renderAdminDocList() {
       ? `<span class="sub-status-pill pending" style="margin-left:6px">Chờ duyệt</span>`
       : "";
     const srcCell = isCf
-      ? `<span style="color:#9a3f06;font-weight:700;display:inline-flex;align-items:center;gap:4px">${ico("cloud")}<span>Cloudflare Vault (${doc.storageBackend === "r2" ? "R2" : "KV+D1"})</span></span>${pipeTag}`
+      ? `<span style="color:#9a3f06;font-weight:700;display:inline-flex;align-items:center;gap:4px">${ico("cloud")}<span>Cloudflare (${escapeHtmlAttr(formatBackendBadgeLabel(doc.storageBackend))})</span></span>${pipeTag}`
       : (doc.storagePath
           ? `<span style="color:#1e6b45;font-weight:700;display:inline-flex;align-items:center;gap:4px">${ico("cloud")}<span>Supabase Storage</span></span>`
           : (doc.hasUploadedPdf
@@ -7740,7 +7797,9 @@ document.getElementById("cloudflare-config-form")?.addEventListener("submit", as
     const data = await res.json();
     if (!res.ok || !data.ok) throw new Error(data.error || `HTTP ${res.status}`);
     cfAutomationState.authenticated = Boolean(data.authenticated);
-    cfAutomationState.storageBackend = data.storageBackend || "cloudflare-kv-d1";
+    cfAutomationState.storageBackend = data.storageBackend || "cloudflare-max-free-cluster";
+    if (data.storagePool) cfAutomationState.storagePool = data.storagePool;
+    renderStoragePoolMeterUI();
     if (data.config) cfAutomationState.config = data.config;
     if (data.recentRuns) cfAutomationState.recentRuns = data.recentRuns;
     await syncDocsFromCloudflare();
@@ -7989,7 +8048,13 @@ document.getElementById("doc-upload-form").addEventListener("submit", async (e) 
   showStatus("doc-upload-status", "Đang mã hóa LTAC và đẩy tài liệu lên đám mây Cloudflare...", false);
 
   let cfSavedDoc = null;
-  if (isCloudflareWriteReady()) {
+  const cfPool = cfAutomationState.storagePool;
+  const cfNearFull = Boolean(
+    cfPool &&
+    file &&
+    (Number(cfPool.totalStoredBytes || 0) + file.size) > Number(cfPool.safeUsableMB || 4970) * 1024 * 1024 * 0.98
+  );
+  if (isCloudflareWriteReady() && !cfNearFull) {
     try {
       cfSavedDoc = await uploadDocToCloudflare(updatedEntry, file || null);
       if (cfSavedDoc) updatedEntry = { ...updatedEntry, ...cfSavedDoc };

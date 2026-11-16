@@ -202,6 +202,8 @@ assert.ok(
 // 14. Verify Cloudflare Edge Document Vault & Automation Hub Integration + Zero Secret Leak
 assert.ok(
   html.includes('id="cloudflare-config-box"') &&
+  html.includes('id="cf-pool-meter-box"') &&
+  html.includes('renderStoragePoolMeterUI') &&
   html.includes('id="cloudflare-config-form"') &&
   html.includes('https://docs.lop-toan-anh-chi.workers.dev') &&
   html.includes('id="automation-hub-box"') &&

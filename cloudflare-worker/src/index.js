@@ -1,4 +1,4 @@
-// Cloudflare Worker: Document Upload Vault (R2 / KV + D1) & Automation Hub
+// Cloudflare Worker: Max-Free-Pool Document Vault (10x D1 = 5GB + 1GB KV + Gzip + Edge Cache + R2 Ready)
 // Lớp Toán Anh Chí — Thầy Huỳnh Thanh Chí
 
 const VAULT_CIPHER_KEY = [
@@ -6,10 +6,14 @@ const VAULT_CIPHER_KEY = [
   0xb2, 0x19, 0x8f, 0xc4, 0x53, 0x71, 0xa8, 0x2e,
 ];
 
-const KV_SINGLE_LIMIT = 22 * 1024 * 1024; // 22 MiB per chunk (under 25 MiB KV limit)
+const KV_SINGLE_LIMIT = 22 * 1024 * 1024; // 22 MiB per KV value (under 25 MiB hard cap)
+const D1_CHUNK_LIMIT = 950 * 1024;        // 950 KB per D1 BLOB row (under 2 MB row cap)
+const D1_SHARD_SAFE_CAP = 450 * 1024 * 1024; // 450 MB safe usable per 500 MB D1 shard
+const KV_SAFE_CAP = 920 * 1024 * 1024;       // 920 MB safe usable per 1 GB KV free tier
+const SHARD_COUNT = 9;
 
 function corsHeaders(request) {
-  const origin = request.headers.get("Origin") || "*";
+  const origin = request ? request.headers.get("Origin") || "*" : "*";
   return {
     "Access-Control-Allow-Origin": origin,
     "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
@@ -48,7 +52,7 @@ async function verifyUploadSecret(request, env) {
   return crypto.subtle.timingSafeEqual(providedHash, expectedHash);
 }
 
-function ensureLtacVaultBytes(arrayBuffer) {
+function unwrapLtacToRawPdf(arrayBuffer) {
   const src = new Uint8Array(arrayBuffer);
   if (
     src.length > 4 &&
@@ -57,17 +61,51 @@ function ensureLtacVaultBytes(arrayBuffer) {
     src[2] === 0x41 &&
     src[3] === 0x43
   ) {
-    return src;
+    const raw = new Uint8Array(src.length - 4);
+    for (let i = 0; i < raw.length; i++) {
+      raw[i] = src[i + 4] ^ VAULT_CIPHER_KEY[i & 15] ^ ((i * 13) & 0xff);
+    }
+    return raw;
   }
-  const out = new Uint8Array(src.length + 4);
+  return src;
+}
+
+function wrapRawPdfToLtac(rawUint8) {
+  const out = new Uint8Array(rawUint8.length + 4);
   out[0] = 0x4c;
   out[1] = 0x54;
   out[2] = 0x41;
   out[3] = 0x43;
-  for (let i = 0; i < src.length; i++) {
-    out[i + 4] = src[i] ^ VAULT_CIPHER_KEY[i & 15] ^ ((i * 13) & 0xff);
+  for (let i = 0; i < rawUint8.length; i++) {
+    out[i + 4] = rawUint8[i] ^ VAULT_CIPHER_KEY[i & 15] ^ ((i * 13) & 0xff);
   }
   return out;
+}
+
+function xorScrambleCopy(srcUint8) {
+  const out = new Uint8Array(srcUint8.length);
+  for (let i = 0; i < srcUint8.length; i++) {
+    out[i] = srcUint8[i] ^ VAULT_CIPHER_KEY[i & 15] ^ ((i * 13) & 0xff);
+  }
+  return out;
+}
+
+async function gzipCompressUint8(uint8) {
+  const cs = new CompressionStream("gzip");
+  const writer = cs.writable.getWriter();
+  writer.write(uint8);
+  writer.close();
+  const ab = await new Response(cs.readable).arrayBuffer();
+  return new Uint8Array(ab);
+}
+
+async function gzipDecompressUint8(uint8) {
+  const ds = new DecompressionStream("gzip");
+  const writer = ds.writable.getWriter();
+  writer.write(uint8);
+  writer.close();
+  const ab = await new Response(ds.readable).arrayBuffer();
+  return new Uint8Array(ab);
 }
 
 function makeRandomToken(len = 12) {
@@ -76,103 +114,354 @@ function makeRandomToken(len = 12) {
   return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("").slice(0, len);
 }
 
-async function storeVaultBytes(env, key, vaultUint8) {
-  if (env.DOCS_R2) {
-    await env.DOCS_R2.put(key, vaultUint8, {
-      httpMetadata: { contentType: "application/octet-stream" },
-    });
-    return "r2";
+function getShardBinding(env, backendName) {
+  const m = String(backendName || "").match(/^d1_shard_(\d+)$/);
+  if (!m) return null;
+  return env["DOCS_SHARD_" + m[1]] || null;
+}
+
+function getAvailableShardNames(env) {
+  const names = [];
+  for (let i = 1; i <= SHARD_COUNT; i++) {
+    if (env["DOCS_SHARD_" + i]) names.push("d1_shard_" + i);
   }
-  if (vaultUint8.byteLength <= KV_SINGLE_LIMIT) {
-    await env.DOCS_KV.put(key, vaultUint8, {
-      metadata: { chunks: 1, size: vaultUint8.byteLength },
-    });
+  return names;
+}
+
+async function getStoragePoolStats(env) {
+  const rows = await env.DOCS_DB.prepare(
+    "SELECT backend, COUNT(*) AS files, COALESCE(SUM(raw_bytes), 0) AS raw_used, COALESCE(SUM(stored_bytes), 0) AS stored_used FROM storage_ledger GROUP BY backend"
+  ).all();
+  const map = {};
+  for (const r of rows.results || []) {
+    map[r.backend] = {
+      files: Number(r.files || 0),
+      rawBytes: Number(r.raw_used || 0),
+      storedBytes: Number(r.stored_used || 0),
+    };
+  }
+  const shardNames = getAvailableShardNames(env);
+  const shardDetails = shardNames.map((name) => ({
+    backend: name,
+    quotaMB: 500,
+    safeCapBytes: D1_SHARD_SAFE_CAP,
+    files: map[name]?.files || 0,
+    rawBytes: map[name]?.rawBytes || 0,
+    storedBytes: map[name]?.storedBytes || 0,
+  }));
+  const kvStat = {
+    backend: "kv",
+    quotaMB: 1000,
+    safeCapBytes: KV_SAFE_CAP,
+    files: map.kv?.files || 0,
+    rawBytes: map.kv?.rawBytes || 0,
+    storedBytes: map.kv?.storedBytes || 0,
+  };
+  const r2Enabled = Boolean(env.DOCS_R2);
+  const totalRawBytes = Object.values(map).reduce((s, v) => s + v.rawBytes, 0);
+  const totalStoredBytes = Object.values(map).reduce((s, v) => s + v.storedBytes, 0);
+  const totalQuotaMB = (r2Enabled ? 10000 : 0) + 1000 + 500 + shardNames.length * 500;
+  const safeUsableMB = Math.round(
+    ((r2Enabled ? 9500 * 1024 * 1024 : 0) + KV_SAFE_CAP + shardNames.length * D1_SHARD_SAFE_CAP) / (1024 * 1024)
+  );
+  return {
+    mode: r2Enabled ? "cloudflare-r2+free-cluster" : "cloudflare-max-free-cluster",
+    r2Enabled,
+    edgeCacheEnabled: true,
+    gzipCompressionEnabled: true,
+    totalQuotaMB,
+    safeUsableMB,
+    totalRawBytes,
+    totalStoredBytes,
+    savedByCompressionBytes: Math.max(0, totalRawBytes - totalStoredBytes),
+    d1CatalogQuotaMB: 500,
+    d1ShardsCount: shardNames.length,
+    d1ShardsQuotaMB: shardNames.length * 500,
+    kvQuotaMB: 1000,
+    kv: kvStat,
+    shards: shardDetails,
+  };
+}
+
+async function pickBestStorageBackend(env, byteLength, forceKv = false) {
+  if (env.DOCS_R2 && !forceKv) return "r2";
+  const stats = await getStoragePoolStats(env);
+
+  // D1 shards have 100,000 writes/day on Free plan vs 1,000/day on KV,
+  // and 9 shards x 450 MB = 4,050 MB safe usable capacity!
+  // Route files <= 32 MB to the least-loaded D1 shard first, then overflow to KV (920 MB).
+  if (!forceKv && byteLength <= 32 * 1024 * 1024 && stats.shards.length > 0) {
+    const eligibleShards = stats.shards
+      .filter((s) => s.storedBytes + byteLength <= s.safeCapBytes)
+      .sort((a, b) => a.storedBytes - b.storedBytes);
+    if (eligibleShards.length > 0) {
+      return eligibleShards[0].backend;
+    }
+  }
+
+  if (env.DOCS_KV && stats.kv.storedBytes + byteLength <= stats.kv.safeCapBytes) {
     return "kv";
   }
-  const totalChunks = Math.ceil(vaultUint8.byteLength / KV_SINGLE_LIMIT);
-  for (let idx = 0; idx < totalChunks; idx++) {
-    const slice = vaultUint8.subarray(idx * KV_SINGLE_LIMIT, (idx + 1) * KV_SINGLE_LIMIT);
-    await env.DOCS_KV.put(`${key}:part${idx}`, slice);
+
+  // Fallback if approaching cap: pick whichever shard has the lowest storedBytes
+  if (stats.shards.length > 0 && byteLength <= 32 * 1024 * 1024) {
+    const sorted = [...stats.shards].sort((a, b) => a.storedBytes - b.storedBytes);
+    return sorted[0].backend;
   }
-  await env.DOCS_KV.put(key, new Uint8Array(0), {
-    metadata: { chunks: totalChunks, size: vaultUint8.byteLength },
-  });
   return "kv";
 }
 
-async function deleteVaultBytes(env, key) {
+async function storeVaultPayload(env, key, inputArrayBuffer, preferredBackend = "") {
+  const rawPdf = unwrapLtacToRawPdf(inputArrayBuffer);
+  const rawBytes = rawPdf.byteLength;
+
+  // Compress with lossless Gzip if it saves space, then XOR-encrypt before storing at rest
+  let payloadPlain = rawPdf;
+  let compressed = 0;
+  try {
+    const gz = await gzipCompressUint8(rawPdf);
+    if (gz.byteLength + 32 < rawBytes) {
+      payloadPlain = gz;
+      compressed = 1;
+    }
+  } catch {}
+
+  const encryptedAtRest = xorScrambleCopy(payloadPlain);
+  const storedBytes = encryptedAtRest.byteLength;
+  const now = new Date().toISOString();
+
+  const backend = preferredBackend || (await pickBestStorageBackend(env, storedBytes));
+
+  if (backend === "r2" && env.DOCS_R2) {
+    await env.DOCS_R2.put(key, encryptedAtRest, {
+      httpMetadata: { contentType: "application/octet-stream" },
+      customMetadata: { compressed: String(compressed), rawBytes: String(rawBytes) },
+    });
+  } else if (backend.startsWith("d1_shard_")) {
+    const shardDb = getShardBinding(env, backend);
+    if (!shardDb) throw new Error("Missing shard binding " + backend);
+    const totalChunks = Math.max(1, Math.ceil(storedBytes / D1_CHUNK_LIMIT));
+    const stmts = [];
+    for (let idx = 0; idx < totalChunks; idx++) {
+      const slice = encryptedAtRest.subarray(idx * D1_CHUNK_LIMIT, (idx + 1) * D1_CHUNK_LIMIT);
+      const abSlice = slice.buffer.slice(slice.byteOffset, slice.byteOffset + slice.byteLength);
+      stmts.push(
+        shardDb
+          .prepare("INSERT OR REPLACE INTO vault_chunks (obj_key, chunk_idx, data, byte_len) VALUES (?, ?, ?, ?)")
+          .bind(key, idx, abSlice, slice.byteLength)
+      );
+    }
+    stmts.push(
+      shardDb
+        .prepare(
+          "INSERT OR REPLACE INTO vault_objects (obj_key, chunks, raw_bytes, stored_bytes, compressed, created_at) VALUES (?, ?, ?, ?, ?, ?)"
+        )
+        .bind(key, totalChunks, rawBytes, storedBytes, compressed, now)
+    );
+    await shardDb.batch(stmts);
+  } else {
+    // KV backend (note: legacy pre-upgrade KV items stored full LTAC bytes with compressed=undefined;
+    // new KV items store encryptedAtRest with metadata.v = 2)
+    if (storedBytes <= KV_SINGLE_LIMIT) {
+      await env.DOCS_KV.put(key, encryptedAtRest, {
+        metadata: { v: 2, chunks: 1, size: storedBytes, rawBytes, compressed },
+      });
+    } else {
+      const totalChunks = Math.ceil(storedBytes / KV_SINGLE_LIMIT);
+      for (let idx = 0; idx < totalChunks; idx++) {
+        const slice = encryptedAtRest.subarray(idx * KV_SINGLE_LIMIT, (idx + 1) * KV_SINGLE_LIMIT);
+        await env.DOCS_KV.put(key + ":part" + idx, slice);
+      }
+      await env.DOCS_KV.put(key, new Uint8Array(0), {
+        metadata: { v: 2, chunks: totalChunks, size: storedBytes, rawBytes, compressed },
+      });
+    }
+  }
+
+  await env.DOCS_DB.prepare(
+    "INSERT OR REPLACE INTO storage_ledger (obj_key, backend, raw_bytes, stored_bytes, compressed, created_at) VALUES (?, ?, ?, ?, ?, ?)"
+  )
+    .bind(key, backend, rawBytes, storedBytes, compressed, now)
+    .run();
+
+  return { backend, rawBytes, storedBytes, compressed };
+}
+
+async function deleteVaultBytes(env, key, backendHint = "") {
   if (!key) return;
   try {
-    if (env.DOCS_R2) {
+    const ledger = await env.DOCS_DB.prepare("SELECT backend FROM storage_ledger WHERE obj_key = ?")
+      .bind(key)
+      .first();
+    const backend = ledger?.backend || backendHint || "";
+
+    if ((backend === "r2" || !backend) && env.DOCS_R2) {
       await env.DOCS_R2.delete(key);
     }
-    if (env.DOCS_KV) {
+    if (backend.startsWith("d1_shard_")) {
+      const shardDb = getShardBinding(env, backend);
+      if (shardDb) {
+        await shardDb.batch([
+          shardDb.prepare("DELETE FROM vault_chunks WHERE obj_key = ?").bind(key),
+          shardDb.prepare("DELETE FROM vault_objects WHERE obj_key = ?").bind(key),
+        ]);
+      }
+    }
+    if ((backend === "kv" || !backend) && env.DOCS_KV) {
       const { metadata } = await env.DOCS_KV.getWithMetadata(key, { type: "text" });
       const chunks = Number(metadata?.chunks || 1);
       if (chunks > 1) {
         for (let i = 0; i < chunks; i++) {
-          await env.DOCS_KV.delete(`${key}:part${i}`);
+          await env.DOCS_KV.delete(key + ":part" + i);
         }
       }
       await env.DOCS_KV.delete(key);
     }
+    await env.DOCS_DB.prepare("DELETE FROM storage_ledger WHERE obj_key = ?").bind(key).run();
   } catch (err) {
     console.error(JSON.stringify({ event: "delete_vault_error", key, error: String(err) }));
   }
 }
 
-async function streamVaultResponse(env, ctx, key, request) {
-  if (!key) return jsonResp({ ok: false, error: "missing_storage_path" }, 404, request);
+async function readLtacBytesFromBackend(env, key, backendHint = "") {
+  const ledger = await env.DOCS_DB.prepare("SELECT backend, compressed FROM storage_ledger WHERE obj_key = ?")
+    .bind(key)
+    .first();
+  const backend = ledger?.backend || backendHint || "kv";
 
-  const baseHeaders = {
-    ...corsHeaders(request),
-    "Content-Type": "application/octet-stream",
-    "Cache-Control": "public, max-age=86400",
-    "X-Vault-Format": "LTAC",
-  };
+  // 1. D1 Shard Backend
+  if (backend.startsWith("d1_shard_")) {
+    const shardDb = getShardBinding(env, backend);
+    if (!shardDb) return null;
+    const objMeta = await shardDb.prepare("SELECT * FROM vault_objects WHERE obj_key = ?").bind(key).first();
+    if (!objMeta) return null;
+    const rows = await shardDb
+      .prepare("SELECT chunk_idx, data FROM vault_chunks WHERE obj_key = ? ORDER BY chunk_idx ASC")
+      .bind(key)
+      .all();
+    const list = rows.results || [];
+    if (!list.length) return null;
 
-  if (env.DOCS_R2) {
+    const merged = new Uint8Array(Number(objMeta.stored_bytes));
+    let offset = 0;
+    for (const r of list) {
+      const part = r.data instanceof Uint8Array ? r.data : new Uint8Array(r.data);
+      merged.set(part, offset);
+      offset += part.byteLength;
+    }
+    let plain = xorScrambleCopy(merged);
+    if (Number(objMeta.compressed) === 1) {
+      plain = await gzipDecompressUint8(plain);
+    }
+    return wrapRawPdfToLtac(plain);
+  }
+
+  // 2. R2 Backend
+  if (backend === "r2" && env.DOCS_R2) {
     const obj = await env.DOCS_R2.get(key);
-    if (obj && obj.body) {
-      return new Response(obj.body, { status: 200, headers: baseHeaders });
+    if (obj) {
+      const ab = await obj.arrayBuffer();
+      const raw = new Uint8Array(ab);
+      if (obj.customMetadata && obj.customMetadata.compressed !== undefined) {
+        let plain = xorScrambleCopy(raw);
+        if (obj.customMetadata.compressed === "1") {
+          plain = await gzipDecompressUint8(plain);
+        }
+        return wrapRawPdfToLtac(plain);
+      }
+      return raw;
     }
   }
 
+  // 3. KV Backend (supports both v2 compressed+XOR and v1 legacy LTAC)
   if (env.DOCS_KV) {
-    const { value: firstStream, metadata } = await env.DOCS_KV.getWithMetadata(key, {
-      type: "stream",
+    const { value: firstAb, metadata } = await env.DOCS_KV.getWithMetadata(key, {
+      type: "arrayBuffer",
       cacheTtl: 86400,
     });
     const chunks = Number(metadata?.chunks || 1);
+    let fullUint8 = null;
     if (chunks <= 1) {
-      if (!firstStream) return jsonResp({ ok: false, error: "object_not_found" }, 404, request);
-      return new Response(firstStream, { status: 200, headers: baseHeaders });
-    }
-
-    const { readable, writable } = new TransformStream();
-    ctx.waitUntil(
-      (async () => {
-        try {
-          for (let i = 0; i < chunks; i++) {
-            const partStream = await env.DOCS_KV.get(`${key}:part${i}`, {
-              type: "stream",
-              cacheTtl: 86400,
-            });
-            if (partStream) {
-              await partStream.pipeTo(writable, { preventClose: true });
-            }
-          }
-          await writable.close();
-        } catch (err) {
-          console.error(JSON.stringify({ event: "kv_chunk_stream_error", key, error: String(err) }));
-          try { await writable.abort(err); } catch {}
+      if (!firstAb) return null;
+      fullUint8 = new Uint8Array(firstAb);
+    } else {
+      const totalSize = Number(metadata?.size || 0);
+      const parts = [];
+      let sum = 0;
+      for (let i = 0; i < chunks; i++) {
+        const pAb = await env.DOCS_KV.get(key + ":part" + i, { type: "arrayBuffer", cacheTtl: 86400 });
+        if (pAb) {
+          const u = new Uint8Array(pAb);
+          parts.push(u);
+          sum += u.byteLength;
         }
-      })()
-    );
-    return new Response(readable, { status: 200, headers: baseHeaders });
+      }
+      fullUint8 = new Uint8Array(totalSize || sum);
+      let off = 0;
+      for (const p of parts) {
+        fullUint8.set(p, off);
+        off += p.byteLength;
+      }
+    }
+    if (metadata && metadata.v === 2) {
+      let plain = xorScrambleCopy(fullUint8);
+      if (Number(metadata.compressed) === 1) {
+        plain = await gzipDecompressUint8(plain);
+      }
+      return wrapRawPdfToLtac(plain);
+    }
+    return fullUint8;
   }
 
-  return jsonResp({ ok: false, error: "no_storage_bound" }, 500, request);
+  return null;
+}
+
+async function serveVaultWithEdgeCache(env, ctx, key, backendHint, request) {
+  if (!key) return jsonResp({ ok: false, error: "missing_storage_path" }, 404, request);
+
+  const reqUrl = new URL(request.url);
+  const cacheUrl = new URL("/__edge_vault_cache/" + encodeURIComponent(key), reqUrl.origin);
+  const cacheKey = new Request(cacheUrl.toString(), { method: "GET" });
+  const edgeCache = caches.default;
+
+  const cached = await edgeCache.match(cacheKey);
+  if (cached) {
+    const headers = new Headers(cached.headers);
+    const cors = corsHeaders(request);
+    for (const [k, v] of Object.entries(cors)) headers.set(k, v);
+    headers.set("X-Edge-Cache", "HIT");
+    return new Response(cached.body, { status: 200, headers });
+  }
+
+  const ltacBytes = await readLtacBytesFromBackend(env, key, backendHint);
+  if (!ltacBytes) {
+    return jsonResp({ ok: false, error: "object_not_found" }, 404, request);
+  }
+
+  const cacheHeaders = {
+    "Content-Type": "application/octet-stream",
+    "Cache-Control": "public, max-age=604800, immutable",
+    "X-Vault-Format": "LTAC",
+  };
+
+  ctx.waitUntil(
+    edgeCache.put(
+      cacheKey,
+      new Response(ltacBytes.slice(0), {
+        status: 200,
+        headers: cacheHeaders,
+      })
+    )
+  );
+
+  return new Response(ltacBytes, {
+    status: 200,
+    headers: {
+      ...cacheHeaders,
+      ...corsHeaders(request),
+      "X-Edge-Cache": "MISS",
+    },
+  });
 }
 
 function mapDocRow(row) {
@@ -187,7 +476,7 @@ function mapDocRow(row) {
     svgType: row.svg_type || "pdf_a4",
     storagePath: row.storage_path || null,
     ansStoragePath: row.ans_storage_path || null,
-    storageBackend: row.storage_backend || "kv",
+    storageBackend: row.storage_backend || "d1_shard_1",
     allowDownload: Boolean(row.allow_download),
     hasUploadedPdf: Boolean(row.has_uploaded_pdf || row.storage_path),
     status: row.status || "published",
@@ -240,30 +529,29 @@ async function upsertSingleDocument(env, meta, fileBuf, ansBuf) {
 
   const docId = existing
     ? existing.id
-    : String(meta.id || "").trim() || `DOC_${Date.now().toString(36).toUpperCase()}_${makeRandomToken(4).toUpperCase()}`;
+    : String(meta.id || "").trim() || ("DOC_" + Date.now().toString(36).toUpperCase() + "_" + makeRandomToken(4).toUpperCase());
 
   let storagePath = existing ? existing.storage_path : (meta.storagePath || null);
   let ansStoragePath = existing ? existing.ans_storage_path : null;
-  let storageBackend = existing ? (existing.storage_backend || "kv") : (env.DOCS_R2 ? "r2" : "kv");
+  let storageBackend = existing ? (existing.storage_backend || "d1_shard_1") : "d1_shard_1";
   let fileSize = existing ? Number(existing.file_size || 0) : 0;
 
   if (fileBuf && fileBuf.byteLength > 0) {
-    const vaultBytes = ensureLtacVaultBytes(fileBuf);
-    const newKey = `cfvault_${docId}_${makeRandomToken(10)}.bin`;
-    storageBackend = await storeVaultBytes(env, newKey, vaultBytes);
+    const newKey = "cfvault_" + docId + "_" + makeRandomToken(10) + ".bin";
+    const savedInfo = await storeVaultPayload(env, newKey, fileBuf, meta.preferredBackend || "");
     if (existing && existing.storage_path && existing.storage_path !== newKey && existing.storage_path.startsWith("cfvault_")) {
-      await deleteVaultBytes(env, existing.storage_path);
+      await deleteVaultBytes(env, existing.storage_path, existing.storage_backend || "");
     }
     storagePath = newKey;
-    fileSize = fileBuf.byteLength;
+    storageBackend = savedInfo.backend;
+    fileSize = savedInfo.rawBytes;
   }
 
   if (ansBuf && ansBuf.byteLength > 0) {
-    const ansVaultBytes = ensureLtacVaultBytes(ansBuf);
-    const newAnsKey = `cfvault_${docId}_ANS_${makeRandomToken(10)}.bin`;
-    await storeVaultBytes(env, newAnsKey, ansVaultBytes);
+    const newAnsKey = "cfvault_" + docId + "_ANS_" + makeRandomToken(10) + ".bin";
+    await storeVaultPayload(env, newAnsKey, ansBuf, "");
     if (existing && existing.ans_storage_path && existing.ans_storage_path !== newAnsKey) {
-      await deleteVaultBytes(env, existing.ans_storage_path);
+      await deleteVaultBytes(env, existing.ans_storage_path, "");
     }
     ansStoragePath = newAnsKey;
   }
@@ -283,29 +571,7 @@ async function upsertSingleDocument(env, meta, fileBuf, ansBuf) {
   const createdAt = existing?.created_at || now;
 
   await env.DOCS_DB.prepare(
-    `INSERT INTO pdf_documents (
-      id, title, cat, badge, accent, pages, description, svg_type,
-      storage_path, ans_storage_path, storage_backend, allow_download,
-      has_uploaded_pdf, status, source_pipeline, source_ref, file_size, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ON CONFLICT(id) DO UPDATE SET
-      title = excluded.title,
-      cat = excluded.cat,
-      badge = excluded.badge,
-      accent = excluded.accent,
-      pages = excluded.pages,
-      description = excluded.description,
-      svg_type = excluded.svg_type,
-      storage_path = excluded.storage_path,
-      ans_storage_path = excluded.ans_storage_path,
-      storage_backend = excluded.storage_backend,
-      allow_download = excluded.allow_download,
-      has_uploaded_pdf = excluded.has_uploaded_pdf,
-      status = excluded.status,
-      source_pipeline = excluded.source_pipeline,
-      source_ref = COALESCE(excluded.source_ref, pdf_documents.source_ref),
-      file_size = excluded.file_size,
-      updated_at = excluded.updated_at`
+    "INSERT INTO pdf_documents (id, title, cat, badge, accent, pages, description, svg_type, storage_path, ans_storage_path, storage_backend, allow_download, has_uploaded_pdf, status, source_pipeline, source_ref, file_size, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET title = excluded.title, cat = excluded.cat, badge = excluded.badge, accent = excluded.accent, pages = excluded.pages, description = excluded.description, svg_type = excluded.svg_type, storage_path = excluded.storage_path, ans_storage_path = excluded.ans_storage_path, storage_backend = excluded.storage_backend, allow_download = excluded.allow_download, has_uploaded_pdf = excluded.has_uploaded_pdf, status = excluded.status, source_pipeline = excluded.source_pipeline, source_ref = COALESCE(excluded.source_ref, pdf_documents.source_ref), file_size = excluded.file_size, updated_at = excluded.updated_at"
   )
     .bind(
       docId, title, cat, badge, accent, pages, description, svgType,
@@ -328,7 +594,6 @@ export default {
     const path = url.pathname.replace(/\/+$/, "") || "/";
 
     try {
-      // 1. Health & Connection Check
       if ((path === "/" || path === "/api/health") && request.method === "GET") {
         const isAuth = await verifyUploadSecret(request, env);
         const counts = await env.DOCS_DB.prepare(
@@ -340,18 +605,20 @@ export default {
           if (r.status === "pending") pendingCount += Number(r.cnt || 0);
           else publishedCount += Number(r.cnt || 0);
         }
-        const config = await getAutomationConfig(env);
-        const recentRuns = await env.DOCS_DB.prepare(
-          "SELECT * FROM automation_runs ORDER BY created_at DESC LIMIT 10"
-        ).all();
+        const [config, storagePool, recentRuns] = await Promise.all([
+          getAutomationConfig(env),
+          getStoragePoolStats(env),
+          env.DOCS_DB.prepare("SELECT * FROM automation_runs ORDER BY created_at DESC LIMIT 10").all(),
+        ]);
         return jsonResp(
           {
             ok: true,
             service: "lop-toan-anh-chi-cloudflare-docs",
-            storageBackend: env.DOCS_R2 ? "cloudflare-r2" : "cloudflare-kv-d1",
+            storageBackend: storagePool.mode,
             authenticated: isAuth,
             publishedCount,
             pendingCount,
+            storagePool,
             config,
             recentRuns: recentRuns.results || [],
           },
@@ -360,7 +627,6 @@ export default {
         );
       }
 
-      // 2. List Documents (Public published, or Admin full list with pending + automation runs)
       if (path === "/api/docs" && request.method === "GET") {
         const wantPending = url.searchParams.get("include_pending") === "1";
         const isAuth = wantPending ? await verifyUploadSecret(request, env) : false;
@@ -372,16 +638,16 @@ export default {
         const docs = (rows.results || []).map(mapDocRow);
 
         if (isAuth) {
-          const config = await getAutomationConfig(env);
-          const runs = await env.DOCS_DB.prepare(
-            "SELECT * FROM automation_runs ORDER BY created_at DESC LIMIT 20"
-          ).all();
-          return jsonResp({ ok: true, docs, config, recentRuns: runs.results || [] }, 200, request);
+          const [config, storagePool, runs] = await Promise.all([
+            getAutomationConfig(env),
+            getStoragePoolStats(env),
+            env.DOCS_DB.prepare("SELECT * FROM automation_runs ORDER BY created_at DESC LIMIT 20").all(),
+          ]);
+          return jsonResp({ ok: true, docs, storagePool, config, recentRuns: runs.results || [] }, 200, request);
         }
         return jsonResp({ ok: true, docs }, 200, request);
       }
 
-      // 3. Stream Protected Vault File Binary (/api/docs/:id/file)
       const fileMatch = path.match(/^\/api\/docs\/([^/]+)\/file$/);
       if (fileMatch && request.method === "GET") {
         const docId = decodeURIComponent(fileMatch[1]);
@@ -397,10 +663,9 @@ export default {
         }
 
         const targetKey = variant === "ans" && row.ans_storage_path ? row.ans_storage_path : row.storage_path;
-        return streamVaultResponse(env, ctx, targetKey, request);
+        return serveVaultWithEdgeCache(env, ctx, targetKey, row.storage_backend || "", request);
       }
 
-      // 4. Upload / Upsert Document (Manual Admin Upload OR Automated Pipeline Upload)
       if (path === "/api/docs/upload" && request.method === "POST") {
         const isAuth = await verifyUploadSecret(request, env);
         if (!isAuth) {
@@ -461,27 +726,28 @@ export default {
         if (meta.fromAutomation && config.variantMode === "both" && ansBuf && ansBuf.byteLength > 0) {
           const ansMeta = {
             ...meta,
-            id: `${primaryDoc.id}_ANS`,
-            sourceRef: meta.sourceRef ? `${meta.sourceRef}:ans` : null,
-            title: `${primaryDoc.title} (Đề & Lời giải chi tiết)`,
+            id: primaryDoc.id + "_ANS",
+            sourceRef: meta.sourceRef ? meta.sourceRef + ":ans" : null,
+            title: primaryDoc.title + " (Đề & Lời giải chi tiết)",
             badge: "CÓ LỜI GIẢI",
           };
           ansDoc = await upsertSingleDocument(env, ansMeta, ansBuf, null);
         }
 
+        const storagePool = await getStoragePoolStats(env);
         console.log(
           JSON.stringify({
             event: "doc_uploaded",
             id: primaryDoc.id,
+            backend: primaryDoc.storageBackend,
             pipeline: primaryDoc.sourcePipeline,
             status: primaryDoc.status,
             size: primaryDoc.fileSize,
           })
         );
-        return jsonResp({ ok: true, doc: primaryDoc, ansDoc }, 200, request);
+        return jsonResp({ ok: true, doc: primaryDoc, ansDoc, storagePool }, 200, request);
       }
 
-      // 5. Bulk Download Policy Update (/api/docs/bulk-policy)
       if (path === "/api/docs/bulk-policy" && request.method === "POST") {
         if (!(await verifyUploadSecret(request, env))) {
           return jsonResp({ ok: false, error: "unauthorized" }, 401, request);
@@ -495,7 +761,6 @@ export default {
         return jsonResp({ ok: true }, 200, request);
       }
 
-      // 6. Patch or Delete Specific Document (/api/docs/:id)
       const docMatch = path.match(/^\/api\/docs\/([^/]+)$/);
       if (docMatch && (request.method === "PATCH" || request.method === "DELETE")) {
         if (!(await verifyUploadSecret(request, env))) {
@@ -509,13 +774,13 @@ export default {
 
         if (request.method === "DELETE") {
           if (existing.storage_path && existing.storage_path.startsWith("cfvault_")) {
-            await deleteVaultBytes(env, existing.storage_path);
+            await deleteVaultBytes(env, existing.storage_path, existing.storage_backend || "");
           }
           if (existing.ans_storage_path) {
-            await deleteVaultBytes(env, existing.ans_storage_path);
+            await deleteVaultBytes(env, existing.ans_storage_path, "");
           }
           await env.DOCS_DB.prepare("DELETE FROM pdf_documents WHERE id = ?").bind(docId).run();
-          return jsonResp({ ok: true, deletedId: docId }, 200, request);
+          return jsonResp({ ok: true, deletedId: docId, storagePool: await getStoragePoolStats(env) }, 200, request);
         }
 
         const patch = await request.json();
@@ -523,13 +788,13 @@ export default {
         return jsonResp({ ok: true, doc: updated }, 200, request);
       }
 
-      // 7. Automation Hub Config & Run Logs
       if (path === "/api/automations" && request.method === "GET") {
-        const config = await getAutomationConfig(env);
-        const runs = await env.DOCS_DB.prepare(
-          "SELECT * FROM automation_runs ORDER BY created_at DESC LIMIT 25"
-        ).all();
-        return jsonResp({ ok: true, config, recentRuns: runs.results || [] }, 200, request);
+        const [config, storagePool, runs] = await Promise.all([
+          getAutomationConfig(env),
+          getStoragePoolStats(env),
+          env.DOCS_DB.prepare("SELECT * FROM automation_runs ORDER BY created_at DESC LIMIT 25").all(),
+        ]);
+        return jsonResp({ ok: true, config, storagePool, recentRuns: runs.results || [] }, 200, request);
       }
 
       if (path === "/api/automations/config" && request.method === "PUT") {
@@ -538,7 +803,7 @@ export default {
         }
         const body = await request.json();
         const cur = await getAutomationConfig(env);
-        const now = new Date().toISOString();
+        const nowIso = new Date().toISOString();
         const next = {
           publishMode: body.publishMode || cur.publishMode || "published",
           variantMode: body.variantMode || cur.variantMode || "de_only",
@@ -549,18 +814,7 @@ export default {
           enableToan12: body.enableToan12 !== undefined ? Boolean(body.enableToan12) : cur.enableToan12,
         };
         await env.DOCS_DB.prepare(
-          `INSERT INTO automation_config (
-            id, publish_mode, variant_mode, allow_download_default,
-            enable_toanmath, enable_fb_latex, enable_toan12, updated_at
-          ) VALUES ('main', ?, ?, ?, ?, ?, ?, ?)
-          ON CONFLICT(id) DO UPDATE SET
-            publish_mode = excluded.publish_mode,
-            variant_mode = excluded.variant_mode,
-            allow_download_default = excluded.allow_download_default,
-            enable_toanmath = excluded.enable_toanmath,
-            enable_fb_latex = excluded.enable_fb_latex,
-            enable_toan12 = excluded.enable_toan12,
-            updated_at = excluded.updated_at`
+          "INSERT INTO automation_config (id, publish_mode, variant_mode, allow_download_default, enable_toanmath, enable_fb_latex, enable_toan12, updated_at) VALUES ('main', ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET publish_mode = excluded.publish_mode, variant_mode = excluded.variant_mode, allow_download_default = excluded.allow_download_default, enable_toanmath = excluded.enable_toanmath, enable_fb_latex = excluded.enable_fb_latex, enable_toan12 = excluded.enable_toan12, updated_at = excluded.updated_at"
         )
           .bind(
             next.publishMode,
@@ -569,7 +823,7 @@ export default {
             next.enableToanmath ? 1 : 0,
             next.enableFbLatex ? 1 : 0,
             next.enableToan12 ? 1 : 0,
-            now
+            nowIso
           )
           .run();
         return jsonResp({ ok: true, config: await getAutomationConfig(env) }, 200, request);
@@ -580,8 +834,8 @@ export default {
           return jsonResp({ ok: false, error: "unauthorized" }, 401, request);
         }
         const body = await request.json();
-        const now = new Date().toISOString();
-        const runId = `RUN_${Date.now().toString(36).toUpperCase()}_${makeRandomToken(4).toUpperCase()}`;
+        const nowIso = new Date().toISOString();
+        const runId = "RUN_" + Date.now().toString(36).toUpperCase() + "_" + makeRandomToken(4).toUpperCase();
         await env.DOCS_DB.prepare(
           "INSERT INTO automation_runs (id, pipeline, summary, docs_uploaded, status, details_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)"
         )
@@ -592,7 +846,7 @@ export default {
             Number(body.docsUploaded || 0),
             String(body.status || "success"),
             JSON.stringify(body.details || {}),
-            now
+            nowIso
           )
           .run();
         ctx.waitUntil(
