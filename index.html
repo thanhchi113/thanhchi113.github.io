@@ -2672,38 +2672,158 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
     </div>
 
-    <!-- TAB 2: UPLOAD & QUẢN LÝ TÀI LIỆU PDF (CHỈ ADMIN ĐƯỢC UPLOAD) -->
+    <!-- TAB 2: UPLOAD & QUẢN LÝ TÀI LIỆU PDF + CLOUDFLARE & TỰ ĐỘNG HÓA (CHỈ ADMIN) -->
     <div class="admin-pane" id="admin-pane-docs" hidden>
-      <div class="admin-box" style="background:linear-gradient(135deg,#f3fbf7,#fbf6ec);border-color:rgba(30,107,69,0.28)">
+      <div class="admin-box" id="cloudflare-config-box" style="background:linear-gradient(135deg,#fff6ec,#fffdf8);border-color:rgba(194,94,14,0.34)">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
-          <h4 style="margin:0;color:#1e6b45"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Lưu trữ Đám mây Supabase Storage (Đã Tự Động Liên Kết 100%)</span></h4>
-          <span id="sb-conn-badge" class="pill-note" style="padding:4px 10px;font-size:12px;background:#e8f6ee;color:#1e6b45"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Đã tự động kết nối Supabase (uiyqdqucqplifcvukwul · Bucket: tai-lieu-pdf)</span></span>
+          <h4 style="margin:0;color:#9a3f06"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Lưu trữ Đám mây Cloudflare Edge Vault (KV / R2 + D1 — Kho Chính Tốc Độ Cao)</span></h4>
+          <span id="cf-conn-badge" class="pill-note" style="padding:4px 10px;font-size:12px;background:#fff0dc;color:#9a3f06"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Đang kiểm tra kết nối Cloudflare Edge...</span></span>
         </div>
         <p style="margin:0 0 10px;color:var(--muted);font-size:13.5px">
-          Hệ thống đã được <b>tự động liên kết trực tiếp</b> với dự án Supabase của Thầy (<code>https://uiyqdqucqplifcvukwul.supabase.co</code> · Private Bucket: <code>tai-lieu-pdf</code> · Bảng: <code>pdf_documents</code>). Mọi tài liệu upload lên đều được <b>mã hóa nhị phân Vault (LTAC XOR)</b>, ẩn đường dẫn thực, khóa F12/DevTools/chuột phải và vẽ trực tiếp lên <code>&lt;canvas&gt;</code> chống tìm link &amp; chống tải.
+          Website kết nối trực tiếp với <b>Cloudflare Edge Worker + D1 + KV/R2 Vault</b> (<code>https://docs.lop-toan-anh-chi.workers.dev</code>). Toàn bộ file PDF upload từ trang Admin hoặc đẩy tự động từ <b>Mục Tự động hóa tài liệu</b> đều được mã hóa nhị phân <b>LTAC Vault</b> chống tải lén và phân phối qua CDN toàn cầu. Nhập <b>Khóa API Quản trị Cloudflare</b> một lần trên trình duyệt này để mở quyền Upload / Duyệt / Xóa trực tiếp.
         </p>
-        <form id="supabase-config-form">
-          <div class="form-grid" style="grid-template-columns:1.3fr 1.5fr 0.8fr">
+        <form id="cloudflare-config-form">
+          <div class="form-grid two">
             <div class="form-field">
-              <label for="sb-url-input">Supabase Project URL (Đã cấu hình tự động)</label>
-              <input type="url" id="sb-url-input" value="https://uiyqdqucqplifcvukwul.supabase.co" placeholder="https://xxxx.supabase.co">
+              <label for="cf-worker-url-input">Cloudflare Worker Endpoint URL (Công khai đọc CDN)</label>
+              <input type="url" id="cf-worker-url-input" value="https://docs.lop-toan-anh-chi.workers.dev" placeholder="https://docs.lop-toan-anh-chi.workers.dev" required>
             </div>
             <div class="form-field">
-              <label for="sb-key-input">Supabase Anon / Publishable Key (Đã cấu hình tự động)</label>
-              <input type="password" id="sb-key-input" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpeXFkcXVjcXBsaWZjdnVrd3VsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MzQyNTYsImV4cCI6MjEwNDAxMDI1Nn0.QFVahkLpgPklc5rQZnskLY1W5913nZ6Vn80T_As-he0" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6...">
-            </div>
-            <div class="form-field">
-              <label for="sb-bucket-input">Tên Private Storage Bucket</label>
-              <input type="text" id="sb-bucket-input" value="tai-lieu-pdf" placeholder="tai-lieu-pdf">
+              <label for="cf-upload-key-input">Khóa API Quản trị Cloudflare (Upload Secret — Chỉ lưu trên trình duyệt Admin)</label>
+              <input type="password" id="cf-upload-key-input" placeholder="Nhập cf_ltac_... để Upload, Duyệt &amp; Cấu hình từ trình duyệt này" autocomplete="off">
             </div>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-            <button type="submit" class="btn sm" style="background:#1e6b45;border-color:#1e6b45"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Lưu &amp; Kết nối lại Supabase</span></button>
-            <button type="button" class="btn ghost sm" id="btn-sb-sync"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg><span>Đồng bộ ngay từ Supabase Cloud</span></button>
+            <button type="submit" class="btn sm" style="background:#b54d0a;border-color:#b54d0a"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Lưu &amp; Kiểm tra Kết nối Cloudflare</span></button>
+            <button type="button" class="btn ghost sm" id="btn-cf-sync"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg><span>Đồng bộ ngay từ Cloudflare Edge</span></button>
           </div>
-          <div id="sb-config-status" class="status-msg" hidden></div>
+          <div id="cf-config-status" class="status-msg" hidden></div>
         </form>
       </div>
+
+      <div class="admin-box" id="automation-hub-box" style="background:linear-gradient(135deg,#f8f4ec,#fffdf8);border-color:rgba(101,15,18,0.3)">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+          <h4 style="margin:0"><svg class="ui-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span>Mục Tự Động Hóa Tài Liệu — Kết nối Pipeline LaTeX &amp; TikZ lên Cloudflare</span></h4>
+          <span id="auto-hub-summary-pill" class="pill-note" style="padding:4px 10px;font-size:12px;background:#f6e7e5;color:var(--ink)">3 luồng tự động đã liên kết</span>
+        </div>
+        <p style="margin:0 0 12px;color:var(--muted);font-size:13.5px">
+          Khi các tiến trình tự động hóa biên dịch xong file PDF chuẩn LaTeX – TikZ 3 phần trên máy Thầy, script <code>cloudflare_doc_publisher.py</code> sẽ tự động mã hóa và đẩy thẳng lên Cloudflare theo chế độ bên dưới.
+        </p>
+
+        <div class="form-grid" style="margin-bottom:12px">
+          <div style="padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:#fffdf9">
+            <label style="display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;margin:0;font-weight:700;color:var(--ink-deep)">
+              <span>1. ToanMath Auto Sync</span>
+              <input type="checkbox" id="auto-enable-toanmath" checked>
+            </label>
+            <div style="font-size:12.5px;color:var(--muted);margin-top:5px">Quét tự động mỗi giờ từ <code>toanmath.com</code> &amp; <code>thcs.toanmath.com</code>, chuẩn hóa TikZ 3 phần và xuất PDF.</div>
+          </div>
+          <div style="padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:#fffdf9">
+            <label style="display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;margin:0;font-weight:700;color:var(--ink-deep)">
+              <span>2. Facebook Math LaTeX Sync</span>
+              <input type="checkbox" id="auto-enable-fblatex" checked>
+            </label>
+            <div style="font-size:12.5px;color:var(--muted);margin-top:5px">Tự động quét bài toán mới, dựng Hình học TikZ + Sơ đồ tư duy + Lời giải chi tiết và xuất PDF.</div>
+          </div>
+          <div style="padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:#fffdf9">
+            <label style="display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;margin:0;font-weight:700;color:var(--ink-deep)">
+              <span>3. Toán 12 Chương Trình Mới</span>
+              <input type="checkbox" id="auto-enable-toan12" checked>
+            </label>
+            <div style="font-size:12.5px;color:var(--muted);margin-top:5px">Đồng bộ hệ thống Chuyên đề &amp; Phân dạng Toán 12 GDPT 2018 (<code>sync_toan12.py</code>) lên Kho Tài Liệu.</div>
+          </div>
+        </div>
+
+        <div class="form-grid" style="align-items:end;margin-bottom:10px">
+          <div class="form-field">
+            <label for="auto-publish-mode-select">Chế độ xuất bản khi nhận PDF từ Tự động hóa</label>
+            <select id="auto-publish-mode-select">
+              <option value="published">Tự động đăng ngay lên Kệ 3D &amp; Kho Tài Liệu</option>
+              <option value="pending">Đưa vào hàng chờ Admin xét duyệt trước khi hiển thị</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="auto-variant-mode-select">Phiên bản PDF đăng lên Web</label>
+            <select id="auto-variant-mode-select">
+              <option value="de_only">Chỉ đăng Bản Đề bài (Lưu kèm Bản Lời giải cho Admin)</option>
+              <option value="both">Đăng tách cả 2 thẻ: Bản Đề bài &amp; Bản Lời giải (-ANS)</option>
+            </select>
+          </div>
+          <div class="form-field" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding-bottom:2px">
+            <label style="display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-weight:600;color:var(--ink-deep);margin:0">
+              <input type="checkbox" id="auto-allow-dl-default">
+              <span>Mở tải PDF mặc định</span>
+            </label>
+            <button type="button" class="btn sm" id="btn-save-auto-config"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg><span>Lưu cấu hình Tự động</span></button>
+          </div>
+        </div>
+        <div id="auto-config-status" class="status-msg" hidden></div>
+
+        <div id="auto-pending-wrap" style="margin-top:12px" hidden>
+          <div style="font:700 13.5px/1.3 var(--sans);color:var(--ink);margin-bottom:6px">Tài liệu Tự động đang chờ Admin xét duyệt (<span id="auto-pending-count">0</span>)</div>
+          <div class="admin-student-list" style="max-height:190px;margin-bottom:10px">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã</th>
+                  <th>Tên tài liệu tự động</th>
+                  <th>Nguồn</th>
+                  <th>Chuyên mục</th>
+                  <th>Thao tác duyệt</th>
+                </tr>
+              </thead>
+              <tbody id="auto-pending-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <details style="margin-top:8px">
+          <summary style="cursor:pointer;font:600 13px/1.4 var(--sans);color:var(--ink-deep)">Xem nhật ký đồng bộ Tự động hóa gần đây (<span id="auto-runs-count">0</span> phiên)</summary>
+          <div class="admin-student-list" style="max-height:175px;margin-top:8px">
+            <table>
+              <thead>
+                <tr>
+                  <th>Thời gian</th>
+                  <th>Luồng tự động</th>
+                  <th>Tóm tắt kết quả</th>
+                  <th>Số file đẩy lên</th>
+                </tr>
+              </thead>
+              <tbody id="auto-runs-tbody"></tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+
+      <details class="admin-box" style="background:linear-gradient(135deg,#f3fbf7,#fbf6ec);border-color:rgba(30,107,69,0.28)">
+        <summary style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;list-style:none">
+          <h4 style="margin:0;color:#1e6b45;display:inline-flex;align-items:center;gap:6px"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Lưu trữ Dự phòng Supabase Storage (Tự động đồng bộ song song)</span></h4>
+          <span id="sb-conn-badge" class="pill-note" style="padding:4px 10px;font-size:12px;background:#e8f6ee;color:#1e6b45"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Đã kết nối dự phòng Supabase</span></span>
+        </summary>
+        <div style="margin-top:10px">
+          <form id="supabase-config-form">
+            <div class="form-grid" style="grid-template-columns:1.3fr 1.5fr 0.8fr">
+              <div class="form-field">
+                <label for="sb-url-input">Supabase Project URL</label>
+                <input type="url" id="sb-url-input" value="https://uiyqdqucqplifcvukwul.supabase.co" placeholder="https://xxxx.supabase.co">
+              </div>
+              <div class="form-field">
+                <label for="sb-key-input">Supabase Anon / Publishable Key</label>
+                <input type="password" id="sb-key-input" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpeXFkcXVjcXBsaWZjdnVrd3VsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MzQyNTYsImV4cCI6MjEwNDAxMDI1Nn0.QFVahkLpgPklc5rQZnskLY1W5913nZ6Vn80T_As-he0" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6...">
+              </div>
+              <div class="form-field">
+                <label for="sb-bucket-input">Tên Private Storage Bucket</label>
+                <input type="text" id="sb-bucket-input" value="tai-lieu-pdf" placeholder="tai-lieu-pdf">
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+              <button type="submit" class="btn sm" style="background:#1e6b45;border-color:#1e6b45"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Lưu &amp; Kết nối lại Supabase</span></button>
+              <button type="button" class="btn ghost sm" id="btn-sb-sync"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg><span>Đồng bộ từ Supabase Cloud</span></button>
+            </div>
+            <div id="sb-config-status" class="status-msg" hidden></div>
+          </form>
+        </div>
+      </details>
 
       <div class="admin-box" style="background:linear-gradient(135deg,#fbf6ec,#fffdf8);border-color:rgba(101,15,18,0.28)">
         <h4><svg class="ui-ico" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Quản lý Quyền Tải Về Tài Liệu (Bật / Tắt nút Tải PDF cho từng tài liệu hoặc Toàn bộ)</span></h4>
@@ -2726,9 +2846,9 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
 
       <div class="admin-box">
-        <h4 id="doc-form-heading"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><span>Tải lên hoặc Chỉnh sửa Tài liệu (Chỉ Admin được phép)</span></h4>
+        <h4 id="doc-form-heading"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><span>Tải lên Cloudflare hoặc Chỉnh sửa Tài liệu (Chỉ Admin được phép)</span></h4>
         <p style="margin:0 0 12px;color:var(--muted);font-size:14px">
-          Tài liệu sau khi lưu sẽ được đẩy lên <b>Supabase Storage</b>, kệ 3D và <b>Kho Tài Liệu Đầy Đủ</b>. Bạn có thể tích chọn <b>Cho phép tải về</b> hoặc khóa chỉ xem cho tài liệu này.
+          Tài liệu sau khi lưu sẽ được mã hóa và đẩy trực tiếp lên <b>Cloudflare Edge Vault</b> (đồng bộ dự phòng sang Supabase), hiển thị ngay trên Kệ 3D và <b>Kho Tài Liệu Đầy Đủ</b>.
         </p>
         <form id="doc-upload-form">
           <input type="hidden" id="doc-edit-id-input" value="">
@@ -2776,7 +2896,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
               </select>
             </div>
             <div class="form-field">
-              <label for="doc-file-input">Chọn file PDF từ máy tính (.pdf)</label>
+              <label for="doc-file-input">Chọn file PDF Đề bài (.pdf) · Tự động nhận tên &amp; số trang</label>
               <input type="file" id="doc-file-input" accept="application/pdf,.pdf" style="padding:7px 10px;background:#fffdf8">
             </div>
             <div class="form-field" style="padding-bottom:8px">
@@ -3978,12 +4098,20 @@ function updateAdminOverviewStats() {
       : `Hiện bảng: ${visCnt} · Cho tìm: ${searchCnt}`;
   }
   if (docTotalEl && typeof docRecords !== "undefined") {
-    docTotalEl.textContent = `${docRecords.length} tài liệu`;
+    const pubDocs = docRecords.filter(d => d.status !== "pending");
+    docTotalEl.textContent = `${pubDocs.length} tài liệu`;
   }
-  if (docSubEl && typeof isSupabaseConfigured === "function") {
-    docSubEl.textContent = isSupabaseConfigured()
-      ? "Supabase Cloud: Đã kết nối"
-      : "Lưu trữ trình duyệt cục bộ";
+  if (docSubEl) {
+    const pendDocs = typeof docRecords !== "undefined" ? docRecords.filter(d => d.status === "pending").length : 0;
+    if (typeof isCloudflareConfigured === "function" && isCloudflareConfigured()) {
+      docSubEl.textContent = pendDocs > 0
+        ? `Cloudflare Edge · Chờ duyệt: ${pendDocs}`
+        : "Cloudflare Edge + Tự động hóa: Đã kết nối";
+    } else if (typeof isSupabaseConfigured === "function" && isSupabaseConfigured()) {
+      docSubEl.textContent = "Supabase Cloud: Đã kết nối";
+    } else {
+      docSubEl.textContent = "Lưu trữ trình duyệt cục bộ";
+    }
   }
   if (typoTotalEl) {
     typoTotalEl.textContent = `${Object.keys(defaultCardTexts).length} mục nội dung`;
@@ -5596,6 +5724,316 @@ function getDocMiniSvg(type) {
 // SUPABASE STORAGE & DATABASE CLIENT (ĐÃ TỰ ĐỘNG LIÊN KẾT 100%)
 // ============================================================================
 const SUPABASE_CFG_KEY = "lop_toan_anh_chi_supabase_cfg_v1";
+const CLOUDFLARE_CFG_KEY = "lop_toan_anh_chi_cloudflare_cfg_v1";
+const DEFAULT_CLOUDFLARE_CFG = {
+  workerUrl: "https://docs.lop-toan-anh-chi.workers.dev",
+  uploadApiKey: ""
+};
+let cloudflareDocsSynced = false;
+let cfAutomationState = {
+  authenticated: false,
+  storageBackend: "cloudflare-kv-d1",
+  config: {
+    publishMode: "published",
+    variantMode: "de_only",
+    allowDownloadDefault: false,
+    enableToanmath: true,
+    enableFbLatex: true,
+    enableToan12: true
+  },
+  recentRuns: []
+};
+
+function loadCloudflareCfg() {
+  try {
+    const raw = localStorage.getItem(CLOUDFLARE_CFG_KEY);
+    if (raw) {
+      const p = JSON.parse(raw) || {};
+      return {
+        workerUrl: String(p.workerUrl || DEFAULT_CLOUDFLARE_CFG.workerUrl).trim().replace(/\/+$/, ""),
+        uploadApiKey: String(p.uploadApiKey || "").trim()
+      };
+    }
+  } catch {}
+  return { ...DEFAULT_CLOUDFLARE_CFG };
+}
+
+function saveCloudflareCfg(cfg) {
+  try {
+    localStorage.setItem(CLOUDFLARE_CFG_KEY, JSON.stringify({
+      workerUrl: String(cfg.workerUrl || DEFAULT_CLOUDFLARE_CFG.workerUrl).trim().replace(/\/+$/, ""),
+      uploadApiKey: String(cfg.uploadApiKey || "").trim()
+    }));
+  } catch {}
+}
+
+let cloudflareCfg = loadCloudflareCfg();
+
+function isCloudflareConfigured() {
+  return Boolean(cloudflareCfg.workerUrl && cloudflareCfg.workerUrl.startsWith("http"));
+}
+
+function isCloudflareWriteReady() {
+  return Boolean(isCloudflareConfigured() && cloudflareCfg.uploadApiKey);
+}
+
+function isCloudflareVaultDoc(doc) {
+  if (!doc) return false;
+  return Boolean(
+    (doc.storagePath && String(doc.storagePath).startsWith("cfvault_")) ||
+    doc.storageBackend === "kv" ||
+    doc.storageBackend === "r2"
+  );
+}
+
+function getPipelineDisplayName(pipe) {
+  const key = String(pipe || "").toLowerCase();
+  if (key === "toanmath") return "ToanMath Auto Sync";
+  if (key === "fb_latex") return "Facebook Math LaTeX";
+  if (key === "toan12") return "Toán 12 GDPT 2018";
+  if (key === "manual") return "Admin Upload";
+  if (key === "system") return "Biên soạn hệ thống";
+  return pipe || "Tự động hóa";
+}
+
+function updateCloudflareBadgeUI() {
+  const badge = document.getElementById("cf-conn-badge");
+  const urlInp = document.getElementById("cf-worker-url-input");
+  const keyInp = document.getElementById("cf-upload-key-input");
+  if (urlInp && document.activeElement !== urlInp) urlInp.value = cloudflareCfg.workerUrl;
+  if (keyInp && document.activeElement !== keyInp && cloudflareCfg.uploadApiKey) {
+    keyInp.value = cloudflareCfg.uploadApiKey;
+  }
+  if (!badge) return;
+  if (isCloudflareConfigured()) {
+    if (cfAutomationState.authenticated) {
+      badge.innerHTML = `${ico("cloud")}<span>Cloudflare Edge: <b>Toàn quyền Upload &amp; Duyệt</b> (${cfAutomationState.storageBackend} · Mã hóa LTAC)</span>`;
+      badge.style.background = "#e8f6ee";
+      badge.style.color = "#1e6b45";
+    } else if (cloudflareDocsSynced) {
+      badge.innerHTML = `${ico("cloud")}<span>Cloudflare CDN Đang hoạt động (Nhập khóa Upload Secret để ghi/duyệt)</span>`;
+      badge.style.background = "#fff0dc";
+      badge.style.color = "#9a3f06";
+    } else {
+      badge.innerHTML = `${ico("cloud")}<span>Sẵn sàng kết nối Cloudflare Edge (${cloudflareCfg.workerUrl.replace(/^https?:\/\//, "")})</span>`;
+      badge.style.background = "#fff0dc";
+      badge.style.color = "#9a3f06";
+    }
+  } else {
+    badge.innerHTML = `${ico("save")}<span>Chưa cấu hình Cloudflare Worker URL</span>`;
+    badge.style.background = "#f7efe0";
+    badge.style.color = "#6a5f5d";
+  }
+}
+
+function renderAutomationHubUI() {
+  const cfg = cfAutomationState.config || {};
+  const tmEl = document.getElementById("auto-enable-toanmath");
+  const fbEl = document.getElementById("auto-enable-fblatex");
+  const t12El = document.getElementById("auto-enable-toan12");
+  const pubSel = document.getElementById("auto-publish-mode-select");
+  const varSel = document.getElementById("auto-variant-mode-select");
+  const dlDef = document.getElementById("auto-allow-dl-default");
+  const summaryPill = document.getElementById("auto-hub-summary-pill");
+
+  if (tmEl) tmEl.checked = cfg.enableToanmath !== false;
+  if (fbEl) fbEl.checked = cfg.enableFbLatex !== false;
+  if (t12El) t12El.checked = cfg.enableToan12 !== false;
+  if (pubSel && cfg.publishMode) pubSel.value = cfg.publishMode;
+  if (varSel && cfg.variantMode) varSel.value = cfg.variantMode;
+  if (dlDef) dlDef.checked = Boolean(cfg.allowDownloadDefault);
+
+  const activePipes = [cfg.enableToanmath !== false, cfg.enableFbLatex !== false, cfg.enableToan12 !== false].filter(Boolean).length;
+  const pendingDocs = docRecords.filter(d => d.status === "pending");
+
+  if (summaryPill) {
+    summaryPill.textContent = pendingDocs.length > 0
+      ? `${activePipes}/3 luồng bật · ${pendingDocs.length} chờ duyệt`
+      : `${activePipes}/3 luồng tự động đang bật`;
+  }
+
+  const pendWrap = document.getElementById("auto-pending-wrap");
+  const pendCnt = document.getElementById("auto-pending-count");
+  const pendTbody = document.getElementById("auto-pending-tbody");
+  if (pendCnt) pendCnt.textContent = String(pendingDocs.length);
+  if (pendWrap && pendTbody) {
+    pendWrap.hidden = pendingDocs.length === 0;
+    pendTbody.innerHTML = pendingDocs.map((doc) => `
+      <tr>
+        <td><span class="code-pill">${escapeHtmlAttr(doc.id)}</span></td>
+        <td><b>${escapeHtmlAttr(doc.title)}</b></td>
+        <td><span class="anon-pill" style="margin:0">${escapeHtmlAttr(getPipelineDisplayName(doc.sourcePipeline))}</span></td>
+        <td>${escapeHtmlAttr(doc.cat)}</td>
+        <td>
+          <button type="button" class="quick-chip" data-auto-preview="${escapeHtmlAttr(doc.id)}">${ico("eye")}<span>Xem</span></button>
+          <button type="button" class="quick-chip" data-doc-approve="${escapeHtmlAttr(doc.id)}" style="background:#e6f4ea;border-color:#9ad0ac;color:#1e6b45;font-weight:700">${ico("check")}<span>Duyệt đăng</span></button>
+          <button type="button" class="quick-chip" data-doc-del="${escapeHtmlAttr(doc.id)}" style="color:#b71c1c;border-color:#e5a5a5">Xóa</button>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  const runsCnt = document.getElementById("auto-runs-count");
+  const runsTbody = document.getElementById("auto-runs-tbody");
+  const runs = Array.isArray(cfAutomationState.recentRuns) ? cfAutomationState.recentRuns : [];
+  if (runsCnt) runsCnt.textContent = String(runs.length);
+  if (runsTbody) {
+    runsTbody.innerHTML = runs.length
+      ? runs.map((r) => `
+          <tr>
+            <td style="color:var(--muted);font-size:12.5px">${escapeHtmlAttr(formatShortViTime(r.created_at))}</td>
+            <td><b>${escapeHtmlAttr(getPipelineDisplayName(r.pipeline))}</b></td>
+            <td style="white-space:normal;max-width:360px">${escapeHtmlAttr(r.summary || "")}</td>
+            <td><b>${Number(r.docs_uploaded || 0)}</b> file</td>
+          </tr>
+        `).join("")
+      : `<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:12px">Chưa có phiên đồng bộ tự động nào được ghi nhận. Khi ToanMath / Facebook / Toán 12 xuất PDF mới, lịch sử sẽ hiển thị tại đây.</td></tr>`;
+  }
+}
+
+async function uploadDocToCloudflare(meta, file) {
+  if (!isCloudflareWriteReady()) return null;
+  const form = new FormData();
+  form.append("metadata", JSON.stringify(meta));
+  if (file) {
+    const rawAb = await file.arrayBuffer();
+    const vaultAb = encodePdfToVaultBytes(rawAb);
+    form.append("file", new Blob([vaultAb], { type: "application/octet-stream" }), file.name || "document.bin");
+  }
+  const res = await fetch(`${cloudflareCfg.workerUrl}/api/docs/upload`, {
+    method: "POST",
+    headers: { "X-CF-Upload-Key": cloudflareCfg.uploadApiKey },
+    body: form
+  });
+  if (!res.ok) throw new Error(`Cloudflare HTTP ${res.status}`);
+  const data = await res.json();
+  return data && data.ok ? data.doc : null;
+}
+
+async function patchDocOnCloudflare(docId, patch) {
+  if (!isCloudflareWriteReady() || !docId) return null;
+  try {
+    const res = await fetch(`${cloudflareCfg.workerUrl}/api/docs/${encodeURIComponent(docId)}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CF-Upload-Key": cloudflareCfg.uploadApiKey
+      },
+      body: JSON.stringify(patch)
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data && data.ok ? data.doc : null;
+  } catch {
+    return null;
+  }
+}
+
+async function bulkUpdateDownloadOnCloudflare(allowDownload) {
+  if (!isCloudflareWriteReady()) return false;
+  try {
+    const res = await fetch(`${cloudflareCfg.workerUrl}/api/docs/bulk-policy`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CF-Upload-Key": cloudflareCfg.uploadApiKey
+      },
+      body: JSON.stringify({ allowDownload: Boolean(allowDownload) })
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function deleteDocFromCloudflare(docId) {
+  if (!isCloudflareWriteReady() || !docId) return false;
+  try {
+    const res = await fetch(`${cloudflareCfg.workerUrl}/api/docs/${encodeURIComponent(docId)}`, {
+      method: "DELETE",
+      headers: { "X-CF-Upload-Key": cloudflareCfg.uploadApiKey }
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function fetchPdfArrayBufferFromCloudflare(doc) {
+  if (!isCloudflareConfigured() || !doc || !doc.id) return null;
+  try {
+    const headers = {};
+    if (cloudflareCfg.uploadApiKey) headers["X-CF-Upload-Key"] = cloudflareCfg.uploadApiKey;
+    const res = await fetch(`${cloudflareCfg.workerUrl}/api/docs/${encodeURIComponent(doc.id)}/file`, { headers });
+    if (!res.ok) return null;
+    const rawAb = await res.arrayBuffer();
+    return decodeVaultBytesToPdf(rawAb);
+  } catch {
+    return null;
+  }
+}
+
+async function fetchProtectedDocArrayBuffer(doc) {
+  if (!doc) return null;
+  if (isCloudflareVaultDoc(doc)) {
+    const cfAb = await fetchPdfArrayBufferFromCloudflare(doc);
+    if (cfAb) return cfAb;
+  }
+  if (doc.storagePath && !String(doc.storagePath).startsWith("cfvault_") && isSupabaseConfigured()) {
+    const sbAb = await fetchPdfArrayBufferFromSupabase(doc.storagePath);
+    if (sbAb) return sbAb;
+  }
+  if (doc.storagePath && isCloudflareConfigured()) {
+    const cfFallback = await fetchPdfArrayBufferFromCloudflare(doc);
+    if (cfFallback) return cfFallback;
+  }
+  return null;
+}
+
+async function syncDocsFromCloudflare() {
+  if (!isCloudflareConfigured()) return false;
+  try {
+    const wantAdmin = Boolean(isAdminLoggedIn && cloudflareCfg.uploadApiKey);
+    const headers = wantAdmin ? { "X-CF-Upload-Key": cloudflareCfg.uploadApiKey } : {};
+    const endpoint = `${cloudflareCfg.workerUrl}/api/docs${wantAdmin ? "?include_pending=1" : ""}`;
+    const res = await fetch(endpoint, { headers });
+    if (!res.ok) return false;
+    const payload = await res.json();
+    if (!payload || !payload.ok || !Array.isArray(payload.docs)) return false;
+
+    cloudflareDocsSynced = true;
+    if (payload.config) {
+      cfAutomationState.authenticated = wantAdmin;
+      cfAutomationState.config = payload.config;
+      cfAutomationState.recentRuns = payload.recentRuns || [];
+    } else if (!wantAdmin) {
+      try {
+        const autoRes = await fetch(`${cloudflareCfg.workerUrl}/api/automations`);
+        if (autoRes.ok) {
+          const autoJson = await autoRes.json();
+          if (autoJson && autoJson.ok) {
+            cfAutomationState.config = autoJson.config || cfAutomationState.config;
+            cfAutomationState.recentRuns = autoJson.recentRuns || [];
+          }
+        }
+      } catch {}
+    }
+
+    if (payload.docs.length) {
+      const cfIds = new Set(payload.docs.map(d => d.id));
+      const legacyExtras = docRecords.filter(d => !cfIds.has(d.id) && d.storagePath && !String(d.storagePath).startsWith("cfvault_"));
+      docRecords = [...payload.docs, ...legacyExtras];
+      saveDocsList(docRecords);
+    }
+    updateCloudflareBadgeUI();
+    renderAutomationHubUI();
+    buildLockerBays();
+    renderAdminDocList();
+    updateAdminOverviewStats();
+    return true;
+  } catch {}
+  return false;
+}
 const DEFAULT_SUPABASE_CFG = {
   url: "https://uiyqdqucqplifcvukwul.supabase.co",
   anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpeXFkcXVjcXBsaWZjdnVrd3VsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MzQyNTYsImV4cCI6MjEwNDAxMDI1Nn0.QFVahkLpgPklc5rQZnskLY1W5913nZ6Vn80T_As-he0",
@@ -5770,7 +6208,7 @@ async function syncDocsFromSupabase() {
     if (!res.ok) return false;
     const rows = await res.json();
     if (Array.isArray(rows) && rows.length) {
-      docRecords = rows.map(r => ({
+      const mappedSb = rows.map(r => ({
         id: r.id,
         title: r.title,
         cat: r.cat,
@@ -5781,8 +6219,17 @@ async function syncDocsFromSupabase() {
         svgType: r.svg_type || "pdf_a4",
         storagePath: r.storage_path || null,
         allowDownload: Boolean(r.allow_download),
-        hasUploadedPdf: Boolean(r.has_uploaded_pdf || r.storage_path)
+        hasUploadedPdf: Boolean(r.has_uploaded_pdf || r.storage_path),
+        status: "published",
+        sourcePipeline: "supabase"
       }));
+      if (cloudflareDocsSynced) {
+        const existingIds = new Set(docRecords.map(d => d.id));
+        const sbOnly = mappedSb.filter(d => !existingIds.has(d.id));
+        if (sbOnly.length) docRecords = [...docRecords, ...sbOnly];
+      } else {
+        docRecords = mappedSb;
+      }
       saveDocsList(docRecords);
       buildLockerBays();
       renderAdminDocList();
@@ -5993,8 +6440,8 @@ async function downloadDocPdf(doc) {
   if (!canPublicDownloadDoc(doc) && !isAdminLoggedIn) return;
   const safeName = `${doc.id}_${String(doc.title || "Tai_lieu_Toan_Thay_Chi").replace(/[^a-zA-Z0-9._-]/g, "_")}.pdf`;
 
-  if (doc.storagePath && isSupabaseConfigured()) {
-    const ab = await fetchPdfArrayBufferFromSupabase(doc.storagePath);
+  if (doc.storagePath) {
+    const ab = await fetchProtectedDocArrayBuffer(doc);
     if (ab) {
       const blob = new Blob([ab], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
@@ -6064,8 +6511,12 @@ const IS_DOC_LIBRARY_PAGE = Boolean(
   new URLSearchParams(window.location.search).get("view") === "tai-lieu"
 );
 
+function getPublicDocs() {
+  return docRecords.filter(d => d && d.status !== "pending");
+}
+
 function getLockerDocs() {
-  return docRecords.slice(0, MAX_LOCKER_DOCS);
+  return getPublicDocs().slice(0, MAX_LOCKER_DOCS);
 }
 
 function handleDocOpenRequest(doc) {
@@ -6185,8 +6636,9 @@ function renderFullDocLibrary() {
   const cntAll = document.getElementById("doc-cnt-all");
   const policyBadge = document.getElementById("doc-lib-dl-policy-badge");
   const policySelect = document.getElementById("doc-dl-policy-select");
-  if (totalBadge) totalBadge.textContent = `${docRecords.length} tài liệu`;
-  if (cntAll) cntAll.textContent = String(docRecords.length);
+  const pubDocsList = getPublicDocs();
+  if (totalBadge) totalBadge.textContent = `${pubDocsList.length} tài liệu`;
+  if (cntAll) cntAll.textContent = String(pubDocsList.length);
   if (policySelect) policySelect.value = docDlPolicy;
 
   if (policyBadge) {
@@ -6197,15 +6649,15 @@ function renderFullDocLibrary() {
       policyBadge.className = "dl-status-pill no-dl";
       policyBadge.innerHTML = `${ico("lock")}<span>Đang khóa Tải về TOÀN BỘ (Chỉ xem online)</span>`;
     } else {
-      const dlCount = docRecords.filter(d => d.allowDownload).length;
+      const dlCount = pubDocsList.filter(d => d.allowDownload).length;
       policyBadge.className = dlCount > 0 ? "dl-status-pill can-dl" : "dl-status-pill no-dl";
-      policyBadge.innerHTML = `${ico("settings")}<span>Cho phép tải ${dlCount}/${docRecords.length} tài liệu</span>`;
+      policyBadge.innerHTML = `${ico("settings")}<span>Cho phép tải ${dlCount}/${pubDocsList.length} tài liệu</span>`;
     }
   }
 
   if (!grid) return;
   const q = vnNorm(document.getElementById("doc-lib-search")?.value || "");
-  const filtered = docRecords.filter((doc) => {
+  const filtered = pubDocsList.filter((doc) => {
     if (activeDocCatFilter !== "ALL" && doc.cat !== activeDocCatFilter) return false;
     if (q) {
       const hay = vnNorm(`${doc.id} ${doc.title} ${doc.cat} ${doc.badge} ${doc.desc}`);
@@ -6684,11 +7136,11 @@ async function renderProtectedPdfPages() {
   document.getElementById("pdf-zoom-readout").textContent = `${Math.round(currentPdfZoom * 100)}%`;
   pdfStage.innerHTML = "";
 
-  // Ưu tiên tải luồng nhị phân mã hóa (LTAC Vault ArrayBuffer) từ Supabase Storage hoặc IndexedDB để vẽ lên Canvas chống tải
+  // Ưu tiên tải luồng nhị phân mã hóa (LTAC Vault ArrayBuffer) từ Cloudflare Edge / Supabase Storage hoặc IndexedDB để vẽ lên Canvas chống tải
   let pdfSource = null;
   let tempBufferRef = null;
-  if (currentPdfDoc.storagePath && isSupabaseConfigured()) {
-    const ab = await fetchPdfArrayBufferFromSupabase(currentPdfDoc.storagePath);
+  if (currentPdfDoc.storagePath || isCloudflareVaultDoc(currentPdfDoc)) {
+    const ab = await fetchProtectedDocArrayBuffer(currentPdfDoc);
     if (ab) {
       tempBufferRef = new Uint8Array(ab);
       pdfSource = { data: tempBufferRef };
@@ -6864,6 +7316,7 @@ if (docLibGridEl) {
         }
         doc.allowDownload = !doc.allowDownload;
         saveDocsList(docRecords);
+        patchDocOnCloudflare(doc.id, { allowDownload: doc.allowDownload });
         upsertDocMetadataToSupabase(doc);
         updateLockerPositions();
         renderFullDocLibrary();
@@ -6902,9 +7355,11 @@ if (quickToggleAllDlBtn) {
     if (docDlPolicy === "allow_all") {
       docDlPolicy = "block_all";
       docRecords.forEach(d => { d.allowDownload = false; });
+      bulkUpdateDownloadOnCloudflare(false);
     } else {
       docDlPolicy = "allow_all";
       docRecords.forEach(d => { d.allowDownload = true; });
+      bulkUpdateDownloadOnCloudflare(true);
     }
     saveDocDlPolicy(docDlPolicy);
     saveDocsList(docRecords);
@@ -7176,30 +7631,44 @@ function renderAdminDocList() {
   if (policySel) policySel.value = docDlPolicy;
   if (!tbody) return;
   if (countEl) countEl.textContent = docRecords.length;
+  updateCloudflareBadgeUI();
   updateSupabaseBadgeUI();
+  renderAutomationHubUI();
   tbody.innerHTML = docRecords.map((doc, idx) => {
     const effectiveDl = canPublicDownloadDoc(doc);
+    const isCf = isCloudflareVaultDoc(doc);
+    const isPending = doc.status === "pending";
+    const pipeTag = doc.sourcePipeline && !["manual", "system", "supabase"].includes(doc.sourcePipeline)
+      ? `<span class="anon-pill" style="margin-left:5px">${escapeHtmlAttr(getPipelineDisplayName(doc.sourcePipeline))}</span>`
+      : "";
+    const pendTag = isPending
+      ? `<span class="sub-status-pill pending" style="margin-left:6px">Chờ duyệt</span>`
+      : "";
+    const srcCell = isCf
+      ? `<span style="color:#9a3f06;font-weight:700;display:inline-flex;align-items:center;gap:4px">${ico("cloud")}<span>Cloudflare Vault (${doc.storageBackend === "r2" ? "R2" : "KV+D1"})</span></span>${pipeTag}`
+      : (doc.storagePath
+          ? `<span style="color:#1e6b45;font-weight:700;display:inline-flex;align-items:center;gap:4px">${ico("cloud")}<span>Supabase Storage</span></span>`
+          : (doc.hasUploadedPdf
+              ? `<span style="color:var(--green);font-weight:700;display:inline-flex;align-items:center;gap:4px">${ico("save")}<span>Bộ nhớ trình duyệt</span></span>`
+              : '<span style="color:var(--muted)">Tài liệu hệ thống</span>'));
     return `
     <tr>
-      <td><span class="code-pill">${doc.id}</span></td>
-      <td><b>${doc.title}</b></td>
-      <td>${doc.cat}</td>
+      <td><span class="code-pill">${escapeHtmlAttr(doc.id)}</span></td>
+      <td><b>${escapeHtmlAttr(doc.title)}</b>${pendTag}</td>
+      <td>${escapeHtmlAttr(doc.cat)}</td>
       <td>${doc.pages || 4} trang</td>
       <td>
         <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-weight:700;color:${effectiveDl ? '#1e6b45' : '#8a1c1c'}">
-          <input type="checkbox" data-doc-dl-toggle="${doc.id}" ${doc.allowDownload ? "checked" : ""}>
+          <input type="checkbox" data-doc-dl-toggle="${escapeHtmlAttr(doc.id)}" ${doc.allowDownload ? "checked" : ""}>
           ${effectiveDl ? `${ico("unlock")}<span>Cho tải</span>` : `${ico("lock")}<span>Khóa tải</span>`}
         </label>
       </td>
-      <td>${doc.storagePath
-        ? `<span style="color:#1e6b45;font-weight:700;display:inline-flex;align-items:center;gap:4px">${ico("cloud")}<span>Supabase Storage (${doc.storagePath})</span></span>`
-        : (doc.hasUploadedPdf
-            ? `<span style="color:var(--green);font-weight:700;display:inline-flex;align-items:center;gap:4px">${ico("save")}<span>Đã Upload (Bộ nhớ trình duyệt)</span></span>`
-            : '<span style="color:var(--muted)">Tài liệu biên soạn hệ thống</span>')}</td>
+      <td>${srcCell}</td>
       <td>
+        ${isPending ? `<button type="button" class="quick-chip" data-doc-approve="${escapeHtmlAttr(doc.id)}" style="background:#e6f4ea;border-color:#9ad0ac;color:#1e6b45;font-weight:700">${ico("check")}<span>Duyệt</span></button>` : ""}
         <button type="button" class="quick-chip" data-doc-preview="${idx}">${ico("eye")}<span>Xem</span></button>
-        <button type="button" class="quick-chip" data-doc-edit="${doc.id}">${ico("edit")}<span>Sửa</span></button>
-        <button type="button" class="quick-chip" data-doc-del="${doc.id}" style="color:#b71c1c;border-color:#e5a5a5">Xóa</button>
+        <button type="button" class="quick-chip" data-doc-edit="${escapeHtmlAttr(doc.id)}">${ico("edit")}<span>Sửa</span></button>
+        <button type="button" class="quick-chip" data-doc-del="${escapeHtmlAttr(doc.id)}" style="color:#b71c1c;border-color:#e5a5a5">Xóa</button>
       </td>
     </tr>
   `}).join("");
@@ -7221,6 +7690,7 @@ if (btnDlAllowAll) {
   btnDlAllowAll.addEventListener("click", () => {
     docDlPolicy = "allow_all";
     docRecords.forEach(d => { d.allowDownload = true; });
+    bulkUpdateDownloadOnCloudflare(true);
     saveDocDlPolicy(docDlPolicy);
     saveDocsList(docRecords);
     updateLockerPositions();
@@ -7234,6 +7704,7 @@ if (btnDlBlockAll) {
   btnDlBlockAll.addEventListener("click", () => {
     docDlPolicy = "block_all";
     docRecords.forEach(d => { d.allowDownload = false; });
+    bulkUpdateDownloadOnCloudflare(false);
     saveDocDlPolicy(docDlPolicy);
     saveDocsList(docRecords);
     updateLockerPositions();
@@ -7252,6 +7723,133 @@ if (btnDlPerDoc) {
     renderAdminDocList();
   });
 }
+
+document.getElementById("cloudflare-config-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (!isAdminLoggedIn) return;
+  cloudflareCfg = {
+    workerUrl: (document.getElementById("cf-worker-url-input")?.value || DEFAULT_CLOUDFLARE_CFG.workerUrl).trim().replace(/\/+$/, ""),
+    uploadApiKey: (document.getElementById("cf-upload-key-input")?.value || "").trim()
+  };
+  saveCloudflareCfg(cloudflareCfg);
+  showStatus("cf-config-status", "Đang kiểm tra kết nối tới Cloudflare Edge Worker...", false);
+  try {
+    const headers = cloudflareCfg.uploadApiKey ? { "X-CF-Upload-Key": cloudflareCfg.uploadApiKey } : {};
+    const res = await fetch(`${cloudflareCfg.workerUrl}/api/health`, { headers });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    cfAutomationState.authenticated = Boolean(data.authenticated);
+    cfAutomationState.storageBackend = data.storageBackend || "cloudflare-kv-d1";
+    if (data.config) cfAutomationState.config = data.config;
+    if (data.recentRuns) cfAutomationState.recentRuns = data.recentRuns;
+    await syncDocsFromCloudflare();
+    if (cloudflareCfg.uploadApiKey && !data.authenticated) {
+      showStatus("cf-config-status", "Endpoint hoạt động tốt nhưng Khóa API Quản trị (Upload Secret) chưa khớp. Vui lòng kiểm tra lại khóa.", true);
+    } else if (data.authenticated) {
+      showStatus("cf-config-status", `Đã xác thực thành công với Cloudflare Edge (${data.storageBackend})! Toàn quyền Upload, Xét duyệt và Cấu hình Tự động hóa đã mở.`, false);
+    } else {
+      showStatus("cf-config-status", `Đã kết nối chế độ đọc CDN (${data.publishedCount} tài liệu). Dán thêm Khóa Upload Secret nếu cần Upload trực tiếp từ trình duyệt này.`, false);
+    }
+  } catch (err) {
+    showStatus("cf-config-status", `Không thể kết nối Cloudflare Endpoint: ${err.message || err}`, true);
+  }
+  updateCloudflareBadgeUI();
+  renderAutomationHubUI();
+});
+
+document.getElementById("btn-cf-sync")?.addEventListener("click", async () => {
+  showStatus("cf-config-status", "Đang đồng bộ danh mục tài liệu & lịch sử tự động hóa từ Cloudflare Edge...", false);
+  const ok = await syncDocsFromCloudflare();
+  showStatus(
+    "cf-config-status",
+    ok ? `Đã đồng bộ thành công ${docRecords.length} tài liệu từ Cloudflare Edge!` : "Không thể tải danh mục từ Cloudflare, vui lòng kiểm tra lại kết nối.",
+    !ok
+  );
+});
+
+document.getElementById("btn-save-auto-config")?.addEventListener("click", async () => {
+  if (!isAdminLoggedIn) return;
+  if (!isCloudflareWriteReady()) {
+    showStatus("auto-config-status", "Vui lòng nhập và lưu Khóa API Quản trị Cloudflare ở khung phía trên trước khi đổi cấu hình Tự động hóa.", true);
+    return;
+  }
+  const payload = {
+    enableToanmath: Boolean(document.getElementById("auto-enable-toanmath")?.checked),
+    enableFbLatex: Boolean(document.getElementById("auto-enable-fblatex")?.checked),
+    enableToan12: Boolean(document.getElementById("auto-enable-toan12")?.checked),
+    publishMode: document.getElementById("auto-publish-mode-select")?.value || "published",
+    variantMode: document.getElementById("auto-variant-mode-select")?.value || "de_only",
+    allowDownloadDefault: Boolean(document.getElementById("auto-allow-dl-default")?.checked)
+  };
+  try {
+    const res = await fetch(`${cloudflareCfg.workerUrl}/api/automations/config`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CF-Upload-Key": cloudflareCfg.uploadApiKey
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || `HTTP ${res.status}`);
+    cfAutomationState.config = data.config;
+    renderAutomationHubUI();
+    showStatus("auto-config-status", "Đã lưu cấu hình Mục Tự động hóa tài liệu lên Cloudflare D1 thành công!", false);
+  } catch (err) {
+    showStatus("auto-config-status", `Không thể lưu cấu hình: ${err.message || err}`, true);
+  }
+});
+
+document.getElementById("auto-pending-tbody")?.addEventListener("click", async (e) => {
+  const prevBtn = e.target.closest("[data-auto-preview]");
+  if (prevBtn) {
+    const doc = docRecords.find(d => d.id === prevBtn.dataset.autoPreview);
+    if (doc) openProtectedPdfViewer(doc);
+    return;
+  }
+  const appBtn = e.target.closest("[data-doc-approve]");
+  if (appBtn) {
+    const id = appBtn.dataset.docApprove;
+    const updated = await patchDocOnCloudflare(id, { status: "published" });
+    const target = docRecords.find(d => d.id === id);
+    if (target) target.status = "published";
+    if (updated && target) Object.assign(target, updated);
+    saveDocsList(docRecords);
+    buildLockerBays();
+    renderAdminDocList();
+    updateAdminOverviewStats();
+    showStatus("auto-config-status", `Đã duyệt và đăng tài liệu "${target?.title || id}" lên Kệ 3D & Kho Tài Liệu!`, false);
+    return;
+  }
+  const delBtn = e.target.closest("[data-doc-del]");
+  if (delBtn) {
+    const id = delBtn.dataset.docDel;
+    await deleteDocFromCloudflare(id);
+    docRecords = docRecords.filter(d => d.id !== id);
+    saveDocsList(docRecords);
+    buildLockerBays();
+    renderAdminDocList();
+    updateAdminOverviewStats();
+  }
+});
+
+document.getElementById("doc-file-input")?.addEventListener("change", async (e) => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const titleInp = document.getElementById("doc-title-input");
+  if (titleInp && !titleInp.value.trim()) {
+    titleInp.value = file.name.replace(/\.pdf$/i, "").replace(/[-_]+/g, " ").trim();
+  }
+  try {
+    const pdfjs = await loadPdfJsLibrary();
+    if (pdfjs) {
+      const ab = await file.arrayBuffer();
+      const pdf = await pdfjs.getDocument({ data: new Uint8Array(ab) }).promise;
+      const pagesInp = document.getElementById("doc-pages-input");
+      if (pagesInp && pdf.numPages) pagesInp.value = pdf.numPages;
+    }
+  } catch {}
+});
 
 document.getElementById("supabase-config-form").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -7283,6 +7881,19 @@ document.getElementById("btn-sb-sync").addEventListener("click", async () => {
 });
 
 document.getElementById("admin-doc-tbody").addEventListener("click", async (e) => {
+  const appBtn = e.target.closest("[data-doc-approve]");
+  if (appBtn) {
+    const id = appBtn.dataset.docApprove;
+    const updated = await patchDocOnCloudflare(id, { status: "published" });
+    const doc = docRecords.find(d => d.id === id);
+    if (doc) doc.status = "published";
+    if (updated && doc) Object.assign(doc, updated);
+    saveDocsList(docRecords);
+    buildLockerBays();
+    renderAdminDocList();
+    updateAdminOverviewStats();
+    return;
+  }
   const dlChk = e.target.closest("[data-doc-dl-toggle]");
   if (dlChk) {
     const id = dlChk.dataset.docDlToggle;
@@ -7294,6 +7905,7 @@ document.getElementById("admin-doc-tbody").addEventListener("click", async (e) =
       }
       doc.allowDownload = dlChk.checked;
       saveDocsList(docRecords);
+      await patchDocOnCloudflare(id, { allowDownload: doc.allowDownload });
       await upsertDocMetadataToSupabase(doc);
       updateLockerPositions();
       renderFullDocLibrary();
@@ -7318,7 +7930,8 @@ document.getElementById("admin-doc-tbody").addEventListener("click", async (e) =
     const id = delBtn.dataset.docDel;
     const targetDoc = docRecords.find(d => d.id === id);
     docRecords = docRecords.filter(d => d.id !== id);
-    if (targetDoc && targetDoc.storagePath) {
+    await deleteDocFromCloudflare(id);
+    if (targetDoc && targetDoc.storagePath && !String(targetDoc.storagePath).startsWith("cfvault_")) {
       await deletePdfFromSupabaseStorage(targetDoc.storagePath);
     }
     await deletePdfBinaryFromIdb(id);
@@ -7326,6 +7939,7 @@ document.getElementById("admin-doc-tbody").addEventListener("click", async (e) =
     activeDocIndex = Math.max(0, Math.min(activeDocIndex, getLockerDocs().length - 1));
     buildLockerBays();
     renderAdminDocList();
+    updateAdminOverviewStats();
   }
 });
 
@@ -7347,13 +7961,15 @@ document.getElementById("doc-upload-form").addEventListener("submit", async (e) 
   const targetId = existingIdx >= 0 ? editId : ("DOC" + String(Date.now()).slice(-4));
   const baseEntry = existingIdx >= 0 ? docRecords[existingIdx] : {
     id: targetId,
-    accent: "#a11e21",
+    accent: "#650f12",
     svgType: "pdf_a4",
     storagePath: null,
-    hasUploadedPdf: false
+    hasUploadedPdf: false,
+    status: "published",
+    sourcePipeline: "manual"
   };
 
-  const updatedEntry = {
+  let updatedEntry = {
     ...baseEntry,
     id: targetId,
     title,
@@ -7363,11 +7979,26 @@ document.getElementById("doc-upload-form").addEventListener("submit", async (e) 
     desc,
     svgType,
     allowDownload,
+    status: "published",
     hasUploadedPdf: Boolean(file || baseEntry.hasUploadedPdf)
   };
 
+  const submitBtn = document.getElementById("btn-submit-doc");
+  if (submitBtn) submitBtn.disabled = true;
+  showStatus("doc-upload-status", "Đang mã hóa LTAC và đẩy tài liệu lên đám mây Cloudflare...", false);
+
+  let cfSavedDoc = null;
+  if (isCloudflareWriteReady()) {
+    try {
+      cfSavedDoc = await uploadDocToCloudflare(updatedEntry, file || null);
+      if (cfSavedDoc) updatedEntry = { ...updatedEntry, ...cfSavedDoc };
+    } catch (cfErr) {
+      console.warn("Cloudflare upload warning:", cfErr);
+    }
+  }
+
   if (file) {
-    if (isSupabaseConfigured()) {
+    if (!cfSavedDoc && isSupabaseConfigured()) {
       try {
         const uploadedPath = await uploadPdfToSupabaseStorage(file, targetId);
         if (uploadedPath) updatedEntry.storagePath = uploadedPath;
@@ -7375,8 +8006,8 @@ document.getElementById("doc-upload-form").addEventListener("submit", async (e) 
     }
     const reader = new FileReader();
     reader.onload = async () => {
-      await savePdfBinaryToIdb(targetId, reader.result);
-      await upsertDocMetadataToSupabase(updatedEntry);
+      await savePdfBinaryToIdb(updatedEntry.id, reader.result);
+      if (!cfSavedDoc) await upsertDocMetadataToSupabase(updatedEntry);
       if (existingIdx >= 0) {
         docRecords[existingIdx] = updatedEntry;
       } else {
@@ -7386,13 +8017,17 @@ document.getElementById("doc-upload-form").addEventListener("submit", async (e) 
       saveDocsList(docRecords);
       buildLockerBays();
       renderAdminDocList();
+      updateAdminOverviewStats();
       resetDocEditForm();
-      const storageLabel = updatedEntry.storagePath ? `Supabase Storage (${updatedEntry.storagePath})` : "Bộ nhớ bảo mật";
-      showStatus("doc-upload-status", `Đã lưu file "${file.name}" vào ${storageLabel} (${allowDownload ? "Cho phép tải PDF" : "Chế độ chống tải"})!`, false);
+      if (submitBtn) submitBtn.disabled = false;
+      const storageLabel = cfSavedDoc
+        ? `Cloudflare Edge Vault (${cfSavedDoc.storagePath})`
+        : (updatedEntry.storagePath ? `Supabase Storage (${updatedEntry.storagePath})` : "Bộ nhớ trình duyệt (Nhập khóa Upload Secret để đẩy lên Cloudflare)");
+      showStatus("doc-upload-status", `Đã lưu file "${file.name}" lên ${storageLabel} (${allowDownload ? "Cho phép tải PDF" : "Chế độ chống tải"})!`, false);
     };
     reader.readAsDataURL(file);
   } else {
-    await upsertDocMetadataToSupabase(updatedEntry);
+    if (!cfSavedDoc) await upsertDocMetadataToSupabase(updatedEntry);
     if (existingIdx >= 0) {
       docRecords[existingIdx] = updatedEntry;
     } else {
@@ -7402,8 +8037,10 @@ document.getElementById("doc-upload-form").addEventListener("submit", async (e) 
     saveDocsList(docRecords);
     buildLockerBays();
     renderAdminDocList();
+    updateAdminOverviewStats();
     resetDocEditForm();
-    showStatus("doc-upload-status", `Đã lưu tài liệu "${title}" (${allowDownload ? "Cho phép tải PDF" : "Chế độ chống tải"})!`, false);
+    if (submitBtn) submitBtn.disabled = false;
+    showStatus("doc-upload-status", `Đã lưu cập nhật tài liệu "${title}" ${cfSavedDoc ? "trên Cloudflare Edge" : ""}!`, false);
   }
 });
 
@@ -7590,8 +8227,11 @@ async function syncExamPortalSummaryFromSupabase() {
   return false;
 }
 
+updateCloudflareBadgeUI();
 updateSupabaseBadgeUI();
-syncDocsFromSupabase();
+syncDocsFromCloudflare().then((ok) => {
+  if (!ok) syncDocsFromSupabase();
+});
 syncSiteStateFromSupabase();
 syncExamPortalSummaryFromSupabase();
 buildLockerBays();
@@ -7621,10 +8261,13 @@ window.addEventListener("storage", (e) => {
     renderAdminSubmissionsList();
     renderAdminStudentList();
     updateAdminOverviewStats();
-  } else if (e.key === DOCS_STORAGE_KEY || e.key === DOC_DL_POLICY_KEY) {
+  } else if (e.key === DOCS_STORAGE_KEY || e.key === DOC_DL_POLICY_KEY || e.key === CLOUDFLARE_CFG_KEY) {
+    cloudflareCfg = loadCloudflareCfg();
     docRecords = loadDocsList();
     docDlPolicy = loadDocDlPolicy();
+    updateCloudflareBadgeUI();
     buildLockerBays();
+    renderAdminDocList();
   }
 });
 
@@ -7678,6 +8321,7 @@ renderScoreTable();
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible" && isOnAdminPage()) {
     syncSiteStateFromSupabase();
+    syncDocsFromCloudflare();
   }
 });
 
@@ -7697,6 +8341,7 @@ const IS_ADMIN_STUDIO_PAGE = Boolean(
       isAdminLoggedIn = true;
       sessionStorage.setItem(ADMIN_SESSION_KEY, "1");
       updateAdminUIState();
+      syncDocsFromCloudflare();
       const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
       openEditorForStudent(cur, tabParam);
       return;

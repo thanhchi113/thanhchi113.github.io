@@ -199,6 +199,31 @@ assert.ok(
   'Missing student score submission form, Quy Nhon school options, or Admin edit/approval workflow'
 );
 
+// 14. Verify Cloudflare Edge Document Vault & Automation Hub Integration + Zero Secret Leak
+assert.ok(
+  html.includes('id="cloudflare-config-box"') &&
+  html.includes('id="cloudflare-config-form"') &&
+  html.includes('https://docs.lop-toan-anh-chi.workers.dev') &&
+  html.includes('id="automation-hub-box"') &&
+  html.includes('id="auto-enable-toanmath"') &&
+  html.includes('id="auto-enable-fblatex"') &&
+  html.includes('id="auto-enable-toan12"') &&
+  html.includes('id="auto-publish-mode-select"') &&
+  html.includes('uploadDocToCloudflare') &&
+  html.includes('syncDocsFromCloudflare') &&
+  html.includes('fetchProtectedDocArrayBuffer') &&
+  adminHtml.includes('id="cloudflare-config-box"') &&
+  adminHtml.includes('id="automation-hub-box"') &&
+  taiLieuHtml.includes('https://docs.lop-toan-anh-chi.workers.dev'),
+  'Missing Cloudflare Edge Vault or Document Automation Hub integration'
+);
+assert.ok(
+  !/cf_ltac_[0-9a-f]{24,}/i.test(html) &&
+  !/cf_ltac_[0-9a-f]{24,}/i.test(taiLieuHtml) &&
+  !/cf_ltac_[0-9a-f]{24,}/i.test(adminHtml),
+  'Upload API secret must NEVER be hardcoded in public HTML files'
+);
+
 const inlineScripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 assert.ok(inlineScripts.length >= 1, 'Expected inline <script> block');
 for (const [, code] of inlineScripts) {

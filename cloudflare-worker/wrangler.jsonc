@@ -1,0 +1,33 @@
+{
+  // Cloudflare Worker API & Storage Vault for Lớp Toán Anh Chí
+  // Secrets (UPLOAD_API_KEY) are bound as encrypted Worker Secrets — never stored in git.
+  "name": "docs",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-16",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    }
+  },
+  "d1_databases": [
+    {
+      "binding": "DOCS_DB",
+      "database_name": "lop-toan-anh-chi-db",
+      "database_id": "b373b04a-5a3b-4b9a-a496-3f6e55558043"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "DOCS_KV",
+      "id": "1f8bc8524b1841a1a03f695a7ea9a5f3"
+    }
+  ]
+}
