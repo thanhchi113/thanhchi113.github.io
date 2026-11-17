@@ -232,4 +232,14 @@ for (const [, code] of inlineScripts) {
   new vm.Script(code);
 }
 
-console.log('PASS: All assertions passed (Score Submission & Admin Approval, Ecosystem BTVN & 13-Class Sync, Protected PDF Viewer, 100% Vector Icons, Standalone Admin Dashboard).');
+// 15. Verify Ch1 Math Logo Assets & Integration Across All 3 HTML Pages
+for (const asset of ['logo-ch1math.png', 'logo-mark.png', 'favicon.png', 'apple-touch-icon.png']) {
+  assert.ok(fs.existsSync(new URL(`./${asset}`, import.meta.url)), `Missing logo asset: ${asset}`);
+}
+for (const [pageName, pageSrc] of [['index.html', html], ['tai-lieu.html', taiLieuHtml], ['admin.html', adminHtml]]) {
+  assert.ok(pageSrc.includes('./logo-ch1math.png'), `${pageName} must embed ./logo-ch1math.png`);
+  assert.ok(pageSrc.includes('./favicon.png'), `${pageName} must link ./favicon.png`);
+  assert.ok(pageSrc.includes('./logo-mark.png'), `${pageName} must embed ./logo-mark.png`);
+}
+
+console.log('PASS: All assertions passed (Score Submission & Admin Approval, Ecosystem BTVN & 13-Class Sync, Protected PDF Viewer, 100% Vector Icons, Standalone Admin Dashboard, Ch1 Math Logo).');
