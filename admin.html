@@ -296,7 +296,7 @@ h2 em { font-style: italic; font-weight: 650; color: var(--ink); display: inline
 /* --- Classes Section (.downloads style from NoteRenderer) --- */
 .downloads { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .dl {
-  display: flex; flex-direction: column; gap: 12px; padding: 26px 22px 22px; border-radius: var(--radius);
+  display: flex; flex-direction: column; gap: 12px; padding: 24px 18px 20px; border-radius: var(--radius);
   background: #fffdf8; border: 1px solid var(--line); position: relative;
   transition: transform .25s, box-shadow .25s;
 }
@@ -307,8 +307,8 @@ h2 em { font-style: italic; font-weight: 650; color: var(--ink); display: inline
   width: 40px; height: 40px; border-radius: 12px; background: var(--ink); color: #fff;
   display: grid; place-items: center; font: 800 16px/1 var(--serif); flex: none;
 }
-.dl h3 { margin: 0; font: 650 21px/1.15 var(--serif); color: var(--ink-deep); }
-.dl .meta { color: var(--muted); font-size: 14.5px; margin: 0; line-height: 1.5; }
+.dl h3 { margin: 0; font: 650 20px/1.16 var(--serif); color: var(--ink-deep); }
+.dl .meta { color: var(--muted); font-size: 14px; margin: 0; line-height: 1.5; }
 .class-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .class-pill {
   font: 600 12.5px/1 var(--sans); padding: 6px 10px; border-radius: 8px;
@@ -319,6 +319,32 @@ h2 em { font-style: italic; font-weight: 650; color: var(--ink); display: inline
 a.class-pill:hover {
   background: var(--hl); border-color: var(--ink); color: var(--ink); transform: translateY(-1px);
 }
+.class-slot-list { display: flex; flex-direction: column; gap: 7px; margin-top: 2px; }
+a.class-slot-row {
+  padding: 8px 10px; border-radius: 10px; background: var(--paper-2); border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between; gap: 6px; text-decoration: none;
+  transition: background .15s, border-color .15s, transform .15s, box-shadow .15s;
+}
+a.class-slot-row:hover {
+  background: #fffdf8; border-color: var(--ink); transform: translateY(-1px);
+  box-shadow: 0 8px 18px -12px rgba(101, 15, 18, .45);
+}
+.cls-badge-name {
+  font: 700 13px/1.2 var(--sans); color: var(--ink-deep); white-space: nowrap;
+}
+.cls-meta-right {
+  display: inline-flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: flex-end; min-width: 0;
+}
+.cls-days-tag {
+  font: 600 11px/1 var(--sans); color: var(--muted); white-space: nowrap;
+}
+.cls-time-tag {
+  font: 700 11px/1 var(--sans); padding: 4px 7px; border-radius: 6px;
+  background: #f6e7e5; color: var(--ink); border: 1px solid #ead0cd; white-space: nowrap;
+}
+a.class-slot-row:hover .cls-time-tag {
+  background: var(--ink); color: #fff; border-color: var(--ink);
+}
 .live-sync-pill {
   display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px;
   background: #e6f4ea; color: var(--green); border: 1px solid #b7dfc2;
@@ -328,17 +354,46 @@ a.class-pill:hover {
 .live-sync-pill[hidden] { display: none !important; }
 .dl .schedule-note {
   margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--line);
-  font: 19px/1.2 var(--hand); color: var(--ink); display: flex; align-items: center; justify-content: space-between;
+  font: 17.5px/1.25 var(--hand); color: var(--ink); display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
 }
+.dl .schedule-note a { white-space: nowrap; }
 
-/* Detailed Class Schedule Table in Notebook Style */
+/* Detailed Weekly Timetable Board in Notebook Style */
 .schedule-board {
-  margin-top: 24px; padding: 26px 28px; border-radius: var(--radius); background: #fffdf8; border: 1px solid var(--line);
+  margin-top: 24px; padding: 24px 26px; border-radius: var(--radius); background: #fffdf8; border: 1px solid var(--line);
   box-shadow: 0 1px 0 rgba(61, 7, 9, .04);
 }
-.schedule-board-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
-.schedule-board-head h3 { margin: 0; font: 650 22px/1.2 var(--serif); color: var(--ink-deep); }
-.schedule-board-head span { font: 20px/1 var(--hand); color: var(--ink); }
+.schedule-board-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.schedule-board-head h3 { margin: 0; font: 650 21px/1.2 var(--serif); color: var(--ink-deep); }
+.schedule-board-head .sch-sub-note { font: 19px/1.1 var(--hand); color: var(--ink); }
+.timetable-scroll {
+  overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: #fff;
+  -webkit-overflow-scrolling: touch; scrollbar-width: thin;
+}
+table.weekly-timetable {
+  width: 100%; border-collapse: collapse; min-width: 680px; font-size: 13.5px;
+}
+table.weekly-timetable th, table.weekly-timetable td {
+  padding: 10px 10px; border: 1px solid #ede4d6; text-align: center; vertical-align: middle;
+}
+table.weekly-timetable th {
+  background: var(--paper-2); color: var(--ink-deep); font: 700 13px/1.2 var(--sans);
+}
+table.weekly-timetable th:first-child, table.weekly-timetable td.tt-time-col {
+  background: #faf5eb; color: var(--ink-deep); font: 700 13px/1.2 var(--sans); white-space: nowrap;
+  text-align: left; padding-left: 14px; width: 124px;
+}
+.tt-cls-chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 5px 11px; border-radius: 8px; margin: 2px;
+  background: #f6e7e5; color: var(--ink); border: 1px solid #e5c3bf;
+  font: 700 13px/1.15 var(--sans); text-decoration: none; white-space: nowrap;
+  transition: transform .15s, background .15s, color .15s, border-color .15s;
+}
+.tt-cls-chip:hover {
+  background: var(--ink); color: #fff; border-color: var(--ink); transform: translateY(-1px);
+}
+.tt-empty { color: #d3c5b4; font-size: 12px; user-select: none; }
 .schedule-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .sch-item {
   padding: 14px 16px; border-radius: 13px; background: var(--paper); border: 1px solid var(--line);
@@ -628,7 +683,7 @@ table.score-table tbody tr.selected { background: #fff6d6; }
 .admin-tab-badge[hidden] { display: none !important; }
 
 /* Admin & Modals */
-.admin-only[hidden] { display: none !important; }
+.admin-only[hidden], .btn[hidden], .quick-chip[hidden] { display: none !important; }
 .modal-backdrop {
   position: fixed; inset: 0; z-index: 60; background: rgba(61, 7, 9, .55);
   backdrop-filter: blur(6px); display: grid; place-items: center; padding: 18px;
@@ -694,6 +749,7 @@ input[type="checkbox"]:checked::before { transform: scale(1); }
   background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin-bottom: 16px;
 }
 .admin-box h4 { margin: 0 0 12px; font: 700 17px/1.2 var(--serif); color: var(--ink-deep); }
+.admin-box h4 .ui-ico, .modal-head h3 .ui-ico { margin-right: 7px; }
 .admin-student-list {
   max-height: 270px; overflow-y: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff;
 }
@@ -1073,11 +1129,11 @@ body.admin-studio-page #editor-modal .modal-card {
 }
 body.admin-studio-page #close-editor-btn { display: none !important; }
 .admin-overview-grid {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 4px 0 18px;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 4px 0 18px;
 }
 .admin-ov-card {
   background: linear-gradient(135deg, #fffdf9, #f9f1e2); border: 1.5px solid var(--line); border-radius: 14px;
-  padding: 13px 15px; display: flex; flex-direction: column; gap: 4px; cursor: pointer; text-align: left;
+  padding: 12px 13px; display: flex; flex-direction: column; gap: 4px; cursor: pointer; text-align: left;
   transition: transform .16s, border-color .16s, box-shadow .16s;
 }
 .admin-ov-card:hover {
@@ -1085,15 +1141,44 @@ body.admin-studio-page #close-editor-btn { display: none !important; }
 }
 .admin-ov-card__top {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  font: 700 12px/1.2 var(--sans); color: var(--muted); text-transform: uppercase; letter-spacing: .04em;
+  font: 700 11.5px/1.2 var(--sans); color: var(--muted); text-transform: uppercase; letter-spacing: .04em;
 }
 .admin-ov-card__val {
-  font: 800 20px/1.2 var(--serif); color: var(--ink-deep);
+  font: 800 18.5px/1.2 var(--serif); color: var(--ink-deep);
 }
 .admin-ov-card__sub {
-  font: 600 12.5px/1.3 var(--sans); color: var(--ink);
+  font: 600 12px/1.3 var(--sans); color: var(--ink);
 }
-@media (max-width: 980px) {
+.day-check-group {
+  display: flex; flex-wrap: wrap; gap: 5px; align-items: center;
+}
+.day-pill-btn {
+  appearance: none; min-width: 34px; height: 30px; padding: 0 8px; border-radius: 8px;
+  border: 1.5px solid #cdbba7; background: #fffdf8; color: var(--ink-deep);
+  font: 700 12px/1 var(--sans); cursor: pointer; transition: all .14s;
+}
+.day-pill-btn:hover { border-color: var(--ink); color: var(--ink); }
+.day-pill-btn.active {
+  background: var(--ink); color: #fff; border-color: var(--ink);
+  box-shadow: 0 4px 10px -6px rgba(101, 15, 18, .75);
+}
+.sch-inline-inp {
+  width: 100%; min-width: 78px; padding: 6px 8px; border-radius: 8px; border: 1.5px solid var(--line);
+  background: #fffdf9; font: 600 13px/1.3 var(--sans); color: var(--text); outline: none;
+}
+.sch-inline-inp:focus { border-color: var(--ink); background: #fff; }
+.sch-inline-sel {
+  padding: 6px 26px 6px 8px; border-radius: 8px; border: 1.5px solid var(--line);
+  background-color: #fffdf9; font: 600 12.5px/1.2 var(--sans); color: var(--text);
+  background-position: right 6px center; background-size: 13px 13px;
+}
+.sch-move-btn {
+  appearance: none; width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--line);
+  background: #fffdf8; color: var(--ink-deep); display: inline-grid; place-items: center; padding: 0;
+}
+.sch-move-btn:hover:not(:disabled) { border-color: var(--ink); color: var(--ink); background: #fff; }
+.sch-move-btn:disabled { opacity: .35; }
+@media (max-width: 1080px) {
   .admin-overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
@@ -1389,8 +1474,12 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   }
   .teacher-card-visual { padding: 14px; }
   .teacher-avatar { width: 56px; height: 48px; padding: 4px 5px; border-radius: 12px; }
-  .dl { padding: 20px 18px; }
-  .schedule-board { padding: 18px 16px; }
+  .dl { padding: 20px 16px; }
+  a.class-slot-row { padding: 9px 10px; }
+  .schedule-board { padding: 18px 14px; }
+  .schedule-board-head h3 { font-size: 18.5px; }
+  table.weekly-timetable th, table.weekly-timetable td { padding: 8px 7px; font-size: 12.5px; }
+  table.weekly-timetable th:first-child, table.weekly-timetable td.tt-time-col { width: 106px; padding-left: 10px; font-size: 12px; }
   .sch-item { padding: 12px 14px; flex-wrap: wrap; gap: 6px; }
   .ticket { padding: 22px 18px; border-radius: 18px; }
   .ticket .stamp {
@@ -1636,7 +1725,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
   <div class="wrap">
     <div class="stats reveal" id="stats-container">
       <div><b data-editable="stat1_val">130+</b><span data-editable="stat1_lbl">học sinh đang theo học Khối 6 – 12</span></div>
-      <div><b data-editable="stat2_val">13</b><span data-editable="stat2_lbl">lớp &amp; ca học phân hóa năng lực</span></div>
+      <div><b data-editable="stat2_val">10</b><span data-editable="stat2_lbl">lớp &amp; ca học phân hóa năng lực</span></div>
       <div><b data-editable="stat3_val">9.2+</b><span data-editable="stat3_lbl">mục tiêu bứt phá kỳ thi chuyển cấp</span></div>
       <div><b data-editable="stat4_val">100%</b><span data-editable="stat4_lbl">minh bạch điểm số GK, CK &amp; Thi thử</span></div>
     </div>
@@ -1729,8 +1818,8 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <p data-editable="sec2_desc">Lớp được tổ chức thành các ca học cố định trong tuần (Thứ 2–4–6 hoặc Thứ 3–5–7), phân loại đúng trình độ để học sinh dễ dàng theo kịp và phát huy tối đa năng lực.</p>
     </div>
 
-    <div class="downloads">
-      <div class="dl main reveal">
+    <div class="downloads" id="class-columns-grid">
+      <div class="dl main reveal" data-col-id="12">
         <div class="os">
           <span class="os-badge">12</span>
           <div>
@@ -1739,13 +1828,18 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           </div>
         </div>
         <p class="meta" data-editable="dl1_desc">Tổng ôn toàn diện chương trình Toán 12 (Hàm số, Nguyên hàm – Tích phân, Oxyz, Xác suất) &amp; Luyện đề thực chiến cấu trúc 3 phần.</p>
-        <div class="class-pills">
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12A%202K9" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 12A 2K9">Lớp 12A 2K9</a>
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12B%202K9" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 12B 2K9">Lớp 12B 2K9</a>
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12D" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 12D">Lớp 12D</a>
+        <div class="class-slot-list">
+          <a class="class-slot-row" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12A" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 12A (Thứ 2–4–6 · 17:30 – 19:00)">
+            <span class="cls-badge-name">Lớp 12A</span>
+            <span class="cls-meta-right"><span class="cls-days-tag">T2 · 4 · 6</span><span class="cls-time-tag">17:30 – 19:00</span></span>
+          </a>
+          <a class="class-slot-row" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12B" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 12B (Thứ 3–5–7 · 17:30 – 19:00)">
+            <span class="cls-badge-name">Lớp 12B</span>
+            <span class="cls-meta-right"><span class="cls-days-tag">T3 · 5 · 7</span><span class="cls-time-tag">17:30 – 19:00</span></span>
+          </a>
         </div>
         <div class="schedule-note">
-          <span data-editable="dl1_note">Ca T2–T4–T6 &amp; T3–T5–T7</span>
+          <span data-editable="dl1_note">Ca 17:30 – 19:00</span>
           <span style="display:inline-flex;align-items:center;gap:10px;font-size:16px">
             <a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px"><span>BTVN</span></a>
             <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(12)" style="display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
@@ -1753,7 +1847,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
       </div>
 
-      <div class="dl reveal">
+      <div class="dl reveal" data-col-id="11">
         <div class="os">
           <span class="os-badge">11</span>
           <div>
@@ -1762,12 +1856,18 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           </div>
         </div>
         <p class="meta" data-editable="dl2_desc">Làm chủ Lượng giác, Dãy số, Giới hạn, Đạo hàm, Mũ – Lôgarit và Hình không gian vuông góc. Tạo đà sớm cho năm lớp 12.</p>
-        <div class="class-pills">
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11A%202K10" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 11A 2K10">Lớp 11A 2K10</a>
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11B%202K10" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 11B 2K10">Lớp 11B 2K10</a>
+        <div class="class-slot-list">
+          <a class="class-slot-row" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11A" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 11A (Thứ 2–4–6 · 19:30 – 21:00)">
+            <span class="cls-badge-name">Lớp 11A</span>
+            <span class="cls-meta-right"><span class="cls-days-tag">T2 · 4 · 6</span><span class="cls-time-tag">19:30 – 21:00</span></span>
+          </a>
+          <a class="class-slot-row" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11B" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 11B (Thứ 3–5–7 · 19:30 – 21:00)">
+            <span class="cls-badge-name">Lớp 11B</span>
+            <span class="cls-meta-right"><span class="cls-days-tag">T3 · 5 · 7</span><span class="cls-time-tag">19:30 – 21:00</span></span>
+          </a>
         </div>
         <div class="schedule-note">
-          <span data-editable="dl2_note">Ca T2–T4–T6 &amp; T3–T5–T7</span>
+          <span data-editable="dl2_note">Ca 19:30 – 21:00</span>
           <span style="display:inline-flex;align-items:center;gap:10px;font-size:16px">
             <a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px"><span>BTVN</span></a>
             <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(11)" style="display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
@@ -1775,7 +1875,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
       </div>
 
-      <div class="dl reveal">
+      <div class="dl reveal" data-col-id="10">
         <div class="os">
           <span class="os-badge">10</span>
           <div>
@@ -1784,13 +1884,22 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           </div>
         </div>
         <p class="meta" data-editable="dl3_desc">Bắt nhịp ngay cách học cấp 3: Hàm số bậc hai, Hệ thức lượng, Vectơ, Thống kê – Tổ hợp – Xác suất và Phương pháp tọa độ phẳng.</p>
-        <div class="class-pills">
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10A%202K11" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 10A 2K11">Lớp 10A 2K11</a>
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10B%202K11" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 10B 2K11">Lớp 10B 2K11</a>
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10C%202K11" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 10C 2K11">Lớp 10C 2K11</a>
+        <div class="class-slot-list">
+          <a class="class-slot-row" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10A" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 10A (Thứ 2–4–6 · 15:30 – 17:00)">
+            <span class="cls-badge-name">Lớp 10A</span>
+            <span class="cls-meta-right"><span class="cls-days-tag">T2 · 4 · 6</span><span class="cls-time-tag">15:30 – 17:00</span></span>
+          </a>
+          <a class="class-slot-row" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10B" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 10B (Thứ 3–5–7 · 15:30 – 17:00)">
+            <span class="cls-badge-name">Lớp 10B</span>
+            <span class="cls-meta-right"><span class="cls-days-tag">T3 · 5 · 7</span><span class="cls-time-tag">15:30 – 17:00</span></span>
+          </a>
+          <a class="class-slot-row" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10C" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 10C (Thứ 3–5–7 · 09:30 – 11:00)">
+            <span class="cls-badge-name">Lớp 10C</span>
+            <span class="cls-meta-right"><span class="cls-days-tag">T3 · 5 · 7</span><span class="cls-time-tag">09:30 – 11:00</span></span>
+          </a>
         </div>
         <div class="schedule-note">
-          <span data-editable="dl3_note">3 ca linh hoạt trong tuần</span>
+          <span data-editable="dl3_note">Ca 09:30 &amp; 15:30</span>
           <span style="display:inline-flex;align-items:center;gap:10px;font-size:16px">
             <a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px"><span>BTVN</span></a>
             <a href="./index.html#tra-cuu-diem" onclick="filterByGrade(10)" style="display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
@@ -1798,7 +1907,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
       </div>
 
-      <div class="dl main reveal">
+      <div class="dl main reveal" data-col-id="6-9">
         <div class="os">
           <span class="os-badge">6–9</span>
           <div>
@@ -1807,15 +1916,22 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           </div>
         </div>
         <p class="meta" data-editable="dl4_desc">Xây gốc Toán THCS vững chắc (Khối 6, 7, 8) và luyện thi chuyên sâu Tuyển sinh 9 vào 10 (Căn thức, Vi-ét, Toán thực tế, Đường tròn).</p>
-        <div class="class-pills">
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=9&amp;class=9%202K12" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 9 2K12">Lớp 9 2K12</a>
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=8&amp;class=8A%202K13" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 8A 2K13">8A 2K13</a>
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=8&amp;class=8B%202K13" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 8B 2K13">8B 2K13</a>
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=7&amp;class=7%202K14" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 7 2K14">7 2K14</a>
-          <a class="class-pill" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=7&amp;class=7%20Onl" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 7 Onl">7 Onl</a>
+        <div class="class-slot-list">
+          <a class="class-slot-row" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=9&amp;class=9A" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 9A (Thứ 3–5–7 · 14:00 – 15:30)">
+            <span class="cls-badge-name">Lớp 9A</span>
+            <span class="cls-meta-right"><span class="cls-days-tag">T3 · 5 · 7</span><span class="cls-time-tag">14:00 – 15:30</span></span>
+          </a>
+          <a class="class-slot-row" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=8&amp;class=8A" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 8A (Thứ 2–4–6 · 14:00 – 15:30)">
+            <span class="cls-badge-name">Lớp 8A</span>
+            <span class="cls-meta-right"><span class="cls-days-tag">T2 · 4 · 6</span><span class="cls-time-tag">14:00 – 15:30</span></span>
+          </a>
+          <a class="class-slot-row" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=7&amp;class=7A" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi Lớp 7A (Thứ 2–4–6 · 09:00 – 10:30)">
+            <span class="cls-badge-name">Lớp 7A</span>
+            <span class="cls-meta-right"><span class="cls-days-tag">T2 · 4 · 6</span><span class="cls-time-tag">09:00 – 10:30</span></span>
+          </a>
         </div>
         <div class="schedule-note">
-          <span data-editable="dl4_note">Trực tiếp &amp; Online</span>
+          <span data-editable="dl4_note">Ca 09:00 &amp; 14:00</span>
           <span style="display:inline-flex;align-items:center;gap:10px;font-size:16px">
             <a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=9" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px"><span>BTVN</span></a>
             <a href="./index.html#tra-cuu-diem" onclick="filterByExamType('ts10')" style="display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
@@ -1824,55 +1940,92 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       </div>
     </div>
 
-    <!-- Bảng lịch học các lớp thực tế -->
+    <!-- Thời khóa biểu chi tiết theo ca giờ (Tự động cập nhật từ Admin) -->
     <div class="schedule-board reveal">
       <div class="schedule-board-head">
-        <h3 data-editable="sch_heading">Lịch sinh hoạt các lớp tiêu biểu tại Lớp Toán Anh Chí</h3>
+        <h3 data-editable="sch_heading">Thời khóa biểu các lớp trong tuần (Thứ 2 – Thứ 7)</h3>
         <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
-          <span data-editable="sch_sub">Hỗ trợ giải đáp bài tập mỗi ngày qua Zalo</span>
+          <span class="sch-sub-note" data-editable="sch_sub">Hỗ trợ giải đáp bài tập mỗi ngày qua Zalo</span>
           <a class="btn ghost sm" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn" target="_blank" rel="noopener">
             <svg class="ui-ico" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
             <span id="live-btvn-summary-pill">Cổng Bài Tập Về Nhà theo Nhóm Lớp</span>
           </a>
+          <button type="button" class="btn ghost sm admin-only" id="btn-admin-edit-schedule" hidden>
+            <svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            <span>Chỉnh sửa Lịch học (Admin)</span>
+          </button>
         </div>
       </div>
-      <div class="schedule-grid">
-        <div class="sch-item">
-          <div><b data-editable="sch1_cls">Lớp 12A 2K9 &amp; 12D</b><small data-editable="sch1_desc">Luyện thi THPT QG · Toán 12</small></div>
-          <span class="days" data-editable="sch1_days">Thứ 2 · 4 · 6</span>
-        </div>
-        <div class="sch-item">
-          <div><b data-editable="sch2_cls">Lớp 12B 2K9</b><small data-editable="sch2_desc">Luyện thi THPT QG · Toán 12</small></div>
-          <span class="days" data-editable="sch2_days">Thứ 3 · 5 · 7</span>
-        </div>
-        <div class="sch-item">
-          <div><b data-editable="sch3_cls">Lớp 11A 2K10</b><small data-editable="sch3_desc">Toán 11 Chuyên sâu &amp; Luyện đề</small></div>
-          <span class="days" data-editable="sch3_days">Thứ 2 · 4 · 6</span>
-        </div>
-        <div class="sch-item">
-          <div><b data-editable="sch4_cls">Lớp 11B 2K10</b><small data-editable="sch4_desc">Toán 11 Chuyên sâu &amp; Luyện đề</small></div>
-          <span class="days" data-editable="sch4_days">Thứ 3 · 5 · 7</span>
-        </div>
-        <div class="sch-item">
-          <div><b data-editable="sch5_cls">Lớp 10A 2K11</b><small data-editable="sch5_desc">Toán 10 Nền tảng &amp; Vận dụng</small></div>
-          <span class="days" data-editable="sch5_days">Thứ 2 · 4 · 6</span>
-        </div>
-        <div class="sch-item">
-          <div><b data-editable="sch6_cls">Lớp 10B &amp; 10C 2K11</b><small data-editable="sch6_desc">Toán 10 Nền tảng &amp; Vận dụng</small></div>
-          <span class="days" data-editable="sch6_days">Thứ 3 · 5 · 7</span>
-        </div>
-        <div class="sch-item">
-          <div><b data-editable="sch7_cls">Lớp 9 2K12</b><small data-editable="sch7_desc">Luyện thi Tuyển sinh 9 vào 10</small></div>
-          <span class="days" data-editable="sch7_days">Thứ 3 · 5 · 7</span>
-        </div>
-        <div class="sch-item">
-          <div><b data-editable="sch8_cls">Lớp 8A &amp; 8B 2K13</b><small data-editable="sch8_desc">Toán 8 Đại số &amp; Hình học phẳng</small></div>
-          <span class="days" data-editable="sch8_days">T2·4·6 / T3·5·7</span>
-        </div>
-        <div class="sch-item">
-          <div><b data-editable="sch9_cls">Lớp 7 2K14 &amp; 7 Onl</b><small data-editable="sch9_desc">Toán 7 Trực tiếp &amp; Trực tuyến</small></div>
-          <span class="days" data-editable="sch9_days">Thứ 2 · 4 · 6</span>
-        </div>
+      <div class="timetable-scroll" id="weekly-timetable-wrap">
+        <table class="weekly-timetable" aria-label="Thời khóa biểu các lớp trong tuần">
+          <thead>
+            <tr>
+              <th>Khung giờ</th>
+              <th>Thứ 2</th>
+              <th>Thứ 3</th>
+              <th>Thứ 4</th>
+              <th>Thứ 5</th>
+              <th>Thứ 6</th>
+              <th>Thứ 7</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tt-time-col">09:00 – 10:30</td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=7&amp;class=7A" target="_blank" rel="noopener">7A</a></td>
+              <td><span class="tt-empty">—</span></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=7&amp;class=7A" target="_blank" rel="noopener">7A</a></td>
+              <td><span class="tt-empty">—</span></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=7&amp;class=7A" target="_blank" rel="noopener">7A</a></td>
+              <td><span class="tt-empty">—</span></td>
+            </tr>
+            <tr>
+              <td class="tt-time-col">09:30 – 11:00</td>
+              <td><span class="tt-empty">—</span></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10C" target="_blank" rel="noopener">10C</a></td>
+              <td><span class="tt-empty">—</span></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10C" target="_blank" rel="noopener">10C</a></td>
+              <td><span class="tt-empty">—</span></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10C" target="_blank" rel="noopener">10C</a></td>
+            </tr>
+            <tr>
+              <td class="tt-time-col">14:00 – 15:30</td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=8&amp;class=8A" target="_blank" rel="noopener">8A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=9&amp;class=9A" target="_blank" rel="noopener">9A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=8&amp;class=8A" target="_blank" rel="noopener">8A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=9&amp;class=9A" target="_blank" rel="noopener">9A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=8&amp;class=8A" target="_blank" rel="noopener">8A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=9&amp;class=9A" target="_blank" rel="noopener">9A</a></td>
+            </tr>
+            <tr>
+              <td class="tt-time-col">15:30 – 17:00</td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10A" target="_blank" rel="noopener">10A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10B" target="_blank" rel="noopener">10B</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10A" target="_blank" rel="noopener">10A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10B" target="_blank" rel="noopener">10B</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10A" target="_blank" rel="noopener">10A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=10&amp;class=10B" target="_blank" rel="noopener">10B</a></td>
+            </tr>
+            <tr>
+              <td class="tt-time-col">17:30 – 19:00</td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12A" target="_blank" rel="noopener">12A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12B" target="_blank" rel="noopener">12B</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12A" target="_blank" rel="noopener">12A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12B" target="_blank" rel="noopener">12B</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12A" target="_blank" rel="noopener">12A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=12&amp;class=12B" target="_blank" rel="noopener">12B</a></td>
+            </tr>
+            <tr>
+              <td class="tt-time-col">19:30 – 21:00</td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11A" target="_blank" rel="noopener">11A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11B" target="_blank" rel="noopener">11B</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11A" target="_blank" rel="noopener">11A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11B" target="_blank" rel="noopener">11B</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11A" target="_blank" rel="noopener">11A</a></td>
+              <td><a class="tt-cls-chip" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=11&amp;class=11B" target="_blank" rel="noopener">11B</a></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -1927,25 +2080,25 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <div class="hof-card">
         <span class="hof-score" data-editable="hof1_score">9.6đ</span>
         <b data-editable="hof1_name">Học sinh Nháp 01</b>
-        <small data-editable="hof1_cls">Lớp 12A 2K9 · Thi thử THPT QG</small>
+        <small data-editable="hof1_cls">Lớp 12A · Thi thử THPT QG</small>
         <p data-editable="hof1_desc">Đạt 9.6đ khảo sát cấu trúc 3 phần (Full điểm Phần I &amp; Phần II); Giữa kì 9.5đ – Cuối kì 9.8đ.</p>
       </div>
       <div class="hof-card">
         <span class="hof-score" data-editable="hof2_score">9.4đ</span>
         <b data-editable="hof2_name">Học sinh Nháp 02</b>
-        <small data-editable="hof2_cls">Lớp 12B 2K9 · Thi thử THPT QG</small>
+        <small data-editable="hof2_cls">Lớp 12B · Thi thử THPT QG</small>
         <p data-editable="hof2_desc">Đạt 9.4đ Thi thử THPT QG; bứt phá mạnh mẽ ở mảng Hình Oxyz và Tích phân vận dụng.</p>
       </div>
       <div class="hof-card">
         <span class="hof-score" data-editable="hof3_score">9.5đ</span>
         <b data-editable="hof3_name">Học sinh Nháp 05</b>
-        <small data-editable="hof3_cls">Lớp 11A 2K10 · Cuối kì &amp; Khảo sát</small>
+        <small data-editable="hof3_cls">Lớp 11A · Cuối kì &amp; Khảo sát</small>
         <p data-editable="hof3_desc">Đạt 9.4đ Giữa kì &amp; 9.5đ Cuối kì Toán 11; nắm rất chắc Hình không gian và Đạo hàm.</p>
       </div>
       <div class="hof-card">
         <span class="hof-score" data-editable="hof4_score">9.25đ</span>
         <b data-editable="hof4_name">Học sinh Nháp 11</b>
-        <small data-editable="hof4_cls">Lớp 9 2K12 · Thi thử 9 vào 10</small>
+        <small data-editable="hof4_cls">Lớp 9A · Thi thử 9 vào 10</small>
         <p data-editable="hof4_desc">Đạt 9.25đ đề thi thử Tuyển sinh 9 vào 10; trình bày hoàn chỉnh bài Hình học đường tròn.</p>
       </div>
     </div>
@@ -2102,24 +2255,21 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         </div>
         <select id="score-class-filter" class="class-select" aria-label="Lọc theo lớp học">
           <option value="ALL">Tất cả các lớp (Khối 7 – 12)</option>
-          <option value="GRADE_12">Khối 12 — Luyện thi THPT QG (12A, 12B, 12D)</option>
-          <option value="12A 2K9">Lớp 12A 2K9</option>
-          <option value="12B 2K9">Lớp 12B 2K9</option>
-          <option value="12D">Lớp 12D</option>
+          <option value="GRADE_12">Khối 12 — Luyện thi THPT QG (12A, 12B)</option>
+          <option value="12A">Lớp 12A (T2·4·6 · 17:30–19:00)</option>
+          <option value="12B">Lớp 12B (T3·5·7 · 17:30–19:00)</option>
           <option value="GRADE_11">Khối 11 — Chuyên sâu (11A, 11B)</option>
-          <option value="11A 2K10">Lớp 11A 2K10</option>
-          <option value="11B 2K10">Lớp 11B 2K10</option>
+          <option value="11A">Lớp 11A (T2·4·6 · 19:30–21:00)</option>
+          <option value="11B">Lớp 11B (T3·5·7 · 19:30–21:00)</option>
           <option value="GRADE_10">Khối 10 — Nền tảng THPT (10A, 10B, 10C)</option>
-          <option value="10A 2K11">Lớp 10A 2K11</option>
-          <option value="10B 2K11">Lớp 10B 2K11</option>
-          <option value="10C 2K11">Lớp 10C 2K11</option>
-          <option value="GRADE_9">Khối 9 — Luyện thi 9 vào 10 (9 2K12)</option>
-          <option value="9 2K12">Lớp 9 2K12</option>
-          <option value="GRADE_THCS">Khối 7 &amp; 8 — Toán THCS (8A, 8B, 7 2K14, 7 Onl)</option>
-          <option value="8A 2K13">Lớp 8A 2K13</option>
-          <option value="8B 2K13">Lớp 8B 2K13</option>
-          <option value="7 2K14">Lớp 7 2K14</option>
-          <option value="7 Onl">Lớp 7 Onl</option>
+          <option value="10A">Lớp 10A (T2·4·6 · 15:30–17:00)</option>
+          <option value="10B">Lớp 10B (T3·5·7 · 15:30–17:00)</option>
+          <option value="10C">Lớp 10C (T3·5·7 · 09:30–11:00)</option>
+          <option value="GRADE_9">Khối 9 — Luyện thi 9 vào 10 (9A)</option>
+          <option value="9A">Lớp 9A (T3·5·7 · 14:00–15:30)</option>
+          <option value="GRADE_THCS">Khối 7 &amp; 8 — Toán THCS (8A, 7A)</option>
+          <option value="8A">Lớp 8A (T2·4·6 · 14:00–15:30)</option>
+          <option value="7A">Lớp 7A (T2·4·6 · 09:00–10:30)</option>
         </select>
         <button type="button" class="btn ghost sm admin-only" id="open-editor-btn" hidden title="Mở bảng Quản trị Admin">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
@@ -2154,7 +2304,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
             <div class="report-student-title">
               <span class="report-code" id="rc-code">HS001</span>
               <h3 class="report-name" id="rc-name">Học sinh Nháp 01</h3>
-              <span class="report-cls" id="rc-cls">Lớp 12A 2K9</span>
+              <span class="report-cls" id="rc-cls">Lớp 12A</span>
               <span class="report-school" id="rc-school" hidden></span>
             </div>
             <p style="margin:8px 0 0;color:var(--muted);font-size:14.5px" id="rc-subtitle">
@@ -2266,19 +2416,16 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
           <div class="form-field">
             <label for="sub-cls">Lớp đang học *</label>
             <select id="sub-cls" required>
-              <option value="12A 2K9">Lớp 12A 2K9</option>
-              <option value="12B 2K9">Lớp 12B 2K9</option>
-              <option value="12D">Lớp 12D</option>
-              <option value="11A 2K10">Lớp 11A 2K10</option>
-              <option value="11B 2K10">Lớp 11B 2K10</option>
-              <option value="10A 2K11">Lớp 10A 2K11</option>
-              <option value="10B 2K11">Lớp 10B 2K11</option>
-              <option value="10C 2K11">Lớp 10C 2K11</option>
-              <option value="9 2K12">Lớp 9 2K12</option>
-              <option value="8A 2K13">Lớp 8A 2K13</option>
-              <option value="8B 2K13">Lớp 8B 2K13</option>
-              <option value="7 2K14">Lớp 7 2K14</option>
-              <option value="7 Onl">Lớp 7 Onl</option>
+              <option value="12A">Lớp 12A (T2·4·6 · 17:30–19:00)</option>
+              <option value="12B">Lớp 12B (T3·5·7 · 17:30–19:00)</option>
+              <option value="11A">Lớp 11A (T2·4·6 · 19:30–21:00)</option>
+              <option value="11B">Lớp 11B (T3·5·7 · 19:30–21:00)</option>
+              <option value="10A">Lớp 10A (T2·4·6 · 15:30–17:00)</option>
+              <option value="10B">Lớp 10B (T3·5·7 · 15:30–17:00)</option>
+              <option value="10C">Lớp 10C (T3·5·7 · 09:30–11:00)</option>
+              <option value="9A">Lớp 9A (T3·5·7 · 14:00–15:30)</option>
+              <option value="8A">Lớp 8A (T2·4·6 · 14:00–15:30)</option>
+              <option value="7A">Lớp 7A (T2·4·6 · 09:00–10:30)</option>
               <option value="Lớp khác">Lớp khác / Học sinh mới</option>
             </select>
           </div>
@@ -2432,18 +2579,23 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         <b class="admin-ov-card__val" id="ov-st-total">16 học sinh</b>
         <span class="admin-ov-card__sub" id="ov-st-sub">Kiểm tra điểm &amp; quyền tìm kiếm</span>
       </button>
+      <button type="button" class="admin-ov-card" data-admin-tab-jump="schedule">
+        <span class="admin-ov-card__top"><span>2. Lịch học &amp; Các lớp</span><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></span>
+        <b class="admin-ov-card__val" id="ov-sch-total">10 lớp học</b>
+        <span class="admin-ov-card__sub" id="ov-sch-sub">4 cột khối · Thứ 2 – Thứ 7</span>
+      </button>
       <button type="button" class="admin-ov-card" data-admin-tab-jump="docs">
-        <span class="admin-ov-card__top"><span>2. Kho Tài Liệu Cloud</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
+        <span class="admin-ov-card__top"><span>3. Kho Tài Liệu Cloud</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
         <b class="admin-ov-card__val" id="ov-doc-total">7 tài liệu</b>
         <span class="admin-ov-card__sub" id="ov-doc-sub">Supabase Storage: Đã kết nối</span>
       </button>
       <button type="button" class="admin-ov-card" data-admin-tab-jump="cards">
-        <span class="admin-ov-card__top"><span>3. Nội dung &amp; Kiểu chữ</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+        <span class="admin-ov-card__top"><span>4. Nội dung &amp; Kiểu chữ</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
         <b class="admin-ov-card__val" id="ov-typo-total">30 mục hiển thị</b>
         <span class="admin-ov-card__sub" id="ov-typo-sub">Font, Cỡ chữ, Đậm/Nghiêng &amp; Dòng</span>
       </button>
       <button type="button" class="admin-ov-card" data-admin-tab-jump="security">
-        <span class="admin-ov-card__top"><span>4. Bảo mật &amp; Tài khoản</span><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+        <span class="admin-ov-card__top"><span>5. Bảo mật &amp; Tài khoản</span><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
         <b class="admin-ov-card__val">Chống tải &amp; F12</b>
         <span class="admin-ov-card__sub">Gmail: chithanhhuynh11@gmail.com</span>
       </button>
@@ -2451,9 +2603,10 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
 
     <div class="admin-tabs" role="tablist">
       <button type="button" class="admin-tab active" data-admin-tab="students"><span>1. Quản lý Học sinh &amp; Duyệt điểm</span><span class="admin-tab-badge" id="admin-tab-sub-badge" hidden>0</span></button>
-      <button type="button" class="admin-tab" data-admin-tab="docs">2. Upload &amp; Quản lý Tài liệu</button>
-      <button type="button" class="admin-tab" data-admin-tab="cards">3. Sửa nội dung các Card hiển thị</button>
-      <button type="button" class="admin-tab" data-admin-tab="security">4. Mật khẩu Admin &amp; Gmail</button>
+      <button type="button" class="admin-tab" data-admin-tab="schedule">2. Quản lý Lịch học &amp; Các lớp</button>
+      <button type="button" class="admin-tab" data-admin-tab="docs">3. Upload &amp; Quản lý Tài liệu</button>
+      <button type="button" class="admin-tab" data-admin-tab="cards">4. Sửa nội dung các Card hiển thị</button>
+      <button type="button" class="admin-tab" data-admin-tab="security">5. Mật khẩu Admin &amp; Gmail</button>
     </div>
 
     <!-- TAB 1: QUẢN LÝ HỌC SINH, DUYỆT BÁO ĐIỂM, ẨN DANH SÁCH & PHÂN QUYỀN TÌM KIẾM -->
@@ -2579,7 +2732,19 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
             </div>
             <div class="form-field">
               <label for="ed-cls">Lớp học</label>
-              <input type="text" id="ed-cls" placeholder="VD: 12A 2K9" required>
+              <input type="text" id="ed-cls" list="admin-class-datalist" placeholder="VD: 12A" required>
+              <datalist id="admin-class-datalist">
+                <option value="12A">
+                <option value="12B">
+                <option value="11A">
+                <option value="11B">
+                <option value="10A">
+                <option value="10B">
+                <option value="10C">
+                <option value="9A">
+                <option value="8A">
+                <option value="7A">
+              </datalist>
             </div>
           </div>
           <div class="form-grid">
@@ -2669,10 +2834,127 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         <h4>Nhập nhanh nhiều học sinh từ Excel / Google Sheets</h4>
         <div class="form-field">
           <label for="bulk-tsv">Cấu trúc: Mã HS [Tab] Họ tên [Tab] Lớp [Tab] GK1 [Tab] CK1 [Tab] GK2 [Tab] CK2 [Tab] Thi QG/9v10:</label>
-          <textarea id="bulk-tsv" rows="2" placeholder="HS017&#9;Học sinh Nháp 17&#9;12A 2K9&#9;8.8&#9;9.0&#9;9.0&#9;9.2&#9;9.4"></textarea>
+          <textarea id="bulk-tsv" rows="2" placeholder="HS017&#9;Học sinh Nháp 17&#9;12A&#9;8.8&#9;9.0&#9;9.0&#9;9.2&#9;9.4"></textarea>
           <button type="button" class="btn ghost sm" id="btn-import-tsv" style="margin-top:8px">Nhập dữ liệu dán từ Excel</button>
         </div>
       </div>
+    </div>
+
+    <!-- TAB 2: QUẢN LÝ LỊCH HỌC 4 CỘT & THỜI KHÓA BIỂU TỰ ĐỘNG ĐỒNG BỘ -->
+    <div class="admin-pane" id="admin-pane-schedule" hidden>
+      <div class="admin-box" style="background:linear-gradient(135deg,#fff8eb,#fffdf8);border-color:#dfc496">
+        <h4 style="margin:0 0 6px;display:inline-flex;align-items:center;gap:8px">
+          <svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+          <span>Quản lý Lịch học 4 Cột &amp; Thời khóa biểu Tuần (Tự động cập nhật Web)</span>
+        </h4>
+        <p style="margin:0;font-size:13.5px;color:var(--muted)">
+          Mọi thay đổi về <b>Tên lớp, Thứ học (T2 – CN), Khung giờ</b> hoặc <b>Dán trực tiếp bảng từ Google Sheets / Excel</b> tại đây sẽ tự động cập nhật đồng thời 4 cột thẻ lớp ở mục §2, Bảng Thời khóa biểu tuần và danh sách chọn lớp tra cứu điểm trên toàn Web.
+        </p>
+      </div>
+
+      <div class="admin-box">
+        <h4 id="sch-form-heading"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>Thêm mới hoặc Sửa nhanh Một Lớp học</span></h4>
+        <form id="schedule-class-form">
+          <input type="hidden" id="sch-edit-id" value="">
+          <div class="form-grid four">
+            <div class="form-field">
+              <label for="sch-cls-name">Tên lớp *</label>
+              <input type="text" id="sch-cls-name" placeholder="VD: 12A, 10C, 7A..." maxlength="32" required>
+            </div>
+            <div class="form-field">
+              <label for="sch-cls-col">Thuộc cột Khối *</label>
+              <select id="sch-cls-col">
+                <option value="12">Cột 1: Khối 12 · THPT QG</option>
+                <option value="11">Cột 2: Khối 11 · Chuyên sâu</option>
+                <option value="10">Cột 3: Khối 10 · Nền tảng THPT</option>
+                <option value="6-9">Cột 4: Khối 6–9 &amp; Thi vào 10</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="sch-cls-time">Khung giờ học *</label>
+              <input type="text" id="sch-cls-time" list="time-slot-presets" placeholder="VD: 17:30 – 19:00" maxlength="40" required>
+              <datalist id="time-slot-presets">
+                <option value="09:00 – 10:30">
+                <option value="09:30 – 11:00">
+                <option value="14:00 – 15:30">
+                <option value="15:30 – 17:00">
+                <option value="17:30 – 19:00">
+                <option value="19:30 – 21:00">
+              </datalist>
+            </div>
+            <div class="form-field">
+              <label>Các thứ trong tuần *</label>
+              <div class="day-check-group" id="sch-form-days-group">
+                <button type="button" class="day-pill-btn active" data-form-day="T2">T2</button>
+                <button type="button" class="day-pill-btn" data-form-day="T3">T3</button>
+                <button type="button" class="day-pill-btn active" data-form-day="T4">T4</button>
+                <button type="button" class="day-pill-btn" data-form-day="T5">T5</button>
+                <button type="button" class="day-pill-btn active" data-form-day="T6">T6</button>
+                <button type="button" class="day-pill-btn" data-form-day="T7">T7</button>
+                <button type="button" class="day-pill-btn" data-form-day="CN">CN</button>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+              <button type="submit" class="btn sm" id="btn-submit-sch-class"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg><span>Thêm / Cập nhật lớp vào Lịch</span></button>
+              <button type="button" class="btn ghost sm" id="btn-cancel-sch-edit" hidden>Hủy chỉnh sửa</button>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <button type="button" class="quick-chip" id="btn-preset-246">Chọn nhanh T2 · 4 · 6</button>
+              <button type="button" class="quick-chip" id="btn-preset-357">Chọn nhanh T3 · 5 · 7</button>
+            </div>
+          </div>
+          <div id="sch-form-status" class="status-msg" hidden></div>
+        </form>
+      </div>
+
+      <div class="admin-box">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px">
+          <h4 style="margin:0"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><span>Danh sách Lịch các Lớp Hiện Có (<span id="admin-sch-count">10</span> lớp) — Chỉnh trực tiếp từng ô</span></h4>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <button type="button" class="btn sm" id="btn-save-schedule-all"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg><span>Lưu &amp; Đồng bộ Lịch học lên Web</span></button>
+            <button type="button" class="btn ghost sm" id="btn-reset-schedule-default">Khôi phục lịch 10 lớp mặc định</button>
+          </div>
+        </div>
+        <div class="admin-student-list" style="max-height:390px">
+          <table>
+            <thead>
+              <tr>
+                <th>Lớp</th>
+                <th>Cột Khối</th>
+                <th>Thứ học trong tuần</th>
+                <th>Khung giờ</th>
+                <th>Sắp xếp / Xóa</th>
+              </tr>
+            </thead>
+            <tbody id="admin-schedule-tbody"></tbody>
+          </table>
+        </div>
+        <div id="admin-sch-status-msg" class="status-msg" hidden></div>
+      </div>
+
+      <div class="admin-box">
+        <h4><svg class="ui-ico" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg><span>Cập nhật Nhanh bằng Cách Dán Bảng Thời Khóa Biểu từ Excel / Google Sheets</span></h4>
+        <div class="form-field">
+          <label for="schedule-tsv-input">Dán trực tiếp vùng bảng lịch (Cột đầu là Khung giờ, các cột tiếp theo là Thứ 2 .. Thứ 7):</label>
+          <textarea id="schedule-tsv-input" rows="5" placeholder="&#9;Thứ 2&#9;Thứ 3&#9;Thứ 4&#9;Thứ 5&#9;Thứ 6&#9;Thứ 7&#10;9:00:10:30&#9;7A&#9;&#9;7A&#9;&#9;7A&#9;&#10;9:30-11:00&#9;&#9;10C&#9;&#9;10C&#9;&#9;10C"></textarea>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button type="button" class="btn sm" id="btn-import-schedule-tsv"><svg class="ui-ico" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span>Tự động đọc bảng &amp; Cập nhật Lịch học</span></button>
+            <button type="button" class="btn ghost sm" id="btn-export-schedule-tsv">Nạp lịch hiện tại ra bảng để sửa nhanh</button>
+          </div>
+        </div>
+        <div id="sch-tsv-status-msg" class="status-msg" hidden></div>
+      </div>
+
+      <details class="admin-box">
+        <summary style="cursor:pointer;font:700 15.5px/1.3 var(--serif);color:var(--ink-deep)">Chỉnh sửa Tiêu đề, Phụ đề &amp; Mô tả của 4 Cột Khối (Khối 12, 11, 10, 6–9)</summary>
+        <form id="schedule-cols-form" style="margin-top:12px">
+          <div id="schedule-cols-fields" class="form-grid two"></div>
+          <button type="submit" class="btn sm"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg><span>Lưu thông tin 4 Cột Khối</span></button>
+          <div id="sch-cols-status-msg" class="status-msg" hidden></div>
+        </form>
+      </details>
     </div>
 
     <!-- TAB 2: UPLOAD & QUẢN LÝ TÀI LIỆU PDF + CLOUDFLARE & TỰ ĐỘNG HÓA (CHỈ ADMIN) -->
@@ -3146,22 +3428,22 @@ window.IS_ADMIN_STUDIO_PAGE = true;
 // Danh sách học sinh nháp minh họa 100% (ẩn toàn bộ thông tin học sinh thật)
 // publicVisible: chỉ hiện 4 HS tiêu biểu trên bảng; searchable: chỉ cho phép tìm 6 HS được cấp quyền
 const BASE_STUDENTS = [
-  { code: "HS001", name: "Học sinh Nháp 01", school: "THPT Chuyên Lê Quý Đôn", cls: "12A 2K9", grade: 12, anonymous: false, publicVisible: true, searchable: true },
-  { code: "HS002", name: "Học sinh Nháp 02", school: "THPT Quốc Học Quy Nhơn", cls: "12B 2K9", grade: 12, anonymous: false, publicVisible: true, searchable: true },
-  { code: "HS003", name: "Học sinh Nháp 03", school: "THPT Trưng Vương", cls: "12B 2K9", grade: 12, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS004", name: "Học sinh Nháp 04", school: "THPT Trần Cao Vân", cls: "12D", grade: 12, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS005", name: "Học sinh Nháp 05", school: "THPT Chuyên Lê Quý Đôn", cls: "11A 2K10", grade: 11, anonymous: false, publicVisible: true, searchable: true },
-  { code: "HS006", name: "Học sinh Nháp 06", school: "THPT Quy Nhơn", cls: "11A 2K10", grade: 11, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS007", name: "Học sinh Nháp 07", school: "THPT Quốc Học Quy Nhơn", cls: "11B 2K10", grade: 11, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS008", name: "Học sinh Nháp 08", school: "THPT Trưng Vương", cls: "10A 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: true },
-  { code: "HS009", name: "Học sinh Nháp 09", school: "THPT Trần Cao Vân", cls: "10B 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS010", name: "Học sinh Nháp 10", school: "THPT Hùng Vương", cls: "10C 2K11", grade: 10, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS011", name: "Học sinh Nháp 11", school: "THCS Lê Hồng Phong", cls: "9 2K12", grade: 9, anonymous: false, publicVisible: true, searchable: true },
-  { code: "HS012", name: "Học sinh Nháp 12", school: "THCS Lương Thế Vinh", cls: "9 2K12", grade: 9, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS013", name: "Học sinh Nháp 13", school: "THCS Quang Trung", cls: "8A 2K13", grade: 8, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS014", name: "Học sinh Nháp 14", school: "THCS Tây Sơn", cls: "8B 2K13", grade: 8, anonymous: false, publicVisible: false, searchable: false },
-  { code: "HS015", name: "Học sinh Nháp 15", school: "THCS Lê Hồng Phong", cls: "7 2K14", grade: 7, anonymous: false, publicVisible: false, searchable: true },
-  { code: "HS016", name: "Học sinh Nháp 16", school: "THCS Ngô Mây", cls: "7 Onl", grade: 7, anonymous: false, publicVisible: false, searchable: false }
+  { code: "HS001", name: "Học sinh Nháp 01", school: "THPT Chuyên Lê Quý Đôn", cls: "12A", grade: 12, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS002", name: "Học sinh Nháp 02", school: "THPT Quốc Học Quy Nhơn", cls: "12B", grade: 12, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS003", name: "Học sinh Nháp 03", school: "THPT Trưng Vương", cls: "12B", grade: 12, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS004", name: "Học sinh Nháp 04", school: "THPT Trần Cao Vân", cls: "12A", grade: 12, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS005", name: "Học sinh Nháp 05", school: "THPT Chuyên Lê Quý Đôn", cls: "11A", grade: 11, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS006", name: "Học sinh Nháp 06", school: "THPT Quy Nhơn", cls: "11A", grade: 11, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS007", name: "Học sinh Nháp 07", school: "THPT Quốc Học Quy Nhơn", cls: "11B", grade: 11, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS008", name: "Học sinh Nháp 08", school: "THPT Trưng Vương", cls: "10A", grade: 10, anonymous: false, publicVisible: false, searchable: true },
+  { code: "HS009", name: "Học sinh Nháp 09", school: "THPT Trần Cao Vân", cls: "10B", grade: 10, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS010", name: "Học sinh Nháp 10", school: "THPT Hùng Vương", cls: "10C", grade: 10, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS011", name: "Học sinh Nháp 11", school: "THCS Lê Hồng Phong", cls: "9A", grade: 9, anonymous: false, publicVisible: true, searchable: true },
+  { code: "HS012", name: "Học sinh Nháp 12", school: "THCS Lương Thế Vinh", cls: "9A", grade: 9, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS013", name: "Học sinh Nháp 13", school: "THCS Quang Trung", cls: "8A", grade: 8, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS014", name: "Học sinh Nháp 14", school: "THCS Tây Sơn", cls: "8A", grade: 8, anonymous: false, publicVisible: false, searchable: false },
+  { code: "HS015", name: "Học sinh Nháp 15", school: "THCS Lê Hồng Phong", cls: "7A", grade: 7, anonymous: false, publicVisible: false, searchable: true },
+  { code: "HS016", name: "Học sinh Nháp 16", school: "THCS Ngô Mây", cls: "7A", grade: 7, anonymous: false, publicVisible: false, searchable: false }
 ];
 
 const DEFAULT_SCHOOL_BY_CODE = Object.fromEntries(BASE_STUDENTS.map(s => [s.code, s.school]));
@@ -3197,6 +3479,7 @@ const PRIVACY_CONFIG_KEY = "lop_toan_anh_chi_privacy_v1";
 const ANON_ALL_KEY = "lop_toan_anh_chi_anon_all_v1";
 const CARDS_STORAGE_KEY = "lop_toan_anh_chi_cards_v1";
 const DOCS_STORAGE_KEY = "lop_toan_anh_chi_docs_v1";
+const SCHEDULE_STORAGE_KEY = "lop_toan_anh_chi_schedule_v1";
 const ADMIN_PWD_KEY = "lop_toan_anh_chi_admin_pwd";
 const ADMIN_SESSION_KEY = "lop_toan_anh_chi_admin_session";
 const RESET_TOKEN_KEY = "lop_toan_anh_chi_reset_token";
@@ -3239,6 +3522,348 @@ function savePrivacyConfig(cfg, syncCloud = true) {
 }
 
 let privacyConfig = loadPrivacyConfig();
+
+const WEEKDAY_ORDER = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+const WEEKDAY_LABELS = {
+  T2: "Thứ 2",
+  T3: "Thứ 3",
+  T4: "Thứ 4",
+  T5: "Thứ 5",
+  T6: "Thứ 6",
+  T7: "Thứ 7",
+  CN: "Chủ nhật"
+};
+
+const DEFAULT_SCHEDULE_CONFIG = {
+  columns: [
+    {
+      id: "12",
+      badge: "12",
+      prefix: "dl1",
+      mainCard: true,
+      gradeLink: 12,
+      filterType: "grade",
+      filterVal: "12",
+      title: "Khối 12 · THPT QG",
+      sub: "Khóa 2K9 · Luyện thi ĐH",
+      desc: "Tổng ôn toàn diện chương trình Toán 12 (Hàm số, Nguyên hàm – Tích phân, Oxyz, Xác suất) & Luyện đề thực chiến cấu trúc 3 phần.",
+      note: "Ca 17:30 – 19:00"
+    },
+    {
+      id: "11",
+      badge: "11",
+      prefix: "dl2",
+      mainCard: false,
+      gradeLink: 11,
+      filterType: "grade",
+      filterVal: "11",
+      title: "Khối 11 · Chuyên sâu",
+      sub: "Khóa 2K10 · Bứt phá 9+",
+      desc: "Làm chủ Lượng giác, Dãy số, Giới hạn, Đạo hàm, Mũ – Lôgarit và Hình không gian vuông góc. Tạo đà sớm cho năm lớp 12.",
+      note: "Ca 19:30 – 21:00"
+    },
+    {
+      id: "10",
+      badge: "10",
+      prefix: "dl3",
+      mainCard: false,
+      gradeLink: 10,
+      filterType: "grade",
+      filterVal: "10",
+      title: "Khối 10 · Nền tảng THPT",
+      sub: "Khóa 2K11 · GDPT 2018",
+      desc: "Bắt nhịp ngay cách học cấp 3: Hàm số bậc hai, Hệ thức lượng, Vectơ, Thống kê – Tổ hợp – Xác suất và Phương pháp tọa độ phẳng.",
+      note: "Ca 09:30 & 15:30"
+    },
+    {
+      id: "6-9",
+      badge: "6–9",
+      prefix: "dl4",
+      mainCard: true,
+      gradeLink: 9,
+      filterType: "exam",
+      filterVal: "ts10",
+      title: "Khối 6–9 & Thi vào 10",
+      sub: "2K12 · 2K13 · 2K14",
+      desc: "Xây gốc Toán THCS vững chắc (Khối 6, 7, 8) và luyện thi chuyên sâu Tuyển sinh 9 vào 10 (Căn thức, Vi-ét, Toán thực tế, Đường tròn).",
+      note: "Ca 09:00 & 14:00"
+    }
+  ],
+  classes: [
+    { id: "CLS_12A", name: "12A", colId: "12", grade: 12, days: ["T2", "T4", "T6"], time: "17:30 – 19:00" },
+    { id: "CLS_12B", name: "12B", colId: "12", grade: 12, days: ["T3", "T5", "T7"], time: "17:30 – 19:00" },
+    { id: "CLS_11A", name: "11A", colId: "11", grade: 11, days: ["T2", "T4", "T6"], time: "19:30 – 21:00" },
+    { id: "CLS_11B", name: "11B", colId: "11", grade: 11, days: ["T3", "T5", "T7"], time: "19:30 – 21:00" },
+    { id: "CLS_10A", name: "10A", colId: "10", grade: 10, days: ["T2", "T4", "T6"], time: "15:30 – 17:00" },
+    { id: "CLS_10B", name: "10B", colId: "10", grade: 10, days: ["T3", "T5", "T7"], time: "15:30 – 17:00" },
+    { id: "CLS_10C", name: "10C", colId: "10", grade: 10, days: ["T3", "T5", "T7"], time: "09:30 – 11:00" },
+    { id: "CLS_9A",  name: "9A",  colId: "6-9", grade: 9, days: ["T3", "T5", "T7"], time: "14:00 – 15:30" },
+    { id: "CLS_8A",  name: "8A",  colId: "6-9", grade: 8, days: ["T2", "T4", "T6"], time: "14:00 – 15:30" },
+    { id: "CLS_7A",  name: "7A",  colId: "6-9", grade: 7, days: ["T2", "T4", "T6"], time: "09:00 – 10:30" }
+  ]
+};
+
+function cloneDefaultScheduleConfig() {
+  return {
+    columns: DEFAULT_SCHEDULE_CONFIG.columns.map(c => ({ ...c })),
+    classes: DEFAULT_SCHEDULE_CONFIG.classes.map(c => ({ ...c, days: [...c.days] }))
+  };
+}
+
+function normalizeTimeRange(raw) {
+  const txt = String(raw || "").trim();
+  if (!txt) return "";
+  const matches = [...txt.matchAll(/(\d{1,2})\s*[:hH]\s*(\d{2})/g)];
+  if (matches.length >= 2) {
+    const h1 = String(Math.min(23, Number(matches[0][1]))).padStart(2, "0");
+    const m1 = matches[0][2];
+    const h2 = String(Math.min(23, Number(matches[1][1]))).padStart(2, "0");
+    const m2 = matches[1][2];
+    return `${h1}:${m1} – ${h2}:${m2}`;
+  }
+  return txt.replace(/\s*[-–—]+\s*/g, " – ");
+}
+
+function parseStartMinutes(timeStr) {
+  const m = String(timeStr || "").match(/(\d{1,2})\s*[:hH]\s*(\d{2})/);
+  if (!m) return 9999;
+  return Number(m[1]) * 60 + Number(m[2]);
+}
+
+function normalizeDaysList(daysInput) {
+  const rawItems = Array.isArray(daysInput)
+    ? daysInput
+    : String(daysInput || "").split(/[,;\s·–\-/]+/);
+  const found = new Set();
+  let lastWasT = false;
+  rawItems.forEach((tok) => {
+    const clean = vnNorm(tok).replace(/[^a-z0-9]/g, "");
+    if (!clean) return;
+    if (clean === "cn" || clean === "chunhat") {
+      found.add("CN");
+      lastWasT = false;
+      return;
+    }
+    const m = clean.match(/^(?:t|thu)?([2-7])$/);
+    if (m) {
+      found.add(`T${m[1]}`);
+      lastWasT = true;
+      return;
+    }
+    if (clean === "t" || clean === "thu") {
+      lastWasT = true;
+    } else if (/^[2-7]+$/.test(clean) && (clean.length >= 2 || lastWasT)) {
+      clean.split("").forEach(d => found.add(`T${d}`));
+    }
+  });
+  return WEEKDAY_ORDER.filter(d => found.has(d));
+}
+
+function formatDaysCompact(days) {
+  const sorted = normalizeDaysList(days);
+  if (!sorted.length) return "Linh hoạt";
+  return sorted.map((d, idx) => (idx === 0 || d === "CN" ? d : d.replace(/^T/, ""))).join(" · ");
+}
+
+function inferColAndGradeFromName(name) {
+  const m = String(name || "").match(/(?:^|\D)(1[0-2]|[6-9])(?=\D|$)/);
+  const g = m ? Number(m[1]) : 12;
+  if (g === 12) return { grade: 12, colId: "12" };
+  if (g === 11) return { grade: 11, colId: "11" };
+  if (g === 10) return { grade: 10, colId: "10" };
+  return { grade: g, colId: "6-9" };
+}
+
+function formatClassDisplayLabel(name) {
+  const clean = String(name || "").trim();
+  if (!clean) return "";
+  return /^l[ơớo]p\s+/i.test(clean) ? clean : `Lớp ${clean}`;
+}
+
+function classMatchesFilter(studentCls, filterCls) {
+  const a = vnNorm(studentCls).replace(/^lop\s+/, "").trim();
+  const b = vnNorm(filterCls).replace(/^lop\s+/, "").trim();
+  if (!a || !b) return false;
+  if (a === b) return true;
+  const tokA = a.split(/\s+/)[0];
+  const tokB = b.split(/\s+/)[0];
+  if (tokA === tokB) return true;
+  return (tokA === "9" && tokB === "9a") || (tokA === "7" && tokB === "7a");
+}
+
+function normalizeScheduleConfig(rawCfg) {
+  const def = cloneDefaultScheduleConfig();
+  if (!rawCfg || typeof rawCfg !== "object") return def;
+
+  const colMap = new Map();
+  if (Array.isArray(rawCfg.columns)) {
+    rawCfg.columns.forEach((c) => {
+      if (c && c.id) colMap.set(String(c.id), c);
+    });
+  }
+  const columns = def.columns.map((dc) => {
+    const custom = colMap.get(dc.id) || {};
+    return {
+      ...dc,
+      title: String(custom.title || dc.title).trim(),
+      sub: String(custom.sub || dc.sub).trim(),
+      desc: String(custom.desc || dc.desc).trim(),
+      note: String(custom.note || dc.note).trim()
+    };
+  });
+
+  const validColIds = new Set(columns.map(c => c.id));
+  const rawClasses = Array.isArray(rawCfg.classes) && rawCfg.classes.length ? rawCfg.classes : def.classes;
+  const classes = rawClasses
+    .map((cls, idx) => {
+      if (!cls) return null;
+      const cleanName = String(cls.name || "").replace(/^Lớp\s+/i, "").trim();
+      if (!cleanName) return null;
+      const inferred = inferColAndGradeFromName(cleanName);
+      const colId = validColIds.has(String(cls.colId)) ? String(cls.colId) : inferred.colId;
+      const gradeNum = Number(cls.grade);
+      const grade = Number.isInteger(gradeNum) && gradeNum >= 6 && gradeNum <= 12 ? gradeNum : inferred.grade;
+      const days = normalizeDaysList(cls.days);
+      const time = normalizeTimeRange(cls.time) || "17:30 – 19:00";
+      const safeId = String(cls.id || `CLS_${cleanName.replace(/[^A-Za-z0-9]+/g, "_")}_${idx}`).trim();
+      return {
+        id: safeId,
+        name: cleanName,
+        colId,
+        grade,
+        days: days.length ? days : ["T2", "T4", "T6"],
+        time
+      };
+    })
+    .filter(Boolean);
+
+  return {
+    columns,
+    classes: classes.length ? classes : def.classes
+  };
+}
+
+function loadScheduleConfig() {
+  try {
+    const raw = localStorage.getItem(SCHEDULE_STORAGE_KEY);
+    if (raw) {
+      return normalizeScheduleConfig(JSON.parse(raw));
+    }
+  } catch {}
+  return cloneDefaultScheduleConfig();
+}
+
+function saveScheduleConfig(cfg, syncCloud = true, syncCardTexts = true) {
+  scheduleConfig = normalizeScheduleConfig(cfg);
+  try {
+    localStorage.setItem(SCHEDULE_STORAGE_KEY, JSON.stringify(scheduleConfig));
+  } catch {}
+  if (syncCardTexts && typeof loadSavedCards === "function") {
+    const saved = loadSavedCards();
+    scheduleConfig.columns.forEach((col) => {
+      saved[`${col.prefix}_title`] = col.title;
+      saved[`${col.prefix}_sub`] = col.sub;
+      saved[`${col.prefix}_desc`] = col.desc;
+      saved[`${col.prefix}_note`] = col.note;
+    });
+    if (typeof defaultCardTexts !== "undefined") {
+      defaultCardTexts.stat2_val = String(scheduleConfig.classes.length);
+    }
+    try {
+      localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(saved));
+    } catch {}
+  }
+  if (syncCloud && typeof saveSiteStateToSupabase === "function") {
+    saveSiteStateToSupabase();
+  }
+}
+
+function parseTimetableGridTsv(rawText, existingClasses = []) {
+  const lines = String(rawText || "").split(/\r?\n/).filter(l => l.trim().length > 0);
+  if (!lines.length) return [];
+
+  const rows = lines.map(line => (line.includes("\t") ? line.split("\t") : line.split("|")).map(c => c.trim()));
+  let dayMap = {};
+  let startIdx = 0;
+
+  const firstRowDayHits = rows[0].slice(1).reduce((acc, cell, i) => {
+    const norm = vnNorm(cell);
+    const hit = Object.entries(WEEKDAY_LABELS).find(([, lbl]) => norm.includes(vnNorm(lbl))) ||
+      WEEKDAY_ORDER.find(d => norm === d.toLowerCase() || norm.includes(d.toLowerCase()));
+    if (hit) {
+      dayMap[i + 1] = Array.isArray(hit) ? hit[0] : hit;
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
+
+  if (firstRowDayHits >= 2) {
+    startIdx = 1;
+  } else {
+    WEEKDAY_ORDER.forEach((d, i) => { dayMap[i + 1] = d; });
+  }
+
+  const colLookup = new Map(
+    (Array.isArray(existingClasses) ? existingClasses : []).map(c => [String(c.name || "").toUpperCase(), c.colId])
+  );
+  const grouped = new Map();
+
+  for (let r = startIdx; r < rows.length; r++) {
+    const cells = rows[r];
+    if (cells.length < 2) continue;
+    const time = normalizeTimeRange(cells[0]);
+    if (!time) continue;
+    for (let c = 1; c < cells.length; c++) {
+      const dayKey = dayMap[c] || WEEKDAY_ORDER[c - 1];
+      if (!dayKey || !cells[c]) continue;
+      const cellNames = cells[c].split(/[,/&]+/).map(x => x.replace(/^Lớp\s+/i, "").trim()).filter(Boolean);
+      cellNames.forEach((clsName) => {
+        const key = `${clsName.toUpperCase()}|${time}`;
+        if (!grouped.has(key)) {
+          const inf = inferColAndGradeFromName(clsName);
+          grouped.set(key, {
+            id: `CLS_${clsName.replace(/[^A-Za-z0-9]+/g, "_")}_${grouped.size + 1}`,
+            name: clsName,
+            colId: colLookup.get(clsName.toUpperCase()) || inf.colId,
+            grade: inf.grade,
+            days: new Set(),
+            time
+          });
+        }
+        grouped.get(key).days.add(dayKey);
+      });
+    }
+  }
+
+  const colRank = { "12": 1, "11": 2, "10": 3, "6-9": 4 };
+  return Array.from(grouped.values())
+    .map(item => ({ ...item, days: WEEKDAY_ORDER.filter(d => item.days.has(d)) }))
+    .sort((a, b) => {
+      const ra = colRank[a.colId] || 9;
+      const rb = colRank[b.colId] || 9;
+      if (ra !== rb) return ra - rb;
+      if (b.grade !== a.grade) return b.grade - a.grade;
+      return a.name.localeCompare(b.name, "vi", { numeric: true });
+    });
+}
+
+function serializeScheduleToTsv(cfg = scheduleConfig) {
+  const hasSunday = cfg.classes.some(c => (c.days || []).includes("CN"));
+  const days = hasSunday ? WEEKDAY_ORDER : WEEKDAY_ORDER.slice(0, 6);
+  const header = ["", ...days.map(d => WEEKDAY_LABELS[d])].join("\t");
+  const times = [...new Set(cfg.classes.map(c => normalizeTimeRange(c.time)).filter(Boolean))]
+    .sort((a, b) => parseStartMinutes(a) - parseStartMinutes(b));
+  const body = times.map((t) => {
+    const cols = days.map((d) => {
+      const hits = cfg.classes.filter(c => normalizeTimeRange(c.time) === t && normalizeDaysList(c.days).includes(d));
+      return hits.map(h => h.name).join(", ");
+    });
+    return [t, ...cols].join("\t");
+  });
+  return [header, ...body].join("\n");
+}
+
+let scheduleConfig = loadScheduleConfig();
 
 function buildDefaultScores() {
   return BASE_STUDENTS.map((s, idx) => {
@@ -3467,7 +4092,7 @@ function renderReportCard(st) {
   card.hidden = false;
   document.getElementById("rc-code").textContent = st.code;
   document.getElementById("rc-name").textContent = formatPublicStudentName(st);
-  document.getElementById("rc-cls").textContent = `Lớp ${st.cls}`;
+  document.getElementById("rc-cls").textContent = formatClassDisplayLabel(st.cls);
   const rcSchoolEl = document.getElementById("rc-school");
   if (rcSchoolEl) {
     rcSchoolEl.textContent = st.school || "";
@@ -3537,7 +4162,7 @@ function getFilteredStudents() {
     else if (clsFilter === "GRADE_10" && st.grade !== 10) return false;
     else if (clsFilter === "GRADE_9" && st.grade !== 9) return false;
     else if (clsFilter === "GRADE_THCS" && st.grade >= 9) return false;
-    else if (!clsFilter.startsWith("GRADE_") && clsFilter !== "ALL" && st.cls !== clsFilter) return false;
+    else if (!clsFilter.startsWith("GRADE_") && clsFilter !== "ALL" && !classMatchesFilter(st.cls, clsFilter)) return false;
 
     if (q) {
       const pubName = formatPublicStudentName(st);
@@ -3662,6 +4287,35 @@ function syncCustomClassSelect() {
   });
 }
 
+function rebuildCustomClassSelectMenu() {
+  const selectEl = document.getElementById("score-class-filter");
+  const wrap = document.getElementById("custom-class-select-wrap");
+  if (!selectEl || !wrap) return;
+  const trigger = wrap.querySelector(".custom-select-trigger");
+  const menu = wrap.querySelector(".custom-select-menu");
+  if (!menu) return;
+  menu.innerHTML = "";
+
+  Array.from(selectEl.options).forEach((opt) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    const isGroup = opt.value === "ALL" || opt.value.startsWith("GRADE_");
+    btn.className = "custom-select-opt" + (isGroup ? " is-group" : "");
+    btn.dataset.val = opt.value;
+    btn.setAttribute("role", "option");
+    btn.innerHTML = `<span>${escapeHtmlAttr(opt.textContent)}</span><span class="cs-check" aria-hidden="true">${ico("check")}</span>`;
+    btn.addEventListener("click", () => {
+      selectEl.value = opt.value;
+      wrap.classList.remove("open");
+      if (trigger) trigger.setAttribute("aria-expanded", "false");
+      syncCustomClassSelect();
+      selectEl.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    menu.appendChild(btn);
+  });
+  syncCustomClassSelect();
+}
+
 function initCustomClassSelect() {
   const selectEl = document.getElementById("score-class-filter");
   if (!selectEl || document.getElementById("custom-class-select-wrap")) return;
@@ -3691,26 +4345,9 @@ function initCustomClassSelect() {
   menu.className = "custom-select-menu";
   menu.setAttribute("role", "listbox");
 
-  Array.from(selectEl.options).forEach((opt) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    const isGroup = opt.value === "ALL" || opt.value.startsWith("GRADE_");
-    btn.className = "custom-select-opt" + (isGroup ? " is-group" : "");
-    btn.dataset.val = opt.value;
-    btn.setAttribute("role", "option");
-    btn.innerHTML = `<span>${opt.textContent}</span><span class="cs-check" aria-hidden="true">${ico("check")}</span>`;
-    btn.addEventListener("click", () => {
-      selectEl.value = opt.value;
-      wrap.classList.remove("open");
-      trigger.setAttribute("aria-expanded", "false");
-      syncCustomClassSelect();
-      selectEl.dispatchEvent(new Event("change", { bubbles: true }));
-    });
-    menu.appendChild(btn);
-  });
-
   wrap.appendChild(trigger);
   wrap.appendChild(menu);
+  rebuildCustomClassSelectMenu();
 
   trigger.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -3766,15 +4403,6 @@ const CARD_LABELS = {
   dl3_title: "§2 Card Khối 10 – Tiêu đề", dl3_sub: "§2 Card Khối 10 – Phụ đề", dl3_desc: "§2 Card Khối 10 – Mô tả", dl3_note: "§2 Card Khối 10 – Ca học",
   dl4_title: "§2 Card Khối 6–9 – Tiêu đề", dl4_sub: "§2 Card Khối 6–9 – Phụ đề", dl4_desc: "§2 Card Khối 6–9 – Mô tả", dl4_note: "§2 Card Khối 6–9 – Ca học",
   sch_heading: "§2 Bảng lịch học – Tiêu đề", sch_sub: "§2 Bảng lịch học – Ghi chú",
-  sch1_cls: "§2 Ca học 1 – Lớp", sch1_desc: "§2 Ca học 1 – Mô tả", sch1_days: "§2 Ca học 1 – Thứ",
-  sch2_cls: "§2 Ca học 2 – Lớp", sch2_desc: "§2 Ca học 2 – Mô tả", sch2_days: "§2 Ca học 2 – Thứ",
-  sch3_cls: "§2 Ca học 3 – Lớp", sch3_desc: "§2 Ca học 3 – Mô tả", sch3_days: "§2 Ca học 3 – Thứ",
-  sch4_cls: "§2 Ca học 4 – Lớp", sch4_desc: "§2 Ca học 4 – Mô tả", sch4_days: "§2 Ca học 4 – Thứ",
-  sch5_cls: "§2 Ca học 5 – Lớp", sch5_desc: "§2 Ca học 5 – Mô tả", sch5_days: "§2 Ca học 5 – Thứ",
-  sch6_cls: "§2 Ca học 6 – Lớp", sch6_desc: "§2 Ca học 6 – Mô tả", sch6_days: "§2 Ca học 6 – Thứ",
-  sch7_cls: "§2 Ca học 7 – Lớp", sch7_desc: "§2 Ca học 7 – Mô tả", sch7_days: "§2 Ca học 7 – Thứ",
-  sch8_cls: "§2 Ca học 8 – Lớp", sch8_desc: "§2 Ca học 8 – Mô tả", sch8_days: "§2 Ca học 8 – Thứ",
-  sch9_cls: "§2 Ca học 9 – Lớp", sch9_desc: "§2 Ca học 9 – Mô tả", sch9_days: "§2 Ca học 9 – Thứ",
   tk1_plat: "§3 Vé Thành tích 1 – Nhãn trên", tk1_title: "§3 Vé Thành tích 1 – Tiêu đề", tk1_score: "§3 Vé Thành tích 1 – Điểm", tk1_unit: "§3 Vé Thành tích 1 – Đơn vị", tk1_once: "§3 Vé Thành tích 1 – Dòng chữ viết tay",
   tk1_li1: "§3 Vé Thành tích 1 – Ý 1", tk1_li2: "§3 Vé Thành tích 1 – Ý 2", tk1_li3: "§3 Vé Thành tích 1 – Ý 3", tk1_li4: "§3 Vé Thành tích 1 – Ý 4",
   tk2_stamp: "§3 Vé Thành tích 2 – Con dấu", tk2_plat: "§3 Vé Thành tích 2 – Nhãn trên", tk2_title: "§3 Vé Thành tích 2 – Tiêu đề", tk2_score: "§3 Vé Thành tích 2 – Điểm", tk2_unit: "§3 Vé Thành tích 2 – Đơn vị", tk2_once: "§3 Vé Thành tích 2 – Dòng chữ viết tay",
@@ -4098,6 +4726,8 @@ function setEditingSubmissionBanner(sub) {
 function updateAdminOverviewStats() {
   const stTotalEl = document.getElementById("ov-st-total");
   const stSubEl = document.getElementById("ov-st-sub");
+  const schTotalEl = document.getElementById("ov-sch-total");
+  const schSubEl = document.getElementById("ov-sch-sub");
   const docTotalEl = document.getElementById("ov-doc-total");
   const docSubEl = document.getElementById("ov-doc-sub");
   const typoTotalEl = document.getElementById("ov-typo-total");
@@ -4113,6 +4743,13 @@ function updateAdminOverviewStats() {
     stSubEl.textContent = pendingCnt > 0
       ? `Chờ duyệt: ${pendingCnt} · Hiện bảng: ${visCnt}`
       : `Hiện bảng: ${visCnt} · Cho tìm: ${searchCnt}`;
+  }
+  if (schTotalEl) {
+    schTotalEl.textContent = `${scheduleConfig.classes.length} lớp học`;
+  }
+  if (schSubEl) {
+    const hasSun = scheduleConfig.classes.some(c => (c.days || []).includes("CN"));
+    schSubEl.textContent = hasSun ? "4 cột khối · Thứ 2 – Chủ nhật" : "4 cột khối · Thứ 2 – Thứ 7";
   }
   if (docTotalEl && typeof docRecords !== "undefined") {
     const pubDocs = docRecords.filter(d => d.status !== "pending");
@@ -4143,9 +4780,14 @@ function switchAdminTab(tabName) {
   if (!tabName) return;
   document.querySelectorAll(".admin-tab").forEach(t => t.classList.toggle("active", t.dataset.adminTab === tabName));
   document.getElementById("admin-pane-students").hidden = tabName !== "students";
+  const schPane = document.getElementById("admin-pane-schedule");
+  if (schPane) schPane.hidden = tabName !== "schedule";
   document.getElementById("admin-pane-docs").hidden = tabName !== "docs";
   document.getElementById("admin-pane-cards").hidden = tabName !== "cards";
   document.getElementById("admin-pane-security").hidden = tabName !== "security";
+  if (tabName === "schedule" && typeof renderAdminSchedulePane === "function") {
+    renderAdminSchedulePane();
+  }
 }
 
 function isOnAdminPage() {
@@ -4217,6 +4859,7 @@ function openEditorForStudent(st, tabName) {
   renderAdminSubmissionsList();
   renderAdminStudentList();
   buildCardsEditorForm();
+  if (typeof renderAdminSchedulePane === "function") renderAdminSchedulePane();
   if (typeof renderAdminDocList === "function") renderAdminDocList();
   updateAdminOverviewStats();
   if (tabName) {
@@ -4262,6 +4905,7 @@ function handleAdminTrigger(e, preferredTab = "") {
 
 document.getElementById("nav-admin-btn").addEventListener("click", (e) => handleAdminTrigger(e));
 document.getElementById("open-editor-btn").addEventListener("click", (e) => handleAdminTrigger(e, "students"));
+document.getElementById("btn-admin-edit-schedule")?.addEventListener("click", (e) => handleAdminTrigger(e, "schedule"));
 document.getElementById("rc-edit-this").addEventListener("click", (e) => {
   handleAdminTrigger(e, "students");
 });
@@ -4510,7 +5154,7 @@ function buildStudentDraftFromSubmission(sub) {
     );
   }
   const code = matched ? matched.code : (codeHint || generateNextStudentCode());
-  const cls = String(sub.cls || (matched ? matched.cls : "12A 2K9")).trim();
+  const cls = String(sub.cls || (matched ? matched.cls : "12A")).trim();
   const gMatch = cls.match(/^(\d+)/);
   const grade = gMatch ? Number(gMatch[1]) : (matched ? matched.grade : 12);
   const val = Number(sub.score);
@@ -4793,7 +5437,7 @@ document.getElementById("btn-new-student").addEventListener("click", () => {
   document.getElementById("ed-code").value = nextCode;
   document.getElementById("ed-name").value = `Học sinh Nháp ${String(nextNum).padStart(2, "0")}`;
   setSchoolFieldUI("ed-school-select", "ed-school-other", "THPT Chuyên Lê Quý Đôn");
-  document.getElementById("ed-cls").value = "12A 2K9";
+  document.getElementById("ed-cls").value = "12A";
   document.getElementById("ed-gk1").value = 8.5;
   document.getElementById("ed-ck1").value = 8.8;
   document.getElementById("ed-gk2").value = 9.0;
@@ -5040,11 +5684,15 @@ function collectAndSaveCardsAndStyles() {
   localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(updatedTexts));
   saveCardStyles(styles);
   saveGlobalTypo(globalTypo);
+  if (typeof syncCardTextsToScheduleColumns === "function") {
+    syncCardTextsToScheduleColumns(updatedTexts);
+  }
   applySavedCards();
+  if (typeof renderAdminSchedulePane === "function") renderAdminSchedulePane();
   if (typeof saveSiteStateToSupabase === "function") {
     saveSiteStateToSupabase({
       cards_data: updatedTexts,
-      live_dom_data: { styles, globalTypo }
+      live_dom_data: { styles, globalTypo, scheduleConfig }
     });
   }
 }
@@ -5089,10 +5737,12 @@ document.getElementById("btn-reset-cards").addEventListener("click", () => {
   localStorage.removeItem(CARD_STYLES_STORAGE_KEY);
   localStorage.removeItem(GLOBAL_TYPO_STORAGE_KEY);
   localStorage.removeItem("lop_toan_anh_chi_live_dom_v1");
-  applySavedCards();
+  scheduleConfig.columns = cloneDefaultScheduleConfig().columns;
+  saveScheduleConfig(scheduleConfig, false, false);
+  renderAllScheduleDependentUI();
   buildCardsEditorForm();
   if (typeof saveSiteStateToSupabase === "function") {
-    saveSiteStateToSupabase({ cards_data: {}, live_dom_data: { styles: {}, globalTypo: {}, domMap: {} } });
+    saveSiteStateToSupabase({ cards_data: {}, live_dom_data: { styles: {}, globalTypo: {}, domMap: {}, scheduleConfig } });
   }
   showStatus("cards-status-msg", "Đã khôi phục nội dung và định dạng chữ về mặc định!", false);
 });
@@ -5109,6 +5759,477 @@ document.getElementById("btn-export-csv").addEventListener("click", () => {
   a.href = URL.createObjectURL(blob);
   a.download = "BangDiem_LopToanAnhChi.csv";
   a.click();
+});
+
+// ============================================================================
+// QUẢN LÝ & RENDER TỰ ĐỘNG LỊCH HỌC 4 CỘT + THỜI KHÓA BIỂU TUẦN (ADMIN TAB 2)
+// ============================================================================
+function syncCardTextsToScheduleColumns(cardTexts) {
+  if (!cardTexts || typeof cardTexts !== "object") return false;
+  let changed = false;
+  scheduleConfig.columns.forEach((col) => {
+    ["title", "sub", "desc", "note"].forEach((prop) => {
+      const key = `${col.prefix}_${prop}`;
+      if (typeof cardTexts[key] === "string" && cardTexts[key].trim() !== col[prop]) {
+        col[prop] = cardTexts[key].trim();
+        changed = true;
+      }
+    });
+  });
+  if (changed) saveScheduleConfig(scheduleConfig, false, false);
+  return changed;
+}
+
+function renderClassColumnsGrid() {
+  const grid = document.getElementById("class-columns-grid");
+  if (!grid) return;
+  const saved = typeof loadSavedCards === "function" ? loadSavedCards() : {};
+  grid.innerHTML = scheduleConfig.columns.map((col) => {
+    const clsList = scheduleConfig.classes.filter(c => c.colId === col.id);
+    const titleTxt = saved[`${col.prefix}_title`] !== undefined ? saved[`${col.prefix}_title`] : col.title;
+    const subTxt = saved[`${col.prefix}_sub`] !== undefined ? saved[`${col.prefix}_sub`] : col.sub;
+    const descTxt = saved[`${col.prefix}_desc`] !== undefined ? saved[`${col.prefix}_desc`] : col.desc;
+    const noteTxt = saved[`${col.prefix}_note`] !== undefined ? saved[`${col.prefix}_note`] : col.note;
+    const subColor = col.mainCard ? "var(--ink)" : "var(--muted)";
+    const filterOnClick = col.filterType === "exam"
+      ? `filterByExamType('${escapeHtmlAttr(col.filterVal)}')`
+      : `filterByGrade(${Number(col.filterVal) || col.gradeLink})`;
+
+    const rowsHtml = clsList.length
+      ? clsList.map((cls) => {
+          const daysCompact = formatDaysCompact(cls.days);
+          const dispName = formatClassDisplayLabel(cls.name);
+          const href = `https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&grade=${cls.grade}&class=${encodeURIComponent(cls.name)}`;
+          return `
+            <a class="class-slot-row" href="${href}" target="_blank" rel="noopener" title="Mở BTVN &amp; Đề thi ${escapeHtmlAttr(dispName)} (${escapeHtmlAttr(daysCompact)} · ${escapeHtmlAttr(cls.time)})">
+              <span class="cls-badge-name">${escapeHtmlAttr(dispName)}</span>
+              <span class="cls-meta-right"><span class="cls-days-tag">${escapeHtmlAttr(daysCompact)}</span><span class="cls-time-tag">${escapeHtmlAttr(cls.time)}</span></span>
+            </a>
+          `;
+        }).join("")
+      : `<div style="font-size:13px;color:var(--muted);padding:8px 0">Chưa có lớp trong nhóm này.</div>`;
+
+    return `
+      <div class="dl ${col.mainCard ? "main " : ""}reveal in" data-col-id="${escapeHtmlAttr(col.id)}">
+        <div class="os">
+          <span class="os-badge">${escapeHtmlAttr(col.badge)}</span>
+          <div>
+            <h3 data-editable="${col.prefix}_title">${escapeHtmlAttr(titleTxt)}</h3>
+            <small style="color:${subColor};font-weight:600" data-editable="${col.prefix}_sub">${escapeHtmlAttr(subTxt)}</small>
+          </div>
+        </div>
+        <p class="meta" data-editable="${col.prefix}_desc">${escapeHtmlAttr(descTxt)}</p>
+        <div class="class-slot-list">${rowsHtml}</div>
+        <div class="schedule-note">
+          <span data-editable="${col.prefix}_note">${escapeHtmlAttr(noteTxt)}</span>
+          <span style="display:inline-flex;align-items:center;gap:10px;font-size:16px">
+            <a href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&amp;grade=${col.gradeLink}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px"><span>BTVN</span></a>
+            <a href="./index.html#tra-cuu-diem" onclick="${filterOnClick}" style="display:inline-flex;align-items:center;gap:4px"><span>Xem điểm</span>${ico("arrowRight")}</a>
+          </span>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderWeeklyTimetable() {
+  const wrap = document.getElementById("weekly-timetable-wrap");
+  if (!wrap) return;
+  const hasSunday = scheduleConfig.classes.some(c => normalizeDaysList(c.days).includes("CN"));
+  const days = hasSunday ? WEEKDAY_ORDER : WEEKDAY_ORDER.slice(0, 6);
+  const times = [...new Set(scheduleConfig.classes.map(c => normalizeTimeRange(c.time)).filter(Boolean))]
+    .sort((a, b) => parseStartMinutes(a) - parseStartMinutes(b));
+
+  if (!times.length) {
+    wrap.innerHTML = `<div style="padding:20px;text-align:center;color:var(--muted);font-size:14px">Chưa có ca học nào trong thời khóa biểu.</div>`;
+    return;
+  }
+
+  const headHtml = `<tr><th>Khung giờ</th>${days.map(d => `<th>${WEEKDAY_LABELS[d]}</th>`).join("")}</tr>`;
+  const bodyHtml = times.map((timeSlot) => {
+    const cells = days.map((d) => {
+      const hits = scheduleConfig.classes.filter(
+        c => normalizeTimeRange(c.time) === timeSlot && normalizeDaysList(c.days).includes(d)
+      );
+      if (!hits.length) return `<td><span class="tt-empty">—</span></td>`;
+      return `<td>${hits.map((cls) => {
+        const href = `https://thanhchi113.github.io/thi-thu-toan/?tab=btvn&grade=${cls.grade}&class=${encodeURIComponent(cls.name)}`;
+        return `<a class="tt-cls-chip" href="${href}" target="_blank" rel="noopener" title="${escapeHtmlAttr(formatClassDisplayLabel(cls.name))} · ${escapeHtmlAttr(timeSlot)}">${escapeHtmlAttr(cls.name)}</a>`;
+      }).join(" ")}</td>`;
+    }).join("");
+    return `<tr><td class="tt-time-col">${escapeHtmlAttr(timeSlot)}</td>${cells}</tr>`;
+  }).join("");
+
+  wrap.innerHTML = `
+    <table class="weekly-timetable" aria-label="Thời khóa biểu các lớp trong tuần">
+      <thead>${headHtml}</thead>
+      <tbody>${bodyHtml}</tbody>
+    </table>
+  `;
+}
+
+function populateClassSelectsFromSchedule() {
+  const filterSel = document.getElementById("score-class-filter");
+  if (filterSel) {
+    const prevVal = filterSel.value || "ALL";
+    const col12 = scheduleConfig.classes.filter(c => c.colId === "12");
+    const col11 = scheduleConfig.classes.filter(c => c.colId === "11");
+    const col10 = scheduleConfig.classes.filter(c => c.colId === "10");
+    const col9 = scheduleConfig.classes.filter(c => c.colId === "6-9" && c.grade === 9);
+    const colThcs = scheduleConfig.classes.filter(c => c.colId === "6-9" && c.grade < 9);
+
+    const optList = [`<option value="ALL">Tất cả các lớp (Khối 6 – 12)</option>`];
+    const pushGroup = (groupVal, groupTitle, items) => {
+      const namesList = items.map(c => c.name).join(", ");
+      optList.push(`<option value="${groupVal}">${escapeHtmlAttr(groupTitle)}${namesList ? ` (${escapeHtmlAttr(namesList)})` : ""}</option>`);
+      items.forEach((cls) => {
+        optList.push(`<option value="${escapeHtmlAttr(cls.name)}">${escapeHtmlAttr(formatClassDisplayLabel(cls.name))} (${escapeHtmlAttr(formatDaysCompact(cls.days))} · ${escapeHtmlAttr(cls.time)})</option>`);
+      });
+    };
+
+    pushGroup("GRADE_12", "Khối 12 — Luyện thi THPT QG", col12);
+    pushGroup("GRADE_11", "Khối 11 — Chuyên sâu", col11);
+    pushGroup("GRADE_10", "Khối 10 — Nền tảng THPT", col10);
+    pushGroup("GRADE_9", "Khối 9 — Luyện thi 9 vào 10", col9);
+    pushGroup("GRADE_THCS", "Khối 6–8 — Toán THCS", colThcs);
+
+    filterSel.innerHTML = optList.join("");
+    const hasPrev = Array.from(filterSel.options).some(o => o.value === prevVal);
+    filterSel.value = hasPrev ? prevVal : "ALL";
+    rebuildCustomClassSelectMenu();
+  }
+
+  const subClsSel = document.getElementById("sub-cls");
+  if (subClsSel) {
+    const prevSub = subClsSel.value;
+    subClsSel.innerHTML = scheduleConfig.classes.map((cls) => (
+      `<option value="${escapeHtmlAttr(cls.name)}">${escapeHtmlAttr(formatClassDisplayLabel(cls.name))} (${escapeHtmlAttr(formatDaysCompact(cls.days))} · ${escapeHtmlAttr(cls.time)})</option>`
+    )).join("") + `<option value="Lớp khác">Lớp khác / Học sinh mới</option>`;
+    if (prevSub && Array.from(subClsSel.options).some(o => o.value === prevSub)) {
+      subClsSel.value = prevSub;
+    }
+  }
+
+  const dl = document.getElementById("admin-class-datalist");
+  if (dl) {
+    dl.innerHTML = scheduleConfig.classes.map(c => `<option value="${escapeHtmlAttr(c.name)}"></option>`).join("");
+  }
+}
+
+function renderAdminScheduleColsForm() {
+  const wrap = document.getElementById("schedule-cols-fields");
+  if (!wrap) return;
+  wrap.innerHTML = scheduleConfig.columns.map((col, idx) => `
+    <div style="padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fffdf9">
+      <div style="font:700 13.5px/1.2 var(--serif);color:var(--ink-deep);margin-bottom:8px">Cột ${idx + 1} (Nhãn: ${escapeHtmlAttr(col.badge)})</div>
+      <div class="form-field" style="margin-bottom:8px">
+        <label for="sch-col-title-${col.id}">Tiêu đề cột</label>
+        <input type="text" id="sch-col-title-${col.id}" data-col-field="title" data-col-id="${escapeHtmlAttr(col.id)}" value="${escapeHtmlAttr(col.title)}">
+      </div>
+      <div class="form-field" style="margin-bottom:8px">
+        <label for="sch-col-sub-${col.id}">Phụ đề (Khóa / Mục tiêu)</label>
+        <input type="text" id="sch-col-sub-${col.id}" data-col-field="sub" data-col-id="${escapeHtmlAttr(col.id)}" value="${escapeHtmlAttr(col.sub)}">
+      </div>
+      <div class="form-field" style="margin-bottom:8px">
+        <label for="sch-col-desc-${col.id}">Mô tả nội dung học</label>
+        <input type="text" id="sch-col-desc-${col.id}" data-col-field="desc" data-col-id="${escapeHtmlAttr(col.id)}" value="${escapeHtmlAttr(col.desc)}">
+      </div>
+      <div class="form-field" style="margin-bottom:0">
+        <label for="sch-col-note-${col.id}">Ghi chú chân thẻ</label>
+        <input type="text" id="sch-col-note-${col.id}" data-col-field="note" data-col-id="${escapeHtmlAttr(col.id)}" value="${escapeHtmlAttr(col.note)}">
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderAdminSchedulePane() {
+  const tbody = document.getElementById("admin-schedule-tbody");
+  const countEl = document.getElementById("admin-sch-count");
+  if (countEl) countEl.textContent = scheduleConfig.classes.length;
+  if (tbody) {
+    const colOpts = [
+      { id: "12", lbl: "Khối 12" },
+      { id: "11", lbl: "Khối 11" },
+      { id: "10", lbl: "Khối 10" },
+      { id: "6-9", lbl: "Khối 6–9" }
+    ];
+    tbody.innerHTML = scheduleConfig.classes.map((cls, idx) => {
+      const daysSet = new Set(normalizeDaysList(cls.days));
+      const dayBtns = WEEKDAY_ORDER.map((d) => (
+        `<button type="button" class="day-pill-btn ${daysSet.has(d) ? "active" : ""}" data-row-day="${d}" title="${WEEKDAY_LABELS[d]}">${d}</button>`
+      )).join("");
+      const upIcon = `<svg class="ui-ico" style="margin:0" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg>`;
+      const downIcon = `<svg class="ui-ico" style="margin:0" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>`;
+      return `
+        <tr data-sch-id="${escapeHtmlAttr(cls.id)}">
+          <td><input type="text" class="sch-inline-inp" style="width:78px;font-weight:700" data-sch-field="name" value="${escapeHtmlAttr(cls.name)}" aria-label="Tên lớp"></td>
+          <td>
+            <select class="sch-inline-sel" data-sch-field="colId" aria-label="Cột khối">
+              ${colOpts.map(o => `<option value="${o.id}" ${cls.colId === o.id ? "selected" : ""}>${o.lbl}</option>`).join("")}
+            </select>
+          </td>
+          <td><div class="day-check-group">${dayBtns}</div></td>
+          <td><input type="text" class="sch-inline-inp" style="width:128px" list="time-slot-presets" data-sch-field="time" value="${escapeHtmlAttr(cls.time)}" aria-label="Khung giờ"></td>
+          <td>
+            <div style="display:inline-flex;align-items:center;gap:4px">
+              <button type="button" class="sch-move-btn" data-sch-move="-1" ${idx === 0 ? "disabled" : ""} title="Chuyển lên">${upIcon}</button>
+              <button type="button" class="sch-move-btn" data-sch-move="1" ${idx === scheduleConfig.classes.length - 1 ? "disabled" : ""} title="Chuyển xuống">${downIcon}</button>
+              <button type="button" class="quick-chip" data-sch-del="${escapeHtmlAttr(cls.id)}" style="color:#b71c1c;border-color:#e5a5a5">Xóa</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+  renderAdminScheduleColsForm();
+}
+
+function renderAllScheduleDependentUI(rebuildAdmin = true) {
+  renderClassColumnsGrid();
+  renderWeeklyTimetable();
+  populateClassSelectsFromSchedule();
+  if (typeof defaultCardTexts !== "undefined") {
+    const savedCards = typeof loadSavedCards === "function" ? loadSavedCards() : {};
+    if (savedCards.stat2_val === undefined) {
+      defaultCardTexts.stat2_val = String(scheduleConfig.classes.length);
+    }
+  }
+  if (typeof applySavedCards === "function") applySavedCards();
+  if (typeof applyLiveDomEdits === "function") applyLiveDomEdits();
+  if (rebuildAdmin) renderAdminSchedulePane();
+  if (typeof updateAdminOverviewStats === "function") updateAdminOverviewStats();
+}
+
+function setFormDaysSelection(targetDays) {
+  const set = new Set(normalizeDaysList(targetDays));
+  document.querySelectorAll("#sch-form-days-group .day-pill-btn[data-form-day]").forEach((btn) => {
+    btn.classList.toggle("active", set.has(btn.dataset.formDay));
+  });
+}
+
+function resetScheduleClassForm() {
+  const idInp = document.getElementById("sch-edit-id");
+  const nameInp = document.getElementById("sch-cls-name");
+  const timeInp = document.getElementById("sch-cls-time");
+  const colSel = document.getElementById("sch-cls-col");
+  const cancelBtn = document.getElementById("btn-cancel-sch-edit");
+  if (idInp) idInp.value = "";
+  if (nameInp) nameInp.value = "";
+  if (timeInp) timeInp.value = "";
+  if (colSel) colSel.value = "12";
+  if (cancelBtn) cancelBtn.hidden = true;
+  setFormDaysSelection(["T2", "T4", "T6"]);
+}
+
+document.getElementById("sch-cls-name")?.addEventListener("input", (e) => {
+  const editId = document.getElementById("sch-edit-id")?.value.trim();
+  if (editId) return;
+  const colSel = document.getElementById("sch-cls-col");
+  if (colSel && e.target.value.trim()) {
+    colSel.value = inferColAndGradeFromName(e.target.value).colId;
+  }
+});
+
+document.getElementById("sch-form-days-group")?.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-form-day]");
+  if (btn) btn.classList.toggle("active");
+});
+
+document.getElementById("btn-preset-246")?.addEventListener("click", () => setFormDaysSelection(["T2", "T4", "T6"]));
+document.getElementById("btn-preset-357")?.addEventListener("click", () => setFormDaysSelection(["T3", "T5", "T7"]));
+document.getElementById("btn-cancel-sch-edit")?.addEventListener("click", resetScheduleClassForm);
+
+document.getElementById("schedule-class-form")?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (!isAdminLoggedIn) return;
+  const editId = (document.getElementById("sch-edit-id")?.value || "").trim();
+  const cleanName = stripAnyEmoji(document.getElementById("sch-cls-name")?.value || "").replace(/^Lớp\s+/i, "").trim();
+  const colId = document.getElementById("sch-cls-col")?.value || inferColAndGradeFromName(cleanName).colId;
+  const rawTime = document.getElementById("sch-cls-time")?.value || "";
+  const time = normalizeTimeRange(rawTime);
+  const days = Array.from(document.querySelectorAll("#sch-form-days-group .day-pill-btn.active"))
+    .map(b => b.dataset.formDay);
+
+  if (!cleanName) {
+    showStatus("sch-form-status", "Vui lòng nhập Tên lớp (VD: 12A, 9A, 7A).", true);
+    return;
+  }
+  if (!time) {
+    showStatus("sch-form-status", "Vui lòng nhập Khung giờ học (VD: 17:30 – 19:00).", true);
+    return;
+  }
+  if (!days.length) {
+    showStatus("sch-form-status", "Vui lòng chọn ít nhất 1 thứ học trong tuần.", true);
+    return;
+  }
+
+  const inferred = inferColAndGradeFromName(cleanName);
+  const grade = colId === "12" ? 12 : (colId === "11" ? 11 : (colId === "10" ? 10 : Math.min(9, inferred.grade)));
+
+  if (editId) {
+    const idx = scheduleConfig.classes.findIndex(c => c.id === editId);
+    if (idx >= 0) {
+      scheduleConfig.classes[idx] = { id: editId, name: cleanName, colId, grade, days, time };
+    }
+  } else {
+    const newId = `CLS_${cleanName.replace(/[^A-Za-z0-9]+/g, "_")}_${Date.now().toString(36).toUpperCase()}`;
+    scheduleConfig.classes.push({ id: newId, name: cleanName, colId, grade, days, time });
+  }
+
+  saveScheduleConfig(scheduleConfig, true);
+  renderAllScheduleDependentUI(true);
+  renderScoreTable();
+  resetScheduleClassForm();
+  showStatus("sch-form-status", `Đã cập nhật Lớp ${cleanName} (${formatDaysCompact(days)} · ${time}) lên Website & Cloud!`, false);
+});
+
+document.getElementById("admin-schedule-tbody")?.addEventListener("click", (e) => {
+  if (!isAdminLoggedIn) return;
+  const tr = e.target.closest("tr[data-sch-id]");
+  if (!tr) return;
+  const id = tr.dataset.schId;
+  const idx = scheduleConfig.classes.findIndex(c => c.id === id);
+  if (idx < 0) return;
+
+  const dayBtn = e.target.closest("[data-row-day]");
+  if (dayBtn) {
+    const curDays = new Set(normalizeDaysList(scheduleConfig.classes[idx].days));
+    const d = dayBtn.dataset.rowDay;
+    if (curDays.has(d) && curDays.size > 1) curDays.delete(d);
+    else curDays.add(d);
+    scheduleConfig.classes[idx].days = WEEKDAY_ORDER.filter(x => curDays.has(x));
+    dayBtn.classList.toggle("active", curDays.has(d));
+    saveScheduleConfig(scheduleConfig, true);
+    renderAllScheduleDependentUI(false);
+    renderScoreTable();
+    return;
+  }
+
+  const moveBtn = e.target.closest("[data-sch-move]");
+  if (moveBtn) {
+    const delta = Number(moveBtn.dataset.schMove) || 0;
+    const nextIdx = idx + delta;
+    if (nextIdx >= 0 && nextIdx < scheduleConfig.classes.length) {
+      const [moved] = scheduleConfig.classes.splice(idx, 1);
+      scheduleConfig.classes.splice(nextIdx, 0, moved);
+      saveScheduleConfig(scheduleConfig, true);
+      renderAllScheduleDependentUI(true);
+      renderScoreTable();
+    }
+    return;
+  }
+
+  const delBtn = e.target.closest("[data-sch-del]");
+  if (delBtn) {
+    scheduleConfig.classes.splice(idx, 1);
+    saveScheduleConfig(scheduleConfig, true);
+    renderAllScheduleDependentUI(true);
+    renderScoreTable();
+    showStatus("admin-sch-status-msg", "Đã xóa lớp học khỏi Lịch và cập nhật lên Website!", false);
+  }
+});
+
+document.getElementById("admin-schedule-tbody")?.addEventListener("change", (e) => {
+  if (!isAdminLoggedIn) return;
+  const inp = e.target.closest("[data-sch-field]");
+  const tr = e.target.closest("tr[data-sch-id]");
+  if (!inp || !tr) return;
+  const idx = scheduleConfig.classes.findIndex(c => c.id === tr.dataset.schId);
+  if (idx < 0) return;
+  const field = inp.dataset.schField;
+  if (field === "name") {
+    const clean = stripAnyEmoji(inp.value).replace(/^Lớp\s+/i, "").trim();
+    if (clean) {
+      scheduleConfig.classes[idx].name = clean;
+      inp.value = clean;
+    }
+  } else if (field === "colId") {
+    scheduleConfig.classes[idx].colId = inp.value;
+    const inf = inferColAndGradeFromName(scheduleConfig.classes[idx].name);
+    scheduleConfig.classes[idx].grade = inp.value === "12" ? 12 : (inp.value === "11" ? 11 : (inp.value === "10" ? 10 : Math.min(9, inf.grade)));
+  } else if (field === "time") {
+    const normT = normalizeTimeRange(inp.value);
+    if (normT) {
+      scheduleConfig.classes[idx].time = normT;
+      inp.value = normT;
+    }
+  }
+  saveScheduleConfig(scheduleConfig, true);
+  renderAllScheduleDependentUI(false);
+  renderScoreTable();
+});
+
+document.getElementById("btn-save-schedule-all")?.addEventListener("click", () => {
+  if (!isAdminLoggedIn) return;
+  const rows = Array.from(document.querySelectorAll("#admin-schedule-tbody tr[data-sch-id]"));
+  const nextClasses = rows.map((tr) => {
+    const id = tr.dataset.schId;
+    const name = stripAnyEmoji(tr.querySelector('[data-sch-field="name"]')?.value || "").replace(/^Lớp\s+/i, "").trim();
+    const colId = tr.querySelector('[data-sch-field="colId"]')?.value || "12";
+    const time = normalizeTimeRange(tr.querySelector('[data-sch-field="time"]')?.value || "") || "17:30 – 19:00";
+    const days = Array.from(tr.querySelectorAll("[data-row-day].active")).map(b => b.dataset.rowDay);
+    const inf = inferColAndGradeFromName(name);
+    const grade = colId === "12" ? 12 : (colId === "11" ? 11 : (colId === "10" ? 10 : Math.min(9, inf.grade)));
+    return name ? { id, name, colId, grade, days: days.length ? days : ["T2", "T4", "T6"], time } : null;
+  }).filter(Boolean);
+
+  if (!nextClasses.length) {
+    showStatus("admin-sch-status-msg", "Danh sách cần có ít nhất 1 lớp học!", true);
+    return;
+  }
+  scheduleConfig.classes = nextClasses;
+  saveScheduleConfig(scheduleConfig, true);
+  renderAllScheduleDependentUI(true);
+  renderScoreTable();
+  showStatus("admin-sch-status-msg", `Đã lưu & đồng bộ ${nextClasses.length} lớp học lên Website và Cloud!`, false);
+});
+
+document.getElementById("btn-reset-schedule-default")?.addEventListener("click", () => {
+  if (!isAdminLoggedIn) return;
+  scheduleConfig = cloneDefaultScheduleConfig();
+  saveScheduleConfig(scheduleConfig, true);
+  renderAllScheduleDependentUI(true);
+  renderScoreTable();
+  showStatus("admin-sch-status-msg", "Đã khôi phục lịch học 10 lớp mặc định theo thời khóa biểu chuẩn!", false);
+});
+
+document.getElementById("btn-export-schedule-tsv")?.addEventListener("click", () => {
+  const ta = document.getElementById("schedule-tsv-input");
+  if (!ta) return;
+  ta.value = serializeScheduleToTsv(scheduleConfig);
+  ta.focus();
+  showStatus("sch-tsv-status-msg", "Đã nạp bảng thời khóa biểu hiện tại vào khung bên trên — Thầy có thể sửa trực tiếp rồi bấm Cập nhật!", false);
+});
+
+document.getElementById("btn-import-schedule-tsv")?.addEventListener("click", () => {
+  if (!isAdminLoggedIn) return;
+  const ta = document.getElementById("schedule-tsv-input");
+  const raw = ta ? ta.value : "";
+  const parsed = parseTimetableGridTsv(raw, scheduleConfig.classes);
+  if (!parsed.length) {
+    showStatus("sch-tsv-status-msg", "Không đọc được lớp học từ bảng dán! Vui lòng dán đúng vùng bảng có cột Giờ và các cột Thứ 2 – Thứ 7.", true);
+    return;
+  }
+  scheduleConfig.classes = parsed;
+  saveScheduleConfig(scheduleConfig, true);
+  renderAllScheduleDependentUI(true);
+  renderScoreTable();
+  showStatus("sch-tsv-status-msg", `Đã tự động cập nhật ${parsed.length} lớp học từ bảng Thời khóa biểu và đồng bộ lên Website!`, false);
+});
+
+document.getElementById("schedule-cols-form")?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (!isAdminLoggedIn) return;
+  scheduleConfig.columns.forEach((col) => {
+    ["title", "sub", "desc", "note"].forEach((prop) => {
+      const inp = document.querySelector(`#schedule-cols-fields [data-col-id="${col.id}"][data-col-field="${prop}"]`);
+      if (inp) col[prop] = stripAnyEmoji(inp.value).trim() || col[prop];
+    });
+  });
+  saveScheduleConfig(scheduleConfig, true, true);
+  renderAllScheduleDependentUI(true);
+  if (typeof buildCardsEditorForm === "function") buildCardsEditorForm();
+  showStatus("sch-cols-status-msg", "Đã lưu thông tin 4 Cột Khối và đồng bộ lên Website!", false);
 });
 
 // Mobile menu toggle
@@ -6315,7 +7436,8 @@ async function saveSiteStateToSupabase(patch = {}) {
       domMap,
       studentRecords,
       scoreSubmissions,
-      anonAll
+      anonAll,
+      scheduleConfig
     };
     const mergedLiveDom = patch.live_dom_data && typeof patch.live_dom_data === "object"
       ? { ...baseLiveDom, ...patch.live_dom_data }
@@ -6378,6 +7500,11 @@ async function syncSiteStateFromSupabase() {
     if (row.live_dom_data && typeof row.live_dom_data === "object") {
       if (row.live_dom_data.styles) saveCardStyles(row.live_dom_data.styles);
       if (row.live_dom_data.globalTypo) saveGlobalTypo(row.live_dom_data.globalTypo);
+      if (row.live_dom_data.scheduleConfig && typeof row.live_dom_data.scheduleConfig === "object") {
+        saveScheduleConfig(row.live_dom_data.scheduleConfig, false, false);
+      } else if (row.cards_data && typeof row.cards_data === "object") {
+        syncCardTextsToScheduleColumns(row.cards_data);
+      }
       if (typeof row.live_dom_data.anonAll === "boolean") {
         anonAll = row.live_dom_data.anonAll;
         localStorage.setItem(ANON_ALL_KEY, anonAll ? "1" : "0");
@@ -6405,8 +7532,7 @@ async function syncSiteStateFromSupabase() {
         if (hadDomEmoji) saveSiteStateToSupabase({ live_dom_data: row.live_dom_data });
       }
     }
-    applySavedCards();
-    applyLiveDomEdits();
+    renderAllScheduleDependentUI();
     updateLockerPositions();
     renderFullDocLibrary();
     renderScoreTable();
@@ -8169,9 +9295,12 @@ function saveLiveDomEdits() {
   });
   localStorage.setItem(CARDS_STORAGE_KEY, JSON.stringify(cardSaved));
   localStorage.setItem(LIVE_DOM_STORAGE_KEY, JSON.stringify(domMap));
+  if (typeof syncCardTextsToScheduleColumns === "function") {
+    syncCardTextsToScheduleColumns(cardSaved);
+  }
   saveSiteStateToSupabase({
     cards_data: cardSaved,
-    live_dom_data: { styles: loadSavedCardStyles(), globalTypo: loadGlobalTypo(), domMap }
+    live_dom_data: { styles: loadSavedCardStyles(), globalTypo: loadGlobalTypo(), domMap, scheduleConfig }
   });
 }
 
@@ -8309,12 +9438,20 @@ buildLockerBays();
 // Đồng bộ tức thì giữa trang Admin (admin.html) và trang Người dùng (index.html, tai-lieu.html)
 window.addEventListener("storage", (e) => {
   if (!e.key) return;
-  if (
+  if (e.key === SCHEDULE_STORAGE_KEY) {
+    scheduleConfig = loadScheduleConfig();
+    renderAllScheduleDependentUI();
+    renderScoreTable();
+  } else if (
     e.key === CARDS_STORAGE_KEY ||
     e.key === CARD_STYLES_STORAGE_KEY ||
     e.key === GLOBAL_TYPO_STORAGE_KEY ||
     e.key === LIVE_DOM_STORAGE_KEY
   ) {
+    if (e.key === CARDS_STORAGE_KEY && typeof syncCardTextsToScheduleColumns === "function") {
+      syncCardTextsToScheduleColumns(loadSavedCards());
+      renderAdminSchedulePane();
+    }
     applySavedCards();
     applyLiveDomEdits();
   } else if (
@@ -8382,8 +9519,7 @@ window.addEventListener("storage", (e) => {
 })();
 
 document.getElementById("year").textContent = new Date().getFullYear();
-applySavedCards();
-applyLiveDomEdits();
+renderAllScheduleDependentUI();
 updateAdminUIState();
 updateSubmissionBadgesUI();
 renderScoreTable();

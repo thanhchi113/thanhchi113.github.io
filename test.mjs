@@ -156,11 +156,9 @@ assert.ok(
 assert.ok(
   html.includes('https://thanhchi113.github.io/thi-thu-toan/?tab=btvn') &&
   html.includes('https://thanhchi113.github.io/thi-thu-toan/?tab=grades') &&
-  html.includes('class=12A%202K9') &&
-  html.includes('class=9%202K12') &&
-  html.includes('class=7%20Onl') &&
+  ['12A', '12B', '11A', '11B', '10A', '10B', '10C', '9A', '8A', '7A'].every(c => html.includes(`class=${c}`)) &&
   html.includes('syncExamPortalSummaryFromSupabase'),
-  'Main website must link all 13 class groups and sync non-PII Exam/BTVN summary with thi-thu-toan'
+  'Main website must link all 10 class groups and sync non-PII Exam/BTVN summary with thi-thu-toan'
 );
 
 // 12. Verify Strictly Zero Emojis or Text Arrows Across All Pages
@@ -242,4 +240,57 @@ for (const [pageName, pageSrc] of [['index.html', html], ['tai-lieu.html', taiLi
   assert.ok(pageSrc.includes('./logo-mark.png'), `${pageName} must embed ./logo-mark.png`);
 }
 
-console.log('PASS: All assertions passed (Score Submission & Admin Approval, Ecosystem BTVN & 13-Class Sync, Protected PDF Viewer, 100% Vector Icons, Standalone Admin Dashboard, Ch1 Math Logo).');
+// 16. Verify 4-Column Schedule, 10 Real Classes, Weekly Timetable & Admin Auto-Sync Manager
+assert.ok(
+  html.includes('id="class-columns-grid"') &&
+  html.includes('data-col-id="12"') &&
+  html.includes('data-col-id="11"') &&
+  html.includes('data-col-id="10"') &&
+  html.includes('data-col-id="6-9"') &&
+  html.includes('id="weekly-timetable-wrap"') &&
+  html.includes('SCHEDULE_STORAGE_KEY') &&
+  html.includes('renderAllScheduleDependentUI') &&
+  html.includes('id="admin-pane-schedule"') &&
+  adminHtml.includes('id="admin-pane-schedule"') &&
+  adminHtml.includes('id="schedule-class-form"') &&
+  adminHtml.includes('id="schedule-tsv-input"'),
+  'Missing 4-column schedule structure, weekly timetable, or Admin schedule management pane'
+);
+for (const timeSlot of ['09:00 – 10:30', '09:30 – 11:00', '14:00 – 15:30', '15:30 – 17:00', '17:30 – 19:00', '19:30 – 21:00']) {
+  assert.ok(html.includes(timeSlot), `Missing exact timetable slot: ${timeSlot}`);
+}
+assert.ok(
+  html.includes('class="dl ${col.mainCard ? "main " : ""}reveal in"'),
+  'Dynamically rendered .dl cards must include reveal in classes so they never stay hidden'
+);
+
+const vnNormMatch = html.match(/function vnNorm\([\s\S]*?\n\}/);
+const schBlockMatch = html.match(/const WEEKDAY_ORDER = [\s\S]*?function serializeScheduleToTsv[\s\S]*?\n\}/);
+assert.ok(vnNormMatch && schBlockMatch, 'Unable to locate pure schedule parser helpers in index.html');
+const schCtx = { localStorage: { getItem: () => null }, loadSavedCards: () => ({}) };
+vm.runInNewContext(`${vnNormMatch[0]}\n${schBlockMatch[0]}\n__parseTsv = parseTimetableGridTsv;\n__defaultCfg = DEFAULT_SCHEDULE_CONFIG;`, schCtx);
+
+const parsedFromSheet = schCtx.__parseTsv([
+  '\tThứ 2\tThứ 3\tThứ 4\tThứ 5\tThứ 6\tThứ 7',
+  '9:00:10:30\t7A\t\t7A\t\t7A\t',
+  '9:30-11:00\t\t10C\t\t10C\t\t10C',
+  '14:00-15:30\t8A\t9A\t8A\t9A\t8A\t9A',
+  '15:30-17:00\t10A\t10B\t10A\t10B\t10A\t10B',
+  '17:30-19:00\t12A\t12B\t12A\t12B\t12A\t12B',
+  '19:30-21:00\t11A\t11B\t11A\t11B\t11A\t11B'
+].join('\n'));
+assert.equal(parsedFromSheet.length, 10, 'parseTimetableGridTsv must extract all 10 classes from timetable grid');
+const byName = Object.fromEntries(parsedFromSheet.map(c => [c.name, c]));
+assert.deepEqual([...byName['12A'].days], ['T2', 'T4', 'T6']);
+assert.equal(byName['12A'].time, '17:30 – 19:00');
+assert.equal(byName['12B'].time, '17:30 – 19:00');
+assert.equal(byName['11A'].time, '19:30 – 21:00');
+assert.equal(byName['11B'].time, '19:30 – 21:00');
+assert.equal(byName['10A'].time, '15:30 – 17:00');
+assert.equal(byName['10B'].time, '15:30 – 17:00');
+assert.equal(byName['10C'].time, '09:30 – 11:00');
+assert.equal(byName['9A'].time, '14:00 – 15:30');
+assert.equal(byName['8A'].time, '14:00 – 15:30');
+assert.equal(byName['7A'].time, '09:00 – 10:30');
+
+console.log('PASS: All assertions passed (4-Col 10-Class Schedule, Timetable Parser, Admin Schedule Sync, Protected PDF Viewer, 100% Vector Icons, Ch1 Math Logo).');
