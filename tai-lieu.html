@@ -2600,9 +2600,9 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
     <div class="modal-head">
       <h3 id="modal-title"><svg class="ui-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span>Trung Tâm Quản Trị &amp; Kiểm Tra Hệ Thống — Lớp Toán Anh Chí</span></h3>
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-        <a class="btn sm" href="https://thanhchi113.github.io/thi-thu-toan/?tab=btvn" target="_blank" rel="noopener"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Giao Đề &amp; BTVN</span></a>
-        <a class="btn ghost sm" href="./index.html"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Xem Trang Chủ</span></a>
-        <a class="btn ghost sm" href="./tai-lieu.html"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Xem Trang Tài Liệu</span></a>
+        <button type="button" class="btn sm" id="btn-admin-preview-student" style="background:#1e6b45;border-color:#1e6b45"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Xem Như Học Sinh</span></button>
+        <a class="btn ghost sm" href="./index.html"><svg class="ui-ico" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Trang Chủ</span></a>
+        <a class="btn ghost sm" href="./tai-lieu.html"><svg class="ui-ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Kho Tài Liệu</span></a>
         <button type="button" class="btn ghost sm" id="btn-admin-logout">Đăng xuất</button>
         <button type="button" class="btn ghost sm" id="close-editor-btn"><span>Đóng</span><svg class="ui-ico" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
       </div>
@@ -9863,6 +9863,7 @@ if (btnLiveSave) {
 const btnLiveOpenDocs = document.getElementById("btn-live-open-docs");
 if (btnLiveOpenDocs) {
   btnLiveOpenDocs.addEventListener("click", () => {
+    if (IS_ADMIN_STUDIO_PAGE) document.body.classList.add("admin-studio-page");
     const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
     openEditorForStudent(cur, "docs");
   });
@@ -9871,14 +9872,27 @@ if (btnLiveOpenDocs) {
 const btnLiveOpenPanel = document.getElementById("btn-live-open-panel");
 if (btnLiveOpenPanel) {
   btnLiveOpenPanel.addEventListener("click", () => {
+    if (IS_ADMIN_STUDIO_PAGE) document.body.classList.add("admin-studio-page");
     const cur = studentRecords.find(s => s.code === selectedCode) || studentRecords[0];
     openEditorForStudent(cur);
+  });
+}
+
+const btnAdminPreviewStudent = document.getElementById("btn-admin-preview-student");
+if (btnAdminPreviewStudent) {
+  btnAdminPreviewStudent.addEventListener("click", () => {
+    document.body.classList.remove("admin-studio-page");
+    editorModal.hidden = true;
+    const liveBar = document.getElementById("admin-live-bar");
+    if (liveBar) liveBar.hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 }
 
 const btnActivateLiveFromModal = document.getElementById("btn-activate-live-from-modal");
 if (btnActivateLiveFromModal) {
   btnActivateLiveFromModal.addEventListener("click", () => {
+    document.body.classList.remove("admin-studio-page");
     editorModal.hidden = true;
     setLiveEditMode(true);
   });
