@@ -160,13 +160,15 @@ assert.ok(
   'Document cards must default to File - Trang A4 - PDF icon with Admin option to pick custom display'
 );
 
-// 11. Verify Ecosystem Sync with Exam & Class-Group Homework App (thi-thu-toan)
+// 11. Verify Only Dedicated "Phòng thi & BTVN" Menu Items Jump to Exam App (No Redundant Class/Timetable/CTA Exam Links)
 assert.ok(
   html.includes('https://thanhchi113.github.io/thi-thu-toan/?tab=btvn') &&
-  html.includes('https://thanhchi113.github.io/thi-thu-toan/?tab=grades') &&
-  ['12A', '12B', '11A', '11B', '10A', '10B', '10C', '9A', '8A', '7A'].every(c => html.includes(`class=${c}`)) &&
-  html.includes('syncExamPortalSummaryFromSupabase'),
-  'Main website must link all 10 class groups and sync non-PII Exam/BTVN summary with thi-thu-toan'
+  !html.includes('<a class="class-slot-row"') &&
+  !html.includes('<a class="tt-cls-chip"') &&
+  !html.includes('https://thanhchi113.github.io/thi-thu-toan/?tab=grades') &&
+  html.includes('<div class="class-slot-row"') &&
+  html.includes('<span class="tt-cls-chip"'),
+  'Only dedicated Phòng thi & BTVN navigation items should jump to thi-thu-toan; schedule rows and timetable chips must not jump to exam app'
 );
 
 // 12. Verify Strictly Zero Emojis or Text Arrows Across All Pages
