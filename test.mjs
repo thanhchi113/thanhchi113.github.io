@@ -88,18 +88,23 @@ assert.ok(!html.includes('class="sheet-switcher"') && !html.includes('data-sheet
 assert.ok(!html.includes('id="hero-sheet-tag"'), 'Must remove #hero-sheet-tag title pill');
 assert.ok(
   html.includes('const SHEET_ORDER = ["cube", "circle_parabola", "conics", "probability"]') &&
+  html.includes('function svgTexFrac(') &&
+  html.includes('function svgTexBar(') &&
+  html.includes('function svgTexIntegral(') &&
   html.includes('M98 376 L98 330 C118 294, 144 304, 162 376 Z') &&
   html.includes('M162 376 C178 416, 202 412, 218 392 L218 376 Z') &&
   html.includes('M82 352 Q90 341, 98 330 C118 294, 144 304, 162 376 C178 416, 202 412, 218 392 Q225 384, 232 372') &&
-  html.includes('MA = MB · OM ⊥ AB · OH·OM = R²') &&
-  html.includes('(P): y = x² − 2x − 3') &&
-  html.includes('Elip (E): x²/a² + y²/b² = 1') &&
-  html.includes('Hypebol (H): x²/a² − y²/b² = 1') &&
-  html.includes('3. Parabol: y² = 2px') &&
-  html.includes('Gieo 2 xúc xắc: n(Ω) = 6² = 36') &&
-  html.includes('P(A∪B) = P(A) + P(B) − P(A∩B)') &&
+  html.includes('${svgTexSup("R", "2")}') &&
+  html.includes('${svgTexSup("x", "2", "m-i", " − 2", "m-rm")}') &&
+  html.includes('(<tspan class="m-i">E</tspan>):') &&
+  html.includes('(<tspan class="m-i">H</tspan>):') &&
+  html.includes('3. Parabol:') &&
+  html.includes('Gieo 2 xúc xắc:') &&
+  html.includes('class="dice-bounce-1"') &&
+  html.includes('class="venn-inter-pulse"') &&
+  html.includes('<animateMotion dur="3.4s" begin="3.6s" repeatCount="indefinite" path="M66,320 L146,278 L238,256"/>') &&
   html.includes('advanceHeroSheet()'),
-  'Hero notebook sheet must include 100% flush integral area fill, sequential appearance, and click-to-switch slides for circle with 2 intersecting tangents, parabola, 3 conics, probability rules, and 3D dice'
+  'Hero notebook sheet must render LaTeX fractions/sup/sub/overline, animated probability dice/Venn/Bayes tree, and 100% flush integral area'
 );
 
 // 7. Verify Instant Click on Any Card to Open Protected PDF Viewer Immediately
@@ -230,14 +235,18 @@ for (const [, code] of inlineScripts) {
   new vm.Script(code);
 }
 
-// 15. Verify Ch1 Math Logo Assets & Integration Across All 3 HTML Pages
-for (const asset of ['logo-ch1math.png', 'logo-mark.png', 'favicon.png', 'apple-touch-icon.png']) {
-  assert.ok(fs.existsSync(new URL(`./${asset}`, import.meta.url)), `Missing logo asset: ${asset}`);
+// 15. Verify Ch1 Math Logo Assets, Mobile PWA Manifest & Integration Across All 3 HTML Pages
+for (const asset of ['logo-ch1math.png', 'logo-mark.png', 'favicon.png', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest']) {
+  assert.ok(fs.existsSync(new URL(`./${asset}`, import.meta.url)), `Missing logo/PWA asset: ${asset}`);
 }
+const manifestObj = JSON.parse(fs.readFileSync(new URL('./manifest.webmanifest', import.meta.url), 'utf8'));
+assert.equal(manifestObj.short_name, 'Ch1 Math', 'PWA manifest short_name must be Ch1 Math');
 for (const [pageName, pageSrc] of [['index.html', html], ['tai-lieu.html', taiLieuHtml], ['admin.html', adminHtml]]) {
   assert.ok(pageSrc.includes('./logo-ch1math.png'), `${pageName} must embed ./logo-ch1math.png`);
   assert.ok(pageSrc.includes('./favicon.png'), `${pageName} must link ./favicon.png`);
   assert.ok(pageSrc.includes('./logo-mark.png'), `${pageName} must embed ./logo-mark.png`);
+  assert.ok(pageSrc.includes('<meta name="apple-mobile-web-app-title" content="Ch1 Math">'), `${pageName} must set apple-mobile-web-app-title to Ch1 Math`);
+  assert.ok(pageSrc.includes('./manifest.webmanifest'), `${pageName} must link ./manifest.webmanifest`);
 }
 
 // 16. Verify 4-Column Schedule, 10 Real Classes, Weekly Timetable & Admin Auto-Sync Manager

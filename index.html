@@ -6,8 +6,15 @@
 <title>Thầy Huỳnh Thanh Chí – Lớp Toán Anh Chí (Toán 6 – 12 · Luyện thi 9 vào 10 &amp; THPT QG)</title>
 <meta name="description" content="Trang thông tin cá nhân Thầy Huỳnh Thanh Chí – Lớp Toán Anh Chí: Giới thiệu phương pháp giảng dạy, lịch các lớp Toán 6–12, bảng vàng thành tích và cổng tra cứu điểm Giữa kì, Cuối kì, Thi 9 vào 10, Thi THPT Quốc gia.">
 <meta name="theme-color" content="#650f12">
-<link rel="icon" type="image/png" href="./favicon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ch1 Math">
+<meta name="application-name" content="Ch1 Math">
+<link rel="manifest" href="./manifest.webmanifest?v=20261118">
+<link rel="icon" type="image/png" href="./favicon.png?v=20261118">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=20261118">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=20261118">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,650;0,9..144,800;1,9..144,500;1,9..144,650&family=Patrick+Hand&display=swap" rel="stylesheet">
@@ -222,6 +229,49 @@ h1 em::after {
 .write { clip-path: inset(0 100% 0 0); animation: write var(--dur, .9s) var(--at) steps(24, end) forwards; }
 @keyframes write { to { clip-path: inset(0 0 0 0); } }
 .sheet text { font-family: var(--hand); }
+.sheet .m-tex text, .sheet text.m-tex { font-family: "Times New Roman", "Fraunces", Georgia, serif; }
+.m-i { font-style: italic; }
+.m-rm { font-style: normal; }
+.tex-frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.05; font-size: 0.78em; margin: 0 2px; font-family: "Times New Roman", Georgia, serif; }
+.tex-frac > span:first-child { border-bottom: 1.2px solid currentColor; padding: 0 2px 1px; }
+.tex-frac > span:last-child { padding: 1px 2px 0; }
+.dice-bounce-1, .dice-bounce-2, .dice-shadow-1, .dice-shadow-2, .venn-drift-a, .venn-drift-b, .venn-inter-pulse, .tree-node-ping {
+  transform-box: fill-box; transform-origin: center;
+}
+.dice-bounce-1 { animation: dice-bounce-1 3.4s 1s ease-in-out infinite; }
+.dice-bounce-2 { animation: dice-bounce-2 3.4s 1s ease-in-out infinite; }
+.dice-shadow-1 { animation: dice-shadow-1 3.4s 1s ease-in-out infinite; }
+.dice-shadow-2 { animation: dice-shadow-2 3.4s 1s ease-in-out infinite; }
+.venn-drift-a { animation: venn-drift-a 3.8s 1.9s ease-in-out infinite; }
+.venn-drift-b { animation: venn-drift-b 3.8s 1.9s ease-in-out infinite; }
+.venn-inter-pulse { animation: venn-pulse 2.6s 2.2s ease-in-out infinite; }
+.tree-node-ping { animation: tree-ping 2.2s 3.4s ease-out infinite; }
+@keyframes dice-bounce-1 {
+  0%, 70%, 100% { transform: translate(0, 0) rotate(0deg); }
+  18% { transform: translate(0, -9px) rotate(-6deg); }
+  36% { transform: translate(1px, 0) rotate(2.5deg); }
+  50% { transform: translate(0, -3px) rotate(-1.5deg); }
+}
+@keyframes dice-bounce-2 {
+  0%, 35%, 100% { transform: translate(0, 0) rotate(0deg); }
+  54% { transform: translate(0, -10px) rotate(6deg); }
+  74% { transform: translate(-1px, 0) rotate(-2.5deg); }
+  88% { transform: translate(0, -3px) rotate(1.5deg); }
+}
+@keyframes dice-shadow-1 {
+  0%, 70%, 100% { transform: scale(1); opacity: 0.16; }
+  18% { transform: scale(0.76); opacity: 0.08; }
+  50% { transform: scale(0.9); opacity: 0.12; }
+}
+@keyframes dice-shadow-2 {
+  0%, 35%, 100% { transform: scale(1); opacity: 0.16; }
+  54% { transform: scale(0.74); opacity: 0.08; }
+  88% { transform: scale(0.9); opacity: 0.12; }
+}
+@keyframes venn-drift-a { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-2.5px); } }
+@keyframes venn-drift-b { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(2.5px); } }
+@keyframes venn-pulse { 0%, 100% { opacity: 0.65; } 50% { opacity: 1; } }
+@keyframes tree-ping { 0% { transform: scale(1); opacity: 0.72; } 75%, 100% { transform: scale(2.5); opacity: 0; } }
 [data-editable] { white-space: pre-line; }
 .note-tag, .sheet-switcher { display: none !important; }
 
@@ -6270,6 +6320,29 @@ const SHEET_ORDER = ["cube", "circle_parabola", "conics", "probability"];
 let activeSheetIdx = 0;
 let heroSheetTimer = null;
 
+function svgTexSup(base, sup, baseCls = "m-i", after = "", afterCls = "m-rm") {
+  return `<tspan class="${baseCls}">${base}</tspan><tspan dy="-4.5" font-size="72%" class="m-rm">${sup}</tspan><tspan dy="4.5" font-size="100%" class="${afterCls}">${after || "&#8203;"}</tspan>`;
+}
+function svgTexSub(base, sub, baseCls = "m-i", after = "", afterCls = "m-rm") {
+  return `<tspan class="${baseCls}">${base}</tspan><tspan dy="3.2" font-size="72%" class="m-rm">${sub}</tspan><tspan dy="-3.2" font-size="100%" class="${afterCls}">${after || "&#8203;"}</tspan>`;
+}
+function svgTexBar(ch, x, y, color = "#1f5fbf", size = 13.5, bold = true) {
+  const w = Math.max(7.2, size * 0.68);
+  const topY = y - size * 0.84;
+  return `<text x="${x}" y="${y}" text-anchor="middle" font-size="${size}" font-style="italic" ${bold ? 'font-weight="bold" ' : ""}fill="${color}" class="m-tex">${ch}</text><line x1="${(x - w / 2).toFixed(1)}" y1="${topY.toFixed(1)}" x2="${(x + w / 2).toFixed(1)}" y2="${topY.toFixed(1)}" stroke="${color}" stroke-width="1.35" stroke-linecap="round"/>`;
+}
+function svgTexFrac(cx, baseY, numMarkup, denMarkup, width, color = "#650f12", size = 12, bold = true) {
+  const barY = baseY - size * 0.34;
+  const x1 = (cx - width / 2).toFixed(1);
+  const x2 = (cx + width / 2).toFixed(1);
+  const fw = bold ? ' font-weight="bold"' : "";
+  return `<text x="${cx}" y="${(barY - 4.2).toFixed(1)}" text-anchor="middle" font-size="${size}"${fw} fill="${color}" class="m-tex">${numMarkup}</text><line x1="${x1}" y1="${barY.toFixed(1)}" x2="${x2}" y2="${barY.toFixed(1)}" stroke="${color}" stroke-width="1.3" stroke-linecap="round"/><text x="${cx}" y="${(barY + size * 0.96).toFixed(1)}" text-anchor="middle" font-size="${size}"${fw} fill="${color}" class="m-tex">${denMarkup}</text>`;
+}
+function svgTexIntegral(x, y, low, high, bodyMarkup, color = "#650f12", size = 13.5, bold = true) {
+  const fw = bold ? ' font-weight="bold"' : "";
+  return `<text x="${x}" y="${y + 4}" font-size="22" fill="${color}" class="m-tex">∫</text><text x="${x + 8}" y="${y + 7}" font-size="9.8" font-style="italic"${fw} fill="${color}" class="m-tex">${low}</text><text x="${x + 10}" y="${y - 10}" font-size="9.8" font-style="italic"${fw} fill="${color}" class="m-tex">${high}</text><text x="${x + 19}" y="${y}" font-size="${size}"${fw} fill="${color}" class="m-tex">${bodyMarkup}</text>`;
+}
+
 const SHEET_SLIDES = {
   cube: {
     svg: `
@@ -6292,17 +6365,17 @@ const SHEET_SLIDES = {
         <circle class="pop" cx="96" cy="98" r="3.6" fill="#c62828" style="--at:.7s"/>
         <circle class="pop" cx="164" cy="130" r="3.8" fill="#c62828" style="--at:.7s"/>
         <circle class="pop" cx="196" cy="30" r="3.8" fill="#c62828" style="--at:.7s"/>
-        <text class="pop" x="80" y="28" font-size="14" font-style="italic" fill="#2a211f" style="--at:.75s">A'</text>
-        <text class="pop" x="47" y="65" font-size="14" font-style="italic" fill="#2a211f" style="--at:.75s">B'</text>
-        <text class="pop" x="168" y="62" font-size="14" font-style="italic" fill="#2a211f" style="--at:.75s">C'</text>
-        <text class="pop" x="201" y="29" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.75s">D'</text>
-        <text class="pop" x="82" y="95" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.8s">A</text>
-        <text class="pop" x="50" y="138" font-size="14" font-style="italic" fill="#2a211f" style="--at:.8s">B</text>
-        <text class="pop" x="168" y="139" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.8s">C</text>
-        <text class="pop" x="201" y="103" font-size="14" font-style="italic" fill="#2a211f" style="--at:.8s">D</text>
+        <text class="pop m-tex" x="80" y="28" font-size="14" font-style="italic" fill="#2a211f" style="--at:.75s">A'</text>
+        <text class="pop m-tex" x="47" y="65" font-size="14" font-style="italic" fill="#2a211f" style="--at:.75s">B'</text>
+        <text class="pop m-tex" x="168" y="62" font-size="14" font-style="italic" fill="#2a211f" style="--at:.75s">C'</text>
+        <text class="pop m-tex" x="201" y="29" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.75s">D'</text>
+        <text class="pop m-tex" x="82" y="95" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.8s">A</text>
+        <text class="pop m-tex" x="50" y="138" font-size="14" font-style="italic" fill="#2a211f" style="--at:.8s">B</text>
+        <text class="pop m-tex" x="168" y="139" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.8s">C</text>
+        <text class="pop m-tex" x="201" y="103" font-size="14" font-style="italic" fill="#2a211f" style="--at:.8s">D</text>
       </g>
 
-      <!-- 2. [0.95s -> 1.75s] HỆ TRỤC KHÔNG GIAN OXYZ ĐẦY ĐỦ 3 THÀNH PHẦN M(x₀; y₀; z₀) -->
+      <!-- 2. [0.95s -> 1.75s] HỆ TRỤC KHÔNG GIAN OXYZ ĐẦY ĐỦ 3 THÀNH PHẦN M(x_0; y_0; z_0) -->
       <g class="float-alt">
         <path class="draw" d="M352 96V20M352 96H482M352 96L298 140" stroke="#3b3534" stroke-width="1.7" style="--len:320;--at:.95s;--dur:.45s"/>
         <path class="draw" d="m348 27 4-7 4 7m123 65 7 4-7 4m-173 36-8 2 2-8" stroke="#3b3534" stroke-width="1.5" style="--len:50;--at:1.25s;--dur:.2s"/>
@@ -6313,15 +6386,15 @@ const SHEET_SLIDES = {
         <circle class="pop" cx="352" cy="40" r="3.2" fill="#2e7d4f" style="--at:1.55s"/>
         <circle class="pop" cx="398" cy="122" r="3.4" fill="#1f5fbf" style="--at:1.6s"/>
         <circle class="pop" cx="398" cy="66" r="4.3" fill="#c62828" style="--at:1.65s"/>
-        <text class="pop" x="360" y="26" font-size="14.5" font-style="italic" fill="#3b3534" style="--at:1.4s">z</text>
-        <text class="pop" x="484" y="92" font-size="14.5" font-style="italic" fill="#3b3534" style="--at:1.4s">y</text>
-        <text class="pop" x="285" y="142" font-size="14.5" font-style="italic" fill="#3b3534" style="--at:1.4s">x</text>
-        <text class="pop" x="338" y="93" font-size="13.5" fill="#6f625d" style="--at:1.4s">O</text>
-        <text class="pop" x="301" y="120" font-size="13.5" font-style="italic" fill="#2e7d4f" style="--at:1.6s">x₀</text>
-        <text class="pop" x="425" y="88" font-size="13.5" font-style="italic" fill="#2e7d4f" style="--at:1.6s">y₀</text>
-        <text class="pop" x="332" y="44" font-size="13.5" font-style="italic" fill="#2e7d4f" style="--at:1.6s">z₀</text>
-        <text class="pop" x="404" y="134" font-size="13" font-style="italic" fill="#1f5fbf" style="--at:1.7s">M'(x₀;y₀;0)</text>
-        <text class="pop" x="405" y="64" font-size="14" font-weight="bold" fill="#c62828" style="--at:1.75s">M(x₀;y₀;z₀)</text>
+        <text class="pop m-tex" x="360" y="26" font-size="14.5" font-style="italic" fill="#3b3534" style="--at:1.4s">z</text>
+        <text class="pop m-tex" x="484" y="92" font-size="14.5" font-style="italic" fill="#3b3534" style="--at:1.4s">y</text>
+        <text class="pop m-tex" x="285" y="142" font-size="14.5" font-style="italic" fill="#3b3534" style="--at:1.4s">x</text>
+        <text class="pop m-tex" x="338" y="93" font-size="13.5" font-style="italic" fill="#6f625d" style="--at:1.4s">O</text>
+        <text class="pop m-tex" x="301" y="120" font-size="13" fill="#2e7d4f" style="--at:1.6s">${svgTexSub("x", "0")}</text>
+        <text class="pop m-tex" x="425" y="88" font-size="13" fill="#2e7d4f" style="--at:1.6s">${svgTexSub("y", "0")}</text>
+        <text class="pop m-tex" x="332" y="44" font-size="13" fill="#2e7d4f" style="--at:1.6s">${svgTexSub("z", "0")}</text>
+        <text class="pop m-tex" x="404" y="135" font-size="12.5" fill="#1f5fbf" style="--at:1.7s"><tspan class="m-i">M'</tspan>(${svgTexSub("x", "0", "m-i", "; ")}${svgTexSub("y", "0", "m-i", "; 0)")}</text>
+        <text class="pop m-tex" x="405" y="64" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:1.75s"><tspan class="m-i">M</tspan>(${svgTexSub("x", "0", "m-i", "; ")}${svgTexSub("y", "0", "m-i", "; ")}${svgTexSub("z", "0", "m-i", ")")}</text>
       </g>
 
       <!-- 3. [1.85s -> 2.65s] HÌNH CHÓP TỨ GIÁC S.ABCD & ĐƯỜNG CAO SO ⊥ (ABCD) CHUẨN NÉT LIỀN / NÉT ĐỨT -->
@@ -6338,52 +6411,47 @@ const SHEET_SLIDES = {
         <circle class="pop" cx="64" cy="272" r="3.5" fill="#1f5fbf" style="--at:2.45s"/>
         <circle class="pop" cx="184" cy="272" r="3.5" fill="#1f5fbf" style="--at:2.45s"/>
         <circle class="pop" cx="224" cy="234" r="3.5" fill="#1f5fbf" style="--at:2.45s"/>
-        <text class="pop" x="139" y="152" font-size="14.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:2.55s">S</text>
-        <text class="pop" x="91" y="230" font-size="13.5" font-style="italic" fill="#6f625d" style="--at:2.55s">A</text>
-        <text class="pop" x="50" y="278" font-size="14" font-style="italic" fill="#2a211f" style="--at:2.55s">B</text>
-        <text class="pop" x="188" y="280" font-size="14" font-style="italic" fill="#2a211f" style="--at:2.55s">C</text>
-        <text class="pop" x="229" y="238" font-size="14" font-style="italic" fill="#2a211f" style="--at:2.55s">D</text>
-        <text class="pop" x="133" y="268" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:2.6s">O</text>
+        <text class="pop m-tex" x="139" y="152" font-size="14.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:2.55s">S</text>
+        <text class="pop m-tex" x="91" y="230" font-size="13.5" font-style="italic" fill="#6f625d" style="--at:2.55s">A</text>
+        <text class="pop m-tex" x="50" y="278" font-size="14" font-style="italic" fill="#2a211f" style="--at:2.55s">B</text>
+        <text class="pop m-tex" x="188" y="280" font-size="14" font-style="italic" fill="#2a211f" style="--at:2.55s">C</text>
+        <text class="pop m-tex" x="229" y="238" font-size="14" font-style="italic" fill="#2a211f" style="--at:2.55s">D</text>
+        <text class="pop m-tex" x="133" y="268" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:2.6s">O</text>
       </g>
 
       <!-- 4. [2.75s -> 3.55s] BẢNG BIẾN THIÊN HÀM BẬC 3 -->
       <g class="float-alt">
         <rect class="pop" x="282" y="158" width="218" height="116" rx="5" fill="rgba(255,253,248,0.95)" stroke="#3b3534" stroke-width="1.55" style="--at:2.75s"/>
         <path class="draw" d="M282 182H500M282 206H500M310 158V274" stroke="#3b3534" stroke-width="1.35" style="--len:580;--at:2.85s;--dur:.45s"/>
-        <text class="pop" x="292" y="175" font-size="14" font-style="italic" font-weight="bold" fill="#650f12" style="--at:3.0s">x</text>
-        <text class="pop" x="316" y="175" font-size="13" fill="#2a211f" style="--at:3.05s">−∞</text>
-        <text class="pop" x="370" y="175" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:3.05s">−1</text>
-        <text class="pop" x="426" y="175" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:3.05s">1</text>
-        <text class="pop" x="470" y="175" font-size="13" fill="#2a211f" style="--at:3.05s">+∞</text>
-        <text class="pop" x="289" y="199" font-size="14" font-style="italic" font-weight="bold" fill="#650f12" style="--at:3.1s">y'</text>
-        <text class="pop" x="346" y="199" font-size="15" font-weight="bold" fill="#c62828" style="--at:3.15s">+</text>
-        <text class="pop" x="374" y="199" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:3.15s">0</text>
-        <text class="pop" x="401" y="199" font-size="15" font-weight="bold" fill="#1f5fbf" style="--at:3.15s">−</text>
-        <text class="pop" x="427" y="199" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:3.15s">0</text>
-        <text class="pop" x="454" y="199" font-size="15" font-weight="bold" fill="#c62828" style="--at:3.15s">+</text>
-        <text class="pop" x="292" y="244" font-size="14" font-style="italic" font-weight="bold" fill="#650f12" style="--at:3.2s">y</text>
-        <text class="pop" x="315" y="266" font-size="13" fill="#2a211f" style="--at:3.25s">−∞</text>
-        <text class="pop" x="373" y="222" font-size="14" font-weight="bold" fill="#c62828" style="--at:3.25s">2</text>
-        <text class="pop" x="421" y="266" font-size="14" font-weight="bold" fill="#1f5fbf" style="--at:3.25s">−2</text>
-        <text class="pop" x="470" y="222" font-size="13" fill="#2a211f" style="--at:3.25s">+∞</text>
+        <text class="pop m-tex" x="292" y="175" font-size="14" font-style="italic" font-weight="bold" fill="#650f12" style="--at:3.0s">x</text>
+        <text class="pop m-tex" x="316" y="175" font-size="13" fill="#2a211f" style="--at:3.05s">−∞</text>
+        <text class="pop m-tex" x="370" y="175" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:3.05s">−1</text>
+        <text class="pop m-tex" x="426" y="175" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:3.05s">1</text>
+        <text class="pop m-tex" x="470" y="175" font-size="13" fill="#2a211f" style="--at:3.05s">+∞</text>
+        <text class="pop m-tex" x="289" y="199" font-size="14" font-style="italic" font-weight="bold" fill="#650f12" style="--at:3.1s">y'</text>
+        <text class="pop m-tex" x="346" y="199" font-size="15" font-weight="bold" fill="#c62828" style="--at:3.15s">+</text>
+        <text class="pop m-tex" x="374" y="199" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:3.15s">0</text>
+        <text class="pop m-tex" x="401" y="199" font-size="15" font-weight="bold" fill="#1f5fbf" style="--at:3.15s">−</text>
+        <text class="pop m-tex" x="427" y="199" font-size="13.5" font-weight="bold" fill="#2a211f" style="--at:3.15s">0</text>
+        <text class="pop m-tex" x="454" y="199" font-size="15" font-weight="bold" fill="#c62828" style="--at:3.15s">+</text>
+        <text class="pop m-tex" x="292" y="244" font-size="14" font-style="italic" font-weight="bold" fill="#650f12" style="--at:3.2s">y</text>
+        <text class="pop m-tex" x="315" y="266" font-size="13" fill="#2a211f" style="--at:3.25s">−∞</text>
+        <text class="pop m-tex" x="373" y="222" font-size="14" font-weight="bold" fill="#c62828" style="--at:3.25s">2</text>
+        <text class="pop m-tex" x="421" y="266" font-size="14" font-weight="bold" fill="#1f5fbf" style="--at:3.25s">−2</text>
+        <text class="pop m-tex" x="470" y="222" font-size="13" fill="#2a211f" style="--at:3.25s">+∞</text>
         <path class="draw" d="M336 256L367 224m-6 1 6-1-1 6" stroke="#c62828" stroke-width="1.8" style="--len:70;--at:3.3s;--dur:.25s"/>
         <path class="draw" d="M386 224L418 256m-6-1 6 1 1-6" stroke="#1f5fbf" stroke-width="1.8" style="--len:70;--at:3.38s;--dur:.25s"/>
         <path class="draw" d="M440 256L470 224m-6 1 6-1-1 6" stroke="#c62828" stroke-width="1.8" style="--len:70;--at:3.45s;--dur:.25s"/>
       </g>
 
-      <!-- 5. [3.65s -> 4.45s] TÔ MÀU DIỆN TÍCH HÌNH PHẲNG TÍCH PHÂN S = ∫ₐᵇ |f(x)| dx (TÔ KÍN KHÍT 100% ĐƯỜNG CONG) -->
-      <!-- Cùng 1 đường Bezier chính xác cho cả đường cong f(x) và miền tô:
-           - Nhánh dương từ A(98,330) đến nghiệm I(162,376): C 118 294, 144 304, 162 376
-           - Nhánh âm từ I(162,376) đến B(218,392): C 178 416, 202 412, 218 392 -->
+      <!-- 5. [3.65s -> 4.45s] TÔ MÀU DIỆN TÍCH HÌNH PHẲNG TÍCH PHÂN S = ∫_a^b |f(x)| dx (CẬN TÍCH PHÂN CHUẨN LATEX) -->
       <g class="float-slow">
         <path class="pop" d="M98 376 L98 330 C118 294, 144 304, 162 376 Z" fill="rgba(198,40,40,0.22)" style="--at:4.05s"/>
         <path class="pop" d="M98 376 L98 330 C118 294, 144 304, 162 376 Z" fill="url(#integral-hatch)" style="--at:4.1s"/>
         <path class="pop" d="M162 376 C178 416, 202 412, 218 392 L218 376 Z" fill="rgba(31,95,191,0.20)" style="--at:4.1s"/>
         <path class="pop" d="M162 376 C178 416, 202 412, 218 392 L218 376 Z" fill="url(#rot-hatch)" style="--at:4.15s"/>
-        <!-- Hệ trục tọa độ Oxy -->
         <path class="draw" d="M58 376H252M76 416V296" stroke="#3b3534" stroke-width="1.55" style="--len:320;--at:3.65s;--dur:.4s"/>
         <path class="draw" d="m245 372 7 4-7 4M72 303l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:3.9s;--dur:.2s"/>
-        <!-- Cận tích phân x = a(98), x = b(218) (nét đứt) và đường cong y = f(x) khớp 100% biên miền tô -->
         <path class="draw-dash" d="M98 330V376M218 376V392" stroke="#c62828" stroke-width="1.6" style="--at:4.0s"/>
         <path class="draw" d="M82 352 Q90 341, 98 330 C118 294, 144 304, 162 376 C178 416, 202 412, 218 392 Q225 384, 232 372" stroke="#1f5fbf" stroke-width="2.4" style="--len:250;--at:3.8s;--dur:.55s"/>
         <circle class="pop" cx="98" cy="330" r="2.8" fill="#1f5fbf" style="--at:4.2s"/>
@@ -6391,15 +6459,18 @@ const SHEET_SLIDES = {
         <circle class="pop" cx="162" cy="376" r="3" fill="#2a211f" style="--at:4.2s"/>
         <circle class="pop" cx="218" cy="376" r="3" fill="#c62828" style="--at:4.2s"/>
         <circle class="pop" cx="218" cy="392" r="2.8" fill="#1f5fbf" style="--at:4.2s"/>
-        <text class="pop" x="82" y="306" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:4.15s">y</text>
-        <text class="pop" x="246" y="392" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:4.15s">x</text>
-        <text class="pop" x="63" y="390" font-size="12.5" fill="#6f625d" style="--at:4.15s">O</text>
-        <text class="pop" x="93" y="392" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:4.25s">a</text>
-        <text class="pop" x="214" y="371" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:4.25s">b</text>
-        <text class="pop" x="142" y="308" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:4.35s">S = ∫ₐᵇ |f(x)| dx</text>
+        <text class="pop m-tex" x="82" y="306" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:4.15s">y</text>
+        <text class="pop m-tex" x="246" y="392" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:4.15s">x</text>
+        <text class="pop m-tex" x="63" y="390" font-size="12.5" font-style="italic" fill="#6f625d" style="--at:4.15s">O</text>
+        <text class="pop m-tex" x="93" y="392" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:4.25s">a</text>
+        <text class="pop m-tex" x="214" y="371" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:4.25s">b</text>
+        <g class="pop m-tex" style="--at:4.35s">
+          <text x="130" y="308" font-size="13.5" font-weight="bold" fill="#650f12"><tspan class="m-i">S</tspan> =</text>
+          ${svgTexIntegral(154, 308, "a", "b", '|<tspan class="m-i">f</tspan>(<tspan class="m-i">x</tspan>)| d<tspan class="m-i">x</tspan>', "#650f12", 13)}
+        </g>
       </g>
 
-      <!-- 6. [4.55s -> 5.35s] THỂ TÍCH KHỐI TRÒN XOAY V = π ∫ₐᵇ [f(x)]² dx CHUẨN NÉT LIỀN / NÉT ĐỨT -->
+      <!-- 6. [4.55s -> 5.35s] THỂ TÍCH KHỐI TRÒN XOAY V = π ∫_a^b [f(x)]^2 dx CHUẨN LATEX -->
       <g class="float-alt">
         <path class="pop" d="M318 338 C355 335, 405 314, 452 322 A12 36 0 0 1 452 394 C405 402, 355 381, 318 378 A7 20 0 0 1 318 338 Z" fill="rgba(31,95,191,0.14)" style="--at:4.95s"/>
         <ellipse class="pop" cx="452" cy="358" rx="12" ry="36" fill="rgba(198,40,40,0.18)" style="--at:5.0s"/>
@@ -6415,11 +6486,14 @@ const SHEET_SLIDES = {
         <circle class="pop" cx="318" cy="358" r="2.8" fill="#3b3534" style="--at:5.1s"/>
         <circle class="pop" cx="386" cy="358" r="3" fill="#c62828" style="--at:5.1s"/>
         <circle class="pop" cx="452" cy="358" r="3" fill="#c62828" style="--at:5.1s"/>
-        <text class="pop" x="302" y="306" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:5.05s">y</text>
-        <text class="pop" x="494" y="374" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:5.05s">x</text>
-        <text class="pop" x="313" y="393" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:5.15s">a</text>
-        <text class="pop" x="448" y="408" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:5.15s">b</text>
-        <text class="pop" x="352" y="306" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:5.25s">V = π ∫ₐᵇ [f(x)]² dx</text>
+        <text class="pop m-tex" x="302" y="306" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:5.05s">y</text>
+        <text class="pop m-tex" x="494" y="374" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:5.05s">x</text>
+        <text class="pop m-tex" x="313" y="393" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:5.15s">a</text>
+        <text class="pop m-tex" x="448" y="408" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:5.15s">b</text>
+        <g class="pop m-tex" style="--at:5.25s">
+          <text x="336" y="306" font-size="13.5" font-weight="bold" fill="#650f12"><tspan class="m-i">V</tspan> = π</text>
+          ${svgTexIntegral(374, 306, "a", "b", `${svgTexSup('[<tspan class="m-i">f</tspan>(<tspan class="m-i">x</tspan>)]', "2", "m-rm", ' d<tspan class="m-i">x</tspan>', "m-rm")}`, "#650f12", 13)}
+        </g>
       </g>
     `
   },
@@ -6433,63 +6507,49 @@ const SHEET_SLIDES = {
       </defs>
 
       <!-- 1. [0.05s -> 1.4s] ĐƯỜNG TRÒN (O; R) VỚI 2 TIẾP TUYẾN CẮT NHAU MA, MB & DÂY CUNG AB ⊥ OM -->
-      <!-- O(112,118), R = 56, M(224,118) => OM = 112 = 2R, ∠AOM = 60°.
-           Tiếp điểm A(140, 69.5), B(140, 166.5), giao điểm H(140, 118).
-           OA ⊥ MA tại A, OB ⊥ MB tại B, OM ⊥ AB tại H. -->
       <g class="float-slow">
         <polygon class="pop" points="112,118 140,69.5 224,118 140,166.5" fill="rgba(198,40,40,0.10)" style="--at:.65s"/>
         <circle class="draw" cx="112" cy="118" r="56" stroke="#1f5fbf" stroke-width="2.3" style="--len:360;--at:.05s;--dur:.65s"/>
-        <!-- Bán kính OA, OB và đoạn nối tâm OM -->
         <path class="draw" d="M112 118L140 69.5M112 118L140 166.5M112 118H224" stroke="#2e7d4f" stroke-width="1.75" style="--len:260;--at:.45s;--dur:.45s"/>
-        <!-- Dây cung nối 2 tiếp điểm AB -->
         <path class="draw-dash" d="M140 69.5V166.5" stroke="#1f5fbf" stroke-width="1.7" style="--at:.65s"/>
-        <!-- Hai tiếp tuyến cắt nhau MA, MB (kéo dài qua A, B) -->
         <path class="draw" d="M224 118L122 59.1M224 118L122 176.9" stroke="#c62828" stroke-width="2.4" style="--len:250;--at:.35s;--dur:.55s"/>
-        <!-- Kí hiệu góc vuông tại A, B và H -->
         <path class="draw" d="M136.5 75.6L142.6 79.1L146.1 73.0 M136.5 160.4L142.6 156.9L146.1 163.0 M140 110H148V118" stroke="#650f12" stroke-width="1.35" style="--len:70;--at:.85s;--dur:.25s"/>
         <circle class="pop" cx="112" cy="118" r="3.6" fill="#1f5fbf" style="--at:.9s"/>
         <circle class="pop" cx="140" cy="69.5" r="3.8" fill="#c62828" style="--at:.95s"/>
         <circle class="pop" cx="140" cy="166.5" r="3.8" fill="#c62828" style="--at:.95s"/>
         <circle class="pop" cx="140" cy="118" r="3.2" fill="#2e7d4f" style="--at:1.0s"/>
         <circle class="pop" cx="224" cy="118" r="4" fill="#c62828" style="--at:1.0s"/>
-        <text class="pop" x="95" y="122" font-size="14" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:1.05s">O</text>
-        <text class="pop" x="138" y="59" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.05s">A</text>
-        <text class="pop" x="138" y="184" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.05s">B</text>
-        <text class="pop" x="145" y="132" font-size="13" font-style="italic" font-weight="bold" fill="#2e7d4f" style="--at:1.1s">H</text>
-        <text class="pop" x="230" y="122" font-size="14.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.1s">M</text>
-        <text class="pop" x="62" y="205" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:1.2s">MA = MB · OM ⊥ AB · OH·OM = R²</text>
+        <text class="pop m-tex" x="95" y="122" font-size="14" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:1.05s">O</text>
+        <text class="pop m-tex" x="138" y="59" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.05s">A</text>
+        <text class="pop m-tex" x="138" y="184" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.05s">B</text>
+        <text class="pop m-tex" x="145" y="132" font-size="13" font-style="italic" font-weight="bold" fill="#2e7d4f" style="--at:1.1s">H</text>
+        <text class="pop m-tex" x="230" y="122" font-size="14.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.1s">M</text>
+        <text class="pop m-tex" x="56" y="206" font-size="13" font-weight="bold" fill="#650f12" style="--at:1.2s"><tspan class="m-i">MA</tspan> = <tspan class="m-i">MB</tspan> · <tspan class="m-i">OM</tspan> ⊥ <tspan class="m-i">AB</tspan> · <tspan class="m-i">OH</tspan>·<tspan class="m-i">OM</tspan> = ${svgTexSup("R", "2")}</text>
       </g>
 
-      <!-- 2. [1.45s -> 2.8s] ĐƯỜNG PARABOL (P): y = x² − 2x − 3 & TIẾP TUYẾN / MIỀN PHẲNG TÔ KÍN -->
-      <!-- Gốc O(346,112), trục đối xứng x = 1 tại x = 376, đỉnh I(1;−4) tại (376,196),
-           giao Ox tại A(−1;0) = (316,112) và B(3;0) = (436,112).
-           Từ (316,112) đến (436,112), đường Parabol dùng Q 376 280 436 112 (tại t=0.5 => y = 0.25*112 + 0.5*280 + 0.25*112 = 196!). -->
+      <!-- 2. [1.45s -> 2.8s] ĐƯỜNG PARABOL (P): y = x^2 − 2x − 3 -->
       <g class="float-alt">
-        <!-- Miền phẳng giới hạn bởi Parabol và trục Ox từ −1 đến 3 tô kín 100% -->
         <path class="pop" d="M316 112 Q376 280 436 112 Z" fill="rgba(31,95,191,0.16)" style="--at:2.15s"/>
         <path class="pop" d="M316 112 Q376 280 436 112 Z" fill="url(#para-hatch)" style="--at:2.2s"/>
-        <!-- Hệ trục tọa độ Oxy -->
         <path class="draw" d="M276 112H492M346 218V28" stroke="#3b3534" stroke-width="1.6" style="--len:420;--at:1.45s;--dur:.45s"/>
         <path class="draw" d="m485 108 7 4-7 4M342 35l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:1.8s;--dur:.2s"/>
-        <!-- Trục đối xứng x = 1 và đường gióng đỉnh I(1; −4) nét đứt -->
         <path class="draw-dash" d="M376 34V208M346 196H376" stroke="#c62828" stroke-width="1.45" style="--at:2.0s"/>
-        <!-- Đường Parabol (P) khớp 100% biên miền tô -->
         <path class="draw" d="M298 46 Q307 79, 316 112 Q376 280, 436 112 Q445 79, 454 46" stroke="#1f5fbf" stroke-width="2.5" style="--len:420;--at:1.7s;--dur:.65s"/>
         <circle class="pop" cx="316" cy="112" r="3.4" fill="#c62828" style="--at:2.3s"/>
         <circle class="pop" cx="436" cy="112" r="3.4" fill="#c62828" style="--at:2.3s"/>
         <circle class="pop" cx="376" cy="196" r="4" fill="#c62828" style="--at:2.35s"/>
-        <text class="pop" x="353" y="36" font-size="14" font-style="italic" fill="#3b3534" style="--at:2.2s">y</text>
-        <text class="pop" x="484" y="128" font-size="14" font-style="italic" fill="#3b3534" style="--at:2.2s">x</text>
-        <text class="pop" x="333" y="127" font-size="13" fill="#6f625d" style="--at:2.2s">O</text>
-        <text class="pop" x="299" y="128" font-size="13" font-weight="bold" fill="#c62828" style="--at:2.4s">−1</text>
-        <text class="pop" x="372" y="106" font-size="13" font-weight="bold" fill="#2a211f" style="--at:2.4s">1</text>
-        <text class="pop" x="438" y="128" font-size="13" font-weight="bold" fill="#c62828" style="--at:2.4s">3</text>
-        <text class="pop" x="322" y="200" font-size="13" font-weight="bold" fill="#c62828" style="--at:2.4s">−4</text>
-        <text class="pop" x="384" y="202" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:2.45s">I(1; −4)</text>
-        <text class="pop" x="384" y="46" font-size="13.5" font-weight="bold" fill="#1f5fbf" style="--at:2.5s">(P): y = x² − 2x − 3</text>
+        <text class="pop m-tex" x="353" y="36" font-size="14" font-style="italic" fill="#3b3534" style="--at:2.2s">y</text>
+        <text class="pop m-tex" x="484" y="128" font-size="14" font-style="italic" fill="#3b3534" style="--at:2.2s">x</text>
+        <text class="pop m-tex" x="333" y="127" font-size="13" font-style="italic" fill="#6f625d" style="--at:2.2s">O</text>
+        <text class="pop m-tex" x="299" y="128" font-size="13" font-weight="bold" fill="#c62828" style="--at:2.4s">−1</text>
+        <text class="pop m-tex" x="372" y="106" font-size="13" font-weight="bold" fill="#2a211f" style="--at:2.4s">1</text>
+        <text class="pop m-tex" x="438" y="128" font-size="13" font-weight="bold" fill="#c62828" style="--at:2.4s">3</text>
+        <text class="pop m-tex" x="322" y="200" font-size="13" font-weight="bold" fill="#c62828" style="--at:2.4s">−4</text>
+        <text class="pop m-tex" x="384" y="202" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:2.45s"><tspan class="m-i">I</tspan>(1; −4)</text>
+        <text class="pop m-tex" x="382" y="46" font-size="13" font-weight="bold" fill="#1f5fbf" style="--at:2.5s">(<tspan class="m-i">P</tspan>): <tspan class="m-i">y</tspan> = ${svgTexSup("x", "2", "m-i", " − 2", "m-rm")}<tspan class="m-i">x</tspan> − 3</text>
       </g>
 
-      <!-- 3. [2.85s -> 4.2s] GÓC NỘI TIẾP & TỨ GIÁC NỘI TIẾP + HỆ THỨC VI-ÉT -->
+      <!-- 3. [2.85s -> 4.2s] GÓC NỘI TIẾP & TỨ GIÁC NỘI TIẾP + HỆ THỨC VI-ÉT PHÂN SỐ CHUẨN LATEX -->
       <g class="float-slow">
         <circle class="draw" cx="136" cy="326" r="64" stroke="#1f5fbf" stroke-width="2.1" style="--len:410;--at:2.85s;--dur:.6s"/>
         <polygon class="pop" points="86,286 178,278 192,358 84,364" fill="rgba(46,125,79,0.10)" style="--at:3.3s"/>
@@ -6499,88 +6559,115 @@ const SHEET_SLIDES = {
         <circle class="pop" cx="178" cy="278" r="3.4" fill="#c62828" style="--at:3.5s"/>
         <circle class="pop" cx="192" cy="358" r="3.4" fill="#1f5fbf" style="--at:3.5s"/>
         <circle class="pop" cx="84" cy="364" r="3.4" fill="#1f5fbf" style="--at:3.5s"/>
-        <text class="pop" x="71" y="284" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.6s">A</text>
-        <text class="pop" x="183" y="276" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.6s">B</text>
-        <text class="pop" x="198" y="364" font-size="13.5" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:3.6s">C</text>
-        <text class="pop" x="68" y="370" font-size="13.5" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:3.6s">D</text>
-        <text class="pop" x="72" y="408" font-size="13" font-weight="bold" fill="#650f12" style="--at:3.7s">∠A + ∠C = 180° · ∠ACB = ∠ADB</text>
+        <text class="pop m-tex" x="71" y="284" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.6s">A</text>
+        <text class="pop m-tex" x="183" y="276" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.6s">B</text>
+        <text class="pop m-tex" x="198" y="364" font-size="13.5" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:3.6s">C</text>
+        <text class="pop m-tex" x="68" y="370" font-size="13.5" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:3.6s">D</text>
+        <text class="pop m-tex" x="68" y="408" font-size="12.5" font-weight="bold" fill="#650f12" style="--at:3.7s">∠<tspan class="m-i">A</tspan> + ∠<tspan class="m-i">C</tspan> = 180° · ∠<tspan class="m-i">ACB</tspan> = ∠<tspan class="m-i">ADB</tspan></text>
 
-        <rect class="pop" x="242" y="256" width="256" height="142" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:3.3s"/>
-        <text class="pop" x="258" y="282" font-size="14.5" font-weight="bold" fill="#650f12" style="--at:3.5s">Hệ thức Vi-ét &amp; Giao điểm (P), (d):</text>
-        <text class="pop" x="258" y="308" font-size="13.5" fill="#2a211f" style="--at:3.65s">• Phương trình: ax² + bx + c = 0 (Δ ≥ 0)</text>
-        <text class="pop" x="258" y="334" font-size="14" font-weight="bold" fill="#c62828" style="--at:3.8s">• Tổng: S = x₁ + x₂ = −b / a</text>
-        <text class="pop" x="258" y="358" font-size="14" font-weight="bold" fill="#1f5fbf" style="--at:3.9s">• Tích: P = x₁ · x₂ = c / a</text>
-        <text class="pop" x="258" y="384" font-size="13.5" font-weight="bold" fill="#2e7d4f" style="--at:4.0s">• Tiếp tuyến: Δ = 0 ⇔ Tiếp xúc tại 1 điểm</text>
+        <rect class="pop" x="242" y="246" width="260" height="158" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:3.3s"/>
+        <text class="pop" x="256" y="270" font-size="14.5" font-weight="bold" fill="#650f12" style="--at:3.5s">Hệ thức Vi-ét &amp; Giao điểm (P), (d):</text>
+        <text class="pop m-tex" x="256" y="295" font-size="13" fill="#2a211f" style="--at:3.65s">• Phương trình: <tspan class="m-i">a</tspan>${svgTexSup("x", "2", "m-i", " + ", "m-rm")}<tspan class="m-i">bx</tspan> + <tspan class="m-i">c</tspan> = 0 (Δ ≥ 0)</text>
+        <g class="pop" style="--at:3.8s">
+          <text x="256" y="328" font-size="13" font-weight="bold" fill="#c62828">• Tổng: <tspan class="m-tex"><tspan class="m-i">S</tspan> = ${svgTexSub("x", "1", "m-i", " + ", "m-rm")}${svgTexSub("x", "2", "m-i", " =", "m-rm")}</tspan></text>
+          ${svgTexFrac(402, 328, '−<tspan class="m-i">b</tspan>', '<tspan class="m-i">a</tspan>', 22, '#c62828', 11.5)}
+        </g>
+        <g class="pop" style="--at:3.9s">
+          <text x="256" y="362" font-size="13" font-weight="bold" fill="#1f5fbf">• Tích: <tspan class="m-tex"><tspan class="m-i">P</tspan> = ${svgTexSub("x", "1", "m-i", "·", "m-rm")}${svgTexSub("x", "2", "m-i", " =", "m-rm")}</tspan></text>
+          ${svgTexFrac(394, 362, '<tspan class="m-i">c</tspan>', '<tspan class="m-i">a</tspan>', 18, '#1f5fbf', 11.5)}
+        </g>
+        <text class="pop" x="256" y="391" font-size="12.5" font-weight="bold" fill="#2e7d4f" style="--at:4.0s">• Tiếp tuyến (<tspan class="m-tex"><tspan class="m-i">P</tspan></tspan>), (<tspan class="m-tex"><tspan class="m-i">d</tspan></tspan>): <tspan class="m-tex">Δ = 0</tspan> (tiếp xúc)</text>
       </g>
     `
   },
 
   conics: {
     svg: `
-      <!-- 1. [0.05s -> 1.4s] ELIP (E): x²/a² + y²/b² = 1 & HÌNH CHỮ NHẬT CƠ SỞ -->
+      <!-- 1. [0.05s -> 1.4s] ELIP (E): x^2/a^2 + y^2/b^2 = 1 & HÌNH CHỮ NHẬT CƠ SỞ -->
       <g class="float-slow">
-        <rect class="draw-dash" x="72" y="64" width="144" height="88" stroke="#6f625d" stroke-width="1.35" style="--at:.35s"/>
-        <ellipse class="pop" cx="144" cy="108" rx="72" ry="44" fill="rgba(31,95,191,0.10)" style="--at:.5s"/>
-        <path class="draw" d="M46 108H242M144 172V36" stroke="#3b3534" stroke-width="1.55" style="--len:340;--at:.05s;--dur:.45s"/>
-        <path class="draw" d="m235 104 7 4-7 4M140 43l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.4s;--dur:.2s"/>
-        <ellipse class="draw" cx="144" cy="108" rx="72" ry="44" stroke="#1f5fbf" stroke-width="2.3" style="--len:380;--at:.25s;--dur:.65s"/>
-        <!-- Điểm M(180, 69.9) trên Elip nối 2 tiêu điểm F₁(87,108) và F₂(201,108) -->
-        <path class="draw" d="M87 108L180 69.9L201 108" stroke="#c62828" stroke-width="1.9" style="--len:160;--at:.75s;--dur:.35s"/>
-        <circle class="pop" cx="87" cy="108" r="3.4" fill="#c62828" style="--at:.9s"/>
-        <circle class="pop" cx="201" cy="108" r="3.4" fill="#c62828" style="--at:.9s"/>
-        <circle class="pop" cx="180" cy="69.9" r="3.8" fill="#c62828" style="--at:.95s"/>
-        <text class="pop" x="150" y="44" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:.85s">y</text>
-        <text class="pop" x="236" y="124" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:.85s">x</text>
-        <text class="pop" x="80" y="125" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:1.0s">F₁</text>
-        <text class="pop" x="196" y="125" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:1.0s">F₂</text>
-        <text class="pop" x="184" y="65" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:1.05s">M</text>
-        <text class="pop" x="62" y="190" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:1.15s">Elip (E): x²/a² + y²/b² = 1 · MF₁ + MF₂ = 2a</text>
+        <rect class="draw-dash" x="72" y="58" width="144" height="86" stroke="#6f625d" stroke-width="1.35" style="--at:.35s"/>
+        <ellipse class="pop" cx="144" cy="101" rx="72" ry="43" fill="rgba(31,95,191,0.10)" style="--at:.5s"/>
+        <path class="draw" d="M46 101H242M144 162V30" stroke="#3b3534" stroke-width="1.55" style="--len:340;--at:.05s;--dur:.45s"/>
+        <path class="draw" d="m235 97 7 4-7 4M140 37l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.4s;--dur:.2s"/>
+        <ellipse class="draw" cx="144" cy="101" rx="72" ry="43" stroke="#1f5fbf" stroke-width="2.3" style="--len:380;--at:.25s;--dur:.65s"/>
+        <path class="draw" d="M87 101L180 63.5L201 101" stroke="#c62828" stroke-width="1.9" style="--len:160;--at:.75s;--dur:.35s"/>
+        <circle class="pop" cx="87" cy="101" r="3.4" fill="#c62828" style="--at:.9s"/>
+        <circle class="pop" cx="201" cy="101" r="3.4" fill="#c62828" style="--at:.9s"/>
+        <circle class="pop" cx="180" cy="63.5" r="3.8" fill="#c62828" style="--at:.95s"/>
+        <text class="pop m-tex" x="150" y="38" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:.85s">y</text>
+        <text class="pop m-tex" x="236" y="117" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:.85s">x</text>
+        <text class="pop m-tex" x="80" y="118" font-size="12" font-weight="bold" fill="#c62828" style="--at:1.0s">${svgTexSub("F", "1")}</text>
+        <text class="pop m-tex" x="196" y="118" font-size="12" font-weight="bold" fill="#c62828" style="--at:1.0s">${svgTexSub("F", "2")}</text>
+        <text class="pop m-tex" x="184" y="59" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.05s">M</text>
+        <g class="pop m-tex" style="--at:1.15s">
+          <text x="52" y="192" font-size="13" font-weight="bold" fill="#650f12">(<tspan class="m-i">E</tspan>):</text>
+          ${svgTexFrac(94, 192, svgTexSup("x", "2"), svgTexSup("a", "2"), 20, "#650f12", 11.5)}
+          <text x="108" y="192" font-size="13.5" font-weight="bold" fill="#650f12">+</text>
+          ${svgTexFrac(130, 192, svgTexSup("y", "2"), svgTexSup("b", "2"), 20, "#650f12", 11.5)}
+          <text x="144" y="192" font-size="13" font-weight="bold" fill="#650f12">= 1 · <tspan class="m-i">MF</tspan><tspan dy="3" font-size="72%">1</tspan><tspan dy="-3"> + </tspan><tspan class="m-i">MF</tspan><tspan dy="3" font-size="72%">2</tspan><tspan dy="-3"> = 2</tspan><tspan class="m-i">a</tspan></text>
+        </g>
       </g>
 
-      <!-- 2. [1.45s -> 2.8s] HYPEBOL (H): x²/a² − y²/b² = 1 & HAI TIỆM CẬN -->
+      <!-- 2. [1.45s -> 2.8s] HYPEBOL (H): x^2/a^2 − y^2/b^2 = 1 & HAI TIỆM CẬN -->
       <g class="float-alt">
-        <path class="draw" d="M284 108H496M390 172V36" stroke="#3b3534" stroke-width="1.55" style="--len:350;--at:1.45s;--dur:.45s"/>
-        <path class="draw" d="m489 104 7 4-7 4M386 43l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:1.8s;--dur:.2s"/>
-        <!-- Hình chữ nhật cơ sở & 2 đường tiệm cận y = ±(b/a)x nét đứt -->
-        <rect class="draw-dash" x="354" y="80" width="72" height="56" stroke="#6f625d" stroke-width="1.3" style="--at:1.85s"/>
-        <path class="draw-dash" d="M306 42.7L474 173.3M306 173.3L474 42.7" stroke="#2e7d4f" stroke-width="1.45" style="--at:1.95s"/>
-        <!-- Hai nhánh Hypebol đi qua đỉnh A₁(354,108) và A₂(426,108) -->
-        <path class="draw" d="M308 50 Q398 108 308 166 M472 50 Q382 108 472 166" stroke="#c62828" stroke-width="2.4" style="--len:320;--at:2.05s;--dur:.55s"/>
-        <circle class="pop" cx="332" cy="108" r="3.4" fill="#1f5fbf" style="--at:2.4s"/>
-        <circle class="pop" cx="448" cy="108" r="3.4" fill="#1f5fbf" style="--at:2.4s"/>
-        <text class="pop" x="396" y="44" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:2.3s">y</text>
-        <text class="pop" x="488" y="124" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:2.3s">x</text>
-        <text class="pop" x="322" y="125" font-size="12.5" font-weight="bold" fill="#1f5fbf" style="--at:2.5s">F₁</text>
-        <text class="pop" x="444" y="125" font-size="12.5" font-weight="bold" fill="#1f5fbf" style="--at:2.5s">F₂</text>
-        <text class="pop" x="292" y="190" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:2.6s">Hypebol (H): x²/a² − y²/b² = 1 · |MF₁ − MF₂| = 2a</text>
+        <path class="draw" d="M284 101H496M390 162V30" stroke="#3b3534" stroke-width="1.55" style="--len:350;--at:1.45s;--dur:.45s"/>
+        <path class="draw" d="m489 97 7 4-7 4M386 37l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:1.8s;--dur:.2s"/>
+        <rect class="draw-dash" x="354" y="74" width="72" height="54" stroke="#6f625d" stroke-width="1.3" style="--at:1.85s"/>
+        <path class="draw-dash" d="M306 36.7L474 165.3M306 165.3L474 36.7" stroke="#2e7d4f" stroke-width="1.45" style="--at:1.95s"/>
+        <path class="draw" d="M308 44 Q398 101 308 158 M472 44 Q382 101 472 158" stroke="#c62828" stroke-width="2.4" style="--len:320;--at:2.05s;--dur:.55s"/>
+        <circle class="pop" cx="332" cy="101" r="3.4" fill="#1f5fbf" style="--at:2.4s"/>
+        <circle class="pop" cx="448" cy="101" r="3.4" fill="#1f5fbf" style="--at:2.4s"/>
+        <text class="pop m-tex" x="396" y="38" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:2.3s">y</text>
+        <text class="pop m-tex" x="488" y="117" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:2.3s">x</text>
+        <text class="pop m-tex" x="322" y="118" font-size="12" font-weight="bold" fill="#1f5fbf" style="--at:2.5s">${svgTexSub("F", "1")}</text>
+        <text class="pop m-tex" x="444" y="118" font-size="12" font-weight="bold" fill="#1f5fbf" style="--at:2.5s">${svgTexSub("F", "2")}</text>
+        <g class="pop m-tex" style="--at:2.6s">
+          <text x="278" y="192" font-size="13" font-weight="bold" fill="#650f12">(<tspan class="m-i">H</tspan>):</text>
+          ${svgTexFrac(321, 192, svgTexSup("x", "2"), svgTexSup("a", "2"), 20, "#650f12", 11.5)}
+          <text x="335" y="192" font-size="13.5" font-weight="bold" fill="#650f12">−</text>
+          ${svgTexFrac(357, 192, svgTexSup("y", "2"), svgTexSup("b", "2"), 20, "#650f12", 11.5)}
+          <text x="371" y="192" font-size="13" font-weight="bold" fill="#650f12">= 1 · |<tspan class="m-i">MF</tspan><tspan dy="3" font-size="72%">1</tspan><tspan dy="-3"> − </tspan><tspan class="m-i">MF</tspan><tspan dy="3" font-size="72%">2</tspan><tspan dy="-3">| = 2</tspan><tspan class="m-i">a</tspan></text>
+        </g>
       </g>
 
-      <!-- 3. [2.85s -> 4.2s] PARABOL CHÍNH TẮC (P): y² = 2px, TIÊU ĐIỂM F & ĐƯỜNG CHUẨN Δ -->
+      <!-- 3. [2.85s -> 4.2s] PARABOL CHÍNH TẮC (P): y^2 = 2px, TIÊU ĐIỂM F(p/2; 0) & ĐƯỜNG CHUẨN Δ -->
       <g class="float-slow">
         <path class="draw" d="M58 322H254M138 404V236" stroke="#3b3534" stroke-width="1.55" style="--len:360;--at:2.85s;--dur:.45s"/>
         <path class="draw" d="m247 318 7 4-7 4M134 243l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:3.2s;--dur:.2s"/>
-        <!-- Đường chuẩn Δ: x = −p/2 tại x = 98 (nét đứt đỏ) -->
         <path class="draw-dash" d="M98 240V400" stroke="#c62828" stroke-width="1.8" style="--at:3.25s"/>
-        <!-- Nhánh Parabol y² = 2px đi qua đỉnh O(138,322) -->
         <path class="draw" d="M234 246 Q42 322 234 398" stroke="#1f5fbf" stroke-width="2.5" style="--len:280;--at:3.1s;--dur:.6s"/>
-        <!-- Điểm M(194,274) trên (P): khoảng cách tới Δ(x=98) là MH = 96; tới F(178,322) là MF -->
         <path class="draw-dash" d="M98 274H194L178 322" stroke="#2e7d4f" stroke-width="1.7" style="--at:3.55s"/>
         <path class="draw" d="M98 282H106V274" stroke="#c62828" stroke-width="1.35" style="--len:20;--at:3.65s;--dur:.2s"/>
         <circle class="pop" cx="178" cy="322" r="3.6" fill="#c62828" style="--at:3.7s"/>
         <circle class="pop" cx="194" cy="274" r="3.8" fill="#1f5fbf" style="--at:3.7s"/>
         <circle class="pop" cx="98" cy="274" r="3.2" fill="#c62828" style="--at:3.7s"/>
-        <text class="pop" x="78" y="254" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:3.75s">Δ</text>
-        <text class="pop" x="82" y="278" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.75s">H</text>
-        <text class="pop" x="199" y="272" font-size="13.5" font-weight="bold" fill="#1f5fbf" style="--at:3.8s">M</text>
-        <text class="pop" x="172" y="340" font-size="13" font-weight="bold" fill="#c62828" style="--at:3.8s">F(p/2;0)</text>
-        <text class="pop" x="124" y="338" font-size="13" fill="#6f625d" style="--at:3.8s">O</text>
+        <text class="pop m-tex" x="78" y="254" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:3.75s">Δ</text>
+        <text class="pop m-tex" x="82" y="278" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.75s">H</text>
+        <text class="pop m-tex" x="199" y="272" font-size="13.5" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:3.8s">M</text>
+        <g class="pop m-tex" style="--at:3.8s">
+          <text x="166" y="346" font-size="12.5" font-weight="bold" fill="#c62828"><tspan class="m-i">F</tspan>(</text>
+          ${svgTexFrac(186, 346, '<tspan class="m-i">p</tspan>', "2", 14, "#c62828", 11)}
+          <text x="195" y="346" font-size="12.5" font-weight="bold" fill="#c62828">; 0)</text>
+        </g>
+        <text class="pop m-tex" x="124" y="338" font-size="13" font-style="italic" fill="#6f625d" style="--at:3.8s">O</text>
 
-        <rect class="pop" x="268" y="242" width="232" height="154" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:3.4s"/>
-        <text class="pop" x="282" y="268" font-size="14.5" font-weight="bold" fill="#650f12" style="--at:3.6s">Ba đường Conic &amp; Tâm sai e:</text>
-        <text class="pop" x="282" y="294" font-size="13.5" font-weight="bold" fill="#1f5fbf" style="--at:3.75s">1. Elip: c² = a² − b² · e = c/a &lt; 1</text>
-        <text class="pop" x="282" y="320" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:3.85s">2. Hypebol: c² = a² + b² · e = c/a &gt; 1</text>
-        <text class="pop" x="282" y="346" font-size="13.5" font-weight="bold" fill="#2e7d4f" style="--at:3.95s">3. Parabol: y² = 2px · e = 1</text>
-        <text class="pop" x="282" y="374" font-size="13" fill="#2a211f" style="--at:4.05s">• Bán kính qua tiêu: MF = d(M, Δ) = x + p/2</text>
+        <rect class="pop" x="262" y="236" width="242" height="168" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:3.4s"/>
+        <text class="pop" x="274" y="261" font-size="14" font-weight="bold" fill="#650f12" style="--at:3.6s">Ba đường Conic &amp; Tâm sai e:</text>
+        <g class="pop" style="--at:3.75s">
+          <text x="274" y="294" font-size="12" font-weight="bold" fill="#1f5fbf">1. Elip: <tspan class="m-tex">${svgTexSup("c", "2", "m-i", " = ", "m-rm")}${svgTexSup("a", "2", "m-i", " − ", "m-rm")}${svgTexSup("b", "2", "m-i", " · ", "m-rm")}<tspan class="m-i">e</tspan> =</tspan></text>
+          ${svgTexFrac(456, 294, '<tspan class="m-i">c</tspan>', '<tspan class="m-i">a</tspan>', 14, '#1f5fbf', 10.5)}
+          <text x="468" y="294" font-size="12" font-weight="bold" fill="#1f5fbf" class="m-tex">&lt; 1</text>
+        </g>
+        <g class="pop" style="--at:3.85s">
+          <text x="274" y="328" font-size="11.5" font-weight="bold" fill="#c62828">2. Hypebol: <tspan class="m-tex">${svgTexSup("c", "2", "m-i", " = ", "m-rm")}${svgTexSup("a", "2", "m-i", " + ", "m-rm")}${svgTexSup("b", "2", "m-i", " · ", "m-rm")}<tspan class="m-i">e</tspan> =</tspan></text>
+          ${svgTexFrac(467, 328, '<tspan class="m-i">c</tspan>', '<tspan class="m-i">a</tspan>', 13, '#c62828', 10.2)}
+          <text x="478" y="328" font-size="11.5" font-weight="bold" fill="#c62828" class="m-tex">&gt; 1</text>
+        </g>
+        <text class="pop" x="274" y="356" font-size="12.5" font-weight="bold" fill="#2e7d4f" style="--at:3.95s">3. Parabol: <tspan class="m-tex">${svgTexSup("y", "2", "m-i", " = 2", "m-rm")}<tspan class="m-i">px</tspan> · <tspan class="m-i">e</tspan> = 1</tspan></text>
+        <g class="pop" style="--at:4.05s">
+          <text x="274" y="388" font-size="12" fill="#2a211f">• Bán kính: <tspan class="m-tex"><tspan class="m-i">MF</tspan> = d(<tspan class="m-i">M</tspan>, Δ) = <tspan class="m-i">x</tspan> +</tspan></text>
+          ${svgTexFrac(486, 388, '<tspan class="m-i">p</tspan>', '2', 14, '#2a211f', 10.8, false)}
+        </g>
       </g>
     `
   },
@@ -6589,76 +6676,106 @@ const SHEET_SLIDES = {
     svg: `
       <defs>
         <pattern id="venn-hatch" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-          <line x1="0" y1="0" x2="0" y2="6" stroke="#c62828" stroke-width="1.3" stroke-opacity="0.5"/>
+          <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="6 6" dur="2.2s" repeatCount="indefinite" additive="sum"/>
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#c62828" stroke-width="1.35" stroke-opacity="0.55"/>
         </pattern>
       </defs>
 
-      <!-- 1. [0.05s -> 1.4s] HAI VIÊN XÚC XẮC 3D & KHÔNG GIAN MẪU |Ω| = 36 -->
-      <g class="float-slow">
-        <!-- Viên xúc xắc 1 (Isometric 3D tâm 102,94) -->
-        <polygon class="pop" points="102,42 144,64 102,86 60,64" fill="#fffdf8" stroke="#1f5fbf" stroke-width="2" style="--at:.15s"/>
-        <polygon class="pop" points="60,64 102,86 102,136 60,114" fill="#f3ead8" stroke="#1f5fbf" stroke-width="2" style="--at:.25s"/>
-        <polygon class="pop" points="102,86 144,64 144,114 102,136" fill="#e6d8c0" stroke="#1f5fbf" stroke-width="2" style="--at:.35s"/>
-        <!-- Chấm mặt trên (1 chấm đỏ lớn) -->
-        <circle class="pop" cx="102" cy="64" r="5" fill="#c62828" style="--at:.5s"/>
-        <!-- Chấm mặt trái (2 chấm) -->
-        <circle class="pop" cx="73" cy="84" r="3.2" fill="#2a211f" style="--at:.55s"/>
-        <circle class="pop" cx="89" cy="112" r="3.2" fill="#2a211f" style="--at:.55s"/>
-        <!-- Chấm mặt phải (3 chấm) -->
-        <circle class="pop" cx="113" cy="114" r="3" fill="#2a211f" style="--at:.6s"/>
-        <circle class="pop" cx="123" cy="99" r="3" fill="#2a211f" style="--at:.6s"/>
-        <circle class="pop" cx="133" cy="84" r="3" fill="#2a211f" style="--at:.6s"/>
+      <!-- 1. [0.05s -> 1.4s] HAI VIÊN XÚC XẮC 3D ĐỘNG (LẮC TUNG XEN KẼ) & CÔNG THỨC XÁC SUẤT LATEX -->
+      <g>
+        <!-- Bóng đổ dưới 2 viên xúc xắc -->
+        <ellipse class="dice-shadow-1 pop" cx="102" cy="140" rx="34" ry="7" fill="#3d0709" style="--at:.35s"/>
+        <ellipse class="dice-shadow-2 pop" cx="196" cy="149" rx="34" ry="7" fill="#3d0709" style="--at:.55s"/>
 
-        <!-- Viên xúc xắc 2 (Isometric 3D tâm 196,104) -->
-        <polygon class="pop" points="196,52 238,74 196,96 154,74" fill="#fffdf8" stroke="#c62828" stroke-width="2" style="--at:.4s"/>
-        <polygon class="pop" points="154,74 196,96 196,146 154,124" fill="#f6e7e5" stroke="#c62828" stroke-width="2" style="--at:.5s"/>
-        <polygon class="pop" points="196,96 238,74 238,124 196,146" fill="#ebd2cf" stroke="#c62828" stroke-width="2" style="--at:.6s"/>
-        <!-- Mặt trên (6 chấm: 2 hàng song song 3 chấm chuẩn phối cảnh trục đo) -->
-        <circle class="pop" cx="194" cy="63" r="2.8" fill="#2a211f" style="--at:.75s"/>
-        <circle class="pop" cx="205.5" cy="69" r="2.8" fill="#2a211f" style="--at:.75s"/>
-        <circle class="pop" cx="217" cy="75" r="2.8" fill="#2a211f" style="--at:.75s"/>
-        <circle class="pop" cx="175" cy="73" r="2.8" fill="#2a211f" style="--at:.75s"/>
-        <circle class="pop" cx="186.5" cy="79" r="2.8" fill="#2a211f" style="--at:.75s"/>
-        <circle class="pop" cx="198" cy="85" r="2.8" fill="#2a211f" style="--at:.75s"/>
-        <!-- Mặt trái (4 chấm) -->
-        <circle class="pop" cx="166" cy="92" r="2.8" fill="#2a211f" style="--at:.8s"/>
-        <circle class="pop" cx="184" cy="101" r="2.8" fill="#2a211f" style="--at:.8s"/>
-        <circle class="pop" cx="166" cy="116" r="2.8" fill="#2a211f" style="--at:.8s"/>
-        <circle class="pop" cx="184" cy="125" r="2.8" fill="#2a211f" style="--at:.8s"/>
-        <!-- Mặt phải (5 chấm) -->
-        <circle class="pop" cx="206" cy="102" r="2.7" fill="#2a211f" style="--at:.85s"/>
-        <circle class="pop" cx="228" cy="91" r="2.7" fill="#2a211f" style="--at:.85s"/>
-        <circle class="pop" cx="217" cy="110" r="2.7" fill="#2a211f" style="--at:.85s"/>
-        <circle class="pop" cx="206" cy="128" r="2.7" fill="#2a211f" style="--at:.85s"/>
-        <circle class="pop" cx="228" cy="117" r="2.7" fill="#2a211f" style="--at:.85s"/>
+        <!-- Viên xúc xắc 1 (Isometric 3D tâm 102,89) -->
+        <g class="dice-bounce-1">
+          <polygon class="pop" points="102,42 144,64 102,86 60,64" fill="#fffdf8" stroke="#1f5fbf" stroke-width="2" style="--at:.15s"/>
+          <polygon class="pop" points="60,64 102,86 102,136 60,114" fill="#f3ead8" stroke="#1f5fbf" stroke-width="2" style="--at:.25s"/>
+          <polygon class="pop" points="102,86 144,64 144,114 102,136" fill="#e6d8c0" stroke="#1f5fbf" stroke-width="2" style="--at:.35s"/>
+          <circle class="pop" cx="102" cy="64" r="5" fill="#c62828" style="--at:.5s"/>
+          <circle class="pop" cx="73" cy="84" r="3.2" fill="#2a211f" style="--at:.55s"/>
+          <circle class="pop" cx="89" cy="112" r="3.2" fill="#2a211f" style="--at:.55s"/>
+          <circle class="pop" cx="113" cy="114" r="3" fill="#2a211f" style="--at:.6s"/>
+          <circle class="pop" cx="123" cy="99" r="3" fill="#2a211f" style="--at:.6s"/>
+          <circle class="pop" cx="133" cy="84" r="3" fill="#2a211f" style="--at:.6s"/>
+        </g>
 
-        <text class="pop" x="58" y="172" font-size="14" font-weight="bold" fill="#650f12" style="--at:1.05s">Gieo 2 xúc xắc: n(Ω) = 6² = 36</text>
-        <text class="pop" x="58" y="194" font-size="13.5" font-weight="bold" fill="#1f5fbf" style="--at:1.15s">P(A) = n(A) / n(Ω) · P(Ā) = 1 − P(A)</text>
+        <!-- Viên xúc xắc 2 (Isometric 3D tâm 196,99) -->
+        <g class="dice-bounce-2">
+          <polygon class="pop" points="196,52 238,74 196,96 154,74" fill="#fffdf8" stroke="#c62828" stroke-width="2" style="--at:.4s"/>
+          <polygon class="pop" points="154,74 196,96 196,146 154,124" fill="#f6e7e5" stroke="#c62828" stroke-width="2" style="--at:.5s"/>
+          <polygon class="pop" points="196,96 238,74 238,124 196,146" fill="#ebd2cf" stroke="#c62828" stroke-width="2" style="--at:.6s"/>
+          <circle class="pop" cx="194" cy="63" r="2.8" fill="#2a211f" style="--at:.75s"/>
+          <circle class="pop" cx="205.5" cy="69" r="2.8" fill="#2a211f" style="--at:.75s"/>
+          <circle class="pop" cx="217" cy="75" r="2.8" fill="#2a211f" style="--at:.75s"/>
+          <circle class="pop" cx="175" cy="73" r="2.8" fill="#2a211f" style="--at:.75s"/>
+          <circle class="pop" cx="186.5" cy="79" r="2.8" fill="#2a211f" style="--at:.75s"/>
+          <circle class="pop" cx="198" cy="85" r="2.8" fill="#2a211f" style="--at:.75s"/>
+          <circle class="pop" cx="166" cy="92" r="2.8" fill="#2a211f" style="--at:.8s"/>
+          <circle class="pop" cx="184" cy="101" r="2.8" fill="#2a211f" style="--at:.8s"/>
+          <circle class="pop" cx="166" cy="116" r="2.8" fill="#2a211f" style="--at:.8s"/>
+          <circle class="pop" cx="184" cy="125" r="2.8" fill="#2a211f" style="--at:.8s"/>
+          <circle class="pop" cx="206" cy="102" r="2.7" fill="#2a211f" style="--at:.85s"/>
+          <circle class="pop" cx="228" cy="91" r="2.7" fill="#2a211f" style="--at:.85s"/>
+          <circle class="pop" cx="217" cy="110" r="2.7" fill="#2a211f" style="--at:.85s"/>
+          <circle class="pop" cx="206" cy="128" r="2.7" fill="#2a211f" style="--at:.85s"/>
+          <circle class="pop" cx="228" cy="117" r="2.7" fill="#2a211f" style="--at:.85s"/>
+        </g>
+
+        <text class="pop" x="54" y="172" font-size="13" font-weight="bold" fill="#650f12" style="--at:1.05s">Gieo 2 xúc xắc: <tspan class="m-tex"><tspan class="m-i">n</tspan>(Ω) = ${svgTexSup("6", "2", "m-rm", " = 36", "m-rm")}</tspan></text>
+        <g class="pop m-tex" style="--at:1.15s">
+          <text x="54" y="207" font-size="13" font-weight="bold" fill="#1f5fbf">P(<tspan class="m-i">A</tspan>) =</text>
+          ${svgTexFrac(112, 207, '<tspan class="m-i">n</tspan>(<tspan class="m-i">A</tspan>)', '<tspan class="m-i">n</tspan>(Ω)', 34, "#1f5fbf", 11.8)}
+          <text x="134" y="207" font-size="13" font-weight="bold" fill="#1f5fbf">;  P(</text>
+          ${svgTexBar("A", 162, 207, "#1f5fbf", 13, true)}
+          <text x="169" y="207" font-size="13" font-weight="bold" fill="#1f5fbf">) = 1 − P(<tspan class="m-i">A</tspan>)</text>
+        </g>
       </g>
 
-      <!-- 2. [1.45s -> 2.8s] BIỂU ĐỒ VENN HAI BIẾN CỐ A, B & QUY TẮC CỘNG / NHÂN XÁC SUẤT -->
-      <g class="float-alt">
+      <!-- 2. [1.45s -> 2.8s] BIỂU ĐỒ VENN ĐỘNG & QUY TẮC CỘNG / XÁC SUẤT CÓ ĐIỀU KIỆN -->
+      <g>
         <rect class="pop" x="278" y="38" width="222" height="114" rx="8" fill="rgba(255,253,248,0.95)" stroke="#3b3534" stroke-width="1.5" style="--at:1.45s"/>
-        <text class="pop" x="288" y="57" font-size="14" font-weight="bold" fill="#650f12" style="--at:1.6s">Ω</text>
-        <!-- Hai hình tròn biến cố A(362,96,r=40) và B(414,96,r=40); giao nhau tại (388, 65.4) và (388, 126.6) -->
-        <circle class="pop" cx="362" cy="96" r="40" fill="rgba(31,95,191,0.14)" stroke="#1f5fbf" stroke-width="2" style="--at:1.7s"/>
-        <circle class="pop" cx="414" cy="96" r="40" fill="rgba(46,125,79,0.14)" stroke="#2e7d4f" stroke-width="2" style="--at:1.85s"/>
-        <!-- Miền giao A ∩ B tô kín 100% bằng đúng cung tròn r=40 -->
-        <path class="pop" d="M388 65.4 A40 40 0 0 1 388 126.6 A40 40 0 0 1 388 65.4 Z" fill="rgba(198,40,40,0.24)" style="--at:2.05s"/>
-        <path class="pop" d="M388 65.4 A40 40 0 0 1 388 126.6 A40 40 0 0 1 388 65.4 Z" fill="url(#venn-hatch)" style="--at:2.1s"/>
-        <text class="pop" x="334" y="101" font-size="15" font-weight="bold" fill="#1f5fbf" style="--at:2.15s">A</text>
-        <text class="pop" x="434" y="101" font-size="15" font-weight="bold" fill="#2e7d4f" style="--at:2.15s">B</text>
-        <text class="pop" x="377" y="101" font-size="13" font-weight="bold" fill="#c62828" style="--at:2.25s">A∩B</text>
-        <text class="pop" x="278" y="174" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:2.4s">P(A∪B) = P(A) + P(B) − P(A∩B)</text>
-        <text class="pop" x="278" y="194" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:2.55s">P(A|B) = P(AB) / P(B)</text>
+        <text class="pop m-tex" x="288" y="57" font-size="14" font-weight="bold" fill="#650f12" style="--at:1.6s">Ω</text>
+        <g class="venn-drift-a">
+          <circle class="pop" cx="362" cy="96" r="40" fill="rgba(31,95,191,0.14)" stroke="#1f5fbf" stroke-width="2" style="--at:1.7s"/>
+          <text class="pop m-tex" x="334" y="101" font-size="15" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:2.15s">A</text>
+        </g>
+        <g class="venn-drift-b">
+          <circle class="pop" cx="414" cy="96" r="40" fill="rgba(46,125,79,0.14)" stroke="#2e7d4f" stroke-width="2" style="--at:1.85s"/>
+          <text class="pop m-tex" x="434" y="101" font-size="15" font-style="italic" font-weight="bold" fill="#2e7d4f" style="--at:2.15s">B</text>
+        </g>
+        <g class="venn-inter-pulse">
+          <path class="pop" d="M388 65.4 A40 40 0 0 1 388 126.6 A40 40 0 0 1 388 65.4 Z" fill="rgba(198,40,40,0.24)" style="--at:2.05s"/>
+          <path class="pop" d="M388 65.4 A40 40 0 0 1 388 126.6 A40 40 0 0 1 388 65.4 Z" fill="url(#venn-hatch)" style="--at:2.1s"/>
+          <text class="pop m-tex" x="388" y="101" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:2.25s"><tspan class="m-i">A</tspan>∩<tspan class="m-i">B</tspan></text>
+        </g>
+        <text class="pop m-tex" x="282" y="172" font-size="12.2" font-weight="bold" fill="#650f12" style="--at:2.4s">P(<tspan class="m-i">A</tspan>∪<tspan class="m-i">B</tspan>) = P(<tspan class="m-i">A</tspan>) + P(<tspan class="m-i">B</tspan>) − P(<tspan class="m-i">A</tspan>∩<tspan class="m-i">B</tspan>)</text>
+        <g class="pop m-tex" style="--at:2.55s">
+          <text x="282" y="207" font-size="13" font-weight="bold" fill="#c62828">P(<tspan class="m-i">A</tspan>|<tspan class="m-i">B</tspan>) =</text>
+          ${svgTexFrac(354, 207, 'P(<tspan class="m-i">AB</tspan>)', 'P(<tspan class="m-i">B</tspan>)', 40, "#c62828", 11.8)}
+        </g>
       </g>
 
-      <!-- 3. [2.85s -> 4.2s] SƠ ĐỒ HÌNH CÂY XÁC SUẤT TOÀN PHẦN & CÔNG THỨC BAYES -->
-      <g class="float-slow">
-        <!-- Nhánh cấp 1: Ω(66,320) -> A(146,278) và Ā(146,362) -->
-        <path class="draw" d="M66 320L146 278M66 320L146 362" stroke="#1f5fbf" stroke-width="2.2" style="--len:200;--at:2.85s;--dur:.45s"/>
-        <!-- Nhánh cấp 2: A -> B(238,256), B̄(238,298) và Ā -> B(238,342), B̄(238,384) -->
-        <path class="draw" d="M146 278L238 256M146 278L238 298M146 362L238 342M146 362L238 384" stroke="#c62828" stroke-width="2" style="--len:390;--at:3.25s;--dur:.5s"/>
+      <!-- 3. [2.85s -> 4.2s] SƠ ĐỒ HÌNH CÂY ĐỘNG & HẠT XÁC SUẤT CHẠY NHÁNH + CÔNG THỨC BAYES LATEX -->
+      <g>
+        <path id="prob-tree-branch1" class="draw" d="M66 320L146 278M66 320L146 362" stroke="#1f5fbf" stroke-width="2.2" style="--len:200;--at:2.85s;--dur:.45s"/>
+        <path id="prob-tree-branch2" class="draw" d="M146 278L238 256M146 278L238 298M146 362L238 342M146 362L238 384" stroke="#c62828" stroke-width="2" style="--len:390;--at:3.25s;--dur:.5s"/>
+
+        <!-- Vòng gợn sóng tại gốc Ω và đích B -->
+        <circle class="pop tree-node-ping" cx="66" cy="320" r="5" fill="none" stroke="#650f12" stroke-width="1.5" style="--at:3.4s"/>
+        <circle class="pop tree-node-ping" cx="238" cy="256" r="4.2" fill="none" stroke="#c62828" stroke-width="1.5" style="--at:3.8s"/>
+        <circle class="pop tree-node-ping" cx="238" cy="342" r="4.2" fill="none" stroke="#c62828" stroke-width="1.5" style="--at:4.2s"/>
+
+        <!-- Hai hạt xác suất chạy mượt dọc nhánh cây đến biến cố B -->
+        <circle r="4" fill="#ffe27d" stroke="#c62828" stroke-width="1.8" opacity="0">
+          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.1;0.18;0.92;1" dur="3.4s" begin="3.6s" repeatCount="indefinite"/>
+          <animateMotion dur="3.4s" begin="3.6s" repeatCount="indefinite" path="M66,320 L146,278 L238,256"/>
+        </circle>
+        <circle r="3.8" fill="#ffe27d" stroke="#1f5fbf" stroke-width="1.8" opacity="0">
+          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.1;0.18;0.92;1" dur="3.4s" begin="5.3s" repeatCount="indefinite"/>
+          <animateMotion dur="3.4s" begin="5.3s" repeatCount="indefinite" path="M66,320 L146,362 L238,342"/>
+        </circle>
+
         <circle class="pop" cx="66" cy="320" r="4.5" fill="#650f12" style="--at:3.1s"/>
         <circle class="pop" cx="146" cy="278" r="4" fill="#1f5fbf" style="--at:3.3s"/>
         <circle class="pop" cx="146" cy="362" r="4" fill="#1f5fbf" style="--at:3.3s"/>
@@ -6666,26 +6783,57 @@ const SHEET_SLIDES = {
         <circle class="pop" cx="238" cy="298" r="3.8" fill="#2e7d4f" style="--at:3.7s"/>
         <circle class="pop" cx="238" cy="342" r="3.8" fill="#c62828" style="--at:3.7s"/>
         <circle class="pop" cx="238" cy="384" r="3.8" fill="#2e7d4f" style="--at:3.7s"/>
-        <text class="pop" x="48" y="325" font-size="14" font-weight="bold" fill="#650f12" style="--at:3.15s">Ω</text>
-        <text class="pop" x="84" y="288" font-size="12.5" font-weight="bold" fill="#1f5fbf" style="--at:3.35s">P(A)</text>
-        <text class="pop" x="84" y="358" font-size="12.5" font-weight="bold" fill="#1f5fbf" style="--at:3.35s">P(Ā)</text>
-        <text class="pop" x="138" y="266" font-size="14" font-weight="bold" fill="#1f5fbf" style="--at:3.4s">A</text>
-        <text class="pop" x="138" y="382" font-size="14" font-weight="bold" fill="#1f5fbf" style="--at:3.4s">Ā</text>
-        <text class="pop" x="172" y="258" font-size="12" font-weight="bold" fill="#c62828" style="--at:3.75s">P(B|A)</text>
-        <text class="pop" x="172" y="304" font-size="12" fill="#2e7d4f" style="--at:3.75s">P(B̄|A)</text>
-        <text class="pop" x="172" y="344" font-size="12" font-weight="bold" fill="#c62828" style="--at:3.75s">P(B|Ā)</text>
-        <text class="pop" x="172" y="390" font-size="12" fill="#2e7d4f" style="--at:3.75s">P(B̄|Ā)</text>
-        <text class="pop" x="245" y="260" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:3.8s">B</text>
-        <text class="pop" x="245" y="302" font-size="13.5" font-weight="bold" fill="#2e7d4f" style="--at:3.8s">B̄</text>
-        <text class="pop" x="245" y="346" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:3.8s">B</text>
-        <text class="pop" x="245" y="388" font-size="13.5" font-weight="bold" fill="#2e7d4f" style="--at:3.8s">B̄</text>
 
-        <rect class="pop" x="268" y="244" width="234" height="150" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:3.5s"/>
-        <text class="pop" x="280" y="270" font-size="14" font-weight="bold" fill="#650f12" style="--at:3.7s">Xác suất toàn phần &amp; Bayes:</text>
-        <text class="pop" x="280" y="296" font-size="13" font-weight="bold" fill="#1f5fbf" style="--at:3.85s">• Toàn phần:</text>
-        <text class="pop" x="284" y="316" font-size="12.5" fill="#2a211f" style="--at:3.9s">P(B) = P(A)P(B|A) + P(Ā)P(B|Ā)</text>
-        <text class="pop" x="280" y="344" font-size="13" font-weight="bold" fill="#c62828" style="--at:4.0s">• Công thức Bayes:</text>
-        <text class="pop" x="284" y="368" font-size="13" font-weight="bold" fill="#650f12" style="--at:4.1s">P(A|B) = [P(A)·P(B|A)] / P(B)</text>
+        <text class="pop m-tex" x="48" y="325" font-size="14" font-weight="bold" fill="#650f12" style="--at:3.15s">Ω</text>
+        <text class="pop m-tex" x="82" y="288" font-size="12.5" font-weight="bold" fill="#1f5fbf" style="--at:3.35s">P(<tspan class="m-i">A</tspan>)</text>
+        <g class="pop m-tex" style="--at:3.35s">
+          <text x="80" y="360" font-size="12.5" font-weight="bold" fill="#1f5fbf">P(</text>
+          ${svgTexBar("A", 99, 360, "#1f5fbf", 12.5, true)}
+          <text x="105" y="360" font-size="12.5" font-weight="bold" fill="#1f5fbf">)</text>
+        </g>
+        <text class="pop m-tex" x="139" y="266" font-size="14" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:3.4s">A</text>
+        <g class="pop" style="--at:3.4s">${svgTexBar("A", 145, 382, "#1f5fbf", 14, true)}</g>
+
+        <text class="pop m-tex" x="170" y="257" font-size="11.5" font-weight="bold" fill="#c62828" style="--at:3.75s">P(<tspan class="m-i">B</tspan>|<tspan class="m-i">A</tspan>)</text>
+        <g class="pop m-tex" style="--at:3.75s">
+          <text x="169" y="305" font-size="11.5" font-weight="bold" fill="#2e7d4f">P(</text>
+          ${svgTexBar("B", 186, 305, "#2e7d4f", 11.5, true)}
+          <text x="191" y="305" font-size="11.5" font-weight="bold" fill="#2e7d4f">|<tspan class="m-i">A</tspan>)</text>
+        </g>
+        <g class="pop m-tex" style="--at:3.75s">
+          <text x="170" y="344" font-size="11.5" font-weight="bold" fill="#c62828">P(<tspan class="m-i">B</tspan>|</text>
+          ${svgTexBar("A", 198, 344, "#c62828", 11.5, true)}
+          <text x="203" y="344" font-size="11.5" font-weight="bold" fill="#c62828">)</text>
+        </g>
+        <g class="pop m-tex" style="--at:3.75s">
+          <text x="169" y="391" font-size="11.5" font-weight="bold" fill="#2e7d4f">P(</text>
+          ${svgTexBar("B", 186, 391, "#2e7d4f", 11.5, true)}
+          <text x="191" y="391" font-size="11.5" font-weight="bold" fill="#2e7d4f">|</text>
+          ${svgTexBar("A", 200, 391, "#2e7d4f", 11.5, true)}
+          <text x="205" y="391" font-size="11.5" font-weight="bold" fill="#2e7d4f">)</text>
+        </g>
+
+        <text class="pop m-tex" x="245" y="260" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.8s">B</text>
+        <g class="pop" style="--at:3.8s">${svgTexBar("B", 249, 302, "#2e7d4f", 13.5, true)}</g>
+        <text class="pop m-tex" x="245" y="346" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.8s">B</text>
+        <g class="pop" style="--at:3.8s">${svgTexBar("B", 249, 388, "#2e7d4f", 13.5, true)}</g>
+
+        <!-- Hộp Công thức Xác suất toàn phần & Công thức Bayes (Phân số ngang chuẩn LaTeX) -->
+        <rect class="pop" x="266" y="242" width="238" height="162" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:3.5s"/>
+        <text class="pop" x="278" y="266" font-size="14" font-weight="bold" fill="#650f12" style="--at:3.7s">Xác suất toàn phần &amp; Bayes:</text>
+        <text class="pop" x="278" y="288" font-size="13" font-weight="bold" fill="#1f5fbf" style="--at:3.85s">• Toàn phần:</text>
+        <g class="pop m-tex" style="--at:3.9s">
+          <text x="276" y="311" font-size="11.2" font-weight="bold" fill="#2a211f">P(<tspan class="m-i">B</tspan>) = P(<tspan class="m-i">A</tspan>)P(<tspan class="m-i">B</tspan>|<tspan class="m-i">A</tspan>) + P(</text>
+          ${svgTexBar("A", 392, 311, "#2a211f", 11.2, true)}
+          <text x="398" y="311" font-size="11.2" font-weight="bold" fill="#2a211f">)P(<tspan class="m-i">B</tspan>|</text>
+          ${svgTexBar("A", 429, 311, "#2a211f", 11.2, true)}
+          <text x="435" y="311" font-size="11.2" font-weight="bold" fill="#2a211f">)</text>
+        </g>
+        <text class="pop" x="278" y="336" font-size="13" font-weight="bold" fill="#c62828" style="--at:4.0s">• Công thức Bayes:</text>
+        <g class="pop m-tex" style="--at:4.1s">
+          <text x="278" y="372" font-size="12.5" font-weight="bold" fill="#650f12">P(<tspan class="m-i">A</tspan>|<tspan class="m-i">B</tspan>) =</text>
+          ${svgTexFrac(380, 372, 'P(<tspan class="m-i">A</tspan>) · P(<tspan class="m-i">B</tspan>|<tspan class="m-i">A</tspan>)', 'P(<tspan class="m-i">B</tspan>)', 100, "#650f12", 11.5)}
+        </g>
       </g>
     `
   }
@@ -6708,7 +6856,7 @@ function advanceHeroSheet() {
 
 function restartHeroSheetAutoCycle() {
   if (heroSheetTimer) clearInterval(heroSheetTimer);
-  heroSheetTimer = setInterval(advanceHeroSheet, 9500);
+  heroSheetTimer = setInterval(advanceHeroSheet, 11500);
 }
 
 renderHeroSheet("cube");
@@ -7154,6 +7302,7 @@ async function fetchPdfArrayBufferFromCloudflare(doc) {
 
 async function fetchProtectedDocArrayBuffer(doc) {
   if (!doc) return null;
+  if (doc._arrayBuffer) return doc._arrayBuffer;
   if (isCloudflareVaultDoc(doc)) {
     const cfAb = await fetchPdfArrayBufferFromCloudflare(doc);
     if (cfAb) return cfAb;
@@ -7761,6 +7910,15 @@ function buildLockerBays() {
   renderFullDocLibrary();
 }
 
+function formatInlineLatexHtml(text) {
+  const safe = escapeHtmlAttr(text || "");
+  return safe
+    .replace(/([−-])?(b|Δ)\/(2a|4a)/g, (_, sign, num, den) =>
+      `${sign ? "−" : ""}<span class="tex-frac"><span><i>${num}</i></span><span>${den.replace("a", "<i>a</i>")}</span></span>`
+    )
+    .replace(/\bI\(/g, "<i>I</i>(");
+}
+
 let conveyorPos = activeDocIndex;
 let lastRenderedActiveIdx = -1;
 let conveyorPauseUntil = 0;
@@ -7809,7 +7967,7 @@ function updateLockerPositions(dragOffsetPx = 0, forceMeta = false) {
         ? `${activeDoc.pages || 4} trang · ${ico("unlock")}<span>Cho phép Xem &amp; Tải PDF</span>`
         : `${activeDoc.pages || 4} trang · ${ico("lock")}<span>Chỉ xem &amp; Phóng to (Chống tải)</span>`;
       document.getElementById("doc-active-title").textContent = activeDoc.title;
-      document.getElementById("doc-active-desc").textContent = activeDoc.desc || "Tài liệu biên soạn chuẩn LaTeX – TikZ của Thầy Huỳnh Thanh Chí.";
+      document.getElementById("doc-active-desc").innerHTML = formatInlineLatexHtml(activeDoc.desc || "Tài liệu biên soạn chuẩn LaTeX – TikZ của Thầy Huỳnh Thanh Chí.");
       const dlBtn = document.getElementById("btn-download-active-doc");
       if (dlBtn) dlBtn.hidden = !canDl;
     }
@@ -7885,7 +8043,7 @@ function renderFullDocLibrary() {
               <div style="color:var(--muted);font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:4px">${srcHtml}<span>· ${doc.pages || 4} trang</span></div>
             </div>
           </div>
-          <p style="margin-top:8px">${doc.desc || "Tài liệu chuẩn cấu trúc 3 phần Bộ GD&ĐT."}</p>
+          <p style="margin-top:8px">${formatInlineLatexHtml(doc.desc || "Tài liệu chuẩn cấu trúc 3 phần Bộ GD&ĐT.")}</p>
         </div>
         <div class="doc-lib-card__foot">
           <div class="doc-lib-actions">
@@ -8622,26 +8780,127 @@ document.getElementById("pdf-goto-input")?.addEventListener("keydown", (e) => {
   }
 });
 
-// Kéo chuột (Drag-to-pan) bên trong khung xem PDF khi phóng to
+// Kéo chuột (Drag-to-pan) lướt xem trang PDF mượt mà có quán tính (momentum glide)
 (function initPdfViewportPan() {
+  if (!pdfViewport) return;
   let isPanning = false;
+  let hasDragged = false;
   let startX = 0, startY = 0, scrollL = 0, scrollT = 0;
+  let lastX = 0, lastY = 0, lastTime = 0;
+  let vx = 0, vy = 0;
+  let momentumRaf = null;
+
+  const stopMomentum = () => {
+    if (momentumRaf && typeof cancelAnimationFrame === "function") {
+      cancelAnimationFrame(momentumRaf);
+      momentumRaf = null;
+    }
+  };
+
   pdfViewport.addEventListener("mousedown", (e) => {
+    if (e.button !== 0) return;
+    if (e.target && e.target.closest && e.target.closest("button, a, input, select, textarea")) return;
+    stopMomentum();
     isPanning = true;
+    hasDragged = false;
     pdfViewport.classList.add("panning");
     startX = e.clientX;
     startY = e.clientY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    lastTime = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+    vx = 0;
+    vy = 0;
     scrollL = pdfViewport.scrollLeft;
     scrollT = pdfViewport.scrollTop;
   });
+
   window.addEventListener("mousemove", (e) => {
     if (!isPanning) return;
-    pdfViewport.scrollLeft = scrollL - (e.clientX - startX);
-    pdfViewport.scrollTop = scrollT - (e.clientY - startY);
-  });
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    if (!hasDragged && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+      hasDragged = true;
+    }
+    if (!hasDragged) return;
+    if (e.cancelable && typeof e.preventDefault === "function") e.preventDefault();
+
+    const now = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+    const dt = Math.max(1, now - lastTime);
+    const curVx = (e.clientX - lastX) / dt;
+    const curVy = (e.clientY - lastY) / dt;
+    vx = curVx * 0.7 + vx * 0.3;
+    vy = curVy * 0.7 + vy * 0.3;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    lastTime = now;
+
+    pdfViewport.scrollLeft = scrollL - dx;
+    pdfViewport.scrollTop = scrollT - dy;
+  }, { passive: false });
+
   window.addEventListener("mouseup", () => {
+    if (!isPanning) return;
     isPanning = false;
     pdfViewport.classList.remove("panning");
+
+    if (hasDragged) {
+      const captureClick = (ev) => {
+        if (typeof ev.stopPropagation === "function") ev.stopPropagation();
+        if (typeof ev.preventDefault === "function") ev.preventDefault();
+      };
+      window.addEventListener("click", captureClick, { capture: true, once: true });
+      setTimeout(() => window.removeEventListener("click", captureClick, { capture: true }), 120);
+
+      let speedX = vx * 15;
+      let speedY = vy * 15;
+      speedX = Math.max(-45, Math.min(45, speedX));
+      speedY = Math.max(-45, Math.min(45, speedY));
+
+      if ((Math.abs(speedX) > 1.2 || Math.abs(speedY) > 1.2) && typeof requestAnimationFrame === "function") {
+        const stepMomentum = () => {
+          speedX *= 0.92;
+          speedY *= 0.92;
+          pdfViewport.scrollLeft -= speedX;
+          pdfViewport.scrollTop -= speedY;
+          if (Math.abs(speedX) > 0.4 || Math.abs(speedY) > 0.4) {
+            momentumRaf = requestAnimationFrame(stepMomentum);
+          } else {
+            momentumRaf = null;
+          }
+        };
+        momentumRaf = requestAnimationFrame(stepMomentum);
+      }
+    }
+  });
+
+  // Kéo thả file PDF từ máy tính vào trang để mở xem trực tiếp trên canvas bảo mật
+  window.addEventListener("dragover", (e) => {
+    if (e.dataTransfer && Array.from(e.dataTransfer.types || []).includes("Files")) {
+      e.preventDefault();
+      try { e.dataTransfer.dropEffect = "copy"; } catch {}
+    }
+  });
+  window.addEventListener("drop", async (e) => {
+    const files = Array.from((e.dataTransfer && e.dataTransfer.files) || []);
+    const pdfFile = files.find(f => f.name && f.name.toLowerCase().endsWith(".pdf"));
+    if (pdfFile) {
+      e.preventDefault();
+      try {
+        const ab = await pdfFile.arrayBuffer();
+        const dropDoc = {
+          id: `LOCAL_${Date.now()}`,
+          title: pdfFile.name.replace(/\.[^/.]+$/, "").replace(/[_-]+/g, " "),
+          cat: "Tài liệu kéo thả",
+          desc: "Xem trực tiếp từ file PDF trên máy tính",
+          pages: 1,
+          hasUploadedPdf: false,
+          _arrayBuffer: ab
+        };
+        openProtectedPdfViewer(dropDoc);
+        showSecurityToast(`Đã mở file PDF "${pdfFile.name}"! Bạn có thể kéo chuột để lướt xem các trang.`);
+      } catch {}
+    }
   });
 })();
 
