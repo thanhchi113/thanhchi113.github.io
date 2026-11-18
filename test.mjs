@@ -107,12 +107,15 @@ assert.ok(
   'Hero notebook sheet must render LaTeX fractions/sup/sub/overline, animated probability dice/Venn/Bayes tree, and 100% flush integral area'
 );
 
-// 7. Verify Instant Click on Any Card to Open Protected PDF Viewer Immediately
+// 7. Verify Instant Click on Any Card to Open Protected PDF Viewer Immediately & Student Login Gate
 assert.ok(
   html.includes('data-lib-card="${doc.id}"') &&
   html.includes('.doc-lib-card[data-lib-card]') &&
-  html.includes('function handleDocOpenRequest(doc) {\n  if (!doc) return;\n  openProtectedPdfViewer(doc);\n}'),
-  'Clicking anywhere on a document card must open the Protected PDF Viewer immediately'
+  html.includes('function handleDocOpenRequest(doc) {\n  if (!doc) return;\n  openProtectedPdfViewer(doc);\n}') &&
+  html.includes('id="doc-require-student-login-chk"') &&
+  html.includes('id="student-doc-login-modal"') &&
+  html.includes('function isStudentAuthorizedForDocs()'),
+  'Clicking anywhere on a document card must open the Protected PDF Viewer with student login gate'
 );
 
 // 8. Verify Dedicated Full-Page admin.html Dashboard (No small modal on user page) + Rich Text / Typography & User Web Sync

@@ -2212,6 +2212,10 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
             <svg class="ui-ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             <span>Xem Kho Tài Liệu Đầy Đủ</span>
           </a>
+          <button type="button" class="btn ghost sm" id="btn-locker-student-login">
+            <svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span id="btn-locker-student-login-label">Đăng nhập Học sinh</span>
+          </button>
           <button type="button" class="btn ghost sm admin-only" id="btn-admin-upload-doc" hidden>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             <span>Quản lý &amp; Upload (Admin)</span>
@@ -2236,6 +2240,7 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
           <span class="privacy-pill" id="doc-lib-total-badge">7 tài liệu</span>
           <span class="dl-status-pill no-dl" id="doc-lib-dl-policy-badge"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Tải về: Theo từng tài liệu</span></span>
+          <button type="button" class="quick-chip" id="btn-lib-student-auth" style="font-weight:700;color:var(--ink)"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span id="btn-lib-student-auth-label">Đăng nhập HS để xem &amp; tải</span></button>
           <button type="button" class="quick-chip admin-only" id="btn-quick-dl-toggle-all" hidden><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg><span>Bật/Tắt tải toàn bộ (Admin)</span></button>
         </div>
       </div>
@@ -3189,6 +3194,13 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
             <button type="button" class="quick-chip" id="btn-dl-per-doc"><svg class="ui-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><span>Theo từng tài liệu</span></button>
           </div>
         </div>
+        <div style="margin-top:8px;padding:10px 12px;border-radius:12px;background:#fff8f6;border:1px solid rgba(101,15,18,0.22);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <label style="display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13.5px;color:var(--ink-deep);cursor:pointer">
+            <input type="checkbox" id="doc-require-student-login-chk" checked>
+            <span>Chỉ có học sinh đăng nhập vào mới được phép truy cập xem và tải tài liệu (Khóa khách chưa đăng nhập)</span>
+          </label>
+          <span class="pill-note" id="doc-require-login-status-pill" style="padding:3px 10px;font-size:12px;background:#fce8e6;color:#650f12;font-weight:700">Đang Bật Bắt Buộc Đăng Nhập</span>
+        </div>
         <div id="doc-dl-policy-status" class="status-msg" hidden></div>
       </div>
 
@@ -3426,6 +3438,37 @@ footer { margin-top: 96px; padding: 36px 0 calc(36px + env(safe-area-inset-botto
       <span><svg class="ui-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Mẹo: Chọn nhanh trang <b>1, 2, 3...</b>, nhập ô <b>Đến trang</b>, bấm <b>+ Phóng to</b> (tối đa 220%) hoặc giữ chuột kéo mặt giấy.</span></span>
       <span><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Bản quyền tài liệu thuộc <b>Lớp Toán Anh Chí</b> — Đã vô hiệu hóa tính năng tải file &amp; in ấn.</span></span>
     </div>
+  </div>
+</div>
+
+<!-- MODAL ĐĂNG NHẬP HỌC SINH ĐỂ XEM & TẢI TÀI LIỆU -->
+<div class="modal-backdrop" id="student-doc-login-modal" hidden>
+  <div class="modal-card" style="max-width:420px;padding:22px 24px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="brand-badge" style="height:36px;padding:2px 5px;border-radius:8px"><img src="./logo-ch1math.png" alt="Ch1 Math"></span>
+        <div>
+          <h4 style="margin:0;font-family:var(--serif);color:var(--ink-deep);font-size:17px">Đăng Nhập Học Sinh</h4>
+          <div style="font-size:12px;color:var(--muted)">Chỉ học sinh Lớp Toán Anh Chí mới được xem &amp; tải tài liệu</div>
+        </div>
+      </div>
+      <button type="button" class="btn ghost sm" id="close-student-doc-login-btn" style="min-height:32px;padding:0 10px">Đóng</button>
+    </div>
+    <form id="student-doc-login-form" style="display:grid;gap:12px">
+      <div class="form-field" style="margin:0">
+        <label for="student-doc-id-input">Mã Học Sinh (VD: HS001, HS017, HS052...)</label>
+        <input type="text" id="student-doc-id-input" required placeholder="Nhập Mã Học Sinh (IN HOA)" style="text-transform:uppercase;font-weight:700">
+      </div>
+      <div class="form-field" style="margin:0">
+        <label for="student-doc-pass-input">Mật khẩu học sinh</label>
+        <input type="password" id="student-doc-pass-input" required placeholder="Nhập mật khẩu được cấp">
+      </div>
+      <div id="student-doc-login-error" class="status-msg err" hidden></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
+        <a class="btn ghost sm" href="https://thanhchi113.github.io/thi-thu-toan/" target="_blank" rel="noopener">Mở Cổng Thi Thử</a>
+        <button type="submit" class="btn sm"><svg class="ui-ico" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg><span>Đăng nhập &amp; Mở tài liệu</span></button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -7745,6 +7788,8 @@ async function deletePdfBinaryFromIdb(docId) {
 }
 
 const DOC_DL_POLICY_KEY = "lop_toan_anh_chi_doc_dl_policy_v1";
+const DOC_REQUIRE_LOGIN_KEY = "lop_toan_anh_chi_doc_require_login_v1";
+const STUDENT_DOC_SESSION_KEY = "ltac_student_doc_session_v1";
 
 function loadDocDlPolicy() {
   try {
@@ -7761,8 +7806,82 @@ function saveDocDlPolicy(policy) {
   saveSiteStateToSupabase({ dl_policy: policy });
 }
 
+function loadDocRequireStudentLogin() {
+  try {
+    const v = localStorage.getItem(DOC_REQUIRE_LOGIN_KEY);
+    if (v === "0" || v === "false") return false;
+    if (v === "1" || v === "true") return true;
+  } catch {}
+  return true;
+}
+
+function saveDocRequireStudentLogin(flag) {
+  const b = Boolean(flag);
+  try {
+    localStorage.setItem(DOC_REQUIRE_LOGIN_KEY, b ? "1" : "0");
+  } catch {}
+  saveSiteStateToSupabase({ doc_require_student_login: b });
+}
+
 let docDlPolicy = loadDocDlPolicy();
+let docRequireStudentLogin = loadDocRequireStudentLogin();
 let activeDocCatFilter = "ALL";
+let pendingStudentDocAction = null;
+
+function getLoggedStudentDocSession() {
+  try {
+    const raw1 = sessionStorage.getItem(STUDENT_DOC_SESSION_KEY) || localStorage.getItem(STUDENT_DOC_SESSION_KEY);
+    if (raw1) {
+      const p = JSON.parse(raw1);
+      if (p && p.studentId) return p;
+    }
+    const raw2 = sessionStorage.getItem("thpt_current_user") || localStorage.getItem("thpt_current_user");
+    if (raw2) {
+      const p2 = JSON.parse(raw2);
+      if (p2 && (p2.studentId || p2.role === "admin")) return p2;
+    }
+  } catch {}
+  return null;
+}
+
+function isStudentAuthorizedForDocs() {
+  if (isAdminLoggedIn) return true;
+  if (!docRequireStudentLogin) return true;
+  return Boolean(getLoggedStudentDocSession());
+}
+
+function updateStudentDocAuthUI() {
+  const sess = getLoggedStudentDocSession();
+  const reqChk = document.getElementById("doc-require-student-login-chk");
+  const reqPill = document.getElementById("doc-require-login-status-pill");
+  if (reqChk) reqChk.checked = Boolean(docRequireStudentLogin);
+  if (reqPill) {
+    reqPill.textContent = docRequireStudentLogin ? "Đang Bật Bắt Buộc Đăng Nhập" : "Đang Mở Cho Khách Xem";
+    reqPill.style.background = docRequireStudentLogin ? "#fce8e6" : "#e8f6ee";
+    reqPill.style.color = docRequireStudentLogin ? "#650f12" : "#1e6b45";
+  }
+  const lockerLbl = document.getElementById("btn-locker-student-login-label");
+  const libLbl = document.getElementById("btn-lib-student-auth-label");
+  if (sess && sess.studentId) {
+    const txt = `HS: ${sess.studentId} (Đăng xuất)`;
+    if (lockerLbl) lockerLbl.textContent = txt;
+    if (libLbl) libLbl.textContent = txt;
+  } else {
+    if (lockerLbl) lockerLbl.textContent = "Đăng nhập Học sinh";
+    if (libLbl) libLbl.textContent = "Đăng nhập HS để xem & tải";
+  }
+}
+
+function openStudentDocLoginModal(pendingAction = null) {
+  pendingStudentDocAction = pendingAction;
+  const modal = document.getElementById("student-doc-login-modal");
+  const errEl = document.getElementById("student-doc-login-error");
+  if (errEl) errEl.hidden = true;
+  if (modal) {
+    modal.hidden = false;
+    setTimeout(() => document.getElementById("student-doc-id-input")?.focus(), 40);
+  }
+}
 
 function canPublicDownloadDoc(doc) {
   if (!doc) return false;
@@ -7773,6 +7892,10 @@ function canPublicDownloadDoc(doc) {
 
 async function downloadDocPdf(doc) {
   if (!doc) return;
+  if (!isStudentAuthorizedForDocs()) {
+    openStudentDocLoginModal({ type: "download", doc });
+    return;
+  }
   if (!canPublicDownloadDoc(doc) && !isAdminLoggedIn) return;
   const safeName = `${doc.id}_${String(doc.title || "Tai_lieu_Toan_Thay_Chi").replace(/[^a-zA-Z0-9._-]/g, "_")}.pdf`;
 
@@ -8555,6 +8678,10 @@ async function renderProtectedPdfPages() {
 
 function openProtectedPdfViewer(doc) {
   if (!doc) return;
+  if (!isStudentAuthorizedForDocs()) {
+    openStudentDocLoginModal({ type: "view", doc });
+    return;
+  }
   currentPdfDoc = doc;
   currentPdfZoom = 1.0;
   document.getElementById("pdf-viewer-title").textContent = doc.title;
@@ -8589,6 +8716,95 @@ if (modalDlBtn) {
     if (currentPdfDoc) downloadDocPdf(currentPdfDoc);
   });
 }
+
+// Sự kiện Đăng nhập Học sinh để Xem & Tải Tài liệu + Cài đặt Admin
+updateStudentDocAuthUI();
+
+const reqLoginChkEl = document.getElementById("doc-require-student-login-chk");
+if (reqLoginChkEl) {
+  reqLoginChkEl.addEventListener("change", () => {
+    docRequireStudentLogin = Boolean(reqLoginChkEl.checked);
+    saveDocRequireStudentLogin(docRequireStudentLogin);
+    updateStudentDocAuthUI();
+    showStatus(
+      "doc-dl-policy-status",
+      docRequireStudentLogin
+        ? "Đã BẬT chế độ: Chỉ có học sinh đăng nhập vào mới được phép truy cập xem và tải tài liệu."
+        : "Đã TẮT bắt buộc đăng nhập: Khách truy cập có thể xem tài liệu theo cấu hình hiện tại.",
+      false
+    );
+  });
+}
+
+function handleStudentAuthButtonClick() {
+  const sess = getLoggedStudentDocSession();
+  if (sess && sess.studentId) {
+    try {
+      localStorage.removeItem(STUDENT_DOC_SESSION_KEY);
+      sessionStorage.removeItem(STUDENT_DOC_SESSION_KEY);
+    } catch {}
+    updateStudentDocAuthUI();
+    return;
+  }
+  openStudentDocLoginModal(null);
+}
+
+document.getElementById("btn-locker-student-login")?.addEventListener("click", handleStudentAuthButtonClick);
+document.getElementById("btn-lib-student-auth")?.addEventListener("click", handleStudentAuthButtonClick);
+document.getElementById("close-student-doc-login-btn")?.addEventListener("click", () => {
+  const m = document.getElementById("student-doc-login-modal");
+  if (m) m.hidden = true;
+});
+document.getElementById("student-doc-login-modal")?.addEventListener("click", (e) => {
+  if (e.target.id === "student-doc-login-modal") e.target.hidden = true;
+});
+
+document.getElementById("student-doc-login-form")?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const idRaw = String(document.getElementById("student-doc-id-input")?.value || "").trim().toUpperCase();
+  const passRaw = String(document.getElementById("student-doc-pass-input")?.value || "").trim();
+  const errEl = document.getElementById("student-doc-login-error");
+
+  let matchedStu = null;
+  try {
+    const thptList = JSON.parse(localStorage.getItem("thpt_students") || "[]");
+    if (Array.isArray(thptList)) {
+      matchedStu = thptList.find(s => s && String(s.studentId || "").toUpperCase() === idRaw && String(s.password || "123") === passRaw);
+    }
+  } catch {}
+  if (!matchedStu) {
+    const localRec = studentRecords.find(s => s && String(s.code || "").toUpperCase() === idRaw);
+    if (localRec && (passRaw === "123" || passRaw === String(localRec.password || "123"))) {
+      matchedStu = { studentId: localRec.code, fullName: localRec.name, className: localRec.cls, grade: localRec.grade || 12 };
+    }
+  }
+  if (!matchedStu && /^HS0(0[1-9]|[1-7][0-9])$/.test(idRaw) && passRaw === "123") {
+    matchedStu = { studentId: idRaw, fullName: `Học sinh ${idRaw}`, role: "student" };
+  }
+
+  if (!matchedStu) {
+    if (errEl) {
+      errEl.textContent = "Mã học sinh hoặc mật khẩu không chính xác! Vui lòng kiểm tra lại.";
+      errEl.hidden = false;
+    }
+    return;
+  }
+
+  const sessObj = { role: "student", studentId: matchedStu.studentId || idRaw, fullName: matchedStu.fullName || idRaw, className: matchedStu.className || "" };
+  try {
+    localStorage.setItem(STUDENT_DOC_SESSION_KEY, JSON.stringify(sessObj));
+    sessionStorage.setItem(STUDENT_DOC_SESSION_KEY, JSON.stringify(sessObj));
+  } catch {}
+  updateStudentDocAuthUI();
+  const modal = document.getElementById("student-doc-login-modal");
+  if (modal) modal.hidden = true;
+  const act = pendingStudentDocAction;
+  pendingStudentDocAction = null;
+  if (act && act.doc) {
+    if (act.type === "download") downloadDocPdf(act.doc);
+    else openProtectedPdfViewer(act.doc);
+  }
+});
 
 // Bộ lọc, phân trang & sự kiện Kho Tài Liệu Đầy Đủ (#kho-tai-lieu)
 const docLibCatsEl = document.getElementById("doc-lib-cats");
