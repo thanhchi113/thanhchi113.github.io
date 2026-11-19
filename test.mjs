@@ -87,17 +87,22 @@ assert.ok(
 assert.ok(!html.includes('class="sheet-switcher"') && !html.includes('data-sheet-mode='), 'Must remove .sheet-switcher buttons below hero notebook sheet');
 assert.ok(!html.includes('id="hero-sheet-tag"'), 'Must remove #hero-sheet-tag title pill');
 assert.ok(
-  html.includes('const SHEET_ORDER = ["cube", "circle_parabola", "conics", "probability"]') &&
+  html.includes('const SHEET_ORDER = ["brand_logo", "cube", "circle_parabola", "conics", "probability"]') &&
+  html.includes('setInterval(advanceHeroSheet, 5500)') &&
+  html.includes('renderHeroSheet("brand_logo")') &&
   html.includes('.sheet text, .sheet .m-tex text, .sheet text.m-tex, .sheet tspan { font-family: var(--hand); font-style: normal; }') &&
   html.includes('class="penrose-beam-1"') &&
   html.includes('class="penrose-beam-2"') &&
   html.includes('class="penrose-beam-3"') &&
   html.includes('class="ch1-sigma-pulse"') &&
   html.includes('class="ch1-swoosh-wipe"') &&
-  html.includes('Thương hiệu Ch1 Math · Toán 6 – 12') &&
+  !html.includes('Thương hiệu Ch1 Math') &&
+  html.includes('Lớp Toán Anh Chí</text>') &&
+  html.includes('Thầy Huỳnh Thanh Chí · Toán 6 – 12</text>') &&
   html.includes('function svgTexFrac(') &&
   html.includes('function svgTexBar(') &&
   html.includes('function svgTexIntegral(') &&
+  html.includes('M352 94V20M352 94H482M352 94L298 138') &&
   html.includes('M98 376 L98 330 C118 294, 144 304, 162 376 Z') &&
   html.includes('M162 376 C178 416, 202 412, 218 392 L218 376 Z') &&
   html.includes('M82 352 Q90 341, 98 330 C118 294, 144 304, 162 376 C178 416, 202 412, 218 392 Q225 384, 232 372') &&
@@ -110,7 +115,7 @@ assert.ok(
   !html.includes('class="pop venn-inter-pulse"') &&
   !html.includes('<animateMotion') &&
   html.includes('advanceHeroSheet()'),
-  'Hero notebook sheet must render animated Penrose triangle + Ch1 Math logo, unified font, multi-line LaTeX formulas, cubic graph & solid of revolution without crawling dots'
+  'Hero notebook sheet must render dedicated centered Penrose + Ch1 Math logo slide (no circle/card/word Thuong hieu), original 6-diagram cube layout, fast 5.5s cycle, unified font & multi-line LaTeX formulas'
 );
 
 // 7. Verify Instant Click on Any Card to Open Protected PDF Viewer Immediately & Student Login Gate

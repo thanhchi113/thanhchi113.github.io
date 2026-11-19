@@ -233,12 +233,12 @@ h1 em::after {
 .penrose-beam-1, .penrose-beam-2, .penrose-beam-3, .ch1-sigma-pulse, .ch1-logo-breathe {
   transform-box: fill-box; transform-origin: center;
 }
-.penrose-beam-1 { animation: penrose-in-1 .7s .12s cubic-bezier(.22,1,.36,1) both, penrose-glow-1 4.2s 1.1s ease-in-out infinite; }
-.penrose-beam-2 { animation: penrose-in-2 .7s .24s cubic-bezier(.22,1,.36,1) both, penrose-glow-2 4.2s 1.4s ease-in-out infinite; }
-.penrose-beam-3 { animation: penrose-in-3 .7s .36s cubic-bezier(.22,1,.36,1) both, penrose-glow-3 4.2s 1.7s ease-in-out infinite; }
-.ch1-sigma-pulse { animation: pop .45s .58s cubic-bezier(.3,.7,.3,1.6) both, sigma-beat 3.2s 1.4s ease-in-out infinite; }
-.ch1-swoosh-wipe { clip-path: inset(0 100% 0 0); animation: write .75s .68s cubic-bezier(.22,1,.36,1) forwards; }
-.ch1-logo-breathe { animation: float-item 4.5s .9s ease-in-out infinite; }
+.penrose-beam-1 { animation: penrose-in-1 .55s .06s cubic-bezier(.22,1,.36,1) both, penrose-glow-1 3.6s .85s ease-in-out infinite; }
+.penrose-beam-2 { animation: penrose-in-2 .55s .15s cubic-bezier(.22,1,.36,1) both, penrose-glow-2 3.6s 1.1s ease-in-out infinite; }
+.penrose-beam-3 { animation: penrose-in-3 .55s .24s cubic-bezier(.22,1,.36,1) both, penrose-glow-3 3.6s 1.35s ease-in-out infinite; }
+.ch1-sigma-pulse { animation: pop .4s .4s cubic-bezier(.3,.7,.3,1.6) both, sigma-beat 2.8s 1.0s ease-in-out infinite; }
+.ch1-swoosh-wipe { clip-path: inset(0 100% 0 0); animation: write .6s .48s cubic-bezier(.22,1,.36,1) forwards; }
+.ch1-logo-breathe { animation: float-item 4.0s .7s ease-in-out infinite; }
 @keyframes penrose-in-1 { from { opacity: 0; transform: translate(-10px, -6px) scale(.84); } to { opacity: 1; transform: translate(0, 0) scale(1); } }
 @keyframes penrose-in-2 { from { opacity: 0; transform: translate(10px, -6px) scale(.84); } to { opacity: 1; transform: translate(0, 0) scale(1); } }
 @keyframes penrose-in-3 { from { opacity: 0; transform: translate(0, 11px) scale(.84); } to { opacity: 1; transform: translate(0, 0) scale(1); } }
@@ -6351,7 +6351,7 @@ if ("IntersectionObserver" in window) {
 // 3. conics: Ba đường Conic (Elip, Hypebol, Parabol chính tắc y² = 2px & đường chuẩn Δ).
 // 4. probability: Quy tắc tính xác suất, 2 viên xúc xắc 3D, Biểu đồ Venn & Sơ đồ cây Bayes.
 // ============================================================================
-const SHEET_ORDER = ["cube", "circle_parabola", "conics", "probability"];
+const SHEET_ORDER = ["brand_logo", "cube", "circle_parabola", "conics", "probability"];
 let activeSheetIdx = 0;
 let heroSheetTimer = null;
 
@@ -6379,6 +6379,34 @@ function svgTexIntegral(x, y, low, high, bodyMarkup, color = "#650f12", size = 1
 }
 
 const SHEET_SLIDES = {
+  brand_logo: {
+    svg: `
+      <defs>
+        <linearGradient id="ch1-swoosh-grad" gradientUnits="userSpaceOnUse" x1="126" y1="270" x2="442" y2="270">
+          <stop offset="0%" stop-color="#B50415"/>
+          <stop offset="38%" stop-color="#B50415"/>
+          <stop offset="68%" stop-color="#0A5149"/>
+          <stop offset="100%" stop-color="#0A5149"/>
+        </linearGradient>
+      </defs>
+
+      <!-- LOGO CÁ NHÂN ĐỘNG: TAM GIÁC PENROSE 3 MÀU & Ch1 Σath TO RÕ, HÀI HÒA CHÍNH GIỮA TRANG VỞ (KHÔNG VÒNG TRÒN, KHÔNG CARD BO TRÒN, KHÔNG HÌNH VẼ BÊN DƯỚI) -->
+      <g class="ch1-logo-breathe">
+        <path class="penrose-beam-1" d="M202.7,178.6 L277.06,54.02 L338.61,157.12 L317.75,157.12 L277.06,88.93 L213.12,196.07 Z" fill="#B50415"/>
+        <path class="penrose-beam-2" d="M299.12,52.0 L373.48,176.58 L250.42,176.58 L260.84,159.14 L342.2,159.14 L278.26,52.0 Z" fill="#198578"/>
+        <path class="penrose-beam-3" d="M364.27,196.07 L215.53,196.07 L277.06,92.97 L287.5,110.44 L246.81,178.6 L374.68,178.6 Z" fill="#0A5149"/>
+        <path class="draw" d="M202.7,178.6 L277.06,54.02 L338.61,157.12 L317.75,157.12 L277.06,88.93 L213.12,196.07 Z M299.12,52.0 L373.48,176.58 L250.42,176.58 L260.84,159.14 L342.2,159.14 L278.26,52.0 Z M364.27,196.07 L215.53,196.07 L277.06,92.97 L287.5,110.44 L246.81,178.6 L374.68,178.6 Z" stroke="#ffe27d" stroke-width="1.15" stroke-opacity="0.72" style="--len:1800;--at:.08s;--dur:.65s"/>
+        <path class="pop" d="M206.07,208.51 C206.02,210.08 205.21,211.66 204.72,213.17 C204.19,214.72 203.93,216.44 202.98,217.76 C201.77,217.32 200.78,216.53 199.62,215.93 C197.95,215.07 196.09,214.4 194.21,214.12 C191.24,213.7 187.99,213.8 185.09,214.68 C178.13,216.77 171.85,223.47 172.06,231.06 C172.1,232.33 172.33,233.56 172.75,234.77 C174.56,240.31 181.36,242.22 186.58,241.5 L190.31,240.62 L193.79,239.25 C195.14,238.55 196.51,237.62 197.95,237.25 L198.2,237.76 L197.88,240.18 C197.55,242.45 197.27,244.91 196.58,247.09 C190.06,250.99 181.82,252.1 174.54,250.06 C170.22,248.85 166.23,246.53 163.61,242.8 C162.22,240.85 161.41,238.74 160.78,236.46 C160.08,234.0 160.29,231.31 160.59,228.81 C160.99,225.7 162.54,222.38 164.24,219.76 C165.74,217.44 167.44,215.12 169.6,213.36 C176.05,208.04 183.98,205.05 192.36,204.98 C195.28,204.96 198.11,205.33 200.92,206.12 C202.77,206.63 204.7,207.14 206.07,208.51 Z M223.07,206.05 C223.16,207.44 222.58,208.86 222.14,210.15 L220.59,215.77 C219.94,217.67 219.01,219.76 218.99,221.73 L220.43,220.8 C222.0,219.88 223.74,219.04 225.51,218.53 C230.38,217.09 237.29,218.2 239.5,223.42 C241.03,227.04 239.68,230.71 238.59,234.21 L235.95,242.61 L234.7,246.32 C234.23,247.67 234.02,249.01 233.33,250.24 C231.54,250.64 229.57,250.41 227.74,250.43 C226.32,250.48 224.63,250.66 223.3,250.24 C223.05,248.71 224.02,246.9 224.53,245.4 L228.08,233.84 C228.76,232.22 229.48,229.48 228.32,227.88 C227.83,227.23 226.99,226.74 226.25,226.46 C225.37,226.14 224.35,226.23 223.44,226.3 C220.96,226.46 218.27,227.9 216.92,230.06 C216.09,231.43 215.76,233.08 215.28,234.58 L212.24,244.47 C211.66,246.37 211.24,248.5 210.27,250.24 C208.55,250.68 206.6,250.45 204.84,250.43 C203.35,250.43 201.8,250.59 200.36,250.24 C200.29,249.04 200.85,247.92 201.19,246.69 L203.42,239.43 L209.96,217.46 L212.33,209.62 C212.61,208.72 212.68,207.35 213.4,206.67 C214.12,205.98 215.04,205.82 216.0,205.82 L219.92,205.82 C221.03,205.82 222.05,205.72 223.07,206.05 Z M266.73,206.28 C266.73,207.67 266.11,209.02 265.76,210.36 L262.7,220.43 C261.7,224.19 260.54,227.9 259.36,231.61 L256.76,240.18 L254.93,246.3 C254.53,247.69 254.18,249.01 253.46,250.24 C251.63,250.71 249.57,250.43 247.69,250.43 C246.25,250.43 244.69,250.62 243.37,250.15 C243.37,248.99 243.88,248.02 244.23,246.9 L245.81,241.68 L250.75,225.1 L252.19,220.25 C252.54,219.2 252.91,218.39 253.0,217.28 L252.49,217.18 L249.89,218.09 C247.99,218.72 245.92,219.48 243.93,219.67 C243.81,218.2 244.51,216.65 245.02,215.21 C245.39,214.19 245.55,213.19 246.11,212.24 C248.08,211.2 250.29,210.62 252.3,209.67 L259.19,206.0 L263.3,205.98 C264.48,205.98 265.69,205.82 266.73,206.28 Z M399.53,206.28 C399.62,207.76 398.97,209.16 398.58,210.55 L396.7,217.46 C396.4,218.69 395.89,219.76 395.87,220.99 C397.28,220.18 398.58,219.06 400.13,218.48 C404.89,216.79 410.69,216.86 413.85,221.36 L414.54,222.47 C415.72,225.61 414.31,229.22 413.27,232.17 L409.48,243.72 C408.86,245.67 408.44,247.88 407.4,249.66 C405.86,250.01 404.15,249.83 402.55,249.83 C401.04,249.85 399.42,250.01 397.93,249.69 C397.68,248.06 398.65,246.44 399.11,244.84 L403.06,232.17 C403.75,230.13 404.59,227.44 402.55,225.88 L401.43,225.3 C398.51,224.42 394.89,226.93 393.57,229.39 L392.9,231.24 L391.48,235.91 L389.0,243.72 C388.4,245.7 387.93,247.81 387.1,249.66 C385.38,250.06 383.31,249.85 381.53,249.83 C380.18,249.83 378.86,249.97 377.61,249.59 C377.65,248.46 378.02,247.46 378.35,246.35 L380.21,240.2 L386.54,219.32 L389.0,210.73 C389.32,209.6 389.51,207.7 390.39,206.84 C390.83,206.4 391.5,206.07 392.13,205.98 L395.1,206.0 C396.56,206.02 398.21,205.75 399.53,206.28 Z M377.61,208.69 C377.77,209.71 377.38,210.8 377.07,211.87 C376.49,213.91 375.52,216.07 375.38,218.18 C377.75,218.76 380.44,217.95 382.83,218.55 C382.97,219.57 382.62,220.34 382.27,221.36 L380.97,225.26 C378.44,225.84 375.7,225.19 373.13,225.56 C372.34,227.25 371.88,229.22 371.37,231.06 L369.49,237.21 C369.0,238.92 368.37,240.41 369.35,242.05 C371.58,243.33 373.62,242.22 375.89,241.87 C376.05,243.45 375.29,245.26 374.82,246.86 L374.15,248.57 C373.43,249.41 372.09,249.69 371.09,249.99 C367.33,251.1 362.23,250.8 359.84,247.27 C358.14,244.77 358.65,241.94 359.35,239.25 L361.72,231.24 C362.27,229.43 363.11,227.55 363.27,225.7 C361.88,225.35 360.35,225.68 359.0,225.19 C359.07,223.82 359.65,222.52 360.04,221.17 C360.35,220.22 360.49,219.43 361.04,218.6 L365.64,218.2 C366.66,216.3 366.8,214.01 367.75,212.06 L372.94,209.81 C374.57,209.11 375.8,208.44 377.61,208.69 Z M349.54,249.69 C348.17,250.1 346.66,249.92 345.22,249.92 C343.8,249.92 342.32,250.1 341.0,249.69 C340.79,248.94 340.93,248.25 340.95,247.46 C339.93,247.81 339.12,248.53 338.14,249.01 C336.82,249.66 335.48,250.13 334.04,250.48 C329.21,251.61 322.76,249.57 321.95,244.1 L321.88,242.05 C322.74,234.07 332.02,230.69 338.89,230.06 L345.78,229.76 C346.52,228.34 346.94,226.37 345.22,225.33 L343.16,224.86 C339.88,224.47 336.33,225.37 333.3,226.58 C332.14,227.02 331.04,227.67 329.82,227.69 C329.75,226.84 330.09,226.02 330.33,225.12 C330.67,223.66 331.04,222.13 331.72,220.8 C333.16,220.04 334.71,219.55 336.26,219.09 C340.39,217.86 345.27,217.09 349.49,218.25 C352.25,219.02 354.99,220.39 356.05,223.24 C357.26,226.44 355.89,229.27 355.08,232.36 L349.54,249.69 Z M331.83,241.31 L332.02,242.43 C333.06,244.61 336.54,244.03 338.33,243.4 C339.95,242.82 341.79,241.68 342.71,240.18 L344.04,235.91 C343.85,235.81 343.83,235.67 343.53,235.63 C342.2,235.44 340.74,235.67 339.44,235.93 C336.73,236.46 333.43,236.95 332.14,239.8 L331.83,241.31 Z" fill="#0A5149" fill-rule="evenodd" style="--at:.34s"/>
+        <path class="ch1-sigma-pulse" d="M327.33,204.7 C327.43,206.3 326.73,207.88 326.34,209.44 L325.48,212.98 L324.87,214.84 C324.55,216.21 324.32,217.6 323.81,218.9 C323.16,219.11 322.79,219.13 322.14,219.06 C321.39,218.09 321.07,216.88 320.44,215.84 C319.77,214.68 318.82,213.7 317.7,212.98 C315.57,211.59 313.23,211.85 310.77,211.85 L302.02,211.87 C300.51,211.87 299.05,211.73 297.54,211.99 C297.59,212.29 297.38,212.24 297.54,212.59 C298.08,213.75 298.94,214.56 299.66,215.58 L304.02,221.73 C304.74,222.73 305.62,223.49 305.92,224.68 C304.94,226.05 303.48,226.93 302.25,228.06 C298.87,231.27 295.32,234.26 291.86,237.39 L288.66,240.18 C288.45,240.38 288.47,240.57 288.38,240.73 C289.63,241.06 290.86,241.01 292.16,240.99 L296.43,240.96 L303.14,240.99 C304.64,240.99 306.13,241.1 307.61,240.82 C308.84,240.59 309.96,240.06 311.14,239.64 C311.9,239.36 312.55,238.74 313.18,238.27 C314.64,237.18 315.99,236.05 317.29,234.79 C317.98,234.12 318.63,232.94 319.7,232.84 C320.12,232.8 320.4,232.96 320.77,233.1 L320.81,233.61 L319.98,235.91 L318.49,239.8 C317.64,241.82 317.01,243.96 316.13,245.95 L315.83,247.09 C315.55,247.97 315.18,248.85 314.69,249.62 C312.95,249.94 311.05,249.78 309.28,249.76 L302.02,249.76 L279.49,249.76 L270.93,249.73 C269.75,249.73 268.36,250.01 267.2,249.66 L266.69,249.32 L266.94,248.76 L269.24,246.76 C270.77,245.42 272.37,244.14 273.9,242.82 C278.75,238.62 283.67,234.47 288.54,230.32 C290.31,228.81 292.49,227.48 293.83,225.65 C293.41,224.75 292.76,224.03 292.16,223.24 L291.72,222.29 L291.05,221.55 L288.98,218.39 L283.76,211.13 L281.26,207.58 C280.54,206.63 279.94,205.98 279.94,204.77 C280.19,204.66 280.19,204.49 280.56,204.4 L283.76,204.4 L292.53,204.42 L315.43,204.42 L323.06,204.4 C324.53,204.4 325.94,204.24 327.33,204.7 Z" fill="#B50415" fill-rule="evenodd"/>
+        <g class="ch1-swoosh-wipe">
+          <path d="M187.11,258.2 C184.58,259.34 181.78,259.69 179.15,260.57 L173.38,262.26 C168.23,263.7 163.1,265.44 158.11,267.32 C155.86,268.15 153.66,269.13 151.52,270.27 C150.41,270.85 149.23,271.5 149.04,272.82 L149.27,273.3 C150.29,274.46 152.13,274.58 153.54,274.95 L156.77,275.56 C160.15,276.2 163.66,276.6 167.11,276.83 L177.95,277.83 C188.13,278.55 198.29,278.94 208.48,279.38 L219.17,279.8 C241.21,280.26 263.25,280.4 285.32,280.13 L303.78,279.87 C329.05,279.13 354.27,277.55 379.44,275.25 C389.18,274.37 398.88,272.98 408.6,271.73 C413.54,271.1 418.65,270.59 423.52,269.59 L437.6,267.13 C439.18,266.9 441.52,266.0 442.85,266.53 C442.27,267.71 439.81,268.13 438.44,268.5 C434.38,269.59 430.36,270.71 426.23,271.61 C414.05,274.3 401.83,276.32 389.44,277.92 C384.08,278.59 378.72,279.34 373.32,279.68 C363.2,280.31 353.11,281.66 342.97,282.14 C291.77,284.58 240.43,286.13 189.15,284.44 C173.96,283.93 158.6,283.77 143.52,281.7 C138.97,281.1 130.62,281.24 127.28,277.55 C126.37,276.58 126.56,274.98 127.42,274.05 L128.56,273.14 L131.48,271.5 C133.98,270.2 136.65,269.24 139.3,268.32 C145.44,266.18 151.78,264.54 158.11,263.07 C163.12,261.94 168.13,260.78 173.22,259.87 L181.01,258.53 C183.03,258.2 185.07,257.74 187.11,258.2 Z" fill="url(#ch1-swoosh-grad)"/>
+        </g>
+        <text class="pop m-tex" x="282" y="336" text-anchor="middle" font-size="25" font-weight="bold" fill="#650f12" style="--at:.58s">Lớp Toán Anh Chí</text>
+        <text class="pop m-tex" x="282" y="366" text-anchor="middle" font-size="18.5" font-weight="bold" fill="#0A5149" style="--at:.66s">Thầy Huỳnh Thanh Chí · Toán 6 – 12</text>
+      </g>
+    `
+  },
+
   cube: {
     svg: `
       <defs>
@@ -6390,167 +6418,151 @@ const SHEET_SLIDES = {
           <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="6 -6" dur="2.6s" repeatCount="indefinite" additive="sum"/>
           <line x1="0" y1="0" x2="0" y2="6" stroke="#1f5fbf" stroke-width="1.2" stroke-opacity="0.42"/>
         </pattern>
-        <linearGradient id="ch1-swoosh-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#B50415"/>
-          <stop offset="38%" stop-color="#B50415"/>
-          <stop offset="68%" stop-color="#0A5149"/>
-          <stop offset="100%" stop-color="#0A5149"/>
-        </linearGradient>
       </defs>
 
-      <!-- 1. [0.05s -> 0.65s] HÌNH HỘP ABCD.A'B'C'D' & THIẾT DIỆN (ACD') CHUẨN NÉT LIỀN / NÉT ĐỨT -->
+      <!-- 1. [0.05s -> 0.55s] HÌNH HỘP ABCD.A'B'C'D' & THIẾT DIỆN (ACD') CHUẨN NÉT LIỀN / NÉT ĐỨT -->
       <g class="float-slow">
-        <g class="pop" style="--at:.25s">
+        <g class="pop" style="--at:.22s">
           <polygon class="venn-inter-pulse" points="96,98 164,130 196,30" fill="rgba(198,40,40,0.17)"/>
         </g>
         <path class="draw-dash" d="M96 30V98M96 98L64 130M96 98H196" stroke="#6f625d" stroke-width="1.55" style="--at:.15s"/>
-        <path class="draw" d="M96 30L64 62H164L196 30Z M64 62V130H164V62 M164 130L196 98V30" stroke="#1f5fbf" stroke-width="2.15" style="--len:720;--at:.05s;--dur:.5s"/>
-        <path class="draw" d="M164 130L196 30" stroke="#c62828" stroke-width="2.4" style="--len:140;--at:.22s;--dur:.28s"/>
-        <path class="draw-dash" d="M96 98L164 130M96 98L196 30" stroke="#c62828" stroke-width="2.0" style="--at:.28s"/>
-        <circle class="pop" cx="96" cy="98" r="3.4" fill="#c62828" style="--at:.35s"/>
-        <circle class="pop" cx="164" cy="130" r="3.6" fill="#c62828" style="--at:.35s"/>
-        <circle class="pop" cx="196" cy="30" r="3.6" fill="#c62828" style="--at:.35s"/>
-        <text class="pop m-tex" x="86" y="23" font-size="13" fill="#2a211f" style="--at:.38s">A'</text>
-        <text class="pop m-tex" x="46" y="65" font-size="13" fill="#2a211f" style="--at:.38s">B'</text>
-        <text class="pop m-tex" x="153" y="76" font-size="12.5" fill="#2a211f" style="--at:.38s">C'</text>
-        <text class="pop m-tex" x="203" y="28" font-size="13" font-weight="bold" fill="#c62828" style="--at:.38s">D'</text>
-        <text class="pop m-tex" x="80" y="95" font-size="13" font-weight="bold" fill="#c62828" style="--at:.42s">A</text>
-        <text class="pop m-tex" x="48" y="138" font-size="13" fill="#2a211f" style="--at:.42s">B</text>
-        <text class="pop m-tex" x="164" y="145" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828" style="--at:.42s">C</text>
-        <text class="pop m-tex" x="203" y="102" font-size="13" fill="#2a211f" style="--at:.42s">D</text>
+        <path class="draw" d="M96 30L64 62H164L196 30Z M64 62V130H164V62 M164 130L196 98V30" stroke="#1f5fbf" stroke-width="2.15" style="--len:720;--at:.05s;--dur:.45s"/>
+        <path class="draw" d="M164 130L196 30" stroke="#c62828" stroke-width="2.4" style="--len:140;--at:.2s;--dur:.25s"/>
+        <path class="draw-dash" d="M96 98L164 130M96 98L196 30" stroke="#c62828" stroke-width="2.0" style="--at:.25s"/>
+        <circle class="pop" cx="96" cy="98" r="3.4" fill="#c62828" style="--at:.32s"/>
+        <circle class="pop" cx="164" cy="130" r="3.6" fill="#c62828" style="--at:.32s"/>
+        <circle class="pop" cx="196" cy="30" r="3.6" fill="#c62828" style="--at:.32s"/>
+        <text class="pop m-tex" x="86" y="23" font-size="13" fill="#2a211f" style="--at:.36s">A'</text>
+        <text class="pop m-tex" x="46" y="65" font-size="13" fill="#2a211f" style="--at:.36s">B'</text>
+        <text class="pop m-tex" x="153" y="76" font-size="12.5" fill="#2a211f" style="--at:.36s">C'</text>
+        <text class="pop m-tex" x="203" y="28" font-size="13" font-weight="bold" fill="#c62828" style="--at:.36s">D'</text>
+        <text class="pop m-tex" x="80" y="95" font-size="13" font-weight="bold" fill="#c62828" style="--at:.4s">A</text>
+        <text class="pop m-tex" x="48" y="138" font-size="13" fill="#2a211f" style="--at:.4s">B</text>
+        <text class="pop m-tex" x="164" y="145" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828" style="--at:.4s">C</text>
+        <text class="pop m-tex" x="203" y="102" font-size="13" fill="#2a211f" style="--at:.4s">D</text>
       </g>
 
-      <!-- 2. [0.1s -> 0.85s] HIỆU ỨNG LOGO CÁ NHÂN ĐỘNG: TAM GIÁC PENROSE 3 MÀU & THƯƠNG HIỆU Ch1 Σath -->
-      <g class="ch1-logo-breathe">
-        <rect class="pop" x="276" y="14" width="224" height="128" rx="9" fill="rgba(255,253,248,0.94)" stroke="#d8c7b4" stroke-width="1.5" style="--at:.08s"/>
-        <circle class="draw-dash" cx="388" cy="54" r="36" stroke="#d8c7b4" stroke-width="1.1" style="--at:.25s"/>
-        <!-- 3 Thanh Dầm Bất Khả Thi Tam Giác Penrose ghép khớp 3D -->
-        <path class="penrose-beam-1" d="M359.29,65.84 L386.21,20.73 L408.5,58.06 L400.94,58.06 L386.21,33.37 L363.06,72.16 Z" fill="#B50415"/>
-        <path class="penrose-beam-2" d="M394.2,20.0 L421.12,65.11 L376.57,65.11 L380.34,58.79 L409.8,58.79 L386.65,20.0 Z" fill="#198578"/>
-        <path class="penrose-beam-3" d="M417.79,72.16 L363.93,72.16 L386.21,34.83 L389.99,41.16 L375.26,65.84 L421.56,65.84 Z" fill="#0A5149"/>
-        <path class="draw" d="M359.29,65.84 L386.21,20.73 L408.5,58.06 L400.94,58.06 L386.21,33.37 L363.06,72.16 Z M394.2,20.0 L421.12,65.11 L376.57,65.11 L380.34,58.79 L409.8,58.79 L386.65,20.0 Z M417.79,72.16 L363.93,72.16 L386.21,34.83 L389.99,41.16 L375.26,65.84 L421.56,65.84 Z" stroke="#ffe27d" stroke-width="0.7" stroke-opacity="0.75" style="--len:680;--at:.15s;--dur:.75s"/>
-        <!-- Tên thương hiệu Ch1 Σath Vector & Dải lụa chuyển sắc Đỏ - Xanh -->
-        <path class="pop" d="M360.51,76.67 C360.49,77.24 360.2,77.81 360.02,78.35 C359.83,78.92 359.73,79.54 359.39,80.02 C358.95,79.86 358.59,79.57 358.17,79.35 C357.57,79.04 356.89,78.8 356.21,78.7 C355.14,78.55 353.96,78.58 352.91,78.9 C350.39,79.66 348.12,82.08 348.19,84.83 C348.21,85.29 348.29,85.74 348.44,86.18 C349.1,88.18 351.56,88.87 353.45,88.61 L354.8,88.29 L356.06,87.8 C356.55,87.54 357.05,87.21 357.57,87.07 L357.66,87.26 L357.54,88.13 C357.42,88.96 357.32,89.85 357.07,90.64 C354.71,92.05 351.73,92.45 349.09,91.71 C347.53,91.27 346.08,90.43 345.13,89.08 C344.63,88.38 344.34,87.61 344.11,86.79 C343.86,85.9 343.93,84.92 344.04,84.02 C344.19,82.89 344.75,81.69 345.36,80.74 C345.91,79.9 346.52,79.06 347.3,78.42 C349.64,76.5 352.51,75.41 355.54,75.39 C356.6,75.38 357.63,75.52 358.64,75.8 C359.31,75.99 360.01,76.17 360.51,76.67 Z M366.66,75.78 C366.7,76.28 366.49,76.79 366.33,77.26 L365.77,79.3 C365.53,79.98 365.19,80.74 365.19,81.45 L365.71,81.12 C366.28,80.78 366.91,80.48 367.55,80.3 C369.31,79.77 371.81,80.18 372.61,82.07 C373.17,83.38 372.68,84.71 372.28,85.97 L371.33,89.01 L370.87,90.36 C370.7,90.85 370.63,91.33 370.38,91.78 C369.73,91.92 369.02,91.84 368.35,91.85 C367.84,91.86 367.23,91.93 366.75,91.78 C366.66,91.22 367.01,90.57 367.19,90.02 L368.48,85.84 C368.72,85.25 368.98,84.26 368.56,83.68 C368.39,83.45 368.08,83.27 367.81,83.17 C367.5,83.05 367.13,83.08 366.8,83.11 C365.9,83.17 364.93,83.69 364.44,84.47 C364.14,84.97 364.02,85.56 363.84,86.11 L362.74,89.69 C362.53,90.38 362.38,91.15 362.03,91.78 C361.41,91.94 360.7,91.85 360.06,91.85 C359.52,91.85 358.96,91.9 358.44,91.78 C358.42,91.34 358.62,90.94 358.74,90.49 L359.55,87.86 L361.92,79.91 L362.77,77.07 C362.88,76.74 362.9,76.25 363.16,76.0 C363.42,75.75 363.76,75.69 364.1,75.69 L365.52,75.69 C365.92,75.69 366.29,75.66 366.66,75.78 Z M382.47,75.86 C382.47,76.36 382.25,76.85 382.12,77.34 L381.01,80.98 C380.65,82.34 380.23,83.69 379.8,85.03 L378.86,88.13 L378.2,90.35 C378.05,90.85 377.93,91.33 377.67,91.78 C377.0,91.95 376.26,91.85 375.58,91.85 C375.06,91.85 374.49,91.91 374.01,91.74 C374.01,91.32 374.2,90.97 374.32,90.57 L374.9,88.68 L376.69,82.67 L377.21,80.92 C377.33,80.54 377.47,80.24 377.5,79.84 L377.32,79.81 L376.37,80.14 C375.69,80.36 374.94,80.64 374.22,80.71 C374.17,80.18 374.43,79.61 374.61,79.09 C374.74,78.72 374.8,78.36 375.01,78.02 C375.72,77.64 376.52,77.43 377.25,77.09 L379.74,75.76 L381.23,75.75 C381.66,75.75 382.09,75.69 382.47,75.86 Z M430.55,75.86 C430.59,76.4 430.35,76.9 430.21,77.41 L429.53,79.91 C429.42,80.35 429.24,80.74 429.23,81.19 C429.74,80.89 430.21,80.49 430.77,80.28 C432.49,79.67 434.59,79.69 435.74,81.32 L435.99,81.72 C436.42,82.86 435.91,84.17 435.53,85.23 L434.16,89.42 C433.93,90.12 433.78,90.92 433.4,91.57 C432.85,91.69 432.23,91.63 431.65,91.63 C431.1,91.64 430.51,91.69 429.97,91.58 C429.88,90.99 430.24,90.4 430.4,89.82 L431.83,85.23 C432.08,84.5 432.39,83.52 431.65,82.96 L431.24,82.75 C430.18,82.43 428.87,83.34 428.4,84.23 L428.15,84.9 L427.64,86.59 L426.74,89.42 C426.52,90.13 426.35,90.9 426.05,91.57 C425.43,91.71 424.68,91.64 424.04,91.63 C423.55,91.63 423.07,91.68 422.62,91.54 C422.63,91.13 422.77,90.77 422.89,90.37 L423.56,88.14 L425.85,80.58 L426.74,77.47 C426.86,77.06 426.93,76.37 427.24,76.06 C427.4,75.9 427.65,75.78 427.87,75.75 L428.95,75.76 C429.48,75.77 430.08,75.67 430.55,75.86 Z M422.62,76.73 C422.68,77.1 422.53,77.5 422.42,77.88 C422.21,78.62 421.86,79.4 421.81,80.17 C422.67,80.38 423.64,80.09 424.51,80.3 C424.56,80.67 424.43,80.95 424.3,81.32 L423.83,82.73 C422.92,82.94 421.93,82.71 421.0,82.84 C420.71,83.45 420.54,84.17 420.36,84.83 L419.68,87.06 C419.5,87.68 419.27,88.22 419.63,88.81 C420.43,89.27 421.17,88.87 421.99,88.75 C422.05,89.32 421.78,89.97 421.61,90.55 L421.36,91.17 C421.1,91.48 420.62,91.58 420.26,91.69 C418.9,92.09 417.05,91.98 416.18,90.7 C415.57,89.8 415.75,88.77 416.01,87.8 L416.86,84.9 C417.06,84.24 417.37,83.56 417.43,82.89 C416.92,82.76 416.37,82.88 415.88,82.71 C415.9,82.21 416.11,81.74 416.26,81.25 C416.37,80.91 416.42,80.62 416.62,80.32 L418.28,80.18 C418.65,79.49 418.7,78.66 419.05,77.95 L420.93,77.14 C421.52,76.88 421.96,76.64 422.62,76.73 Z M412.45,91.58 C411.96,91.73 411.41,91.66 410.89,91.66 C410.38,91.66 409.84,91.73 409.36,91.58 C409.29,91.31 409.34,91.06 409.34,90.77 C408.97,90.9 408.68,91.16 408.33,91.33 C407.85,91.57 407.36,91.74 406.84,91.86 C405.09,92.27 402.76,91.53 402.46,89.55 L402.44,88.81 C402.75,85.92 406.11,84.7 408.6,84.47 L411.09,84.36 C411.36,83.85 411.51,83.13 410.89,82.76 L410.14,82.59 C408.96,82.45 407.67,82.77 406.57,83.21 C406.15,83.37 405.76,83.6 405.31,83.61 C405.29,83.3 405.41,83.01 405.5,82.68 C405.62,82.15 405.76,81.6 406.0,81.12 C406.52,80.84 407.08,80.66 407.65,80.5 C409.14,80.05 410.91,79.77 412.44,80.19 C413.44,80.47 414.43,80.97 414.81,82.0 C415.25,83.16 414.75,84.18 414.46,85.3 L412.45,91.58 Z M406.04,88.54 L406.11,88.95 C406.49,89.74 407.75,89.53 408.4,89.3 C408.98,89.09 409.65,88.68 409.98,88.13 L410.46,86.59 C410.39,86.55 410.39,86.5 410.28,86.49 C409.8,86.42 409.27,86.5 408.8,86.6 C407.82,86.79 406.62,86.96 406.15,88.0 L406.04,88.54 Z" fill="#0A5149" fill-rule="evenodd" style="--at:.48s"/>
-        <path class="ch1-sigma-pulse" d="M404.41,75.29 C404.45,75.87 404.2,76.44 404.05,77.0 L403.74,78.29 L403.52,78.96 C403.41,79.46 403.32,79.96 403.14,80.43 C402.9,80.51 402.77,80.51 402.53,80.49 C402.26,80.14 402.15,79.7 401.92,79.32 C401.68,78.9 401.33,78.55 400.93,78.29 C400.15,77.78 399.31,77.88 398.42,77.88 L395.25,77.88 C394.7,77.88 394.17,77.83 393.63,77.93 C393.64,78.04 393.57,78.02 393.63,78.14 C393.82,78.56 394.13,78.86 394.39,79.23 L395.97,81.45 C396.23,81.82 396.55,82.09 396.66,82.52 C396.31,83.02 395.78,83.34 395.33,83.75 C394.11,84.91 392.82,85.99 391.57,87.12 L390.41,88.13 C390.34,88.21 390.34,88.28 390.31,88.33 C390.76,88.45 391.21,88.43 391.68,88.43 L393.22,88.42 L395.65,88.43 C396.2,88.43 396.74,88.47 397.27,88.37 C397.72,88.28 398.12,88.09 398.55,87.94 C398.83,87.84 399.06,87.61 399.29,87.44 C399.82,87.05 400.31,86.64 400.78,86.18 C401.03,85.94 401.26,85.51 401.65,85.48 C401.8,85.46 401.9,85.52 402.04,85.57 L402.05,85.76 L401.75,86.59 L401.21,88.0 C400.9,88.73 400.68,89.5 400.36,90.22 L400.25,90.64 C400.15,90.95 400.01,91.27 399.84,91.55 C399.21,91.67 398.52,91.61 397.88,91.6 L395.25,91.6 L387.09,91.6 L383.99,91.59 C383.56,91.59 383.06,91.69 382.64,91.57 L382.46,91.44 L382.55,91.24 L383.38,90.52 C383.93,90.03 384.51,89.57 385.07,89.09 C386.82,87.57 388.6,86.07 390.37,84.56 C391.01,84.02 391.8,83.54 392.28,82.87 C392.13,82.55 391.9,82.29 391.68,82.0 L391.52,81.66 L391.28,81.39 L390.53,80.24 L388.64,77.62 L387.73,76.33 C387.47,75.99 387.25,75.75 387.25,75.31 C387.34,75.27 387.34,75.21 387.48,75.18 L388.64,75.18 L391.81,75.19 L400.1,75.19 L402.87,75.18 C403.4,75.18 403.91,75.12 404.41,75.29 Z" fill="#B50415" fill-rule="evenodd"/>
-        <g class="ch1-swoosh-wipe">
-          <path d="M353.64,94.66 C352.73,95.07 351.71,95.2 350.76,95.52 L348.67,96.13 C346.81,96.65 344.95,97.28 343.14,97.96 C342.33,98.26 341.53,98.62 340.76,99.03 C340.36,99.24 339.93,99.47 339.86,99.95 L339.94,100.13 C340.31,100.55 340.98,100.59 341.49,100.72 L342.66,100.94 C343.88,101.18 345.15,101.32 346.4,101.4 L350.33,101.77 C354.01,102.03 357.69,102.17 361.38,102.33 L365.25,102.48 C373.23,102.65 381.21,102.7 389.2,102.6 L395.89,102.5 C405.04,102.24 414.17,101.66 423.28,100.83 C426.81,100.51 430.32,100.01 433.84,99.56 C435.63,99.33 437.48,99.14 439.24,98.78 L444.34,97.89 C444.91,97.81 445.76,97.48 446.24,97.67 C446.03,98.1 445.14,98.25 444.64,98.39 C443.17,98.78 441.72,99.19 440.22,99.51 C435.81,100.49 431.39,101.22 426.9,101.8 C424.96,102.04 423.02,102.31 421.06,102.44 C417.4,102.66 413.75,103.15 410.08,103.33 C391.54,104.21 372.95,104.77 354.38,104.16 C348.88,103.97 343.32,103.92 337.86,103.17 C336.21,102.95 333.19,103.0 331.98,101.66 C331.65,101.31 331.72,100.73 332.03,100.4 L332.44,100.07 L333.5,99.47 C334.41,99.0 335.37,98.66 336.33,98.32 C338.56,97.55 340.85,96.95 343.14,96.42 C344.96,96.01 346.77,95.59 348.61,95.26 L351.43,94.78 C352.17,94.66 352.9,94.49 353.64,94.66 Z" fill="url(#ch1-swoosh-grad)"/>
-        </g>
-        <text class="pop m-tex" x="388" y="131" text-anchor="middle" font-size="11.8" font-weight="bold" fill="#650f12" style="--at:.75s">Thương hiệu Ch1 Math · Toán 6 – 12</text>
+      <!-- 2. [0.12s -> 0.65s] HỆ TRỤC KHÔNG GIAN OXYZ & VECTƠ OM(x_0; y_0; z_0) NHƯ BAN ĐẦU -->
+      <g class="float-alt">
+        <path class="draw" d="M352 94V20M352 94H482M352 94L298 138" stroke="#3b3534" stroke-width="1.65" style="--len:320;--at:.12s;--dur:.38s"/>
+        <path class="draw" d="m348 27 4-7 4 7m123 63 7 4-7 4m-173 36-8 2 2-8" stroke="#3b3534" stroke-width="1.45" style="--len:50;--at:.32s;--dur:.18s"/>
+        <path class="draw-dash" d="M320 120H398L430 94M352 94L398 120V64L352 38" stroke="#2e7d4f" stroke-width="1.45" style="--at:.36s"/>
+        <path class="draw" d="M352 94L398 64" stroke="#c62828" stroke-width="2.25" style="--len:70;--at:.42s;--dur:.22s"/>
+        <circle class="pop" cx="320" cy="120" r="3.1" fill="#2e7d4f" style="--at:.46s"/>
+        <circle class="pop" cx="430" cy="94" r="3.1" fill="#2e7d4f" style="--at:.46s"/>
+        <circle class="pop" cx="352" cy="38" r="3.1" fill="#2e7d4f" style="--at:.46s"/>
+        <circle class="pop" cx="398" cy="120" r="3.3" fill="#1f5fbf" style="--at:.48s"/>
+        <circle class="pop" cx="398" cy="64" r="3.9" fill="#c62828" style="--at:.5s"/>
+        <text class="pop m-tex" x="360" y="26" font-size="13.5" fill="#3b3534" style="--at:.42s">z</text>
+        <text class="pop m-tex" x="485" y="90" font-size="13.5" fill="#3b3534" style="--at:.42s">y</text>
+        <text class="pop m-tex" x="284" y="140" font-size="13.5" fill="#3b3534" style="--at:.42s">x</text>
+        <text class="pop m-tex" x="336" y="89" font-size="12.5" fill="#6f625d" style="--at:.42s">O</text>
+        <text class="pop m-tex" x="296" y="118" font-size="12" fill="#2e7d4f" style="--at:.48s">${svgTexSub("x", "0")}</text>
+        <text class="pop m-tex" x="426" y="83" font-size="12" fill="#2e7d4f" style="--at:.48s">${svgTexSub("y", "0")}</text>
+        <text class="pop m-tex" x="328" y="42" font-size="12" fill="#2e7d4f" style="--at:.48s">${svgTexSub("z", "0")}</text>
+        <text class="pop m-tex" x="406" y="133" font-size="12" fill="#1f5fbf" style="--at:.52s">M'(${svgTexSub("x", "0", "m-rm", "; ")}${svgTexSub("y", "0", "m-rm", "; 0)")}</text>
+        <text class="pop m-tex" x="407" y="61" font-size="12.8" font-weight="bold" fill="#c62828" style="--at:.56s">M(${svgTexSub("x", "0", "m-rm", "; ")}${svgTexSub("y", "0", "m-rm", "; ")}${svgTexSub("z", "0", "m-rm", ")")}</text>
       </g>
 
-      <!-- 3. [0.2s -> 0.8s] HÌNH CHÓP TỨ GIÁC S.ABCD & ĐƯỜNG CAO SO ⊥ (ABCD) -->
+      <!-- 3. [0.18s -> 0.72s] HÌNH CHÓP TỨ GIÁC S.ABCD & ĐƯỜNG CAO SO ⊥ (ABCD) -->
       <g class="float-slow">
-        <g class="pop" style="--at:.35s">
+        <g class="pop" style="--at:.32s">
           <polygon class="venn-inter-pulse" points="144,158 184,270 224,232" fill="rgba(31,95,191,0.11)"/>
         </g>
-        <path class="draw-dash" d="M104 232L64 270M104 232H224M144 158L104 232" stroke="#6f625d" stroke-width="1.5" style="--at:.25s"/>
-        <path class="draw-dash" d="M104 232L184 270M64 270L224 232" stroke="#2e7d4f" stroke-width="1.35" style="--at:.3s"/>
-        <path class="draw-dash" d="M144 158V251" stroke="#c62828" stroke-width="2" style="--at:.32s"/>
-        <path class="draw" d="M144 242L152 240.2L152 249.1" stroke="#c62828" stroke-width="1.3" style="--len:25;--at:.4s;--dur:.2s"/>
-        <path class="draw" d="M144 158L64 270H184L224 232Z M144 158L184 270" stroke="#1f5fbf" stroke-width="2.15" style="--len:680;--at:.18s;--dur:.5s"/>
-        <circle class="pop" cx="144" cy="158" r="3.6" fill="#c62828" style="--at:.45s"/>
-        <circle class="pop" cx="144" cy="251" r="3.4" fill="#c62828" style="--at:.45s"/>
-        <circle class="pop" cx="104" cy="232" r="3.0" fill="#6f625d" style="--at:.45s"/>
-        <circle class="pop" cx="64" cy="270" r="3.4" fill="#1f5fbf" style="--at:.45s"/>
-        <circle class="pop" cx="184" cy="270" r="3.4" fill="#1f5fbf" style="--at:.45s"/>
-        <circle class="pop" cx="224" cy="232" r="3.4" fill="#1f5fbf" style="--at:.45s"/>
-        <text class="pop m-tex" x="144" y="150" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:.5s">S</text>
-        <text class="pop m-tex" x="90" y="228" font-size="13" fill="#6f625d" style="--at:.5s">A</text>
-        <text class="pop m-tex" x="49" y="275" font-size="13" fill="#2a211f" style="--at:.5s">B</text>
-        <text class="pop m-tex" x="189" y="279" font-size="13" fill="#2a211f" style="--at:.5s">C</text>
-        <text class="pop m-tex" x="230" y="236" font-size="13" fill="#2a211f" style="--at:.5s">D</text>
-        <text class="pop m-tex" x="144" y="266" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.52s">O</text>
+        <path class="draw-dash" d="M104 232L64 270M104 232H224M144 158L104 232" stroke="#6f625d" stroke-width="1.5" style="--at:.24s"/>
+        <path class="draw-dash" d="M104 232L184 270M64 270L224 232" stroke="#2e7d4f" stroke-width="1.35" style="--at:.28s"/>
+        <path class="draw-dash" d="M144 158V251" stroke="#c62828" stroke-width="2" style="--at:.3s"/>
+        <path class="draw" d="M144 242L152 240.2L152 249.1" stroke="#c62828" stroke-width="1.3" style="--len:25;--at:.38s;--dur:.18s"/>
+        <path class="draw" d="M144 158L64 270H184L224 232Z M144 158L184 270" stroke="#1f5fbf" stroke-width="2.15" style="--len:680;--at:.18s;--dur:.45s"/>
+        <circle class="pop" cx="144" cy="158" r="3.6" fill="#c62828" style="--at:.44s"/>
+        <circle class="pop" cx="144" cy="251" r="3.4" fill="#c62828" style="--at:.44s"/>
+        <circle class="pop" cx="104" cy="232" r="3.0" fill="#6f625d" style="--at:.44s"/>
+        <circle class="pop" cx="64" cy="270" r="3.4" fill="#1f5fbf" style="--at:.44s"/>
+        <circle class="pop" cx="184" cy="270" r="3.4" fill="#1f5fbf" style="--at:.44s"/>
+        <circle class="pop" cx="224" cy="232" r="3.4" fill="#1f5fbf" style="--at:.44s"/>
+        <text class="pop m-tex" x="144" y="150" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:.48s">S</text>
+        <text class="pop m-tex" x="90" y="228" font-size="13" fill="#6f625d" style="--at:.48s">A</text>
+        <text class="pop m-tex" x="49" y="275" font-size="13" fill="#2a211f" style="--at:.48s">B</text>
+        <text class="pop m-tex" x="189" y="279" font-size="13" fill="#2a211f" style="--at:.48s">C</text>
+        <text class="pop m-tex" x="230" y="236" font-size="13" fill="#2a211f" style="--at:.48s">D</text>
+        <text class="pop m-tex" x="144" y="266" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.5s">O</text>
       </g>
 
-      <!-- 4. [0.25s -> 0.9s] ĐỒ THỊ HÀM BẬC BA y = x³ − 3x & BẢNG BIẾN THIÊN CHUẨN -->
+      <!-- 4. [0.24s -> 0.8s] BẢNG BIẾN THIÊN HÀM BẬC 3 RỘNG THOÁNG NHƯ BAN ĐẦU -->
       <g class="float-alt">
-        <path class="draw" d="M276 216H374M324 274V158" stroke="#3b3534" stroke-width="1.45" style="--len:240;--at:.25s;--dur:.35s"/>
-        <path class="draw" d="m368 212 6 4-6 4M320 164l4-6 4 6" stroke="#3b3534" stroke-width="1.3" style="--len:30;--at:.4s;--dur:.18s"/>
-        <path class="draw-dash" d="M304 216V182H324 M344 216V250H324" stroke="#2e7d4f" stroke-width="1.25" style="--at:.45s"/>
-        <path class="draw" d="M286 258 C293 196, 298 182, 304 182 C312 182, 318 202, 324 216 C330 230, 336 250, 344 250 C350 250, 355 236, 362 174" stroke="#c62828" stroke-width="2.25" style="--len:210;--at:.32s;--dur:.5s"/>
-        <circle class="pop" cx="304" cy="182" r="3" fill="#c62828" style="--at:.55s"/>
-        <circle class="pop" cx="324" cy="216" r="2.6" fill="#1f5fbf" style="--at:.55s"/>
-        <circle class="pop" cx="344" cy="250" r="3" fill="#1f5fbf" style="--at:.55s"/>
-        <text class="pop m-tex" x="331" y="166" font-size="11.5" fill="#3b3534" style="--at:.55s">y</text>
-        <text class="pop m-tex" x="369" y="230" font-size="11.5" fill="#3b3534" style="--at:.55s">x</text>
-        <text class="pop m-tex" x="301" y="229" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#2a211f" style="--at:.58s">−1</text>
-        <text class="pop m-tex" x="345" y="212" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#2a211f" style="--at:.58s">1</text>
-        <text class="pop m-tex" x="332" y="185" font-size="10.5" font-weight="bold" fill="#c62828" style="--at:.58s">2</text>
-        <text class="pop m-tex" x="313" y="254" text-anchor="end" font-size="10.5" font-weight="bold" fill="#1f5fbf" style="--at:.58s">−2</text>
-
-        <rect class="pop" x="382" y="158" width="120" height="116" rx="5" fill="rgba(255,253,248,0.96)" stroke="#3b3534" stroke-width="1.45" style="--at:.3s"/>
-        <path class="draw" d="M382 181H502M382 204H502M402 158V274" stroke="#3b3534" stroke-width="1.25" style="--len:380;--at:.35s;--dur:.38s"/>
-        <text class="pop m-tex" x="392" y="174" text-anchor="middle" font-size="12" font-weight="bold" fill="#650f12" style="--at:.45s">x</text>
-        <text class="pop m-tex" x="414" y="174" text-anchor="middle" font-size="10.5" fill="#2a211f" style="--at:.48s">−∞</text>
-        <text class="pop m-tex" x="439" y="174" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#2a211f" style="--at:.48s">−1</text>
-        <text class="pop m-tex" x="466" y="174" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#2a211f" style="--at:.48s">1</text>
-        <text class="pop m-tex" x="490" y="174" text-anchor="middle" font-size="10.5" fill="#2a211f" style="--at:.48s">+∞</text>
-        <text class="pop m-tex" x="392" y="197" text-anchor="middle" font-size="12" font-weight="bold" fill="#650f12" style="--at:.5s">y'</text>
-        <text class="pop m-tex" x="426" y="197" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.52s">+</text>
-        <text class="pop m-tex" x="439" y="197" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#2a211f" style="--at:.52s">0</text>
-        <text class="pop m-tex" x="452.5" y="197" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1f5fbf" style="--at:.52s">−</text>
-        <text class="pop m-tex" x="466" y="197" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#2a211f" style="--at:.52s">0</text>
-        <text class="pop m-tex" x="479" y="197" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.52s">+</text>
-        <text class="pop m-tex" x="392" y="242" text-anchor="middle" font-size="12" font-weight="bold" fill="#650f12" style="--at:.55s">y</text>
-        <text class="pop m-tex" x="413" y="264" text-anchor="middle" font-size="10.5" fill="#2a211f" style="--at:.58s">−∞</text>
-        <text class="pop m-tex" x="439" y="221" text-anchor="middle" font-size="12" font-weight="bold" fill="#c62828" style="--at:.58s">2</text>
-        <text class="pop m-tex" x="466" y="264" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f5fbf" style="--at:.58s">−2</text>
-        <text class="pop m-tex" x="491" y="221" text-anchor="middle" font-size="10.5" fill="#2a211f" style="--at:.58s">+∞</text>
-        <path class="draw" d="M418 253L433 224m-4.5 1 4.5-1-1 4.5" stroke="#c62828" stroke-width="1.6" style="--len:55;--at:.6s;--dur:.2s"/>
-        <path class="draw" d="M445 224L460 253m-4.5-1 4.5 1 1-4.5" stroke="#1f5fbf" stroke-width="1.6" style="--len:55;--at:.65s;--dur:.2s"/>
-        <path class="draw" d="M473 253L487 224m-4.5 1 4.5-1-1 4.5" stroke="#c62828" stroke-width="1.6" style="--len:55;--at:.7s;--dur:.2s"/>
+        <rect class="pop" x="282" y="158" width="218" height="116" rx="5" fill="rgba(255,253,248,0.96)" stroke="#3b3534" stroke-width="1.5" style="--at:.24s"/>
+        <path class="draw" d="M282 182H500M282 206H500M310 158V274" stroke="#3b3534" stroke-width="1.35" style="--len:580;--at:.3s;--dur:.38s"/>
+        <text class="pop m-tex" x="296" y="175" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:.4s">x</text>
+        <text class="pop m-tex" x="326" y="175" text-anchor="middle" font-size="12.5" fill="#2a211f" style="--at:.44s">−∞</text>
+        <text class="pop m-tex" x="374" y="175" text-anchor="middle" font-size="13" font-weight="bold" fill="#2a211f" style="--at:.44s">−1</text>
+        <text class="pop m-tex" x="430" y="175" text-anchor="middle" font-size="13" font-weight="bold" fill="#2a211f" style="--at:.44s">1</text>
+        <text class="pop m-tex" x="480" y="175" text-anchor="middle" font-size="12.5" fill="#2a211f" style="--at:.44s">+∞</text>
+        <text class="pop m-tex" x="296" y="199" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:.46s">y'</text>
+        <text class="pop m-tex" x="350" y="199" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#c62828" style="--at:.5s">+</text>
+        <text class="pop m-tex" x="374" y="199" text-anchor="middle" font-size="13" font-weight="bold" fill="#2a211f" style="--at:.5s">0</text>
+        <text class="pop m-tex" x="402" y="199" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#1f5fbf" style="--at:.5s">−</text>
+        <text class="pop m-tex" x="430" y="199" text-anchor="middle" font-size="13" font-weight="bold" fill="#2a211f" style="--at:.5s">0</text>
+        <text class="pop m-tex" x="456" y="199" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#c62828" style="--at:.5s">+</text>
+        <text class="pop m-tex" x="296" y="244" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:.52s">y</text>
+        <text class="pop m-tex" x="326" y="265" text-anchor="middle" font-size="12.5" fill="#2a211f" style="--at:.55s">−∞</text>
+        <text class="pop m-tex" x="374" y="222" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:.55s">2</text>
+        <text class="pop m-tex" x="430" y="265" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f5fbf" style="--at:.55s">−2</text>
+        <text class="pop m-tex" x="480" y="222" text-anchor="middle" font-size="12.5" fill="#2a211f" style="--at:.55s">+∞</text>
+        <path class="draw" d="M338 255L365 225m-6 1 6-1-1 6" stroke="#c62828" stroke-width="1.8" style="--len:70;--at:.56s;--dur:.2s"/>
+        <path class="draw" d="M384 225L418 255m-6-1 6 1 1-6" stroke="#1f5fbf" stroke-width="1.8" style="--len:70;--at:.62s;--dur:.2s"/>
+        <path class="draw" d="M442 255L468 225m-6 1 6-1-1 6" stroke="#c62828" stroke-width="1.8" style="--len:70;--at:.68s;--dur:.2s"/>
       </g>
 
-      <!-- 5. [0.35s -> 0.95s] ĐỒ THỊ TÍCH PHÂN DIỆN TÍCH HÌNH PHẲNG S = ∫_a^b |f(x)| dx -->
+      <!-- 5. [0.32s -> 0.88s] ĐỒ THỊ TÍCH PHÂN DIỆN TÍCH HÌNH PHẲNG S = ∫_a^b |f(x)| dx -->
       <g class="float-slow">
-        <path class="pop" d="M98 376 L98 330 C118 294, 144 304, 162 376 Z" fill="rgba(198,40,40,0.22)" style="--at:.55s"/>
-        <path class="pop" d="M98 376 L98 330 C118 294, 144 304, 162 376 Z" fill="url(#integral-hatch)" style="--at:.58s"/>
-        <path class="pop" d="M162 376 C178 416, 202 412, 218 392 L218 376 Z" fill="rgba(31,95,191,0.20)" style="--at:.58s"/>
-        <path class="pop" d="M162 376 C178 416, 202 412, 218 392 L218 376 Z" fill="url(#rot-hatch)" style="--at:.62s"/>
-        <path class="draw" d="M58 376H252M76 416V296" stroke="#3b3534" stroke-width="1.55" style="--len:340;--at:.35s;--dur:.38s"/>
-        <path class="draw" d="m245 372 7 4-7 4M72 303l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.5s;--dur:.18s"/>
-        <path class="draw-dash" d="M98 330V376M218 376V392" stroke="#c62828" stroke-width="1.6" style="--at:.52s"/>
-        <path class="draw" d="M82 352 Q90 341, 98 330 C118 294, 144 304, 162 376 C178 416, 202 412, 218 392 Q225 384, 232 372" stroke="#1f5fbf" stroke-width="2.35" style="--len:250;--at:.42s;--dur:.48s"/>
-        <circle class="pop" cx="98" cy="330" r="2.8" fill="#1f5fbf" style="--at:.65s"/>
-        <circle class="pop" cx="98" cy="376" r="3" fill="#c62828" style="--at:.65s"/>
-        <circle class="pop" cx="162" cy="376" r="3" fill="#2a211f" style="--at:.65s"/>
-        <circle class="pop" cx="218" cy="376" r="3" fill="#c62828" style="--at:.65s"/>
-        <circle class="pop" cx="218" cy="392" r="2.8" fill="#1f5fbf" style="--at:.65s"/>
-        <text class="pop m-tex" x="83" y="305" font-size="12.5" fill="#3b3534" style="--at:.65s">y</text>
-        <text class="pop m-tex" x="246" y="392" font-size="12.5" fill="#3b3534" style="--at:.65s">x</text>
-        <text class="pop m-tex" x="63" y="390" font-size="12" fill="#6f625d" style="--at:.65s">O</text>
-        <text class="pop m-tex" x="98" y="392" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.7s">a</text>
-        <text class="pop m-tex" x="218" y="368" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.7s">b</text>
-        <g class="pop m-tex" style="--at:.75s">
+        <path class="pop" d="M98 376 L98 330 C118 294, 144 304, 162 376 Z" fill="rgba(198,40,40,0.22)" style="--at:.5s"/>
+        <path class="pop" d="M98 376 L98 330 C118 294, 144 304, 162 376 Z" fill="url(#integral-hatch)" style="--at:.54s"/>
+        <path class="pop" d="M162 376 C178 416, 202 412, 218 392 L218 376 Z" fill="rgba(31,95,191,0.20)" style="--at:.54s"/>
+        <path class="pop" d="M162 376 C178 416, 202 412, 218 392 L218 376 Z" fill="url(#rot-hatch)" style="--at:.58s"/>
+        <path class="draw" d="M58 376H252M76 416V296" stroke="#3b3534" stroke-width="1.55" style="--len:340;--at:.32s;--dur:.35s"/>
+        <path class="draw" d="m245 372 7 4-7 4M72 303l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.46s;--dur:.16s"/>
+        <path class="draw-dash" d="M98 330V376M218 376V392" stroke="#c62828" stroke-width="1.6" style="--at:.48s"/>
+        <path class="draw" d="M82 352 Q90 341, 98 330 C118 294, 144 304, 162 376 C178 416, 202 412, 218 392 Q225 384, 232 372" stroke="#1f5fbf" stroke-width="2.35" style="--len:250;--at:.38s;--dur:.42s"/>
+        <circle class="pop" cx="98" cy="330" r="2.8" fill="#1f5fbf" style="--at:.6s"/>
+        <circle class="pop" cx="98" cy="376" r="3" fill="#c62828" style="--at:.6s"/>
+        <circle class="pop" cx="162" cy="376" r="3" fill="#2a211f" style="--at:.6s"/>
+        <circle class="pop" cx="218" cy="376" r="3" fill="#c62828" style="--at:.6s"/>
+        <circle class="pop" cx="218" cy="392" r="2.8" fill="#1f5fbf" style="--at:.6s"/>
+        <text class="pop m-tex" x="83" y="305" font-size="12.5" fill="#3b3534" style="--at:.6s">y</text>
+        <text class="pop m-tex" x="246" y="392" font-size="12.5" fill="#3b3534" style="--at:.6s">x</text>
+        <text class="pop m-tex" x="63" y="390" font-size="12" fill="#6f625d" style="--at:.6s">O</text>
+        <text class="pop m-tex" x="98" y="392" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.64s">a</text>
+        <text class="pop m-tex" x="218" y="368" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.64s">b</text>
+        <g class="pop m-tex" style="--at:.7s">
           <text x="148" y="306" font-size="12.5" font-weight="bold" fill="#650f12">S =</text>
           ${svgTexIntegral(170, 306, "a", "b", "|f(x)| dx", "#650f12", 12.2)}
         </g>
       </g>
 
-      <!-- 6. [0.4s -> 1.05s] MÔ HÌNH THỂ TÍCH KHỐI TRÒN XOAY 3D V = π ∫_a^b [f(x)]² dx -->
+      <!-- 6. [0.36s -> 0.94s] MÔ HÌNH THỂ TÍCH KHỐI TRÒN XOAY 3D V = π ∫_a^b [f(x)]² dx -->
       <g class="float-alt">
-        <path class="pop" d="M318 338 C355 335, 405 314, 452 322 A12 36 0 0 1 452 394 C405 402, 355 381, 318 378 A7 20 0 0 1 318 338 Z" fill="rgba(31,95,191,0.14)" style="--at:.55s"/>
-        <ellipse class="pop" cx="452" cy="358" rx="12" ry="36" fill="rgba(198,40,40,0.18)" style="--at:.6s"/>
-        <g class="pop" style="--at:.62s">
+        <path class="pop" d="M318 338 C355 335, 405 314, 452 322 A12 36 0 0 1 452 394 C405 402, 355 381, 318 378 A7 20 0 0 1 318 338 Z" fill="rgba(31,95,191,0.14)" style="--at:.5s"/>
+        <ellipse class="pop" cx="452" cy="358" rx="12" ry="36" fill="rgba(198,40,40,0.18)" style="--at:.54s"/>
+        <g class="pop" style="--at:.58s">
           <ellipse class="venn-inter-pulse" cx="386" cy="358" rx="9.5" ry="29" fill="url(#rot-hatch)"/>
         </g>
-        <path class="draw" d="M282 358H318M452 358H502M296 416V296" stroke="#3b3534" stroke-width="1.55" style="--len:260;--at:.4s;--dur:.38s"/>
-        <path class="draw" d="m495 354 7 4-7 4M292 303l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.55s;--dur:.18s"/>
-        <path class="draw-dash" d="M318 358H452" stroke="#3b3534" stroke-width="1.4" style="--at:.55s"/>
-        <path class="draw-dash" d="M318 338 A7 20 0 0 1 318 378 M386 329 A9.5 29 0 0 1 386 387" stroke="#1f5fbf" stroke-width="1.5" style="--at:.58s"/>
-        <path class="draw-dash" d="M386 358V329M452 358V322" stroke="#c62828" stroke-width="1.45" style="--at:.62s"/>
-        <path class="draw" d="M318 338 A7 20 0 0 0 318 378 M386 329 A9.5 29 0 0 0 386 387" stroke="#1f5fbf" stroke-width="1.95" style="--len:180;--at:.58s;--dur:.35s"/>
-        <path class="draw" d="M318 338 C355 335, 405 314, 452 322 M318 378 C355 381, 405 402, 452 394" stroke="#1f5fbf" stroke-width="2.25" style="--len:320;--at:.48s;--dur:.48s"/>
-        <ellipse class="draw" cx="452" cy="358" rx="12" ry="36" stroke="#c62828" stroke-width="2.05" style="--len:170;--at:.56s;--dur:.35s"/>
-        <circle class="pop" cx="318" cy="358" r="2.8" fill="#3b3534" style="--at:.7s"/>
-        <circle class="pop" cx="386" cy="358" r="3" fill="#c62828" style="--at:.7s"/>
-        <circle class="pop" cx="452" cy="358" r="3" fill="#c62828" style="--at:.7s"/>
-        <text class="pop m-tex" x="303" y="305" font-size="12.5" fill="#3b3534" style="--at:.68s">y</text>
-        <text class="pop m-tex" x="494" y="374" font-size="12.5" fill="#3b3534" style="--at:.68s">x</text>
-        <text class="pop m-tex" x="313" y="393" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.72s">a</text>
-        <text class="pop m-tex" x="386" y="402" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1f5fbf" style="--at:.72s">x</text>
-        <text class="pop m-tex" x="448" y="408" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.72s">b</text>
-        <g class="pop m-tex" style="--at:.78s">
+        <path class="draw" d="M282 358H318M452 358H502M296 416V296" stroke="#3b3534" stroke-width="1.55" style="--len:260;--at:.36s;--dur:.35s"/>
+        <path class="draw" d="m495 354 7 4-7 4M292 303l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.5s;--dur:.16s"/>
+        <path class="draw-dash" d="M318 358H452" stroke="#3b3534" stroke-width="1.4" style="--at:.5s"/>
+        <path class="draw-dash" d="M318 338 A7 20 0 0 1 318 378 M386 329 A9.5 29 0 0 1 386 387" stroke="#1f5fbf" stroke-width="1.5" style="--at:.54s"/>
+        <path class="draw-dash" d="M386 358V329M452 358V322" stroke="#c62828" stroke-width="1.45" style="--at:.56s"/>
+        <path class="draw" d="M318 338 A7 20 0 0 0 318 378 M386 329 A9.5 29 0 0 0 386 387" stroke="#1f5fbf" stroke-width="1.95" style="--len:180;--at:.54s;--dur:.32s"/>
+        <path class="draw" d="M318 338 C355 335, 405 314, 452 322 M318 378 C355 381, 405 402, 452 394" stroke="#1f5fbf" stroke-width="2.25" style="--len:320;--at:.44s;--dur:.42s"/>
+        <ellipse class="draw" cx="452" cy="358" rx="12" ry="36" stroke="#c62828" stroke-width="2.05" style="--len:170;--at:.52s;--dur:.32s"/>
+        <circle class="pop" cx="318" cy="358" r="2.8" fill="#3b3534" style="--at:.64s"/>
+        <circle class="pop" cx="386" cy="358" r="3" fill="#c62828" style="--at:.64s"/>
+        <circle class="pop" cx="452" cy="358" r="3" fill="#c62828" style="--at:.64s"/>
+        <text class="pop m-tex" x="303" y="305" font-size="12.5" fill="#3b3534" style="--at:.64s">y</text>
+        <text class="pop m-tex" x="494" y="374" font-size="12.5" fill="#3b3534" style="--at:.64s">x</text>
+        <text class="pop m-tex" x="313" y="393" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.68s">a</text>
+        <text class="pop m-tex" x="386" y="402" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1f5fbf" style="--at:.68s">x</text>
+        <text class="pop m-tex" x="448" y="408" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.68s">b</text>
+        <g class="pop m-tex" style="--at:.72s">
           <text x="334" y="298" font-size="12.5" font-weight="bold" fill="#650f12">V = π</text>
           ${svgTexIntegral(370, 298, "a", "b", `${svgTexSup("[f(x)]", "2", "m-rm", " dx", "m-rm")}`, "#650f12", 12.2)}
         </g>
@@ -6917,10 +6929,10 @@ function advanceHeroSheet() {
 
 function restartHeroSheetAutoCycle() {
   if (heroSheetTimer) clearInterval(heroSheetTimer);
-  heroSheetTimer = setInterval(advanceHeroSheet, 11500);
+  heroSheetTimer = setInterval(advanceHeroSheet, 5500);
 }
 
-renderHeroSheet("cube");
+renderHeroSheet("brand_logo");
 restartHeroSheetAutoCycle();
 
 const heroSheetBox = document.getElementById("hero-sheet");
