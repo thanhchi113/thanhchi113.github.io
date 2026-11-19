@@ -228,10 +228,24 @@ h1 em::after {
 @keyframes pop { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: none; } }
 .write { clip-path: inset(0 100% 0 0); animation: write var(--dur, .9s) var(--at) steps(24, end) forwards; }
 @keyframes write { to { clip-path: inset(0 0 0 0); } }
-.sheet text { font-family: var(--hand); }
-.sheet .m-tex text, .sheet text.m-tex { font-family: "Times New Roman", "Fraunces", Georgia, serif; }
-.m-i { font-style: italic; }
-.m-rm { font-style: normal; }
+.sheet text, .sheet .m-tex text, .sheet text.m-tex, .sheet tspan { font-family: var(--hand); font-style: normal; }
+.m-i, .m-rm { font-family: var(--hand); font-style: normal; }
+.penrose-beam-1, .penrose-beam-2, .penrose-beam-3, .ch1-sigma-pulse, .ch1-logo-breathe {
+  transform-box: fill-box; transform-origin: center;
+}
+.penrose-beam-1 { animation: penrose-in-1 .7s .12s cubic-bezier(.22,1,.36,1) both, penrose-glow-1 4.2s 1.1s ease-in-out infinite; }
+.penrose-beam-2 { animation: penrose-in-2 .7s .24s cubic-bezier(.22,1,.36,1) both, penrose-glow-2 4.2s 1.4s ease-in-out infinite; }
+.penrose-beam-3 { animation: penrose-in-3 .7s .36s cubic-bezier(.22,1,.36,1) both, penrose-glow-3 4.2s 1.7s ease-in-out infinite; }
+.ch1-sigma-pulse { animation: pop .45s .58s cubic-bezier(.3,.7,.3,1.6) both, sigma-beat 3.2s 1.4s ease-in-out infinite; }
+.ch1-swoosh-wipe { clip-path: inset(0 100% 0 0); animation: write .75s .68s cubic-bezier(.22,1,.36,1) forwards; }
+.ch1-logo-breathe { animation: float-item 4.5s .9s ease-in-out infinite; }
+@keyframes penrose-in-1 { from { opacity: 0; transform: translate(-10px, -6px) scale(.84); } to { opacity: 1; transform: translate(0, 0) scale(1); } }
+@keyframes penrose-in-2 { from { opacity: 0; transform: translate(10px, -6px) scale(.84); } to { opacity: 1; transform: translate(0, 0) scale(1); } }
+@keyframes penrose-in-3 { from { opacity: 0; transform: translate(0, 11px) scale(.84); } to { opacity: 1; transform: translate(0, 0) scale(1); } }
+@keyframes penrose-glow-1 { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.12); transform: translate(-1px, -1px); } }
+@keyframes penrose-glow-2 { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.12); transform: translate(1px, -0.5px); } }
+@keyframes penrose-glow-3 { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.1); transform: translate(0, 1px); } }
+@keyframes sigma-beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
 .tex-frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.05; font-size: 0.78em; margin: 0 2px; font-family: "Times New Roman", Georgia, serif; }
 .tex-frac > span:first-child { border-bottom: 1.2px solid currentColor; padding: 0 2px 1px; }
 .tex-frac > span:last-child { padding: 1px 2px 0; }
@@ -6341,27 +6355,27 @@ const SHEET_ORDER = ["cube", "circle_parabola", "conics", "probability"];
 let activeSheetIdx = 0;
 let heroSheetTimer = null;
 
-function svgTexSup(base, sup, baseCls = "m-i", after = "", afterCls = "m-rm") {
-  return `<tspan class="${baseCls}">${base}</tspan><tspan dy="-4.5" font-size="72%" class="m-rm">${sup}</tspan><tspan dy="4.5" font-size="100%" class="${afterCls}">${after || "&#8203;"}</tspan>`;
+function svgTexSup(base, sup, baseCls = "m-rm", after = "", afterCls = "m-rm") {
+  return `<tspan class="${baseCls}">${base}</tspan><tspan dy="-4.5" font-size="74%" class="m-rm">${sup}</tspan><tspan dy="4.5" font-size="100%" class="${afterCls}">${after || "&#8203;"}</tspan>`;
 }
-function svgTexSub(base, sub, baseCls = "m-i", after = "", afterCls = "m-rm") {
-  return `<tspan class="${baseCls}">${base}</tspan><tspan dy="3.2" font-size="72%" class="m-rm">${sub}</tspan><tspan dy="-3.2" font-size="100%" class="${afterCls}">${after || "&#8203;"}</tspan>`;
+function svgTexSub(base, sub, baseCls = "m-rm", after = "", afterCls = "m-rm") {
+  return `<tspan class="${baseCls}">${base}</tspan><tspan dy="3.2" font-size="74%" class="m-rm">${sub}</tspan><tspan dy="-3.2" font-size="100%" class="${afterCls}">${after || "&#8203;"}</tspan>`;
 }
-function svgTexBar(ch, x, y, color = "#1f5fbf", size = 13.5, bold = true) {
-  const w = Math.max(7.2, size * 0.68);
+function svgTexBar(ch, x, y, color = "#1f5fbf", size = 13, bold = true) {
+  const w = Math.max(7.2, size * 0.66);
   const topY = y - size * 0.84;
-  return `<text x="${x}" y="${y}" text-anchor="middle" font-size="${size}" font-style="italic" ${bold ? 'font-weight="bold" ' : ""}fill="${color}" class="m-tex">${ch}</text><line x1="${(x - w / 2).toFixed(1)}" y1="${topY.toFixed(1)}" x2="${(x + w / 2).toFixed(1)}" y2="${topY.toFixed(1)}" stroke="${color}" stroke-width="1.35" stroke-linecap="round"/>`;
+  return `<text x="${x}" y="${y}" text-anchor="middle" font-size="${size}" ${bold ? 'font-weight="bold" ' : ""}fill="${color}" class="m-tex">${ch}</text><line x1="${(x - w / 2).toFixed(1)}" y1="${topY.toFixed(1)}" x2="${(x + w / 2).toFixed(1)}" y2="${topY.toFixed(1)}" stroke="${color}" stroke-width="1.35" stroke-linecap="round"/>`;
 }
-function svgTexFrac(cx, baseY, numMarkup, denMarkup, width, color = "#650f12", size = 12, bold = true) {
+function svgTexFrac(cx, baseY, numMarkup, denMarkup, width, color = "#650f12", size = 11.8, bold = true) {
   const barY = baseY - size * 0.34;
   const x1 = (cx - width / 2).toFixed(1);
   const x2 = (cx + width / 2).toFixed(1);
   const fw = bold ? ' font-weight="bold"' : "";
-  return `<text x="${cx}" y="${(barY - 4.2).toFixed(1)}" text-anchor="middle" font-size="${size}"${fw} fill="${color}" class="m-tex">${numMarkup}</text><line x1="${x1}" y1="${barY.toFixed(1)}" x2="${x2}" y2="${barY.toFixed(1)}" stroke="${color}" stroke-width="1.3" stroke-linecap="round"/><text x="${cx}" y="${(barY + size * 0.96).toFixed(1)}" text-anchor="middle" font-size="${size}"${fw} fill="${color}" class="m-tex">${denMarkup}</text>`;
+  return `<text x="${cx}" y="${(barY - 4.0).toFixed(1)}" text-anchor="middle" font-size="${size}"${fw} fill="${color}" class="m-tex">${numMarkup}</text><line x1="${x1}" y1="${barY.toFixed(1)}" x2="${x2}" y2="${barY.toFixed(1)}" stroke="${color}" stroke-width="1.35" stroke-linecap="round"/><text x="${cx}" y="${(barY + size * 0.96).toFixed(1)}" text-anchor="middle" font-size="${size}"${fw} fill="${color}" class="m-tex">${denMarkup}</text>`;
 }
-function svgTexIntegral(x, y, low, high, bodyMarkup, color = "#650f12", size = 13.5, bold = true) {
+function svgTexIntegral(x, y, low, high, bodyMarkup, color = "#650f12", size = 12.8, bold = true) {
   const fw = bold ? ' font-weight="bold"' : "";
-  return `<text x="${x}" y="${y + 4}" font-size="22" fill="${color}" class="m-tex">∫</text><text x="${x + 8}" y="${y + 7}" font-size="9.8" font-style="italic"${fw} fill="${color}" class="m-tex">${low}</text><text x="${x + 10}" y="${y - 10}" font-size="9.8" font-style="italic"${fw} fill="${color}" class="m-tex">${high}</text><text x="${x + 19}" y="${y}" font-size="${size}"${fw} fill="${color}" class="m-tex">${bodyMarkup}</text>`;
+  return `<text x="${x}" y="${y + 4}" font-size="21" fill="${color}" class="m-tex">∫</text><text x="${x + 8}" y="${y + 7}" font-size="9.6"${fw} fill="${color}" class="m-tex">${low}</text><text x="${x + 9.5}" y="${y - 10}" font-size="9.6"${fw} fill="${color}" class="m-tex">${high}</text><text x="${x + 19}" y="${y}" font-size="${size}"${fw} fill="${color}" class="m-tex">${bodyMarkup}</text>`;
 }
 
 const SHEET_SLIDES = {
@@ -6369,180 +6383,176 @@ const SHEET_SLIDES = {
     svg: `
       <defs>
         <pattern id="integral-hatch" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-          <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="6 6" dur="2.4s" repeatCount="indefinite" additive="sum"/>
-          <line x1="0" y1="0" x2="0" y2="6" stroke="#c62828" stroke-width="1.25" stroke-opacity="0.48"/>
+          <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="6 6" dur="2.6s" repeatCount="indefinite" additive="sum"/>
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#c62828" stroke-width="1.25" stroke-opacity="0.46"/>
         </pattern>
         <pattern id="rot-hatch" width="6" height="6" patternTransform="rotate(-45 0 0)" patternUnits="userSpaceOnUse">
-          <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="6 -6" dur="2.4s" repeatCount="indefinite" additive="sum"/>
+          <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="6 -6" dur="2.6s" repeatCount="indefinite" additive="sum"/>
           <line x1="0" y1="0" x2="0" y2="6" stroke="#1f5fbf" stroke-width="1.2" stroke-opacity="0.42"/>
         </pattern>
+        <linearGradient id="ch1-swoosh-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#B50415"/>
+          <stop offset="38%" stop-color="#B50415"/>
+          <stop offset="68%" stop-color="#0A5149"/>
+          <stop offset="100%" stop-color="#0A5149"/>
+        </linearGradient>
       </defs>
 
-      <!-- 1. [0.05s -> 0.85s] HÌNH HỘP ABCD.A'B'C'D' & THIẾT DIỆN ĐỘNG (ACD') CHUẨN NÉT LIỀN / NÉT ĐỨT -->
+      <!-- 1. [0.05s -> 0.65s] HÌNH HỘP ABCD.A'B'C'D' & THIẾT DIỆN (ACD') CHUẨN NÉT LIỀN / NÉT ĐỨT -->
       <g class="float-slow">
-        <polygon class="pop venn-inter-pulse" points="96,98 164,130 196,30" fill="rgba(198,40,40,0.17)" style="--at:.55s"/>
-        <path class="draw-dash" d="M96 30V98M96 98L64 130M96 98H196" stroke="#6f625d" stroke-width="1.6" style="--at:.35s"/>
-        <path class="draw" d="M96 30L64 62H164L196 30Z M64 62V130H164V62 M164 130L196 98V30" stroke="#1f5fbf" stroke-width="2.2" style="--len:720;--at:.05s;--dur:.65s"/>
-        <path class="draw" d="M164 130L196 30" stroke="#c62828" stroke-width="2.5" style="--len:140;--at:.45s;--dur:.3s"/>
-        <path class="draw-dash" d="M96 98L164 130M96 98L196 30" stroke="#c62828" stroke-width="2.1" style="--at:.55s"/>
-        <circle class="pop tree-node-ping" cx="196" cy="30" r="4.2" fill="none" stroke="#c62828" stroke-width="1.4" style="--at:.8s"/>
-        <circle r="3.6" fill="#ffe27d" stroke="#c62828" stroke-width="1.6" opacity="0">
-          <animate attributeName="opacity" values="0;1;1" keyTimes="0;0.15;1" dur="4.2s" begin="0.85s" repeatCount="indefinite"/>
-          <animateMotion dur="4.2s" begin="0.85s" repeatCount="indefinite" path="M96,98 L164,130 L196,30 Z"/>
-        </circle>
-        <circle class="pop" cx="96" cy="98" r="3.6" fill="#c62828" style="--at:.7s"/>
-        <circle class="pop" cx="164" cy="130" r="3.8" fill="#c62828" style="--at:.7s"/>
-        <circle class="pop" cx="196" cy="30" r="3.8" fill="#c62828" style="--at:.7s"/>
-        <text class="pop m-tex" x="86" y="23" font-size="13.5" font-style="italic" fill="#2a211f" style="--at:.75s">A'</text>
-        <text class="pop m-tex" x="47" y="65" font-size="13.5" font-style="italic" fill="#2a211f" style="--at:.75s">B'</text>
-        <text class="pop m-tex" x="146" y="54" font-size="13.5" font-style="italic" fill="#2a211f" style="--at:.75s">C'</text>
-        <text class="pop m-tex" x="203" y="28" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.75s">D'</text>
-        <text class="pop m-tex" x="80" y="95" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.8s">A</text>
-        <text class="pop m-tex" x="49" y="139" font-size="13.5" font-style="italic" fill="#2a211f" style="--at:.8s">B</text>
-        <text class="pop m-tex" x="164" y="145" text-anchor="middle" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:.8s">C</text>
-        <text class="pop m-tex" x="203" y="102" font-size="13.5" font-style="italic" fill="#2a211f" style="--at:.8s">D</text>
+        <g class="pop" style="--at:.25s">
+          <polygon class="venn-inter-pulse" points="96,98 164,130 196,30" fill="rgba(198,40,40,0.17)"/>
+        </g>
+        <path class="draw-dash" d="M96 30V98M96 98L64 130M96 98H196" stroke="#6f625d" stroke-width="1.55" style="--at:.15s"/>
+        <path class="draw" d="M96 30L64 62H164L196 30Z M64 62V130H164V62 M164 130L196 98V30" stroke="#1f5fbf" stroke-width="2.15" style="--len:720;--at:.05s;--dur:.5s"/>
+        <path class="draw" d="M164 130L196 30" stroke="#c62828" stroke-width="2.4" style="--len:140;--at:.22s;--dur:.28s"/>
+        <path class="draw-dash" d="M96 98L164 130M96 98L196 30" stroke="#c62828" stroke-width="2.0" style="--at:.28s"/>
+        <circle class="pop" cx="96" cy="98" r="3.4" fill="#c62828" style="--at:.35s"/>
+        <circle class="pop" cx="164" cy="130" r="3.6" fill="#c62828" style="--at:.35s"/>
+        <circle class="pop" cx="196" cy="30" r="3.6" fill="#c62828" style="--at:.35s"/>
+        <text class="pop m-tex" x="86" y="23" font-size="13" fill="#2a211f" style="--at:.38s">A'</text>
+        <text class="pop m-tex" x="46" y="65" font-size="13" fill="#2a211f" style="--at:.38s">B'</text>
+        <text class="pop m-tex" x="153" y="76" font-size="12.5" fill="#2a211f" style="--at:.38s">C'</text>
+        <text class="pop m-tex" x="203" y="28" font-size="13" font-weight="bold" fill="#c62828" style="--at:.38s">D'</text>
+        <text class="pop m-tex" x="80" y="95" font-size="13" font-weight="bold" fill="#c62828" style="--at:.42s">A</text>
+        <text class="pop m-tex" x="48" y="138" font-size="13" fill="#2a211f" style="--at:.42s">B</text>
+        <text class="pop m-tex" x="164" y="145" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828" style="--at:.42s">C</text>
+        <text class="pop m-tex" x="203" y="102" font-size="13" fill="#2a211f" style="--at:.42s">D</text>
       </g>
 
-      <!-- 2. [0.95s -> 1.75s] HỆ TRỤC KHÔNG GIAN OXYZ ĐỘNG & VECTƠ OM(x_0; y_0; z_0) -->
+      <!-- 2. [0.1s -> 0.85s] HIỆU ỨNG LOGO CÁ NHÂN ĐỘNG: TAM GIÁC PENROSE 3 MÀU & THƯƠNG HIỆU Ch1 Σath -->
+      <g class="ch1-logo-breathe">
+        <rect class="pop" x="276" y="14" width="224" height="128" rx="9" fill="rgba(255,253,248,0.94)" stroke="#d8c7b4" stroke-width="1.5" style="--at:.08s"/>
+        <circle class="draw-dash" cx="388" cy="54" r="36" stroke="#d8c7b4" stroke-width="1.1" style="--at:.25s"/>
+        <!-- 3 Thanh Dầm Bất Khả Thi Tam Giác Penrose ghép khớp 3D -->
+        <path class="penrose-beam-1" d="M359.29,65.84 L386.21,20.73 L408.5,58.06 L400.94,58.06 L386.21,33.37 L363.06,72.16 Z" fill="#B50415"/>
+        <path class="penrose-beam-2" d="M394.2,20.0 L421.12,65.11 L376.57,65.11 L380.34,58.79 L409.8,58.79 L386.65,20.0 Z" fill="#198578"/>
+        <path class="penrose-beam-3" d="M417.79,72.16 L363.93,72.16 L386.21,34.83 L389.99,41.16 L375.26,65.84 L421.56,65.84 Z" fill="#0A5149"/>
+        <path class="draw" d="M359.29,65.84 L386.21,20.73 L408.5,58.06 L400.94,58.06 L386.21,33.37 L363.06,72.16 Z M394.2,20.0 L421.12,65.11 L376.57,65.11 L380.34,58.79 L409.8,58.79 L386.65,20.0 Z M417.79,72.16 L363.93,72.16 L386.21,34.83 L389.99,41.16 L375.26,65.84 L421.56,65.84 Z" stroke="#ffe27d" stroke-width="0.7" stroke-opacity="0.75" style="--len:680;--at:.15s;--dur:.75s"/>
+        <!-- Tên thương hiệu Ch1 Σath Vector & Dải lụa chuyển sắc Đỏ - Xanh -->
+        <path class="pop" d="M360.51,76.67 C360.49,77.24 360.2,77.81 360.02,78.35 C359.83,78.92 359.73,79.54 359.39,80.02 C358.95,79.86 358.59,79.57 358.17,79.35 C357.57,79.04 356.89,78.8 356.21,78.7 C355.14,78.55 353.96,78.58 352.91,78.9 C350.39,79.66 348.12,82.08 348.19,84.83 C348.21,85.29 348.29,85.74 348.44,86.18 C349.1,88.18 351.56,88.87 353.45,88.61 L354.8,88.29 L356.06,87.8 C356.55,87.54 357.05,87.21 357.57,87.07 L357.66,87.26 L357.54,88.13 C357.42,88.96 357.32,89.85 357.07,90.64 C354.71,92.05 351.73,92.45 349.09,91.71 C347.53,91.27 346.08,90.43 345.13,89.08 C344.63,88.38 344.34,87.61 344.11,86.79 C343.86,85.9 343.93,84.92 344.04,84.02 C344.19,82.89 344.75,81.69 345.36,80.74 C345.91,79.9 346.52,79.06 347.3,78.42 C349.64,76.5 352.51,75.41 355.54,75.39 C356.6,75.38 357.63,75.52 358.64,75.8 C359.31,75.99 360.01,76.17 360.51,76.67 Z M366.66,75.78 C366.7,76.28 366.49,76.79 366.33,77.26 L365.77,79.3 C365.53,79.98 365.19,80.74 365.19,81.45 L365.71,81.12 C366.28,80.78 366.91,80.48 367.55,80.3 C369.31,79.77 371.81,80.18 372.61,82.07 C373.17,83.38 372.68,84.71 372.28,85.97 L371.33,89.01 L370.87,90.36 C370.7,90.85 370.63,91.33 370.38,91.78 C369.73,91.92 369.02,91.84 368.35,91.85 C367.84,91.86 367.23,91.93 366.75,91.78 C366.66,91.22 367.01,90.57 367.19,90.02 L368.48,85.84 C368.72,85.25 368.98,84.26 368.56,83.68 C368.39,83.45 368.08,83.27 367.81,83.17 C367.5,83.05 367.13,83.08 366.8,83.11 C365.9,83.17 364.93,83.69 364.44,84.47 C364.14,84.97 364.02,85.56 363.84,86.11 L362.74,89.69 C362.53,90.38 362.38,91.15 362.03,91.78 C361.41,91.94 360.7,91.85 360.06,91.85 C359.52,91.85 358.96,91.9 358.44,91.78 C358.42,91.34 358.62,90.94 358.74,90.49 L359.55,87.86 L361.92,79.91 L362.77,77.07 C362.88,76.74 362.9,76.25 363.16,76.0 C363.42,75.75 363.76,75.69 364.1,75.69 L365.52,75.69 C365.92,75.69 366.29,75.66 366.66,75.78 Z M382.47,75.86 C382.47,76.36 382.25,76.85 382.12,77.34 L381.01,80.98 C380.65,82.34 380.23,83.69 379.8,85.03 L378.86,88.13 L378.2,90.35 C378.05,90.85 377.93,91.33 377.67,91.78 C377.0,91.95 376.26,91.85 375.58,91.85 C375.06,91.85 374.49,91.91 374.01,91.74 C374.01,91.32 374.2,90.97 374.32,90.57 L374.9,88.68 L376.69,82.67 L377.21,80.92 C377.33,80.54 377.47,80.24 377.5,79.84 L377.32,79.81 L376.37,80.14 C375.69,80.36 374.94,80.64 374.22,80.71 C374.17,80.18 374.43,79.61 374.61,79.09 C374.74,78.72 374.8,78.36 375.01,78.02 C375.72,77.64 376.52,77.43 377.25,77.09 L379.74,75.76 L381.23,75.75 C381.66,75.75 382.09,75.69 382.47,75.86 Z M430.55,75.86 C430.59,76.4 430.35,76.9 430.21,77.41 L429.53,79.91 C429.42,80.35 429.24,80.74 429.23,81.19 C429.74,80.89 430.21,80.49 430.77,80.28 C432.49,79.67 434.59,79.69 435.74,81.32 L435.99,81.72 C436.42,82.86 435.91,84.17 435.53,85.23 L434.16,89.42 C433.93,90.12 433.78,90.92 433.4,91.57 C432.85,91.69 432.23,91.63 431.65,91.63 C431.1,91.64 430.51,91.69 429.97,91.58 C429.88,90.99 430.24,90.4 430.4,89.82 L431.83,85.23 C432.08,84.5 432.39,83.52 431.65,82.96 L431.24,82.75 C430.18,82.43 428.87,83.34 428.4,84.23 L428.15,84.9 L427.64,86.59 L426.74,89.42 C426.52,90.13 426.35,90.9 426.05,91.57 C425.43,91.71 424.68,91.64 424.04,91.63 C423.55,91.63 423.07,91.68 422.62,91.54 C422.63,91.13 422.77,90.77 422.89,90.37 L423.56,88.14 L425.85,80.58 L426.74,77.47 C426.86,77.06 426.93,76.37 427.24,76.06 C427.4,75.9 427.65,75.78 427.87,75.75 L428.95,75.76 C429.48,75.77 430.08,75.67 430.55,75.86 Z M422.62,76.73 C422.68,77.1 422.53,77.5 422.42,77.88 C422.21,78.62 421.86,79.4 421.81,80.17 C422.67,80.38 423.64,80.09 424.51,80.3 C424.56,80.67 424.43,80.95 424.3,81.32 L423.83,82.73 C422.92,82.94 421.93,82.71 421.0,82.84 C420.71,83.45 420.54,84.17 420.36,84.83 L419.68,87.06 C419.5,87.68 419.27,88.22 419.63,88.81 C420.43,89.27 421.17,88.87 421.99,88.75 C422.05,89.32 421.78,89.97 421.61,90.55 L421.36,91.17 C421.1,91.48 420.62,91.58 420.26,91.69 C418.9,92.09 417.05,91.98 416.18,90.7 C415.57,89.8 415.75,88.77 416.01,87.8 L416.86,84.9 C417.06,84.24 417.37,83.56 417.43,82.89 C416.92,82.76 416.37,82.88 415.88,82.71 C415.9,82.21 416.11,81.74 416.26,81.25 C416.37,80.91 416.42,80.62 416.62,80.32 L418.28,80.18 C418.65,79.49 418.7,78.66 419.05,77.95 L420.93,77.14 C421.52,76.88 421.96,76.64 422.62,76.73 Z M412.45,91.58 C411.96,91.73 411.41,91.66 410.89,91.66 C410.38,91.66 409.84,91.73 409.36,91.58 C409.29,91.31 409.34,91.06 409.34,90.77 C408.97,90.9 408.68,91.16 408.33,91.33 C407.85,91.57 407.36,91.74 406.84,91.86 C405.09,92.27 402.76,91.53 402.46,89.55 L402.44,88.81 C402.75,85.92 406.11,84.7 408.6,84.47 L411.09,84.36 C411.36,83.85 411.51,83.13 410.89,82.76 L410.14,82.59 C408.96,82.45 407.67,82.77 406.57,83.21 C406.15,83.37 405.76,83.6 405.31,83.61 C405.29,83.3 405.41,83.01 405.5,82.68 C405.62,82.15 405.76,81.6 406.0,81.12 C406.52,80.84 407.08,80.66 407.65,80.5 C409.14,80.05 410.91,79.77 412.44,80.19 C413.44,80.47 414.43,80.97 414.81,82.0 C415.25,83.16 414.75,84.18 414.46,85.3 L412.45,91.58 Z M406.04,88.54 L406.11,88.95 C406.49,89.74 407.75,89.53 408.4,89.3 C408.98,89.09 409.65,88.68 409.98,88.13 L410.46,86.59 C410.39,86.55 410.39,86.5 410.28,86.49 C409.8,86.42 409.27,86.5 408.8,86.6 C407.82,86.79 406.62,86.96 406.15,88.0 L406.04,88.54 Z" fill="#0A5149" fill-rule="evenodd" style="--at:.48s"/>
+        <path class="ch1-sigma-pulse" d="M404.41,75.29 C404.45,75.87 404.2,76.44 404.05,77.0 L403.74,78.29 L403.52,78.96 C403.41,79.46 403.32,79.96 403.14,80.43 C402.9,80.51 402.77,80.51 402.53,80.49 C402.26,80.14 402.15,79.7 401.92,79.32 C401.68,78.9 401.33,78.55 400.93,78.29 C400.15,77.78 399.31,77.88 398.42,77.88 L395.25,77.88 C394.7,77.88 394.17,77.83 393.63,77.93 C393.64,78.04 393.57,78.02 393.63,78.14 C393.82,78.56 394.13,78.86 394.39,79.23 L395.97,81.45 C396.23,81.82 396.55,82.09 396.66,82.52 C396.31,83.02 395.78,83.34 395.33,83.75 C394.11,84.91 392.82,85.99 391.57,87.12 L390.41,88.13 C390.34,88.21 390.34,88.28 390.31,88.33 C390.76,88.45 391.21,88.43 391.68,88.43 L393.22,88.42 L395.65,88.43 C396.2,88.43 396.74,88.47 397.27,88.37 C397.72,88.28 398.12,88.09 398.55,87.94 C398.83,87.84 399.06,87.61 399.29,87.44 C399.82,87.05 400.31,86.64 400.78,86.18 C401.03,85.94 401.26,85.51 401.65,85.48 C401.8,85.46 401.9,85.52 402.04,85.57 L402.05,85.76 L401.75,86.59 L401.21,88.0 C400.9,88.73 400.68,89.5 400.36,90.22 L400.25,90.64 C400.15,90.95 400.01,91.27 399.84,91.55 C399.21,91.67 398.52,91.61 397.88,91.6 L395.25,91.6 L387.09,91.6 L383.99,91.59 C383.56,91.59 383.06,91.69 382.64,91.57 L382.46,91.44 L382.55,91.24 L383.38,90.52 C383.93,90.03 384.51,89.57 385.07,89.09 C386.82,87.57 388.6,86.07 390.37,84.56 C391.01,84.02 391.8,83.54 392.28,82.87 C392.13,82.55 391.9,82.29 391.68,82.0 L391.52,81.66 L391.28,81.39 L390.53,80.24 L388.64,77.62 L387.73,76.33 C387.47,75.99 387.25,75.75 387.25,75.31 C387.34,75.27 387.34,75.21 387.48,75.18 L388.64,75.18 L391.81,75.19 L400.1,75.19 L402.87,75.18 C403.4,75.18 403.91,75.12 404.41,75.29 Z" fill="#B50415" fill-rule="evenodd"/>
+        <g class="ch1-swoosh-wipe">
+          <path d="M353.64,94.66 C352.73,95.07 351.71,95.2 350.76,95.52 L348.67,96.13 C346.81,96.65 344.95,97.28 343.14,97.96 C342.33,98.26 341.53,98.62 340.76,99.03 C340.36,99.24 339.93,99.47 339.86,99.95 L339.94,100.13 C340.31,100.55 340.98,100.59 341.49,100.72 L342.66,100.94 C343.88,101.18 345.15,101.32 346.4,101.4 L350.33,101.77 C354.01,102.03 357.69,102.17 361.38,102.33 L365.25,102.48 C373.23,102.65 381.21,102.7 389.2,102.6 L395.89,102.5 C405.04,102.24 414.17,101.66 423.28,100.83 C426.81,100.51 430.32,100.01 433.84,99.56 C435.63,99.33 437.48,99.14 439.24,98.78 L444.34,97.89 C444.91,97.81 445.76,97.48 446.24,97.67 C446.03,98.1 445.14,98.25 444.64,98.39 C443.17,98.78 441.72,99.19 440.22,99.51 C435.81,100.49 431.39,101.22 426.9,101.8 C424.96,102.04 423.02,102.31 421.06,102.44 C417.4,102.66 413.75,103.15 410.08,103.33 C391.54,104.21 372.95,104.77 354.38,104.16 C348.88,103.97 343.32,103.92 337.86,103.17 C336.21,102.95 333.19,103.0 331.98,101.66 C331.65,101.31 331.72,100.73 332.03,100.4 L332.44,100.07 L333.5,99.47 C334.41,99.0 335.37,98.66 336.33,98.32 C338.56,97.55 340.85,96.95 343.14,96.42 C344.96,96.01 346.77,95.59 348.61,95.26 L351.43,94.78 C352.17,94.66 352.9,94.49 353.64,94.66 Z" fill="url(#ch1-swoosh-grad)"/>
+        </g>
+        <text class="pop m-tex" x="388" y="131" text-anchor="middle" font-size="11.8" font-weight="bold" fill="#650f12" style="--at:.75s">Thương hiệu Ch1 Math · Toán 6 – 12</text>
+      </g>
+
+      <!-- 3. [0.2s -> 0.8s] HÌNH CHÓP TỨ GIÁC S.ABCD & ĐƯỜNG CAO SO ⊥ (ABCD) -->
+      <g class="float-slow">
+        <g class="pop" style="--at:.35s">
+          <polygon class="venn-inter-pulse" points="144,158 184,270 224,232" fill="rgba(31,95,191,0.11)"/>
+        </g>
+        <path class="draw-dash" d="M104 232L64 270M104 232H224M144 158L104 232" stroke="#6f625d" stroke-width="1.5" style="--at:.25s"/>
+        <path class="draw-dash" d="M104 232L184 270M64 270L224 232" stroke="#2e7d4f" stroke-width="1.35" style="--at:.3s"/>
+        <path class="draw-dash" d="M144 158V251" stroke="#c62828" stroke-width="2" style="--at:.32s"/>
+        <path class="draw" d="M144 242L152 240.2L152 249.1" stroke="#c62828" stroke-width="1.3" style="--len:25;--at:.4s;--dur:.2s"/>
+        <path class="draw" d="M144 158L64 270H184L224 232Z M144 158L184 270" stroke="#1f5fbf" stroke-width="2.15" style="--len:680;--at:.18s;--dur:.5s"/>
+        <circle class="pop" cx="144" cy="158" r="3.6" fill="#c62828" style="--at:.45s"/>
+        <circle class="pop" cx="144" cy="251" r="3.4" fill="#c62828" style="--at:.45s"/>
+        <circle class="pop" cx="104" cy="232" r="3.0" fill="#6f625d" style="--at:.45s"/>
+        <circle class="pop" cx="64" cy="270" r="3.4" fill="#1f5fbf" style="--at:.45s"/>
+        <circle class="pop" cx="184" cy="270" r="3.4" fill="#1f5fbf" style="--at:.45s"/>
+        <circle class="pop" cx="224" cy="232" r="3.4" fill="#1f5fbf" style="--at:.45s"/>
+        <text class="pop m-tex" x="144" y="150" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:.5s">S</text>
+        <text class="pop m-tex" x="90" y="228" font-size="13" fill="#6f625d" style="--at:.5s">A</text>
+        <text class="pop m-tex" x="49" y="275" font-size="13" fill="#2a211f" style="--at:.5s">B</text>
+        <text class="pop m-tex" x="189" y="279" font-size="13" fill="#2a211f" style="--at:.5s">C</text>
+        <text class="pop m-tex" x="230" y="236" font-size="13" fill="#2a211f" style="--at:.5s">D</text>
+        <text class="pop m-tex" x="144" y="266" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.52s">O</text>
+      </g>
+
+      <!-- 4. [0.25s -> 0.9s] ĐỒ THỊ HÀM BẬC BA y = x³ − 3x & BẢNG BIẾN THIÊN CHUẨN -->
       <g class="float-alt">
-        <path class="draw" d="M352 94V20M352 94H482M352 94L298 138" stroke="#3b3534" stroke-width="1.7" style="--len:320;--at:.95s;--dur:.45s"/>
-        <path class="draw" d="m348 27 4-7 4 7m123 63 7 4-7 4m-173 36-8 2 2-8" stroke="#3b3534" stroke-width="1.5" style="--len:50;--at:1.25s;--dur:.2s"/>
-        <path class="draw-dash" d="M320 120H398L430 94M352 94L398 120V64L352 38" stroke="#2e7d4f" stroke-width="1.5" style="--at:1.35s"/>
-        <path class="draw" d="M352 94L398 64" stroke="#c62828" stroke-width="2.3" style="--len:70;--at:1.45s;--dur:.25s"/>
-        <circle class="pop tree-node-ping" cx="398" cy="64" r="4.5" fill="none" stroke="#c62828" stroke-width="1.5" style="--at:1.7s"/>
-        <circle r="3.4" fill="#ffe27d" stroke="#c62828" stroke-width="1.5" opacity="0">
-          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.88;1" dur="3.2s" begin="1.6s" repeatCount="indefinite"/>
-          <animateMotion dur="3.2s" begin="1.6s" repeatCount="indefinite" path="M352,94 L398,120 L398,64"/>
-        </circle>
-        <circle class="pop" cx="320" cy="120" r="3.2" fill="#2e7d4f" style="--at:1.55s"/>
-        <circle class="pop" cx="430" cy="94" r="3.2" fill="#2e7d4f" style="--at:1.55s"/>
-        <circle class="pop" cx="352" cy="38" r="3.2" fill="#2e7d4f" style="--at:1.55s"/>
-        <circle class="pop" cx="398" cy="120" r="3.4" fill="#1f5fbf" style="--at:1.6s"/>
-        <circle class="pop" cx="398" cy="64" r="4.2" fill="#c62828" style="--at:1.65s"/>
-        <text class="pop m-tex" x="360" y="26" font-size="14" font-style="italic" fill="#3b3534" style="--at:1.4s">z</text>
-        <text class="pop m-tex" x="485" y="90" font-size="14" font-style="italic" fill="#3b3534" style="--at:1.4s">y</text>
-        <text class="pop m-tex" x="284" y="140" font-size="14" font-style="italic" fill="#3b3534" style="--at:1.4s">x</text>
-        <text class="pop m-tex" x="336" y="89" font-size="13" font-style="italic" fill="#6f625d" style="--at:1.4s">O</text>
-        <text class="pop m-tex" x="296" y="118" font-size="12.5" fill="#2e7d4f" style="--at:1.6s">${svgTexSub("x", "0")}</text>
-        <text class="pop m-tex" x="426" y="83" font-size="12.5" fill="#2e7d4f" style="--at:1.6s">${svgTexSub("y", "0")}</text>
-        <text class="pop m-tex" x="328" y="42" font-size="12.5" fill="#2e7d4f" style="--at:1.6s">${svgTexSub("z", "0")}</text>
-        <text class="pop m-tex" x="406" y="133" font-size="12" fill="#1f5fbf" style="--at:1.7s"><tspan class="m-i">M'</tspan>(${svgTexSub("x", "0", "m-i", "; ")}${svgTexSub("y", "0", "m-i", "; 0)")}</text>
-        <text class="pop m-tex" x="407" y="61" font-size="13" font-weight="bold" fill="#c62828" style="--at:1.75s"><tspan class="m-i">M</tspan>(${svgTexSub("x", "0", "m-i", "; ")}${svgTexSub("y", "0", "m-i", "; ")}${svgTexSub("z", "0", "m-i", ")")}</text>
+        <path class="draw" d="M276 216H374M324 274V158" stroke="#3b3534" stroke-width="1.45" style="--len:240;--at:.25s;--dur:.35s"/>
+        <path class="draw" d="m368 212 6 4-6 4M320 164l4-6 4 6" stroke="#3b3534" stroke-width="1.3" style="--len:30;--at:.4s;--dur:.18s"/>
+        <path class="draw-dash" d="M304 216V182H324 M344 216V250H324" stroke="#2e7d4f" stroke-width="1.25" style="--at:.45s"/>
+        <path class="draw" d="M286 258 C293 196, 298 182, 304 182 C312 182, 318 202, 324 216 C330 230, 336 250, 344 250 C350 250, 355 236, 362 174" stroke="#c62828" stroke-width="2.25" style="--len:210;--at:.32s;--dur:.5s"/>
+        <circle class="pop" cx="304" cy="182" r="3" fill="#c62828" style="--at:.55s"/>
+        <circle class="pop" cx="324" cy="216" r="2.6" fill="#1f5fbf" style="--at:.55s"/>
+        <circle class="pop" cx="344" cy="250" r="3" fill="#1f5fbf" style="--at:.55s"/>
+        <text class="pop m-tex" x="331" y="166" font-size="11.5" fill="#3b3534" style="--at:.55s">y</text>
+        <text class="pop m-tex" x="369" y="230" font-size="11.5" fill="#3b3534" style="--at:.55s">x</text>
+        <text class="pop m-tex" x="301" y="229" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#2a211f" style="--at:.58s">−1</text>
+        <text class="pop m-tex" x="345" y="212" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#2a211f" style="--at:.58s">1</text>
+        <text class="pop m-tex" x="332" y="185" font-size="10.5" font-weight="bold" fill="#c62828" style="--at:.58s">2</text>
+        <text class="pop m-tex" x="313" y="254" text-anchor="end" font-size="10.5" font-weight="bold" fill="#1f5fbf" style="--at:.58s">−2</text>
+
+        <rect class="pop" x="382" y="158" width="120" height="116" rx="5" fill="rgba(255,253,248,0.96)" stroke="#3b3534" stroke-width="1.45" style="--at:.3s"/>
+        <path class="draw" d="M382 181H502M382 204H502M402 158V274" stroke="#3b3534" stroke-width="1.25" style="--len:380;--at:.35s;--dur:.38s"/>
+        <text class="pop m-tex" x="392" y="174" text-anchor="middle" font-size="12" font-weight="bold" fill="#650f12" style="--at:.45s">x</text>
+        <text class="pop m-tex" x="414" y="174" text-anchor="middle" font-size="10.5" fill="#2a211f" style="--at:.48s">−∞</text>
+        <text class="pop m-tex" x="439" y="174" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#2a211f" style="--at:.48s">−1</text>
+        <text class="pop m-tex" x="466" y="174" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#2a211f" style="--at:.48s">1</text>
+        <text class="pop m-tex" x="490" y="174" text-anchor="middle" font-size="10.5" fill="#2a211f" style="--at:.48s">+∞</text>
+        <text class="pop m-tex" x="392" y="197" text-anchor="middle" font-size="12" font-weight="bold" fill="#650f12" style="--at:.5s">y'</text>
+        <text class="pop m-tex" x="426" y="197" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.52s">+</text>
+        <text class="pop m-tex" x="439" y="197" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#2a211f" style="--at:.52s">0</text>
+        <text class="pop m-tex" x="452.5" y="197" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1f5fbf" style="--at:.52s">−</text>
+        <text class="pop m-tex" x="466" y="197" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#2a211f" style="--at:.52s">0</text>
+        <text class="pop m-tex" x="479" y="197" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.52s">+</text>
+        <text class="pop m-tex" x="392" y="242" text-anchor="middle" font-size="12" font-weight="bold" fill="#650f12" style="--at:.55s">y</text>
+        <text class="pop m-tex" x="413" y="264" text-anchor="middle" font-size="10.5" fill="#2a211f" style="--at:.58s">−∞</text>
+        <text class="pop m-tex" x="439" y="221" text-anchor="middle" font-size="12" font-weight="bold" fill="#c62828" style="--at:.58s">2</text>
+        <text class="pop m-tex" x="466" y="264" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f5fbf" style="--at:.58s">−2</text>
+        <text class="pop m-tex" x="491" y="221" text-anchor="middle" font-size="10.5" fill="#2a211f" style="--at:.58s">+∞</text>
+        <path class="draw" d="M418 253L433 224m-4.5 1 4.5-1-1 4.5" stroke="#c62828" stroke-width="1.6" style="--len:55;--at:.6s;--dur:.2s"/>
+        <path class="draw" d="M445 224L460 253m-4.5-1 4.5 1 1-4.5" stroke="#1f5fbf" stroke-width="1.6" style="--len:55;--at:.65s;--dur:.2s"/>
+        <path class="draw" d="M473 253L487 224m-4.5 1 4.5-1-1 4.5" stroke="#c62828" stroke-width="1.6" style="--len:55;--at:.7s;--dur:.2s"/>
       </g>
 
-      <!-- 3. [1.85s -> 2.65s] HÌNH CHÓP TỨ GIÁC S.ABCD & ĐƯỜNG CAO SO ⊥ (ABCD) ĐỘNG -->
+      <!-- 5. [0.35s -> 0.95s] ĐỒ THỊ TÍCH PHÂN DIỆN TÍCH HÌNH PHẲNG S = ∫_a^b |f(x)| dx -->
       <g class="float-slow">
-        <polygon class="pop venn-inter-pulse" points="144,158 184,272 224,234" fill="rgba(31,95,191,0.11)" style="--at:2.35s"/>
-        <path class="draw-dash" d="M104 234L64 272M104 234H224M144 158L104 234" stroke="#6f625d" stroke-width="1.55" style="--at:2.15s"/>
-        <path class="draw-dash" d="M104 234L184 272M64 272L224 234" stroke="#2e7d4f" stroke-width="1.4" style="--at:2.25s"/>
-        <path class="draw-dash" d="M144 158V253" stroke="#c62828" stroke-width="2" style="--at:2.3s"/>
-        <path class="draw" d="M144 244H153V253" stroke="#c62828" stroke-width="1.35" style="--len:25;--at:2.4s;--dur:.2s"/>
-        <path class="draw" d="M144 158L64 272H184L224 234Z M144 158L184 272" stroke="#1f5fbf" stroke-width="2.2" style="--len:680;--at:1.85s;--dur:.65s"/>
-        <circle class="pop tree-node-ping" cx="144" cy="253" r="4.2" fill="none" stroke="#c62828" stroke-width="1.4" style="--at:2.55s"/>
-        <circle r="3.4" fill="#ffe27d" stroke="#c62828" stroke-width="1.5" opacity="0">
-          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.88;1" dur="3.6s" begin="2.5s" repeatCount="indefinite"/>
-          <animateMotion dur="3.6s" begin="2.5s" repeatCount="indefinite" path="M144,158 L144,253 L184,272"/>
-        </circle>
-        <circle class="pop" cx="144" cy="158" r="3.8" fill="#c62828" style="--at:2.45s"/>
-        <circle class="pop" cx="144" cy="253" r="3.5" fill="#c62828" style="--at:2.45s"/>
-        <circle class="pop" cx="104" cy="234" r="3.2" fill="#6f625d" style="--at:2.45s"/>
-        <circle class="pop" cx="64" cy="272" r="3.5" fill="#1f5fbf" style="--at:2.45s"/>
-        <circle class="pop" cx="184" cy="272" r="3.5" fill="#1f5fbf" style="--at:2.45s"/>
-        <circle class="pop" cx="224" cy="234" r="3.5" fill="#1f5fbf" style="--at:2.45s"/>
-        <text class="pop m-tex" x="144" y="149" text-anchor="middle" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:2.55s">S</text>
-        <text class="pop m-tex" x="90" y="229" font-size="13.5" font-style="italic" fill="#6f625d" style="--at:2.55s">A</text>
-        <text class="pop m-tex" x="49" y="277" font-size="13.5" font-style="italic" fill="#2a211f" style="--at:2.55s">B</text>
-        <text class="pop m-tex" x="189" y="281" font-size="13.5" font-style="italic" fill="#2a211f" style="--at:2.55s">C</text>
-        <text class="pop m-tex" x="230" y="238" font-size="13.5" font-style="italic" fill="#2a211f" style="--at:2.55s">D</text>
-        <text class="pop m-tex" x="144" y="268" text-anchor="middle" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:2.6s">O</text>
-      </g>
-
-      <!-- 4. [2.75s -> 3.55s] BẢNG BIẾN THIÊN HÀM BẬC 3 ĐỘNG -->
-      <g class="float-alt">
-        <rect class="pop" x="282" y="158" width="218" height="116" rx="5" fill="rgba(255,253,248,0.95)" stroke="#3b3534" stroke-width="1.55" style="--at:2.75s"/>
-        <path class="draw" d="M282 182H500M282 206H500M310 158V274" stroke="#3b3534" stroke-width="1.35" style="--len:580;--at:2.85s;--dur:.45s"/>
-        <text class="pop m-tex" x="296" y="175" text-anchor="middle" font-size="13.5" font-style="italic" font-weight="bold" fill="#650f12" style="--at:3.0s">x</text>
-        <text class="pop m-tex" x="326" y="175" text-anchor="middle" font-size="12.5" fill="#2a211f" style="--at:3.05s">−∞</text>
-        <text class="pop m-tex" x="374" y="175" text-anchor="middle" font-size="13" font-weight="bold" fill="#2a211f" style="--at:3.05s">−1</text>
-        <text class="pop m-tex" x="430" y="175" text-anchor="middle" font-size="13" font-weight="bold" fill="#2a211f" style="--at:3.05s">1</text>
-        <text class="pop m-tex" x="480" y="175" text-anchor="middle" font-size="12.5" fill="#2a211f" style="--at:3.05s">+∞</text>
-        <text class="pop m-tex" x="296" y="199" text-anchor="middle" font-size="13.5" font-style="italic" font-weight="bold" fill="#650f12" style="--at:3.1s">y'</text>
-        <text class="pop m-tex" x="350" y="199" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#c62828" style="--at:3.15s">+</text>
-        <text class="pop m-tex" x="374" y="199" text-anchor="middle" font-size="13" font-weight="bold" fill="#2a211f" style="--at:3.15s">0</text>
-        <text class="pop m-tex" x="402" y="199" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#1f5fbf" style="--at:3.15s">−</text>
-        <text class="pop m-tex" x="430" y="199" text-anchor="middle" font-size="13" font-weight="bold" fill="#2a211f" style="--at:3.15s">0</text>
-        <text class="pop m-tex" x="456" y="199" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#c62828" style="--at:3.15s">+</text>
-        <text class="pop m-tex" x="296" y="244" text-anchor="middle" font-size="13.5" font-style="italic" font-weight="bold" fill="#650f12" style="--at:3.2s">y</text>
-        <text class="pop m-tex" x="326" y="265" text-anchor="middle" font-size="12.5" fill="#2a211f" style="--at:3.25s">−∞</text>
-        <text class="pop m-tex" x="374" y="222" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:3.25s">2</text>
-        <text class="pop m-tex" x="430" y="265" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f5fbf" style="--at:3.25s">−2</text>
-        <text class="pop m-tex" x="480" y="222" text-anchor="middle" font-size="12.5" fill="#2a211f" style="--at:3.25s">+∞</text>
-        <path class="draw" d="M338 255L365 225m-6 1 6-1-1 6" stroke="#c62828" stroke-width="1.8" style="--len:70;--at:3.3s;--dur:.25s"/>
-        <path class="draw" d="M384 225L418 255m-6-1 6 1 1-6" stroke="#1f5fbf" stroke-width="1.8" style="--len:70;--at:3.38s;--dur:.25s"/>
-        <path class="draw" d="M442 255L468 225m-6 1 6-1-1 6" stroke="#c62828" stroke-width="1.8" style="--len:70;--at:3.45s;--dur:.25s"/>
-        <circle r="3.2" fill="#ffe27d" stroke="#650f12" stroke-width="1.4" opacity="0">
-          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="4.2s" begin="3.5s" repeatCount="indefinite"/>
-          <animateMotion dur="4.2s" begin="3.5s" repeatCount="indefinite" path="M338,255 L365,225 L384,225 L418,255 L442,255 L468,225"/>
-        </circle>
-      </g>
-
-      <!-- 5. [3.65s -> 4.45s] TÔ MÀU DIỆN TÍCH HÌNH PHẲNG TÍCH PHÂN S = ∫_a^b |f(x)| dx ĐỘNG -->
-      <g class="float-slow">
-        <path class="pop" d="M98 376 L98 330 C118 294, 144 304, 162 376 Z" fill="rgba(198,40,40,0.22)" style="--at:4.05s"/>
-        <path class="pop" d="M98 376 L98 330 C118 294, 144 304, 162 376 Z" fill="url(#integral-hatch)" style="--at:4.1s"/>
-        <path class="pop" d="M162 376 C178 416, 202 412, 218 392 L218 376 Z" fill="rgba(31,95,191,0.20)" style="--at:4.1s"/>
-        <path class="pop" d="M162 376 C178 416, 202 412, 218 392 L218 376 Z" fill="url(#rot-hatch)" style="--at:4.15s"/>
-        <path class="draw" d="M58 376H252M76 416V296" stroke="#3b3534" stroke-width="1.55" style="--len:320;--at:3.65s;--dur:.4s"/>
-        <path class="draw" d="m245 372 7 4-7 4M72 303l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:3.9s;--dur:.2s"/>
-        <path class="draw-dash" d="M98 330V376M218 376V392" stroke="#c62828" stroke-width="1.6" style="--at:4.0s"/>
-        <path class="draw" d="M82 352 Q90 341, 98 330 C118 294, 144 304, 162 376 C178 416, 202 412, 218 392 Q225 384, 232 372" stroke="#1f5fbf" stroke-width="2.4" style="--len:250;--at:3.8s;--dur:.55s"/>
-        <circle r="3.4" fill="#ffe27d" stroke="#1f5fbf" stroke-width="1.5" opacity="0">
-          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.12;0.9;1" dur="3.8s" begin="4.3s" repeatCount="indefinite"/>
-          <animateMotion dur="3.8s" begin="4.3s" repeatCount="indefinite" path="M98,330 C118,294 144,304 162,376 C178,416 202,412 218,392"/>
-        </circle>
-        <circle class="pop" cx="98" cy="330" r="2.8" fill="#1f5fbf" style="--at:4.2s"/>
-        <circle class="pop" cx="98" cy="376" r="3" fill="#c62828" style="--at:4.2s"/>
-        <circle class="pop" cx="162" cy="376" r="3" fill="#2a211f" style="--at:4.2s"/>
-        <circle class="pop" cx="218" cy="376" r="3" fill="#c62828" style="--at:4.2s"/>
-        <circle class="pop" cx="218" cy="392" r="2.8" fill="#1f5fbf" style="--at:4.2s"/>
-        <text class="pop m-tex" x="83" y="305" font-size="13" font-style="italic" fill="#3b3534" style="--at:4.15s">y</text>
-        <text class="pop m-tex" x="246" y="392" font-size="13" font-style="italic" fill="#3b3534" style="--at:4.15s">x</text>
-        <text class="pop m-tex" x="63" y="390" font-size="12.5" font-style="italic" fill="#6f625d" style="--at:4.15s">O</text>
-        <text class="pop m-tex" x="98" y="392" text-anchor="middle" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:4.25s">a</text>
-        <text class="pop m-tex" x="218" y="368" text-anchor="middle" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:4.25s">b</text>
-        <g class="pop m-tex" style="--at:4.35s">
-          <text x="148" y="306" font-size="13" font-weight="bold" fill="#650f12"><tspan class="m-i">S</tspan> =</text>
-          ${svgTexIntegral(170, 306, "a", "b", '|<tspan class="m-i">f</tspan>(<tspan class="m-i">x</tspan>)| d<tspan class="m-i">x</tspan>', "#650f12", 12.5)}
+        <path class="pop" d="M98 376 L98 330 C118 294, 144 304, 162 376 Z" fill="rgba(198,40,40,0.22)" style="--at:.55s"/>
+        <path class="pop" d="M98 376 L98 330 C118 294, 144 304, 162 376 Z" fill="url(#integral-hatch)" style="--at:.58s"/>
+        <path class="pop" d="M162 376 C178 416, 202 412, 218 392 L218 376 Z" fill="rgba(31,95,191,0.20)" style="--at:.58s"/>
+        <path class="pop" d="M162 376 C178 416, 202 412, 218 392 L218 376 Z" fill="url(#rot-hatch)" style="--at:.62s"/>
+        <path class="draw" d="M58 376H252M76 416V296" stroke="#3b3534" stroke-width="1.55" style="--len:340;--at:.35s;--dur:.38s"/>
+        <path class="draw" d="m245 372 7 4-7 4M72 303l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.5s;--dur:.18s"/>
+        <path class="draw-dash" d="M98 330V376M218 376V392" stroke="#c62828" stroke-width="1.6" style="--at:.52s"/>
+        <path class="draw" d="M82 352 Q90 341, 98 330 C118 294, 144 304, 162 376 C178 416, 202 412, 218 392 Q225 384, 232 372" stroke="#1f5fbf" stroke-width="2.35" style="--len:250;--at:.42s;--dur:.48s"/>
+        <circle class="pop" cx="98" cy="330" r="2.8" fill="#1f5fbf" style="--at:.65s"/>
+        <circle class="pop" cx="98" cy="376" r="3" fill="#c62828" style="--at:.65s"/>
+        <circle class="pop" cx="162" cy="376" r="3" fill="#2a211f" style="--at:.65s"/>
+        <circle class="pop" cx="218" cy="376" r="3" fill="#c62828" style="--at:.65s"/>
+        <circle class="pop" cx="218" cy="392" r="2.8" fill="#1f5fbf" style="--at:.65s"/>
+        <text class="pop m-tex" x="83" y="305" font-size="12.5" fill="#3b3534" style="--at:.65s">y</text>
+        <text class="pop m-tex" x="246" y="392" font-size="12.5" fill="#3b3534" style="--at:.65s">x</text>
+        <text class="pop m-tex" x="63" y="390" font-size="12" fill="#6f625d" style="--at:.65s">O</text>
+        <text class="pop m-tex" x="98" y="392" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.7s">a</text>
+        <text class="pop m-tex" x="218" y="368" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.7s">b</text>
+        <g class="pop m-tex" style="--at:.75s">
+          <text x="148" y="306" font-size="12.5" font-weight="bold" fill="#650f12">S =</text>
+          ${svgTexIntegral(170, 306, "a", "b", "|f(x)| dx", "#650f12", 12.2)}
         </g>
       </g>
 
-      <!-- 6. [4.55s -> 5.35s] THỂ TÍCH KHỐI TRÒN XOAY V = π ∫_a^b [f(x)]^2 dx ĐỘNG -->
+      <!-- 6. [0.4s -> 1.05s] MÔ HÌNH THỂ TÍCH KHỐI TRÒN XOAY 3D V = π ∫_a^b [f(x)]² dx -->
       <g class="float-alt">
-        <path class="pop" d="M318 338 C355 335, 405 314, 452 322 A12 36 0 0 1 452 394 C405 402, 355 381, 318 378 A7 20 0 0 1 318 338 Z" fill="rgba(31,95,191,0.14)" style="--at:4.95s"/>
-        <ellipse class="pop" cx="452" cy="358" rx="12" ry="36" fill="rgba(198,40,40,0.18)" style="--at:5.0s"/>
-        <ellipse class="pop venn-inter-pulse" cx="386" cy="358" rx="9.5" ry="29" fill="url(#rot-hatch)" style="--at:5.05s"/>
-        <path class="draw" d="M282 358H318M452 358H502M296 416V296" stroke="#3b3534" stroke-width="1.55" style="--len:240;--at:4.55s;--dur:.4s"/>
-        <path class="draw" d="m495 354 7 4-7 4M292 303l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:4.8s;--dur:.2s"/>
-        <path class="draw-dash" d="M318 358H452" stroke="#3b3534" stroke-width="1.45" style="--at:4.9s"/>
-        <path class="draw-dash" d="M318 338 A7 20 0 0 1 318 378 M386 329 A9.5 29 0 0 1 386 387" stroke="#1f5fbf" stroke-width="1.55" style="--at:4.95s"/>
-        <path class="draw-dash" d="M386 358V329M452 358V322" stroke="#c62828" stroke-width="1.5" style="--at:5.0s"/>
-        <path class="draw" d="M318 338 A7 20 0 0 0 318 378 M386 329 A9.5 29 0 0 0 386 387" stroke="#1f5fbf" stroke-width="2" style="--len:180;--at:4.95s;--dur:.4s"/>
-        <path class="draw" d="M318 338 C355 335, 405 314, 452 322 M318 378 C355 381, 405 402, 452 394" stroke="#1f5fbf" stroke-width="2.3" style="--len:320;--at:4.75s;--dur:.55s"/>
-        <ellipse class="draw" cx="452" cy="358" rx="12" ry="36" stroke="#c62828" stroke-width="2.1" style="--len:170;--at:4.9s;--dur:.4s"/>
-        <circle r="3.2" fill="#ffe27d" stroke="#c62828" stroke-width="1.5" opacity="0">
-          <animate attributeName="opacity" values="0;1;1" keyTimes="0;0.15;1" dur="3.0s" begin="5.1s" repeatCount="indefinite"/>
-          <animateMotion dur="3.0s" begin="5.1s" repeatCount="indefinite" path="M386,329 A9.5,29 0 1,1 386,387 A9.5,29 0 1,1 386,329"/>
-        </circle>
-        <circle class="pop" cx="318" cy="358" r="2.8" fill="#3b3534" style="--at:5.1s"/>
-        <circle class="pop" cx="386" cy="358" r="3" fill="#c62828" style="--at:5.1s"/>
-        <circle class="pop" cx="452" cy="358" r="3" fill="#c62828" style="--at:5.1s"/>
-        <text class="pop m-tex" x="303" y="305" font-size="13" font-style="italic" fill="#3b3534" style="--at:5.05s">y</text>
-        <text class="pop m-tex" x="494" y="374" font-size="13" font-style="italic" fill="#3b3534" style="--at:5.05s">x</text>
-        <text class="pop m-tex" x="313" y="393" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:5.15s">a</text>
-        <text class="pop m-tex" x="448" y="408" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:5.15s">b</text>
-        <g class="pop m-tex" style="--at:5.25s">
-          <text x="334" y="298" font-size="13" font-weight="bold" fill="#650f12"><tspan class="m-i">V</tspan> = π</text>
-          ${svgTexIntegral(370, 298, "a", "b", `${svgTexSup('[<tspan class="m-i">f</tspan>(<tspan class="m-i">x</tspan>)]', "2", "m-rm", ' d<tspan class="m-i">x</tspan>', "m-rm")}`, "#650f12", 12.5)}
+        <path class="pop" d="M318 338 C355 335, 405 314, 452 322 A12 36 0 0 1 452 394 C405 402, 355 381, 318 378 A7 20 0 0 1 318 338 Z" fill="rgba(31,95,191,0.14)" style="--at:.55s"/>
+        <ellipse class="pop" cx="452" cy="358" rx="12" ry="36" fill="rgba(198,40,40,0.18)" style="--at:.6s"/>
+        <g class="pop" style="--at:.62s">
+          <ellipse class="venn-inter-pulse" cx="386" cy="358" rx="9.5" ry="29" fill="url(#rot-hatch)"/>
+        </g>
+        <path class="draw" d="M282 358H318M452 358H502M296 416V296" stroke="#3b3534" stroke-width="1.55" style="--len:260;--at:.4s;--dur:.38s"/>
+        <path class="draw" d="m495 354 7 4-7 4M292 303l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.55s;--dur:.18s"/>
+        <path class="draw-dash" d="M318 358H452" stroke="#3b3534" stroke-width="1.4" style="--at:.55s"/>
+        <path class="draw-dash" d="M318 338 A7 20 0 0 1 318 378 M386 329 A9.5 29 0 0 1 386 387" stroke="#1f5fbf" stroke-width="1.5" style="--at:.58s"/>
+        <path class="draw-dash" d="M386 358V329M452 358V322" stroke="#c62828" stroke-width="1.45" style="--at:.62s"/>
+        <path class="draw" d="M318 338 A7 20 0 0 0 318 378 M386 329 A9.5 29 0 0 0 386 387" stroke="#1f5fbf" stroke-width="1.95" style="--len:180;--at:.58s;--dur:.35s"/>
+        <path class="draw" d="M318 338 C355 335, 405 314, 452 322 M318 378 C355 381, 405 402, 452 394" stroke="#1f5fbf" stroke-width="2.25" style="--len:320;--at:.48s;--dur:.48s"/>
+        <ellipse class="draw" cx="452" cy="358" rx="12" ry="36" stroke="#c62828" stroke-width="2.05" style="--len:170;--at:.56s;--dur:.35s"/>
+        <circle class="pop" cx="318" cy="358" r="2.8" fill="#3b3534" style="--at:.7s"/>
+        <circle class="pop" cx="386" cy="358" r="3" fill="#c62828" style="--at:.7s"/>
+        <circle class="pop" cx="452" cy="358" r="3" fill="#c62828" style="--at:.7s"/>
+        <text class="pop m-tex" x="303" y="305" font-size="12.5" fill="#3b3534" style="--at:.68s">y</text>
+        <text class="pop m-tex" x="494" y="374" font-size="12.5" fill="#3b3534" style="--at:.68s">x</text>
+        <text class="pop m-tex" x="313" y="393" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.72s">a</text>
+        <text class="pop m-tex" x="386" y="402" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1f5fbf" style="--at:.72s">x</text>
+        <text class="pop m-tex" x="448" y="408" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.72s">b</text>
+        <g class="pop m-tex" style="--at:.78s">
+          <text x="334" y="298" font-size="12.5" font-weight="bold" fill="#650f12">V = π</text>
+          ${svgTexIntegral(370, 298, "a", "b", `${svgTexSup("[f(x)]", "2", "m-rm", " dx", "m-rm")}`, "#650f12", 12.2)}
         </g>
       </g>
     `
@@ -6552,202 +6562,189 @@ const SHEET_SLIDES = {
     svg: `
       <defs>
         <pattern id="para-hatch" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-          <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="6 6" dur="2.4s" repeatCount="indefinite" additive="sum"/>
+          <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="6 6" dur="2.6s" repeatCount="indefinite" additive="sum"/>
           <line x1="0" y1="0" x2="0" y2="6" stroke="#1f5fbf" stroke-width="1.2" stroke-opacity="0.4"/>
         </pattern>
       </defs>
 
-      <!-- 1. [0.05s -> 1.4s] ĐƯỜNG TRÒN (O; R) ĐỘNG VỚI 2 TIẾP TUYẾN CẮT NHAU MA, MB & DÂY CUNG AB ⊥ OM -->
+      <!-- 1. [0.05s -> 0.8s] ĐƯỜNG TRÒN (O; R) VỚI 2 TIẾP TUYẾN CẮT NHAU MA, MB & DÂY CUNG AB ⊥ OM -->
       <g class="float-slow">
-        <polygon class="pop venn-inter-pulse" points="112,118 140,69.5 224,118 140,166.5" fill="rgba(198,40,40,0.10)" style="--at:.65s"/>
-        <circle class="draw" cx="112" cy="118" r="56" stroke="#1f5fbf" stroke-width="2.3" style="--len:360;--at:.05s;--dur:.65s"/>
-        <path class="draw" d="M112 118L140 69.5M112 118L140 166.5M112 118H224" stroke="#2e7d4f" stroke-width="1.75" style="--len:260;--at:.45s;--dur:.45s"/>
-        <path class="draw-dash" d="M140 69.5V166.5" stroke="#1f5fbf" stroke-width="1.7" style="--at:.65s"/>
-        <path class="draw" d="M224 118L122 59.1M224 118L122 176.9" stroke="#c62828" stroke-width="2.4" style="--len:250;--at:.35s;--dur:.55s"/>
-        <path class="draw" d="M136.5 75.6L142.6 79.1L146.1 73.0 M136.5 160.4L142.6 156.9L146.1 163.0 M140 110H148V118" stroke="#650f12" stroke-width="1.35" style="--len:70;--at:.85s;--dur:.25s"/>
-        <circle r="3.5" fill="#ffe27d" stroke="#1f5fbf" stroke-width="1.5" opacity="0">
-          <animate attributeName="opacity" values="0;1;1" keyTimes="0;0.15;1" dur="4.4s" begin="1.0s" repeatCount="indefinite"/>
-          <animateMotion dur="4.4s" begin="1.0s" repeatCount="indefinite" path="M168,118 A56,56 0 1,1 56,118 A56,56 0 1,1 168,118"/>
-        </circle>
-        <circle class="pop" cx="112" cy="118" r="3.6" fill="#1f5fbf" style="--at:.9s"/>
-        <circle class="pop" cx="140" cy="69.5" r="3.8" fill="#c62828" style="--at:.95s"/>
-        <circle class="pop" cx="140" cy="166.5" r="3.8" fill="#c62828" style="--at:.95s"/>
-        <circle class="pop" cx="140" cy="118" r="3.2" fill="#2e7d4f" style="--at:1.0s"/>
-        <circle class="pop" cx="224" cy="118" r="4" fill="#c62828" style="--at:1.0s"/>
-        <text class="pop m-tex" x="95" y="122" font-size="13.5" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:1.05s">O</text>
-        <text class="pop m-tex" x="138" y="57" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.05s">A</text>
-        <text class="pop m-tex" x="138" y="184" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.05s">B</text>
-        <text class="pop m-tex" x="147" y="132" font-size="12.5" font-style="italic" font-weight="bold" fill="#2e7d4f" style="--at:1.1s">H</text>
-        <text class="pop m-tex" x="231" y="122" font-size="14" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.1s">M</text>
-        <text class="pop m-tex" x="144" y="206" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#650f12" style="--at:1.2s"><tspan class="m-i">MA</tspan> = <tspan class="m-i">MB</tspan> · <tspan class="m-i">OM</tspan> ⊥ <tspan class="m-i">AB</tspan> · <tspan class="m-i">OH</tspan>·<tspan class="m-i">OM</tspan> = ${svgTexSup("R", "2")}</text>
+        <g class="pop" style="--at:.35s">
+          <polygon class="venn-inter-pulse" points="112,108 140,59.5 224,108 140,156.5" fill="rgba(198,40,40,0.10)"/>
+        </g>
+        <circle class="draw" cx="112" cy="108" r="56" stroke="#1f5fbf" stroke-width="2.25" style="--len:360;--at:.05s;--dur:.5s"/>
+        <path class="draw" d="M112 108L140 59.5M112 108L140 156.5M112 108H224" stroke="#2e7d4f" stroke-width="1.7" style="--len:260;--at:.25s;--dur:.38s"/>
+        <path class="draw-dash" d="M140 59.5V156.5" stroke="#1f5fbf" stroke-width="1.65" style="--at:.35s"/>
+        <path class="draw" d="M224 108L122 49.1M224 108L122 166.9" stroke="#c62828" stroke-width="2.35" style="--len:250;--at:.2s;--dur:.45s"/>
+        <path class="draw" d="M136.5 65.6L142.6 69.1L146.1 63.0 M136.5 150.4L142.6 146.9L146.1 153.0 M140 100H148V108" stroke="#650f12" stroke-width="1.35" style="--len:70;--at:.45s;--dur:.2s"/>
+        <circle class="pop" cx="112" cy="108" r="3.5" fill="#1f5fbf" style="--at:.5s"/>
+        <circle class="pop" cx="140" cy="59.5" r="3.6" fill="#c62828" style="--at:.5s"/>
+        <circle class="pop" cx="140" cy="156.5" r="3.6" fill="#c62828" style="--at:.5s"/>
+        <circle class="pop" cx="140" cy="108" r="3.2" fill="#2e7d4f" style="--at:.52s"/>
+        <circle class="pop" cx="224" cy="108" r="3.8" fill="#c62828" style="--at:.52s"/>
+        <text class="pop m-tex" x="95" y="112" font-size="13" font-weight="bold" fill="#1f5fbf" style="--at:.55s">O</text>
+        <text class="pop m-tex" x="138" y="48" font-size="13" font-weight="bold" fill="#c62828" style="--at:.55s">A</text>
+        <text class="pop m-tex" x="138" y="174" font-size="13" font-weight="bold" fill="#c62828" style="--at:.55s">B</text>
+        <text class="pop m-tex" x="147" y="122" font-size="12" font-weight="bold" fill="#2e7d4f" style="--at:.58s">H</text>
+        <text class="pop m-tex" x="231" y="112" font-size="13.5" font-weight="bold" fill="#c62828" style="--at:.58s">M</text>
+        <text class="pop m-tex" x="144" y="192" text-anchor="middle" font-size="12.2" font-weight="bold" fill="#650f12" style="--at:.62s">Tiếp tuyến: MA = MB, OM ⊥ AB</text>
+        <text class="pop m-tex" x="144" y="210" text-anchor="middle" font-size="12.2" font-weight="bold" fill="#1f5fbf" style="--at:.66s">Hệ thức lượng: OH · OM = ${svgTexSup("R", "2")}</text>
       </g>
 
-      <!-- 2. [1.45s -> 2.8s] ĐƯỜNG PARABOL ĐỘNG (P): y = x^2 − 2x − 3 -->
+      <!-- 2. [0.2s -> 0.9s] ĐỒ THỊ PARABOL (P): y = x² − 2x − 3 -->
       <g class="float-alt">
-        <path class="pop" d="M316 112 Q376 280 436 112 Z" fill="rgba(31,95,191,0.16)" style="--at:2.15s"/>
-        <path class="pop" d="M316 112 Q376 280 436 112 Z" fill="url(#para-hatch)" style="--at:2.2s"/>
-        <path class="draw" d="M276 112H492M346 218V28" stroke="#3b3534" stroke-width="1.6" style="--len:420;--at:1.45s;--dur:.45s"/>
-        <path class="draw" d="m485 108 7 4-7 4M342 35l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:1.8s;--dur:.2s"/>
-        <path class="draw-dash" d="M376 42V208M346 196H376" stroke="#c62828" stroke-width="1.45" style="--at:2.0s"/>
-        <path class="draw" d="M298 46 Q307 79, 316 112 Q376 280, 436 112 Q445 79, 454 46" stroke="#1f5fbf" stroke-width="2.5" style="--len:420;--at:1.7s;--dur:.65s"/>
-        <circle r="3.6" fill="#ffe27d" stroke="#c62828" stroke-width="1.5" opacity="0">
-          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.12;0.9;1" dur="3.8s" begin="2.3s" repeatCount="indefinite"/>
-          <animateMotion dur="3.8s" begin="2.3s" repeatCount="indefinite" path="M298,46 Q307,79 316,112 Q376,280 436,112 Q445,79 454,46"/>
-        </circle>
-        <circle class="pop" cx="316" cy="112" r="3.4" fill="#c62828" style="--at:2.3s"/>
-        <circle class="pop" cx="436" cy="112" r="3.4" fill="#c62828" style="--at:2.3s"/>
-        <circle class="pop" cx="376" cy="196" r="4" fill="#c62828" style="--at:2.35s"/>
-        <text class="pop m-tex" x="353" y="36" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:2.2s">y</text>
-        <text class="pop m-tex" x="484" y="128" font-size="13.5" font-style="italic" fill="#3b3534" style="--at:2.2s">x</text>
-        <text class="pop m-tex" x="333" y="127" font-size="12.5" font-style="italic" fill="#6f625d" style="--at:2.2s">O</text>
-        <text class="pop m-tex" x="296" y="128" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:2.4s">−1</text>
-        <text class="pop m-tex" x="383" y="106" font-size="12.5" font-weight="bold" fill="#2a211f" style="--at:2.4s">1</text>
-        <text class="pop m-tex" x="442" y="128" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:2.4s">3</text>
-        <text class="pop m-tex" x="322" y="200" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:2.4s">−4</text>
-        <text class="pop m-tex" x="386" y="202" font-size="13" font-weight="bold" fill="#c62828" style="--at:2.45s"><tspan class="m-i">I</tspan>(1; −4)</text>
-        <text class="pop m-tex" x="424" y="34" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1f5fbf" style="--at:2.5s">(<tspan class="m-i">P</tspan>): <tspan class="m-i">y</tspan> = ${svgTexSup("x", "2", "m-i", " − 2", "m-rm")}<tspan class="m-i">x</tspan> − 3</text>
+        <path class="pop" d="M316 112 Q376 280 436 112 Z" fill="rgba(31,95,191,0.16)" style="--at:.45s"/>
+        <path class="pop" d="M316 112 Q376 280 436 112 Z" fill="url(#para-hatch)" style="--at:.48s"/>
+        <path class="draw" d="M276 112H492M346 218V28" stroke="#3b3534" stroke-width="1.55" style="--len:420;--at:.2s;--dur:.42s"/>
+        <path class="draw" d="m485 108 7 4-7 4M342 35l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.4s;--dur:.18s"/>
+        <path class="draw-dash" d="M376 42V208M346 196H376" stroke="#c62828" stroke-width="1.45" style="--at:.45s"/>
+        <path class="draw" d="M298 46 Q307 79, 316 112 Q376 280, 436 112 Q445 79, 454 46" stroke="#1f5fbf" stroke-width="2.4" style="--len:420;--at:.3s;--dur:.52s"/>
+        <circle class="pop" cx="316" cy="112" r="3.4" fill="#c62828" style="--at:.55s"/>
+        <circle class="pop" cx="436" cy="112" r="3.4" fill="#c62828" style="--at:.55s"/>
+        <circle class="pop" cx="376" cy="196" r="3.8" fill="#c62828" style="--at:.58s"/>
+        <text class="pop m-tex" x="353" y="36" font-size="13" fill="#3b3534" style="--at:.55s">y</text>
+        <text class="pop m-tex" x="484" y="128" font-size="13" fill="#3b3534" style="--at:.55s">x</text>
+        <text class="pop m-tex" x="333" y="127" font-size="12" fill="#6f625d" style="--at:.55s">O</text>
+        <text class="pop m-tex" x="296" y="128" font-size="12" font-weight="bold" fill="#c62828" style="--at:.6s">−1</text>
+        <text class="pop m-tex" x="383" y="106" font-size="12" font-weight="bold" fill="#2a211f" style="--at:.6s">1</text>
+        <text class="pop m-tex" x="442" y="128" font-size="12" font-weight="bold" fill="#c62828" style="--at:.6s">3</text>
+        <text class="pop m-tex" x="322" y="200" font-size="12" font-weight="bold" fill="#c62828" style="--at:.6s">−4</text>
+        <text class="pop m-tex" x="386" y="202" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.62s">I(1; −4)</text>
+        <text class="pop m-tex" x="424" y="34" text-anchor="middle" font-size="12.2" font-weight="bold" fill="#1f5fbf" style="--at:.65s">(P): y = ${svgTexSup("x", "2", "m-rm", " − 2x − 3", "m-rm")}</text>
       </g>
 
-      <!-- 3. [2.85s -> 4.2s] HÌNH HỌC KHÔNG GIAN THPT (CHÓP S.ABC CÓ SA ⊥ (ABC) NỘI TIẾP MẶT CẦU) & HỆ THỨC LƯỢNG -->
+      <!-- 3. [0.35s -> 1.05s] MẶT CẦU NGOẠI TIẾP CHÓP S.ABC & HỘP LÝ THUYẾT XUỐNG DÒNG RÕ RÀNG -->
       <g class="float-slow">
-        <circle class="draw" cx="136" cy="322" r="62" stroke="#1f5fbf" stroke-width="2.1" style="--len:410;--at:2.85s;--dur:.6s"/>
-        <path class="draw-dash" d="M74 322 A62 18 0 0 1 198 322" stroke="#1f5fbf" stroke-width="1.35" style="--at:3.1s"/>
-        <path class="draw" d="M74 322 A62 18 0 0 0 198 322" stroke="#1f5fbf" stroke-width="1.65" style="--len:140;--at:3.1s;--dur:.4s"/>
-        <polygon class="pop venn-inter-pulse" points="96,270 96,356 164,372" fill="rgba(46,125,79,0.12)" style="--at:3.3s"/>
-        <path class="draw-dash" d="M96 356L190 336" stroke="#6f625d" stroke-width="1.45" style="--at:3.35s"/>
-        <path class="draw" d="M96 270V356L164 372L190 336L96 270M96 270L164 372" stroke="#2e7d4f" stroke-width="2" style="--len:420;--at:3.15s;--dur:.55s"/>
-        <path class="draw" d="M96 356L128 318" stroke="#c62828" stroke-width="2" style="--len:65;--at:3.45s;--dur:.25s"/>
-        <path class="draw" d="M96 347H105V356" stroke="#c62828" stroke-width="1.3" style="--len:22;--at:3.5s;--dur:.2s"/>
-        <circle r="3.4" fill="#ffe27d" stroke="#c62828" stroke-width="1.5" opacity="0">
-          <animate attributeName="opacity" values="0;1;1" keyTimes="0;0.15;1" dur="4.0s" begin="3.6s" repeatCount="indefinite"/>
-          <animateMotion dur="4.0s" begin="3.6s" repeatCount="indefinite" path="M74,322 A62,18 0 1,0 198,322 A62,18 0 1,0 74,322"/>
-        </circle>
-        <circle class="pop" cx="96" cy="270" r="3.5" fill="#c62828" style="--at:3.5s"/>
-        <circle class="pop" cx="96" cy="356" r="3.5" fill="#c62828" style="--at:3.5s"/>
-        <circle class="pop" cx="164" cy="372" r="3.5" fill="#1f5fbf" style="--at:3.5s"/>
-        <circle class="pop" cx="190" cy="336" r="3.5" fill="#1f5fbf" style="--at:3.5s"/>
-        <circle class="pop" cx="128" cy="318" r="3.2" fill="#c62828" style="--at:3.55s"/>
-        <text class="pop m-tex" x="82" y="268" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.6s">S</text>
-        <text class="pop m-tex" x="81" y="362" font-size="13.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.6s">A</text>
-        <text class="pop m-tex" x="164" y="387" text-anchor="middle" font-size="13" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:3.6s">B</text>
-        <text class="pop m-tex" x="202" y="340" font-size="13" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:3.6s">C</text>
-        <text class="pop m-tex" x="136" y="314" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.65s">H</text>
-        <text class="pop m-tex" x="136" y="408" text-anchor="middle" font-size="12" font-weight="bold" fill="#650f12" style="--at:3.7s"><tspan class="m-i">SA</tspan> ⊥ (<tspan class="m-i">ABC</tspan>) · d(<tspan class="m-i">A</tspan>,(<tspan class="m-i">SBC</tspan>)) = <tspan class="m-i">AH</tspan></text>
+        <circle class="draw" cx="136" cy="312" r="58" stroke="#1f5fbf" stroke-width="2.05" style="--len:380;--at:.35s;--dur:.48s"/>
+        <path class="draw-dash" d="M78 312 A58 17 0 0 1 194 312" stroke="#1f5fbf" stroke-width="1.3" style="--at:.45s"/>
+        <path class="draw" d="M78 312 A58 17 0 0 0 194 312" stroke="#1f5fbf" stroke-width="1.6" style="--len:140;--at:.45s;--dur:.35s"/>
+        <g class="pop" style="--at:.5s">
+          <polygon class="venn-inter-pulse" points="98,262 98,344 162,358" fill="rgba(46,125,79,0.12)"/>
+        </g>
+        <path class="draw-dash" d="M98 344L186 326" stroke="#6f625d" stroke-width="1.4" style="--at:.52s"/>
+        <path class="draw" d="M98 262V344L162 358L186 326L98 262M98 262L162 358" stroke="#2e7d4f" stroke-width="1.95" style="--len:420;--at:.42s;--dur:.45s"/>
+        <path class="draw" d="M98 344L128 308" stroke="#c62828" stroke-width="1.95" style="--len:65;--at:.58s;--dur:.22s"/>
+        <path class="draw" d="M98 335H107V344" stroke="#c62828" stroke-width="1.3" style="--len:22;--at:.6s;--dur:.18s"/>
+        <circle class="pop" cx="98" cy="262" r="3.4" fill="#c62828" style="--at:.62s"/>
+        <circle class="pop" cx="98" cy="344" r="3.4" fill="#c62828" style="--at:.62s"/>
+        <circle class="pop" cx="162" cy="358" r="3.4" fill="#1f5fbf" style="--at:.62s"/>
+        <circle class="pop" cx="186" cy="326" r="3.4" fill="#1f5fbf" style="--at:.62s"/>
+        <circle class="pop" cx="128" cy="308" r="3.1" fill="#c62828" style="--at:.65s"/>
+        <text class="pop m-tex" x="84" y="260" font-size="13" font-weight="bold" fill="#c62828" style="--at:.68s">S</text>
+        <text class="pop m-tex" x="83" y="350" font-size="13" font-weight="bold" fill="#c62828" style="--at:.68s">A</text>
+        <text class="pop m-tex" x="162" y="372" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1f5fbf" style="--at:.68s">B</text>
+        <text class="pop m-tex" x="196" y="330" font-size="12.5" font-weight="bold" fill="#1f5fbf" style="--at:.68s">C</text>
+        <text class="pop m-tex" x="135" y="305" font-size="12" font-weight="bold" fill="#c62828" style="--at:.7s">H</text>
+        <text class="pop m-tex" x="136" y="392" text-anchor="middle" font-size="11.8" font-weight="bold" fill="#650f12" style="--at:.72s">Đường cao: SA ⊥ (ABC)</text>
+        <text class="pop m-tex" x="136" y="409" text-anchor="middle" font-size="11.8" font-weight="bold" fill="#2e7d4f" style="--at:.76s">Khoảng cách: d(A, (SBC)) = AH</text>
 
-        <rect class="pop" x="242" y="246" width="260" height="158" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:3.3s"/>
-        <text class="pop" x="256" y="270" font-size="14" font-weight="bold" fill="#650f12" style="--at:3.5s">Hệ thức Hình học THPT &amp; Vi-ét:</text>
-        <text class="pop m-tex" x="256" y="295" font-size="12.5" fill="#2a211f" style="--at:3.65s">• Định lí Côsin: ${svgTexSup("a", "2", "m-i", " = ", "m-rm")}${svgTexSup("b", "2", "m-i", " + ", "m-rm")}${svgTexSup("c", "2", "m-i", " − 2", "m-rm")}<tspan class="m-i">bc</tspan> cos <tspan class="m-i">A</tspan></text>
-        <g class="pop" style="--at:3.8s">
-          <text x="392" y="328" text-anchor="end" font-size="12.5" font-weight="bold" fill="#c62828">• Tổng nghiệm: <tspan class="m-tex"><tspan class="m-i">S</tspan> = ${svgTexSub("x", "1", "m-i", " + ", "m-rm")}${svgTexSub("x", "2", "m-i", " =", "m-rm")}</tspan></text>
-          ${svgTexFrac(410, 328, '−<tspan class="m-i">b</tspan>', '<tspan class="m-i">a</tspan>', 22, '#c62828', 11.5)}
+        <rect class="pop" x="242" y="232" width="260" height="182" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:.45s"/>
+        <text class="pop m-tex" x="256" y="255" font-size="13.8" font-weight="bold" fill="#650f12" style="--at:.55s">Hệ thức Hình học &amp; Định lí Vi-ét:</text>
+        <text class="pop m-tex" x="256" y="279" font-size="12.2" font-weight="bold" fill="#2a211f" style="--at:.62s">• Định lí Côsin: ${svgTexSup("a", "2", "m-rm", " = ", "m-rm")}${svgTexSup("b", "2", "m-rm", " + ", "m-rm")}${svgTexSup("c", "2", "m-rm", " − 2bc cos A", "m-rm")}</text>
+        <g class="pop m-tex" style="--at:.68s">
+          <text x="394" y="311" text-anchor="end" font-size="12.2" font-weight="bold" fill="#c62828">• Tổng nghiệm: S = ${svgTexSub("x", "1", "m-rm", " + ", "m-rm")}${svgTexSub("x", "2", "m-rm", " =", "m-rm")}</text>
+          ${svgTexFrac(412, 311, "−b", "a", 22, "#c62828", 11.4)}
         </g>
-        <g class="pop" style="--at:3.9s">
-          <text x="392" y="362" text-anchor="end" font-size="12.5" font-weight="bold" fill="#1f5fbf">• Tích nghiệm: <tspan class="m-tex"><tspan class="m-i">P</tspan> = ${svgTexSub("x", "1", "m-i", "·", "m-rm")}${svgTexSub("x", "2", "m-i", " =", "m-rm")}</tspan></text>
-          ${svgTexFrac(408, 362, '<tspan class="m-i">c</tspan>', '<tspan class="m-i">a</tspan>', 18, '#1f5fbf', 11.5)}
+        <g class="pop m-tex" style="--at:.74s">
+          <text x="394" y="346" text-anchor="end" font-size="12.2" font-weight="bold" fill="#1f5fbf">• Tích nghiệm: P = ${svgTexSub("x", "1", "m-rm", " · ", "m-rm")}${svgTexSub("x", "2", "m-rm", " =", "m-rm")}</text>
+          ${svgTexFrac(410, 346, "c", "a", 18, "#1f5fbf", 11.4)}
         </g>
-        <text class="pop" x="256" y="391" font-size="12.2" font-weight="bold" fill="#2e7d4f" style="--at:4.0s">• Mặt cầu &amp; Chóp: <tspan class="m-tex"><tspan class="m-i">S</tspan> = 4π${svgTexSup("R", "2", "m-i", " · ", "m-rm")}<tspan class="m-i">V</tspan> = <tspan class="m-i">Bh</tspan>/3</tspan></text>
+        <text class="pop m-tex" x="256" y="376" font-size="12.2" font-weight="bold" fill="#2e7d4f" style="--at:.8s">• Thể tích khối chóp: V = (1/3) B · h</text>
+        <text class="pop m-tex" x="256" y="399" font-size="12.2" font-weight="bold" fill="#650f12" style="--at:.85s">• Diện tích mặt cầu: S = 4π${svgTexSup("R", "2")}</text>
       </g>
     `
   },
 
   conics: {
     svg: `
-      <!-- 1. [0.05s -> 1.4s] ELIP ĐỘNG (E): x^2/a^2 + y^2/b^2 = 1 & HÌNH CHỮ NHẬT CƠ SỞ -->
+      <!-- 1. [0.05s -> 0.8s] ELIP (E): x²/a² + y²/b² = 1 & HÌNH CHỮ NHẬT CƠ SỞ -->
       <g class="float-slow">
-        <rect class="draw-dash" x="72" y="58" width="144" height="86" stroke="#6f625d" stroke-width="1.35" style="--at:.35s"/>
-        <ellipse class="pop" cx="144" cy="101" rx="72" ry="43" fill="rgba(31,95,191,0.10)" style="--at:.5s"/>
-        <path class="draw" d="M46 101H242M144 162V30" stroke="#3b3534" stroke-width="1.55" style="--len:340;--at:.05s;--dur:.45s"/>
-        <path class="draw" d="m235 97 7 4-7 4M140 37l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:.4s;--dur:.2s"/>
-        <ellipse class="draw" cx="144" cy="101" rx="72" ry="43" stroke="#1f5fbf" stroke-width="2.3" style="--len:380;--at:.25s;--dur:.65s"/>
-        <path class="draw" d="M87 101L180 63.5L201 101" stroke="#c62828" stroke-width="1.9" style="--len:160;--at:.75s;--dur:.35s"/>
-        <circle r="3.5" fill="#ffe27d" stroke="#c62828" stroke-width="1.5" opacity="0">
-          <animate attributeName="opacity" values="0;1;1" keyTimes="0;0.15;1" dur="4.8s" begin="1.0s" repeatCount="indefinite"/>
-          <animateMotion dur="4.8s" begin="1.0s" repeatCount="indefinite" path="M216,101 A72,43 0 1,1 72,101 A72,43 0 1,1 216,101"/>
-        </circle>
-        <circle class="pop" cx="87" cy="101" r="3.4" fill="#c62828" style="--at:.9s"/>
-        <circle class="pop" cx="201" cy="101" r="3.4" fill="#c62828" style="--at:.9s"/>
-        <circle class="pop" cx="180" cy="63.5" r="3.8" fill="#c62828" style="--at:.95s"/>
-        <text class="pop m-tex" x="151" y="38" font-size="13" font-style="italic" fill="#3b3534" style="--at:.85s">y</text>
-        <text class="pop m-tex" x="236" y="117" font-size="13" font-style="italic" fill="#3b3534" style="--at:.85s">x</text>
-        <text class="pop m-tex" x="85" y="118" text-anchor="middle" font-size="12" font-weight="bold" fill="#c62828" style="--at:1.0s">${svgTexSub("F", "1")}</text>
-        <text class="pop m-tex" x="201" y="118" text-anchor="middle" font-size="12" font-weight="bold" fill="#c62828" style="--at:1.0s">${svgTexSub("F", "2")}</text>
-        <text class="pop m-tex" x="185" y="57" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:1.05s">M</text>
-        <g class="pop m-tex" style="--at:1.15s">
-          <text x="78" y="190" text-anchor="end" font-size="12.5" font-weight="bold" fill="#650f12">(<tspan class="m-i">E</tspan>):</text>
-          ${svgTexFrac(94, 190, svgTexSup("x", "2"), svgTexSup("a", "2"), 20, "#650f12", 11.2)}
-          <text x="114" y="190" text-anchor="middle" font-size="13" font-weight="bold" fill="#650f12">+</text>
-          ${svgTexFrac(134, 190, svgTexSup("y", "2"), svgTexSup("b", "2"), 20, "#650f12", 11.2)}
-          <text x="150" y="190" font-size="12.5" font-weight="bold" fill="#650f12">= 1 · <tspan class="m-i">MF</tspan><tspan dy="3" font-size="72%">1</tspan><tspan dy="-3"> + </tspan><tspan class="m-i">MF</tspan><tspan dy="3" font-size="72%">2</tspan><tspan dy="-3"> = 2</tspan><tspan class="m-i">a</tspan></text>
+        <rect class="draw-dash" x="72" y="50" width="144" height="84" stroke="#6f625d" stroke-width="1.3" style="--at:.2s"/>
+        <ellipse class="pop" cx="144" cy="92" rx="72" ry="42" fill="rgba(31,95,191,0.10)" style="--at:.28s"/>
+        <path class="draw" d="M46 92H242M144 152V24" stroke="#3b3534" stroke-width="1.5" style="--len:340;--at:.05s;--dur:.38s"/>
+        <path class="draw" d="m235 88 7 4-7 4M140 31l4-7 4 7" stroke="#3b3534" stroke-width="1.35" style="--len:35;--at:.25s;--dur:.18s"/>
+        <ellipse class="draw" cx="144" cy="92" rx="72" ry="42" stroke="#1f5fbf" stroke-width="2.25" style="--len:380;--at:.15s;--dur:.48s"/>
+        <path class="draw" d="M87 92L180 55.5L201 92" stroke="#c62828" stroke-width="1.85" style="--len:160;--at:.38s;--dur:.28s"/>
+        <circle class="pop" cx="87" cy="92" r="3.3" fill="#c62828" style="--at:.48s"/>
+        <circle class="pop" cx="201" cy="92" r="3.3" fill="#c62828" style="--at:.48s"/>
+        <circle class="pop" cx="180" cy="55.5" r="3.6" fill="#c62828" style="--at:.5s"/>
+        <text class="pop m-tex" x="151" y="32" font-size="12.5" fill="#3b3534" style="--at:.45s">y</text>
+        <text class="pop m-tex" x="236" y="108" font-size="12.5" fill="#3b3534" style="--at:.45s">x</text>
+        <text class="pop m-tex" x="85" y="109" text-anchor="middle" font-size="11.8" font-weight="bold" fill="#c62828" style="--at:.52s">${svgTexSub("F", "1")}</text>
+        <text class="pop m-tex" x="201" y="109" text-anchor="middle" font-size="11.8" font-weight="bold" fill="#c62828" style="--at:.52s">${svgTexSub("F", "2")}</text>
+        <text class="pop m-tex" x="185" y="49" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.55s">M</text>
+        <g class="pop m-tex" style="--at:.6s">
+          <text x="96" y="176" text-anchor="end" font-size="12.2" font-weight="bold" fill="#650f12">Elip (E):</text>
+          ${svgTexFrac(114, 176, svgTexSup("x", "2"), svgTexSup("a", "2"), 20, "#650f12", 11.0)}
+          <text x="134" y="176" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#650f12">+</text>
+          ${svgTexFrac(154, 176, svgTexSup("y", "2"), svgTexSup("b", "2"), 20, "#650f12", 11.0)}
+          <text x="170" y="176" font-size="12.2" font-weight="bold" fill="#650f12">= 1</text>
         </g>
+        <text class="pop m-tex" x="144" y="206" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f5fbf" style="--at:.66s">Định nghĩa: ${svgTexSub("MF", "1", "m-rm", " + ", "m-rm")}${svgTexSub("MF", "2", "m-rm", " = 2a", "m-rm")}</text>
       </g>
 
-      <!-- 2. [1.45s -> 2.8s] HYPEBOL ĐỘNG (H): x^2/a^2 − y^2/b^2 = 1 & HAI TIỆM CẬN -->
+      <!-- 2. [0.2s -> 0.85s] HYPEBOL (H): x²/a² − y²/b² = 1 & HAI ĐƯỜNG TIỆM CẬN -->
       <g class="float-alt">
-        <path class="draw" d="M284 101H496M390 162V30" stroke="#3b3534" stroke-width="1.55" style="--len:350;--at:1.45s;--dur:.45s"/>
-        <path class="draw" d="m489 97 7 4-7 4M386 37l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:1.8s;--dur:.2s"/>
-        <rect class="draw-dash" x="354" y="74" width="72" height="54" stroke="#6f625d" stroke-width="1.3" style="--at:1.85s"/>
-        <path class="draw-dash" d="M306 36.7L474 165.3M306 165.3L474 36.7" stroke="#2e7d4f" stroke-width="1.45" style="--at:1.95s"/>
-        <path class="draw" d="M308 44 Q398 101 308 158 M472 44 Q382 101 472 158" stroke="#c62828" stroke-width="2.4" style="--len:320;--at:2.05s;--dur:.55s"/>
-        <circle r="3.4" fill="#ffe27d" stroke="#c62828" stroke-width="1.5" opacity="0">
-          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.88;1" dur="3.6s" begin="2.4s" repeatCount="indefinite"/>
-          <animateMotion dur="3.6s" begin="2.4s" repeatCount="indefinite" path="M472,44 Q382,101 472,158"/>
-        </circle>
-        <circle class="pop" cx="332" cy="101" r="3.4" fill="#1f5fbf" style="--at:2.4s"/>
-        <circle class="pop" cx="448" cy="101" r="3.4" fill="#1f5fbf" style="--at:2.4s"/>
-        <text class="pop m-tex" x="397" y="38" font-size="13" font-style="italic" fill="#3b3534" style="--at:2.3s">y</text>
-        <text class="pop m-tex" x="488" y="117" font-size="13" font-style="italic" fill="#3b3534" style="--at:2.3s">x</text>
-        <text class="pop m-tex" x="328" y="118" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f5fbf" style="--at:2.5s">${svgTexSub("F", "1")}</text>
-        <text class="pop m-tex" x="452" y="118" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f5fbf" style="--at:2.5s">${svgTexSub("F", "2")}</text>
-        <g class="pop m-tex" style="--at:2.6s">
-          <text x="306" y="190" text-anchor="end" font-size="12.5" font-weight="bold" fill="#650f12">(<tspan class="m-i">H</tspan>):</text>
-          ${svgTexFrac(322, 190, svgTexSup("x", "2"), svgTexSup("a", "2"), 20, "#650f12", 11.2)}
-          <text x="342" y="190" text-anchor="middle" font-size="13" font-weight="bold" fill="#650f12">−</text>
-          ${svgTexFrac(362, 190, svgTexSup("y", "2"), svgTexSup("b", "2"), 20, "#650f12", 11.2)}
-          <text x="378" y="190" font-size="12.5" font-weight="bold" fill="#650f12">= 1 · |<tspan class="m-i">MF</tspan><tspan dy="3" font-size="72%">1</tspan><tspan dy="-3"> − </tspan><tspan class="m-i">MF</tspan><tspan dy="3" font-size="72%">2</tspan><tspan dy="-3">| = 2</tspan><tspan class="m-i">a</tspan></text>
+        <path class="draw" d="M284 92H496M390 152V24" stroke="#3b3534" stroke-width="1.5" style="--len:350;--at:.2s;--dur:.38s"/>
+        <path class="draw" d="m489 88 7 4-7 4M386 31l4-7 4 7" stroke="#3b3534" stroke-width="1.35" style="--len:35;--at:.38s;--dur:.18s"/>
+        <rect class="draw-dash" x="354" y="65" width="72" height="54" stroke="#6f625d" stroke-width="1.25" style="--at:.4s"/>
+        <path class="draw-dash" d="M306 28.7L474 155.3M306 155.3L474 28.7" stroke="#2e7d4f" stroke-width="1.4" style="--at:.45s"/>
+        <path class="draw" d="M308 36 Q398 92 308 148 M472 36 Q382 92 472 148" stroke="#c62828" stroke-width="2.35" style="--len:320;--at:.32s;--dur:.48s"/>
+        <circle class="pop" cx="332" cy="92" r="3.3" fill="#1f5fbf" style="--at:.55s"/>
+        <circle class="pop" cx="448" cy="92" r="3.3" fill="#1f5fbf" style="--at:.55s"/>
+        <text class="pop m-tex" x="397" y="32" font-size="12.5" fill="#3b3534" style="--at:.52s">y</text>
+        <text class="pop m-tex" x="488" y="108" font-size="12.5" fill="#3b3534" style="--at:.52s">x</text>
+        <text class="pop m-tex" x="328" y="109" text-anchor="middle" font-size="11.8" font-weight="bold" fill="#1f5fbf" style="--at:.58s">${svgTexSub("F", "1")}</text>
+        <text class="pop m-tex" x="452" y="109" text-anchor="middle" font-size="11.8" font-weight="bold" fill="#1f5fbf" style="--at:.58s">${svgTexSub("F", "2")}</text>
+        <g class="pop m-tex" style="--at:.64s">
+          <text x="354" y="176" text-anchor="end" font-size="12.2" font-weight="bold" fill="#650f12">Hypebol (H):</text>
+          ${svgTexFrac(372, 176, svgTexSup("x", "2"), svgTexSup("a", "2"), 20, "#650f12", 11.0)}
+          <text x="392" y="176" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#650f12">−</text>
+          ${svgTexFrac(412, 176, svgTexSup("y", "2"), svgTexSup("b", "2"), 20, "#650f12", 11.0)}
+          <text x="428" y="176" font-size="12.2" font-weight="bold" fill="#650f12">= 1</text>
         </g>
+        <text class="pop m-tex" x="390" y="206" text-anchor="middle" font-size="12" font-weight="bold" fill="#c62828" style="--at:.7s">Định nghĩa: |${svgTexSub("MF", "1", "m-rm", " − ", "m-rm")}${svgTexSub("MF", "2", "m-rm", "| = 2a", "m-rm")}</text>
       </g>
 
-      <!-- 3. [2.85s -> 4.2s] PARABOL CHÍNH TẮC ĐỘNG (P): y^2 = 2px, TIÊU ĐIỂM F(p/2; 0) & ĐƯỜNG CHUẨN Δ -->
+      <!-- 3. [0.35s -> 1.05s] PARABOL CHÍNH TẮC (P): y² = 2px, TIÊU ĐIỂM F(p/2; 0) & ĐƯỜNG CHUẨN Δ -->
       <g class="float-slow">
-        <path class="draw" d="M58 322H254M138 404V236" stroke="#3b3534" stroke-width="1.55" style="--len:360;--at:2.85s;--dur:.45s"/>
-        <path class="draw" d="m247 318 7 4-7 4M134 243l4-7 4 7" stroke="#3b3534" stroke-width="1.4" style="--len:35;--at:3.2s;--dur:.2s"/>
-        <path class="draw-dash" d="M98 240V400" stroke="#c62828" stroke-width="1.8" style="--at:3.25s"/>
-        <path class="draw" d="M234 246 Q42 322 234 398" stroke="#1f5fbf" stroke-width="2.5" style="--len:280;--at:3.1s;--dur:.6s"/>
-        <path class="draw-dash" d="M98 274H194L178 322" stroke="#2e7d4f" stroke-width="1.7" style="--at:3.55s"/>
-        <path class="draw" d="M98 282H106V274" stroke="#c62828" stroke-width="1.35" style="--len:20;--at:3.65s;--dur:.2s"/>
-        <circle r="3.4" fill="#ffe27d" stroke="#1f5fbf" stroke-width="1.5" opacity="0">
-          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.88;1" dur="3.8s" begin="3.6s" repeatCount="indefinite"/>
-          <animateMotion dur="3.8s" begin="3.6s" repeatCount="indefinite" path="M234,246 Q42,322 234,398"/>
-        </circle>
-        <circle class="pop" cx="178" cy="322" r="3.6" fill="#c62828" style="--at:3.7s"/>
-        <circle class="pop" cx="194" cy="274" r="3.8" fill="#1f5fbf" style="--at:3.7s"/>
-        <circle class="pop" cx="98" cy="274" r="3.2" fill="#c62828" style="--at:3.7s"/>
-        <text class="pop m-tex" x="82" y="252" font-size="13" font-weight="bold" fill="#c62828" style="--at:3.75s">Δ</text>
-        <text class="pop m-tex" x="82" y="278" font-size="12.5" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.75s">H</text>
-        <text class="pop m-tex" x="200" y="271" font-size="13" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:3.8s">M</text>
-        <g class="pop m-tex" style="--at:3.8s">
-          <text x="176" y="344" text-anchor="end" font-size="12" font-weight="bold" fill="#c62828"><tspan class="m-i">F</tspan>(</text>
-          ${svgTexFrac(186, 344, '<tspan class="m-i">p</tspan>', "2", 14, "#c62828", 10.8)}
-          <text x="196" y="344" font-size="12" font-weight="bold" fill="#c62828">; 0)</text>
+        <path class="draw" d="M58 322H250M138 404V236" stroke="#3b3534" stroke-width="1.5" style="--len:360;--at:.35s;--dur:.38s"/>
+        <path class="draw" d="m243 318 7 4-7 4M134 243l4-7 4 7" stroke="#3b3534" stroke-width="1.35" style="--len:35;--at:.52s;--dur:.18s"/>
+        <path class="draw-dash" d="M98 240V400" stroke="#c62828" stroke-width="1.75" style="--at:.52s"/>
+        <path class="draw" d="M232 246 Q44 322 232 398" stroke="#1f5fbf" stroke-width="2.4" style="--len:280;--at:.42s;--dur:.48s"/>
+        <path class="draw-dash" d="M98 274H194L178 322" stroke="#2e7d4f" stroke-width="1.65" style="--at:.6s"/>
+        <path class="draw" d="M98 282H106V274" stroke="#c62828" stroke-width="1.3" style="--len:20;--at:.65s;--dur:.18s"/>
+        <circle class="pop" cx="178" cy="322" r="3.5" fill="#c62828" style="--at:.68s"/>
+        <circle class="pop" cx="194" cy="274" r="3.6" fill="#1f5fbf" style="--at:.68s"/>
+        <circle class="pop" cx="98" cy="274" r="3.2" fill="#c62828" style="--at:.68s"/>
+        <text class="pop m-tex" x="82" y="252" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.7s">Δ</text>
+        <text class="pop m-tex" x="82" y="278" font-size="12" font-weight="bold" fill="#c62828" style="--at:.7s">H</text>
+        <text class="pop m-tex" x="200" y="271" font-size="12.5" font-weight="bold" fill="#1f5fbf" style="--at:.72s">M</text>
+        <g class="pop m-tex" style="--at:.72s">
+          <text x="176" y="344" text-anchor="end" font-size="11.8" font-weight="bold" fill="#c62828">F(</text>
+          ${svgTexFrac(186, 344, "p", "2", 14, "#c62828", 10.6)}
+          <text x="196" y="344" font-size="11.8" font-weight="bold" fill="#c62828">; 0)</text>
         </g>
-        <text class="pop m-tex" x="124" y="338" font-size="12.5" font-style="italic" fill="#6f625d" style="--at:3.8s">O</text>
+        <text class="pop m-tex" x="124" y="338" font-size="12" fill="#6f625d" style="--at:.72s">O</text>
 
-        <rect class="pop" x="262" y="236" width="242" height="168" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:3.4s"/>
-        <text class="pop" x="274" y="261" font-size="14" font-weight="bold" fill="#650f12" style="--at:3.6s">Ba đường Conic &amp; Tâm sai e:</text>
-        <g class="pop" style="--at:3.75s">
-          <text x="438" y="294" text-anchor="end" font-size="11.8" font-weight="bold" fill="#1f5fbf">1. Elip: <tspan class="m-tex">${svgTexSup("c", "2", "m-i", " = ", "m-rm")}${svgTexSup("a", "2", "m-i", " − ", "m-rm")}${svgTexSup("b", "2", "m-i", " · ", "m-rm")}<tspan class="m-i">e</tspan> =</tspan></text>
-          ${svgTexFrac(451, 294, '<tspan class="m-i">c</tspan>', '<tspan class="m-i">a</tspan>', 14, '#1f5fbf', 10.5)}
-          <text x="462" y="294" font-size="11.8" font-weight="bold" fill="#1f5fbf" class="m-tex">&lt; 1</text>
+        <rect class="pop" x="256" y="228" width="248" height="186" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:.48s"/>
+        <text class="pop m-tex" x="268" y="251" font-size="13.8" font-weight="bold" fill="#650f12" style="--at:.58s">Ba đường Conic &amp; Tâm sai e:</text>
+        <text class="pop m-tex" x="268" y="273" font-size="12" font-weight="bold" fill="#1f5fbf" style="--at:.64s">1. Elip (E): ${svgTexSup("c", "2", "m-rm", " = ", "m-rm")}${svgTexSup("a", "2", "m-rm", " − ", "m-rm")}${svgTexSup("b", "2")}</text>
+        <g class="pop m-tex" style="--at:.68s">
+          <text x="352" y="297" text-anchor="end" font-size="11.8" font-weight="bold" fill="#1f5fbf">• Tâm sai: e =</text>
+          ${svgTexFrac(366, 297, "c", "a", 15, "#1f5fbf", 10.6)}
+          <text x="378" y="297" font-size="11.8" font-weight="bold" fill="#1f5fbf">&lt; 1</text>
         </g>
-        <g class="pop" style="--at:3.85s">
-          <text x="454" y="328" text-anchor="end" font-size="11.5" font-weight="bold" fill="#c62828">2. Hypebol: <tspan class="m-tex">${svgTexSup("c", "2", "m-i", " = ", "m-rm")}${svgTexSup("a", "2", "m-i", " + ", "m-rm")}${svgTexSup("b", "2", "m-i", " · ", "m-rm")}<tspan class="m-i">e</tspan> =</tspan></text>
-          ${svgTexFrac(466, 328, '<tspan class="m-i">c</tspan>', '<tspan class="m-i">a</tspan>', 14, '#c62828', 10.2)}
-          <text x="477" y="328" font-size="11.5" font-weight="bold" fill="#c62828" class="m-tex">&gt; 1</text>
+        <text class="pop m-tex" x="268" y="323" font-size="12" font-weight="bold" fill="#c62828" style="--at:.72s">2. Hypebol (H): ${svgTexSup("c", "2", "m-rm", " = ", "m-rm")}${svgTexSup("a", "2", "m-rm", " + ", "m-rm")}${svgTexSup("b", "2")}</text>
+        <g class="pop m-tex" style="--at:.76s">
+          <text x="352" y="347" text-anchor="end" font-size="11.8" font-weight="bold" fill="#c62828">• Tâm sai: e =</text>
+          ${svgTexFrac(366, 347, "c", "a", 15, "#c62828", 10.6)}
+          <text x="378" y="347" font-size="11.8" font-weight="bold" fill="#c62828">&gt; 1</text>
         </g>
-        <text class="pop" x="274" y="356" font-size="12.2" font-weight="bold" fill="#2e7d4f" style="--at:3.95s">3. Parabol: <tspan class="m-tex">${svgTexSup("y", "2", "m-i", " = 2", "m-rm")}<tspan class="m-i">px</tspan> · <tspan class="m-i">e</tspan> = 1</tspan></text>
-        <g class="pop" style="--at:4.05s">
-          <text x="466" y="388" text-anchor="end" font-size="11.8" fill="#2a211f">• Bán kính: <tspan class="m-tex"><tspan class="m-i">MF</tspan> = d(<tspan class="m-i">M</tspan>, Δ) = <tspan class="m-i">x</tspan> +</tspan></text>
-          ${svgTexFrac(479, 388, '<tspan class="m-i">p</tspan>', '2', 14, '#2a211f', 10.6, false)}
+        <text class="pop m-tex" x="268" y="373" font-size="12" font-weight="bold" fill="#2e7d4f" style="--at:.8s">3. Parabol (P): ${svgTexSup("y", "2", "m-rm", " = 2px (e = 1)", "m-rm")}</text>
+        <g class="pop m-tex" style="--at:.85s">
+          <text x="452" y="399" text-anchor="end" font-size="11.8" font-weight="bold" fill="#2a211f">• Bán kính: MF = d(M, Δ) = x +</text>
+          ${svgTexFrac(466, 399, "p", "2", 14, "#2a211f", 10.6)}
         </g>
       </g>
     `
@@ -6757,163 +6754,146 @@ const SHEET_SLIDES = {
     svg: `
       <defs>
         <pattern id="venn-hatch" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-          <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="6 6" dur="2.2s" repeatCount="indefinite" additive="sum"/>
+          <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="6 6" dur="2.4s" repeatCount="indefinite" additive="sum"/>
           <line x1="0" y1="0" x2="0" y2="6" stroke="#c62828" stroke-width="1.35" stroke-opacity="0.55"/>
         </pattern>
       </defs>
 
-      <!-- 1. [0.05s -> 1.4s] HAI VIÊN XÚC XẮC 3D ĐỘNG (LẮC TUNG XEN KẼ) & CÔNG THỨC XÁC SUẤT LATEX -->
+      <!-- 1. [0.05s -> 0.85s] HAI VIÊN XÚC XẮC 3D ĐỘNG & CÔNG THỨC XÁC SUẤT TÁCH DÒNG RÕ RÀNG -->
       <g>
-        <!-- Bóng đổ dưới 2 viên xúc xắc -->
-        <ellipse class="dice-shadow-1 pop" cx="102" cy="140" rx="34" ry="7" fill="#3d0709" style="--at:.35s"/>
-        <ellipse class="dice-shadow-2 pop" cx="196" cy="149" rx="34" ry="7" fill="#3d0709" style="--at:.55s"/>
+        <ellipse class="dice-shadow-1 pop" cx="102" cy="132" rx="33" ry="6.5" fill="#3d0709" style="--at:.2s"/>
+        <ellipse class="dice-shadow-2 pop" cx="196" cy="140" rx="33" ry="6.5" fill="#3d0709" style="--at:.3s"/>
 
-        <!-- Viên xúc xắc 1 (Isometric 3D tâm 102,89) -->
         <g class="dice-bounce-1">
-          <polygon class="pop" points="102,42 144,64 102,86 60,64" fill="#fffdf8" stroke="#1f5fbf" stroke-width="2" style="--at:.15s"/>
-          <polygon class="pop" points="60,64 102,86 102,136 60,114" fill="#f3ead8" stroke="#1f5fbf" stroke-width="2" style="--at:.25s"/>
-          <polygon class="pop" points="102,86 144,64 144,114 102,136" fill="#e6d8c0" stroke="#1f5fbf" stroke-width="2" style="--at:.35s"/>
-          <circle class="pop" cx="102" cy="64" r="5" fill="#c62828" style="--at:.5s"/>
-          <circle class="pop" cx="73" cy="84" r="3.2" fill="#2a211f" style="--at:.55s"/>
-          <circle class="pop" cx="89" cy="112" r="3.2" fill="#2a211f" style="--at:.55s"/>
-          <circle class="pop" cx="113" cy="114" r="3" fill="#2a211f" style="--at:.6s"/>
-          <circle class="pop" cx="123" cy="99" r="3" fill="#2a211f" style="--at:.6s"/>
-          <circle class="pop" cx="133" cy="84" r="3" fill="#2a211f" style="--at:.6s"/>
+          <polygon class="pop" points="102,36 144,58 102,80 60,58" fill="#fffdf8" stroke="#1f5fbf" stroke-width="2" style="--at:.08s"/>
+          <polygon class="pop" points="60,58 102,80 102,128 60,106" fill="#f3ead8" stroke="#1f5fbf" stroke-width="2" style="--at:.14s"/>
+          <polygon class="pop" points="102,80 144,58 144,106 102,128" fill="#e6d8c0" stroke="#1f5fbf" stroke-width="2" style="--at:.2s"/>
+          <circle class="pop" cx="102" cy="58" r="4.8" fill="#c62828" style="--at:.28s"/>
+          <circle class="pop" cx="73" cy="78" r="3.1" fill="#2a211f" style="--at:.32s"/>
+          <circle class="pop" cx="89" cy="105" r="3.1" fill="#2a211f" style="--at:.32s"/>
+          <circle class="pop" cx="113" cy="107" r="2.9" fill="#2a211f" style="--at:.36s"/>
+          <circle class="pop" cx="123" cy="92" r="2.9" fill="#2a211f" style="--at:.36s"/>
+          <circle class="pop" cx="133" cy="78" r="2.9" fill="#2a211f" style="--at:.36s"/>
         </g>
 
-        <!-- Viên xúc xắc 2 (Isometric 3D tâm 196,99) -->
         <g class="dice-bounce-2">
-          <polygon class="pop" points="196,52 238,74 196,96 154,74" fill="#fffdf8" stroke="#c62828" stroke-width="2" style="--at:.4s"/>
-          <polygon class="pop" points="154,74 196,96 196,146 154,124" fill="#f6e7e5" stroke="#c62828" stroke-width="2" style="--at:.5s"/>
-          <polygon class="pop" points="196,96 238,74 238,124 196,146" fill="#ebd2cf" stroke="#c62828" stroke-width="2" style="--at:.6s"/>
-          <circle class="pop" cx="194" cy="63" r="2.8" fill="#2a211f" style="--at:.75s"/>
-          <circle class="pop" cx="205.5" cy="69" r="2.8" fill="#2a211f" style="--at:.75s"/>
-          <circle class="pop" cx="217" cy="75" r="2.8" fill="#2a211f" style="--at:.75s"/>
-          <circle class="pop" cx="175" cy="73" r="2.8" fill="#2a211f" style="--at:.75s"/>
-          <circle class="pop" cx="186.5" cy="79" r="2.8" fill="#2a211f" style="--at:.75s"/>
-          <circle class="pop" cx="198" cy="85" r="2.8" fill="#2a211f" style="--at:.75s"/>
-          <circle class="pop" cx="166" cy="92" r="2.8" fill="#2a211f" style="--at:.8s"/>
-          <circle class="pop" cx="184" cy="101" r="2.8" fill="#2a211f" style="--at:.8s"/>
-          <circle class="pop" cx="166" cy="116" r="2.8" fill="#2a211f" style="--at:.8s"/>
-          <circle class="pop" cx="184" cy="125" r="2.8" fill="#2a211f" style="--at:.8s"/>
-          <circle class="pop" cx="206" cy="102" r="2.7" fill="#2a211f" style="--at:.85s"/>
-          <circle class="pop" cx="228" cy="91" r="2.7" fill="#2a211f" style="--at:.85s"/>
-          <circle class="pop" cx="217" cy="110" r="2.7" fill="#2a211f" style="--at:.85s"/>
-          <circle class="pop" cx="206" cy="128" r="2.7" fill="#2a211f" style="--at:.85s"/>
-          <circle class="pop" cx="228" cy="117" r="2.7" fill="#2a211f" style="--at:.85s"/>
+          <polygon class="pop" points="196,45 238,67 196,89 154,67" fill="#fffdf8" stroke="#c62828" stroke-width="2" style="--at:.2s"/>
+          <polygon class="pop" points="154,67 196,89 196,137 154,115" fill="#f6e7e5" stroke="#c62828" stroke-width="2" style="--at:.26s"/>
+          <polygon class="pop" points="196,89 238,67 238,115 196,137" fill="#ebd2cf" stroke="#c62828" stroke-width="2" style="--at:.32s"/>
+          <circle class="pop" cx="194" cy="56" r="2.7" fill="#2a211f" style="--at:.4s"/>
+          <circle class="pop" cx="205.5" cy="62" r="2.7" fill="#2a211f" style="--at:.4s"/>
+          <circle class="pop" cx="217" cy="68" r="2.7" fill="#2a211f" style="--at:.4s"/>
+          <circle class="pop" cx="175" cy="66" r="2.7" fill="#2a211f" style="--at:.4s"/>
+          <circle class="pop" cx="186.5" cy="72" r="2.7" fill="#2a211f" style="--at:.4s"/>
+          <circle class="pop" cx="198" cy="78" r="2.7" fill="#2a211f" style="--at:.4s"/>
+          <circle class="pop" cx="166" cy="85" r="2.7" fill="#2a211f" style="--at:.44s"/>
+          <circle class="pop" cx="184" cy="94" r="2.7" fill="#2a211f" style="--at:.44s"/>
+          <circle class="pop" cx="166" cy="108" r="2.7" fill="#2a211f" style="--at:.44s"/>
+          <circle class="pop" cx="184" cy="117" r="2.7" fill="#2a211f" style="--at:.44s"/>
+          <circle class="pop" cx="206" cy="95" r="2.6" fill="#2a211f" style="--at:.48s"/>
+          <circle class="pop" cx="228" cy="84" r="2.6" fill="#2a211f" style="--at:.48s"/>
+          <circle class="pop" cx="217" cy="102" r="2.6" fill="#2a211f" style="--at:.48s"/>
+          <circle class="pop" cx="206" cy="119" r="2.6" fill="#2a211f" style="--at:.48s"/>
+          <circle class="pop" cx="228" cy="109" r="2.6" fill="#2a211f" style="--at:.48s"/>
         </g>
 
-        <text class="pop" x="54" y="172" font-size="12.8" font-weight="bold" fill="#650f12" style="--at:1.05s">Gieo 2 xúc xắc: <tspan class="m-tex"><tspan class="m-i">n</tspan>(Ω) = ${svgTexSup("6", "2", "m-rm", " = 36", "m-rm")}</tspan></text>
-        <g class="pop m-tex" style="--at:1.15s">
-          <text x="92" y="207" text-anchor="end" font-size="12.5" font-weight="bold" fill="#1f5fbf">P(<tspan class="m-i">A</tspan>) =</text>
-          ${svgTexFrac(116, 207, '<tspan class="m-i">n</tspan>(<tspan class="m-i">A</tspan>)', '<tspan class="m-i">n</tspan>(Ω)', 34, "#1f5fbf", 11.5)}
-          <text x="169" y="207" text-anchor="end" font-size="12.5" font-weight="bold" fill="#1f5fbf">;  P(</text>
-          ${svgTexBar("A", 175.5, 207, "#1f5fbf", 12.5, true)}
-          <text x="181.5" y="207" font-size="12.5" font-weight="bold" fill="#1f5fbf">) = 1 − P(<tspan class="m-i">A</tspan>)</text>
+        <text class="pop m-tex" x="54" y="162" font-size="12.5" font-weight="bold" fill="#650f12" style="--at:.55s">Gieo 2 xúc xắc: n(Ω) = ${svgTexSup("6", "2", "m-rm", " = 36", "m-rm")}</text>
+        <g class="pop m-tex" style="--at:.62s">
+          <text x="138" y="191" text-anchor="end" font-size="12.2" font-weight="bold" fill="#1f5fbf">• Xác suất: P(A) =</text>
+          ${svgTexFrac(162, 191, "n(A)", "n(Ω)", 34, "#1f5fbf", 11.2)}
+        </g>
+        <g class="pop m-tex" style="--at:.68s">
+          <text x="148" y="221" text-anchor="end" font-size="12.2" font-weight="bold" fill="#2e7d4f">• Biến cố đối: P(</text>
+          ${svgTexBar("A", 154.5, 221, "#2e7d4f", 12.2, true)}
+          <text x="160.5" y="221" font-size="12.2" font-weight="bold" fill="#2e7d4f">) = 1 − P(A)</text>
         </g>
       </g>
 
-      <!-- 2. [1.45s -> 2.8s] BIỂU ĐỒ VENN ĐỘNG & QUY TẮC CỘNG / XÁC SUẤT CÓ ĐIỀU KIỆN -->
+      <!-- 2. [0.2s -> 0.9s] BIỂU ĐỒ VENN ĐỘNG & QUY TẮC CỘNG / XÁC SUẤT CÓ ĐIỀU KIỆN -->
       <g>
-        <rect class="pop" x="278" y="38" width="222" height="114" rx="8" fill="rgba(255,253,248,0.95)" stroke="#3b3534" stroke-width="1.5" style="--at:1.45s"/>
-        <text class="pop m-tex" x="288" y="57" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:1.6s">Ω</text>
+        <rect class="pop" x="278" y="34" width="222" height="110" rx="8" fill="rgba(255,253,248,0.95)" stroke="#3b3534" stroke-width="1.5" style="--at:.2s"/>
+        <text class="pop m-tex" x="288" y="53" font-size="13" font-weight="bold" fill="#650f12" style="--at:.3s">Ω</text>
         <g class="venn-drift-a">
-          <circle class="pop" cx="358" cy="96" r="42" fill="rgba(31,95,191,0.14)" stroke="#1f5fbf" stroke-width="2" style="--at:1.7s"/>
-          <text class="pop m-tex" x="326" y="101" text-anchor="middle" font-size="14.5" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:2.15s">A</text>
+          <circle class="pop" cx="358" cy="90" r="40" fill="rgba(31,95,191,0.14)" stroke="#1f5fbf" stroke-width="2" style="--at:.35s"/>
+          <text class="pop m-tex" x="326" y="95" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f5fbf" style="--at:.5s">A</text>
         </g>
         <g class="venn-drift-b">
-          <circle class="pop" cx="410" cy="96" r="42" fill="rgba(46,125,79,0.14)" stroke="#2e7d4f" stroke-width="2" style="--at:1.85s"/>
-          <text class="pop m-tex" x="442" y="101" text-anchor="middle" font-size="14.5" font-style="italic" font-weight="bold" fill="#2e7d4f" style="--at:2.15s">B</text>
+          <circle class="pop" cx="410" cy="90" r="40" fill="rgba(46,125,79,0.14)" stroke="#2e7d4f" stroke-width="2" style="--at:.42s"/>
+          <text class="pop m-tex" x="442" y="95" text-anchor="middle" font-size="14" font-weight="bold" fill="#2e7d4f" style="--at:.5s">B</text>
         </g>
         <g class="venn-inter-pulse">
-          <path class="pop" d="M384 63.1 A42 42 0 0 1 384 128.9 A42 42 0 0 1 384 63.1 Z" fill="rgba(198,40,40,0.24)" style="--at:2.05s"/>
-          <path class="pop" d="M384 63.1 A42 42 0 0 1 384 128.9 A42 42 0 0 1 384 63.1 Z" fill="url(#venn-hatch)" style="--at:2.1s"/>
-          <text class="pop m-tex" x="384" y="100" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#c62828" style="--at:2.25s"><tspan class="m-i">A</tspan>∩<tspan class="m-i">B</tspan></text>
+          <path class="pop" d="M384 58.9 A40 40 0 0 1 384 121.1 A40 40 0 0 1 384 58.9 Z" fill="rgba(198,40,40,0.24)" style="--at:.48s"/>
+          <path class="pop" d="M384 58.9 A40 40 0 0 1 384 121.1 A40 40 0 0 1 384 58.9 Z" fill="url(#venn-hatch)" style="--at:.52s"/>
+          <text class="pop m-tex" x="384" y="94" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#c62828" style="--at:.56s">A∩B</text>
         </g>
-        <text class="pop m-tex" x="280" y="172" font-size="12" font-weight="bold" fill="#650f12" style="--at:2.4s">P(<tspan class="m-i">A</tspan>∪<tspan class="m-i">B</tspan>) = P(<tspan class="m-i">A</tspan>) + P(<tspan class="m-i">B</tspan>) − P(<tspan class="m-i">A</tspan>∩<tspan class="m-i">B</tspan>)</text>
-        <g class="pop m-tex" style="--at:2.55s">
-          <text x="332" y="207" text-anchor="end" font-size="12.5" font-weight="bold" fill="#c62828">P(<tspan class="m-i">A</tspan>|<tspan class="m-i">B</tspan>) =</text>
-          ${svgTexFrac(358, 207, 'P(<tspan class="m-i">AB</tspan>)', 'P(<tspan class="m-i">B</tspan>)', 40, "#c62828", 11.5)}
+        <text class="pop m-tex" x="280" y="166" font-size="12" font-weight="bold" fill="#650f12" style="--at:.62s">• Cộng: P(A∪B) = P(A) + P(B) − P(A∩B)</text>
+        <g class="pop m-tex" style="--at:.7s">
+          <text x="386" y="203" text-anchor="end" font-size="12.2" font-weight="bold" fill="#c62828">• Có điều kiện: P(A|B) =</text>
+          ${svgTexFrac(414, 203, "P(AB)", "P(B)", 40, "#c62828", 11.2)}
         </g>
       </g>
 
-      <!-- 3. [2.85s -> 4.2s] SƠ ĐỒ HÌNH CÂY ĐỘNG & HẠT XÁC SUẤT CHẠY NHÁNH + CÔNG THỨC BAYES LATEX (KHÔNG ĐÈ CHỮ) -->
+      <!-- 3. [0.4s -> 1.1s] SƠ ĐỒ HÌNH CÂY XÁC SUẤT & HỘP LÝ THUYẾT TOÀN PHẦN / BAYES -->
       <g>
-        <path id="prob-tree-branch1" class="draw" d="M66 320L146 278M66 320L146 362" stroke="#1f5fbf" stroke-width="2.2" style="--len:200;--at:2.85s;--dur:.45s"/>
-        <path id="prob-tree-branch2" class="draw" d="M146 278L238 256M146 278L238 298M146 362L238 342M146 362L238 384" stroke="#c62828" stroke-width="2" style="--len:390;--at:3.25s;--dur:.5s"/>
+        <path class="draw" d="M66 322L146 280M66 322L146 364" stroke="#1f5fbf" stroke-width="2.15" style="--len:200;--at:.4s;--dur:.38s"/>
+        <path class="draw" d="M146 280L238 258M146 280L238 300M146 364L238 344M146 364L238 386" stroke="#c62828" stroke-width="1.95" style="--len:390;--at:.55s;--dur:.42s"/>
 
-        <!-- Vòng gợn sóng tại gốc Ω và đích B -->
-        <circle class="pop tree-node-ping" cx="66" cy="320" r="5" fill="none" stroke="#650f12" stroke-width="1.5" style="--at:3.4s"/>
-        <circle class="pop tree-node-ping" cx="238" cy="256" r="4.2" fill="none" stroke="#c62828" stroke-width="1.5" style="--at:3.8s"/>
-        <circle class="pop tree-node-ping" cx="238" cy="342" r="4.2" fill="none" stroke="#c62828" stroke-width="1.5" style="--at:4.2s"/>
+        <circle class="pop" cx="66" cy="322" r="4.3" fill="#650f12" style="--at:.5s"/>
+        <circle class="pop" cx="146" cy="280" r="3.8" fill="#1f5fbf" style="--at:.6s"/>
+        <circle class="pop" cx="146" cy="364" r="3.8" fill="#1f5fbf" style="--at:.6s"/>
+        <circle class="pop" cx="238" cy="258" r="3.6" fill="#c62828" style="--at:.7s"/>
+        <circle class="pop" cx="238" cy="300" r="3.6" fill="#2e7d4f" style="--at:.7s"/>
+        <circle class="pop" cx="238" cy="344" r="3.6" fill="#c62828" style="--at:.7s"/>
+        <circle class="pop" cx="238" cy="386" r="3.6" fill="#2e7d4f" style="--at:.7s"/>
 
-        <!-- Hai hạt xác suất chạy mượt dọc nhánh cây đến biến cố B -->
-        <circle r="4" fill="#ffe27d" stroke="#c62828" stroke-width="1.8" opacity="0">
-          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.1;0.18;0.92;1" dur="3.4s" begin="3.6s" repeatCount="indefinite"/>
-          <animateMotion dur="3.4s" begin="3.6s" repeatCount="indefinite" path="M66,320 L146,278 L238,256"/>
-        </circle>
-        <circle r="3.8" fill="#ffe27d" stroke="#1f5fbf" stroke-width="1.8" opacity="0">
-          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.1;0.18;0.92;1" dur="3.4s" begin="5.3s" repeatCount="indefinite"/>
-          <animateMotion dur="3.4s" begin="5.3s" repeatCount="indefinite" path="M66,320 L146,362 L238,342"/>
-        </circle>
-
-        <circle class="pop" cx="66" cy="320" r="4.5" fill="#650f12" style="--at:3.1s"/>
-        <circle class="pop" cx="146" cy="278" r="4" fill="#1f5fbf" style="--at:3.3s"/>
-        <circle class="pop" cx="146" cy="362" r="4" fill="#1f5fbf" style="--at:3.3s"/>
-        <circle class="pop" cx="238" cy="256" r="3.8" fill="#c62828" style="--at:3.7s"/>
-        <circle class="pop" cx="238" cy="298" r="3.8" fill="#2e7d4f" style="--at:3.7s"/>
-        <circle class="pop" cx="238" cy="342" r="3.8" fill="#c62828" style="--at:3.7s"/>
-        <circle class="pop" cx="238" cy="384" r="3.8" fill="#2e7d4f" style="--at:3.7s"/>
-
-        <text class="pop m-tex" x="50" y="325" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#650f12" style="--at:3.15s">Ω</text>
-        <text class="pop m-tex" x="94" y="283" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f5fbf" style="--at:3.35s">P(<tspan class="m-i">A</tspan>)</text>
-        <g class="pop m-tex" style="--at:3.35s">
-          <text x="86" y="366" text-anchor="end" font-size="12" font-weight="bold" fill="#1f5fbf">P(</text>
-          ${svgTexBar("A", 92, 366, "#1f5fbf", 12, true)}
-          <text x="98" y="366" font-size="12" font-weight="bold" fill="#1f5fbf">)</text>
+        <text class="pop m-tex" x="50" y="327" text-anchor="middle" font-size="13" font-weight="bold" fill="#650f12" style="--at:.55s">Ω</text>
+        <text class="pop m-tex" x="94" y="285" text-anchor="middle" font-size="11.8" font-weight="bold" fill="#1f5fbf" style="--at:.62s">P(A)</text>
+        <g class="pop m-tex" style="--at:.62s">
+          <text x="86" y="368" text-anchor="end" font-size="11.8" font-weight="bold" fill="#1f5fbf">P(</text>
+          ${svgTexBar("A", 92, 368, "#1f5fbf", 11.8, true)}
+          <text x="98" y="368" font-size="11.8" font-weight="bold" fill="#1f5fbf">)</text>
         </g>
-        <text class="pop m-tex" x="142" y="264" text-anchor="middle" font-size="13.5" font-style="italic" font-weight="bold" fill="#1f5fbf" style="--at:3.4s">A</text>
-        <g class="pop" style="--at:3.4s">${svgTexBar("A", 143, 386, "#1f5fbf", 13.5, true)}</g>
+        <text class="pop m-tex" x="142" y="266" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f5fbf" style="--at:.65s">A</text>
+        <g class="pop" style="--at:.65s">${svgTexBar("A", 143, 388, "#1f5fbf", 13, true)}</g>
 
-        <text class="pop m-tex" x="190" y="249" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#c62828" style="--at:3.75s">P(<tspan class="m-i">B</tspan>|<tspan class="m-i">A</tspan>)</text>
-        <g class="pop m-tex" style="--at:3.75s">
-          <text x="180" y="312" text-anchor="end" font-size="11" font-weight="bold" fill="#2e7d4f">P(</text>
-          ${svgTexBar("B", 185.5, 312, "#2e7d4f", 11, true)}
-          <text x="191" y="312" font-size="11" font-weight="bold" fill="#2e7d4f">|<tspan class="m-i">A</tspan>)</text>
+        <text class="pop m-tex" x="190" y="251" text-anchor="middle" font-size="11" font-weight="bold" fill="#c62828" style="--at:.72s">P(B|A)</text>
+        <g class="pop m-tex" style="--at:.72s">
+          <text x="180" y="314" text-anchor="end" font-size="10.8" font-weight="bold" fill="#2e7d4f">P(</text>
+          ${svgTexBar("B", 185.5, 314, "#2e7d4f", 10.8, true)}
+          <text x="191" y="314" font-size="10.8" font-weight="bold" fill="#2e7d4f">|A)</text>
         </g>
-        <g class="pop m-tex" style="--at:3.75s">
-          <text x="193" y="336" text-anchor="end" font-size="11" font-weight="bold" fill="#c62828">P(<tspan class="m-i">B</tspan>|</text>
-          ${svgTexBar("A", 198.5, 336, "#c62828", 11, true)}
-          <text x="204" y="336" font-size="11" font-weight="bold" fill="#c62828">)</text>
+        <g class="pop m-tex" style="--at:.72s">
+          <text x="193" y="338" text-anchor="end" font-size="10.8" font-weight="bold" fill="#c62828">P(B|</text>
+          ${svgTexBar("A", 198.5, 338, "#c62828", 10.8, true)}
+          <text x="204" y="338" font-size="10.8" font-weight="bold" fill="#c62828">)</text>
         </g>
-        <g class="pop m-tex" style="--at:3.75s">
-          <text x="179" y="398" text-anchor="end" font-size="11" font-weight="bold" fill="#2e7d4f">P(</text>
-          ${svgTexBar("B", 184.5, 398, "#2e7d4f", 11, true)}
-          <text x="192" y="398" text-anchor="middle" font-size="11" font-weight="bold" fill="#2e7d4f">|</text>
-          ${svgTexBar("A", 199.5, 398, "#2e7d4f", 11, true)}
-          <text x="205" y="398" font-size="11" font-weight="bold" fill="#2e7d4f">)</text>
+        <g class="pop m-tex" style="--at:.72s">
+          <text x="179" y="400" text-anchor="end" font-size="10.8" font-weight="bold" fill="#2e7d4f">P(</text>
+          ${svgTexBar("B", 184.5, 400, "#2e7d4f", 10.8, true)}
+          <text x="192" y="400" text-anchor="middle" font-size="10.8" font-weight="bold" fill="#2e7d4f">|</text>
+          ${svgTexBar("A", 199.5, 400, "#2e7d4f", 10.8, true)}
+          <text x="205" y="400" font-size="10.8" font-weight="bold" fill="#2e7d4f">)</text>
         </g>
 
-        <text class="pop m-tex" x="246" y="260" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.8s">B</text>
-        <g class="pop" style="--at:3.8s">${svgTexBar("B", 249, 302, "#2e7d4f", 13, true)}</g>
-        <text class="pop m-tex" x="246" y="346" font-size="13" font-style="italic" font-weight="bold" fill="#c62828" style="--at:3.8s">B</text>
-        <g class="pop" style="--at:3.8s">${svgTexBar("B", 249, 388, "#2e7d4f", 13, true)}</g>
+        <text class="pop m-tex" x="246" y="262" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.76s">B</text>
+        <g class="pop" style="--at:.76s">${svgTexBar("B", 249, 304, "#2e7d4f", 12.5, true)}</g>
+        <text class="pop m-tex" x="246" y="348" font-size="12.5" font-weight="bold" fill="#c62828" style="--at:.76s">B</text>
+        <g class="pop" style="--at:.76s">${svgTexBar("B", 249, 390, "#2e7d4f", 12.5, true)}</g>
 
-        <!-- Hộp Công thức Xác suất toàn phần & Công thức Bayes (Căn chỉnh text-anchor chống đè chữ 100%) -->
-        <rect class="pop" x="266" y="242" width="238" height="162" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:3.5s"/>
-        <text class="pop" x="278" y="266" font-size="14" font-weight="bold" fill="#650f12" style="--at:3.7s">Xác suất toàn phần &amp; Bayes:</text>
-        <text class="pop" x="278" y="288" font-size="12.8" font-weight="bold" fill="#1f5fbf" style="--at:3.85s">• Toàn phần:</text>
-        <g class="pop m-tex" style="--at:3.9s">
-          <text x="404" y="312" text-anchor="end" font-size="10.8" font-weight="bold" fill="#2a211f">P(<tspan class="m-i">B</tspan>) = P(<tspan class="m-i">A</tspan>)P(<tspan class="m-i">B</tspan>|<tspan class="m-i">A</tspan>) + P(</text>
-          ${svgTexBar("A", 409.5, 312, "#2a211f", 10.8, true)}
-          <text x="415" y="312" font-size="10.8" font-weight="bold" fill="#2a211f">)P(<tspan class="m-i">B</tspan>|</text>
-          ${svgTexBar("A", 445.5, 312, "#2a211f", 10.8, true)}
-          <text x="451" y="312" font-size="10.8" font-weight="bold" fill="#2a211f">)</text>
+        <rect class="pop" x="266" y="236" width="238" height="174" rx="8" fill="rgba(255,253,248,0.96)" stroke="#d8c7b4" stroke-width="1.6" style="--at:.55s"/>
+        <text class="pop m-tex" x="278" y="260" font-size="13.8" font-weight="bold" fill="#650f12" style="--at:.65s">Xác suất toàn phần &amp; Bayes:</text>
+        <text class="pop m-tex" x="278" y="283" font-size="12.2" font-weight="bold" fill="#1f5fbf" style="--at:.72s">• Công thức xác suất toàn phần:</text>
+        <g class="pop m-tex" style="--at:.76s">
+          <text x="410" y="308" text-anchor="end" font-size="11.2" font-weight="bold" fill="#2a211f">P(B) = P(A)P(B|A) + P(</text>
+          ${svgTexBar("A", 415.5, 308, "#2a211f", 11.2, true)}
+          <text x="421" y="308" font-size="11.2" font-weight="bold" fill="#2a211f">)P(B|</text>
+          ${svgTexBar("A", 453.5, 308, "#2a211f", 11.2, true)}
+          <text x="459" y="308" font-size="11.2" font-weight="bold" fill="#2a211f">)</text>
         </g>
-        <text class="pop" x="278" y="338" font-size="12.8" font-weight="bold" fill="#c62828" style="--at:4.0s">• Công thức Bayes:</text>
-        <g class="pop m-tex" style="--at:4.1s">
-          <text x="336" y="374" text-anchor="end" font-size="12.2" font-weight="bold" fill="#650f12">P(<tspan class="m-i">A</tspan>|<tspan class="m-i">B</tspan>) =</text>
-          ${svgTexFrac(396, 374, 'P(<tspan class="m-i">A</tspan>) · P(<tspan class="m-i">B</tspan>|<tspan class="m-i">A</tspan>)', 'P(<tspan class="m-i">B</tspan>)', 104, "#650f12", 11.2)}
+        <text class="pop m-tex" x="278" y="336" font-size="12.2" font-weight="bold" fill="#c62828" style="--at:.82s">• Công thức Bayes:</text>
+        <g class="pop m-tex" style="--at:.88s">
+          <text x="336" y="376" text-anchor="end" font-size="12" font-weight="bold" fill="#650f12">P(A|B) =</text>
+          ${svgTexFrac(398, 376, "P(A) · P(B|A)", "P(B)", 104, "#650f12", 11.2)}
         </g>
       </g>
     `

@@ -83,11 +83,18 @@ assert.ok(
   '#public-privacy-banner must be admin-only and hidden from public users'
 );
 
-// 6. Verify Hero Notebook Sheet: Sequential slides (cube, circle_parabola, conics, probability), click-to-switch, 100% flush integral area fill, 3D solid/dashed edges
+// 6. Verify Hero Notebook Sheet: Penrose Triangle & Ch1 Math Brand Animation, Unified Font, Clean Multi-Line Theory, Cubic Graph, Solid of Revolution & Zero Crawling Dots
 assert.ok(!html.includes('class="sheet-switcher"') && !html.includes('data-sheet-mode='), 'Must remove .sheet-switcher buttons below hero notebook sheet');
 assert.ok(!html.includes('id="hero-sheet-tag"'), 'Must remove #hero-sheet-tag title pill');
 assert.ok(
   html.includes('const SHEET_ORDER = ["cube", "circle_parabola", "conics", "probability"]') &&
+  html.includes('.sheet text, .sheet .m-tex text, .sheet text.m-tex, .sheet tspan { font-family: var(--hand); font-style: normal; }') &&
+  html.includes('class="penrose-beam-1"') &&
+  html.includes('class="penrose-beam-2"') &&
+  html.includes('class="penrose-beam-3"') &&
+  html.includes('class="ch1-sigma-pulse"') &&
+  html.includes('class="ch1-swoosh-wipe"') &&
+  html.includes('Thương hiệu Ch1 Math · Toán 6 – 12') &&
   html.includes('function svgTexFrac(') &&
   html.includes('function svgTexBar(') &&
   html.includes('function svgTexIntegral(') &&
@@ -95,16 +102,15 @@ assert.ok(
   html.includes('M162 376 C178 416, 202 412, 218 392 L218 376 Z') &&
   html.includes('M82 352 Q90 341, 98 330 C118 294, 144 304, 162 376 C178 416, 202 412, 218 392 Q225 384, 232 372') &&
   html.includes('${svgTexSup("R", "2")}') &&
-  html.includes('${svgTexSup("x", "2", "m-i", " − 2", "m-rm")}') &&
-  html.includes('(<tspan class="m-i">E</tspan>):') &&
-  html.includes('(<tspan class="m-i">H</tspan>):') &&
-  html.includes('3. Parabol:') &&
+  html.includes('Elip (E):') &&
+  html.includes('Hypebol (H):') &&
+  html.includes('3. Parabol (P):') &&
   html.includes('Gieo 2 xúc xắc:') &&
   html.includes('class="dice-bounce-1"') &&
-  html.includes('class="venn-inter-pulse"') &&
-  html.includes('<animateMotion dur="3.4s" begin="3.6s" repeatCount="indefinite" path="M66,320 L146,278 L238,256"/>') &&
+  !html.includes('class="pop venn-inter-pulse"') &&
+  !html.includes('<animateMotion') &&
   html.includes('advanceHeroSheet()'),
-  'Hero notebook sheet must render LaTeX fractions/sup/sub/overline, animated probability dice/Venn/Bayes tree, and 100% flush integral area'
+  'Hero notebook sheet must render animated Penrose triangle + Ch1 Math logo, unified font, multi-line LaTeX formulas, cubic graph & solid of revolution without crawling dots'
 );
 
 // 7. Verify Instant Click on Any Card to Open Protected PDF Viewer Immediately & Student Login Gate
